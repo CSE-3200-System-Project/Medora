@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* ======================================
+   Root Theme Variables (Light Mode)
+   ====================================== */
+:root {
+  /* Background & Surface (30%) */
+  --background: #ffffff;
+  --surface: #e6e6e6;
+
+  /* Text */
+  --foreground: #222222;
+  --foreground-muted: #49535a;
+
+  /* Primary Doctor Blue (60%) */
+  --primary: #2a8edb;
+  --primary-muted: #5fa9e6;
+
+  /* Accent (10%) */
+  --accent: #00b4ff;
+
+  /* Optional Success */
+  --success: #2ed8a7;
+
+  /* Borders & UI */
+  --border: #dddddd;
+  --ring: #00b4ff;
+
+  /* Fonts */
+  --font-sans: var(--sf-pro-display);
+}
+
+/* ======================================
+   Dark Mode Theme
+   ====================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Background & Surface (30%) */
+    --background: #121417;
+    --surface: #1c1f24;
+
+    /* Text */
+    --foreground: #ededed;
+    --foreground-muted: #a0a6ad;
+
+    /* Primary Doctor Blue (60%) */
+    --primary: #2a8edb;
+    --primary-muted: #1f6fae;
+
+    /* Accent (10%) */
+    --accent: #00b4ff;
+
+    /* Optional Success */
+    --success: #2ed8a7;
+
+    /* Borders & UI */
+    --border: #2a2f36;
+    --ring: #00b4ff;
+  }
+}
+
+/* ======================================
+   Tailwind Theme Bridge
+   ====================================== */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-muted: var(--primary-muted);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* ======================================
+   Base Styles
+   ====================================== */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ======================================
+   Utility Defaults (Optional but Useful)
+   ====================================== */
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+hr {
+  border-color: var(--border);
+}
