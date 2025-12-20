@@ -1,9 +1,13 @@
 import React from 'react'
 
-const layout = () => {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <div>layout</div>
+    <div className="min-h-screen bg-background">
+      {children}
+    </div>
   )
 }
-
-export default layout
