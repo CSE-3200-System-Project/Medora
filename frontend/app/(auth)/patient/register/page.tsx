@@ -262,7 +262,7 @@ export default function PatientRegister() {
               <div className="flex flex-col space-y-2 text-center">
                 <div className="text-sm text-foreground">
                   Already have an account?{' '}
-                  <Link href="/patient/login" className="font-medium text-primary hover:underline">
+                  <Link href="/login" className="font-medium text-primary hover:underline">
                     Sign in
                   </Link>
                 </div>
