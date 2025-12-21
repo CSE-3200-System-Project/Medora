@@ -151,7 +151,7 @@ export default function LoginPage() {
 
               <div className="text-center text-sm text-foreground">
                 New to Medora?{' '}
-                <Link href="/patient/register" className="font-medium text-primary hover:underline">
+                <Link href="/selection" className="font-medium text-primary hover:underline">
                   Sign up here
                 </Link>
               </div>
