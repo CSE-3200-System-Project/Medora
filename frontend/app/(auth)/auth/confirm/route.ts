@@ -1,33 +1,49 @@
-import { type EmailOtpType } from '@supabase/supabase-js'
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 
-import { createClient } from '@/utils/supabase/server'
+export async function GET(request: Request) {
+  const { searchParams, origin } = new URL(request.url)
+  const code = searchParams.get('code')
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const token_hash = searchParams.get('token_hash')
-  const type = searchParams.get('type') as EmailOtpType | null
-  const next = searchParams.get('next') ?? '/'
+  if (code) {
+    try {
+      // 1. Send the code to YOUR Backend (not Supabase directly)
+      const response = await fetch(`${process.env.BACKEND_URL}/auth/google/callback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      })
 
-  const redirectTo = request.nextUrl.clone()
-  redirectTo.pathname = next
-  redirectTo.searchParams.delete('token_hash')
-  redirectTo.searchParams.delete('type')
+      if (!response.ok) {
+        throw new Error('Backend exchange failed')
+      }
 
-  if (token_hash && type) {
-    const supabase = createClient()
+      const data = await response.json()
 
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    })
-    if (!error) {
-      redirectTo.searchParams.delete('next')
-      return NextResponse.redirect(redirectTo)
+      // 2. Set the Session Cookie (Same as your login action)
+      if (data.session?.access_token) {
+        (await cookies()).set("session_token", data.session.access_token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 60 * 60 * 24 * 7, // 1 week
+          path: "/",
+        });
+      }
+
+      // 3. Redirect based on Profile Status
+      if (data.status === 'incomplete') {
+        return NextResponse.redirect(`${origin}/onboarding`)
+      }
+
+      return NextResponse.redirect(`${origin}/`)
+
+    } catch (error) {
+      console.error("Auth Error:", error)
+      return NextResponse.redirect(`${origin}/error?message=Auth Failed`)
     }
   }
 
-  // return the user to an error page with some instructions
-  redirectTo.pathname = '/error'
-  return NextResponse.redirect(redirectTo)
+  return NextResponse.redirect(`${origin}/error?message=No Code Found`)
 }
