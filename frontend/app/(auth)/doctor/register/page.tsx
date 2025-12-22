@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { signupDoctor } from "@/lib/auth-actions";
+import { useRouter } from "next/navigation";
 
 // Import images
 import doctorImg from "@/assets/image/doctors.jpg";
@@ -20,6 +22,9 @@ export default function DoctorRegister() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   
   const images = [
     { src: doctorImg, alt: "Doctors Team", text: "Join Our Network of Specialists" },
@@ -29,15 +34,39 @@ export default function DoctorRegister() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Add your backend registration logic here
-    setSubmitted(true);
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    
+    // Validate password match
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+    
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await signupDoctor(formData);
+      
+      if (result.success) {
+        setSubmitted(true);
+      }
+    } catch (err: any) {
+      setError(err.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -62,12 +91,12 @@ export default function DoctorRegister() {
               </p>
             </div>
             <p className="text-sm text-muted-foreground text-center">
-              We will notify you via email once your account is verified.
+              Please verify your email to continue.
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Link href="/">
-              <Button variant="link">Back to Home</Button>
+            <Link href="/verify-email">
+              <Button>Verify Email</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -81,7 +110,6 @@ export default function DoctorRegister() {
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
-            {/* Background Images with Fade Transition */}
             {images.map((img, index) => (
               <div 
                 key={index}
@@ -99,7 +127,6 @@ export default function DoctorRegister() {
               </div>
             ))}
 
-            {/* Dark overlay for text readability */}
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
             <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-6 md:p-12 text-center">
@@ -110,7 +137,6 @@ export default function DoctorRegister() {
                 Connect with millions of patients, manage your appointments efficiently, and grow your practice.
               </p>
               
-              {/* Carousel Indicators */}
               <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-2">
                 {images.map((_, index) => (
                   <button
@@ -136,35 +162,38 @@ export default function DoctorRegister() {
                 </p>
               </div>
 
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
+                  <p className="text-sm">{error}</p>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="John" required />
+                    <Input name="firstName" id="firstName" placeholder="John" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Doe" required />
+                    <Input name="lastName" id="lastName" placeholder="Doe" required />
                   </div>
                 </div>
 
-                {/* Contact Info */}
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="doctor@example.com" required />
+                  <Input name="email" id="email" type="email" placeholder="doctor@example.com" required />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required />
+                  <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required />
                 </div>
 
-                {/* Professional Info */}
                 <div className="space-y-2">
                   <Label htmlFor="bmdc">BM&DC Registration Number</Label>
                   <div className="relative">
-                    <Input id="bmdc" className="pl-16" placeholder="A-12345" required />
+                    <Input name="bmdc" id="bmdc" className="pl-16" placeholder="A-12345" required />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <span className="text-muted-foreground font-bold text-xs">BMDC</span>
                     </div>
@@ -173,21 +202,22 @@ export default function DoctorRegister() {
 
                 <div className="space-y-2">
                   <Label htmlFor="document">Upload Document (BM&DC Certificate)</Label>
-                  <Input id="document" type="file" className="cursor-pointer file:text-primary" required />
+                  <Input name="document" id="document" type="file" className="cursor-pointer file:text-primary" />
                   <p className="text-xs text-muted-foreground">Please upload a clear scan of your registration certificate.</p>
                 </div>
 
-                {/* Security */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Input 
+                        name="password"
                         id="password" 
                         type={showPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
                         className="pr-10"
+                        minLength={6}
                       />
                       <button
                         type="button"
@@ -202,11 +232,13 @@ export default function DoctorRegister() {
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
                     <div className="relative">
                       <Input 
+                        name="confirmPassword"
                         id="confirmPassword" 
                         type={showConfirmPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
                         className="pr-10"
+                        minLength={6}
                       />
                       <button
                         type="button"
@@ -219,7 +251,6 @@ export default function DoctorRegister() {
                   </div>
                 </div>
 
-                {/* Terms */}
                 <div className="flex items-center space-x-2 pt-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms" className="text-sm font-normal text-foreground">
@@ -227,7 +258,9 @@ export default function DoctorRegister() {
                   </Label>
                 </div>
 
-                <Button type="submit" className="w-full mt-4">Submit for Verification</Button>
+                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                  {loading ? "Submitting..." : "Submit for Verification"}
+                </Button>
               </form>
 
               <Separator />
@@ -239,7 +272,6 @@ export default function DoctorRegister() {
                     Sign in
                   </Link>
                 </div>
-                
               </div>
             </div>
           </div>

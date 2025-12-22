@@ -11,6 +11,7 @@ class BaseSignup(BaseModel):
     password: str
     first_name: str
     last_name: str
+    phone: str
 
 class PatientSignup(BaseSignup):
     date_of_birth: date
