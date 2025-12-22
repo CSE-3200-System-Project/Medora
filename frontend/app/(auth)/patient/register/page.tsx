@@ -11,17 +11,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { signupPatient } from "@/lib/auth-actions";
 
 // Import images
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
-import { div } from "framer-motion/m";
 
 export default function PatientRegister() {
   const [submitted, setSubmitted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   
   const images = [
     { src: patientImg, alt: "Patient Care", text: "Find the Best Care for You" },
@@ -31,15 +33,39 @@ export default function PatientRegister() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Add your backend registration logic here
-    setSubmitted(true);
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    
+    // Validate password match
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+    
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await signupPatient(formData);
+      
+      if (result.success) {
+        setSubmitted(true);
+      }
+    } catch (err: any) {
+      setError(err.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -59,12 +85,12 @@ export default function PatientRegister() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground text-center">
-              You can now log in and start booking appointments.
+              Please verify your email to continue.
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Link href="/patient/login">
-              <Button>Go to Login</Button>
+            <Link href="/verify-email">
+              <Button>Verify Email</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -72,7 +98,6 @@ export default function PatientRegister() {
     );
   }
 
-  // Input style class for selects
   const inputStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-lg border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive";
 
   return (
@@ -81,7 +106,6 @@ export default function PatientRegister() {
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
-            {/* Background Images with Fade Transition */}
             {images.map((img, index) => (
               <div 
                 key={index}
@@ -99,7 +123,6 @@ export default function PatientRegister() {
               </div>
             ))}
 
-            {/* Dark overlay for text readability */}
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
             <div className="relative z-10 h-full flex flex-col items-center text-white p-6 md:p-12 text-center">
@@ -107,12 +130,11 @@ export default function PatientRegister() {
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight transition-all duration-500">
                   {images[currentImageIndex].text}
                 </h1>
-                <p className="text-sm sm:text-base text-white/90 hidden sm:block">
-                  Book appointments, manage your health records, and consult with doctors online.
+                <p className="text-sm sm:text-base text-white/90 mb-6 hidden sm:block">
+                  Book appointments with top doctors, manage your health records, and get personalized care.
                 </p>
               </div>
               
-              {/* Carousel Indicators */}
               <div className="flex justify-center gap-2 pb-2">
                 {images.map((_, index) => (
                   <button
@@ -134,44 +156,48 @@ export default function PatientRegister() {
               <div className="space-y-1 text-center lg:text-left">
                 <h2 className="text-2xl font-bold tracking-tight">Patient Registration</h2>
                 <p className="text-muted-foreground">
-                  Create an account to get started.
+                  Join thousands of patients getting better care.
                 </p>
               </div>
 
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
+                  <p className="text-sm">{error}</p>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" placeholder="John" required />
+                    <Input name="firstName" id="firstName" placeholder="John" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Doe" required />
+                    <Input name="lastName" id="lastName" placeholder="Doe" required />
                   </div>
                 </div>
 
-                {/* Contact Info */}
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="patient@example.com" required />
+                  <Input name="email" id="email" type="email" placeholder="patient@example.com" required />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required />
+                  <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required />
                 </div>
 
-                {/* Personal Info */}
                 <div className="space-y-2">
                   <Label htmlFor="dob">Date of Birth</Label>
-                  <Input id="dob" type="date" required className="block" />
+                  <Input name="dob" id="dob" type="date" required className="block" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="gender">Gender</Label>
                     <select 
+                      name="gender"
                       id="gender" 
                       className={inputStyles}
                       required
@@ -184,37 +210,38 @@ export default function PatientRegister() {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="bloodGroup">Blood Group</Label>
+                    <Label htmlFor="bloodGroup">Blood Group (Optional)</Label>
                     <select 
+                      name="bloodGroup"
                       id="bloodGroup" 
                       className={inputStyles}
-                      required
                       defaultValue=""
                     >
-                      <option value="" disabled>Select Blood Group</option>
+                      <option value="">Select Blood Group</option>
                       <option value="A+">A+</option>
                       <option value="A-">A-</option>
                       <option value="B+">B+</option>
                       <option value="B-">B-</option>
-                      <option value="AB+">AB+</option>
-                      <option value="AB-">AB-</option>
                       <option value="O+">O+</option>
                       <option value="O-">O-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Security */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Input 
+                        name="password"
                         id="password" 
                         type={showPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
                         className="pr-10"
+                        minLength={6}
                       />
                       <button
                         type="button"
@@ -229,11 +256,13 @@ export default function PatientRegister() {
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
                     <div className="relative">
                       <Input 
+                        name="confirmPassword"
                         id="confirmPassword" 
                         type={showConfirmPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
                         className="pr-10"
+                        minLength={6}
                       />
                       <button
                         type="button"
@@ -246,7 +275,6 @@ export default function PatientRegister() {
                   </div>
                 </div>
 
-                {/* Terms */}
                 <div className="flex items-center space-x-2 pt-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms" className="text-sm font-normal text-foreground">
@@ -254,7 +282,9 @@ export default function PatientRegister() {
                   </Label>
                 </div>
 
-                <Button type="submit" className="w-full mt-4">Create Account</Button>
+                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                  {loading ? "Creating Account..." : "Create Account"}
+                </Button>
               </form>
 
               <Separator />
