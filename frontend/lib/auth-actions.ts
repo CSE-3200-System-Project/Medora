@@ -35,17 +35,23 @@ export async function login(formData: FormData) {
     }
 
     // Get user role to redirect appropriately
-    const role = data.user?.user_metadata?.role || "patient";
+    const role = (data.user?.user_metadata?.role || "patient").toLowerCase();
     
     // Check verification and onboarding status
     try {
       const profileResponse = await fetch(`${BACKEND_URL}/auth/me`, {
-         headers: { "Authorization": `Bearer ${data.session.access_token}` }
+         headers: { "Authorization": `Bearer ${data.session.access_token}` },
+         cache: "no-store",
       });
       
       if (profileResponse.ok) {
           const profile = await profileResponse.json();
           const role = profile.role.toLowerCase();
+          const cookieStore = await cookies();
+          
+          // Set role and onboarding status cookies for middleware
+          cookieStore.set("user_role", role, { path: "/" });
+          cookieStore.set("onboarding_completed", String(profile.onboarding_completed), { path: "/" });
           
           // Check email verification
           if (!data.user.email_confirmed_at) {
@@ -56,7 +62,9 @@ export async function login(formData: FormData) {
                redirect(`/onboarding/${role}`);
           }
           
-          redirect(`/${profile.role}/dashboard`);
+          // Temporary: Redirect to onboarding even if completed because dashboard doesn't exist
+          redirect(`/onboarding/${role}`);
+          // redirect(`/${profile.role}/dashboard`);
       }
     } catch (e) {
       // If fetching profile fails, fallback to dashboard or onboarding
@@ -65,7 +73,8 @@ export async function login(formData: FormData) {
     }
 
     revalidatePath("/", "layout");
-    redirect(`/${role}/dashboard`);
+    redirect(`/onboarding/${role}`);
+    // redirect(`/${role}/dashboard`);
     
   } catch (error) {
     console.error(error);
@@ -90,6 +99,8 @@ export async function completeOnboarding() {
     if (!response.ok) {
       throw new Error("Failed to complete onboarding");
     }
+    
+    cookieStore.set("onboarding_completed", "true", { path: "/" });
     
     return { success: true };
   } catch (error) {
@@ -120,7 +131,10 @@ export async function updatePatientOnboarding(data: any) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.detail || "Update failed");
+      const errorMessage = typeof errorData.detail === 'string' 
+        ? errorData.detail 
+        : JSON.stringify(errorData.detail);
+      throw new Error(errorMessage || "Update failed");
     }
 
     return await response.json();
@@ -181,12 +195,15 @@ export async function signupPatient(formData: FormData) {
     
     // Store session token
     if (data.session?.access_token) {
-      (await cookies()).set("session_token", data.session.access_token, {
+      const cookieStore = await cookies();
+      cookieStore.set("session_token", data.session.access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
+      cookieStore.set("onboarding_completed", "false", { path: "/" });
+      cookieStore.set("user_role", "patient", { path: "/" });
     }
 
     return { success: true, userId: data.user_id };
@@ -224,12 +241,15 @@ export async function signupDoctor(formData: FormData) {
     
     // Store session token
     if (data.session?.access_token) {
-      (await cookies()).set("session_token", data.session.access_token, {
+      const cookieStore = await cookies();
+      cookieStore.set("session_token", data.session.access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
+      cookieStore.set("onboarding_completed", "false", { path: "/" });
+      cookieStore.set("user_role", "doctor", { path: "/" });
     }
 
     return { success: true, userId: data.user_id };
@@ -243,7 +263,10 @@ export async function signupDoctor(formData: FormData) {
 export async function signout() {
   try {
     await fetch(`${BACKEND_URL}/auth/logout`, { method: "POST" });
-    (await cookies()).delete("session_token");
+    const cookieStore = await cookies();
+    cookieStore.delete("session_token");
+    cookieStore.delete("onboarding_completed");
+    cookieStore.delete("user_role");
   } catch (error) {
     console.log(error);
   }

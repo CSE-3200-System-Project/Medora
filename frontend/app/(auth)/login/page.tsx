@@ -41,11 +41,7 @@ export default function LoginPage() {
       try {
         const user = await getCurrentUser();
         if (user) {
-          if (!user.onboarding_completed) {
-            router.push(`/onboarding/${user.role}`);
-          } else {
-            router.push(`/${user.role}/dashboard`);
-          }
+          router.push(`/onboarding/${user.role.toLowerCase()}`); // Redirect to onboarding if session exists
         }
       } catch (e) {
         // Ignore error, just stay on login page

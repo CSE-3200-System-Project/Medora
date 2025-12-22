@@ -36,16 +36,20 @@ export function DoctorOnboarding() {
     dob: "",
     phone: "",
     email: "",
+    profile_photo_url: "",
     // Step 2
     degree: "",
     specialization: "",
     experience: "",
+    degree_certificates_url: "",
     // Step 3
     registrationNumber: "",
+    bmdc_document_url: "",
     // Step 4
     hospitalName: "",
     practiceLocation: "",
     consultationMode: "both",
+    affiliation_letter_url: "",
     // Step 5
     consultationFee: "",
     availableDays: [] as string[],
@@ -61,6 +65,30 @@ export function DoctorOnboarding() {
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
+          method: 'POST',
+          body: formData,
+        });
+        if (res.ok) {
+          const data = await res.json();
+          handleInputChange(field, data.url);
+          alert("File uploaded successfully!");
+        } else {
+          alert("Upload failed");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Upload error");
+      }
+    }
+  };
 
   const nextStep = async () => {
     if (currentStep < STEPS.length) {
@@ -135,7 +163,20 @@ export function DoctorOnboarding() {
               <div className="flex flex-col items-center gap-2">
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <h4 className="text-sm font-medium">Upload Profile Photo (Optional)</h4>
-                <Button variant="outline" size="sm" className="mt-2">Choose File</Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <Input 
+                    type="file" 
+                    className="hidden" 
+                    id="profile-photo-upload"
+                    onChange={(e) => handleFileUpload(e, "profile_photo_url")}
+                  />
+                  <Label htmlFor="profile-photo-upload">
+                    <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer">
+                      Choose File
+                    </div>
+                  </Label>
+                  {formData.profile_photo_url && <span className="text-xs text-green-600">Uploaded</span>}
+                </div>
               </div>
             </div>
           </div>
@@ -161,7 +202,20 @@ export function DoctorOnboarding() {
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <h4 className="text-sm font-medium">Upload Degree Certificates (Optional)</h4>
                 <p className="text-xs text-muted-foreground">You can proceed without uploading now.</p>
-                <Button variant="outline" size="sm" className="mt-2">Choose File</Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <Input 
+                    type="file" 
+                    className="hidden" 
+                    id="degree-cert-upload"
+                    onChange={(e) => handleFileUpload(e, "degree_certificates_url")}
+                  />
+                  <Label htmlFor="degree-cert-upload">
+                    <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer">
+                      Choose File
+                    </div>
+                  </Label>
+                  {formData.degree_certificates_url && <span className="text-xs text-green-600">Uploaded</span>}
+                </div>
               </div>
             </div>
           </div>
@@ -179,7 +233,20 @@ export function DoctorOnboarding() {
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <h4 className="text-sm font-medium">Upload Registration Proof (Optional)</h4>
                 <p className="text-xs text-muted-foreground">Recommended for faster verification.</p>
-                <Button variant="outline" size="sm" className="mt-2">Choose File</Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <Input 
+                    type="file" 
+                    className="hidden" 
+                    id="reg-proof-upload"
+                    onChange={(e) => handleFileUpload(e, "bmdc_document_url")}
+                  />
+                  <Label htmlFor="reg-proof-upload">
+                    <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer">
+                      Choose File
+                    </div>
+                  </Label>
+                  {formData.bmdc_document_url && <span className="text-xs text-green-600">Uploaded</span>}
+                </div>
               </div>
             </div>
           </div>
@@ -208,7 +275,20 @@ export function DoctorOnboarding() {
               <div className="flex flex-col items-center gap-2">
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <h4 className="text-sm font-medium">Upload Affiliation Letter (Optional)</h4>
-                <Button variant="outline" size="sm" className="mt-2">Choose File</Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <Input 
+                    type="file" 
+                    className="hidden" 
+                    id="affiliation-upload"
+                    onChange={(e) => handleFileUpload(e, "affiliation_letter_url")}
+                  />
+                  <Label htmlFor="affiliation-upload">
+                    <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer">
+                      Choose File
+                    </div>
+                  </Label>
+                  {formData.affiliation_letter_url && <span className="text-xs text-green-600">Uploaded</span>}
+                </div>
               </div>
             </div>
           </div>

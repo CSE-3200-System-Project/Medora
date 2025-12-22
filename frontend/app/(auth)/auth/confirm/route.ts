@@ -63,11 +63,13 @@ export async function GET(request: NextRequest) {
             
             // If onboarding is not completed, go there
             if (!profile.onboarding_completed) {
-              return NextResponse.redirect(new URL(`/onboarding/${profile.role}`, request.url));
+              return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
             }
             
             // Otherwise go to dashboard
-            return NextResponse.redirect(new URL(`/${profile.role}/dashboard`, request.url));
+            // Temporary: Redirect to onboarding even if completed
+            return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
+            // return NextResponse.redirect(new URL(`/${profile.role.toLowerCase()}/dashboard`, request.url));
           }
         } catch (e) {
           console.error("Failed to fetch profile in confirm route", e);

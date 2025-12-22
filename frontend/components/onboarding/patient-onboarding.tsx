@@ -47,6 +47,7 @@ export function PatientOnboarding() {
     city: "",
     country: "",
     occupation: "",
+    medical_summary_url: "",
     // Step 3
     hasConditions: "no",
     conditions: [] as { name: string; year: string; treating: boolean }[],
@@ -83,16 +84,119 @@ export function PatientOnboarding() {
   const nextStep = async () => {
     if (currentStep < STEPS.length) {
       try {
-        await updatePatientOnboarding(formData)
+        // Map frontend camelCase to backend snake_case
+        const payload = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          dob: formData.dob,
+          gender: formData.gender,
+          phone: formData.phone,
+          email: formData.email,
+          
+          height: formData.height ? parseFloat(formData.height) : undefined,
+          weight: formData.weight ? parseFloat(formData.weight) : undefined,
+          blood_group: formData.bloodGroup,
+          city: formData.city,
+          country: formData.country,
+          occupation: formData.occupation,
+          medical_summary_url: formData.medical_summary_url,
+          
+          has_conditions: formData.hasConditions,
+          conditions: formData.conditions,
+          
+          taking_meds: formData.takingMeds,
+          medications: formData.medications,
+          allergies: formData.allergies,
+          allergy_reaction: formData.allergyReaction,
+          
+          past_surgeries: formData.pastSurgeries,
+          surgery_description: formData.surgeryDescription,
+          ongoing_treatments: formData.ongoingTreatments,
+          
+          smoking: formData.smoking,
+          alcohol: formData.alcohol,
+          activity_level: formData.activityLevel,
+          sleep_duration: formData.sleepDuration,
+          diet: formData.diet,
+          
+          language: formData.language,
+          notifications: formData.notifications,
+          emergency_name: formData.emergencyName,
+          emergency_relation: formData.emergencyRelation,
+          emergency_phone: formData.emergencyPhone,
+          consent_storage: formData.consentStorage,
+          consent_ai: formData.consentAI,
+          consent_doctor: formData.consentDoctor,
+        }
+
+        // Remove undefined/empty fields to avoid sending bad data
+        const cleanPayload = Object.fromEntries(
+          Object.entries(payload).filter(([_, v]) => v !== undefined && v !== "")
+        );
+
+        await updatePatientOnboarding(cleanPayload)
         setCurrentStep((prev) => prev + 1)
         window.scrollTo(0, 0)
       } catch (error) {
         console.error("Failed to save progress", error)
+        // Optional: Show error toast here
+        // But for now, let's allow proceeding if it's just a partial save error? 
+        // No, better to fix the data mapping.
+        alert("Please check your inputs. Some fields might be invalid.")
       }
     } else {
       setLoading(true)
       try {
-        await updatePatientOnboarding(formData)
+        // Map frontend camelCase to backend snake_case
+        const payload = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          dob: formData.dob,
+          gender: formData.gender,
+          phone: formData.phone,
+          email: formData.email,
+          
+          height: formData.height ? parseFloat(formData.height) : undefined,
+          weight: formData.weight ? parseFloat(formData.weight) : undefined,
+          blood_group: formData.bloodGroup,
+          city: formData.city,
+          country: formData.country,
+          occupation: formData.occupation,
+          medical_summary_url: formData.medical_summary_url,
+          
+          has_conditions: formData.hasConditions,
+          conditions: formData.conditions,
+          
+          taking_meds: formData.takingMeds,
+          medications: formData.medications,
+          allergies: formData.allergies,
+          allergy_reaction: formData.allergyReaction,
+          
+          past_surgeries: formData.pastSurgeries,
+          surgery_description: formData.surgeryDescription,
+          ongoing_treatments: formData.ongoingTreatments,
+          
+          smoking: formData.smoking,
+          alcohol: formData.alcohol,
+          activity_level: formData.activityLevel,
+          sleep_duration: formData.sleepDuration,
+          diet: formData.diet,
+          
+          language: formData.language,
+          notifications: formData.notifications,
+          emergency_name: formData.emergencyName,
+          emergency_relation: formData.emergencyRelation,
+          emergency_phone: formData.emergencyPhone,
+          consent_storage: formData.consentStorage,
+          consent_ai: formData.consentAI,
+          consent_doctor: formData.consentDoctor,
+        }
+        
+        const cleanPayload = Object.fromEntries(
+          Object.entries(payload).filter(([_, v]) => v !== undefined && v !== "")
+        );
+
+        await updatePatientOnboarding(cleanPayload)
         await completeOnboarding()
         router.push("/patient/dashboard")
       } catch (error) {
@@ -240,7 +344,42 @@ export function PatientOnboarding() {
                 <Upload className="h-8 w-8 text-muted-foreground" />
                 <h4 className="text-sm font-medium">Upload Medical Summary or ID (Optional)</h4>
                 <p className="text-xs text-muted-foreground">Scan or upload to auto-fill some details. You can skip this.</p>
-                <Button variant="outline" size="sm" className="mt-2">Choose File</Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <Input 
+                    type="file" 
+                    className="hidden" 
+                    id="medical-summary-upload"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        try {
+                          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
+                            method: 'POST',
+                            body: formData,
+                          });
+                          if (res.ok) {
+                            const data = await res.json();
+                            handleInputChange("medical_summary_url", data.url);
+                            alert("File uploaded successfully!");
+                          } else {
+                            alert("Upload failed");
+                          }
+                        } catch (err) {
+                          console.error(err);
+                          alert("Upload error");
+                        }
+                      }
+                    }}
+                  />
+                  <Label htmlFor="medical-summary-upload">
+                    <div className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer">
+                      Choose File
+                    </div>
+                  </Label>
+                  {formData.medical_summary_url && <span className="text-xs text-green-600">Uploaded</span>}
+                </div>
               </div>
             </div>
           </div>
