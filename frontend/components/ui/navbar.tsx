@@ -101,10 +101,10 @@ export function Navbar() {
                       <ListItem href="/overview" title="Overview">
                         Comprehensive view of our services.
                       </ListItem>
-                      <ListItem href="/how-it-works" title="How it works">
+                      <ListItem href="/#how-it-works" title="How it works">
                         Step-by-step guide for all users.
                       </ListItem>
-                      <ListItem href="/privacy" title="Privacy & Control">
+                      <ListItem href="/#privacy" title="Privacy & Control">
                         Your data security is our priority.
                       </ListItem>
                     </ul>
@@ -114,10 +114,10 @@ export function Navbar() {
                   <NavigationMenuTrigger className="bg-transparent hover:bg-primary-more-light hover:text-primary">For Patients</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150 ">
-                      <ListItem href="/patients/features" title="What you can do">
+                      <ListItem href="/#for-patients" title="What you can do">
                         Book appointments, view records, and more.
                       </ListItem>
-                      <ListItem href="/patients/experience" title="Patient Experience">
+                      <ListItem href="/#for-patients" title="Patient Experience">
                         Seamless care journey designed for you.
                       </ListItem>
                     </ul>
@@ -127,17 +127,17 @@ export function Navbar() {
                   <NavigationMenuTrigger className="bg-transparent hover:bg-primary-more-light hover:text-primary">For Doctors</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150 ">
-                      <ListItem href="/doctors/features" title="What you can do">
+                      <ListItem href="/#for-doctors" title="What you can do">
                         Manage practice, patients, and schedule.
                       </ListItem>
-                      <ListItem href="/doctors/experience" title="Doctor Experience">
+                      <ListItem href="/#for-doctors" title="Doctor Experience">
                         Tools built to optimize your workflow.
                       </ListItem>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
+                  <Link href="/#about" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-primary-more-light hover:text-primary")}>
                       About
                     </NavigationMenuLink>
