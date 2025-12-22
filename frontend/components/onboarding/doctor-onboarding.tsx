@@ -12,6 +12,8 @@ import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select-native"
 import { Checkbox } from "@/components/ui/checkbox"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
+import { updateDoctorOnboarding, completeOnboarding } from "@/lib/auth-actions"
+import { useRouter } from "next/navigation"
 
 const STEPS = [
   { id: 1, title: "Personal Identity", shortName: "Identity" },
@@ -24,6 +26,8 @@ const STEPS = [
 
 export function DoctorOnboarding() {
   const [currentStep, setCurrentStep] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
   const [formData, setFormData] = useState({
     // Step 1
     firstName: "",
@@ -58,10 +62,28 @@ export function DoctorOnboarding() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (currentStep < STEPS.length) {
-      setCurrentStep((prev) => prev + 1)
-      window.scrollTo(0, 0)
+      try {
+        // Save progress (optional, but good practice)
+        await updateDoctorOnboarding(formData)
+        setCurrentStep((prev) => prev + 1)
+        window.scrollTo(0, 0)
+      } catch (error) {
+        console.error("Failed to save progress", error)
+      }
+    } else {
+      // Final submission
+      setLoading(true)
+      try {
+        await updateDoctorOnboarding(formData)
+        await completeOnboarding()
+        router.push("/doctor/dashboard")
+      } catch (error) {
+        console.error("Failed to complete onboarding", error)
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
@@ -261,8 +283,8 @@ export function DoctorOnboarding() {
   }
 
   return (
-    <div className="min-h-screen bg-surface/30 p-4 md:p-8">
-      <div className="mx-auto max-w-3xl space-y-8">
+    <div className="w-full max-w-4xl mx-auto">
+      <div className="space-y-8">
         <StepIndicator steps={STEPS} currentStep={currentStep} />
 
         <AnimatePresence mode="wait">
@@ -273,7 +295,7 @@ export function DoctorOnboarding() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="border-none shadow-lg">
+            <Card className="border-border shadow-xl bg-card">
               <CardHeader>
                 <CardTitle>{STEPS[currentStep - 1].title}</CardTitle>
                 <CardDescription>
@@ -287,12 +309,13 @@ export function DoctorOnboarding() {
                 <Button
                   variant="outline"
                   onClick={prevStep}
-                  disabled={currentStep === 1}
+                  disabled={currentStep === 1 || loading}
                 >
                   <ChevronLeft className="mr-2 h-4 w-4" /> Back
                 </Button>
-                <Button onClick={nextStep}>
-                  {currentStep === STEPS.length ? "Complete Onboarding" : "Next"} <ChevronRight className="ml-2 h-4 w-4" />
+                <Button onClick={nextStep} disabled={loading}>
+                  {loading ? "Completing..." : (currentStep === STEPS.length ? "Complete Onboarding" : "Next")} 
+                  {!loading && <ChevronRight className="ml-2 h-4 w-4" />}
                 </Button>
               </CardFooter>
             </Card>

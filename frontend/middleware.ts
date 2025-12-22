@@ -2,8 +2,24 @@
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Logic to check for auth cookie/token would go here
-  // For now, we just pass the request through
+  const token = request.cookies.get('session_token')?.value
+  
+  // Protected routes
+  const protectedRoutes = ['/dashboard', '/onboarding']
+  const isProtectedRoute = protectedRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  // If trying to access protected route without token, redirect to login
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // If we have a token, we might want to check verification status
+  // But since we can't easily make API calls in middleware without edge compatibility issues,
+  // we'll rely on the client-side/server-action checks we added in login/auth-actions
+  // or we could decode the JWT if we had the secret here.
+  
   return NextResponse.next()
 }
 

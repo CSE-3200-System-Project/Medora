@@ -3,15 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { login, getCurrentUser } from "@/lib/auth-actions";
 
-// Import images
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 import logo from "@/assets/image/medora-logo.png";
@@ -19,6 +19,9 @@ import logo from "@/assets/image/medora-logo.png";
 export default function LoginPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   
   const images = [
     { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
@@ -28,15 +31,42 @@ export default function LoginPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const user = await getCurrentUser();
+        if (user) {
+          if (!user.onboarding_completed) {
+            router.push(`/onboarding/${user.role}`);
+          } else {
+            router.push(`/${user.role}/dashboard`);
+          }
+        }
+      } catch (e) {
+        // Ignore error, just stay on login page
+      }
+    };
+    checkSession();
+  }, [router]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Add your backend login logic here
-    console.log("Login submitted");
+    setError("");
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      await login(formData);
+    } catch (err: any) {
+      setError(err.message || "Login failed. Please check your credentials.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,7 +75,6 @@ export default function LoginPage() {
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
-            {/* Background Images with Fade Transition */}
             {images.map((img, index) => (
               <div 
                 key={index}
@@ -63,7 +92,6 @@ export default function LoginPage() {
               </div>
             ))}
 
-            {/* Dark overlay for text readability */}
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
             <div className="relative z-10 h-full flex flex-col items-center text-white p-6 md:p-12 text-center">
@@ -76,7 +104,6 @@ export default function LoginPage() {
                 </p>
               </div>
               
-              {/* Carousel Indicators */}
               <div className="flex justify-center gap-2 pb-2">
                 {images.map((_, index) => (
                   <button
@@ -105,10 +132,16 @@ export default function LoginPage() {
                 </p>
               </div>
 
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
+                  <p className="text-sm">{error}</p>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="name@example.com" required />
+                  <Input name="email" id="email" type="email" placeholder="name@example.com" required />
                 </div>
 
                 <div className="space-y-2">
@@ -117,6 +150,7 @@ export default function LoginPage() {
                   </div>
                   <div className="relative">
                     <Input 
+                      name="password"
                       id="password" 
                       type={showPassword ? "text" : "password"} 
                       placeholder="••••••••" 
@@ -146,7 +180,9 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                <Button type="submit" className="w-full">Sign In</Button>
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Signing in..." : "Sign In"}
+                </Button>
               </form>
 
               <div className="text-center text-sm text-foreground">
