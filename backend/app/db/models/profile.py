@@ -25,6 +25,8 @@ class Profile(Base):
     email: Mapped[str | None]
     phone: Mapped[str | None]
 
+    onboarding_completed: Mapped[bool] = mapped_column(default=False)
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=datetime.utcnow
     )

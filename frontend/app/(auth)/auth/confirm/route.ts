@@ -1,49 +1,86 @@
-import { NextResponse } from 'next/server'
+import { type EmailOtpType } from '@supabase/supabase-js'
+import { type NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const token_hash = searchParams.get('token_hash')
+  const type = searchParams.get('type') as EmailOtpType | null
+  const next = searchParams.get('next') ?? '/'
 
-  if (code) {
-    try {
-      // 1. Send the code to YOUR Backend (not Supabase directly)
-      const response = await fetch(`${process.env.BACKEND_URL}/auth/google/callback`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+  if (token_hash && type) {
+    const cookieStore = await cookies()
+    
+    // Create a temporary Supabase client just for this verification
+    // We need to use the anon key and URL from env vars
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+          set(name: string, value: string, options: any) {
+            cookieStore.set({ name, value, ...options })
+          },
+          remove(name: string, options: any) {
+            cookieStore.delete({ name, ...options })
+          },
         },
-        body: JSON.stringify({ code }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Backend exchange failed')
       }
+    )
 
-      const data = await response.json()
-
-      // 2. Set the Session Cookie (Same as your login action)
-      if (data.session?.access_token) {
-        (await cookies()).set("session_token", data.session.access_token, {
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    })
+    
+    if (!error) {
+      // If verification is successful, we need to ensure our backend session is set
+      // The supabase client above sets the supabase auth cookies, but our app uses 'session_token'
+      // We can extract the session from supabase and set our cookie
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (session?.access_token) {
+        cookieStore.set("session_token", session.access_token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           maxAge: 60 * 60 * 24 * 7, // 1 week
           path: "/",
         });
+
+        // Fetch profile to decide redirect
+        try {
+          const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:8000";
+          const response = await fetch(`${backendUrl}/auth/me`, {
+            headers: { "Authorization": `Bearer ${session.access_token}` }
+          });
+          
+          if (response.ok) {
+            const profile = await response.json();
+            
+            // If onboarding is not completed, go there
+            if (!profile.onboarding_completed) {
+              return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
+            }
+            
+            // Otherwise go to dashboard
+            // Temporary: Redirect to onboarding even if completed
+            return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
+            // return NextResponse.redirect(new URL(`/${profile.role.toLowerCase()}/dashboard`, request.url));
+          }
+        } catch (e) {
+          console.error("Failed to fetch profile in confirm route", e);
+        }
       }
-
-      // 3. Redirect based on Profile Status
-      if (data.status === 'incomplete') {
-        return NextResponse.redirect(`${origin}/onboarding`)
-      }
-
-      return NextResponse.redirect(`${origin}/`)
-
-    } catch (error) {
-      console.error("Auth Error:", error)
-      return NextResponse.redirect(`${origin}/error?message=Auth Failed`)
+      
+      // Fallback if profile fetch fails
+      return NextResponse.redirect(new URL('/login?verified=true', request.url))
     }
   }
 
-  return NextResponse.redirect(`${origin}/error?message=No Code Found`)
+  // return the user to an error page with some instructions
+  return NextResponse.redirect(new URL('/error?message=Verification Failed', request.url))
 }
