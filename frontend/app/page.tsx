@@ -23,7 +23,7 @@ import {
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 
-export default function LandingPage() {
+export default function Home() {
   const [currentHero, setCurrentHero] = useState<'patient' | 'doctor'>('patient');
 
   useEffect(() => {
@@ -37,9 +37,6 @@ export default function LandingPage() {
   const toggleHero = () => {
     setCurrentHero(prev => prev === 'patient' ? 'doctor' : 'patient');
   };
-
-
-export default function Home() {
   return (
     <div className="min-h-screen bg-surface font-sans text-foreground">
       <Navbar />
