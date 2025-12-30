@@ -166,6 +166,54 @@ export async function updateDoctorOnboarding(data: any) {
   }
 }
 
+export async function getPatientOnboardingData() {
+  try {
+    const headers = await getAuthHeaders();
+    console.log("Fetching patient data from:", `${BACKEND_URL}/profile/patient/onboarding`);
+    console.log("Headers:", headers);
+    
+    const response = await fetch(`${BACKEND_URL}/profile/patient/onboarding`, {
+      method: "GET",
+      headers,
+      cache: "no-store",
+    });
+
+    console.log("Response status:", response.status);
+    if (!response.ok) {
+      console.error("Failed to fetch patient data, status:", response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log("Patient data received:", data);
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch patient onboarding data:", error);
+    return null;
+  }
+}
+
+export async function getDoctorOnboardingData() {
+  try {
+    const headers = await getAuthHeaders();
+    
+    const response = await fetch(`${BACKEND_URL}/profile/doctor/onboarding`, {
+      method: "GET",
+      headers,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch doctor onboarding data:", error);
+    return null;
+  }
+}
+
 export async function signupPatient(formData: FormData) {
   const rawData = {
     first_name: formData.get("firstName") as string,
