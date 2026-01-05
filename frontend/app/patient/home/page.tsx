@@ -28,6 +28,8 @@ export default function PatientHomePage() {
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalResults, setTotalResults] = useState(0);
+  const [hasFilters, setHasFilters] = useState(false);
 
   const fetchDoctors = async (searchFilters = {}) => {
     setLoading(true);
@@ -37,13 +39,25 @@ export default function PatientHomePage() {
         if (value) params.append(key, value as string);
       });
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/doctor/search?${params.toString()}`);
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+      const url = `${backendUrl}/doctor/search?${params.toString()}`;
+      
+      console.log('Fetching doctors from:', url); // Debug log
+      
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
         setDoctors(data.doctors);
+        setTotalResults(data.total || data.doctors.length);
+      } else {
+        console.error('API Error:', res.status, res.statusText);
+        const errorData = await res.text();
+        console.error('Error details:', errorData);
       }
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
+      // Show user-friendly error
+      alert('Unable to connect to server. Please ensure the backend is running on http://localhost:8000');
     } finally {
       setLoading(false);
     }
@@ -55,6 +69,13 @@ export default function PatientHomePage() {
 
   const handleSearch = (newFilters: Record<string, string>) => {
     fetchDoctors(newFilters);
+    const hasActiveFilters = Object.values(newFilters).some(value => value && value !== '');
+    setHasFilters(hasActiveFilters);
+  };
+
+  const handleClearFilters = () => {
+    setHasFilters(false);
+    fetchDoctors({});
   };
 
   return (
@@ -69,14 +90,51 @@ export default function PatientHomePage() {
           </p>
           
           <SearchFilters onSearch={handleSearch} />
+          
+          {/* Results count and clear filters */}
+          <div className="flex items-center justify-between mt-4 mb-2">
+            <p className="text-sm text-muted-foreground">
+              {!loading && (
+                <span className="font-semibold text-foreground">
+                  {totalResults} {totalResults === 1 ? 'doctor' : 'doctors'} found
+                </span>
+              )}
+            </p>
+            {hasFilters && (
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleClearFilters}
+                className="text-primary hover:text-primary-muted"
+              >
+                Clear all filters
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
           {/* Left: Doctor List */}
           <div className="space-y-4">
             {loading ? (
-              <div className="flex justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              // Loading skeleton
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-2xl border border-border/50 p-6 animate-pulse">
+                    <div className="flex gap-6">
+                      <div className="h-32 w-32 bg-surface rounded-xl shrink-0" />
+                      <div className="flex-1 space-y-3">
+                        <div className="h-6 bg-surface rounded w-1/3" />
+                        <div className="h-4 bg-surface rounded w-1/2" />
+                        <div className="h-4 bg-surface rounded w-2/3" />
+                        <div className="flex gap-2 mt-4">
+                          <div className="h-8 bg-surface rounded w-20" />
+                          <div className="h-8 bg-surface rounded w-24" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : doctors.length > 0 ? (
               doctors.map((doctor) => (
@@ -84,8 +142,10 @@ export default function PatientHomePage() {
               ))
             ) : (
               <div className="text-center py-12 bg-white rounded-2xl border border-border">
-                <p className="text-muted-foreground">No doctors found matching your criteria.</p>
-                <Button variant="link" onClick={() => handleSearch({})}>Clear Filters</Button>
+                <p className="text-muted-foreground mb-2">No doctors found matching your criteria.</p>
+                {hasFilters && (
+                  <Button variant="link" onClick={handleClearFilters}>Clear Filters</Button>
+                )}
               </div>
             )}
           </div>

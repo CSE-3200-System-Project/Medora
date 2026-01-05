@@ -43,10 +43,16 @@ interface WorkExperience {
   current: boolean
 }
 
+type Speciality = {
+  id: number
+  name: string
+}
+
 export function DoctorOnboarding() {
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
+  const [specialities, setSpecialities] = useState<Speciality[]>([])
   const router = useRouter()
   
   const [formData, setFormData] = useState({
@@ -70,6 +76,7 @@ export function DoctorOnboarding() {
     education: [] as Education[],
     
     // Step 3 - Specialization
+    specialityId: "",
     specialization: "",
     subSpecializations: [] as string[],
     services: [] as string[],
@@ -140,6 +147,7 @@ export function DoctorOnboarding() {
             degree_certificates_url: data.degree_certificates_url || "",
             education: data.education || [],
             
+            specialityId: data.speciality_id?.toString() || "",
             specialization: data.specialization || "",
             subSpecializations: data.sub_specializations || [],
             services: data.services || [],
@@ -188,6 +196,23 @@ export function DoctorOnboarding() {
     
     fetchExistingData()
   }, [])
+
+  // Fetch specialities from API
+  useEffect(() => {
+    async function fetchSpecialities() {
+      try {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+        const res = await fetch(`${backendUrl}/specialities/`);
+        if (res.ok) {
+          const data = await res.json();
+          setSpecialities(data.specialities || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch specialities:", error);
+      }
+    }
+    fetchSpecialities();
+  }, []);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -298,6 +323,7 @@ export function DoctorOnboarding() {
       degree_certificates_url: formData.degree_certificates_url,
       education: formData.education,
       
+      speciality_id: formData.specialityId ? parseInt(formData.specialityId) : null,
       specialization: formData.specialization,
       sub_specializations: formData.subSpecializations,
       services: formData.services,
@@ -550,29 +576,14 @@ export function DoctorOnboarding() {
         return (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="specialization">Primary Specialization *</Label>
-              <Select id="specialization" value={formData.specialization} onChange={(e) => handleInputChange("specialization", e.target.value)}>
+              <Label htmlFor="specialityId">Primary Specialization *</Label>
+              <Select id="specialityId" value={formData.specialityId} onChange={(e) => handleInputChange("specialityId", e.target.value)}>
                 <option value="">Select Specialization</option>
-                <option value="Cardiologist">Cardiologist</option>
-                <option value="Neurologist">Neurologist</option>
-                <option value="Nephrologist">Nephrologist</option>
-                <option value="Oncologist">Oncologist</option>
-                <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>
-                <option value="Dermatologist">Dermatologist</option>
-                <option value="Gastroenterologist">Gastroenterologist</option>
-                <option value="Pulmonologist">Pulmonologist</option>
-                <option value="Endocrinologist">Endocrinologist</option>
-                <option value="Rheumatologist">Rheumatologist</option>
-                <option value="Urologist">Urologist</option>
-                <option value="Psychiatrist">Psychiatrist</option>
-                <option value="Pediatrician">Pediatrician</option>
-                <option value="Gynecologist">Gynecologist</option>
-                <option value="General Surgeon">General Surgeon</option>
-                <option value="ENT Specialist">ENT Specialist</option>
-                <option value="Ophthalmologist">Ophthalmologist</option>
-                <option value="Medicine Specialist">Medicine Specialist</option>
-                <option value="General Physician">General Physician</option>
-                <option value="Other">Other</option>
+                {specialities.map((spec) => (
+                  <option key={spec.id} value={spec.id.toString()}>
+                    {spec.name}
+                  </option>
+                ))}
               </Select>
             </div>
             

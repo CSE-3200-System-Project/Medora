@@ -1,5 +1,5 @@
-from sqlalchemy import String, Boolean, DateTime, Float, JSON, Text, Date
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Boolean, DateTime, Float, JSON, Text, Date, Integer, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, date
 from app.db.base import Base
 
@@ -33,7 +33,8 @@ class DoctorProfile(Base):
     education: Mapped[list | None] = mapped_column(JSON)
     
     # === SPECIALIZATION (Step 3) ===
-    specialization: Mapped[str]  # Primary specialization (e.g., Nephrologist)
+    speciality_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("specialities.id"))
+    specialization: Mapped[str | None]  # Legacy text field, kept for backwards compatibility
     sub_specializations: Mapped[list | None] = mapped_column(JSON)  # Additional specialties
     services: Mapped[list | None] = mapped_column(JSON)  # Services offered
     

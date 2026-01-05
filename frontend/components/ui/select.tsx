@@ -73,7 +73,7 @@ export const SelectContent = ({ children }: { children: React.ReactNode }) => {
   if (!ctx.open) return null
 
   return (
-    <div className="absolute z-50 mt-2 w-full rounded-md border border-border bg-popover shadow-md">
+    <div className="absolute z-50 mt-2 w-full rounded-md border border-border bg-popover shadow-md max-h-60 overflow-y-auto">
       <div className="p-1">{children}</div>
     </div>
   )
