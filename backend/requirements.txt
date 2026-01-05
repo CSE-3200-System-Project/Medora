@@ -1,15 +1,4 @@
-fastapi
 fastapi[standard]
-sqlalchemy
-asyncpg
-pydantic
-pydantic-settings
-supabase
-alembic
-python-multipart
-email-validator
-python-jose[crypt# filepath: c:\Code\System\Medora\backend\requirements.txt
-fastapi
 uvicorn[standard]
 sqlalchemy
 asyncpg
@@ -18,6 +7,8 @@ pydantic-settings
 supabase
 alembic
 python-multipart
+email-validator
+python-jose[cryptography]
 email-validator
 python-jose[cryptography]
 passlib[bcrypt]

@@ -14,17 +14,43 @@ interface SearchFiltersProps {
   onSearch: (filters: Record<string, string>) => void;
 }
 
+type Speciality = {
+  id: number;
+  name: string;
+};
+
 export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [query, setQuery] = React.useState("");
-  const [speciality, setSpeciality] = React.useState("");
+  const [specialityId, setSpecialityId] = React.useState("");
   const [city, setCity] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [consultationType, setConsultationType] = React.useState("");
+  const [specialities, setSpecialities] = React.useState<Speciality[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetchSpecialities();
+  }, []);
+
+  const fetchSpecialities = async () => {
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+      const res = await fetch(`${backendUrl}/specialities/`);
+      if (res.ok) {
+        const data = await res.json();
+        setSpecialities(data.specialities || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch specialities:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearch = () => {
     onSearch({
       query,
-      specialization: speciality === "all" ? "" : speciality,
+      speciality_id: specialityId === "all" ? "" : specialityId,
       city: city === "all" ? "" : city,
       gender: gender === "all" ? "" : gender,
       consultation_mode: consultationType === "all" ? "" : consultationType,
@@ -68,19 +94,17 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-foreground">Specialities</label>
-          <Select value={speciality} onValueChange={setSpeciality}>
+          <Select value={specialityId} onValueChange={setSpecialityId} disabled={loading}>
             <SelectTrigger className="bg-background border-border">
-              <SelectValue placeholder="All Specialities" />
+              <SelectValue placeholder={loading ? "Loading..." : "All Specialities"} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Specialities</SelectItem>
-              <SelectItem value="Cardiologist">Cardiologist</SelectItem>
-              <SelectItem value="Dermatologist">Dermatologist</SelectItem>
-              <SelectItem value="Neurologist">Neurologist</SelectItem>
-              <SelectItem value="Orthopedic">Orthopedic</SelectItem>
-              <SelectItem value="Pediatrician">Pediatrician</SelectItem>
-              <SelectItem value="Psychiatrist">Psychiatrist</SelectItem>
-              <SelectItem value="Urologist">Urologist</SelectItem>
+              {specialities.map((spec) => (
+                <SelectItem key={spec.id} value={spec.id.toString()}>
+                  {spec.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
