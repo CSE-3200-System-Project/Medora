@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import health, auth, profile, upload
+from app.routes import health, auth, profile, upload, admin  # Add admin
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
@@ -26,4 +26,5 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(profile.router, prefix="/profile", tags=["Profile"])
-app.include_router(upload.router, prefix="/upload", tags=["Upload"]) 
+app.include_router(upload.router, prefix="/upload", tags=["Upload"])
+app.include_router(admin.router, prefix="/admin", tags=["Admin"])  # Add this
