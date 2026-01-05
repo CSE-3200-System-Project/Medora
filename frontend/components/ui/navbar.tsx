@@ -38,8 +38,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import logo from "@/assets/image/medora-logo.png";
 
 // Mock User State (Replace with real auth logic)
-// const user = { name: "Dr. Smith", role: "doctor" }; // Example logged in
-const user = null; // Example logged out
+const user = { name: "Sarwad Hasan", role: "patient" }; 
+// const user = null; // Example logged out
 
 export function Navbar() {
   const pathname = usePathname();
@@ -76,91 +76,17 @@ export function Navbar() {
 
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-1 justify-center">
-          {!user ? (
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent hover:bg-primary-more-light hover:text-primary">Platform</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-4 md:w-100 lg:w-125 lg:grid-cols-[.75fr_1fr]">
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-linear-to-b from-primary/10 to-primary/30 p-6 no-underline outline-none focus:shadow-md"
-                            href="/"
-                          >
-                            <div className="mb-2 mt-4 text-lg font-medium">
-                              Medora Platform
-                            </div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              The complete healthcare ecosystem for modern medical practice.
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <ListItem href="/overview" title="Overview">
-                        Comprehensive view of our services.
-                      </ListItem>
-                      <ListItem href="/#how-it-works" title="How it works">
-                        Step-by-step guide for all users.
-                      </ListItem>
-                      <ListItem href="/#privacy" title="Privacy & Control">
-                        Your data security is our priority.
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent hover:bg-primary-more-light hover:text-primary">For Patients</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150 ">
-                      <ListItem href="/#for-patients" title="What you can do">
-                        Book appointments, view records, and more.
-                      </ListItem>
-                      <ListItem href="/#for-patients" title="Patient Experience">
-                        Seamless care journey designed for you.
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent hover:bg-primary-more-light hover:text-primary">For Doctors</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150 ">
-                      <ListItem href="/#for-doctors" title="What you can do">
-                        Manage practice, patients, and schedule.
-                      </ListItem>
-                      <ListItem href="/#for-doctors" title="Doctor Experience">
-                        Tools built to optimize your workflow.
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/#about" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-primary-more-light hover:text-primary")}>
-                      About
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          ) : (
             <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/dashboard" className={cn("transition-colors hover:text-primary", pathname === "/dashboard" && "text-primary")}>
-                Dashboard
+              <Link href="/patient/home" className={cn("transition-colors hover:text-primary", pathname === "/patient/home" && "text-primary")}>
+                Find Doctor
               </Link>
-              <Link href="/overview" className={cn("transition-colors hover:text-primary", pathname === "/overview" && "text-primary")}>
-                Overview
+              <Link href="/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
+                Find Medicine
               </Link>
-              <Link href="/appointments" className={cn("transition-colors hover:text-primary", pathname === "/appointments" && "text-primary")}>
-                Appointments
-              </Link>
-              <Link href="/records" className={cn("transition-colors hover:text-primary", pathname === "/records" && "text-primary")}>
-                Records
+              <Link href="/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
+                Find Ambulance
               </Link>
             </nav>
-          )}
         </div>
 
         {/* RIGHT: Actions */}
@@ -176,24 +102,26 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:bg-primary-more-light hover:text-primary">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:bg-primary-more-light hover:text-primary relative">
                 <Bell className="h-5 w-5" />
+                <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border border-white"></span>
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full hover:bg-primary-more-light">
-                    <Avatar className="h-10 w-10 border border-primary/20">
+                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full">
+                    <Avatar className="h-8 w-8 border border-primary/20">
                       <AvatarImage src="/avatars/01.png" alt="@user" />
-                      <AvatarFallback>US</AvatarFallback>
+                      <AvatarFallback>SH</AvatarFallback>
                     </Avatar>
+                    <span className="text-sm font-medium text-foreground">{user.name}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">Dr. Smith</p>
+                      <p className="text-sm font-medium leading-none">{user.name}</p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        dr.smith@example.com
+                        patient@example.com
                       </p>
                     </div>
                   </DropdownMenuLabel>
@@ -301,33 +229,38 @@ export function Navbar() {
                 ) : (
                   <>
                     <div className="flex flex-col gap-4">
-                      <Link href="/dashboard" className="flex items-center gap-2 text-lg font-medium hover:text-primary">
-                        <LayoutDashboard className="h-5 w-5" /> Dashboard
+                      <Link href="/patient/home" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                        <Users className="h-5 w-5 text-primary" /> Find Doctor
                       </Link>
-                      <Link href="/overview" className="flex items-center gap-2 text-lg font-medium hover:text-primary">
-                        <Activity className="h-5 w-5" /> Overview
+                      <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                        <Activity className="h-5 w-5 text-primary" /> Find Medicine
                       </Link>
-                      <Link href="/appointments" className="flex items-center gap-2 text-lg font-medium hover:text-primary">
-                        <Calendar className="h-5 w-5" /> Appointments
-                      </Link>
-                      <Link href="/records" className="flex items-center gap-2 text-lg font-medium hover:text-primary">
-                        <FileText className="h-5 w-5" /> Records
+                      <Link href="/find-ambulance" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                        <Shield className="h-5 w-5 text-primary" /> Find Ambulance
                       </Link>
                     </div>
-                    <div className="mt-auto flex flex-col gap-4 border-t pt-4">
-                      <div className="flex items-center gap-4">
-                        <Avatar>
+                    <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
+                      <div className="flex items-center gap-3 px-2">
+                        <Avatar className="h-10 w-10 border-2 border-primary/10">
                           <AvatarImage src="/avatars/01.png" />
-                          <AvatarFallback>US</AvatarFallback>
+                          <AvatarFallback className="bg-primary/10 text-primary">SH</AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col">
-                          <span className="font-medium">Dr. Smith</span>
-                          <span className="text-xs text-muted-foreground">dr.smith@example.com</span>
+                        <div className="flex flex-col flex-1">
+                          <span className="font-semibold text-foreground">{user.name}</span>
+                          <span className="text-xs text-muted-foreground">patient@example.com</span>
                         </div>
                       </div>
-                      <Button variant="outline" className="w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-50">
-                        <LogOut className="mr-2 h-4 w-4" /> Log out
-                      </Button>
+                      <div className="flex flex-col gap-2">
+                        <Link href="/profile" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                          <User className="h-4 w-4" /> My Profile
+                        </Link>
+                        <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                          <Settings className="h-4 w-4" /> Settings
+                        </Link>
+                        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10">
+                          <LogOut className="mr-2 h-4 w-4" /> Log out
+                        </Button>
+                      </div>
                     </div>
                   </>
                 )}

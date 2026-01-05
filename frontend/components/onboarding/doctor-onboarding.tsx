@@ -834,7 +834,7 @@ export function DoctorOnboarding() {
                 value={formData.about}
                 onChange={(e) => handleInputChange("about", e.target.value)}
                 placeholder="Write about your professional background, expertise, achievements, and what patients can expect..."
-                className="min-h-[200px]"
+                className="min-h-50"
               />
               <p className="text-xs text-muted-foreground">
                 This will be displayed on your public profile. Include your expertise, achievements, and any special interests.
@@ -944,7 +944,7 @@ export function DoctorOnboarding() {
 
   if (initialLoading) {
     return (
-      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-100">
         <div className="text-muted-foreground">Loading your profile...</div>
       </div>
     )

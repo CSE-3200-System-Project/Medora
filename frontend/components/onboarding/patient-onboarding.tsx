@@ -415,7 +415,7 @@ export function PatientOnboarding() {
       try {
         await updatePatientOnboarding(preparePayload())
         await completeOnboarding()
-        router.push("/patient/dashboard")
+        router.push("/patient/home")
       } catch (error) {
         console.error("Failed to complete onboarding", error)
       } finally {
@@ -1235,7 +1235,7 @@ export function PatientOnboarding() {
 
   if (initialLoading) {
     return (
-      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-100">
         <div className="text-muted-foreground">Loading your profile...</div>
       </div>
     )
