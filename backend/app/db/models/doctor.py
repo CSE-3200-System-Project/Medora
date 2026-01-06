@@ -19,7 +19,7 @@ class DoctorProfile(Base):
     bmdc_number: Mapped[str] = mapped_column(String, unique=True)
     bmdc_document_url: Mapped[str | None]
     bmdc_document_uploaded_at: Mapped[datetime | None]
-    bmdc_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    bmdc_verified: Mapped[bool] = mapped_column(Boolean, default=False, server_default='false')
     verification_method: Mapped[str | None]
     verification_notes: Mapped[str | None]
     
