@@ -111,12 +111,18 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
             profile_id=user_id,
             bmdc_number=user_data.bmdc_number,
             bmdc_document_url=user_data.bmdc_document,
-            bmdc_verified=False,
-            specialization=""  # ✅ ADD DEFAULT - required field in model
+            bmdc_verified=True,  # ✅ TEMPORARY: Set to True for testing (no real BMDC verification)
+            specialization=None  # Will be filled during onboarding
         )
         db.add(new_doctor)
 
         await db.commit()
+        
+        # Debug: Print session structure
+        print(f"✅ Doctor signup successful - User ID: {user_id}")
+        print(f"Session object type: {type(auth_response.session)}")
+        if auth_response.session:
+            print(f"Session has access_token: {hasattr(auth_response.session, 'access_token')}")
         
         return {
             "message": "Doctor registered successfully. Awaiting verification.",

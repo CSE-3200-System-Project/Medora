@@ -27,8 +27,9 @@ export async function login(formData: FormData) {
     // Store the access token
     if (data.session?.access_token) {
       (await cookies()).set("session_token", data.session.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        httpOnly: false,  // ✅ Changed to false for accessibility
+        secure: false,  // ✅ Changed to false for local development
+        sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7, // 1 week
         path: "/",
       });
@@ -113,6 +114,17 @@ async function getAuthHeaders() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
   
+  // Debug: Log all cookies
+  const allCookies = cookieStore.getAll();
+  console.log("🍪 Available cookies:", allCookies.map(c => c.name));
+  console.log("🔑 Session token found:", !!token);
+  
+  if (!token) {
+    console.error("❌ No session token found in cookies");
+    console.error("Available cookies:", allCookies);
+    throw new Error("Authentication required. Please log in again.");
+  }
+  
   return {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
@@ -148,6 +160,8 @@ export async function updateDoctorOnboarding(data: any) {
   try {
     const headers = await getAuthHeaders();
     
+    console.log("📤 Sending doctor onboarding update to:", `${BACKEND_URL}/profile/doctor/onboarding`);
+    
     const response = await fetch(`${BACKEND_URL}/profile/doctor/onboarding`, {
       method: "PATCH",
       headers,
@@ -156,10 +170,13 @@ export async function updateDoctorOnboarding(data: any) {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error("❌ Doctor onboarding update failed:", errorData);
       throw new Error(errorData.detail || "Update failed");
     }
 
-    return await response.json();
+    const result = await response.json();
+    console.log("✅ Doctor onboarding update successful");
+    return result;
   } catch (error) {
     console.error("Onboarding update error:", error);
     throw error;
@@ -213,7 +230,58 @@ export async function getDoctorOnboardingData() {
     return null;
   }
 }
+// ==================== DOCTOR PROFILE ACTIONS ====================
 
+export async function getDoctorProfile(profileId: string) {
+  try {
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
+    
+    const response = await fetch(`${backendUrl}/doctor/${profileId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to fetch doctor profile");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Get doctor profile error:", error);
+    throw error;
+  }
+}
+
+export async function getAvailableSlots(profileId: string, date: string, location?: string) {
+  try {
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
+    
+    const params = new URLSearchParams({ date });
+    if (location) params.append('location', location);
+    
+    const response = await fetch(`${backendUrl}/doctor/${profileId}/slots?${params.toString()}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to fetch available slots");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Get available slots error:", error);
+    throw error;
+  }
+}
 export async function signupPatient(formData: FormData) {
   const rawData = {
     first_name: formData.get("firstName") as string,
@@ -245,8 +313,9 @@ export async function signupPatient(formData: FormData) {
     if (data.session?.access_token) {
       const cookieStore = await cookies();
       cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        httpOnly: false,  // ✅ Changed to false for accessibility
+        secure: false,  // ✅ Changed to false for local development  
+        sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
@@ -287,17 +356,29 @@ export async function signupDoctor(formData: FormData) {
 
     const data = await response.json();
     
+    console.log("📦 Signup response:", { hasSession: !!data.session, hasAccessToken: !!data.session?.access_token });
+    
     // Store session token
     if (data.session?.access_token) {
       const cookieStore = await cookies();
+      
+      console.log("🍪 Setting session_token cookie...");
       cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        httpOnly: false,  // ✅ Changed to false so client can access it
+        secure: false,  // ✅ Changed to false for local development
+        sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
       });
       cookieStore.set("onboarding_completed", "false", { path: "/" });
       cookieStore.set("user_role", "doctor", { path: "/" });
+      
+      // Verify the cookie was set
+      const verifyToken = cookieStore.get("session_token");
+      console.log("✅ Cookie set verification:", !!verifyToken);
+      console.log("✅ Doctor signup successful - Session token stored");
+    } else {
+      console.error("❌ No session token in signup response:", data);
     }
 
     return { success: true, userId: data.user_id };

@@ -16,6 +16,7 @@ export default function SelectionPage() {
           src={doctorImg}
           alt="Doctor"
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           priority
         />
@@ -33,6 +34,7 @@ export default function SelectionPage() {
           src={patientImg}
           alt="Patient"
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
           priority
         />
@@ -54,7 +56,7 @@ export default function SelectionPage() {
       {/* Floating Logo */}
       <div className="absolute top-8 left-0 right-0 flex justify-center z-20 pointer-events-none">
          <div className="relative w-20 h-20 md:w-24 md:h-24 bg-white/90 backdrop-blur-md rounded-full p-4 shadow-2xl border-4 border-white/20">
-            <Image src={logo} alt="Medora" fill className="object-contain p-1" />
+            <Image src={logo} alt="Medora" fill sizes="96px" className="object-contain p-1" />
          </div>
       </div>
     </div>

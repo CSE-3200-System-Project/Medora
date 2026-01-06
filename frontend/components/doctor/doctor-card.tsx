@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { MapPin, Clock, Video, Stethoscope } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,8 +27,9 @@ interface DoctorCardProps {
 
 export function DoctorCard({ doctor }: DoctorCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200 border-border/50">
-      <CardContent className="p-6">
+    <Link href={`/patient/doctor/${doctor.profile_id}`}>
+      <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200 border-border/50 cursor-pointer">
+        <CardContent className="p-6">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Avatar / Image */}
           <div className="shrink-0">
@@ -106,5 +108,6 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
         <Button>Book Appointment</Button>
       </CardFooter>
     </Card>
+    </Link>
   );
 }
