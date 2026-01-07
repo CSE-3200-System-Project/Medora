@@ -75,7 +75,49 @@ The session token was being set with `httpOnly: true` and `secure: true`, which 
 
 ---
 
-# Fix RadioGroup Error in Doctor Profile Page
+# Fix Null Reference Error in Doctor Profile Page ✅ FIXED
+
+## Issue
+`TypeError: Cannot read properties of null (reading 'profile_photo_url')` at line 162 in doctor profile page when first loading the page.
+
+## Root Cause
+The `formData` state was initialized as an empty object `{}`, but during the initial render before the API data was fetched, accessing nested properties like `formData.profile_photo_url` would cause null reference errors.
+
+## Solution Implemented ✅
+
+### Changes Made:
+1. ✅ Initialized `formData` with default empty arrays for all array fields
+2. ✅ Added optional chaining (`?.`) to all `formData` property accesses
+3. ✅ Added default values (`|| ''` or `|| "Not set"`) throughout the component
+4. ✅ Ensured `fetchDoctorData` processes and defaults all fields
+
+### Files Modified:
+- [`frontend/app/doctor/profile/page.tsx`](frontend/app/doctor/profile/page.tsx):
+  - State initialization: Changed `formData` from `{}` to include default arrays (lines 33-40)
+  - Avatar rendering: Added `?.` to `profile_photo_url` and `first_name`/`last_name` access (lines 177-186)
+  - Personal info: Added `?.` to `title`, `gender`, `email`, `phone`, `nid_number`, etc. (lines 197-275)
+  - Professional info: Added `?.` to `bmdc_number`, `experience`, `qualifications`, `specialization` (lines 288-331)
+  - About section: Added `?.` to `about` field (lines 346-352)
+  - Locations: Added `?.` to `locations` array check (line 370)
+  - Consultation fees: Added `?.` to `consultation_fee`, `follow_up_fee`, `visiting_hours` (lines 454-487)
+  - Languages: Added `?.` to `languages_spoken` array (lines 514-521)
+  - Fixed corrupted JSX around line 169-177 (User component opening tag was malformed)
+
+### Why This Fixes It:
+- Optional chaining (`?.`) safely accesses properties without throwing errors if parent is null/undefined
+- Default empty arrays prevent "Cannot read property 'map' of undefined" errors
+- Default values (`|| "Not set"`) provide better UX when data is missing
+- The component now gracefully handles the loading state without crashing
+
+### Testing:
+1. Navigate to `/doctor/profile` after logging in as a doctor
+2. Page should load without errors even before data is fetched
+3. Edit mode should work correctly
+4. All fields should display "Not set" or empty when no data is available
+
+---
+
+# Fix RadioGroup Error in Doctor Profile Page ✅ FIXED
 
 ## Issue
 The `RadioGroup` component in `appointment-booking-panel.tsx` is being used incorrectly - it's not passing the required `options` prop, causing a runtime error when patients click on doctor details.

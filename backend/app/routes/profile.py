@@ -649,43 +649,212 @@ async def get_doctor_profile(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
-    """Get complete doctor profile"""
+    """Get complete doctor profile - flattened for easy consumption"""
     user_id = user.id
-    result = await db.execute(
-        select(Profile, DoctorProfile)
-        .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
-        .where(Profile.id == user_id)
-    )
-    row = result.first()
     
-    if not row:
+    # Get base profile
+    profile_result = await db.execute(
+        select(Profile).where(Profile.id == user_id)
+    )
+    profile = profile_result.scalar()
+    
+    if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     
-    profile, doctor = row
-    return {
-        "profile": {
-            "id": profile.id,
-            "first_name": profile.first_name,
-            "last_name": profile.last_name,
-            "email": profile.email,
-            "phone": profile.phone,
-            "role": profile.role,
-            "verification_status": profile.verification_status,
-            "onboarding_completed": profile.onboarding_completed
-        },
-        "doctor_data": {
-            "title": doctor.title,
-            "bmdc_number": doctor.bmdc_number,
-            "specialization": doctor.specialization,
-            "sub_specializations": doctor.sub_specializations,
-            "bmdc_verified": doctor.bmdc_verified,
-            "years_of_experience": doctor.years_of_experience,
-            "institution": doctor.institution,
-            "qualifications": doctor.qualifications,
-            "hospital_name": doctor.hospital_name,
-            "hospital_city": doctor.hospital_city,
-            "consultation_fee": doctor.consultation_fee,
-            "visiting_hours": doctor.visiting_hours,
-            "about": doctor.about,
-        }
+    # Get doctor profile
+    doctor_result = await db.execute(
+        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
+    )
+    doctor = doctor_result.scalar()
+    
+    # Build flattened response
+    response = {
+        # From Profile table
+        "id": profile.id,
+        "first_name": profile.first_name,
+        "last_name": profile.last_name,
+        "email": profile.email,
+        "phone": profile.phone,
+        "role": profile.role,
+        "verification_status": profile.verification_status,
+        "onboarding_completed": profile.onboarding_completed,
     }
+    
+    if doctor:
+        response.update({
+            # Personal Identity
+            "title": doctor.title,
+            "gender": doctor.gender,
+            "date_of_birth": str(doctor.date_of_birth) if doctor.date_of_birth else None,
+            "profile_photo_url": doctor.profile_photo_url,
+            "nid_number": doctor.nid_number,
+            
+            # Professional Credentials
+            "bmdc_number": doctor.bmdc_number,
+            "bmdc_verified": doctor.bmdc_verified,
+            "bmdc_document_url": doctor.bmdc_document_url,
+            "qualifications": doctor.qualifications,
+            "degree": doctor.degree,
+            "degree_certificates_url": doctor.degree_certificates_url,
+            "education": doctor.education or [],
+            
+            # Specialization
+            "specialization": doctor.specialization,
+            "speciality_name": doctor.specialization,  # Alias for frontend compatibility
+            "sub_specializations": doctor.sub_specializations or [],
+            "services": doctor.services or [],
+            
+            # Experience
+            "years_of_experience": doctor.years_of_experience,
+            "work_experience": doctor.work_experience or [],
+            
+            # Practice Details & Locations
+            "locations": doctor.locations or [],  # Using locations array
+            "hospital_name": doctor.hospital_name,
+            "hospital_address": doctor.hospital_address,
+            "hospital_city": doctor.hospital_city,
+            "hospital_country": doctor.hospital_country,
+            "chamber_name": doctor.chamber_name,
+            "chamber_address": doctor.chamber_address,
+            "chamber_city": doctor.chamber_city,
+            "practice_location": doctor.practice_location,
+            "consultation_mode": doctor.consultation_mode,
+            "affiliation_letter_url": doctor.affiliation_letter_url,
+            "institution": doctor.institution,
+            
+            # Consultation Setup
+            "consultation_fee": doctor.consultation_fee,
+            "follow_up_fee": doctor.follow_up_fee,
+            "visiting_hours": doctor.visiting_hours,
+            "available_days": doctor.available_days or [],
+            "time_slots": doctor.time_slots,
+            "appointment_duration": doctor.appointment_duration,
+            "emergency_availability": doctor.emergency_availability,
+            "emergency_contact": doctor.emergency_contact,
+            
+            # About & Bio
+            "about": doctor.about,
+            
+            # Preferences & Consent
+            "language": doctor.language,
+            "languages_spoken": doctor.languages_spoken or [],
+            "case_types": doctor.case_types,
+            "ai_assistance": doctor.ai_assistance,
+            "terms_accepted": doctor.terms_accepted,
+            "telemedicine_available": doctor.telemedicine_available,
+            "telemedicine_platforms": doctor.telemedicine_platforms or [],
+        })
+    
+    return response
+
+
+@router.patch("/doctor/update")
+async def update_doctor_profile(
+    data: DoctorOnboardingUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update doctor profile - can be used both during and after onboarding"""
+    user_id = user.id
+    
+    try:
+        # 1. Update Profile table (common fields)
+        profile_data = {}
+        if data.first_name: profile_data['first_name'] = data.first_name
+        if data.last_name: profile_data['last_name'] = data.last_name
+        if data.phone: profile_data['phone'] = data.phone
+        if data.onboarding_completed is not None: profile_data['onboarding_completed'] = data.onboarding_completed
+        
+        if profile_data:
+            await db.execute(
+                update(Profile)
+                .where(Profile.id == user_id)
+                .values(**profile_data)
+            )
+
+        # 2. Update DoctorProfile table
+        doctor_data = {}
+        
+        # Helper to convert list of pydantic models to dicts
+        def to_dict_list(items):
+            if items is None: return None
+            return [item.model_dump() if hasattr(item, 'model_dump') else (item.dict() if hasattr(item, 'dict') else item) for item in items]
+        
+        # Personal Identity
+        if data.title: doctor_data['title'] = data.title
+        if data.gender: doctor_data['gender'] = data.gender
+        if data.dob: 
+            doctor_data['date_of_birth'] = datetime.strptime(data.dob, '%Y-%m-%d').date()
+        if data.profile_photo_url: doctor_data['profile_photo_url'] = data.profile_photo_url
+        if data.nid_number: doctor_data['nid_number'] = data.nid_number
+        
+        # Professional Credentials
+        if data.registration_number: doctor_data['bmdc_number'] = data.registration_number
+        if data.bmdc_document_url: doctor_data['bmdc_document_url'] = data.bmdc_document_url
+        if data.qualifications: doctor_data['qualifications'] = data.qualifications
+        if data.degree: doctor_data['degree'] = data.degree
+        if data.degree_certificates_url: doctor_data['degree_certificates_url'] = data.degree_certificates_url
+        if data.education is not None: doctor_data['education'] = to_dict_list(data.education)
+        
+        # Specialization
+        if data.specialization: doctor_data['specialization'] = data.specialization
+        if data.sub_specializations is not None: doctor_data['sub_specializations'] = data.sub_specializations
+        if data.services is not None: doctor_data['services'] = data.services
+        
+        # Experience
+        if data.experience: doctor_data['years_of_experience'] = int(data.experience)
+        if data.work_experience is not None: doctor_data['work_experience'] = to_dict_list(data.work_experience)
+        
+        # Practice Details
+        if data.locations is not None: doctor_data['locations'] = to_dict_list(data.locations)
+        if data.hospital_name: doctor_data['hospital_name'] = data.hospital_name
+        if data.hospital_address: doctor_data['hospital_address'] = data.hospital_address
+        if data.hospital_city: doctor_data['hospital_city'] = data.hospital_city
+        if data.hospital_country: doctor_data['hospital_country'] = data.hospital_country
+        if data.chamber_name: doctor_data['chamber_name'] = data.chamber_name
+        if data.chamber_address: doctor_data['chamber_address'] = data.chamber_address
+        if data.chamber_city: doctor_data['chamber_city'] = data.chamber_city
+        if data.practice_location: doctor_data['practice_location'] = data.practice_location
+        if data.consultation_mode: doctor_data['consultation_mode'] = data.consultation_mode
+        if data.affiliation_letter_url: doctor_data['affiliation_letter_url'] = data.affiliation_letter_url
+        if data.institution: doctor_data['institution'] = data.institution
+        
+        # Consultation Setup
+        if data.consultation_fee: doctor_data['consultation_fee'] = int(data.consultation_fee)
+        if data.follow_up_fee: doctor_data['follow_up_fee'] = int(data.follow_up_fee)
+        if data.visiting_hours: doctor_data['visiting_hours'] = data.visiting_hours
+        if data.available_days is not None: doctor_data['available_days'] = data.available_days
+        if data.time_slots: doctor_data['time_slots'] = data.time_slots
+        if data.appointment_duration: doctor_data['appointment_duration'] = data.appointment_duration
+        if data.emergency_availability is not None: doctor_data['emergency_availability'] = data.emergency_availability
+        if data.emergency_contact: doctor_data['emergency_contact'] = data.emergency_contact
+        
+        # About & Bio
+        if data.about: doctor_data['about'] = data.about
+        
+        # Preferences
+        if data.language: doctor_data['language'] = data.language
+        if data.languages_spoken is not None: doctor_data['languages_spoken'] = data.languages_spoken
+        if data.case_types: doctor_data['case_types'] = data.case_types
+        if data.ai_assistance is not None: doctor_data['ai_assistance'] = data.ai_assistance
+        if data.terms_accepted is not None: doctor_data['terms_accepted'] = data.terms_accepted
+        if data.telemedicine_available is not None: doctor_data['telemedicine_available'] = data.telemedicine_available
+        if data.telemedicine_platforms is not None: doctor_data['telemedicine_platforms'] = data.telemedicine_platforms
+        
+        # Update DoctorProfile
+        if doctor_data:
+            await db.execute(
+                update(DoctorProfile)
+                .where(DoctorProfile.profile_id == user_id)
+                .values(**doctor_data)
+            )
+
+        await db.commit()
+        
+        return {"success": True, "message": "Profile updated successfully"}
+        
+    except Exception as e:
+        await db.rollback()
+        print(f"Error updating doctor profile: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Failed to update profile: {str(e)}")

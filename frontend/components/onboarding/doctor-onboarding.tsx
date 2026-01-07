@@ -378,7 +378,7 @@ export function DoctorOnboarding() {
       try {
         await updateDoctorOnboarding(preparePayload())
         await completeOnboarding()
-        router.push("/doctor/dashboard")
+        router.push("/doctor/home")
       } catch (error) {
         console.error("Failed to complete onboarding", error)
       } finally {

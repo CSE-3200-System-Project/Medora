@@ -126,9 +126,11 @@ export function Navbar() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="focus:bg-primary-more-light focus:text-primary">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                  <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary">
+                    <Link href={user.role === 'doctor' ? '/doctor/profile' : '/profile'}>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="focus:bg-primary-more-light focus:text-primary">
                     <Settings className="mr-2 h-4 w-4" />
@@ -251,7 +253,7 @@ export function Navbar() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <Link href="/profile" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                        <Link href={user.role === 'doctor' ? '/doctor/profile' : '/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
                           <User className="h-4 w-4" /> My Profile
                         </Link>
                         <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
