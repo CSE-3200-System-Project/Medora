@@ -63,13 +63,19 @@ export async function login(formData: FormData) {
                redirect(`/onboarding/${role}`);
           }
           
-          // Temporary: Redirect to onboarding even if completed because dashboard doesn't exist
-          redirect(`/onboarding/${role}`);
-          // redirect(`/${profile.role}/dashboard`);
+          // Redirect based on role
+          if (role === "doctor") {
+            redirect("/doctor/home");
+          } else if (role === "patient") {
+            redirect("/patient/home");
+          } else if (role === "admin") {
+            redirect("/admin/dashboard");
+          } else {
+            redirect("/");
+          }
       }
     } catch (e) {
       // If fetching profile fails, fallback to dashboard or onboarding
-      // But we should probably let the error propagate or handle gracefully
       console.error("Profile check failed", e);
     }
 
@@ -232,7 +238,7 @@ export async function getDoctorOnboardingData() {
 }
 // ==================== DOCTOR PROFILE ACTIONS ====================
 
-export async function getDoctorProfile(profileId: string) {
+export async function getPublicDoctorProfile(profileId: string) {
   try {
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
     
@@ -428,5 +434,68 @@ export async function getCurrentUser() {
   } catch (error) {
     console.error(error);
     return null;
+  }
+}
+
+// Get current doctor's own profile (authenticated)
+export async function getDoctorProfile() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/profile/doctor/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to fetch doctor profile");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Get doctor profile error:", error);
+    throw error;
+  }
+}
+
+// Update current doctor's profile
+export async function updateDoctorProfile(data: any) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/profile/doctor/onboarding`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = typeof errorData.detail === 'string' 
+        ? errorData.detail 
+        : JSON.stringify(errorData.detail);
+      throw new Error(errorMessage || "Update failed");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Update doctor profile error:", error);
+    throw error;
   }
 }

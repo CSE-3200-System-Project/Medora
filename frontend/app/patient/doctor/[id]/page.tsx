@@ -2,9 +2,10 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import { getDoctorProfile, getAvailableSlots } from "@/lib/auth-actions";
+import { getPublicDoctorProfile, getAvailableSlots } from "@/lib/auth-actions";
 import { DoctorInformationSection } from "@/components/doctor/doctor-information-section";
 import { AppointmentBookingPanel } from "@/components/doctor/appointment-booking-panel";
+import { Navbar } from "@/components/ui/navbar";
 
 export default function DoctorProfilePage() {
   const params = useParams();
@@ -18,7 +19,7 @@ export default function DoctorProfilePage() {
     async function fetchDoctor() {
       try {
         setLoading(true);
-        const data = await getDoctorProfile(profileId);
+        const data = await getPublicDoctorProfile(profileId);
         setDoctor(data);
       } catch (err: any) {
         setError(err.message || "Failed to load doctor profile");
@@ -57,9 +58,11 @@ export default function DoctorProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface">
-      {/* Desktop: Two-column layout */}
-      <div className="container mx-auto px-4 py-6 lg:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-primary-more-light via-surface to-accent">
+      <Navbar />
+      
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-6 lg:py-8 pt-20 md:pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left: Doctor Information (takes 2 columns on desktop) */}
           <div className="lg:col-span-2">
@@ -68,7 +71,7 @@ export default function DoctorProfilePage() {
 
           {/* Right: Appointment Booking Panel (sticky on desktop) */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-6">
+            <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
               <AppointmentBookingPanel doctor={doctor} />
             </div>
           </div>
@@ -76,8 +79,8 @@ export default function DoctorProfilePage() {
       </div>
 
       {/* Mobile: Fixed bottom CTA (shown only on mobile) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 shadow-lg">
-        <button className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 shadow-lg z-40">
+        <button className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary-muted transition-colors">
           Book Appointment
         </button>
       </div>
