@@ -26,7 +26,7 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 from app.db.base import Base
-from app.db.models import profile, doctor, patient, speciality
+from app.db.models import profile, doctor, patient, speciality, appointment
 target_metadata = Base.metadata
 
 # ...existing code...

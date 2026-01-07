@@ -1,44 +1,225 @@
-# Fix Token Verification Error in Doctor Onboarding ✅ FIXED
+# Medora - Complete (home) Group Design System Fix
 
-## Issue
-"Token verification failed" error when trying to save doctor onboarding progress. The session token wasn't being accessible across server actions.
+## Problem Analysis
+Multiple pages in the `(home)` route group are not conforming to the established design system:
 
-## Root Cause
-The session token was being set with `httpOnly: true` and `secure: true`, which prevented it from being accessible in subsequent server action calls in Next.js.
+### Issues Found:
+1. **doctor/profile/page.tsx** ❌
+   - Using custom `DoctorNavbar` instead of universal `Navbar`
+   - "use client" directive (should be server component where possible)
+   - Missing proper spacing (pt-24 md:pt-28)
+   - Not using theme CSS variables consistently
 
-## Solution Implemented ✅
+2. **patient/home/page.tsx** ✅ (Already correct)
+   - Uses universal `Navbar` ✓
+   - Proper mobile-first layout ✓
 
-### Changes Made:
-1. ✅ Changed cookie settings from `httpOnly: true` to `httpOnly: false`
-2. ✅ Changed `secure` from production-only to `false` for development
-3. ✅ Added `sameSite: "lax"` for better browser compatibility
-4. ✅ Added comprehensive logging throughout auth flow
+3. **patient/profile/page.tsx** ✅ (Already correct from previous session)
+   - Uses universal `Navbar` ✓
+   - Proper spacing and theme colors ✓
 
-### Files Modified:
-- [`frontend/lib/auth-actions.ts`](frontend/lib/auth-actions.ts):
-  - `signupDoctor()`: Updated cookie settings (lines 354-361)
-  - `signupPatient()`: Updated cookie settings (lines 303-309)
-  - `login()`: Updated cookie settings (lines 29-35)
-  - `getAuthHeaders()`: Enhanced logging (lines 115-121)
+4. **patient/doctor/[id]/page.tsx** ⚠️ (Minor fixes needed)
+   - Uses universal `Navbar` ✓
+   - Has spacing but not consistent (pt-20 md:pt-24 should be pt-24 md:pt-28)
+   - Background gradient inconsistent
 
-### Why This Fixes It:
-- `httpOnly: false` allows the cookie to be read by both client and server JavaScript
-- `secure: false` works for local development (http://localhost)
-- `sameSite: "lax"` ensures cookie is sent with navigation requests
-- These settings allow the session token to persist across page navigations and server action calls
-
-### Testing:
-1. Register a new doctor
-2. Check console for "✅ Doctor signup successful - Session token stored"
-3. Proceed to onboarding
-4. Fill out Step 1 and click "Next"
-5. Should now work without "Authentication required" error
-
-**Note**: For production, change `secure: true` and consider using `httpOnly: true` with proper session management.
+5. **doctor/home/page.tsx** ✅ (Just fixed)
+   - Now uses universal `Navbar` ✓
+   - Proper spacing and theme ✓
 
 ---
 
-# Fix Doctor Registration 500 Error & Image Warnings
+## Todo List
+
+### Critical Fixes
+- [ ] 1. Fix doctor/profile/page.tsx - Replace DoctorNavbar, fix spacing, use theme colors
+- [ ] 2. Fix patient/doctor/[id]/page.tsx - Update spacing to pt-24 md:pt-28, fix background
+- [ ] 3. Review all pages for consistency
+- [ ] 4. Test all pages load correctly
+
+---
+
+## Problem Analysis
+The doctor home page (`/doctor/home`) is not conforming to the established design system:
+1. ❌ Using custom `DoctorNavbar` instead of universal `Navbar` component
+2. ❌ Not following the mobile-first responsive design patterns
+3. ❌ Color theme inconsistencies (not using theme variables properly)
+4. ❌ Component structure differs from patient home page
+5. ❌ Missing proper spacing and layout patterns per copilot instructions
+
+## Design System Requirements (from copilot-instructions.md)
+- **Universal Navbar**: All pages should use `<Navbar />` from `components/ui/navbar.tsx`
+- **Mobile-First**: All layouts must start mobile, scale to desktop
+- **Theme Colors**: Use CSS variables (--primary, --surface, --foreground, etc.)
+- **Card Components**: Use shadcn/ui Card with `rounded-2xl` style
+- **Spacing**: Follow `pt-24 md:pt-28` pattern for navbar clearance
+- **Background**: Use `bg-gradient-to-br from-surface via-primary-more-light to-accent`
+
+---
+
+## Todo List
+
+### Critical Fixes
+- [x] 1. Replace `DoctorNavbar` with universal `Navbar` component
+- [x] 2. Fix server component structure (remove "use client", use cookies properly)
+- [x] 3. Apply proper mobile-first responsive layout
+- [x] 4. Fix color theme to use CSS variables consistently
+- [x] 5. Update spacing/padding to match design system (pt-24 md:pt-28)
+- [x] 6. Ensure all components follow shadcn/ui patterns
+- [ ] 7. Test the page loads correctly after fixes
+
+---
+
+## Changes Made
+
+### ✅ Completed Fixes
+
+1. **Navbar Replacement**
+   - ❌ Removed: `import { DoctorNavbar } from "@/components/doctor/doctor-navbar"`
+   - ✅ Added: `import { Navbar } from "@/components/ui/navbar"`
+   - Universal navbar now handles all role detection automatically
+
+2. **Layout Spacing**
+   - ❌ Old: `<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">`
+   - ✅ New: `<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">`
+   - Proper navbar clearance added
+
+3. **Mobile-First Responsive Grids**
+   - Stats cards: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` ✅
+   - Appointment items: `flex-col sm:flex-row` for mobile stacking ✅
+   - Status cards: `flex-col sm:flex-row` for responsive layout ✅
+
+4. **Theme Color Consistency**
+   - ❌ Removed: Custom gradients (`bg-gradient-to-br from-white to-primary-more-light/50`)
+   - ✅ Added: Theme variables (`border-border/50`, `text-muted-foreground`, `bg-surface`)
+   - All colors now use CSS variables from globals.css
+
+5. **Component Pattern Alignment**
+   - Cards: Consistent `rounded-2xl border-border/50 shadow-md` ✅
+   - Buttons: Standard `variant="outline"` without custom classes ✅
+   - Typography: `text-foreground`, `text-muted-foreground` throughout ✅
+   - Borders: `border-border` instead of `border-primary/10` ✅
+
+6. **Icon Additions**
+   - Added `AlertCircle` icon for unverified status (was using `Clock`) ✅
+
+---
+
+## Implementation Details
+
+### What needs to change:
+1. **Navbar**: Remove `DoctorNavbar`, use universal `Navbar` component
+2. **Layout Spacing**: Add `pt-24 md:pt-28` to main container for navbar clearance
+3. **Mobile-First Grid**: Proper responsive breakpoints for all sections
+4. **Theme Colors**: Use CSS variables throughout (--primary, --surface, etc.)
+5. **Component Patterns**: Match patient profile page structure
+
+### Reference Pattern (from patient profile):
+```tsx
+<Navbar />
+<main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+```
+
+---
+
+## Old Completed Tasks
+
+### Phase 1: Middleware & Authentication Flow
+- [x] 2.1 Fix (home) layout with proper children rendering
+- [x] 2.2 Update Navbar to use real auth state (not mock)
+- [x] 2.3 Add logout functionality to Navbar
+- [x] 2.4 Update Doctor Navbar with proper logout
+
+### Phase 3: Patient Pages UI/UX Fixes
+- [x] 3.1 Patient home page - responsive fixes
+- [x] 3.2 Doctor profile view page - mobile-first fixes
+- [x] 3.3 Create patient profile page
+
+### Phase 4: Doctor Pages UI/UX Fixes
+- [x] 4.1 Doctor home page improvements
+- [x] 4.2 Doctor profile page improvements
+
+### Phase 5: Auth Pages Polish
+- [x] 5.1 Login page final polish
+- [x] 5.2 Selection page polish
+- [x] 5.3 Registration pages review
+
+### Phase 6: Backend Integration
+- [x] 6.1 Ensure all auth actions work properly
+- [x] 6.2 Verify logout flow works end-to-end
+- [x] 6.3 Test profile data fetching
+
+---
+
+## Review Section - Implementation Summary
+
+### Files Created:
+1. **`frontend/middleware.ts`** - Complete rewrite with proper route protection
+   - Protects authenticated routes from logged-out users
+   - Redirects logged-in users away from auth pages
+   - Role-based routing (patient vs doctor)
+   - Onboarding completion checks
+
+2. **`frontend/app/api/auth/me/route.ts`** - New API route for client-side auth checks
+   - Fetches user data from backend
+   - Used by Navbar for real-time auth state
+
+3. **`frontend/app/(home)/patient/profile/page.tsx`** - New patient profile page
+   - Comprehensive profile view with medical information
+   - Mobile-first responsive design
+   - Quick action buttons
+
+### Files Modified:
+
+1. **`frontend/app/(home)/layout.tsx`** - Fixed layout to render children properly
+
+2. **`frontend/components/ui/navbar.tsx`** - Major update
+   - Replaced mock user with real auth state fetching
+   - Added loading states
+   - Implemented logout functionality
+   - Dynamic user display (name, initials, avatar)
+
+3. **`frontend/app/(auth)/logout/route.ts`** - Enhanced logout
+   - Now clears all auth-related cookies
+
+4. **`frontend/app/(auth)/selection/page.tsx`** - UI/UX improvements
+   - Better mobile-first layout
+   - Added icons and improved visual hierarchy
+   - Fixed sign-in link positioning
+
+5. **`frontend/app/(auth)/login/page.tsx`** - Fixed redirect logic
+   - Proper redirect based on role after login
+   - Respects onboarding completion status
+
+6. **`frontend/app/(onboarding)/verify-email/page.tsx`** - Fixed redirects
+   - Proper home page redirects based on role
+
+7. **`frontend/app/page.tsx`** - Added auth check
+   - Redirects logged-in users to their home page
+
+### Authentication Flow:
+```
+User visits site
+    ├── Logged out → Can access: /, /login, /selection, /register
+    └── Logged in
+        ├── Onboarding incomplete → Redirect to /onboarding/{role}
+        └── Onboarding complete
+            ├── Patient → /patient/home
+            └── Doctor → /doctor/home
+```
+
+### Protected Routes:
+- `/patient/*` - Patient-only pages (except `/patient/doctor/[id]`)
+- `/doctor/*` - Doctor-only pages
+- `/admin/*` - Admin-only pages
+
+### Route Redirects:
+- Logged-in users cannot access: `/login`, `/selection`, `/register`
+- Logged-out users cannot access: Profile pages, home dashboards
+
+---
+
+# Previous Task: Fix Token Verification Error in Doctor Onboarding ✅ FIXED
 
 ## Issues
 1. 500 Internal Server Error when registering a new doctor

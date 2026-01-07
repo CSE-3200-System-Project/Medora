@@ -45,11 +45,12 @@ export default function VerifyEmailPage() {
           if (user.email_verified || user.verification_status === "verified") {
             clearInterval(pollInterval);
             
+            const role = user.role?.toLowerCase() || 'patient';
             // Redirect logic
             if (!user.onboarding_completed) {
-              router.push(`/onboarding/${user.role}`);
+              router.push(`/onboarding/${role}`);
             } else {
-              router.push(`/${user.role}/dashboard`);
+              router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
             }
           }
         }
@@ -70,10 +71,11 @@ export default function VerifyEmailPage() {
       const user = await getCurrentUser();
       
       if (user && (user.email_verified || user.verification_status === "verified")) {
+        const role = user.role?.toLowerCase() || 'patient';
         if (!user.onboarding_completed) {
-          router.push(`/onboarding/${user.role}`);
+          router.push(`/onboarding/${role}`);
         } else {
-          router.push(`/${user.role}/dashboard`);
+          router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
         }
       } else {
         setMessage("Email not verified yet. Please check your inbox.");

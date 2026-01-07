@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -25,6 +26,26 @@ import patientImg from "@/assets/image/patient.jpg";
 
 export default function Home() {
   const [currentHero, setCurrentHero] = useState<'patient' | 'doctor'>('patient');
+  const router = useRouter();
+
+  // Check if user is logged in and redirect them to their home page
+  useEffect(() => {
+    async function checkAuthAndRedirect() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (response.ok) {
+          const user = await response.json();
+          if (user && user.role) {
+            const role = user.role.toLowerCase();
+            router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
+          }
+        }
+      } catch (error) {
+        // User not logged in, stay on landing page
+      }
+    }
+    checkAuthAndRedirect();
+  }, [router]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -18,7 +18,11 @@ export async function GET(request: NextRequest) {
       }
   }
 
+  // Delete all auth-related cookies
   cookieStore.delete("session_token");
+  cookieStore.delete("user_role");
+  cookieStore.delete("onboarding_completed");
   
   return NextResponse.redirect(new URL("/login", request.url));
 }
+

@@ -3,8 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Menu, Bell, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, Bell, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -37,13 +37,39 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 import logo from "@/assets/image/medora-logo.png";
 
-// Mock User State (Replace with real auth logic)
-const user = { name: "Sarwad Hasan", role: "patient" }; 
-// const user = null; // Example logged out
+interface UserData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: string;
+  profile_photo_url?: string;
+}
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [user, setUser] = React.useState<UserData | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [loggingOut, setLoggingOut] = React.useState(false);
+
+  // Fetch user data on mount
+  React.useEffect(() => {
+    async function fetchUser() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUser();
+  }, []);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -53,9 +79,31 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Don't show navbar on auth pages if desired, or keep it consistent. 
-  // Usually auth pages (login/register) might have a simplified navbar or none.
-  // For now, we render it everywhere.
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      // Redirect to logout route which handles cookie cleanup
+      router.push('/logout');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      setLoggingOut(false);
+    }
+  };
+
+  const getUserInitials = () => {
+    if (!user) return 'U';
+    return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
+  };
+
+  const getUserDisplayName = () => {
+    if (!user) return 'User';
+    return `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
+  };
+
+  // Compute role-aware home path
+  const homePath = user
+    ? (user.role?.toLowerCase() === 'doctor' ? '/doctor/home' : user.role?.toLowerCase() === 'admin' ? '/admin' : '/patient/home')
+    : '/';
 
   return (
     <header
@@ -67,7 +115,7 @@ export function Navbar() {
     >
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         {/* LEFT: Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={homePath} className="flex items-center gap-2">
           <div className="relative h-10 w-10 md:h-14 md:w-14">
             <Image src={logo} alt="Medora" fill className="object-contain" />
           </div>
@@ -76,22 +124,41 @@ export function Navbar() {
 
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-1 justify-center">
-            <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/patient/home" className={cn("transition-colors hover:text-primary", pathname === "/patient/home" && "text-primary")}>
-                Find Doctor
-              </Link>
-              <Link href="/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
-                Find Medicine
-              </Link>
-              <Link href="/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
-                Find Ambulance
-              </Link>
-            </nav>
+            {user?.role?.toLowerCase() === 'doctor' ? (
+              <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
+                <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary", pathname === "/doctor/appointments" && "text-primary")}>
+                  Appointments
+                </Link>
+                <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary", pathname === "/doctor/patients" && "text-primary")}>
+                  Patients
+                </Link>
+                <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary", pathname === "/doctor/analytics" && "text-primary")}>
+                  Analytics
+                </Link>
+              </nav>
+            ) : (
+              <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
+                <Link href="/patient/home" className={cn("transition-colors hover:text-primary", pathname === "/patient/home" && "text-primary")}>
+                  Find Doctor
+                </Link>
+                <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
+                  Appointments
+                </Link>
+                <Link href="/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
+                  Find Medicine
+                </Link>
+                <Link href="/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
+                  Find Ambulance
+                </Link>
+              </nav>
+            )}
         </div>
 
         {/* RIGHT: Actions */}
         <div className="hidden md:flex items-center gap-4">
-          {!user ? (
+          {loading ? (
+            <div className="h-8 w-24 bg-surface animate-pulse rounded-full" />
+          ) : !user ? (
             <>
               <Button variant="ghost" asChild className="text-muted-foreground hover:bg-primary-more-light hover:text-primary">
                 <Link href="/login">Log in</Link>
@@ -110,36 +177,46 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full">
                     <Avatar className="h-8 w-8 border border-primary/20">
-                      <AvatarImage src="/avatars/01.png" alt="@user" />
-                      <AvatarFallback>SH</AvatarFallback>
+                      <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
+                      <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="text-sm font-medium text-foreground">{user.name}</span>
+                    <span className="text-sm font-medium text-foreground">{getUserDisplayName()}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.name}</p>
+                      <p className="text-sm font-medium leading-none">{getUserDisplayName()}</p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        patient@example.com
+                        {user.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary">
-                    <Link href={user.role === 'doctor' ? '/doctor/profile' : '/profile'}>
+                  <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
+                    <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'}>
                       <User className="mr-2 h-4 w-4" />
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="focus:bg-primary-more-light focus:text-primary">
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
+                  <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
+                    <Link href="/settings">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600 focus:bg-red-50">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                  <DropdownMenuItem 
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                    className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
+                  >
+                    {loggingOut ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <LogOut className="mr-2 h-4 w-4" />
+                    )}
+                    <span>{loggingOut ? 'Logging out...' : 'Log out'}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -159,10 +236,12 @@ export function Navbar() {
             <SheetContent side="right" className="w-75 sm:w-100">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <div className="relative h-8 w-8">
-                    <Image src={logo} alt="Medora" fill className="object-contain" />
-                  </div>
-                  Medora
+                  <Link href={homePath} className="flex items-center gap-2">
+                    <div className="relative h-8 w-8">
+                      <Image src={logo} alt="Medora" fill className="object-contain" />
+                    </div>
+                    <span>Medora</span>
+                  </Link>
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col h-full py-6 px-6">
@@ -231,36 +310,60 @@ export function Navbar() {
                 ) : (
                   <>
                     <div className="flex flex-col gap-4">
-                      <Link href="/patient/home" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
-                        <Users className="h-5 w-5 text-primary" /> Find Doctor
-                      </Link>
-                      <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
-                        <Activity className="h-5 w-5 text-primary" /> Find Medicine
-                      </Link>
-                      <Link href="/find-ambulance" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
-                        <Shield className="h-5 w-5 text-primary" /> Find Ambulance
-                      </Link>
+                      {user.role?.toLowerCase() === 'doctor' ? (
+                        <>
+                          <Link href="/doctor/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                          </Link>
+                          <Link href="/doctor/patients" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Users className="h-5 w-5 text-primary" /> Patients
+                          </Link>
+                          
+                        </>
+                      ) : (
+                        <>
+                          <Link href="/patient/home" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Users className="h-5 w-5 text-primary" /> Find Doctor
+                          </Link>
+                          <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Activity className="h-5 w-5 text-primary" /> Find Medicine
+                          </Link>
+                          <Link href="/find-ambulance" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Shield className="h-5 w-5 text-primary" /> Find Ambulance
+                          </Link>
+                        </>
+                      )}
                     </div>
                     <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
                       <div className="flex items-center gap-3 px-2">
                         <Avatar className="h-10 w-10 border-2 border-primary/10">
-                          <AvatarImage src="/avatars/01.png" />
-                          <AvatarFallback className="bg-primary/10 text-primary">SH</AvatarFallback>
+                          <AvatarImage src={user.profile_photo_url} />
+                          <AvatarFallback className="bg-primary/10 text-primary">{getUserInitials()}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col flex-1">
-                          <span className="font-semibold text-foreground">{user.name}</span>
-                          <span className="text-xs text-muted-foreground">patient@example.com</span>
+                          <span className="font-semibold text-foreground">{getUserDisplayName()}</span>
+                          <span className="text-xs text-muted-foreground">{user.email}</span>
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <Link href={user.role === 'doctor' ? '/doctor/profile' : '/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                        <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
                           <User className="h-4 w-4" /> My Profile
                         </Link>
                         <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
                           <Settings className="h-4 w-4" /> Settings
                         </Link>
-                        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10">
-                          <LogOut className="mr-2 h-4 w-4" /> Log out
+                        <Button 
+                          variant="ghost" 
+                          onClick={handleLogout}
+                          disabled={loggingOut}
+                          className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          {loggingOut ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <LogOut className="mr-2 h-4 w-4" />
+                          )}
+                          {loggingOut ? 'Logging out...' : 'Log out'}
                         </Button>
                       </div>
                     </div>
