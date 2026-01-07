@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAvailableSlots } from "@/lib/auth-actions";
-import { MapPin, Video, Calendar, Clock } from "lucide-react";
+import { createAppointment } from "@/lib/appointment-actions";
+import { useRouter } from "next/navigation";
+import { MapPin, Video, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AppointmentBookingPanelProps {
@@ -97,11 +99,27 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     );
   };
 
-  const handleConfirm = () => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const handleConfirm = async () => {
     if (!isConfirmEnabled()) return;
-    
-    // TODO: Implement actual booking API call
-    alert(`Booking confirmed!\nLocation: ${bookingState.locationId}\nType: ${bookingState.consultationType}\nAppointment: ${bookingState.appointmentType}\nDate: ${bookingState.selectedDate}\nTime: ${bookingState.selectedSlot}`);
+
+    setIsSubmitting(true);
+    try {
+      await createAppointment({
+        doctor_id: doctor.profile_id,
+        appointment_date: new Date(bookingState.selectedDate!).toISOString(),
+        reason: `${bookingState.consultationType} - ${bookingState.appointmentType}`,
+        notes: `Slot: ${bookingState.selectedSlot} | Location: ${doctor.locations?.[parseInt(bookingState.locationId!)]?.name}`
+      });
+      alert("Appointment booked successfully!");
+      router.push('/patient/appointments');
+    } catch (err: any) {
+      alert("Booking failed: " + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

@@ -709,7 +709,6 @@ async def get_doctor_profile(
             "work_experience": doctor.work_experience or [],
             
             # Practice Details & Locations
-            "locations": doctor.locations or [],  # Using locations array
             "hospital_name": doctor.hospital_name,
             "hospital_address": doctor.hospital_address,
             "hospital_city": doctor.hospital_city,
@@ -858,3 +857,4 @@ async def update_doctor_profile(
         print(f"Error updating doctor profile: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Failed to update profile: {str(e)}")
+

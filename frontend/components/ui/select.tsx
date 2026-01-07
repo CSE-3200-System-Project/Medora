@@ -13,11 +13,12 @@ type SelectContextType = {
   onValueChange?: (v: string) => void
   open: boolean
   setOpen: (open: boolean) => void
+  disabled?: boolean
 }
 
 const SelectContext = React.createContext<SelectContextType | null>(null)
 
-export function Select({ value, onValueChange, children }: { value?: string | null; onValueChange?: (v: string) => void; children: React.ReactNode }) {
+export function Select({ value, onValueChange, children, disabled }: { value?: string | null; onValueChange?: (v: string) => void; children: React.ReactNode; disabled?: boolean }) {
   const [internal, setInternal] = React.useState<string | null>(value ?? null)
   const [open, setOpen] = React.useState(false)
 
@@ -29,12 +30,13 @@ export function Select({ value, onValueChange, children }: { value?: string | nu
   }, [value])
 
   const setValue = (v: string) => {
+    if (disabled) return
     setInternal(v)
     onValueChange?.(v)
   }
 
   return (
-    <SelectContext.Provider value={{ value: internal, setValue, onValueChange, open, setOpen }}>
+    <SelectContext.Provider value={{ value: internal, setValue, onValueChange, open, setOpen, disabled }}>
       <div className="relative">{children}</div>
     </SelectContext.Provider>
   )
@@ -56,8 +58,13 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, React.ButtonHTM
     <button
       ref={ref}
       type="button"
-      onClick={() => ctx.setOpen(!ctx.open)}
-      className={cn("flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none", className)}
+      onClick={() => !ctx.disabled && ctx.setOpen(!ctx.open)}
+      disabled={ctx.disabled}
+      className={cn(
+        "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none",
+        ctx.disabled && "opacity-50 cursor-not-allowed",
+        className
+      )}
       {...props}
     >
       <div className="flex-1 text-left">{children}</div>

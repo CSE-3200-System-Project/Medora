@@ -62,7 +62,7 @@ export default function DoctorProfilePage() {
       <Navbar />
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 lg:py-8 pt-20 md:pt-24">
+      <div className="container mx-auto px-4 pt-32 pb-6 md:pt-36 lg:pt-40 lg:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left: Doctor Information (takes 2 columns on desktop) */}
           <div className="lg:col-span-2">
@@ -71,7 +71,7 @@ export default function DoctorProfilePage() {
 
           {/* Right: Appointment Booking Panel (sticky on desktop) */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+            <div className="lg:sticky lg:top-32 xl:top-36 lg:max-h-[calc(100vh-9rem)] lg:overflow-y-auto">
               <AppointmentBookingPanel doctor={doctor} />
             </div>
           </div>

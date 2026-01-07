@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DoctorNavbar } from "@/components/doctor/doctor-navbar";
+import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -79,9 +79,9 @@ export default function DoctorProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
-      <DoctorNavbar doctor={doctor} />
+      <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div>
