@@ -21,6 +21,10 @@ from app.schemas.doctor import (
 
 router = APIRouter()
 
+@router.get("/testxyz")
+async def test_route():
+    return {"message": "Test route working"}
+
 @router.get("/search", response_model=DoctorSearchResponse)
 async def search_doctors(
     query: Optional[str] = Query(None, description="Search by name, specialization, or symptoms"),
@@ -125,6 +129,9 @@ async def get_doctor_profile(
     Get complete doctor profile by profile_id for the detail page.
     Returns comprehensive information including bio, education, work experience, locations, etc.
     """
+    with open("debug_log.txt", "a") as f:
+        f.write(f"Fetching doctor profile for ID: '{profile_id}'\n")
+    
     # Join DoctorProfile, Profile, and Speciality tables
     stmt = select(DoctorProfile, Profile, Speciality).join(
         Profile, DoctorProfile.profile_id == Profile.id
@@ -134,8 +141,21 @@ async def get_doctor_profile(
 
     result = await db.execute(stmt)
     row = result.first()
-
+    
     if not row:
+        with open("debug_log.txt", "a") as f:
+            f.write(f"Doctor not found for ID: {profile_id}\n")
+        
+        # Check if it exists in doctor_profiles table at least
+        check_stmt = select(DoctorProfile).where(DoctorProfile.profile_id == profile_id)
+        check_result = await db.execute(check_stmt)
+        if check_result.first():
+             with open("debug_log.txt", "a") as f:
+                 f.write("Doctor exists in doctor_profiles table but join failed (missing Profile?)\n")
+        else:
+             with open("debug_log.txt", "a") as f:
+                 f.write("Doctor does not exist in doctor_profiles table\n")
+        
         raise HTTPException(status_code=404, detail="Doctor not found")
 
     doc, prof, spec = row

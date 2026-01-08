@@ -74,7 +74,11 @@ export async function login(formData: FormData) {
             redirect("/");
           }
       }
-    } catch (e) {
+    } catch (e: any) {
+      // If error is a redirect, let it pass through
+      if (e.message === "NEXT_REDIRECT" || e.digest?.startsWith("NEXT_REDIRECT")) {
+        throw e;
+      }
       // If fetching profile fails, fallback to dashboard or onboarding
       console.error("Profile check failed", e);
     }

@@ -31,6 +31,3 @@ app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 app.include_router(doctor.router, prefix="/doctor", tags=["Doctor"])
 app.include_router(speciality.router, prefix="/specialities", tags=["Specialities"])
 app.include_router(appointment.router, prefix="/appointment", tags=["Appointment"])
-app.include_router(doctor.router, prefix="/doctor", tags=["Doctor"])
-app.include_router(speciality.router, prefix="/specialities", tags=["Specialities"])
-app.include_router(doctor.router, prefix="/doctor", tags=["Doctor"])  # Add this
