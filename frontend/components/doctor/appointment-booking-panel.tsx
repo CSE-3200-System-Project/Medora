@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { createAppointment } from "@/lib/appointment-actions";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { MapPin, Video, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -100,6 +100,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
   };
 
   const router = useRouter();
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleConfirm = async () => {
@@ -116,7 +117,11 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       alert("Appointment booked successfully!");
       router.push('/patient/appointments');
     } catch (err: any) {
-      alert("Booking failed: " + err.message);
+      if (err.message === "Not authenticated" || err.message.includes("Not authenticated")) {
+        router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      } else {
+        alert("Booking failed: " + err.message);
+      }
     } finally {
       setIsSubmitting(false);
     }
