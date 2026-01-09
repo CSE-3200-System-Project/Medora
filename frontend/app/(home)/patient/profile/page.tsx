@@ -403,7 +403,7 @@ export default function PatientProfilePage() {
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
-            onClick={() => router.push('/patient/home')}
+            onClick={() => router.push('/patient/find-doctor')}
           >
             <Users className="h-6 w-6 text-primary" />
             <span>Find Doctors</span>

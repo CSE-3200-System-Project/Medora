@@ -114,8 +114,23 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         reason: `${bookingState.consultationType} - ${bookingState.appointmentType}`,
         notes: `Slot: ${bookingState.selectedSlot} | Location: ${doctor.locations?.[parseInt(bookingState.locationId!)]?.name}`
       });
-      alert("Appointment booked successfully!");
-      router.push('/patient/appointments');
+      
+      // Get appointment details for success page
+      const location = doctor.locations?.[parseInt(bookingState.locationId!)];
+      const doctorName = `Dr. ${doctor.first_name} ${doctor.last_name}`;
+      const appointmentDate = bookingState.selectedDate!;
+      const appointmentTime = bookingState.selectedSlot!;
+      const locationName = location?.name || "Not specified";
+      
+      // Navigate to success page with appointment details
+      const params = new URLSearchParams({
+        doctorName,
+        date: appointmentDate,
+        time: appointmentTime,
+        location: locationName,
+      });
+      
+      router.push(`/patient/appointment-success?${params.toString()}`);
     } catch (err: any) {
       if (err.message === "Not authenticated" || err.message.includes("Not authenticated")) {
         router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);

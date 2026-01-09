@@ -518,3 +518,244 @@ cd frontend && npm run dev
 - Auth flow: `frontend/lib/auth-actions.ts`, `backend/app/routes/auth.py`
 - Onboarding: `frontend/components/onboarding/`, `backend/app/routes/profile.py`
 - Enums: `backend/app/db/models/enums.py` (UserRole, VerificationStatus)
+
+---
+
+## 🎯 Frontend Development Best Practices
+
+### Core Principles
+- Write concise, technical TypeScript code with accurate examples
+- Use functional and declarative programming patterns; avoid classes
+- Favor iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`)
+- Structure files: exported components → subcomponents → helpers → static content → types
+- Use lowercase with dashes for directories (e.g., `components/auth-wizard`)
+- Never use emojis anywhere! only use vector icons if needed!
+
+### Next.js Optimization
+- **Minimize client-side code**: Reduce `'use client'`, `useEffect`, and `setState`
+- **Favor Server Components**: Use React Server Components (RSC) and Next.js SSR features
+- **Code splitting**: Implement dynamic imports for optimization
+- **Image optimization**: Use WebP format, include size data, lazy loading
+
+### Error Handling
+- **Early returns**: Handle error conditions at the start of functions
+- **Guard clauses**: Handle preconditions and invalid states early
+- **Custom error types**: Use consistent error handling patterns
+- **User-friendly messages**: Provide clear feedback to users
+
+```typescript
+// ✅ Good - Early return with guard clause
+async function processPayment(userId: string) {
+  if (!userId) {
+    throw new Error("User ID is required")
+  }
+  
+  const user = await getUser(userId)
+  if (!user) {
+    throw new Error("User not found")
+  }
+  
+  // Happy path last
+  return await executePayment(user)
+}
+
+// ❌ Bad - Nested conditions
+async function processPayment(userId: string) {
+  if (userId) {
+    const user = await getUser(userId)
+    if (user) {
+      return await executePayment(user)
+    } else {
+      throw new Error("User not found")
+    }
+  } else {
+    throw new Error("User ID is required")
+  }
+}
+```
+
+### State Management
+- Use Zustand or TanStack React Query for global state
+- Implement Zod for schema validation
+- Keep state as local as possible
+- Lift state only when necessary
+
+### UI Best Practices
+- **Mobile-first**: Always design for mobile, then scale up
+- **Consistent patterns**: Use shadcn/ui components with theme variables
+- **Responsive design**: Use Tailwind breakpoints (sm, md, lg, xl)
+- **Accessibility**: Ensure proper ARIA labels, keyboard navigation, focus states
+
+### Testing & Documentation
+- Write unit tests with Jest and React Testing Library
+- Use JSDoc for function/component documentation
+- Comment complex logic, but prefer self-documenting code
+- Test edge cases and error states
+
+### Development Methodology
+1. **System 2 Thinking**: Analyze requirements thoroughly before coding
+2. **Tree of Thoughts**: Evaluate multiple solutions and select optimal approach
+3. **Iterative Refinement**: Review and optimize before finalizing
+4. **Deep Dive Analysis**: Understand technical requirements and constraints
+5. **Planning**: Outline architectural structure and flow
+6. **Implementation**: Build step-by-step following best practices
+7. **Review & Optimize**: Check for improvements and edge cases
+8. **Finalization**: Ensure code is secure, performant, and meets all requirements
+
+---
+
+## 🔧 Backend Development Best Practices
+
+### Core Principles
+- Write concise, technical responses with accurate Python examples
+- Use functional, declarative programming; avoid classes where possible
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., `is_active`, `has_permission`)
+- Use lowercase with underscores for directories and files (e.g., `routers/user_routes.py`)
+- Favor named exports for routes and utility functions
+- Use the Receive an Object, Return an Object (RORO) pattern
+
+### Python/FastAPI Guidelines
+- Use `def` for pure functions and `async def` for asynchronous operations
+- Use type hints for all function signatures
+- Prefer Pydantic models over raw dictionaries for input validation
+- File structure: exported router → sub-routes → utilities → static content → types
+
+```python
+# ✅ Good - Type hints, async, early returns
+async def get_user_profile(
+    user_id: str,
+    db: AsyncSession = Depends(get_db)
+) -> UserProfile:
+    """Fetch user profile with proper error handling"""
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User ID required")
+    
+    result = await db.execute(
+        select(Profile).where(Profile.id == user_id)
+    )
+    profile = result.scalar_one_or_none()
+    
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    return profile
+
+# ❌ Bad - No type hints, nested conditions
+def get_user_profile(user_id, db):
+    if user_id:
+        result = db.execute(select(Profile).where(Profile.id == user_id))
+        profile = result.scalar_one_or_none()
+        if profile:
+            return profile
+        else:
+            raise HTTPException(status_code=404, detail="Profile not found")
+    else:
+        raise HTTPException(status_code=400, detail="User ID required")
+```
+
+### Error Handling
+- **Early returns**: Handle errors at the beginning of functions
+- **Guard clauses**: Check preconditions first
+- **HTTPException**: Use for expected errors with proper status codes
+- **Middleware**: Handle unexpected errors, logging, monitoring
+- **Custom error types**: Create consistent error handling patterns
+
+### Performance Optimization
+- **Async operations**: Use async functions for all I/O-bound tasks
+- **Caching**: Implement Redis or in-memory stores for frequently accessed data
+- **Lazy loading**: Use for large datasets and substantial API responses
+- **Database optimization**: Use proper indexes, query optimization, connection pooling
+- **Pydantic**: Optimize data serialization and deserialization
+
+### Dependencies
+- FastAPI
+- Pydantic v2
+- SQLAlchemy 2.0 (async)
+- Async database libraries (asyncpg, aiomysql)
+- Alembic for migrations
+
+### FastAPI-Specific Guidelines
+- Use functional components (plain functions) and Pydantic models
+- Use declarative route definitions with clear return type annotations
+- Minimize `@app.on_event()`, prefer lifespan context managers
+- Use middleware for logging, error monitoring, performance optimization
+- Use dependency injection for managing state and shared resources
+- Implement proper request/response validation with Pydantic
+
+### Key Conventions
+1. Rely on FastAPI's dependency injection system
+2. Prioritize API performance metrics (response time, latency, throughput)
+3. Limit blocking operations in routes
+4. Favor asynchronous and non-blocking flows
+5. Use dedicated async functions for database and external API operations
+6. Structure routes and dependencies for readability and maintainability
+
+### Database Patterns (SQLAlchemy 2.0)
+```python
+# ✅ Modern async pattern with type hints
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from typing import Optional
+
+async def get_patient_profile(
+    patient_id: str,
+    db: AsyncSession
+) -> Optional[PatientProfile]:
+    """Fetch patient profile asynchronously"""
+    result = await db.execute(
+        select(PatientProfile).where(PatientProfile.id == patient_id)
+    )
+    return result.scalar_one_or_none()
+
+# Model with proper type annotations
+class PatientProfile(Base):
+    __tablename__ = "patient_profiles"
+    
+    id: Mapped[str] = mapped_column(String, ForeignKey("profiles.id"), primary_key=True)
+    has_diabetes: Mapped[bool] = mapped_column(Boolean, default=False)
+    medications: Mapped[Optional[list]] = mapped_column(JSON)
+```
+
+### Validation with Pydantic v2
+```python
+from pydantic import BaseModel, Field, validator
+from typing import Optional, List
+
+class PatientOnboardingUpdate(BaseModel):
+    first_name: Optional[str] = Field(None, min_length=1, max_length=100)
+    has_diabetes: Optional[bool] = None
+    medications: Optional[List[str]] = None
+    
+    @validator('medications')
+    def validate_medications(cls, v):
+        if v and len(v) > 50:
+            raise ValueError('Too many medications')
+        return v
+    
+    class Config:
+        from_attributes = True  # Pydantic v2
+```
+
+---
+
+## 🚀 Integration Summary
+
+### Combined Best Practices
+1. **Type Safety**: TypeScript (frontend) + Python type hints (backend)
+2. **Async First**: React Server Components + FastAPI async routes
+3. **Error Handling**: Early returns, guard clauses, proper HTTP status codes
+4. **Performance**: Code splitting, lazy loading, caching, database optimization
+5. **Security**: Input validation (Zod/Pydantic), authentication, authorization
+6. **Testing**: Unit tests, integration tests, edge case coverage
+7. **Documentation**: JSDoc/docstrings, clear comments, self-documenting code
+8. **Medical Compliance**: Never generate diagnostic or prescriptive code
+
+### Workflow Pattern
+1. **Plan**: Analyze requirements, create todo list in `tasks/todo.md`
+2. **Verify**: Confirm approach before implementation
+3. **Implement**: Follow best practices, make minimal changes
+4. **Test**: Verify functionality, check edge cases
+5. **Review**: Document changes, ensure quality
+6. **Simplicity**: Always choose the simplest solution that works

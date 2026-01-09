@@ -1,194 +1,385 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
-import { DoctorCard } from "@/components/doctor/doctor-card";
-import { SearchFilters } from "@/components/doctor/search-filters";
-import { MapView } from "@/components/doctor/map-view";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getMyAppointments } from "@/lib/appointment-actions";
+import { 
+  Calendar, 
+  Clock, 
+  User, 
+  Activity,
+  TrendingUp,
+  Search,
+  FileText,
+  ArrowRight,
+  CalendarCheck,
+  AlertCircle,
+  CheckCircle2
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function PatientHomePage() {
-  type Doctor = {
-    profile_id: string;
+type Appointment = {
+  id: string;
+  doctor_id: string;
+  appointment_date: string;
+  status: string;
+  reason?: string;
+  notes?: string;
+  doctor?: {
     first_name: string;
     last_name: string;
-    title?: string;
-    specialization: string;
-    qualifications?: string;
-    years_of_experience?: number;
-    hospital_name?: string;
-    hospital_address?: string;
-    hospital_city?: string;
-    consultation_fee?: number;
+    specialization?: string;
     profile_photo_url?: string;
-    visiting_hours?: string;
-    consultation_mode?: string;
-    score?: number;
-    reason?: string;
   };
+};
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+export default function PatientHomePage() {
+  const router = useRouter();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [totalResults, setTotalResults] = useState(0);
-  const [hasFilters, setHasFilters] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<any>(null); // To store AI extra meta
+  const [stats, setStats] = useState({
+    upcoming: 0,
+    completed: 0,
+    pending: 0,
+  });
 
-  const fetchDoctors = async (searchFilters: any = {}) => {
-    setLoading(true);
-    setAiAnalysis(null);
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = async () => {
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-      let url = `${backendUrl}/doctor/search`;
-      let options: RequestInit = {};
-
-      if (searchFilters.mode === 'ai') {
-         url = `${backendUrl}/ai/search`;
-         const payload = {
-            user_text: searchFilters.prompt,
-            location: searchFilters.location || null,
-            consultation_mode: searchFilters.consultation_mode || null
-         };
-
-         // Browser console log for debugging the prompt
-         console.log('AI Search Request payload:', payload);
-
-         options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-         };
-      } else {
-        const params = new URLSearchParams();
-        Object.entries(searchFilters).forEach(([key, value]) => {
-            if (value && key !== 'mode') params.append(key, value as string);
-        });
-        url = `${url}?${params.toString()}`;
-      }
+      const data = await getMyAppointments();
+      setAppointments(data);
       
-      console.log('Fetching doctors from:', url); 
+      // Calculate stats
+      const now = new Date();
+      const upcoming = data.filter((apt: Appointment) => 
+        new Date(apt.appointment_date) > now && apt.status !== 'cancelled'
+      ).length;
+      const completed = data.filter((apt: Appointment) => 
+        apt.status === 'completed'
+      ).length;
+      const pending = data.filter((apt: Appointment) => 
+        apt.status === 'pending'
+      ).length;
       
-      const res = await fetch(url, options);
-      if (res.ok) {
-        const data = await res.json();
-        // Browser console log for debugging the LLM response when in AI mode
-        if (searchFilters.mode === 'ai') {
-          console.log('AI Search Response:', data);
-          if (data.medical_intent) console.log('AI Medical Intent:', data.medical_intent);
-        }
-        setDoctors(data.doctors);
-        setTotalResults(data.total || data.doctors.length);
-        if (data.medical_intent) {
-            setAiAnalysis(data.medical_intent);
-        }
-      } else {
-        console.error('API Error:', res.status, res.statusText);
-        const errorData = await res.text();
-        console.error('Error details:', errorData);
-        if (searchFilters.mode === 'ai') {
-          // log server return body for AI mode too
-          console.warn('AI Search Error response:', errorData);
-        }
-      }
+      setStats({ upcoming, completed, pending });
     } catch (error) {
-      console.error("Failed to fetch doctors:", error);
-      // Show user-friendly error
-      alert('Unable to connect to server. Please ensure the backend is running on http://localhost:8000');
+      console.error("Failed to fetch appointments:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchDoctors();
-  }, []);
-
-  const handleSearch = (newFilters: Record<string, string>) => {
-    fetchDoctors(newFilters);
-    const hasActiveFilters = Object.values(newFilters).some(value => value && value !== '');
-    setHasFilters(hasActiveFilters);
+  const getUpcomingAppointments = () => {
+    const now = new Date();
+    return appointments
+      .filter(apt => new Date(apt.appointment_date) > now && apt.status !== 'cancelled')
+      .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime())
+      .slice(0, 3);
   };
 
-  const handleClearFilters = () => {
-    setHasFilters(false);
-    fetchDoctors({});
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'confirmed':
+        return 'text-success bg-success/10';
+      case 'pending':
+        return 'text-yellow-600 bg-yellow-50';
+      case 'completed':
+        return 'text-primary bg-primary/10';
+      case 'cancelled':
+        return 'text-destructive bg-destructive/10';
+      default:
+        return 'text-muted-foreground bg-surface';
+    }
   };
+
+  const getStatusIcon = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'confirmed':
+        return <CheckCircle2 className="w-4 h-4" />;
+      case 'pending':
+        return <Clock className="w-4 h-4" />;
+      case 'completed':
+        return <CheckCircle2 className="w-4 h-4" />;
+      case 'cancelled':
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <Clock className="w-4 h-4" />;
+    }
+  };
+
+  const upcomingAppointments = getUpcomingAppointments();
 
   return (
     <div className="min-h-screen bg-surface font-sans text-foreground">
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-10 px-4 md:px-6 max-w-7xl mx-auto">
+      <main className="pt-24 pb-8 md:pt-28 md:pb-12 px-4 md:px-6 max-w-7xl mx-auto">
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Find a Doctor</h1>
-          <p className="text-muted-foreground mb-6">
-            Book appointments with minimum wait-time & video consult with verified doctors
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+            Welcome back! 
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Here's an overview of your healthcare journey
           </p>
-          
-          <SearchFilters onSearch={handleSearch} />
-          
-          {/* Results count and clear filters */}
-          <div className="flex items-center justify-between mt-4 mb-2">
-            <p className="text-sm text-muted-foreground">
-              {!loading && (
-                <span className="font-semibold text-foreground">
-                  {totalResults} {totalResults === 1 ? 'doctor' : 'doctors'} found
-                </span>
-              )}
-            </p>
-            {hasFilters && (
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={handleClearFilters}
-                className="text-primary hover:text-primary-muted"
-              >
-                Clear all filters
-              </Button>
-            )}
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
-          {/* Left: Doctor List */}
-          <div className="space-y-4">
-            {loading ? (
-              // Loading skeleton
-              <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white rounded-2xl border border-border/50 p-6 animate-pulse">
-                    <div className="flex gap-6">
-                      <div className="h-32 w-32 bg-surface rounded-xl shrink-0" />
-                      <div className="flex-1 space-y-3">
-                        <div className="h-6 bg-surface rounded w-1/3" />
-                        <div className="h-4 bg-surface rounded w-1/2" />
-                        <div className="h-4 bg-surface rounded w-2/3" />
-                        <div className="flex gap-2 mt-4">
-                          <div className="h-8 bg-surface rounded w-20" />
-                          <div className="h-8 bg-surface rounded w-24" />
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          {/* Upcoming Appointments */}
+          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="p-3 bg-primary/10 rounded-xl">
+                  <CalendarCheck className="w-6 h-6 text-primary" />
+                </div>
+                <TrendingUp className="w-4 h-4 text-success" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
+                {loading ? "..." : stats.upcoming}
+              </h3>
+              <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
+            </CardContent>
+          </Card>
+
+          {/* Pending Confirmations */}
+          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="p-3 bg-yellow-100 rounded-xl">
+                  <Clock className="w-6 h-6 text-yellow-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
+                {loading ? "..." : stats.pending}
+              </h3>
+              <p className="text-sm text-muted-foreground">Pending Confirmations</p>
+            </CardContent>
+          </Card>
+
+          {/* Completed Visits */}
+          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow sm:col-span-2 lg:col-span-1">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="p-3 bg-success/10 rounded-xl">
+                  <CheckCircle2 className="w-6 h-6 text-success" />
+                </div>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
+                {loading ? "..." : stats.completed}
+              </h3>
+              <p className="text-sm text-muted-foreground">Completed Visits</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Upcoming Appointments */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card className="rounded-2xl border-border/50">
+              <CardHeader className="border-b border-border">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-lg sm:text-xl">Upcoming Appointments</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm">
+                      Your next scheduled visits
+                    </CardDescription>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => router.push('/patient/appointments')}
+                    className="text-primary hover:text-primary-muted"
+                  >
+                    View All
+                    <ArrowRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="p-4 sm:p-6">
+                {loading ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="p-4 bg-surface rounded-xl animate-pulse">
+                        <div className="flex gap-3">
+                          <div className="w-12 h-12 bg-border rounded-full shrink-0" />
+                          <div className="flex-1 space-y-2">
+                            <div className="h-4 bg-border rounded w-1/3" />
+                            <div className="h-3 bg-border rounded w-1/2" />
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : doctors.length > 0 ? (
-              doctors.map((doctor) => (
-                <DoctorCard key={doctor.profile_id} doctor={doctor} />
-              ))
-            ) : (
-              <div className="text-center py-12 bg-white rounded-2xl border border-border">
-                <p className="text-muted-foreground mb-2">No doctors found matching your criteria.</p>
-                {hasFilters && (
-                  <Button variant="link" onClick={handleClearFilters}>Clear Filters</Button>
+                ) : upcomingAppointments.length > 0 ? (
+                  <div className="space-y-3">
+                    {upcomingAppointments.map((appointment) => (
+                      <div 
+                        key={appointment.id}
+                        className="p-4 bg-surface rounded-xl border border-border hover:border-primary/50 transition-colors cursor-pointer"
+                        onClick={() => router.push('/patient/appointments')}
+                      >
+                        <div className="flex items-start gap-3 sm:gap-4">
+                          {/* Doctor Avatar */}
+                          <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-primary" />
+                          </div>
+                          
+                          {/* Appointment Details */}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-foreground text-sm sm:text-base mb-1 truncate">
+                              Dr. {appointment.doctor?.first_name} {appointment.doctor?.last_name}
+                            </h4>
+                            {appointment.doctor?.specialization && (
+                              <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+                                {appointment.doctor.specialization}
+                              </p>
+                            )}
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
+                                {new Date(appointment.appointment_date).toLocaleDateString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                })}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                                {new Date(appointment.appointment_date).toLocaleTimeString('en-US', {
+                                  hour: 'numeric',
+                                  minute: '2-digit',
+                                  hour12: true
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Status Badge */}
+                          <Badge 
+                            className={cn(
+                              "flex items-center gap-1 text-xs",
+                              getStatusColor(appointment.status)
+                            )}
+                          >
+                            {getStatusIcon(appointment.status)}
+                            {appointment.status}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+                    <p className="text-muted-foreground mb-4">No upcoming appointments</p>
+                    <Button 
+                      variant="medical"
+                      onClick={() => router.push('/patient/find-doctor')}
+                    >
+                      Book an Appointment
+                    </Button>
+                  </div>
                 )}
-              </div>
-            )}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Right: Map View (Hidden on mobile, visible on large screens) */}
-          <div className="hidden lg:block sticky top-28 h-[calc(100vh-8rem)]">
-            <MapView doctors={doctors} />
+          {/* Right Column - Quick Actions */}
+          <div className="space-y-6">
+            <Card className="rounded-2xl border-border/50">
+              <CardHeader className="border-b border-border">
+                <CardTitle className="text-lg">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="p-4 space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3 px-4"
+                  onClick={() => router.push('/patient/find-doctor')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <Search className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-sm">Find a Doctor</p>
+                      <p className="text-xs text-muted-foreground">Search & book appointments</p>
+                    </div>
+                  </div>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3 px-4"
+                  onClick={() => router.push('/patient/appointments')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-success/10 rounded-lg">
+                      <CalendarCheck className="w-5 h-5 text-success" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-sm">My Appointments</p>
+                      <p className="text-xs text-muted-foreground">View all appointments</p>
+                    </div>
+                  </div>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3 px-4"
+                  onClick={() => router.push('/patient/profile')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <User className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-sm">My Profile</p>
+                      <p className="text-xs text-muted-foreground">Update health information</p>
+                    </div>
+                  </div>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3 px-4"
+                  onClick={() => router.push('/patient/medical-records')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-accent/50 rounded-lg">
+                      <FileText className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-sm">Medical Records</p>
+                      <p className="text-xs text-muted-foreground">Access your history</p>
+                    </div>
+                  </div>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Health Tip Card */}
+            <Card className="rounded-2xl border-border/50 bg-gradient-to-br from-primary/5 to-accent">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Activity className="w-5 h-5 text-primary" />
+                  </div>
+                  <h4 className="font-semibold text-foreground">Health Tip</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Regular checkups are essential for maintaining good health. Schedule your annual health screening today!
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
