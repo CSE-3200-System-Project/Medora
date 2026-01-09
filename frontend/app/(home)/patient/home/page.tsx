@@ -188,7 +188,7 @@ export default function PatientHomePage() {
 
           {/* Right: Map View (Hidden on mobile, visible on large screens) */}
           <div className="hidden lg:block sticky top-28 h-[calc(100vh-8rem)]">
-            <MapView />
+            <MapView doctors={doctors} />
           </div>
         </div>
       </main>
