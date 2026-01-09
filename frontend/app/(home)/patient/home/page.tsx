@@ -24,35 +24,71 @@ export default function PatientHomePage() {
     profile_photo_url?: string;
     visiting_hours?: string;
     consultation_mode?: string;
+    score?: number;
+    reason?: string;
   };
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [hasFilters, setHasFilters] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<any>(null); // To store AI extra meta
 
-  const fetchDoctors = async (searchFilters = {}) => {
+  const fetchDoctors = async (searchFilters: any = {}) => {
     setLoading(true);
+    setAiAnalysis(null);
     try {
-      const params = new URLSearchParams();
-      Object.entries(searchFilters).forEach(([key, value]) => {
-        if (value) params.append(key, value as string);
-      });
-
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-      const url = `${backendUrl}/doctor/search?${params.toString()}`;
+      let url = `${backendUrl}/doctor/search`;
+      let options: RequestInit = {};
+
+      if (searchFilters.mode === 'ai') {
+         url = `${backendUrl}/ai/search`;
+         const payload = {
+            user_text: searchFilters.prompt,
+            location: searchFilters.location || null,
+            consultation_mode: searchFilters.consultation_mode || null
+         };
+
+         // Browser console log for debugging the prompt
+         console.log('AI Search Request payload:', payload);
+
+         options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+         };
+      } else {
+        const params = new URLSearchParams();
+        Object.entries(searchFilters).forEach(([key, value]) => {
+            if (value && key !== 'mode') params.append(key, value as string);
+        });
+        url = `${url}?${params.toString()}`;
+      }
       
-      console.log('Fetching doctors from:', url); // Debug log
+      console.log('Fetching doctors from:', url); 
       
-      const res = await fetch(url);
+      const res = await fetch(url, options);
       if (res.ok) {
         const data = await res.json();
+        // Browser console log for debugging the LLM response when in AI mode
+        if (searchFilters.mode === 'ai') {
+          console.log('AI Search Response:', data);
+          if (data.medical_intent) console.log('AI Medical Intent:', data.medical_intent);
+        }
         setDoctors(data.doctors);
         setTotalResults(data.total || data.doctors.length);
+        if (data.medical_intent) {
+            setAiAnalysis(data.medical_intent);
+        }
       } else {
         console.error('API Error:', res.status, res.statusText);
         const errorData = await res.text();
         console.error('Error details:', errorData);
+        if (searchFilters.mode === 'ai') {
+          // log server return body for AI mode too
+          console.warn('AI Search Error response:', errorData);
+        }
       }
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
