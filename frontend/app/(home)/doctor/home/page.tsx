@@ -23,26 +23,24 @@ async function getDoctorProfile() {
     redirect("/login");
   }
 
-  try {
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/profile/doctor/profile`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
-
-    if (!response.ok) {
-      redirect("/login");
+  const response = await fetch(
+    `${process.env.BACKEND_URL}/profile/doctor/profile`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
     }
-
-    return await response.json();
-  } catch (error) {
+  ).catch((error) => {
     console.error("Error fetching doctor profile:", error);
+    return null;
+  });
+
+  if (!response || !response.ok) {
     redirect("/login");
   }
+
+  return await response.json();
 }
 
 async function getDoctorStats() {

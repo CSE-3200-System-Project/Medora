@@ -85,9 +85,11 @@ export async function login(formData: FormData) {
 
     revalidatePath("/", "layout");
     redirect(`/onboarding/${role}`);
-    // redirect(`/${role}/dashboard`);
     
-  } catch (error) {
+  } catch (error: any) {
+    if (error.message === "NEXT_REDIRECT" || error.digest?.startsWith("NEXT_REDIRECT")) {
+        throw error;
+    }
     console.error(error);
     throw error;
   }

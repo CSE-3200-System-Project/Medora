@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Clock, Video, Stethoscope } from "lucide-react";
+import { MapPin, Clock, Video, Stethoscope, Sparkles } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,8 @@ interface DoctorCardProps {
     profile_photo_url?: string;
     visiting_hours?: string;
     consultation_mode?: string;
+    reason?: string;
+    score?: number;
   };
 }
 
@@ -62,6 +64,16 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
                 </Badge>
               )}
             </div>
+
+            {/* AI Reason */}
+            {doctor.reason && (
+                <div className="mt-2 mb-3 p-2.5 bg-blue-50/50 border border-blue-100/50 rounded-lg flex gap-2">
+                    <Sparkles className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                    <p className="text-sm text-blue-900/80 leading-relaxed">
+                        <span className="font-semibold text-blue-700">AI Match:</span> {doctor.reason}
+                    </p>
+                </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 text-sm text-muted-foreground mt-3">
               {doctor.hospital_name && (
