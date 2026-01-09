@@ -138,7 +138,7 @@ export function Navbar() {
               </nav>
             ) : (
               <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-                <Link href="/patient/home" className={cn("transition-colors hover:text-primary", pathname === "/patient/home" && "text-primary")}>
+                <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary", pathname === "/patient/find-doctor" && "text-primary")}>
                   Find Doctor
                 </Link>
                 <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
@@ -322,7 +322,7 @@ export function Navbar() {
                         </>
                       ) : (
                         <>
-                          <Link href="/patient/home" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/find-doctor" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Users className="h-5 w-5 text-primary" /> Find Doctor
                           </Link>
                           <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">

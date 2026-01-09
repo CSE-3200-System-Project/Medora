@@ -49,7 +49,7 @@ export default function DoctorProfilePage() {
       <div className="min-h-screen bg-surface flex items-center justify-center">
         <div className="text-center">
           <p className="text-destructive mb-4">{error || "Doctor not found"}</p>
-          <a href="/patient/home" className="text-primary hover:underline">
+          <a href="/patient/find-doctor" className="text-primary hover:underline">
             ← Back to search
           </a>
         </div>

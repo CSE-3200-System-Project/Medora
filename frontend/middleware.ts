@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 // Routes that require authentication
 const protectedRoutes = [
   '/patient/home',
+  '/patient/find-doctor',
   '/patient/profile',
   '/patient/doctor',
   '/doctor/home',
