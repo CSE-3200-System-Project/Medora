@@ -137,20 +137,184 @@ async def get_admin_stats(
     db: AsyncSession = Depends(get_db),
     admin = Depends(require_admin)
 ):
-    """Get platform statistics"""
-    # Count doctors by status
+    """Get comprehensive platform statistics"""
+    from app.db.models.patient import PatientProfile
+    from app.db.models.appointment import Appointment
+    from sqlalchemy import func, and_
+    
+    # Count all users by role
+    total_users_result = await db.execute(select(func.count(Profile.id)))
+    total_users = total_users_result.scalar() or 0
+    
+    # Count doctors
     doctors_result = await db.execute(
-        select(Profile.verification_status)
-        .where(Profile.role == UserRole.DOCTOR)
+        select(Profile).where(Profile.role == UserRole.DOCTOR)
     )
+    all_doctors = doctors_result.scalars().all()
+    total_doctors = len(all_doctors)
+    
+    verified_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.verified])
+    pending_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.pending])
+    rejected_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.rejected])
     
     # Count patients
     patients_result = await db.execute(
         select(Profile).where(Profile.role == UserRole.PATIENT)
     )
+    all_patients = patients_result.scalars().all()
+    total_patients = len(all_patients)
+    
+    # Patients with completed onboarding
+    patients_with_onboarding = len([p for p in all_patients if p.onboarding_completed])
+    
+    # Count appointments
+    total_appointments_result = await db.execute(select(func.count(Appointment.id)))
+    total_appointments = total_appointments_result.scalar() or 0
+    
+    # Appointments by status
+    pending_appointments_result = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.status == "pending")
+    )
+    pending_appointments = pending_appointments_result.scalar() or 0
+    
+    confirmed_appointments_result = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.status == "confirmed")
+    )
+    confirmed_appointments = confirmed_appointments_result.scalar() or 0
+    
+    completed_appointments_result = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.status == "completed")
+    )
+    completed_appointments = completed_appointments_result.scalar() or 0
+    
+    cancelled_appointments_result = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.status == "cancelled")
+    )
+    cancelled_appointments = cancelled_appointments_result.scalar() or 0
+    
+    # Recent registrations (last 7 days)
+    from datetime import timedelta
+    week_ago = datetime.utcnow() - timedelta(days=7)
+    recent_users_result = await db.execute(
+        select(func.count(Profile.id)).where(Profile.created_at >= week_ago)
+    )
+    recent_registrations = recent_users_result.scalar() or 0
     
     return {
-        "total_doctors": len(doctors_result.all()),
-        "total_patients": len(patients_result.all()),
-        "pending_verifications": len([r for r in doctors_result.all() if r[0] == VerificationStatus.pending]),
+        "total_users": total_users,
+        "total_doctors": total_doctors,
+        "total_patients": total_patients,
+        "verified_doctors": verified_doctors,
+        "pending_doctors": pending_doctors,
+        "rejected_doctors": rejected_doctors,
+        "patients_with_complete_profile": patients_with_onboarding,
+        "total_appointments": total_appointments,
+        "pending_appointments": pending_appointments,
+        "confirmed_appointments": confirmed_appointments,
+        "completed_appointments": completed_appointments,
+        "cancelled_appointments": cancelled_appointments,
+        "recent_registrations_7days": recent_registrations,
+    }
+
+
+@router.get("/patients")
+async def get_all_patients(
+    db: AsyncSession = Depends(get_db),
+    admin = Depends(require_admin),
+    limit: int = 50,
+    offset: int = 0
+):
+    """Get all patients with pagination"""
+    from app.db.models.patient import PatientProfile
+    
+    result = await db.execute(
+        select(Profile, PatientProfile)
+        .join(PatientProfile, Profile.id == PatientProfile.id, isouter=True)
+        .where(Profile.role == UserRole.PATIENT)
+        .limit(limit)
+        .offset(offset)
+    )
+    
+    patients = []
+    for profile, patient in result.all():
+        patients.append({
+            "id": profile.id,
+            "name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "No Name",
+            "email": profile.email,
+            "phone": profile.phone,
+            "onboarding_completed": profile.onboarding_completed,
+            "created_at": profile.created_at.isoformat() if profile.created_at else None,
+            "blood_group": patient.blood_group if patient else None,
+            "city": patient.city if patient else None,
+        })
+    
+    # Get total count
+    count_result = await db.execute(
+        select(func.count(Profile.id)).where(Profile.role == UserRole.PATIENT)
+    )
+    total = count_result.scalar() or 0
+    
+    return {
+        "patients": patients,
+        "total": total,
+        "limit": limit,
+        "offset": offset
+    }
+
+
+@router.get("/appointments")
+async def get_all_appointments(
+    db: AsyncSession = Depends(get_db),
+    admin = Depends(require_admin),
+    limit: int = 50,
+    offset: int = 0
+):
+    """Get all appointments with doctor and patient info"""
+    from app.db.models.appointment import Appointment
+    
+    result = await db.execute(
+        select(Appointment)
+        .limit(limit)
+        .offset(offset)
+        .order_by(Appointment.appointment_date.desc())
+    )
+    
+    appointments = []
+    for appointment in result.scalars().all():
+        # Get doctor info
+        doctor_result = await db.execute(
+            select(Profile).where(Profile.id == appointment.doctor_id)
+        )
+        doctor = doctor_result.scalar()
+        
+        # Get patient info
+        patient_result = await db.execute(
+            select(Profile).where(Profile.id == appointment.patient_id)
+        )
+        patient = patient_result.scalar()
+        
+        appointments.append({
+            "id": appointment.id,
+            "appointment_date": appointment.appointment_date.isoformat(),
+            "status": appointment.status,
+            "reason": appointment.reason,
+            "doctor": {
+                "id": doctor.id if doctor else None,
+                "name": f"{doctor.first_name} {doctor.last_name}" if doctor else "Unknown"
+            },
+            "patient": {
+                "id": patient.id if patient else None,
+                "name": f"{patient.first_name} {patient.last_name}" if patient else "Unknown"
+            }
+        })
+    
+    # Get total count
+    count_result = await db.execute(select(func.count(Appointment.id)))
+    total = count_result.scalar() or 0
+    
+    return {
+        "appointments": appointments,
+        "total": total,
+        "limit": limit,
+        "offset": offset
     }

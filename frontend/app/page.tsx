@@ -37,7 +37,13 @@ export default function Home() {
           const user = await response.json();
           if (user && user.role) {
             const role = user.role.toLowerCase();
-            router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
+            if (role === 'admin') {
+              router.push('/admin');
+            } else if (role === 'doctor') {
+              router.push('/doctor/home');
+            } else {
+              router.push('/patient/home');
+            }
           }
         }
       } catch (error) {
@@ -103,7 +109,7 @@ export default function Home() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2">
                     <Button size="lg" className="w-full sm:w-auto" asChild>
-                      <Link href="/patient/register">Create Patient Account</Link>
+                      <Link href="/selection">Create Patient Account</Link>
                     </Button>
                     <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                       <Link href="#how-it-works">Explore how it works</Link>
@@ -142,7 +148,7 @@ export default function Home() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2">
                     <Button size="lg" variant="secondary" className="w-full sm:w-auto" asChild>
-                      <Link href="/doctor/register">Create Doctor Account</Link>
+                      <Link href="/selection">Create Doctor Account</Link>
                     </Button>
                     <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
                       <Link href="#for-doctors">See doctor features</Link>
@@ -296,7 +302,7 @@ export default function Home() {
                 <FeatureItem text="Optional document uploads, never required" />
               </ul>
               <Button size="lg" className="mt-4" asChild>
-                <Link href="/patient/register">Start as a Patient</Link>
+                <Link href="/selection">Start as a Patient</Link>
               </Button>
             </div>
           </div>
@@ -319,7 +325,7 @@ export default function Home() {
                   <FeatureItem text="Optional verification and credential uploads" />
                 </ul>
                 <Button size="lg" variant="secondary" className="mt-4" asChild>
-                  <Link href="/doctor/register">Start as a Doctor</Link>
+                  <Link href="/selection">Start as a Doctor</Link>
                 </Button>
               </div>
               <div className="relative h-[350px] md:h-[500px] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-border">
@@ -382,10 +388,10 @@ export default function Home() {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Build better care with shared context</h2>
             <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6 h-auto w-full sm:w-auto" asChild>
-                <Link href="/patient/register">Create Patient Account</Link>
+                <Link href="/selection">Create Patient Account</Link>
               </Button>
               <Button size="lg" className="text-lg px-8 py-6 h-auto w-full sm:w-auto bg-white/10 hover:bg-white/20 border border-white/20" asChild>
-                <Link href="/doctor/register">Create Doctor Account</Link>
+                <Link href="/selection">Create Doctor Account</Link>
               </Button>
             </div>
           </div>
