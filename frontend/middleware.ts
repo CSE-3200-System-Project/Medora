@@ -14,6 +14,9 @@ const protectedRoutes = [
   '/admin',
 ]
 
+// Admin-only routes
+const adminRoutes = ['/admin']
+
 // Routes only accessible when logged out
 const authRoutes = [
   '/login',
@@ -34,8 +37,10 @@ export async function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get('session_token')?.value
   const userRole = request.cookies.get('user_role')?.value
   const onboardingCompleted = request.cookies.get('onboarding_completed')?.value
+  const adminAccess = request.cookies.get('admin_access')?.value
   
   const isLoggedIn = !!sessionToken
+  const isAdmin = adminAccess === 'true' || userRole === 'admin'
   
   // Check if current path is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
@@ -43,10 +48,26 @@ export async function middleware(request: NextRequest) {
   const isPatientRoute = patientOnlyRoutes.some(route => pathname.startsWith(route))
   const isDoctorRoute = doctorOnlyRoutes.some(route => pathname.startsWith(route))
   const isOnboardingRoute = pathname.startsWith('/onboarding')
+  const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
+  
+  // Allow admin access with admin cookie (no login required)
+  if (isAdminRoute && isAdmin) {
+    return NextResponse.next()
+  }
+  
+  // Admin route protection - must be admin role or have admin access
+  if (isAdminRoute && !isAdmin) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+  
+  // If admin tries to access auth routes, redirect to admin
+  if (isAdmin && isAuthRoute) {
+    return NextResponse.redirect(new URL('/admin', request.url))
+  }
   
   // If user is logged in and tries to access auth routes, redirect to their home
-  if (isLoggedIn && isAuthRoute) {
-    const redirectUrl = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
+  if (isLoggedIn && isAuthRoute && !isAdmin) {
+    const redirectUrl = userRole === 'admin' ? '/admin' : (userRole === 'doctor' ? '/doctor/home' : '/patient/home')
     return NextResponse.redirect(new URL(redirectUrl, request.url))
   }
   

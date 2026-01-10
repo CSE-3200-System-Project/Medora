@@ -102,7 +102,7 @@ export function Navbar() {
 
   // Compute role-aware home path
   const homePath = user
-    ? (user.role?.toLowerCase() === 'doctor' ? '/doctor/home' : user.role?.toLowerCase() === 'admin' ? '/admin' : '/patient/home')
+    ? (user.role?.toLowerCase() === 'admin' ? '/admin' : user.role?.toLowerCase() === 'doctor' ? '/doctor/home' : '/patient/home')
     : '/';
 
   return (

@@ -4,13 +4,22 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { login, getCurrentUser } from "@/lib/auth-actions";
+import { setAdminAccess } from "@/lib/admin-actions";
 
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
@@ -21,6 +30,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showAdminDialog, setShowAdminDialog] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState("");
   const router = useRouter();
   
   const images = [
@@ -71,8 +83,34 @@ export default function LoginPage() {
     }
   };
 
+  const handleAdminAccess = async () => {
+    setAdminError("");
+    try {
+      const result = await setAdminAccess(adminPassword);
+      if (result.success) {
+        setShowAdminDialog(false);
+        setAdminPassword("");
+        // Use window.location for hard navigation to ensure middleware sees the cookies
+        window.location.href = "/admin";
+      } else {
+        setAdminError(result.error || "Incorrect admin password");
+      }
+    } catch (err) {
+      setAdminError("Failed to authenticate");
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16">
+    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16 relative">
+      {/* Admin Access Button */}
+      <button
+        onClick={() => setShowAdminDialog(true)}
+        className="fixed top-4 right-4 p-3 bg-gradient-to-br from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 rounded-full shadow-lg border border-slate-700/50 transition-all hover:scale-105 group z-50"
+        aria-label="Admin Access"
+      >
+        <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
+      </button>
+
       <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
@@ -197,6 +235,74 @@ export default function LoginPage() {
           </div>
         </div>
       </Card>
+
+      {/* Admin Access Dialog */}
+      <Dialog open={showAdminDialog} onOpenChange={setShowAdminDialog}>
+        <DialogContent className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-xl">
+              <div className="p-2 bg-primary/20 rounded-lg">
+                <Shield className="h-6 w-6 text-primary-light" />
+              </div>
+              Access Verification
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              To access the admin panel, please enter the passkey.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="admin-password" className="text-slate-300">
+                Admin Passkey
+              </Label>
+              <Input
+                id="admin-password"
+                type="password"
+                value={adminPassword}
+                onChange={(e) => {
+                  setAdminPassword(e.target.value);
+                  setAdminError("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleAdminAccess();
+                  }
+                }}
+                placeholder="Enter admin passkey"
+                className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-primary"
+                autoFocus
+              />
+              {adminError && (
+                <p className="text-sm text-red-400 flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 bg-red-400 rounded-full"></span>
+                  {adminError}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowAdminDialog(false);
+                setAdminPassword("");
+                setAdminError("");
+              }}
+              className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleAdminAccess}
+              className="bg-gradient-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
+            >
+              Enter admin panel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

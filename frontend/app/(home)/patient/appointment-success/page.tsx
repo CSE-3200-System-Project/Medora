@@ -8,6 +8,7 @@ import { CheckCircle2, Calendar, Clock, User, ArrowRight, Home } from "lucide-re
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import logo from "@/assets/images/logo.png";
 
 function AppointmentSuccessContent() {
   const searchParams = useSearchParams();
@@ -52,10 +53,10 @@ function AppointmentSuccessContent() {
         {/* Logo Section */}
         <div className="flex items-center justify-center gap-3 mb-8">
           <Image
-            src="@/assets/images/logo.png"
+            src={logo}
             alt="Medora Logo"
-            width={48}
-            height={48}
+            width={64}
+            height={64}
             className="w-10 h-10 sm:w-12 sm:h-12"
           />
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
