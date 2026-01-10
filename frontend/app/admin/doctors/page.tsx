@@ -6,7 +6,6 @@ import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -27,8 +26,11 @@ import {
   Mail,
   Phone,
   User,
+  Search,
+  Ban,
+  Unlock,
 } from "lucide-react";
-import { getPendingDoctors, getAllDoctors, verifyDoctor } from "@/lib/admin-actions";
+import { getPendingDoctors, getAllDoctors, verifyDoctor, banUser, unbanUser } from "@/lib/admin-actions";
 
 type Doctor = {
   id: string;
@@ -41,13 +43,15 @@ type Doctor = {
   created_at?: string;
   verification_status?: string;
   verified_at?: string;
+  account_status?: string;
 };
 
 export default function DoctorsPage() {
   const searchParams = useSearchParams();
   const defaultTab = searchParams?.get('tab') || 'all';
   
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [statusFilter, setStatusFilter] = useState(defaultTab);
+  const [search, setSearch] = useState("");
   const [allDoctors, setAllDoctors] = useState<Doctor[]>([]);
   const [pendingDoctors, setPendingDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -115,6 +119,36 @@ export default function DoctorsPage() {
   const verifiedDoctors = allDoctors.filter(d => d.verification_status === 'verified');
   const rejectedDoctors = allDoctors.filter(d => d.verification_status === 'rejected');
 
+  // Filter by status and search
+  const filteredDoctors = allDoctors
+    .filter(d => {
+      if (statusFilter === "all") return true;
+      return d.verification_status === statusFilter;
+    })
+    .filter(d => 
+      d.name.toLowerCase().includes(search.toLowerCase()) ||
+      d.email.toLowerCase().includes(search.toLowerCase())
+    );
+
+  const handleBan = async (doctor: Doctor) => {
+    if (!confirm(`Are you sure you want to ban ${doctor.name}?`)) return;
+    try {
+      await banUser(doctor.id);
+      await fetchData();
+    } catch (error) {
+      alert("Failed to ban user");
+    }
+  };
+
+  const handleUnban = async (doctor: Doctor) => {
+    try {
+      await unbanUser(doctor.id);
+      await fetchData();
+    } catch (error) {
+      alert("Failed to unban user");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
@@ -129,38 +163,51 @@ export default function DoctorsPage() {
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="bg-slate-800/50 border border-slate-700/50 mb-6">
-            <TabsTrigger value="all" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              All Doctors ({allDoctors.length})
-            </TabsTrigger>
-            <TabsTrigger value="pending" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Pending ({pendingDoctors.length})
-            </TabsTrigger>
-            <TabsTrigger value="verified" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Verified ({verifiedDoctors.length})
-            </TabsTrigger>
-            <TabsTrigger value="rejected" className="data-[state=active]:bg-primary data-[state=active]:text-white">
-              Rejected ({rejectedDoctors.length})
-            </TabsTrigger>
-          </TabsList>
+        {/* Filters */}
+        <div className="mb-6 space-y-4">
+          <div className="relative w-full sm:w-96">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Input
+              placeholder="Search by name or email..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+            />
+          </div>
 
-          <TabsContent value="all">
-            <DoctorGrid doctors={allDoctors} onVerify={handleVerify} getVerificationBadge={getVerificationBadge} />
-          </TabsContent>
+          <div className="flex flex-wrap gap-2">
+            {["all", "pending", "verified", "rejected"].map((status) => (
+              <Button
+                key={status}
+                variant="outline"
+                size="sm"
+                onClick={() => setStatusFilter(status)}
+                className={`border-slate-600 ${
+                  statusFilter === status
+                    ? "bg-primary text-white border-primary"
+                    : "text-slate-300 hover:bg-slate-700/60"
+                }`}
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)} ({
+                  status === "all" ? allDoctors.length :
+                  status === "pending" ? pendingDoctors.length :
+                  status === "verified" ? verifiedDoctors.length :
+                  rejectedDoctors.length
+                })
+              </Button>
+            ))}
+          </div>
+        </div>
 
-          <TabsContent value="pending">
-            <DoctorGrid doctors={pendingDoctors} onVerify={handleVerify} getVerificationBadge={getVerificationBadge} showActions />
-          </TabsContent>
-
-          <TabsContent value="verified">
-            <DoctorGrid doctors={verifiedDoctors} onVerify={handleVerify} getVerificationBadge={getVerificationBadge} />
-          </TabsContent>
-
-          <TabsContent value="rejected">
-            <DoctorGrid doctors={rejectedDoctors} onVerify={handleVerify} getVerificationBadge={getVerificationBadge} />
-          </TabsContent>
-        </Tabs>
+        {/* Doctors Grid */}
+        <DoctorGrid 
+          doctors={filteredDoctors} 
+          onVerify={handleVerify} 
+          getVerificationBadge={getVerificationBadge}
+          showActions={statusFilter === 'pending'}
+          onBan={handleBan}
+          onUnban={handleUnban}
+        />
 
         {/* Verification Dialog */}
         <Dialog open={showVerifyDialog} onOpenChange={setShowVerifyDialog}>
@@ -202,7 +249,7 @@ export default function DoctorsPage() {
                 variant="outline"
                 onClick={() => setShowVerifyDialog(false)}
                 disabled={processing}
-                className="border-slate-700 text-slate-300 hover:bg-slate-700"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700/60"
               >
                 Cancel
               </Button>
@@ -225,16 +272,20 @@ function DoctorGrid({
   doctors, 
   onVerify, 
   getVerificationBadge,
-  showActions = false
+  showActions = false,
+  onBan,
+  onUnban,
 }: { 
   doctors: Doctor[]; 
   onVerify: (doctor: Doctor, approve: boolean) => void;
   getVerificationBadge: (status?: string) => React.ReactNode;
   showActions?: boolean;
+  onBan: (doctor: Doctor) => void;
+  onUnban: (doctor: Doctor) => void;
 }) {
   if (doctors.length === 0) {
     return (
-      <Card className="bg-slate-800/50 border-slate-700/50">
+      <Card className="bg-slate-700/60 border-slate-600/50">
         <CardContent className="p-12 text-center">
           <p className="text-slate-400">No doctors found in this category</p>
         </CardContent>
@@ -245,7 +296,7 @@ function DoctorGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {doctors.map((doctor) => (
-        <Card key={doctor.id} className="bg-slate-800/50 border-slate-700/50 hover:border-primary/50 transition-colors">
+        <Card key={doctor.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -292,7 +343,7 @@ function DoctorGrid({
             )}
 
             {(showActions || doctor.verification_status === 'pending') && (
-              <div className="flex gap-2">
+              <div className="flex gap-2 mb-4">
                 <Button
                   size="sm"
                   onClick={() => onVerify(doctor, true)}
@@ -312,6 +363,41 @@ function DoctorGrid({
                 </Button>
               </div>
             )}
+
+            {/* Ban/Unban Status and Actions */}
+            <div className="mt-4 pt-4 border-t border-slate-600/50 flex items-center justify-between">
+              {doctor.account_status === "banned" ? (
+                <>
+                  <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                    <Ban className="h-3 w-3 mr-1" />
+                    Banned
+                  </Badge>
+                  <Button
+                    size="sm"
+                    onClick={() => onUnban(doctor)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <Unlock className="h-4 w-4 mr-1" />
+                    Unban
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                    Active
+                  </Badge>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => onBan(doctor)}
+                    className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                  >
+                    <Ban className="h-4 w-4 mr-1" />
+                    Ban User
+                  </Button>
+                </>
+              )}
+            </div>
           </CardContent>
         </Card>
       ))}

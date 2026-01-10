@@ -15,6 +15,7 @@ class AccountStatus(enum.Enum):
     active = "active"
     suspended = "suspended"
     deleted = "deleted"
+    banned = "banned"
 
 class Gender(str, enum.Enum):
     MALE = "male"

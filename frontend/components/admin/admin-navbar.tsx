@@ -14,7 +14,8 @@ import {
   Settings,
   LogOut,
   Shield,
-  X
+  X,
+  Ban,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ import {
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { clearAdminAccess } from "@/lib/admin-actions";
+import { AdminNotifications } from "@/components/admin/admin-notifications";
 
 import logo from "@/assets/image/medora-logo.png";
 
@@ -36,6 +38,7 @@ export function AdminNavbar() {
   const router = useRouter();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [loggingOut, setLoggingOut] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -59,10 +62,11 @@ export function AdminNavbar() {
   };
 
   const navigation = [
-    { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Doctors", href: "/admin/doctors", icon: UserCheck },
     { name: "Patients", href: "/admin/patients", icon: Users },
     { name: "Appointments", href: "/admin/appointments", icon: Calendar },
+    { name: "User Management", href: "/admin/users", icon: Ban },
   ];
 
   return (
@@ -76,7 +80,7 @@ export function AdminNavbar() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           {/* LEFT: Logo & Title */}
-          <Link href="/admin/dashboard" className="flex items-center gap-3">
+          <Link href="/admin" className="flex items-center gap-3">
             <div className="relative h-10 w-10 md:h-12 md:w-12">
               <Image src={logo} alt="Medora" fill className="object-contain" />
             </div>
@@ -94,7 +98,9 @@ export function AdminNavbar() {
           <nav className="hidden md:flex items-center gap-1">
             {navigation.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+              const isActive = item.href === "/admin" 
+                ? pathname === "/admin" 
+                : pathname === item.href || pathname.startsWith(item.href + "/");
               return (
                 <Link
                   key={item.name}
@@ -115,6 +121,9 @@ export function AdminNavbar() {
 
           {/* RIGHT: User Menu */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Notifications */}
+            <AdminNotifications />
+            
             <Button
               variant="ghost"
               size="icon"
@@ -135,23 +144,26 @@ export function AdminNavbar() {
             <Button
               variant="ghost"
               onClick={handleLogout}
+              disabled={loggingOut}
               className="text-gray-300 hover:text-red-400 hover:bg-red-500/10"
             >
               <LogOut className="mr-2 h-4 w-4" />
-              Logout
+              {loggingOut ? "Logging out..." : "Logout"}
             </Button>
           </div>
 
           {/* MOBILE: Hamburger */}
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild className="md:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-gray-300 hover:text-white hover:bg-[#2196F3]/10"
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
+          <div className="md:hidden flex items-center gap-2">
+            <AdminNotifications />
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-300 hover:text-white hover:bg-[#2196F3]/10"
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
             </SheetTrigger>
             <SheetContent
               side="right"
@@ -167,7 +179,9 @@ export function AdminNavbar() {
               <div className="flex flex-col py-6 space-y-2">
                 {navigation.map((item) => {
                   const Icon = item.icon;
-                  const isActive = pathname === item.href;
+                  const isActive = item.href === "/admin" 
+                    ? pathname === "/admin" 
+                    : pathname === item.href || pathname.startsWith(item.href + "/");
                   return (
                     <Link
                       key={item.name}
@@ -203,20 +217,19 @@ export function AdminNavbar() {
                 <Button
                   variant="ghost"
                   onClick={handleLogout}
+                  disabled={loggingOut}
                   className="w-full justify-start text-gray-300 hover:text-red-400 hover:bg-red-500/10"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Logout
+                  {loggingOut ? "Logging out..." : "Logout"}
                 </Button>
               </div>
             </SheetContent>
           </Sheet>
+          </div>
         </div>
       </div>
     </header>
   );
-}
-function setLoggingOut(arg0: boolean) {
-    throw new Error("Function not implemented.");
 }
 

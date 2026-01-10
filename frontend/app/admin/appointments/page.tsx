@@ -115,7 +115,7 @@ export default function AppointmentsPage() {
               placeholder="Search by doctor or patient name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-800 border-slate-700 text-white placeholder:text-slate-400"
+              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
             />
           </div>
 
@@ -126,10 +126,10 @@ export default function AppointmentsPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setStatusFilter(status)}
-                className={`border-slate-700 ${
+                className={`border-slate-600 ${
                   statusFilter === status
                     ? "bg-primary text-white border-primary"
-                    : "text-slate-300 hover:bg-slate-800"
+                    : "text-slate-300 hover:bg-slate-700/60"
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)} ({statusCounts[status as keyof typeof statusCounts]})
@@ -140,13 +140,13 @@ export default function AppointmentsPage() {
 
         {/* Appointments List */}
         {loading ? (
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-700/60 border-slate-600/50">
             <CardContent className="p-12 text-center">
               <p className="text-slate-400">Loading appointments...</p>
             </CardContent>
           </Card>
         ) : filteredAppointments.length === 0 ? (
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-700/60 border-slate-600/50">
             <CardContent className="p-12 text-center">
               <p className="text-slate-400">No appointments found</p>
             </CardContent>
@@ -155,7 +155,7 @@ export default function AppointmentsPage() {
           <>
             <div className="space-y-4 mb-6">
               {filteredAppointments.map((appointment) => (
-                <Card key={appointment.id} className="bg-slate-800/50 border-slate-700/50 hover:border-primary/50 transition-colors">
+                <Card key={appointment.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
                       {/* Date & Time */}
