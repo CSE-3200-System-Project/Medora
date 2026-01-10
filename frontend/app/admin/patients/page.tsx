@@ -16,8 +16,10 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
+  Ban,
+  Unlock,
 } from "lucide-react";
-import { getAllPatients } from "@/lib/admin-actions";
+import { getAllPatients, banUser, unbanUser } from "@/lib/admin-actions";
 
 type Patient = {
   id: string;
@@ -28,6 +30,7 @@ type Patient = {
   created_at?: string;
   blood_group?: string;
   city?: string;
+  account_status?: string;
 };
 
 export default function PatientsPage() {
@@ -61,6 +64,25 @@ export default function PatientsPage() {
 
   const totalPages = Math.ceil(total / limit);
 
+  const handleBan = async (patient: Patient) => {
+    if (!confirm(`Are you sure you want to ban ${patient.name}?`)) return;
+    try {
+      await banUser(patient.id);
+      await fetchPatients();
+    } catch (error) {
+      alert("Failed to ban user");
+    }
+  };
+
+  const handleUnban = async (patient: Patient) => {
+    try {
+      await unbanUser(patient.id);
+      await fetchPatients();
+    } catch (error) {
+      alert("Failed to unban user");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
@@ -83,7 +105,7 @@ export default function PatientsPage() {
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-800 border-slate-700 text-white placeholder:text-slate-400"
+              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
             />
           </div>
           <div className="text-slate-400 text-sm">
@@ -93,13 +115,13 @@ export default function PatientsPage() {
 
         {/* Patients Grid */}
         {loading ? (
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-700/60 border-slate-600/50">
             <CardContent className="p-12 text-center">
               <p className="text-slate-400">Loading patients...</p>
             </CardContent>
           </Card>
         ) : filteredPatients.length === 0 ? (
-          <Card className="bg-slate-800/50 border-slate-700/50">
+          <Card className="bg-slate-700/60 border-slate-600/50">
             <CardContent className="p-12 text-center">
               <p className="text-slate-400">No patients found</p>
             </CardContent>
@@ -108,7 +130,7 @@ export default function PatientsPage() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               {filteredPatients.map((patient) => (
-                <Card key={patient.id} className="bg-slate-800/50 border-slate-700/50 hover:border-primary/50 transition-colors">
+                <Card key={patient.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
@@ -156,6 +178,41 @@ export default function PatientsPage() {
                         <div className="text-xs text-slate-500 mt-2">
                           Joined: {new Date(patient.created_at).toLocaleDateString()}
                         </div>
+                      )}
+                    </div>
+
+                    {/* Ban/Unban Status and Actions */}
+                    <div className="mt-4 pt-4 border-t border-slate-600/50 flex items-center justify-between">
+                      {patient.account_status === "banned" ? (
+                        <>
+                          <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                            <Ban className="h-3 w-3 mr-1" />
+                            Banned
+                          </Badge>
+                          <Button
+                            size="sm"
+                            onClick={() => handleUnban(patient)}
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            <Unlock className="h-4 w-4 mr-1" />
+                            Unban
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                            Active
+                          </Badge>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleBan(patient)}
+                            className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                          >
+                            <Ban className="h-4 w-4 mr-1" />
+                            Ban User
+                          </Button>
+                        </>
                       )}
                     </div>
                   </CardContent>

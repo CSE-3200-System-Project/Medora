@@ -8,7 +8,8 @@ from pydantic import BaseModel
 from app.db.models.profile import Profile 
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile 
-from app.db.models.enums import UserRole, VerificationStatus
+from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
+from sqlalchemy import select
 
 router = APIRouter()
 
@@ -136,7 +137,7 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login")
-async def login(user_data: UserLogin):
+async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
     try:
         auth_response = supabase.auth.sign_in_with_password({
             "email": user_data.email,
@@ -145,11 +146,27 @@ async def login(user_data: UserLogin):
         
         if not auth_response.user:
             raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+        # Check if user is banned
+        result = await db.execute(
+            select(Profile).where(Profile.id == auth_response.user.id)
+        )
+        profile = result.scalar_one_or_none()
+        
+        if profile and profile.status == AccountStatus.banned:
+            # Sign out the user immediately
+            supabase.auth.sign_out()
+            raise HTTPException(
+                status_code=403, 
+                detail="Your account has been banned. Please contact support."
+            )
             
         return {
             "session": auth_response.session,
             "user": auth_response.user
         }
+    except HTTPException:
+        raise
     except Exception as e:
         # Log the actual error for debugging
         print(f"Login Error: {str(e)}")
@@ -167,7 +184,7 @@ from sqlalchemy import update
 from app.db.models.profile import Profile
 
 # Helper to get user from token
-async def get_current_user_token(authorization: str = Header(...)):
+async def get_current_user_token(authorization: str = Header(...), db: AsyncSession = Depends(get_db)):
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid header format")
     
@@ -176,7 +193,22 @@ async def get_current_user_token(authorization: str = Header(...)):
         user = supabase.auth.get_user(token)
         if not user or not user.user:
             raise HTTPException(status_code=401, detail="Invalid token")
+        
+        # Check if user is banned
+        result = await db.execute(
+            select(Profile).where(Profile.id == user.user.id)
+        )
+        profile = result.scalar_one_or_none()
+        
+        if profile and profile.status == AccountStatus.banned:
+            raise HTTPException(
+                status_code=403,
+                detail="Your account has been banned. Please contact support."
+            )
+        
         return user.user
+    except HTTPException:
+        raise
     except Exception:
         raise HTTPException(status_code=401, detail="Token verification failed")
 

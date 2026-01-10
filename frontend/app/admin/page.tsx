@@ -115,7 +115,7 @@ export default function AdminDashboard() {
         {/* Detailed Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Doctor Verification Status */}
-          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur">
+          <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <UserCog className="h-5 w-5 text-primary-light" />
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
           </Card>
 
           {/* Appointment Status */}
-          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur">
+          <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary-light" />
