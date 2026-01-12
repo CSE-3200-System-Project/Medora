@@ -69,10 +69,10 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
       
-      <main className="p-4 md:p-6 max-w-[1600px] mx-auto">
+      <main className="p-4 sm:p-6 max-w-[1600px] mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
             Admin Dashboard
           </h1>
           <p className="text-slate-400">
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
           <StatCard
             title="Total Users"
             value={stats?.total_users || 0}
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Detailed Sections */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Doctor Verification Status */}
           <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
             <CardHeader>
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <QuickActionButton
                 label="Review Pending Doctors"
                 count={stats?.pending_doctors || 0}
@@ -236,16 +236,16 @@ function StatCard({
 }) {
   return (
     <Card className={`${color} border-0 text-white shadow-lg`}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="p-2 bg-white/20 rounded-lg backdrop-blur">
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <div className="p-1.5 sm:p-2 bg-white/20 rounded-lg backdrop-blur">
             {icon}
           </div>
-          <TrendingUp className="h-4 w-4 text-white/60" />
+          <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/60" />
         </div>
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-white/80">{title}</p>
-          <p className="text-3xl font-bold">{value.toLocaleString()}</p>
+        <div className="space-y-0.5 sm:space-y-1">
+          <p className="text-xs sm:text-sm font-medium text-white/80">{title}</p>
+          <p className="text-2xl sm:text-3xl font-bold">{value.toLocaleString()}</p>
           <p className="text-xs text-white/70">{trend}</p>
         </div>
       </CardContent>
@@ -270,14 +270,14 @@ function StatusRow({
 }) {
   return (
     <div 
-      className={`flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-700/50 ${clickable ? 'cursor-pointer hover:bg-slate-900/80 transition-colors' : ''}`}
+      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-900/50 border border-slate-700/50 ${clickable ? 'cursor-pointer hover:bg-slate-900/80 transition-colors' : ''}`}
       onClick={onClick}
     >
-      <div className="flex items-center gap-3">
-        {icon}
-        <span className="text-slate-300 font-medium">{label}</span>
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div className="shrink-0">{icon}</div>
+        <span className="text-sm sm:text-base text-slate-300 font-medium truncate">{label}</span>
       </div>
-      <span className={`text-2xl font-bold ${color}`}>{value}</span>
+      <span className={`text-xl sm:text-2xl font-bold ${color} shrink-0`}>{value}</span>
     </div>
   );
 }
@@ -294,12 +294,12 @@ function QuickActionButton({
   return (
     <button
       onClick={onClick}
-      className="p-4 rounded-lg bg-slate-900/50 border border-slate-700/50 hover:bg-slate-900/80 hover:border-primary/50 transition-all text-left group"
+      className="p-3 sm:p-4 rounded-lg bg-slate-900/50 border border-slate-700/50 hover:bg-slate-900/80 hover:border-primary/50 transition-all text-left group"
     >
-      <p className="text-slate-400 text-sm mb-2 group-hover:text-primary-light transition-colors">
+      <p className="text-slate-400 text-xs sm:text-sm mb-1.5 sm:mb-2 group-hover:text-primary-light transition-colors truncate">
         {label}
       </p>
-      <p className="text-white text-2xl font-bold">{count}</p>
+      <p className="text-white text-xl sm:text-2xl font-bold">{count}</p>
     </button>
   );
 }

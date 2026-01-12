@@ -77,16 +77,16 @@ export function AdminNavbar() {
         isScrolled ? "shadow-lg shadow-[#2196F3]/10" : ""
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="flex h-16 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex h-14 sm:h-16 items-center justify-between">
           {/* LEFT: Logo & Title */}
-          <Link href="/admin" className="flex items-center gap-3">
-            <div className="relative h-10 w-10 md:h-12 md:w-12">
+          <Link href="/admin" className="flex items-center gap-2 sm:gap-3">
+            <div className="relative h-9 w-9 sm:h-10 sm:w-10 md:h-12 md:w-12">
               <Image src={logo} alt="Medora" fill className="object-contain" />
             </div>
-            <div className="hidden md:block">
+            <div className="hidden sm:block">
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold text-white">Medora</span>
+                <span className="text-lg md:text-xl font-bold text-white">Medora</span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-[#FFB74D] text-[#0A1929] font-semibold">
                   ADMIN
                 </span>
@@ -95,7 +95,7 @@ export function AdminNavbar() {
           </Link>
 
           {/* CENTER: Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1">
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = item.href === "/admin" 
@@ -120,7 +120,7 @@ export function AdminNavbar() {
           </nav>
 
           {/* RIGHT: User Menu */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2 md:gap-4">
             {/* Notifications */}
             <AdminNotifications />
             
@@ -153,7 +153,7 @@ export function AdminNavbar() {
           </div>
 
           {/* MOBILE: Hamburger */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <AdminNotifications />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
