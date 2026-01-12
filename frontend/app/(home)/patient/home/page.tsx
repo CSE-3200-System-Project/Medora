@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getMyAppointments } from "@/lib/appointment-actions";
+import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
 import { 
   Calendar, 
   Clock, 
@@ -41,6 +42,7 @@ export default function PatientHomePage() {
   const router = useRouter();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showOnboardingBanner, setShowOnboardingBanner] = useState(false);
   const [stats, setStats] = useState({
     upcoming: 0,
     completed: 0,
@@ -49,7 +51,17 @@ export default function PatientHomePage() {
 
   useEffect(() => {
     fetchAppointments();
+    checkOnboardingStatus();
   }, []);
+
+  const checkOnboardingStatus = () => {
+    // Check if onboarding is completed from cookie
+    const cookies = document.cookie.split(';');
+    const onboardingCookie = cookies.find(c => c.trim().startsWith('onboarding_completed='));
+    const isOnboardingCompleted = onboardingCookie?.split('=')[1] === 'true';
+    
+    setShowOnboardingBanner(!isOnboardingCompleted);
+  };
 
   const fetchAppointments = async () => {
     try {
@@ -121,6 +133,9 @@ export default function PatientHomePage() {
       <Navbar />
       
       <main className="pt-24 pb-8 md:pt-28 md:pb-12 px-4 md:px-6 max-w-7xl mx-auto">
+        {/* Onboarding Banner */}
+        {showOnboardingBanner && <OnboardingBanner role="patient" />}
+        
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">

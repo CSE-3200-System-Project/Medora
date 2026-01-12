@@ -38,46 +38,12 @@ export async function GET(request: NextRequest) {
     })
     
     if (!error) {
-      // If verification is successful, we need to ensure our backend session is set
-      // The supabase client above sets the supabase auth cookies, but our app uses 'session_token'
-      // We can extract the session from supabase and set our cookie
-      const { data: { session } } = await supabase.auth.getSession()
+      // Email verification successful
+      // DO NOT set session_token here - user must login manually
+      // This prevents auto-login after email verification
       
-      if (session?.access_token) {
-        cookieStore.set("session_token", session.access_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          maxAge: 60 * 60 * 24 * 7, // 1 week
-          path: "/",
-        });
-
-        // Fetch profile to decide redirect
-        try {
-          const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:8000";
-          const response = await fetch(`${backendUrl}/auth/me`, {
-            headers: { "Authorization": `Bearer ${session.access_token}` }
-          });
-          
-          if (response.ok) {
-            const profile = await response.json();
-            
-            // If onboarding is not completed, go there
-            if (!profile.onboarding_completed) {
-              return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
-            }
-            
-            // Otherwise go to dashboard
-            // Temporary: Redirect to onboarding even if completed
-            return NextResponse.redirect(new URL(`/onboarding/${profile.role.toLowerCase()}`, request.url));
-            // return NextResponse.redirect(new URL(`/${profile.role.toLowerCase()}/dashboard`, request.url));
-          }
-        } catch (e) {
-          console.error("Failed to fetch profile in confirm route", e);
-        }
-      }
-      
-      // Fallback if profile fetch fails
-      return NextResponse.redirect(new URL('/login?verified=true', request.url))
+      // Redirect to verification success page
+      return NextResponse.redirect(new URL('/verification-success', request.url))
     }
   }
 

@@ -1,9 +1,11 @@
-import React from "react";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
 import {
   Calendar,
   Users,
@@ -16,43 +18,49 @@ import {
 import Link from "next/link";
 
 async function getDoctorProfile() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("session_token")?.value;
+  // Get token from cookie in client component
+  const cookies = document.cookie.split(';');
+  const tokenCookie = cookies.find(c => c.trim().startsWith('session_token='));
+  const token = tokenCookie?.split('=')[1];
 
   if (!token) {
-    redirect("/login");
-  }
-
-  const response = await fetch(
-    `${process.env.BACKEND_URL}/profile/doctor/profile`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    }
-  ).catch((error) => {
-    console.error("Error fetching doctor profile:", error);
     return null;
-  });
-
-  if (!response || !response.ok) {
-    redirect("/login");
-  }
-
-  return await response.json();
-}
-
-async function getDoctorStats() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("session_token")?.value;
-
-  if (!token) {
-    redirect("/login");
   }
 
   try {
-    const res = await fetch(`${process.env.BACKEND_URL}/appointment/stats`, {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/profile/doctor/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Failed to fetch doctor profile:", response.status);
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching doctor profile:", error);
+    return null;
+  }
+}
+
+async function getDoctorStats() {
+  const cookies = document.cookie.split(';');
+  const tokenCookie = cookies.find(c => c.trim().startsWith('session_token='));
+  const token = tokenCookie?.split('=')[1];
+
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/appointment/stats`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
@@ -66,15 +74,16 @@ async function getDoctorStats() {
 }
 
 async function getUpcomingAppointments(limit = 3) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("session_token")?.value;
+  const cookies = document.cookie.split(';');
+  const tokenCookie = cookies.find(c => c.trim().startsWith('session_token='));
+  const token = tokenCookie?.split('=')[1];
 
   if (!token) {
-    redirect("/login");
+    return [];
   }
 
   try {
-    const res = await fetch(`${process.env.BACKEND_URL}/appointment/upcoming?limit=${limit}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/appointment/upcoming?limit=${limit}`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
@@ -87,16 +96,90 @@ async function getUpcomingAppointments(limit = 3) {
   }
 }
 
-export default async function DoctorHomePage() {
-  const doctor = await getDoctorProfile();
-  const stats = await getDoctorStats() || { todays_appointments: 0, total_patients: 0, pending_reviews: 0, completion_rate: 0 };
-  const upcoming = await getUpcomingAppointments(3) || [];
+export default function DoctorHomePage() {
+  const router = useRouter();
+  const [doctor, setDoctor] = useState<any>(null);
+  const [stats, setStats] = useState({ todays_appointments: 0, total_patients: 0, pending_reviews: 0, completion_rate: 0 });
+  const [upcoming, setUpcoming] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showOnboardingBanner, setShowOnboardingBanner] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+    checkOnboardingStatus();
+  }, []);
+
+  const checkOnboardingStatus = () => {
+    const cookies = document.cookie.split(';');
+    const onboardingCookie = cookies.find(c => c.trim().startsWith('onboarding_completed='));
+    const isOnboardingCompleted = onboardingCookie?.split('=')[1] === 'true';
+    
+    setShowOnboardingBanner(!isOnboardingCompleted);
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [doctorData, statsData, upcomingData] = await Promise.all([
+        getDoctorProfile(),
+        getDoctorStats(),
+        getUpcomingAppointments(3)
+      ]);
+
+      if (!doctorData) {
+        console.error("No doctor data received");
+        // Set empty state instead of redirecting
+        setDoctor(null);
+        setStats({ todays_appointments: 0, total_patients: 0, pending_reviews: 0, completion_rate: 0 });
+        setUpcoming([]);
+        setLoading(false);
+        return;
+      }
+
+      setDoctor(doctorData);
+      setStats(statsData || { todays_appointments: 0, total_patients: 0, pending_reviews: 0, completion_rate: 0 });
+      setUpcoming(upcomingData || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setDoctor(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+        <Navbar />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+          <div className="text-center">Loading...</div>
+        </main>
+      </div>
+    );
+  }
+
+  if (!doctor) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+        <Navbar />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+          <div className="text-center text-destructive">
+            <p className="text-lg mb-4">Unable to load profile data</p>
+            <Button onClick={() => router.push("/login")} variant="medical">Back to Login</Button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+        {/* Onboarding Banner */}
+        {showOnboardingBanner && <OnboardingBanner role="doctor" />}
+        
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">

@@ -398,11 +398,14 @@ export function DoctorOnboarding() {
   const handleSkipOnboarding = async () => {
     setLoading(true)
     try {
-      await completeOnboarding()
-      router.push("/doctor/home")
+      // Skip onboarding WITHOUT marking it as completed
+      // User can return later to complete their profile
+      // Mark skip so middleware allows access to protected routes, but keep the banner showing
+      document.cookie = "onboarding_skipped=true; path=/; max-age=604800"; // 7 days
+      // Use window.location for hard navigation to ensure proper cookie refresh
+      window.location.href = "/doctor/home"
     } catch (error) {
       console.error("Failed to skip onboarding", error)
-    } finally {
       setLoading(false)
       setShowSkipDialog(false)
     }

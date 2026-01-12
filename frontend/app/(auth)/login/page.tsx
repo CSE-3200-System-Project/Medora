@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Shield } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,7 +33,9 @@ export default function LoginPage() {
   const [showAdminDialog, setShowAdminDialog] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
   const [adminError, setAdminError] = useState("");
+  const [showVerifiedMessage, setShowVerifiedMessage] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   const images = [
     { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
@@ -47,6 +49,18 @@ export default function LoginPage() {
 
     return () => clearInterval(interval);
   }, [images.length]);
+
+  useEffect(() => {
+    // Check if user was redirected from email verification
+    const verified = searchParams.get('verified');
+    if (verified === 'true') {
+      setShowVerifiedMessage(true);
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        setShowVerifiedMessage(false);
+      }, 5000);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -74,9 +88,10 @@ export default function LoginPage() {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
+    const rememberMe = (e.currentTarget.querySelector('#remember') as HTMLInputElement)?.checked || false;
 
     try {
-      await login(formData);
+      await login(formData, rememberMe);
     } catch (err: any) {
       setError(err.message || "Login failed. Please check your credentials.");
       setLoading(false);
@@ -175,6 +190,16 @@ export default function LoginPage() {
               {error && (
                 <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
                   <p className="text-sm">{error}</p>
+                </div>
+              )}
+
+              {showVerifiedMessage && (
+                <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Email Verified Successfully!</p>
+                    <p className="text-xs text-success-muted/80 mt-1">You can now login to your account</p>
+                  </div>
                 </div>
               )}
 

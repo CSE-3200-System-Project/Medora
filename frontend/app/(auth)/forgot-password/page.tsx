@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { forgotPassword } from "@/lib/auth-actions";
 
 // Import images
 import doctorImg from "@/assets/image/doctors.jpg";
@@ -16,6 +17,10 @@ import logo from "@/assets/image/medora-logo.png";
 
 export default function ForgotPasswordPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   
   const images = [
     { src: doctorImg, alt: "Doctors Team", text: "Recover Your Account" },
@@ -30,10 +35,19 @@ export default function ForgotPasswordPage() {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Add your backend forgot password logic here
-    console.log("Forgot password submitted");
+    setError("");
+    setLoading(true);
+    
+    try {
+      await forgotPassword(email);
+      setSuccess(true);
+    } catch (err: any) {
+      setError(err.message || "Failed to send reset email. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -102,21 +116,59 @@ export default function ForgotPasswordPage() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input id="email" type="email" placeholder="name@example.com" required />
+              {error && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
+                  <p className="text-sm">{error}</p>
                 </div>
+              )}
 
-                <Button type="submit" className="w-full">Send Reset Link</Button>
-              </form>
+              {success ? (
+                <div className="space-y-6">
+                  <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3">
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Email Sent Successfully!</p>
+                      <p className="text-xs text-success-muted/80 mt-1">
+                        Check your inbox for the password reset link
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center text-sm text-foreground">
+                    <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
+                      <ArrowLeft size={16} />
+                      Back to Sign In
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="name@example.com" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required 
+                      />
+                    </div>
 
-              <div className="text-center text-sm text-foreground">
-                <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
-                  <ArrowLeft size={16} />
-                  Back to Sign In
-                </Link>
-              </div>
+                    <Button type="submit" className="w-full" disabled={loading}>
+                      {loading ? "Sending..." : "Send Reset Link"}
+                    </Button>
+                  </form>
+
+                  <div className="text-center text-sm text-foreground">
+                    <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
+                      <ArrowLeft size={16} />
+                      Back to Sign In
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
