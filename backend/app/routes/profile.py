@@ -6,12 +6,33 @@ from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.profile import Profile
+from app.db.models.enums import VerificationStatus, UserRole
 from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import traceback
 
 router = APIRouter()
+
+@router.get("/verification-status")
+async def get_verification_status(
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get user verification status"""
+    result = await db.execute(
+        select(Profile).where(Profile.id == user.id)
+    )
+    profile = result.scalar_one_or_none()
+    
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    return {
+        "verification_status": profile.verification_status.value,
+        "role": profile.role.value,
+        "bmdc_verified": profile.verification_status == VerificationStatus.verified if profile.role == UserRole.DOCTOR else None
+    }
 
 @router.patch("/patient/onboarding")
 async def update_patient_onboarding(

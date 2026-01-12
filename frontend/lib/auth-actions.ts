@@ -35,56 +35,53 @@ export async function login(formData: FormData) {
       });
     }
 
-    // Get user role to redirect appropriately
-    const role = (data.user?.user_metadata?.role || "patient").toLowerCase();
+    // Get profile info from login response
+    const profile = data.profile;
+    const role = (profile?.role || "patient").toLowerCase();
+    const verificationStatus = (profile?.verification_status || "unverified").toLowerCase();
+    const cookieStore = await cookies();
     
-    // Check verification and onboarding status
-    try {
-      const profileResponse = await fetch(`${BACKEND_URL}/auth/me`, {
-         headers: { "Authorization": `Bearer ${data.session.access_token}` },
-         cache: "no-store",
-      });
-      
-      if (profileResponse.ok) {
-          const profile = await profileResponse.json();
-          const role = profile.role.toLowerCase();
-          const cookieStore = await cookies();
-          
-          // Set role and onboarding status cookies for middleware
-          cookieStore.set("user_role", role, { path: "/" });
-          cookieStore.set("onboarding_completed", String(profile.onboarding_completed), { path: "/" });
-          
-          // Check email verification
-          if (!data.user.email_confirmed_at) {
-               redirect("/verify-email");
-          }
-          
-          if (!profile.onboarding_completed) {
-               redirect(`/onboarding/${role}`);
-          }
-          
-          // Redirect based on role
-          if (role === "doctor") {
-            redirect("/doctor/home");
-          } else if (role === "patient") {
-            redirect("/patient/home");
-          } else if (role === "admin") {
-            redirect("/admin/dashboard");
-          } else {
-            redirect("/");
-          }
-      }
-    } catch (e: any) {
-      // If error is a redirect, let it pass through
-      if (e.message === "NEXT_REDIRECT" || e.digest?.startsWith("NEXT_REDIRECT")) {
-        throw e;
-      }
-      // If fetching profile fails, fallback to dashboard or onboarding
-      console.error("Profile check failed", e);
+    // Debug logging
+    console.log("🔍 Login Debug:");
+    console.log("  - Role:", role);
+    console.log("  - Verification Status:", verificationStatus);
+    console.log("  - Onboarding Completed:", profile?.onboarding_completed);
+    console.log("  - Email Confirmed:", data.user.email_confirmed_at);
+    
+    // Set role and onboarding status cookies for middleware
+    cookieStore.set("user_role", role, { path: "/" });
+    cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), { path: "/" });
+    cookieStore.set("verification_status", verificationStatus, { path: "/" });
+    
+    // Check email verification FIRST
+    if (!data.user.email_confirmed_at) {
+      console.log("❌ Email not verified, redirecting to /verify-email");
+      redirect("/verify-email");
     }
-
-    revalidatePath("/", "layout");
-    redirect(`/onboarding/${role}`);
+    
+    // Doctors must be admin-verified before proceeding (check for pending, rejected, unverified, etc.)
+    if (role === "doctor" && verificationStatus !== "verified") {
+      console.log("⏳ Doctor not admin-verified (status:", verificationStatus, "), redirecting to /verify-pending");
+      redirect("/verify-pending");
+    }
+    
+    // Check onboarding
+    if (!profile?.onboarding_completed) {
+      console.log("📝 Onboarding not completed, redirecting to /onboarding/" + role);
+      redirect(`/onboarding/${role}`);
+    }
+    
+    // Redirect based on role
+    console.log("✅ All checks passed, redirecting to home");
+    if (role === "doctor") {
+      redirect("/doctor/home");
+    } else if (role === "patient") {
+      redirect("/patient/home");
+    } else if (role === "admin") {
+      redirect("/admin/dashboard");
+    } else {
+      redirect("/");
+    }
     
   } catch (error: any) {
     if (error.message === "NEXT_REDIRECT" || error.digest?.startsWith("NEXT_REDIRECT")) {
@@ -408,6 +405,7 @@ export async function signout() {
     cookieStore.delete("session_token");
     cookieStore.delete("onboarding_completed");
     cookieStore.delete("user_role");
+    cookieStore.delete("verification_status");
   } catch (error) {
     console.log(error);
   }

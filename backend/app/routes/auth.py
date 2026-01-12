@@ -112,7 +112,7 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
             profile_id=user_id,
             bmdc_number=user_data.bmdc_number,
             bmdc_document_url=user_data.bmdc_document,
-            bmdc_verified=True,  # ✅ TEMPORARY: Set to True for testing (no real BMDC verification)
+            bmdc_verified=False,  # Will be verified by admin
             specialization=None  # Will be filled during onboarding
         )
         db.add(new_doctor)
@@ -126,7 +126,7 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
             print(f"Session has access_token: {hasattr(auth_response.session, 'access_token')}")
         
         return {
-            "message": "Doctor registered successfully. Awaiting verification.",
+            "message": "Registration successful! Please wait 24-48 hours for BMDC verification by our admin team.",
             "user_id": user_id,
             "session": auth_response.session
         }
@@ -160,10 +160,16 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
                 status_code=403, 
                 detail="Your account has been banned. Please contact support."
             )
-            
+        
+        # Return profile info including verification status
         return {
             "session": auth_response.session,
-            "user": auth_response.user
+            "user": auth_response.user,
+            "profile": {
+                "role": profile.role.value if profile else None,
+                "verification_status": profile.verification_status.value if profile else None,
+                "onboarding_completed": profile.onboarding_completed if profile else False,
+            }
         }
     except HTTPException:
         raise
