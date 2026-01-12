@@ -6,6 +6,8 @@ const protectedRoutes = [
   '/patient/find-doctor',
   '/patient/profile',
   '/patient/doctor',
+  '/patient/appointments',
+  '/patient/appointment-success',
   '/doctor/home',
   '/doctor/profile',
   '/doctor/appointments',
@@ -24,11 +26,19 @@ const authRoutes = [
   '/patient/register',
   '/doctor/register',
   '/forgot-password',
+  '/auth',
 ]
 
 // Routes that require specific roles
 const patientOnlyRoutes = ['/patient/']
 const doctorOnlyRoutes = ['/doctor/']
+
+// Public routes accessible by anyone
+const publicRoutes = [
+  '/verification-success',
+  '/verify-email',
+  '/verify-pending',
+]
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -37,6 +47,7 @@ export async function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get('session_token')?.value
   const userRole = request.cookies.get('user_role')?.value
   const onboardingCompleted = request.cookies.get('onboarding_completed')?.value
+  const onboardingSkipped = request.cookies.get('onboarding_skipped')?.value
   const adminAccess = request.cookies.get('admin_access')?.value
   const verificationStatus = request.cookies.get('verification_status')?.value
   
@@ -50,6 +61,12 @@ export async function middleware(request: NextRequest) {
   const isDoctorRoute = doctorOnlyRoutes.some(route => pathname.startsWith(route))
   const isOnboardingRoute = pathname.startsWith('/onboarding')
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
+  
+  // Allow public routes for everyone
+  if (isPublicRoute) {
+    return NextResponse.next()
+  }
   
   // Allow admin access with admin cookie (no login required)
   if (isAdminRoute && isAdmin) {
@@ -66,14 +83,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/admin', request.url))
   }
   
-  // If user is logged in and tries to access auth routes, redirect to their home
+  // STRICT: If user is logged in and tries to access auth routes, redirect to their home
   if (isLoggedIn && isAuthRoute && !isAdmin) {
-    const redirectUrl = userRole === 'admin' ? '/admin' : (userRole === 'doctor' ? '/doctor/home' : '/patient/home')
+    // Check onboarding first
+    if (onboardingCompleted === 'false' && onboardingSkipped !== 'true') {
+      const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
+      return NextResponse.redirect(new URL(onboardingUrl, request.url))
+    }
+    
+    const redirectUrl = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
     return NextResponse.redirect(new URL(redirectUrl, request.url))
   }
   
-  // If user is not logged in and tries to access protected routes, redirect to login
-  if (!isLoggedIn && isProtectedRoute) {
+  // STRICT: If user is not logged in and tries to access protected routes OR onboarding, redirect to login
+  if (!isLoggedIn && (isProtectedRoute || isOnboardingRoute)) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(loginUrl)
@@ -82,12 +105,10 @@ export async function middleware(request: NextRequest) {
   // Role-based route protection (only if logged in)
   if (isLoggedIn && userRole) {
     // Check doctor verification status - doctors must be admin-verified to access doctor routes AND onboarding
-    if (userRole === 'doctor' && pathname !== '/verify-pending') {
-      if (verificationStatus !== 'verified') {
-        // Redirect to waiting page for both doctor routes and onboarding
-        if (isDoctorRoute || pathname.startsWith('/onboarding/doctor')) {
-          return NextResponse.redirect(new URL('/verify-pending', request.url))
-        }
+    if (userRole === 'doctor' && verificationStatus !== 'verified') {
+      // Allow access to verify-pending page only
+      if (pathname !== '/verify-pending') {
+        return NextResponse.redirect(new URL('/verify-pending', request.url))
       }
     }
     
@@ -102,18 +123,11 @@ export async function middleware(request: NextRequest) {
     }
   }
   
-  // Allow access to verify-pending page for doctors
-  if (pathname === '/verify-pending' && userRole === 'doctor') {
-    return NextResponse.next()
-  }
-  
   // Check onboarding completion for protected routes (not onboarding itself)
-  if (isLoggedIn && isProtectedRoute && onboardingCompleted === 'false' && !isOnboardingRoute) {
+  if (isLoggedIn && isProtectedRoute && onboardingCompleted === 'false' && onboardingSkipped !== 'true' && !isOnboardingRoute) {
     // For doctors, check verification status before redirecting to onboarding
-    if (userRole === 'doctor') {
-      if (verificationStatus !== 'verified') {
-        return NextResponse.redirect(new URL('/verify-pending', request.url))
-      }
+    if (userRole === 'doctor' && verificationStatus !== 'verified') {
+      return NextResponse.redirect(new URL('/verify-pending', request.url))
     }
     
     const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'

@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
-export async function login(formData: FormData) {
+export async function login(formData: FormData, rememberMe: boolean = false) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -26,13 +26,20 @@ export async function login(formData: FormData) {
     
     // Store the access token
     if (data.session?.access_token) {
-      (await cookies()).set("session_token", data.session.access_token, {
+      const cookieOptions: any = {
         httpOnly: false,  // ✅ Changed to false for accessibility
         secure: false,  // ✅ Changed to false for local development
         sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7, // 1 week
         path: "/",
-      });
+      };
+      
+      // If remember me is checked, set maxAge to 7 days
+      // Otherwise, cookie expires when browser closes (session cookie)
+      if (rememberMe) {
+        cookieOptions.maxAge = 60 * 60 * 24 * 7; // 7 days
+      }
+      
+      (await cookies()).set("session_token", data.session.access_token, cookieOptions);
     }
 
     // Get profile info from login response
@@ -111,6 +118,8 @@ export async function completeOnboarding() {
     }
     
     cookieStore.set("onboarding_completed", "true", { path: "/" });
+    // Remove the skip flag when onboarding is truly completed
+    cookieStore.delete("onboarding_skipped");
     
     return { success: true };
   } catch (error) {
@@ -404,6 +413,7 @@ export async function signout() {
     const cookieStore = await cookies();
     cookieStore.delete("session_token");
     cookieStore.delete("onboarding_completed");
+    cookieStore.delete("onboarding_skipped");
     cookieStore.delete("user_role");
     cookieStore.delete("verification_status");
   } catch (error) {
@@ -500,6 +510,28 @@ export async function updateDoctorProfile(data: any) {
     return await response.json();
   } catch (error) {
     console.error("Update doctor profile error:", error);
+    throw error;
+  }
+}
+
+export async function forgotPassword(email: string) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/auth/forgot-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to send reset email");
+    }
+
+    return { success: true, message: "Password reset link sent to your email" };
+  } catch (error: any) {
+    console.error("Forgot password error:", error);
     throw error;
   }
 }

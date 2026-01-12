@@ -10,6 +10,7 @@ from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile 
 from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
 from sqlalchemy import select
+import os
 
 router = APIRouter()
 
@@ -268,3 +269,35 @@ async def get_my_profile(
         "onboarding_completed": profile.onboarding_completed,
         "email_verified": email_verified
     }
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+@router.post("/forgot-password")
+async def forgot_password(request: ForgotPasswordRequest, db: AsyncSession = Depends(get_db)):
+    try:
+        # Check if user exists in database
+        result = await db.execute(
+            select(Profile).where(Profile.email == request.email)
+        )
+        user = result.scalar_one_or_none()
+        
+        # Always return success even if user doesn't exist (security best practice)
+        # This prevents email enumeration attacks
+        if not user:
+            return {"message": "If an account with that email exists, a password reset link has been sent"}
+        
+        # Send password reset email via Supabase
+        reset_response = supabase.auth.reset_password_for_email(
+            request.email,
+            {
+                "redirect_to": f"{os.getenv('FRONTEND_URL', 'http://localhost:3000')}/auth/reset-password"
+            }
+        )
+        
+        return {"message": "If an account with that email exists, a password reset link has been sent"}
+        
+    except Exception as e:
+        print(f"Forgot password error: {str(e)}")
+        # Still return success to prevent email enumeration
+        return {"message": "If an account with that email exists, a password reset link has been sent"}
