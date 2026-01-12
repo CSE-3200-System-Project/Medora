@@ -97,9 +97,9 @@ export default function AppointmentsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
       
-      <main className="p-4 md:p-6 max-w-[1600px] mx-auto">
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+      <main className="p-4 sm:p-6 max-w-[1600px] mx-auto">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
             Appointment Management
           </h1>
           <p className="text-slate-400">
@@ -108,7 +108,7 @@ export default function AppointmentsPage() {
         </div>
 
         {/* Filters */}
-        <div className="mb-6 space-y-4">
+        <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
           <div className="relative w-full sm:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
@@ -153,14 +153,14 @@ export default function AppointmentsPage() {
           </Card>
         ) : (
           <>
-            <div className="space-y-4 mb-6">
+            <div className="space-y-3 sm:space-y-4 mb-6">
               {filteredAppointments.map((appointment) => (
                 <Card key={appointment.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                       {/* Date & Time */}
-                      <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
                           <Calendar className="h-6 w-6 text-orange-400" />
                         </div>
                         <div>
@@ -177,25 +177,25 @@ export default function AppointmentsPage() {
                       </div>
 
                       {/* Patient */}
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-purple-400" />
-                        <div>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <User className="h-4 w-4 text-purple-400 shrink-0" />
+                        <div className="min-w-0">
                           <p className="text-xs text-slate-400">Patient</p>
-                          <p className="text-white font-medium">{appointment.patient.name}</p>
+                          <p className="text-sm sm:text-base text-white font-medium truncate">{appointment.patient.name}</p>
                         </div>
                       </div>
 
                       {/* Doctor */}
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-blue-400" />
-                        <div>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <User className="h-4 w-4 text-blue-400 shrink-0" />
+                        <div className="min-w-0">
                           <p className="text-xs text-slate-400">Doctor</p>
-                          <p className="text-white font-medium">{appointment.doctor.name}</p>
+                          <p className="text-sm sm:text-base text-white font-medium truncate">{appointment.doctor.name}</p>
                         </div>
                       </div>
 
                       {/* Status */}
-                      <div className="flex items-center justify-between md:justify-end">
+                      <div className="flex items-center justify-start sm:justify-between lg:justify-end">
                         {getStatusBadge(appointment.status)}
                       </div>
                     </div>

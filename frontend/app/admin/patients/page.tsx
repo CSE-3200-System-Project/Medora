@@ -87,9 +87,9 @@ export default function PatientsPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
       
-      <main className="p-4 md:p-6 max-w-[1600px] mx-auto">
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+      <main className="p-4 sm:p-6 max-w-[1600px] mx-auto">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
             Patient Management
           </h1>
           <p className="text-slate-400">
@@ -98,7 +98,7 @@ export default function PatientsPage() {
         </div>
 
         {/* Search and Stats */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
           <div className="relative w-full sm:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
@@ -128,13 +128,13 @@ export default function PatientsPage() {
           </Card>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6">
               {filteredPatients.map((patient) => (
                 <Card key={patient.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                           <User className="h-6 w-6 text-purple-400" />
                         </div>
                         <div>
@@ -157,9 +157,9 @@ export default function PatientsPage() {
                       )}
                     </div>
 
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center gap-2 text-slate-400">
-                        <Mail className="h-4 w-4" />
+                    <div className="space-y-2 text-xs sm:text-sm">
+                      <div className="flex items-center gap-2 text-slate-400 min-w-0">
+                        <Mail className="h-4 w-4 shrink-0" />
                         <span className="truncate">{patient.email}</span>
                       </div>
                       {patient.phone && (
@@ -182,7 +182,7 @@ export default function PatientsPage() {
                     </div>
 
                     {/* Ban/Unban Status and Actions */}
-                    <div className="mt-4 pt-4 border-t border-slate-600/50 flex items-center justify-between">
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 sm:justify-between">
                       {patient.account_status === "banned" ? (
                         <>
                           <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
