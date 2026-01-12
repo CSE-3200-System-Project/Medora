@@ -38,6 +38,7 @@ export async function middleware(request: NextRequest) {
   const userRole = request.cookies.get('user_role')?.value
   const onboardingCompleted = request.cookies.get('onboarding_completed')?.value
   const adminAccess = request.cookies.get('admin_access')?.value
+  const verificationStatus = request.cookies.get('verification_status')?.value
   
   const isLoggedIn = !!sessionToken
   const isAdmin = adminAccess === 'true' || userRole === 'admin'
@@ -80,6 +81,16 @@ export async function middleware(request: NextRequest) {
   
   // Role-based route protection (only if logged in)
   if (isLoggedIn && userRole) {
+    // Check doctor verification status - doctors must be admin-verified to access doctor routes AND onboarding
+    if (userRole === 'doctor' && pathname !== '/verify-pending') {
+      if (verificationStatus !== 'verified') {
+        // Redirect to waiting page for both doctor routes and onboarding
+        if (isDoctorRoute || pathname.startsWith('/onboarding/doctor')) {
+          return NextResponse.redirect(new URL('/verify-pending', request.url))
+        }
+      }
+    }
+    
     // Patient trying to access doctor routes (except viewing doctor profiles)
     if (userRole === 'patient' && isDoctorRoute && !pathname.startsWith('/patient/doctor/')) {
       return NextResponse.redirect(new URL('/patient/home', request.url))
@@ -91,8 +102,20 @@ export async function middleware(request: NextRequest) {
     }
   }
   
+  // Allow access to verify-pending page for doctors
+  if (pathname === '/verify-pending' && userRole === 'doctor') {
+    return NextResponse.next()
+  }
+  
   // Check onboarding completion for protected routes (not onboarding itself)
   if (isLoggedIn && isProtectedRoute && onboardingCompleted === 'false' && !isOnboardingRoute) {
+    // For doctors, check verification status before redirecting to onboarding
+    if (userRole === 'doctor') {
+      if (verificationStatus !== 'verified') {
+        return NextResponse.redirect(new URL('/verify-pending', request.url))
+      }
+    }
+    
     const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
     return NextResponse.redirect(new URL(onboardingUrl, request.url))
   }

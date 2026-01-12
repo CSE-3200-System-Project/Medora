@@ -19,6 +19,7 @@ export default function VerifyEmailPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [hasRedirected, setHasRedirected] = useState(false);
   const router = useRouter();
   
   const images = [
@@ -38,19 +39,56 @@ export default function VerifyEmailPage() {
   useEffect(() => {
     let isMounted = true;
     const pollInterval = setInterval(async () => {
+      // Stop polling if already redirected
+      if (hasRedirected) {
+        clearInterval(pollInterval);
+        return;
+      }
+      
       try {
         const user = await getCurrentUser();
         if (isMounted && user) {
+          // Debug logging
+          console.log("📧 Email Verification Debug:");
+          console.log("  - Email Verified:", user.email_verified);
+          console.log("  - Role:", user.role);
+          console.log("  - Verification Status:", user.verification_status);
+          console.log("  - Onboarding Completed:", user.onboarding_completed);
+          
           // Check if email is verified
-          if (user.email_verified || user.verification_status === "verified") {
+          if (user.email_verified) {
             clearInterval(pollInterval);
+            setHasRedirected(true);
             
             const role = user.role?.toLowerCase() || 'patient';
-            // Redirect logic
-            if (!user.onboarding_completed) {
-              router.push(`/onboarding/${role}`);
+            
+            // Doctors must wait for admin verification before onboarding
+            if (role === 'doctor') {
+              // Check admin verification status (verification_status field)
+              const verificationStatus = user.verification_status;
+              
+              console.log("👨‍⚕️ Doctor Check - Verification Status:", verificationStatus);
+              
+              if (verificationStatus === 'verified') {
+                // Admin has verified - proceed to onboarding or home
+                console.log("✅ Doctor is verified, proceeding to onboarding/home");
+                if (!user.onboarding_completed) {
+                  router.replace(`/onboarding/${role}`);
+                } else {
+                  router.replace('/doctor/home');
+                }
+              } else {
+                // Not admin-verified yet - send to waiting page
+                console.log("⏳ Doctor not admin-verified, redirecting to /verify-pending");
+                router.replace('/verify-pending');
+              }
             } else {
-              router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
+              // Patients can proceed directly to onboarding
+              if (!user.onboarding_completed) {
+                router.replace(`/onboarding/${role}`);
+              } else {
+                router.replace('/patient/home');
+              }
             }
           }
         }
@@ -63,19 +101,38 @@ export default function VerifyEmailPage() {
       isMounted = false;
       clearInterval(pollInterval);
     };
-  }, [router]);
+  }, [router, hasRedirected]);
 
   const checkVerification = async () => {
     setLoading(true);
     try {
       const user = await getCurrentUser();
       
-      if (user && (user.email_verified || user.verification_status === "verified")) {
+      if (user && user.email_verified) {
         const role = user.role?.toLowerCase() || 'patient';
-        if (!user.onboarding_completed) {
-          router.push(`/onboarding/${role}`);
+        
+        // Doctors must wait for admin verification before onboarding
+        if (role === 'doctor') {
+          const verificationStatus = user.verification_status;
+          
+          if (verificationStatus === 'verified') {
+            // Admin has verified - proceed to onboarding or home
+            if (!user.onboarding_completed) {
+              router.replace(`/onboarding/${role}`);
+            } else {
+              router.replace('/doctor/home');
+            }
+          } else {
+            // Not admin-verified yet - send to waiting page
+            router.replace('/verify-pending');
+          }
         } else {
-          router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
+          // Patients can proceed directly to onboarding
+          if (!user.onboarding_completed) {
+            router.replace(`/onboarding/${role}`);
+          } else {
+            router.replace('/patient/home');
+          }
         }
       } else {
         setMessage("Email not verified yet. Please check your inbox.");

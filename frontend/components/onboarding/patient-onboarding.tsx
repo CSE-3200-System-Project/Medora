@@ -57,6 +57,7 @@ export function PatientOnboarding() {
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
+  const [showSkipDialog, setShowSkipDialog] = useState(false)
   const router = useRouter()
   const [formData, setFormData] = useState({
     // Step 1 - Personal Identity
@@ -428,6 +429,19 @@ export function PatientOnboarding() {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1)
       window.scrollTo(0, 0)
+    }
+  }
+
+  const handleSkipOnboarding = async () => {
+    setLoading(true)
+    try {
+      await completeOnboarding()
+      router.push("/patient/home")
+    } catch (error) {
+      console.error("Failed to skip onboarding", error)
+    } finally {
+      setLoading(false)
+      setShowSkipDialog(false)
     }
   }
 
@@ -1263,14 +1277,24 @@ export function PatientOnboarding() {
               <CardContent>
                 {renderStepContent()}
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button
-                  variant="outline"
-                  onClick={prevStep}
-                  disabled={currentStep === 1 || loading}
-                >
-                  <ChevronLeft className="mr-2 h-4 w-4" /> Back
-                </Button>
+              <CardFooter className="flex justify-between items-center">
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={prevStep}
+                    disabled={currentStep === 1 || loading}
+                  >
+                    <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setShowSkipDialog(true)} 
+                    disabled={loading}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Skip for Now
+                  </Button>
+                </div>
                 <Button onClick={nextStep} disabled={loading}>
                   {loading ? "Completing..." : (currentStep === STEPS.length ? "Finish Setup" : "Next")} 
                   {!loading && <ChevronRight className="ml-2 h-4 w-4" />}
@@ -1279,6 +1303,41 @@ export function PatientOnboarding() {
             </Card>
           </motion.div>
         </AnimatePresence>
+
+        {/* Skip Onboarding Confirmation Dialog */}
+        {showSkipDialog && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <Card className="max-w-md w-full">
+              <CardHeader>
+                <CardTitle>Skip Onboarding?</CardTitle>
+                <CardDescription>
+                  You can complete your medical profile later from your dashboard settings.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  A complete medical profile helps doctors provide better care. We recommend filling out all sections for accurate diagnosis and treatment.
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-end gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowSkipDialog(false)}
+                  disabled={loading}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  onClick={handleSkipOnboarding}
+                  disabled={loading}
+                >
+                  {loading ? "Skipping..." : "Skip Onboarding"}
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   )
