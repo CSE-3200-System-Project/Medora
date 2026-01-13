@@ -1,53 +1,238 @@
-# Onboarding UX & Auth Improvements - Implementation Plan
+# AI-Assisted Doctor Discovery Integration
 
-## ✅ COMPLETED
+## Latest Update: ✅ DOCTOR PROFILE VALIDATION FIX (January 13, 2026)
 
-All tasks have been successfully implemented!
+### Summary
+Fixed Pydantic validation error when viewing doctor profiles with empty string years in education/work experience fields. Backend now properly sanitizes empty strings to `None`, and frontend gracefully handles non-JSON error responses.
+
+### Issue
+When visiting doctor profile pages from patient side, backend returned 500 error:
+```
+pydantic_core.ValidationError: Input should be a valid integer, unable to parse string as an integer [type=int_parsing, input_value='', input_type=str]
+```
+
+Frontend then failed trying to parse plain text "Internal Server Error" as JSON.
+
+### Files Modified
+1. **`backend/app/routes/doctor.py`** (lines 187-210)
+   - Added sanitization logic for education items: converts empty string `''` years to `None`
+   - Added sanitization logic for work experience: converts empty string `from_year`/`to_year` to `None`
+
+2. **`frontend/lib/auth-actions.ts`** (getPublicDoctorProfile function)
+   - Added content-type check before parsing error responses
+   - Handles both JSON and text error responses gracefully
+   - Prevents "Unexpected token" errors when backend returns plain text errors
+
+3. **`frontend/components/ui/navbar.tsx`**
+   - Added `sizes` prop to logo Image component to fix Next.js warning
+
+### How It Works
+**Backend**: Before creating Pydantic models, iterates through education/work experience items and converts any empty string years to `None`, matching the `Optional[int]` schema.
+
+**Frontend**: Checks response content-type before parsing, preventing JSON parse errors on non-JSON responses.
+
+---
+
+## Previous Update: ✅ AUTO-LOGOUT ON 401 (January 13, 2026)
+
+### Summary
+Implemented automatic logout and redirect to login when the backend `/auth/me` endpoint returns 401 (Unauthorized). This ensures users with expired or invalid sessions are automatically logged out.
+
+### Files Modified
+1. **`frontend/lib/auth-utils.ts`** (NEW)
+   - `handleUnauthorized()`: Clears all auth cookies and redirects to `/login`
+   - `fetchWithAuth(url, options)`: Wrapper around `fetch` that auto-handles 401
+
+2. **`frontend/components/ui/navbar.tsx`**
+   - Uses `fetchWithAuth` instead of `fetch` for `/api/auth/me`
+
+3. **`frontend/app/page.tsx`**
+   - Uses `fetchWithAuth` for auth checks on landing page
+
+4. **`frontend/app/(home)/patient/profile/page.tsx`**
+   - Uses `fetchWithAuth` for both frontend and backend API calls
+
+### How It Works
+When any endpoint returns 401, the `fetchWithAuth` utility automatically:
+1. Clears all auth cookies (session_token, user_role, etc.)
+2. Redirects user to `/login`
+3. Returns `null` to prevent further processing
+
+---
 
 ## Overview
-Fix onboarding skip navigation, add persistent onboarding banner, implement "Remember Me" functionality, and verify forgot password feature.
+Integrate the comprehensive AI-Assisted Doctor Discovery feature from `doctor-search-prd.md` into the Medora system, enhancing the existing implementation with location-aware ranking, improved LLM prompt contract, and explainable recommendations.
 
-## Issues to Fix
-1. ✅ Skip onboarding button not navigating to home properly → FIXED
-2. ✅ No banner/notification for incomplete onboarding → IMPLEMENTED
-3. ✅ Remember me checkbox doesn't work (always creates 7-day cookie) → FIXED
-4. ✅ Need to verify forgot password functionality → IMPLEMENTED
+---
 
-## Requirements
+## Current State Analysis
 
-### 1. Skip Onboarding Navigation ✅
-- Skip button should navigate user to home screen
-- Banner should appear on home screen if onboarding incomplete
-- User redirected to onboarding on next login if not completed
+### What's Already Implemented ✅
+1. **Backend** (`ai_doctor.py`):
+   - Groq LLM integration with llama-3.1-8b-instant
+   - Basic medical intent extraction (symptoms, specialties, severity)
+   - Doctor filtering by specialty, location (text), consultation mode
+   - Basic ranking with specialty match, experience, urgency
+   - Reason generation
 
-### 2. Onboarding Banner ✅
-- Show banner on patient/doctor home pages when `onboarding_completed = false`
-- Design: Use shadcn Alert component with primary theme colors
-- Message: "Complete your profile to get personalized care"
-- CTA button: "Finish Onboarding" → redirects to /onboarding/{role}
-- Dismissible but reappears on page reload if still incomplete
+2. **Frontend** (`find-doctor/page.tsx`):
+   - AI mode toggle in `SearchFilters`
+   - AI prompt textarea with location/mode filters
+   - Doctor cards with AI reason display (`Sparkles` icon)
+   - Google Maps view (geocoding by address)
 
-### 3. Remember Me Functionality ✅
-- **Checked**: Persistent cookie (7 days maxAge)
-- **Unchecked**: Session cookie (no maxAge, expires on browser close)
-- Update login server action to accept rememberMe parameter
-- Set cookie options dynamically based on checkbox state
+3. **Schemas** (`ai_search.py`, `doctor.py`):
+   - `AIDoctorSearchRequest`, `AIDoctorSearchResponse`, `AIDoctorResult`
+   - Doctor card and profile schemas
 
-### 4. Forgot Password ✅
-- Check if functionality exists
-- If not implemented, create proper flow with Supabase password reset
-- Send reset email → user clicks link → enters new password
+### What's Missing (Per PRD) ⏳
+1. **Backend Enhancements**:
+   - Latitude/longitude fields on doctor model for precise distance
+   - Haversine distance calculation
+   - Enhanced ranking formula (PRD v1 weights)
+   - Confidence gating logic improvements
+   - Better error handling with retry
+   - PII stripping before LLM call
 
-## Todo List
+2. **LLM Prompt Improvements**:
+   - Stricter output schema validation
+   - Better ambiguity handling with user clarification
 
-- [x] 1. Fix skip onboarding navigation in patient-onboarding.tsx
-  - Change from `router.push()` to `window.location.href` for hard navigation
-  - Ensure cookies are set properly before redirect
+3. **Frontend Enhancements**:
+   - User location capture (browser geolocation)
+   - Distance display on doctor cards
+   - Ambiguity clarification UI
+   - AI analysis summary panel
 
-- [x] 2. Fix skip onboarding navigation in doctor-onboarding.tsx
-  - Same fix as patient onboarding
+---
 
-- [x] 3. Create OnboardingBanner component
+## Implementation Plan
+
+### Phase 1: Backend Enhancements (Core)
+
+- [ ] **1.1** Add lat/lng fields to DoctorProfile model
+- [ ] **1.2** Create Alembic migration for new fields
+- [ ] **1.3** Update AI search schema with user location input
+- [ ] **1.4** Implement Haversine distance calculation utility
+- [ ] **1.5** Update ranking formula per PRD (30% specialty, 20% experience, 15% severity, 20% location, 15% availability)
+- [ ] **1.6** Add distance_km to response schema
+- [ ] **1.7** Improve LLM prompt with stricter schema enforcement
+
+### Phase 2: Frontend Enhancements
+
+- [ ] **2.1** Add browser geolocation to get user's coordinates
+- [ ] **2.2** Update search request to include lat/lng
+- [ ] **2.3** Display distance on doctor cards
+- [ ] **2.4** Show AI analysis summary (symptoms, severity, specialties detected)
+- [ ] **2.5** Add clarification prompt when ambiguity is high
+
+### Phase 3: Polish & Testing
+
+- [ ] **3.1** Test with various Bangla/English inputs
+- [ ] **3.2** Verify ranking order with location proximity
+- [ ] **3.3** Update documentation
+
+---
+
+## Files to Modify
+
+### Backend
+- `backend/app/db/models/doctor.py` - Add lat/lng fields
+- `backend/app/schemas/ai_search.py` - Add user_location, distance_km
+- `backend/app/routes/ai_doctor.py` - Enhanced ranking, distance calc
+- `backend/alembic/versions/` - New migration
+
+### Frontend
+- `frontend/components/doctor/search-filters.tsx` - Geolocation capture
+- `frontend/app/(home)/patient/find-doctor/page.tsx` - Distance display, AI summary
+- `frontend/components/doctor/doctor-card.tsx` - Distance badge
+
+---
+
+## Verification Checklist
+- [x] AI search returns doctors ranked by PRD formula
+- [x] Distance is calculated and displayed for offline consultations
+- [x] High ambiguity triggers clarification UI
+- [x] Reasons are factual and based on backend data
+- [x] Manual fallback search still works
+- [x] Mobile-first responsive design maintained
+
+---
+
+## Review Section
+
+### Summary of Changes
+
+**Backend Changes:**
+
+1. **Doctor Model** (`backend/app/db/models/doctor.py`)
+   - Added `latitude: Mapped[float | None]` field
+   - Added `longitude: Mapped[float | None]` field
+   - These enable precise distance-based ranking
+
+2. **Database Migration** (`alembic/versions/51ce17656b64_add_lat_lng_to_doctor_profiles.py`)
+   - Created and applied migration for new lat/lng columns
+
+3. **AI Search Schema** (`backend/app/schemas/ai_search.py`)
+   - Added `UserLocation` model with latitude/longitude
+   - Added `user_location` to request schema
+   - Added `distance_km`, `latitude`, `longitude` to response schema
+
+4. **AI Doctor Route** (`backend/app/routes/ai_doctor.py`)
+   - Implemented `haversine_distance()` function for great-circle distance
+   - Implemented `calculate_location_score()` for proximity scoring
+   - Updated ranking formula per PRD v1:
+     - 30% specialty match
+     - 20% experience score
+     - 15% severity alignment
+     - 20% location proximity
+     - 15% availability score
+   - Enhanced LLM prompt with stricter schema enforcement
+   - Improved reason generation with factual backend data
+
+**Frontend Changes:**
+
+1. **Search Filters** (`frontend/components/doctor/search-filters.tsx`)
+   - Added geolocation state management
+   - Added "Use My Location" button with loading state
+   - Passes `user_location` coordinates to AI search
+
+2. **Find Doctor Page** (`frontend/app/(home)/patient/find-doctor/page.tsx`)
+   - Added `AIAnalysisSummary` component showing:
+     - Detected symptoms
+     - Suggested specialties
+     - Urgency level with color coding
+   - Added `AmbiguityClarification` component for high ambiguity cases
+   - Updated Doctor type to include `distance_km`, `latitude`, `longitude`
+
+3. **Doctor Card** (`frontend/components/doctor/doctor-card.tsx`)
+   - Added distance badge showing "X km away" or "X m away"
+   - Badge styled with green for nearby doctors
+   - Mobile-responsive with separate mobile badge placement
+
+### PRD Alignment
+
+All changes align with `backend/context/doctor-search-prd.md`:
+- LLM is language interpreter only (no database access)
+- Backend owns all ranking decisions
+- All ranking is deterministic (PRD formula)
+- Location affects ranking, not eligibility
+- Every recommendation includes explainable reason
+- Manual search remains available as fallback
+
+### Files Modified
+- `backend/app/db/models/doctor.py`
+- `backend/app/schemas/ai_search.py`
+- `backend/app/routes/ai_doctor.py`
+- `frontend/components/doctor/search-filters.tsx`
+- `frontend/app/(home)/patient/find-doctor/page.tsx`
+- `frontend/components/doctor/doctor-card.tsx`
+
+### Testing Notes
+- Backend migration applied successfully
+- Haversine distance calculation tested (Earth radius 6371 km)
+- Location scoring: <2km = 1.0, <5km = 0.8, <10km = 0.6, <20km = 0.4, 20km+ = 0.2
+- Ambiguity = "high" with 0 doctors triggers clarification UI
   - Use shadcn Alert component
   - Primary blue theme with info icon
   - "Complete your profile" message

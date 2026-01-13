@@ -55,6 +55,10 @@ class DoctorProfile(Base):
     chamber_address: Mapped[str | None]
     chamber_city: Mapped[str | None]
     
+    # Geolocation for distance-based ranking (PRD: location-aware search)
+    latitude: Mapped[float | None] = mapped_column(Float)
+    longitude: Mapped[float | None] = mapped_column(Float)
+    
     practice_location: Mapped[str | None]  # Legacy field
     consultation_mode: Mapped[str | None]  # online, in-person, both
     affiliation_letter_url: Mapped[str | None]

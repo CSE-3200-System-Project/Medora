@@ -66,6 +66,17 @@ export default function PatientHomePage() {
   const fetchAppointments = async () => {
     try {
       const data = await getMyAppointments();
+      
+      // If data is empty array and no token, redirect to home
+      if (!data || data.length === 0) {
+        const cookies = document.cookie.split(';');
+        const tokenCookie = cookies.find(c => c.trim().startsWith('session_token='));
+        if (!tokenCookie || !tokenCookie.split('=')[1]) {
+          window.location.href = '/';
+          return;
+        }
+      }
+      
       setAppointments(data);
       
       // Calculate stats
@@ -83,6 +94,13 @@ export default function PatientHomePage() {
       setStats({ upcoming, completed, pending });
     } catch (error) {
       console.error("Failed to fetch appointments:", error);
+      // On any error, check if user has valid session
+      const cookies = document.cookie.split(';');
+      const tokenCookie = cookies.find(c => c.trim().startsWith('session_token='));
+      if (!tokenCookie || !tokenCookie.split('=')[1]) {
+        window.location.href = '/';
+        return;
+      }
     } finally {
       setLoading(false);
     }

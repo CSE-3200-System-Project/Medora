@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { fetchWithAuth } from "@/lib/auth-utils";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -91,19 +92,20 @@ export default function PatientProfilePage() {
 
   const loadPatientProfile = async () => {
     try {
-      const response = await fetch('/api/auth/me');
-      if (response.ok) {
+      const response = await fetchWithAuth('/api/auth/me');
+      if (response?.ok) {
         const data = await response.json();
         
         // Fetch detailed patient data
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-        const detailsResponse = await fetch(`${backendUrl}/profile/patient/onboarding`, {
+        const token = document.cookie.split('session_token=')[1]?.split(';')[0];
+        const detailsResponse = await fetchWithAuth(`${backendUrl}/profile/patient/onboarding`, {
           headers: {
-            Authorization: `Bearer ${document.cookie.split('session_token=')[1]?.split(';')[0]}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         
-        if (detailsResponse.ok) {
+        if (detailsResponse?.ok) {
           const details = await detailsResponse.json();
           setPatient({ ...data, ...details });
         } else {

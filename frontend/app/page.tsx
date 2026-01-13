@@ -8,6 +8,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { fetchWithAuth } from "@/lib/auth-utils";
 import { 
   ArrowRight, 
   Activity, 
@@ -32,8 +33,8 @@ export default function Home() {
   useEffect(() => {
     async function checkAuthAndRedirect() {
       try {
-        const response = await fetch('/api/auth/me');
-        if (response.ok) {
+        const response = await fetchWithAuth('/api/auth/me');
+        if (response?.ok) {
           const user = await response.json();
           if (user && user.role) {
             const role = user.role.toLowerCase();

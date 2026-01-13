@@ -186,12 +186,28 @@ async def get_doctor_profile(
     # Parse education from JSON
     education = None
     if doc.education:
-        education = [EducationItem(**item) for item in doc.education]
+        # Handle empty string years by converting to None
+        sanitized_education = []
+        for item in doc.education:
+            edu_item = dict(item)
+            if 'year' in edu_item and edu_item['year'] == '':
+                edu_item['year'] = None
+            sanitized_education.append(EducationItem(**edu_item))
+        education = sanitized_education
 
     # Parse work experience from JSON
     work_experience = None
     if doc.work_experience:
-        work_experience = [WorkExperienceItem(**item) for item in doc.work_experience]
+        # Handle empty string years by converting to None
+        sanitized_work = []
+        for item in doc.work_experience:
+            work_item = dict(item)
+            if 'from_year' in work_item and work_item['from_year'] == '':
+                work_item['from_year'] = None
+            if 'to_year' in work_item and work_item['to_year'] == '':
+                work_item['to_year'] = None
+            sanitized_work.append(WorkExperienceItem(**work_item))
+        work_experience = sanitized_work
 
     return DoctorProfileResponse(
         profile_id=doc.profile_id,

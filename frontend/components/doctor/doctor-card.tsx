@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Clock, Video, Stethoscope, Sparkles } from "lucide-react";
+import { MapPin, Clock, Video, Stethoscope, Sparkles, Navigation } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,7 @@ interface DoctorCardProps {
     consultation_mode?: string;
     reason?: string;
     score?: number;
+    distance_km?: number;
   };
 }
 
@@ -58,11 +59,23 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
                   <span>{doctor.specialization}</span>
                 </div>
               </div>
-              {doctor.years_of_experience && (
-                <Badge variant="secondary" className="hidden md:flex">
-                  {doctor.years_of_experience} Years Exp.
-                </Badge>
-              )}
+              <div className="hidden md:flex flex-col items-end gap-1">
+                {doctor.years_of_experience && (
+                  <Badge variant="secondary">
+                    {doctor.years_of_experience} Years Exp.
+                  </Badge>
+                )}
+                {/* Distance badge for location-aware search */}
+                {doctor.distance_km !== undefined && doctor.distance_km !== null && (
+                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Navigation className="h-3 w-3 mr-1" />
+                    {doctor.distance_km < 1 
+                      ? `${Math.round(doctor.distance_km * 1000)}m away`
+                      : `${doctor.distance_km.toFixed(1)} km away`
+                    }
+                  </Badge>
+                )}
+              </div>
             </div>
 
             {/* AI Reason */}
@@ -99,12 +112,21 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mt-3">
+              {/* Mobile distance badge */}
+              {doctor.distance_km !== undefined && doctor.distance_km !== null && (
+                <Badge variant="outline" className="md:hidden bg-green-50 text-green-700 border-green-200">
+                  <Navigation className="h-3 w-3 mr-1" />
+                  {doctor.distance_km < 1 
+                    ? `${Math.round(doctor.distance_km * 1000)}m`
+                    : `${doctor.distance_km.toFixed(1)} km`
+                  }
+                </Badge>
+              )}
               {doctor.consultation_mode?.includes("video") && (
                 <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
                   <Video className="h-3 w-3 mr-1" /> Video Consult
                 </Badge>
               )}
-              {/* Add more tags based on services if available */}
             </div>
           </div>
         </div>

@@ -35,7 +35,9 @@ export async function getMyAppointments() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
-  if (!token) throw new Error("Not authenticated");
+  if (!token) {
+    return [];
+  }
 
   const response = await fetch(`${BACKEND_URL}/appointment/my-appointments`, {
     headers: {
@@ -44,7 +46,12 @@ export async function getMyAppointments() {
     cache: "no-store",
   });
   
-  if (!response.ok) throw new Error("Failed to fetch appointments");
+  if (!response.ok) {
+    if (response.status === 401) {
+      return [];
+    }
+    throw new Error("Failed to fetch appointments");
+  }
 
   return response.json();
 }

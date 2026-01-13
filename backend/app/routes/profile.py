@@ -5,6 +5,7 @@ from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile
+from app.db.models.speciality import Speciality
 from app.db.models.profile import Profile
 from app.db.models.enums import VerificationStatus, UserRole
 from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
@@ -230,6 +231,8 @@ async def update_doctor_onboarding(
     """Update doctor profile during onboarding"""
     user_id = user.id
     try:
+        # Debug log incoming data
+        print("📥 Received doctor onboarding payload:", data.model_dump(exclude_unset=True))
         # 1. Update Profile table
         profile_data = {}
         if data.first_name: profile_data['first_name'] = data.first_name
@@ -268,7 +271,18 @@ async def update_doctor_onboarding(
         if data.education is not None: doctor_data['education'] = to_dict_list(data.education)
         
         # Specialization
-        if data.specialization: doctor_data['specialization'] = data.specialization
+        if data.speciality_id is not None:
+            doctor_data['speciality_id'] = data.speciality_id
+            # Resolve the name and set specialization text
+            try:
+                spec_res = await db.execute(select(Speciality).where(Speciality.id == data.speciality_id))
+                spec_row = spec_res.scalar_one_or_none()
+                if spec_row:
+                    doctor_data['specialization'] = spec_row.name
+            except Exception:
+                pass
+        elif data.specialization:
+            doctor_data['specialization'] = data.specialization
         if data.sub_specializations is not None: doctor_data['sub_specializations'] = data.sub_specializations
         if data.services is not None: doctor_data['services'] = data.services
         
@@ -336,6 +350,10 @@ async def update_doctor_onboarding(
                 )
         
         await db.commit()
+        # Debug: show updated speciality_id
+        updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
+        updated_doc = updated.scalar_one_or_none()
+        print("🔁 Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
         return {"message": "Profile updated successfully"}
     except Exception as e:
         await db.rollback()
@@ -556,6 +574,14 @@ async def get_doctor_onboarding_data(
     }
     
     if doctor:
+        # Resolve speciality name if a speciality_id is set
+        speciality_name = None
+        if getattr(doctor, 'speciality_id', None):
+            spec_res = await db.execute(select(Speciality).where(Speciality.id == doctor.speciality_id))
+            spec_row = spec_res.scalar_one_or_none()
+            if spec_row:
+                speciality_name = spec_row.name
+
         response.update({
             # Personal Identity
             "title": doctor.title,
@@ -573,7 +599,9 @@ async def get_doctor_onboarding_data(
             "education": doctor.education or [],
             
             # Specialization
+            "speciality_id": doctor.speciality_id,
             "specialization": doctor.specialization,
+            "speciality_name": speciality_name or doctor.specialization,
             "sub_specializations": doctor.sub_specializations or [],
             "services": doctor.services or [],
             
@@ -702,6 +730,14 @@ async def get_doctor_profile(
     }
     
     if doctor:
+        # Resolve speciality name if `speciality_id` is present
+        speciality_name = None
+        if getattr(doctor, 'speciality_id', None):
+            spec_res = await db.execute(select(Speciality).where(Speciality.id == doctor.speciality_id))
+            spec_row = spec_res.scalar_one_or_none()
+            if spec_row:
+                speciality_name = spec_row.name
+
         response.update({
             # Personal Identity
             "title": doctor.title,
@@ -720,8 +756,9 @@ async def get_doctor_profile(
             "education": doctor.education or [],
             
             # Specialization
+            "speciality_id": doctor.speciality_id,
             "specialization": doctor.specialization,
-            "speciality_name": doctor.specialization,  # Alias for frontend compatibility
+            "speciality_name": speciality_name or doctor.specialization,
             "sub_specializations": doctor.sub_specializations or [],
             "services": doctor.services or [],
             
@@ -778,6 +815,8 @@ async def update_doctor_profile(
     user_id = user.id
     
     try:
+        # Debug log incoming data
+        print("📥 Received doctor update payload:", data.model_dump(exclude_unset=True))
         # 1. Update Profile table (common fields)
         profile_data = {}
         if data.first_name: profile_data['first_name'] = data.first_name
@@ -817,7 +856,18 @@ async def update_doctor_profile(
         if data.education is not None: doctor_data['education'] = to_dict_list(data.education)
         
         # Specialization
-        if data.specialization: doctor_data['specialization'] = data.specialization
+        if data.speciality_id is not None:
+            doctor_data['speciality_id'] = data.speciality_id
+            # Resolve the name and set specialization text
+            try:
+                spec_res = await db.execute(select(Speciality).where(Speciality.id == data.speciality_id))
+                spec_row = spec_res.scalar_one_or_none()
+                if spec_row:
+                    doctor_data['specialization'] = spec_row.name
+            except Exception:
+                pass
+        elif data.specialization:
+            doctor_data['specialization'] = data.specialization
         if data.sub_specializations is not None: doctor_data['sub_specializations'] = data.sub_specializations
         if data.services is not None: doctor_data['services'] = data.services
         
@@ -870,6 +920,11 @@ async def update_doctor_profile(
             )
 
         await db.commit()
+        
+        # Debug: show updated speciality_id
+        updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
+        updated_doc = updated.scalar_one_or_none()
+        print("🔁 Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
         
         return {"success": True, "message": "Profile updated successfully"}
         
