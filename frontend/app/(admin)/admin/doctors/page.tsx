@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,7 +46,7 @@ type Doctor = {
   account_status?: string;
 };
 
-export default function DoctorsPage() {
+function DoctorsPageContent() {
   const searchParams = useSearchParams();
   const defaultTab = searchParams?.get('tab') || 'all';
   
@@ -402,5 +402,20 @@ function DoctorGrid({
         </Card>
       ))}
     </div>
+  );
+}
+
+export default function DoctorsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-surface">
+        <AdminNavbar />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+          <div className="animate-pulse">Loading...</div>
+        </main>
+      </div>
+    }>
+      <DoctorsPageContent />
+    </Suspense>
   );
 }

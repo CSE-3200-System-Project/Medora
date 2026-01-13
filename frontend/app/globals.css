@@ -50,7 +50,7 @@
   --popover: #FFFFFF;
   --popover-foreground: #2E2E2E;
   --primary-foreground: #FFFFFF;
-  
+
   /* Destructive */
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-muted: #B91C1C;
@@ -75,8 +75,6 @@
   /* Fonts */
   --font-sans: var(--sf-pro-display);
 }
-
-
 
 /* ======================================
    Tailwind Theme Bridge
@@ -226,5 +224,11 @@ hr {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
   }
 }

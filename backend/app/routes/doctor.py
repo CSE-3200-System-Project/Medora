@@ -18,6 +18,8 @@ from app.schemas.doctor import (
     TimeSlot,
     TimeSlotGroup
 )
+from app.services.geocoding import geocode_and_save_doctor_locations, geocode_all_doctors_missing_coordinates
+from app.routes.auth import get_current_user_token
 
 router = APIRouter()
 
@@ -110,6 +112,13 @@ async def search_doctors(
             hospital_name=doc.hospital_name,
             hospital_address=doc.hospital_address,
             hospital_city=doc.hospital_city,
+            hospital_latitude=doc.hospital_latitude,
+            hospital_longitude=doc.hospital_longitude,
+            chamber_name=doc.chamber_name,
+            chamber_address=doc.chamber_address,
+            chamber_city=doc.chamber_city,
+            chamber_latitude=doc.chamber_latitude,
+            chamber_longitude=doc.chamber_longitude,
             consultation_fee=doc.consultation_fee,
             profile_photo_url=doc.profile_photo_url,
             visiting_hours=doc.visiting_hours,
@@ -300,3 +309,81 @@ async def get_appointment_slots(
         location=location or doctor.hospital_name or "Not specified",
         slots=slot_groups
     )
+
+
+@router.post("/geocode-location/{doctor_id}")
+async def geocode_doctor_location(
+    doctor_id: str,
+    force_regeocode: bool = Query(False, description="Force re-geocoding even if coordinates exist"),
+    db: AsyncSession = Depends(get_db),
+    user: any = Depends(get_current_user_token)
+):
+    """
+    Geocode and save hospital and chamber locations for a specific doctor.
+    Requires authentication. Doctors can only geocode their own profile.
+    Admins can geocode any doctor's profile.
+    """
+    # Check authorization: user must be the doctor or an admin
+    from app.db.models.enums import UserRole
+    from app.db.models.profile import Profile as UserProfile
+    
+    stmt = select(UserProfile).where(UserProfile.id == user.id)
+    result = await db.execute(stmt)
+    user_profile = result.scalar_one_or_none()
+    
+    if not user_profile:
+        raise HTTPException(status_code=404, detail="User profile not found")
+    
+    is_admin = user_profile.role == UserRole.ADMIN
+    is_own_profile = user.id == doctor_id
+    
+    if not (is_admin or is_own_profile):
+        raise HTTPException(
+            status_code=403,
+            detail="You can only geocode your own doctor profile"
+        )
+    
+    # Perform geocoding
+    result = await geocode_and_save_doctor_locations(db, doctor_id, force_regeocode)
+    
+    return {
+        "success": True,
+        "doctor_id": doctor_id,
+        "hospital_geocoded": result["hospital_geocoded"],
+        "chamber_geocoded": result["chamber_geocoded"],
+        "message": "Location coordinates updated successfully"
+    }
+
+
+@router.post("/geocode-all-missing")
+async def geocode_all_missing_locations(
+    limit: int = Query(50, description="Maximum number of doctors to process"),
+    db: AsyncSession = Depends(get_db),
+    user: any = Depends(get_current_user_token)
+):
+    """
+    Batch geocode all doctors missing location coordinates.
+    Admin only endpoint for data migration or maintenance.
+    """
+    # Check if user is admin
+    from app.db.models.enums import UserRole
+    from app.db.models.profile import Profile as UserProfile
+    
+    stmt = select(UserProfile).where(UserProfile.id == user.id)
+    result = await db.execute(stmt)
+    user_profile = result.scalar_one_or_none()
+    
+    if not user_profile or user_profile.role != UserRole.ADMIN:
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required"
+        )
+    
+    # Perform batch geocoding
+    stats = await geocode_all_doctors_missing_coordinates(db, limit)
+    
+    return {
+        "success": True,
+        "stats": stats,
+        "message": f"Processed {stats['total_processed']} doctors"
+    }

@@ -1,10 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMapsLibrary } from "@vis.gl/react-google-maps";
-import { MapPin, User, Navigation } from "lucide-react";
+import { MapPin, Plus, Stethoscope, Navigation, Clock, Route, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  Map,
+  MapMarker,
+  MarkerContent,
+  MarkerPopup,
+  MarkerTooltip,
+  MapControls,
+  MapRoute,
+  MarkerLabel,
+} from "@/components/ui/map";
 
 interface Doctor {
   profile_id: string;
@@ -15,155 +25,549 @@ interface Doctor {
   hospital_name?: string;
   hospital_address?: string;
   hospital_city?: string;
+  hospital_latitude?: number;
+  hospital_longitude?: number;
+  chamber_name?: string;
+  chamber_address?: string;
+  chamber_city?: string;
+  chamber_latitude?: number;
+  chamber_longitude?: number;
+  // AI search fields
+  latitude?: number;
+  longitude?: number;
   profile_photo_url?: string;
   consultation_fee?: number;
+  visiting_hours?: string;
+}
+
+interface DoctorLocation {
+  type: 'hospital' | 'chamber';
+  name: string;
+  address?: string;
+  city?: string;
+  latitude: number;
+  longitude: number;
+  doctor: Doctor;
+}
+
+interface RouteData {
+  coordinates: [number, number][];
+  duration: number; // seconds
+  distance: number; // meters
 }
 
 interface MapViewProps {
   doctors: Doctor[];
   className?: string;
+  userLocation?: { latitude: number; longitude: number } | null;
+  onDoctorSelect?: (doctor: Doctor) => void;
 }
 
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+// Default center (Dhaka, Bangladesh)
+const DEFAULT_CENTER: [number, number] = [90.4125, 23.8103];
+const DEFAULT_ZOOM = 11;
 
-const MapContent = ({ doctors }: { doctors: Doctor[] }) => {
-  const geocodingLib = useMapsLibrary("geocoding");
-  const [locations, setLocations] = useState<Record<string, google.maps.LatLngLiteral>>({});
-  const [selectedDoc, setSelectedDoc] = useState<Doctor | null>(null);
-  
-  // Default center (Dhaka)
-  const defaultCenter = { lat: 23.8103, lng: 90.4125 };
+// Format duration from seconds
+function formatDuration(seconds: number): string {
+  const mins = Math.round(seconds / 60);
+  if (mins < 60) return `${mins} min`;
+  const hours = Math.floor(mins / 60);
+  const remainingMins = mins % 60;
+  return `${hours}h ${remainingMins}m`;
+}
 
-  useEffect(() => {
-    if (!geocodingLib || !doctors.length) return;
+// Format distance from meters
+function formatDistance(meters: number): string {
+  if (meters < 1000) return `${Math.round(meters)} m`;
+  return `${(meters / 1000).toFixed(1)} km`;
+}
 
-    const geocoder = new geocodingLib.Geocoder();
-    let isMounted = true;
+// Fetch routes from OSRM API
+async function fetchRoutes(
+  from: { lat: number; lng: number },
+  to: { lat: number; lng: number }
+): Promise<RouteData[]> {
+  try {
+    const response = await fetch(
+      `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson&alternatives=true`
+    );
+    
+    if (!response.ok) {
+      console.error('OSRM API error:', response.status);
+      return [];
+    }
+    
+    const data = await response.json();
+    
+    if (data.routes && data.routes.length > 0) {
+      return data.routes.map((route: any) => ({
+        coordinates: route.geometry.coordinates,
+        duration: route.duration,
+        distance: route.distance,
+      }));
+    }
+    
+    return [];
+  } catch (error) {
+    console.error('Route fetching error:', error);
+    return [];
+  }
+}
 
-    const processDoctors = async () => {
-      // Create a queue of doctors that have addresses but no location yet
-      const docsToGeocode = doctors.filter(doc => {
-        // Skip if already geocoded
-        if (locations[doc.profile_id]) return false;
-        
-        // Skip if no address
-        if (!doc.hospital_name && !doc.hospital_address) return false;
-        
-        return true;
-      });
-
-      // Limit to 5 at a time to be safe with quotas during demo
-      for (const doc of docsToGeocode.slice(0, 5)) {
-        if (!isMounted) break;
-
-        const address = [
-            doc.hospital_name, 
-            doc.hospital_address, 
-            doc.hospital_city, 
-            "Bangladesh"
-        ].filter(Boolean).join(", ");
-
-        if (!address) continue;
-
-        try {
-          const result = await geocoder.geocode({ address });
-          if (result.results[0]?.geometry?.location) {
-            const loc = result.results[0].geometry.location;
-            
-            // Update state safely
-            setLocations(prev => ({
-              ...prev,
-              [doc.profile_id]: { lat: loc.lat(), lng: loc.lng() }
-            }));
-          }
-        } catch (e) {
-            console.warn(`Geocoding failed for ${doc.first_name}:`, e);
-        }
-        
-        // Small delay between requests
-        await new Promise(r => setTimeout(r, 500));
-      }
-    };
-
-    processDoctors();
-
-    return () => { isMounted = false; };
-  }, [doctors, geocodingLib]);
-
+// Hospital marker icon (red cross)
+function HospitalMarkerIcon({ isSelected }: { isSelected?: boolean }) {
   return (
-    <Map
-      defaultCenter={defaultCenter}
-      defaultZoom={11}
-      mapId="DEMO_MAP_ID" 
-      className="w-full h-full"
-      disableDefaultUI={false}
-      gestureHandling={'greedy'}
-    >
-      {doctors.map(doctor => {
-        const position = locations[doctor.profile_id];
-        if (!position) return null;
-
-        return (
-            <AdvancedMarker
-                key={doctor.profile_id}
-                position={position}
-                onClick={() => setSelectedDoc(doctor)}
-            >
-                <Pin background={'#0360D9'} borderColor={'#004299'} glyphColor={'white'} />
-            </AdvancedMarker>
-        );
-      })}
-
-      {selectedDoc && locations[selectedDoc.profile_id] && (
-        <InfoWindow
-          position={locations[selectedDoc.profile_id]}
-          onCloseClick={() => setSelectedDoc(null)}
-          className="min-w-[200px]"
-        >
-          <div className="p-2">
-            <div className="flex items-center gap-3 mb-2">
-                <Avatar className="h-10 w-10">
-                    <AvatarImage src={selectedDoc.profile_photo_url} />
-                    <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
-                </Avatar>
-                <div>
-                   <h4 className="font-bold text-sm text-gray-900">{selectedDoc.title} {selectedDoc.first_name} {selectedDoc.last_name}</h4>
-                   <p className="text-xs text-primary">{selectedDoc.specialization}</p>
-                </div>
-            </div>
-            
-            <div className="text-xs text-muted-foreground space-y-1 mb-3">
-               <p className="font-medium text-gray-700">{selectedDoc.hospital_name}</p>
-               <p>{selectedDoc.hospital_address}, {selectedDoc.hospital_city}</p>
-            </div>
-
-            <Button size="sm" className="w-full h-8 text-xs" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedDoc.hospital_name || '')}`, '_blank')}>
-                <Navigation className="h-3 w-3 mr-1" /> Get Directions
-            </Button>
-          </div>
-        </InfoWindow>
-      )}
-    </Map>
+    <div className={`
+      relative flex items-center justify-center
+      w-10 h-10 rounded-full
+      ${isSelected ? 'bg-red-500 scale-110' : 'bg-red-500/90'}
+      border-2 border-white shadow-lg
+      transition-transform duration-200
+      hover:scale-110
+    `}>
+      <Plus className="w-6 h-6 text-white" strokeWidth={3} />
+      <div className={`
+        absolute -bottom-2 left-1/2 -translate-x-1/2
+        w-0 h-0
+        border-l-[6px] border-l-transparent
+        border-r-[6px] border-r-transparent
+        border-t-[8px] ${isSelected ? 'border-t-red-500' : 'border-t-red-500/90'}
+      `} />
+    </div>
   );
-};
+}
 
-export function MapView({ doctors = [], className }: MapViewProps) {
-  if (!GOOGLE_MAPS_API_KEY) {
+// Chamber marker icon (green clinic)
+function ChamberMarkerIcon({ isSelected }: { isSelected?: boolean }) {
+  return (
+    <div className={`
+      relative flex items-center justify-center
+      w-10 h-10 rounded-full
+      ${isSelected ? 'bg-green-500 scale-110' : 'bg-green-500/90'}
+      border-2 border-white shadow-lg
+      transition-transform duration-200
+      hover:scale-110
+    `}>
+      <Stethoscope className="w-5 h-5 text-white" />
+      <div className={`
+        absolute -bottom-2 left-1/2 -translate-x-1/2
+        w-0 h-0
+        border-l-[6px] border-l-transparent
+        border-r-[6px] border-r-transparent
+        border-t-[8px] ${isSelected ? 'border-t-green-500' : 'border-t-green-500/90'}
+      `} />
+    </div>
+  );
+}
+
+// Location popup content
+function LocationPopupContent({ 
+  location,
+  onGetDirections 
+}: { 
+  location: DoctorLocation;
+  onGetDirections: () => void;
+}) {
+  const { doctor, type, name, address, city } = location;
+  
+  return (
+    <div className="min-w-[240px] p-3">
+      <div className="flex items-center gap-3 mb-3">
+        <Avatar className="h-12 w-12 border-2 border-primary/20">
+          <AvatarImage src={doctor.profile_photo_url} />
+          <AvatarFallback className="bg-primary/10 text-primary text-xs">
+            {doctor.first_name[0]}{doctor.last_name[0]}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <h4 className="font-semibold text-sm text-foreground truncate">
+            {doctor.title} {doctor.first_name} {doctor.last_name}
+          </h4>
+          <Badge variant="secondary" className="text-xs mt-0.5">
+            {doctor.specialization}
+          </Badge>
+        </div>
+      </div>
+      
+      <Badge 
+        variant={type === 'hospital' ? 'destructive' : 'default'}
+        className="mb-2 text-xs"
+      >
+        {type === 'hospital' ? 'Hospital' : 'Chamber'}
+      </Badge>
+      
+      <div className="space-y-2 text-xs text-muted-foreground mb-3">
+        {name && (
+          <div className="flex items-start gap-2">
+            <MapPin className="w-3.5 h-3.5 mt-0.5 text-primary shrink-0" />
+            <div>
+              <p className="font-medium text-foreground">{name}</p>
+              {address && <p>{address}</p>}
+              {city && <p>{city}</p>}
+            </div>
+          </div>
+        )}
+        
+        {doctor.visiting_hours && (
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-primary" />
+            <span>{doctor.visiting_hours}</span>
+          </div>
+        )}
+        
+        {doctor.consultation_fee && (
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-foreground">
+              ৳{doctor.consultation_fee}
+            </span>
+            <span>consultation fee</span>
+          </div>
+        )}
+      </div>
+
+      <Button 
+        size="sm" 
+        className="w-full h-8 text-xs"
+        onClick={onGetDirections}
+      >
+        <Navigation className="h-3 w-3 mr-1.5" />
+        Get Directions
+      </Button>
+    </div>
+  );
+}
+
+export function MapView({ 
+  doctors = [], 
+  className,
+  userLocation,
+  onDoctorSelect 
+}: MapViewProps) {
+  const [selectedLocation, setSelectedLocation] = useState<DoctorLocation | null>(null);
+  const [routes, setRoutes] = useState<RouteData[]>([]);
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+  const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
+
+  // Convert doctors to locations (hospital + chamber + generic lat/lng)
+  const allLocations: DoctorLocation[] = React.useMemo(() => {
+    const locations: DoctorLocation[] = [];
+    
+    doctors.forEach(doctor => {
+      // Add hospital location if coordinates exist
+      if (doctor.hospital_latitude && doctor.hospital_longitude) {
+        locations.push({
+          type: 'hospital',
+          name: doctor.hospital_name || 'Hospital',
+          address: doctor.hospital_address,
+          city: doctor.hospital_city,
+          latitude: doctor.hospital_latitude,
+          longitude: doctor.hospital_longitude,
+          doctor
+        });
+      }
+      
+      // Add chamber location if coordinates exist
+      if (doctor.chamber_latitude && doctor.chamber_longitude) {
+        locations.push({
+          type: 'chamber',
+          name: doctor.chamber_name || 'Chamber',
+          address: doctor.chamber_address,
+          city: doctor.chamber_city,
+          latitude: doctor.chamber_latitude,
+          longitude: doctor.chamber_longitude,
+          doctor
+        });
+      }
+      
+      // For AI search results: Add generic location if no hospital/chamber coordinates exist
+      // but generic latitude/longitude are available (from AI search)
+      if ((!doctor.hospital_latitude || !doctor.hospital_longitude) && 
+          (!doctor.chamber_latitude || !doctor.chamber_longitude) &&
+          doctor.latitude && doctor.longitude) {
+        // Determine location type based on available data
+        const hasHospitalData = doctor.hospital_name || doctor.hospital_address;
+        const hasChamberData = doctor.chamber_name || doctor.chamber_address;
+        
+        if (hasHospitalData) {
+          locations.push({
+            type: 'hospital',
+            name: doctor.hospital_name || 'Hospital',
+            address: doctor.hospital_address,
+            city: doctor.hospital_city,
+            latitude: doctor.latitude,
+            longitude: doctor.longitude,
+            doctor
+          });
+        } else if (hasChamberData) {
+          locations.push({
+            type: 'chamber',
+            name: doctor.chamber_name || 'Chamber',
+            address: doctor.chamber_address,
+            city: doctor.chamber_city,
+            latitude: doctor.latitude,
+            longitude: doctor.longitude,
+            doctor
+          });
+        } else {
+          // Fallback: treat as hospital location
+          locations.push({
+            type: 'hospital',
+            name: doctor.hospital_name || doctor.chamber_name || 'Clinic',
+            address: doctor.hospital_address || doctor.chamber_address,
+            city: doctor.hospital_city || doctor.chamber_city,
+            latitude: doctor.latitude,
+            longitude: doctor.longitude,
+            doctor
+          });
+        }
+      }
+    });
+    
+    return locations;
+  }, [doctors]);
+
+  // Calculate map center - prioritize patient location, then doctor locations
+  const mapCenter = React.useMemo(() => {
+    if (userLocation) {
+      return [userLocation.longitude, userLocation.latitude] as [number, number];
+    }
+    
+    if (allLocations.length === 0) return DEFAULT_CENTER;
+    
+    // Calculate centroid of all doctor locations
+    let sumLng = 0, sumLat = 0;
+    allLocations.forEach(loc => {
+      sumLng += loc.longitude;
+      sumLat += loc.latitude;
+    });
+    
+    return [sumLng / allLocations.length, sumLat / allLocations.length] as [number, number];
+  }, [allLocations, userLocation]);
+
+  // Handle get directions
+  const handleGetDirections = async (location: DoctorLocation) => {
+    if (!userLocation) {
+      alert('Please enable location services to get directions');
+      return;
+    }
+
+    setIsLoadingRoutes(true);
+    setSelectedLocation(location);
+    
+    const routesData = await fetchRoutes(
+      { lat: userLocation.latitude, lng: userLocation.longitude },
+      { lat: location.latitude, lng: location.longitude }
+    );
+    
+    setRoutes(routesData);
+    setSelectedRouteIndex(0);
+    setIsLoadingRoutes(false);
+    
+    if (routesData.length === 0) {
+      alert('Unable to find route. Please try again.');
+    }
+  };
+
+  // Clear route
+  const clearRoute = () => {
+    setRoutes([]);
+    setSelectedLocation(null);
+    setSelectedRouteIndex(0);
+  };
+
+  // Handle marker click
+  const handleMarkerClick = (location: DoctorLocation) => {
+    setSelectedLocation(location);
+    onDoctorSelect?.(location.doctor);
+  };
+
+  // Sort routes: non-selected first, selected last (renders on top)
+  const sortedRoutes = routes
+    .map((route, index) => ({ route, index }))
+    .sort((a, b) => {
+      if (a.index === selectedRouteIndex) return 1;
+      if (b.index === selectedRouteIndex) return -1;
+      return 0;
+    });
+
+  if (doctors.length === 0) {
     return (
-      <div className={`w-full h-full min-h-[400px] bg-slate-100 rounded-2xl border border-border flex items-center justify-center p-6 ${className}`}>
-         <div className="text-center">
-            <MapPin className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground">Map is unavailable (Missing API Key)</p>
-         </div>
+      <div className={`w-full h-full min-h-[400px] bg-surface rounded-2xl border border-border flex items-center justify-center p-6 ${className}`}>
+        <div className="text-center">
+          <MapPin className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground">No doctors to display on map</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
-      <div className={`w-full h-full min-h-[400px] bg-slate-100 rounded-2xl border border-border overflow-hidden relative ${className}`}>
-        <MapContent doctors={doctors} />
-      </div>
-    </APIProvider>
+    <div className={`w-full h-full min-h-[400px] rounded-2xl border border-border overflow-hidden relative ${className}`}>
+      <Map center={mapCenter} zoom={DEFAULT_ZOOM}>
+        <MapControls
+          position="bottom-right"
+          showZoom
+          showCompass
+          showLocate
+          showFullscreen
+        />
+
+        {/* Draw routes if available */}
+        {sortedRoutes.map(({ route, index }) => {
+          const isSelected = index === selectedRouteIndex;
+          return (
+            <MapRoute
+              key={index}
+              coordinates={route.coordinates}
+              color={isSelected ? '#6366f1' : '#94a3b8'}
+              width={isSelected ? 6 : 5}
+              opacity={isSelected ? 1 : 0.6}
+              onClick={() => setSelectedRouteIndex(index)}
+            />
+          );
+        })}
+
+        {/* Patient location marker */}
+        {userLocation && (
+          <MapMarker
+            longitude={userLocation.longitude}
+            latitude={userLocation.latitude}
+          >
+            <MarkerContent>
+              <div className="relative flex h-4 w-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-500 border-2 border-white shadow-md"></span>
+              </div>
+            </MarkerContent>
+            <MarkerLabel position="top" className="text-xs font-medium">
+              You
+            </MarkerLabel>
+          </MapMarker>
+        )}
+
+        {/* Doctor location markers */}
+        {allLocations.map((location, idx) => {
+          const isSelected = selectedLocation?.doctor.profile_id === location.doctor.profile_id &&
+                            selectedLocation?.type === location.type;
+          const uniqueKey = `${location.doctor.profile_id}-${location.type}`;
+
+          return (
+            <MapMarker
+              key={uniqueKey}
+              longitude={location.longitude}
+              latitude={location.latitude}
+              onClick={() => handleMarkerClick(location)}
+            >
+              <MarkerContent className="cursor-pointer">
+                {location.type === 'hospital' ? (
+                  <HospitalMarkerIcon isSelected={isSelected} />
+                ) : (
+                  <ChamberMarkerIcon isSelected={isSelected} />
+                )}
+              </MarkerContent>
+              
+              <MarkerTooltip className="text-xs font-medium">
+                {location.doctor.title} {location.doctor.first_name} {location.doctor.last_name}
+                <br />
+                <span className="text-[10px] opacity-80">
+                  {location.type === 'hospital' ? '🏥 Hospital' : '🏪 Chamber'}
+                </span>
+              </MarkerTooltip>
+              
+              <MarkerPopup className="!p-0" closeButton>
+                <LocationPopupContent 
+                  location={location}
+                  onGetDirections={() => handleGetDirections(location)}
+                />
+              </MarkerPopup>
+            </MapMarker>
+          );
+        })}
+
+        {/* Destination marker when route is active */}
+        {selectedLocation && routes.length > 0 && (
+          <MapMarker
+            longitude={selectedLocation.longitude}
+            latitude={selectedLocation.latitude}
+          >
+            <MarkerContent>
+              <div className="w-5 h-5 rounded-full bg-red-500 border-2 border-white shadow-lg" />
+            </MarkerContent>
+          </MapMarker>
+        )}
+      </Map>
+
+      {/* Route selection panel */}
+      {routes.length > 0 && (
+        <div className="absolute top-3 left-3 flex flex-col gap-2 bg-background/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border max-w-[280px]">
+          <div className="flex items-center justify-between mb-1">
+            <span className="font-semibold text-sm">Route Options</span>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="h-6 w-6 p-0" 
+              onClick={clearRoute}
+            >
+              <X className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+          
+          {routes.map((route, index) => {
+            const isActive = index === selectedRouteIndex;
+            const isFastest = index === 0;
+            return (
+              <Button
+                key={index}
+                variant={isActive ? "default" : "secondary"}
+                size="sm"
+                onClick={() => setSelectedRouteIndex(index)}
+                className="justify-start gap-3 h-auto py-2"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="font-medium text-sm">
+                    {formatDuration(route.duration)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs opacity-80">
+                  <Route className="w-3 h-3" />
+                  {formatDistance(route.distance)}
+                </div>
+                {isFastest && (
+                  <Badge variant="default" className="text-[10px] px-1.5 py-0.5 ml-auto bg-success text-white">
+                    Fastest
+                  </Badge>
+                )}
+              </Button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Loading indicator */}
+      {isLoadingRoutes && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+          <div className="bg-background/95 rounded-lg px-4 py-3 shadow-lg border border-border">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-4 w-4">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-primary"></span>
+              </div>
+              <span className="font-medium text-sm">Finding best routes...</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Stats indicator */}
+      {routes.length === 0 && (
+        <div className="absolute top-3 left-3 bg-background/95 backdrop-blur-sm rounded-lg px-4 py-2 text-sm text-muted-foreground shadow-md border border-border">
+          <span className="font-medium text-primary">
+            {allLocations.length}
+          </span>
+          {' '}location{allLocations.length !== 1 ? 's' : ''} shown
+        </div>
+      )}
+    </div>
   );
 }

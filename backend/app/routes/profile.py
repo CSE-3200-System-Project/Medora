@@ -9,6 +9,7 @@ from app.db.models.speciality import Speciality
 from app.db.models.profile import Profile
 from app.db.models.enums import VerificationStatus, UserRole
 from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
+from app.services.geocoding import geocode_and_save_doctor_locations
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import traceback
@@ -348,6 +349,26 @@ async def update_doctor_onboarding(
                     .where(DoctorProfile.profile_id == user_id)
                     .values(**doctor_data)
                 )
+        
+        # Geocode addresses if they were provided in the update
+        address_fields_updated = any([
+            data.hospital_address is not None,
+            data.hospital_city is not None, 
+            data.hospital_name is not None,
+            data.chamber_address is not None,
+            data.chamber_city is not None,
+            data.chamber_name is not None
+        ])
+        
+        if address_fields_updated:
+            print(f"📍 Address fields updated for doctor {user_id}, triggering geocoding...")
+            try:
+                geocode_result = await geocode_and_save_doctor_locations(db, user_id, force_regeocode=True)
+                print(f"✅ Geocoding completed for doctor {user_id}: {geocode_result}")
+            except Exception as geocode_error:
+                print(f"⚠️ Geocoding failed for doctor {user_id}: {geocode_error}")
+                # Don't fail the entire onboarding if geocoding fails
+                # Just log the error and continue
         
         await db.commit()
         # Debug: show updated speciality_id
