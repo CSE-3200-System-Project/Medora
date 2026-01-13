@@ -1,8 +1,9 @@
 import json
+import math
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_
-from typing import List
+from typing import List, Optional, Tuple
 
 from app.core.config import settings
 from app.core.dependencies import get_db
@@ -16,51 +17,104 @@ from groq import Groq
 router = APIRouter()
 client = Groq(api_key=settings.GROQ_API_KEY)
 
+
+# === HAVERSINE DISTANCE CALCULATION (PRD Section 7.3) ===
+def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """
+    Calculate the great-circle distance between two points on Earth.
+    Returns distance in kilometers.
+    """
+    R = 6371  # Earth's radius in km
+    
+    lat1_rad = math.radians(lat1)
+    lat2_rad = math.radians(lat2)
+    delta_lat = math.radians(lat2 - lat1)
+    delta_lon = math.radians(lon2 - lon1)
+    
+    a = math.sin(delta_lat / 2) ** 2 + \
+        math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    
+    return R * c
+
+
+def calculate_location_score(distance_km: Optional[float]) -> float:
+    """
+    Convert distance to a 0-1 score (closer = higher score).
+    PRD: Location proximity scoring for offline consultations.
+    """
+    if distance_km is None:
+        return 0.5  # Neutral score if no location data
+    
+    # Score decreases as distance increases
+    # < 2km = 1.0, 5km = 0.8, 10km = 0.5, 20km+ = 0.1
+    if distance_km < 2:
+        return 1.0
+    elif distance_km < 5:
+        return 0.8
+    elif distance_km < 10:
+        return 0.6
+    elif distance_km < 20:
+        return 0.4
+    else:
+        return 0.2
+
+
 async def get_all_specialties(db: AsyncSession) -> List[str]:
     stmt = select(Speciality.name)
     result = await db.execute(stmt)
     return [row[0] for row in result.all()]
+
 
 @router.post("/search", response_model=AIDoctorSearchResponse)
 async def ai_doctor_search(
     request: AIDoctorSearchRequest,
     db: AsyncSession = Depends(get_db)
 ):
-    # 1. Get available specialties for context
+    """
+    AI-Assisted Doctor Search (PRD: doctor-search-prd.md)
+    
+    Flow:
+    1. Extract medical intent via LLM (Groq)
+    2. Validate and filter by confidence thresholds
+    3. Query verified doctors by specialty
+    4. Rank using PRD formula with location awareness
+    5. Return ranked list with explainable reasons
+    """
+    # 1. Get available specialties for LLM context
     available_specialties = await get_all_specialties(db)
     specialties_str = ", ".join(available_specialties)
 
-    # 2. Construct Prompt
-    system_prompt = f"""
-You are a medical intent extraction assistant. 
-Analyze the user's input and extract structured medical data.
+    # 2. Construct LLM Prompt (PRD Section 5)
+    system_prompt = f"""You are a medical intent extraction assistant for a Bangladeshi healthcare platform.
+Analyze the user's health description and extract structured data.
 
 AVAILABLE SPECIALTIES (Choose ONLY from this list):
 [{specialties_str}]
 
-OUTPUT SCHEMA (JSON):
+OUTPUT SCHEMA (JSON only, no explanation):
 {{
-  "language_detected": "string",
-  "symptoms": [{{"name": "string", "confidence": float}}],
-  "duration_days": int | null,
-  "severity": "low | medium | high",
-  "specialties": [{{"name": "string", "confidence": float}}],
-  "ambiguity": "low | medium | high"
+  "language_detected": "bn" | "en" | "mixed",
+  "symptoms": [{{"name": "symptom in English", "confidence": 0.0-1.0}}],
+  "duration_days": number or null,
+  "severity": "low" | "medium" | "high",
+  "specialties": [{{"name": "specialty from list", "confidence": 0.0-1.0}}],
+  "ambiguity": "low" | "medium" | "high"
 }}
 
-If you cannot extract intent, set ambiguity to "high".
+RULES:
+- Output ONLY valid JSON, no explanations
+- Use English medical terms for symptoms
+- severity: high = urgent/emergency symptoms, medium = needs attention, low = routine
+- ambiguity: high = unclear input, needs clarification
+- If you cannot extract intent, return {{"error": "unable_to_extract", "ambiguity": "high"}}
 """
 
-    user_prompt = f"User Input: {request.user_text}"
-
-    print("=== AI DOCTOR SEARCH LOG ===")
-    print(f"System Prompt: {system_prompt}")
-    print(f"User Prompt: {user_prompt}")
-    print("============================")
+    user_prompt = f"Patient description: {request.user_text}"
 
     llm_response = {}
 
-    # 3. Call Groq
+    # 3. Call Groq LLM (PRD Section 4.3)
     try:
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -69,7 +123,8 @@ If you cannot extract intent, set ambiguity to "high".
                 {"role": "user", "content": user_prompt}
             ],
             response_format={"type": "json_object"},
-            temperature=0.1
+            temperature=0.1,
+            max_tokens=300
         )
         content = completion.choices[0].message.content
         if content:
@@ -78,29 +133,30 @@ If you cannot extract intent, set ambiguity to "high".
             raise ValueError("Empty response from LLM")
             
     except Exception as e:
+        # PRD Section 10: LLM Failure - fallback to manual search
         print(f"LLM Error: {e}")
-        return AIDoctorSearchResponse(doctors=[], ambiguity="high", medical_intent={"error": str(e)})
+        return AIDoctorSearchResponse(
+            doctors=[], 
+            ambiguity="high", 
+            medical_intent={"error": str(e), "fallback": "manual_search"}
+        )
 
-    print(f"LLM Response: {json.dumps(llm_response, indent=2)}")
-    print("============================")
-
-    # 4. Filter Doctors
+    # 4. Confidence Gating (PRD Section 6.2)
+    # Ignore specialties with confidence < 0.4
     extracted_specialties = [
         s['name'] for s in llm_response.get("specialties", []) 
-        if s['confidence'] > 0.4 and s['name'] in available_specialties
+        if s.get('confidence', 0) >= 0.4 and s['name'] in available_specialties
     ]
     
-    # If no specialties found via LLM but user provided inputs, fall back?
-    # For now, strict AI search. If no extracted specialties, return empty or high ambiguity.
-    
+    # If no valid specialties extracted, return with high ambiguity
     if not extracted_specialties:
-         return AIDoctorSearchResponse(
+        return AIDoctorSearchResponse(
             doctors=[], 
             ambiguity="high" if llm_response.get("ambiguity") == "high" else "medium",
             medical_intent=llm_response
         )
 
-    # Query DB
+    # 5. Query Database (PRD Section 7.1)
     stmt = select(DoctorProfile, Profile, Speciality).join(
         Profile, DoctorProfile.profile_id == Profile.id
     ).join(
@@ -110,8 +166,8 @@ If you cannot extract intent, set ambiguity to "high".
         DoctorProfile.bmdc_verified == True
     )
 
+    # Location text filter (optional)
     if request.location:
-        # Simple text match for city/address logic
         stmt = stmt.where(
             or_(
                 DoctorProfile.hospital_city.ilike(f"%{request.location}%"),
@@ -120,43 +176,86 @@ If you cannot extract intent, set ambiguity to "high".
             )
         )
         
+    # Consultation mode filter
     if request.consultation_mode:
         stmt = stmt.where(DoctorProfile.consultation_mode.ilike(f"%{request.consultation_mode}%"))
 
     result = await db.execute(stmt)
     rows = result.all()
 
-    # 5. Rank Doctors
+    # 6. Rank Doctors (PRD Section 7.4 - Authoritative v1 Formula)
+    # final_score = 0.30 * specialty_match + 0.20 * experience_score + 
+    #               0.15 * severity_alignment + 0.20 * location_proximity + 0.15 * availability_score
+    
     scored_doctors = []
-    urgency = llm_response.get("severity", "medium")
+    severity = llm_response.get("severity", "medium")
+    is_online = request.consultation_mode and "online" in request.consultation_mode.lower()
+    
+    # Get user coordinates for distance calculation
+    user_lat = request.user_location.latitude if request.user_location else None
+    user_lng = request.user_location.longitude if request.user_location else None
     
     for doc, profile, spec in rows:
-        score = 0.0
+        # === SPECIALTY MATCH (30%) ===
+        specialty_score = 1.0  # Already filtered by specialty
         
-        # Base score from specialty (already filtered, so at least 0.35)
-        score += 0.35
-        
-        # Experience
+        # === EXPERIENCE SCORE (20%) ===
         exp = doc.years_of_experience or 0
-        exp_score = min(exp, 20) / 20 * 0.25
-        score += exp_score
+        experience_score = min(exp, 20) / 20  # Normalize to 0-1, cap at 20 years
         
-        # Urgency adjustment
-        if urgency == "high":
-            if exp > 10: score += 0.15 
+        # === SEVERITY ALIGNMENT (15%) ===
+        if severity == "high":
+            # For urgent cases, prefer senior doctors
+            severity_score = 1.0 if exp >= 10 else 0.6 if exp >= 5 else 0.3
+        elif severity == "medium":
+            severity_score = 0.7
         else:
-            score += 0.05
-            
-        # Reason generation
-        reason = f"Specializes in {spec.name}"
-        if exp > 5:
-            reason += f" with {exp} years of experience"
+            severity_score = 0.5
         
-        if request.location and request.location.lower() in (doc.hospital_city or "").lower():
-            reason += f", located in {doc.hospital_city}"
-            score += 0.15 # Location bonus
+        # === LOCATION PROXIMITY (20%) ===
+        distance_km = None
+        if not is_online and user_lat and user_lng and doc.latitude and doc.longitude:
+            distance_km = haversine_distance(user_lat, user_lng, doc.latitude, doc.longitude)
+            location_score = calculate_location_score(distance_km)
+        else:
+            # Online consultation or no location data
+            location_score = 0.5  # Neutral
+        
+        # === AVAILABILITY SCORE (15%) ===
+        # Simple heuristic: has visiting hours defined = higher availability
+        availability_score = 0.8 if doc.visiting_hours else 0.5
+        
+        # === FINAL SCORE (PRD Formula) ===
+        final_score = (
+            0.30 * specialty_score +
+            0.20 * experience_score +
+            0.15 * severity_score +
+            0.20 * location_score +
+            0.15 * availability_score
+        )
+        
+        # === REASON GENERATION (PRD Section 8) ===
+        reasons = []
+        reasons.append(f"Specializes in {spec.name}")
+        
+        if exp >= 10:
+            reasons.append(f"{exp}+ years of experience")
+        elif exp >= 5:
+            reasons.append(f"{exp} years of experience")
             
-        reason += "."
+        if severity == "high" and exp >= 10:
+            reasons.append("suitable for urgent cases")
+            
+        if distance_km is not None:
+            if distance_km < 2:
+                reasons.append("located nearby")
+            elif distance_km < 5:
+                reasons.append(f"{distance_km:.1f} km away")
+        elif doc.hospital_city:
+            reasons.append(f"in {doc.hospital_city}")
+            
+        reason = ", ".join(reasons) + "."
+        reason = reason[0].upper() + reason[1:]  # Capitalize first letter
 
         doctor_data = AIDoctorResult(
             profile_id=doc.profile_id,
@@ -174,16 +273,19 @@ If you cannot extract intent, set ambiguity to "high".
             visiting_hours=doc.visiting_hours,
             available_days=doc.available_days,
             consultation_mode=doc.consultation_mode,
-            score=round(score, 2),
-            reason=reason
+            score=round(final_score, 2),
+            reason=reason,
+            distance_km=round(distance_km, 1) if distance_km is not None else None,
+            latitude=doc.latitude,
+            longitude=doc.longitude
         )
         scored_doctors.append(doctor_data)
 
-    # Sort by score details
+    # Sort by score (highest first)
     scored_doctors.sort(key=lambda x: x.score, reverse=True)
 
     return AIDoctorSearchResponse(
-        doctors=scored_doctors[:10],
+        doctors=scored_doctors[:10],  # Top 10 results
         ambiguity=llm_response.get("ambiguity", "low"),
         medical_intent=llm_response
     )

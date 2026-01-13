@@ -22,13 +22,13 @@ import {
   Edit,
 } from "lucide-react";
 import { getDoctorProfile } from "@/lib/auth-actions";
-import { EditDoctorProfileSheet } from "@/components/doctor/edit-profile-sheet";
+import { useRouter } from "next/navigation";
 
 export default function DoctorProfilePage() {
+  const router = useRouter();
   const [doctor, setDoctor] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
   const [showAllServices, setShowAllServices] = React.useState(false);
-  const [editSheetOpen, setEditSheetOpen] = React.useState(false);
 
   React.useEffect(() => {
     loadDoctorProfile();
@@ -43,11 +43,6 @@ export default function DoctorProfilePage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleProfileUpdate = () => {
-    setEditSheetOpen(false);
-    loadDoctorProfile();
   };
 
   if (loading) {
@@ -93,7 +88,7 @@ export default function DoctorProfilePage() {
             </p>
           </div>
           <Button
-            onClick={() => setEditSheetOpen(true)}
+            onClick={() => router.push("/onboarding/doctor")}
             variant="medical"
             size="lg"
           >
@@ -422,14 +417,6 @@ export default function DoctorProfilePage() {
           )}
         </div>
       </main>
-
-      {/* Edit Profile Sheet */}
-      <EditDoctorProfileSheet
-        doctor={doctor}
-        open={editSheetOpen}
-        onOpenChange={setEditSheetOpen}
-        onSuccess={handleProfileUpdate}
-      />
     </div>
   );
 }

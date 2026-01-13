@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Sparkles } from "lucide-react";
+import { Search, Sparkles, MapPin, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,9 +10,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SearchableSelect } from "@/components/ui/searchable-select";
+import { BANGLADESH_DISTRICTS } from "@/lib/bangladesh-data";
+
+interface UserLocation {
+  latitude: number;
+  longitude: number;
+}
 
 interface SearchFiltersProps {
-  onSearch: (filters: Record<string, string>) => void;
+  onSearch: (filters: Record<string, any>) => void;
 }
 
 type Speciality = {
@@ -31,6 +38,11 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [consultationType, setConsultationType] = React.useState("");
   const [specialities, setSpecialities] = React.useState<Speciality[]>([]);
   const [loading, setLoading] = React.useState(true);
+  
+  // Geolocation state for distance-based ranking
+  const [userLocation, setUserLocation] = React.useState<UserLocation | null>(null);
+  const [locationLoading, setLocationLoading] = React.useState(false);
+  const [locationError, setLocationError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     fetchSpecialities();
@@ -51,13 +63,40 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
     }
   };
 
+  // Request user's location for distance-based ranking
+  const requestLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation not supported");
+      return;
+    }
+    
+    setLocationLoading(true);
+    setLocationError(null);
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+        setLocationLoading(false);
+      },
+      (error) => {
+        setLocationError("Location access denied");
+        setLocationLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+
   const handleSearch = () => {
     if (isAiMode) {
       onSearch({
         mode: 'ai',
         prompt: aiPrompt,
-        location: city === "all" ? "" : city, // Reuse city state for location in AI mode
+        location: city === "all" ? "" : city,
         consultation_mode: consultationType === "all" ? "" : consultationType,
+        user_location: userLocation, // Include coordinates for distance ranking
       });
     } else {
       onSearch({
@@ -105,14 +144,17 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               </p>
            </div>
            
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
               <div className="space-y-1.5">
                   <label className="text-sm font-medium">Location (Optional)</label>
-                  <Input 
-                      placeholder="e.g. Uttara, Dhaka" 
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="bg-background"
+                  <SearchableSelect
+                    options={BANGLADESH_DISTRICTS}
+                    value={city}
+                    onValueChange={setCity}
+                    placeholder="Select District"
+                    searchPlaceholder="Search districts..."
+                    emptyMessage="No districts found."
+                    className="bg-background"
                   />
               </div>
                <div className="space-y-1.5">
@@ -127,6 +169,26 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                       <SelectItem value="in-person">Chamber Visit</SelectItem>
                     </SelectContent>
                   </Select>
+               </div>
+               {/* Geolocation button for distance-based ranking */}
+               <div className="space-y-1.5">
+                  <label className="text-sm font-medium">Your Location</label>
+                  <Button 
+                    variant={userLocation ? "secondary" : "outline"}
+                    className="w-full"
+                    onClick={requestLocation}
+                    disabled={locationLoading}
+                  >
+                    {locationLoading ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <MapPin className="w-4 h-4 mr-2" />
+                    )}
+                    {userLocation ? "Location Set" : "Use My Location"}
+                  </Button>
+                  {locationError && (
+                    <p className="text-xs text-destructive">{locationError}</p>
+                  )}
                </div>
                <div className="flex items-end">
                   <Button size="lg" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600" onClick={handleSearch}>
@@ -172,28 +234,30 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
                 <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Specialities</label>
-                <Select value={specialityId} onValueChange={setSpecialityId} disabled={loading}>
-                    <SelectTrigger className="bg-background border-border">
-                    <SelectValue placeholder={loading ? "Loading..." : "All Specialities"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="all">All Specialities</SelectItem>
-                    {specialities.map((s) => (
-                        <SelectItem key={s.id} value={s.id.toString()}>
-                        {s.name}
-                        </SelectItem>
-                    ))}
-                    </SelectContent>
-                </Select>
+                <SearchableSelect
+                  options={specialities.map(s => s.name)}
+                  value={specialityId ? specialities.find(s => s.id.toString() === specialityId)?.name : ""}
+                  onValueChange={(value) => {
+                    const speciality = specialities.find(s => s.name === value);
+                    setSpecialityId(speciality ? speciality.id.toString() : "");
+                  }}
+                  placeholder="All Specialities"
+                  searchPlaceholder="Search specialities..."
+                  emptyMessage="No specialities found."
+                  className="bg-background border-border"
+                />
                 </div>
 
                 <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Location</label>
-                <Input 
-                    placeholder="City" 
-                    className="bg-background border-border"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                <SearchableSelect
+                  options={BANGLADESH_DISTRICTS}
+                  value={city}
+                  onValueChange={setCity}
+                  placeholder="Select District"
+                  searchPlaceholder="Search districts..."
+                  emptyMessage="No districts found."
+                  className="bg-background border-border"
                 />
                 </div>
 

@@ -263,8 +263,20 @@ export async function getPublicDoctorProfile(profileId: string) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to fetch doctor profile");
+      let errorMessage = "Failed to fetch doctor profile";
+      try {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorMessage;
+        } else {
+          const textError = await response.text();
+          errorMessage = textError || errorMessage;
+        }
+      } catch (parseError) {
+        // If parsing fails, use default message
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();

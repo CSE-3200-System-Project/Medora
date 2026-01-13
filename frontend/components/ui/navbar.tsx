@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { fetchWithAuth } from "@/lib/auth-utils";
 import { Menu, Bell, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -57,8 +58,8 @@ export function Navbar() {
   React.useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await fetch('/api/auth/me');
-        if (response.ok) {
+        const response = await fetchWithAuth('/api/auth/me');
+        if (response?.ok) {
           const data = await response.json();
           setUser(data);
         }
@@ -117,7 +118,13 @@ export function Navbar() {
         {/* LEFT: Logo */}
         <Link href={homePath} className="flex items-center gap-2">
           <div className="relative h-10 w-10 md:h-14 md:w-14">
-            <Image src={logo} alt="Medora" fill className="object-contain" />
+            <Image 
+              src={logo} 
+              alt="Medora" 
+              fill 
+              sizes="(max-width: 768px) 40px, 56px"
+              className="object-contain" 
+            />
           </div>
           <span className="text-lg font-bold tracking-tight text-primary hidden md:block">Medora</span>
         </Link>

@@ -211,6 +211,7 @@ class DoctorOnboardingUpdate(BaseModel):
     education: Optional[List[Education]] = None
     
     # Step 3 - Specialization
+    speciality_id: Optional[int] = None
     specialization: Optional[str] = None
     sub_specializations: Optional[List[str]] = None
     services: Optional[List[str]] = None
