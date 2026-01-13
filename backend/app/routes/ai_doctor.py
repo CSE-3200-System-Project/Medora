@@ -14,6 +14,12 @@ from app.schemas.ai_search import AIDoctorSearchRequest, AIDoctorSearchResponse,
 
 from groq import Groq
 
+from app.services.specialty_matching import (
+    match_specialties_from_llm_response,
+    get_fallback_specialties,
+    normalize_text
+)
+
 router = APIRouter()
 client = Groq(api_key=settings.GROQ_API_KEY)
 
@@ -89,8 +95,17 @@ async def ai_doctor_search(
     system_prompt = f"""You are a medical intent extraction assistant for a Bangladeshi healthcare platform.
 Analyze the user's health description and extract structured data.
 
-AVAILABLE SPECIALTIES (Choose ONLY from this list):
+AVAILABLE SPECIALTIES (Choose from this list, but you can use common variations):
 [{specialties_str}]
+
+EXAMPLES of valid specialty matching:
+- "heart problem" → "Cardiologist"
+- "skin issue" → "Dermatologist"
+- "women's health" → "Gynecologists"
+- "child doctor" → "Pediatrician"
+- "bone pain" → "Orthopedist"
+- "stomach problem" → "Gastroenterologist"
+- "mental health" → "Psychiatrist"
 
 OUTPUT SCHEMA (JSON only, no explanation):
 {{
@@ -98,13 +113,14 @@ OUTPUT SCHEMA (JSON only, no explanation):
   "symptoms": [{{"name": "symptom in English", "confidence": 0.0-1.0}}],
   "duration_days": number or null,
   "severity": "low" | "medium" | "high",
-  "specialties": [{{"name": "specialty from list", "confidence": 0.0-1.0}}],
+  "specialties": [{{"name": "specialty name or common variation", "confidence": 0.0-1.0}}],
   "ambiguity": "low" | "medium" | "high"
 }}
 
 RULES:
 - Output ONLY valid JSON, no explanations
 - Use English medical terms for symptoms
+- For specialties, you can use the exact names from the list OR common variations (e.g., "heart doctor" for "Cardiologist")
 - severity: high = urgent/emergency symptoms, medium = needs attention, low = routine
 - ambiguity: high = unclear input, needs clarification
 - If you cannot extract intent, return {{"error": "unable_to_extract", "ambiguity": "high"}}
@@ -141,19 +157,36 @@ RULES:
             medical_intent={"error": str(e), "fallback": "manual_search"}
         )
 
-    # 4. Confidence Gating (PRD Section 6.2)
-    # Ignore specialties with confidence < 0.4
-    extracted_specialties = [
-        s['name'] for s in llm_response.get("specialties", []) 
-        if s.get('confidence', 0) >= 0.4 and s['name'] in available_specialties
-    ]
-    
-    # If no valid specialties extracted, return with high ambiguity
+    # 4. Advanced Specialty Matching (PRD Section 6.2)
+    # Use intelligent matching instead of simple confidence filtering
+    matched_specialties = match_specialties_from_llm_response(
+        llm_response.get("specialties", []),
+        available_specialties,
+        min_confidence=0.3  # Lower threshold since we have advanced matching
+    )
+
+    extracted_specialties = [name for name, confidence in matched_specialties]
+
+    # 5. Fallback Logic: If no specialties matched, try symptom-based fallback
+    if not extracted_specialties:
+        symptoms = [s.get('name', '') for s in llm_response.get("symptoms", [])]
+        fallback_specialties = get_fallback_specialties(symptoms, available_specialties)
+        if fallback_specialties:
+            extracted_specialties = fallback_specialties[:2]  # Limit to top 2 fallbacks
+            print(f"Using fallback specialties based on symptoms: {extracted_specialties}")
+
+    # If still no specialties, return with high ambiguity
     if not extracted_specialties:
         return AIDoctorSearchResponse(
-            doctors=[], 
+            doctors=[],
             ambiguity="high" if llm_response.get("ambiguity") == "high" else "medium",
-            medical_intent=llm_response
+            medical_intent={
+                **llm_response,
+                "matched_specialties": matched_specialties,
+                "extracted_specialty_names": extracted_specialties,
+                "total_specialties_matched": len(extracted_specialties),
+                "fallback_used": True
+            }
         )
 
     # 5. Query Database (PRD Section 7.1)
@@ -287,5 +320,10 @@ RULES:
     return AIDoctorSearchResponse(
         doctors=scored_doctors[:10],  # Top 10 results
         ambiguity=llm_response.get("ambiguity", "low"),
-        medical_intent=llm_response
+        medical_intent={
+            **llm_response,
+            "matched_specialties": matched_specialties,  # Include matched specialties with confidence scores
+            "extracted_specialty_names": extracted_specialties,  # Just the names for easy reference
+            "total_specialties_matched": len(extracted_specialties)
+        }
     )
