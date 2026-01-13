@@ -13,6 +13,13 @@ class DoctorCardSchema(BaseModel):
     hospital_name: Optional[str] = None
     hospital_address: Optional[str] = None
     hospital_city: Optional[str] = None
+    hospital_latitude: Optional[float] = None
+    hospital_longitude: Optional[float] = None
+    chamber_name: Optional[str] = None
+    chamber_address: Optional[str] = None
+    chamber_city: Optional[str] = None
+    chamber_latitude: Optional[float] = None
+    chamber_longitude: Optional[float] = None
     consultation_fee: Optional[float] = None
     profile_photo_url: Optional[str] = None
     visiting_hours: Optional[str] = None

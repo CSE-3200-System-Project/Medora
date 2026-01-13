@@ -55,7 +55,15 @@ class DoctorProfile(Base):
     chamber_address: Mapped[str | None]
     chamber_city: Mapped[str | None]
     
-    # Geolocation for distance-based ranking (PRD: location-aware search)
+    # Geolocation coordinates for hospital
+    hospital_latitude: Mapped[float | None] = mapped_column(Float)
+    hospital_longitude: Mapped[float | None] = mapped_column(Float)
+    
+    # Geolocation coordinates for chamber
+    chamber_latitude: Mapped[float | None] = mapped_column(Float)
+    chamber_longitude: Mapped[float | None] = mapped_column(Float)
+    
+    # Legacy geolocation fields (kept for backward compatibility)
     latitude: Mapped[float | None] = mapped_column(Float)
     longitude: Mapped[float | None] = mapped_column(Float)
     

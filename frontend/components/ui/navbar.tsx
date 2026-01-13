@@ -151,10 +151,10 @@ export function Navbar() {
                 <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
                   Appointments
                 </Link>
-                <Link href="/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
+                <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
                   Find Medicine
                 </Link>
-                <Link href="/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
+                <Link href="/patient/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
                   Find Ambulance
                 </Link>
               </nav>

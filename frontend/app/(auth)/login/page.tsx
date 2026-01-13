@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,7 +25,7 @@ import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 import logo from "@/assets/image/medora-logo.png";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -329,5 +329,13 @@ export default function LoginPage() {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-pulse text-primary">Loading...</div></div>}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

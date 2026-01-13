@@ -124,6 +124,13 @@ export default function FindDoctorPage() {
     hospital_name?: string;
     hospital_address?: string;
     hospital_city?: string;
+    hospital_latitude?: number;
+    hospital_longitude?: number;
+    chamber_name?: string;
+    chamber_address?: string;
+    chamber_city?: string;
+    chamber_latitude?: number;
+    chamber_longitude?: number;
     consultation_fee?: number;
     profile_photo_url?: string;
     visiting_hours?: string;
@@ -141,6 +148,7 @@ export default function FindDoctorPage() {
   const [hasFilters, setHasFilters] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   const fetchDoctors = async (searchFilters: any = {}) => {
     setLoading(true);
@@ -221,6 +229,10 @@ export default function FindDoctorPage() {
   }, []);
 
   const handleSearch = (newFilters: Record<string, any>) => {
+    // Capture user location if provided
+    if (newFilters.user_location) {
+      setUserLocation(newFilters.user_location);
+    }
     fetchDoctors(newFilters);
     const hasActiveFilters = Object.values(newFilters).some(value => value && value !== '');
     setHasFilters(hasActiveFilters);
@@ -320,7 +332,7 @@ export default function FindDoctorPage() {
 
           {/* Right: Map View (Hidden on mobile, visible on large screens) */}
           <div className="hidden lg:block sticky top-28 h-[calc(100vh-8rem)]">
-            <MapView doctors={doctors} />
+            <MapView doctors={doctors} userLocation={userLocation} />
           </div>
         </div>
       </main>

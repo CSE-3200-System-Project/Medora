@@ -152,7 +152,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                     value={city}
                     onValueChange={setCity}
                     placeholder="Select District"
-                    searchPlaceholder="Search districts..."
                     emptyMessage="No districts found."
                     className="bg-background"
                   />
@@ -242,7 +241,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                     setSpecialityId(speciality ? speciality.id.toString() : "");
                   }}
                   placeholder="All Specialities"
-                  searchPlaceholder="Search specialities..."
                   emptyMessage="No specialities found."
                   className="bg-background border-border"
                 />
@@ -255,7 +253,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                   value={city}
                   onValueChange={setCity}
                   placeholder="Select District"
-                  searchPlaceholder="Search districts..."
                   emptyMessage="No districts found."
                   className="bg-background border-border"
                 />
