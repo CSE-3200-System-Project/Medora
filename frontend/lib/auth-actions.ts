@@ -428,6 +428,7 @@ export async function signout() {
     cookieStore.delete("onboarding_skipped");
     cookieStore.delete("user_role");
     cookieStore.delete("verification_status");
+    cookieStore.delete("admin_access");
   } catch (error) {
     console.log(error);
   }

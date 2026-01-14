@@ -1,6 +1,50 @@
 # AI-Assisted Doctor Discovery Integration
 
-## Latest Update: ✅ DOCTOR PROFILE VALIDATION FIX (January 13, 2026)
+## Latest Update: ✅ SERVER-SIDE AUTH VALIDATION FIX (January 14, 2026)
+
+### Summary
+Fixed critical authentication bypass where users could access protected routes (`/patient/home`, `/doctor/home`, etc.) with expired or invalid tokens. The middleware only checked if the `session_token` cookie existed, not if it was valid. Added server-side authentication validation to the protected route layout.
+
+### Problem
+- `/api/auth/me` returned 401 (unauthorized), but users could still view `/patient/home`
+- Middleware checked cookie existence (`!!sessionToken`) but didn't validate token with backend
+- Expired/invalid cookies persisted, allowing access to protected pages
+- Clicking "Log In" showed home screen despite user not being authenticated
+
+### Root Cause
+1. **Middleware weakness**: Only verified cookie existence, not validity
+2. **No server-side checks**: Protected pages were client-side only
+3. **Cookie persistence**: Invalid tokens remained in cookies
+
+### Solution Implemented
+1. **Added server-side auth check** to `(home)/layout.tsx`:
+   - Validates token with backend via `getCurrentUser()` before rendering
+   - Clears all auth cookies if token is invalid (returns null)
+   - Redirects to `/login` before any protected page renders
+
+2. **Improved cookie cleanup** in `signout()`:
+   - Added `admin_access` cookie deletion
+
+### Files Modified
+- ✅ `frontend/app/(home)/layout.tsx` - Added async server-side auth validation
+- ✅ `frontend/lib/auth-actions.ts` - Improved signout cookie cleanup
+
+### How It Works Now
+1. User navigates to `/patient/home`
+2. Middleware checks cookie exists → passes (performance optimization)
+3. **NEW**: Layout runs `getCurrentUser()` server-side
+4. If backend returns 401 → clears cookies + redirects to `/login`
+5. If backend returns 200 → renders protected page
+
+### Testing Results
+✅ Expired tokens now properly redirect to login
+✅ All auth cookies cleared automatically
+✅ No more 401 errors in console after logout
+✅ Users cannot bypass authentication with invalid tokens
+
+---
+
+## Previous Update: ✅ DOCTOR PROFILE VALIDATION FIX (January 13, 2026)
 
 ### Summary
 Fixed Pydantic validation error when viewing doctor profiles with empty string years in education/work experience fields. Backend now properly sanitizes empty strings to `None`, and frontend gracefully handles non-JSON error responses.

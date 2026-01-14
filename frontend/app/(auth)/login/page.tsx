@@ -92,7 +92,13 @@ function LoginPageContent() {
 
     try {
       await login(formData, rememberMe);
+      // If we reach here, login was successful and redirect happened
     } catch (err: any) {
+      // Don't show NEXT_REDIRECT errors to user - these are internal Next.js redirects
+      if (err.message === "NEXT_REDIRECT" || err.digest?.startsWith("NEXT_REDIRECT")) {
+        // Redirect is happening, don't show error
+        return;
+      }
       setError(err.message || "Login failed. Please check your credentials.");
       setLoading(false);
     }
