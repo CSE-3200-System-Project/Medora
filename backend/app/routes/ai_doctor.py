@@ -19,6 +19,13 @@ from app.services.specialty_matching import (
     get_fallback_specialties,
     normalize_text
 )
+from app.services.medical_knowledge import (
+    get_related_specialties,
+    get_fallback_chain,
+    should_always_include_gp,
+    should_include_internal_medicine,
+    UNIVERSAL_FALLBACKS
+)
 
 router = APIRouter()
 client = Groq(api_key=settings.GROQ_API_KEY)
@@ -70,6 +77,21 @@ async def get_all_specialties(db: AsyncSession) -> List[str]:
     stmt = select(Speciality.name)
     result = await db.execute(stmt)
     return [row[0] for row in result.all()]
+
+
+async def get_available_specialties_with_doctors(db: AsyncSession) -> set[str]:
+    """
+    Get specialties that actually have verified doctors in the database.
+    This ensures fallbacks only suggest specialties with available doctors.
+    """
+    stmt = select(Speciality.name).join(
+        DoctorProfile, DoctorProfile.speciality_id == Speciality.id
+    ).where(
+        DoctorProfile.bmdc_verified == True
+    ).distinct()
+    
+    result = await db.execute(stmt)
+    return set(row[0] for row in result.all())
 
 
 @router.post("/search", response_model=AIDoctorSearchResponse)
@@ -157,37 +179,45 @@ RULES:
             medical_intent={"error": str(e), "fallback": "manual_search"}
         )
 
-    # 4. Advanced Specialty Matching (PRD Section 6.2)
-    # Use intelligent matching instead of simple confidence filtering
+    # 4. Get specialties that have actual doctors available
+    available_specialties_with_doctors = await get_available_specialties_with_doctors(db)
+    
+    # 5. Multi-Tier Specialty Matching (Enhanced Medical Knowledge)
+    severity = llm_response.get("severity", "medium")
+    symptoms = [s.get('name', '') for s in llm_response.get("symptoms", [])]
+    
+    # Tier 1: LLM-extracted specialties
     matched_specialties = match_specialties_from_llm_response(
         llm_response.get("specialties", []),
         available_specialties,
-        min_confidence=0.3  # Lower threshold since we have advanced matching
+        min_confidence=0.3
     )
-
-    extracted_specialties = [name for name, confidence in matched_specialties]
-
-    # 5. Fallback Logic: If no specialties matched, try symptom-based fallback
-    if not extracted_specialties:
-        symptoms = [s.get('name', '') for s in llm_response.get("symptoms", [])]
-        fallback_specialties = get_fallback_specialties(symptoms, available_specialties)
-        if fallback_specialties:
-            extracted_specialties = fallback_specialties[:2]  # Limit to top 2 fallbacks
-            print(f"Using fallback specialties based on symptoms: {extracted_specialties}")
-
-    # If still no specialties, return with high ambiguity
-    if not extracted_specialties:
-        return AIDoctorSearchResponse(
-            doctors=[],
-            ambiguity="high" if llm_response.get("ambiguity") == "high" else "medium",
-            medical_intent={
-                **llm_response,
-                "matched_specialties": matched_specialties,
-                "extracted_specialty_names": extracted_specialties,
-                "total_specialties_matched": len(extracted_specialties),
-                "fallback_used": True
-            }
-        )
+    primary_specialties = [name for name, confidence in matched_specialties]
+    
+    # Tier 2: Symptom-based related specialties
+    if not primary_specialties:
+        related = get_related_specialties(symptoms, severity, max_results=3)
+        primary_specialties = [s for s in related if s in available_specialties_with_doctors]
+    
+    # Tier 3: Build fallback chain with GP/Internal Medicine
+    final_specialties, secondary_specialties = get_fallback_chain(
+        primary_specialties=primary_specialties,
+        available_specialties=available_specialties_with_doctors,
+        severity=severity,
+        min_count=2  # Always return at least 2 specialties
+    )
+    
+    # Combine for query (but track which are primary vs secondary)
+    extracted_specialties = final_specialties + secondary_specialties
+    
+    fallback_reason = None
+    if secondary_specialties:
+        if "General Physician" in secondary_specialties:
+            fallback_reason = "General Physicians included for comprehensive consultation"
+        elif "Internal Medicine" in secondary_specialties:
+            fallback_reason = "Internal Medicine added for diagnostic evaluation"
+        else:
+            fallback_reason = "Additional specialties included to ensure availability"
 
     # 5. Query Database (PRD Section 7.1)
     stmt = select(DoctorProfile, Profile, Speciality).join(
@@ -322,8 +352,11 @@ RULES:
         ambiguity=llm_response.get("ambiguity", "low"),
         medical_intent={
             **llm_response,
-            "matched_specialties": matched_specialties,  # Include matched specialties with confidence scores
-            "extracted_specialty_names": extracted_specialties,  # Just the names for easy reference
-            "total_specialties_matched": len(extracted_specialties)
+            "matched_specialties": matched_specialties,
+            "primary_specialties": final_specialties,
+            "secondary_specialties": secondary_specialties,
+            "extracted_specialty_names": extracted_specialties,
+            "total_specialties_matched": len(extracted_specialties),
+            "fallback_reason": fallback_reason
         }
     )

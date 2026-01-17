@@ -24,4 +24,11 @@ class AIDoctorResult(DoctorCardSchema):
 class AIDoctorSearchResponse(BaseModel):
     doctors: List[AIDoctorResult]
     ambiguity: str
-    medical_intent: Optional[Dict] = None 
+    medical_intent: Optional[Dict] = None  # Contains:
+    # - matched_specialties: List of (name, confidence) tuples from LLM
+    # - primary_specialties: List[str] - Main specialties from LLM/symptoms
+    # - secondary_specialties: List[str] - GP/Internal Medicine fallbacks
+    # - extracted_specialty_names: List[str] - All specialties used for search
+    # - total_specialties_matched: int
+    # - fallback_reason: Optional[str] - Explanation when fallbacks are used
+    # - symptoms, severity, duration_days, etc. from LLM response 
