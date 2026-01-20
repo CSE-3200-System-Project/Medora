@@ -20,6 +20,7 @@ import {
   Package,
   Info,
   X,
+  Plus,
 } from "lucide-react";
 import { getDosageFormIcon, getMedicineTypeStyle } from "./medicine-card";
 
@@ -45,6 +46,7 @@ interface MedicineDetailDrawerProps {
   medicine: MedicineDetail | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onAddToMedications?: (medicine: MedicineDetail) => void;
 }
 
 /**
@@ -55,6 +57,7 @@ export function MedicineDetailDrawer({
   medicine,
   open,
   onOpenChange,
+  onAddToMedications,
 }: MedicineDetailDrawerProps) {
   if (!medicine) return null;
 
@@ -172,10 +175,23 @@ export function MedicineDetailDrawer({
           )}
         </div>
 
-        <SheetFooter className="border-t border-border">
+        <SheetFooter className="border-t border-border pt-4 flex-row gap-2">
+          {onAddToMedications && (
+            <Button
+              variant="medical"
+              className="flex-1"
+              onClick={() => {
+                onAddToMedications(medicine);
+                onOpenChange(false);
+              }}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add to My Medications
+            </Button>
+          )}
           <Button
             variant="outline"
-            className="w-full"
+            className="flex-1"
             onClick={() => onOpenChange(false)}
           >
             <X className="h-4 w-4 mr-2" />
