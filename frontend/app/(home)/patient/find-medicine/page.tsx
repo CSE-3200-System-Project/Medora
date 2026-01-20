@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
+import { AddMedicationDialog, type Medication } from "@/components/medicine/add-medication-dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Pill, Search, AlertTriangle } from "lucide-react";
+import { Loader2, Pill, Search, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { updatePatientOnboarding } from "@/lib/auth-actions";
 
 // Types
 interface MedicineResult {
@@ -41,12 +44,16 @@ interface MedicineFilters {
 }
 
 export default function PatientFindMedicinePage() {
+  const router = useRouter();
   const [results, setResults] = useState<MedicineResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMedicine, setSelectedMedicine] = useState<MedicineDetail | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [medicineToAdd, setMedicineToAdd] = useState<MedicineResult | null>(null);
 
   // Search medicines from backend
   const handleSearch = useCallback(async (query: string, filters: MedicineFilters) => {
@@ -110,17 +117,91 @@ export default function PatientFindMedicinePage() {
     }
   };
 
+  // Open add dialog with medicine
+  const handleAddToMedications = async (medicine: MedicineDetail) => {
+    // Convert MedicineDetail to MedicineResult format
+    const medicineResult: MedicineResult = {
+      drug_id: medicine.drug_id,
+      display_name: medicine.brands[0]?.brand_name || medicine.generic_name,
+      generic_name: medicine.generic_name,
+      strength: medicine.strength,
+      dosage_form: medicine.dosage_form,
+      is_brand: medicine.brands.length > 0,
+    };
+    
+    setMedicineToAdd(medicineResult);
+    setDrawerOpen(false);
+    setAddDialogOpen(true);
+  };
+
+  // Save medication to backend
+  const handleSaveMedication = async (medication: Medication) => {
+    try {
+      // Get existing medications first
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+      const token = document.cookie.split('session_token=')[1]?.split(';')[0];
+      
+      const response = await fetch(`${backendUrl}/profile/patient/onboarding`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      let existingMeds = [];
+      if (response.ok) {
+        const data = await response.json();
+        existingMeds = data.medications || [];
+      }
+      
+      // Convert to backend format (only required fields)
+      const newMed: any = {
+        name: medication.display_name,
+        dosage: medication.dosage,
+        frequency: medication.frequency,
+        duration: medication.duration,
+        generic_name: medication.generic_name || null,
+      };
+      if (medication.prescribing_doctor && medication.prescribing_doctor.trim()) {
+        newMed.prescribing_doctor = medication.prescribing_doctor
+      }
+      
+      const payload = {
+        medications: [...existingMeds, newMed]
+      };
+      
+      await updatePatientOnboarding(payload);
+      
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error saving medication:", error);
+      alert("Failed to save medication. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-surface font-sans text-foreground">
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-10 px-4 md:px-6 max-w-4xl mx-auto">
+      {/* Success Toast */}
+      {showSuccess && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-2">
+          <Alert className="bg-success/10 border-success shadow-lg min-w-[300px]">
+            <CheckCircle2 className="h-4 w-4 text-success" />
+            <AlertDescription className="text-success font-medium">
+              Redirecting to Medical History...
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+      
+      <main className="pt-20 pb-8 md:pt-24 md:pb-12 px-4 sm:px-6 md:px-8 max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
             Find Medicine
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Search medicines by brand or generic name
           </p>
         </div>
@@ -194,19 +275,20 @@ export default function PatientFindMedicinePage() {
       </main>
 
       {/* Medicine Detail Drawer */}
-      {detailLoading ? (
-        <MedicineDetailDrawer
-          medicine={null}
-          open={drawerOpen}
-          onOpenChange={setDrawerOpen}
-        />
-      ) : (
-        <MedicineDetailDrawer
-          medicine={selectedMedicine}
-          open={drawerOpen}
-          onOpenChange={setDrawerOpen}
-        />
-      )}
+      <MedicineDetailDrawer
+        medicine={selectedMedicine}
+        open={drawerOpen}
+        onOpenChange={setDrawerOpen}
+        onAddToMedications={handleAddToMedications}
+      />
+
+      {/* Add Medication Dialog */}
+      <AddMedicationDialog
+        open={addDialogOpen}
+        onOpenChange={setAddDialogOpen}
+        onAdd={handleSaveMedication}
+        prefilledMedicine={medicineToAdd}
+      />
 
       {/* Loading overlay for detail */}
       {drawerOpen && detailLoading && (
