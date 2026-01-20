@@ -20,6 +20,7 @@
 - **Backend PRD**: `backend/context/backend-prd.md`
 - **Doctor-Search PRD**: `backend/context/doctor-search-prd.md`
 - **Frontend PRD**: `frontend/assets/context/app-prd.md`
+- **Medicine Knowledge PRD**: `backend/context/medicine-knowledge.md`
 
 ---
 
