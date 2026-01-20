@@ -1,3 +1,102 @@
+# Find Medicine Feature - Implementation Plan (January 20, 2026)
+
+## Overview
+Implementing the comprehensive medicine search feature for Medora healthcare platform. This allows patients and doctors to discover medicines by brand or generic name, view details, and understand medicine identities safely.
+
+## Database Status
+- `drugs` table: 7,389 rows (canonical medicine identities)
+- `brands` table: 67,001 rows (commercial/prescribed names)
+- `medicine_search_index` table: 74,390 rows (search accelerator)
+- **Medicine Types**: Allopathic, Ayurvedic, Herbal, Homeopathic, Unani
+- **Dosage Forms**: 200+ unique forms (Tablet, Capsule, Syrup, Injection, etc.)
+
+## Implementation Phases
+
+### Phase 1: Backend API
+- [x] Create medicine SQLAlchemy models (`backend/app/db/models/medicine.py`)
+- [x] Create Pydantic schemas (`backend/app/schemas/medicine.py`)
+- [x] Create medicine routes (`backend/app/routes/medicine.py`)
+- [x] Register router in `backend/app/main.py`
+
+### Phase 2: Frontend Components
+- [x] Create MedicineCard component with dosage form icons
+- [x] Create MedicineSearchInput with debounced search
+- [x] Create MedicineDetailDrawer for medicine details
+
+### Phase 3: Page Integration
+- [x] Implement patient find-medicine page
+- [x] Implement doctor find-medicine page
+- [x] Test end-to-end functionality
+
+---
+
+## API Endpoints
+
+### GET /medicine/search
+```
+Query params: q (search term), limit, dosage_form, medicine_type
+Returns: List of medicine results with brand & drug info
+```
+
+### GET /medicine/{drug_id}
+```
+Returns: Complete medicine details with all brands
+```
+
+---
+
+## Review Section
+
+### Implementation Summary
+
+**Completed on January 20, 2026**
+
+The Find Medicine feature has been fully implemented with the following components:
+
+#### Backend (FastAPI)
+1. **Models** (`backend/app/db/models/medicine.py`):
+   - `Drug`: Canonical medicine identity with generic_name, strength, dosage_form
+   - `Brand`: Commercial names linked to drugs
+   - `MedicineSearchIndex`: Search accelerator table
+
+2. **Schemas** (`backend/app/schemas/medicine.py`):
+   - `MedicineSearchResult`: Single search result
+   - `MedicineSearchResponse`: Search response with pagination
+   - `MedicineDetailResponse`: Full medicine details with brands
+
+3. **Routes** (`backend/app/routes/medicine.py`):
+   - `GET /medicine/search?q=...`: Search with filters
+   - `GET /medicine/filters`: Get filter options
+   - `GET /medicine/{drug_id}`: Medicine details
+   - `GET /medicine/brand/{brand_id}`: Lookup by brand
+
+#### Frontend (Next.js)
+1. **Components** (`frontend/components/medicine/`):
+   - `MedicineCard`: Search result card with dosage form icons
+   - `MedicineSearch`: Debounced search input with filters
+   - `MedicineDetailDrawer`: Side drawer with full details
+
+2. **Pages**:
+   - `/patient/find-medicine`: Patient-facing search
+   - `/doctor/find-medicine`: Doctor reference tool
+
+#### Key Features
+- Debounced search (300ms)
+- Dosage form icons (Tablet, Capsule, Syrup, Injection, etc.)
+- Medicine type badges (Allopathic, Ayurvedic, etc.)
+- Medical disclaimer always visible
+- Mobile-responsive design
+- Consistent with Medora theme
+
+#### Database Stats
+- 7,389 unique drugs
+- 67,001 brand entries
+- 74,390 search index terms
+- 5 medicine types
+- 200+ dosage forms
+
+---
+
 # AI-Assisted Doctor Discovery Integration
 
 ## Latest Update: ✅ SERVER-SIDE AUTH VALIDATION FIX (January 14, 2026)
