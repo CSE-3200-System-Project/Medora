@@ -1,6 +1,124 @@
 # AI-Assisted Doctor Discovery Integration
 
-## Latest Update: ✅ SERVER-SIDE AUTH VALIDATION FIX (January 14, 2026)
+## Latest Update: ✅ DOCTOR APPOINTMENT MANAGEMENT PAGE (January 21, 2026)
+
+### Summary
+Created a comprehensive appointment management page for doctors with calendar view, time slot visualization, and appointment list with full interactivity. The page displays recent and past appointments, allows doctors to view appointments by date with time slots, and provides seamless navigation between calendar and slot views.
+
+### Features Implemented
+
+#### 1. **AppointmentCalendar Component** (`/components/doctor/appointment-calendar.tsx`)
+- Interactive monthly calendar with previous/next month navigation
+- Highlights dates with appointments using colored dots
+- Shows today's date with special styling
+- Responsive grid layout (7-day week view)
+- Click on any date to view time slots for that day
+- Visual legend for appointment indicators
+
+#### 2. **TimeSlotGrid Component** (`/components/doctor/time-slot-grid.tsx`)
+- Displays time slots organized by period (Morning, Afternoon, Evening)
+- Shows booked vs. empty slots with different colors
+- Status-based color coding:
+  - **Pending**: Yellow background
+  - **Confirmed**: Blue background
+  - **Completed**: Green background
+  - **Cancelled**: Red background
+  - **Empty**: Gray/muted
+- Hover popup showing appointment details (patient name, time, reason, status)
+- Click on booked slot to highlight corresponding appointment in list
+- Back button to return to calendar view
+- Fully responsive grid layout (2-5 columns based on screen size)
+
+#### 3. **AppointmentList Component** (`/components/doctor/appointment-list.tsx`)
+- Separates appointments into "Recent" and "Past" sections
+- Recent appointments sorted by earliest date first
+- Past appointments sorted by most recent date first
+- Click on appointment card to view its time slot in calendar
+- Scroll-to-highlight functionality when slot is clicked
+- Shows patient name, date, time, reason, notes, and status
+- Status badges with icons for visual clarity
+- Counts display for recent and past appointments
+
+#### 4. **Main Appointments Page** (`/app/(home)/doctor/appointments/page.tsx`)
+- Mobile-first responsive layout (stacks on mobile, side-by-side on desktop)
+- Left side: Appointment list (1/3 width on desktop)
+- Right side: Calendar or time slot view (2/3 width on desktop)
+- View mode switching between calendar and slots
+- Bi-directional highlighting:
+  - Clicking a time slot highlights the appointment in the list
+  - Clicking an appointment switches to its date's slot view
+- Loading state with spinner
+
+#### 5. **Backend Endpoint** (`/appointment/by-date/{date}`)
+- New GET endpoint to fetch appointments for a specific date
+- Returns time slot data with appointment details
+- Generates time slots from doctor's configured schedule or default slots
+- Matches appointments to time slots based on time or notes
+- Includes patient name, reason, and status for each booked slot
+- Doctor-only access with proper authentication and role checking
+
+#### 6. **Frontend Action** (`lib/appointment-actions.ts`)
+- Added `getAppointmentsByDate(date)` server action
+- Fetches time slot data from backend for selected date
+- Proper error handling and authentication
+
+#### 7. **Badge Component Update** (`components/ui/badge.tsx`)
+- Added `success` variant (green for completed appointments)
+- Added `warning` variant (yellow for pending appointments)
+- Maintains theme consistency with CSS variables
+
+### Technical Implementation
+
+**Mobile-First Responsive Design:**
+```tsx
+// Example from AppointmentList
+<div className="
+  grid grid-cols-1 gap-6     // Mobile: single column
+  lg:grid-cols-3            // Desktop: 3-column layout
+">
+```
+
+**State Management:**
+- View mode state ('calendar' or 'slots')
+- Selected date tracking
+- Highlighted appointment ID for cross-component interaction
+- Day slots data fetching on date selection
+
+**Bi-Directional Navigation:**
+1. Calendar → Slots: Click date to view time slots
+2. Slots → Appointment: Click booked slot to highlight appointment
+3. Appointment → Slots: Click appointment to view its time slot
+4. Slots → Calendar: Back button to return to calendar
+
+**Color Theming:**
+- Uses CSS custom properties from `globals.css`
+- Consistent with Medora's medical platform design
+- Professional medical blue (#0360D9) as primary color
+
+### Files Created/Modified
+
+**Created:**
+1. `frontend/components/doctor/appointment-calendar.tsx` - Calendar component
+2. `frontend/components/doctor/time-slot-grid.tsx` - Time slot visualization
+3. `frontend/components/doctor/appointment-list.tsx` - Appointment list with sorting
+
+**Modified:**
+1. `frontend/app/(home)/doctor/appointments/page.tsx` - Complete page rewrite
+2. `frontend/lib/appointment-actions.ts` - Added `getAppointmentsByDate()`
+3. `frontend/components/ui/badge.tsx` - Added success/warning variants
+4. `backend/app/routes/appointment.py` - Added `/by-date/{date}` endpoint
+
+### Next Steps / Future Enhancements
+- Add appointment status update buttons in the list
+- Implement drag-and-drop for rescheduling
+- Add filter/search functionality for appointments
+- Export appointments to calendar apps (iCal, Google Calendar)
+- Add appointment statistics dashboard integration
+- Implement real-time updates with WebSockets
+
+---
+
+## Previous Update: ✅ SERVER-SIDE AUTH VALIDATION FIX (January 14, 2026)
 
 ### Summary
 Fixed critical authentication bypass where users could access protected routes (`/patient/home`, `/doctor/home`, etc.) with expired or invalid tokens. The middleware only checked if the `session_token` cookie existed, not if it was valid. Added server-side authentication validation to the protected route layout.
