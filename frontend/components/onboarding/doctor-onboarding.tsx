@@ -981,7 +981,7 @@ export function DoctorOnboarding() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="space-y-8">
-        <StepIndicator steps={STEPS} currentStep={currentStep} />
+        <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={(id) => setCurrentStep(id)} />
 
         <AnimatePresence mode="wait">
           <motion.div

@@ -14,9 +14,10 @@ interface Step {
 interface StepIndicatorProps {
   steps: Step[]
   currentStep: number
+  onStepClick?: (stepId: number) => void
 }
 
-export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
+export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicatorProps) {
   return (
     <div className="w-full py-6">
       <div className="relative flex items-center justify-between w-full">
@@ -32,7 +33,14 @@ export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
           const isCurrent = currentStep === step.id
 
           return (
-            <div key={step.id} className="relative z-10 flex flex-col items-center group">
+            <button
+              key={step.id}
+              type="button"
+              onClick={() => onStepClick?.(step.id)}
+              className="relative z-10 flex flex-col items-center group focus:outline-none"
+              aria-current={isCurrent ? 'step' : undefined}
+              aria-label={`Go to step ${step.id}: ${step.title}`}
+            >
               <motion.div
                 initial={false}
                 animate={{
@@ -61,7 +69,7 @@ export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
                   {step.shortName}
                 </span>
               </div>
-            </div>
+            </button>
           )
         })}
       </div>
