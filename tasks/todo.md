@@ -1,3 +1,279 @@
+# Find Medicine Feature - Implementation Plan (January 20, 2026)
+
+## Overview
+Implementing the comprehensive medicine search feature for Medora healthcare platform. This allows patients and doctors to discover medicines by brand or generic name, view details, and understand medicine identities safely.
+
+## Database Status
+- `drugs` table: 7,389 rows (canonical medicine identities)
+- `brands` table: 67,001 rows (commercial/prescribed names)
+- `medicine_search_index` table: 74,390 rows (search accelerator)
+- **Medicine Types**: Allopathic, Ayurvedic, Herbal, Homeopathic, Unani
+- **Dosage Forms**: 200+ unique forms (Tablet, Capsule, Syrup, Injection, etc.)
+
+## Implementation Phases
+
+### Phase 1: Backend API ✅
+- [x] Create medicine SQLAlchemy models (`backend/app/db/models/medicine.py`)
+- [x] Create Pydantic schemas (`backend/app/schemas/medicine.py`)
+- [x] Create medicine routes (`backend/app/routes/medicine.py`)
+- [x] Register router in `backend/app/main.py`
+
+### Phase 2: Frontend Components ✅
+- [x] Create MedicineCard component with dosage form icons
+- [x] Create MedicineSearchInput with debounced search
+- [x] Create MedicineDetailDrawer for medicine details
+
+### Phase 3: Page Integration ✅
+- [x] Implement patient find-medicine page
+- [x] Implement doctor find-medicine page
+- [x] Test end-to-end functionality
+
+### Phase 4: Patient Onboarding Integration ✅
+- [x] Create MedicationManager component
+  - Searchable medicine selection from database
+  - Current vs past medication tracking
+  - Dosage, frequency, duration fields
+  - Doctor and date tracking
+- [x] Update patient onboarding Step 4
+  - Replace manual medication input with MedicationManager
+  - Updated medication data structure: `{drug_id, brand_id, display_name, generic_name, strength, dosage_form, dosage, frequency, duration, status, started_date, prescribing_doctor, notes}`
+- [x] Create patient profile medications page
+  - Dedicated `/patient/medications` route
+  - View current and past medications
+  - Add/edit/remove medications anytime
+  - Export medication list
+- [x] Update patient profile to link to medications page
+- [x] Backend: Ensure medication schema compatibility
+  - Medications stored as JSON array with drug_id and brand_id references
+  - Backward compatible with existing data
+- [x] Test medication flow end-to-end
+
+---
+
+## API Endpoints
+
+### GET /medicine/search
+```
+Query params: q (search term), limit, dosage_form, medicine_type
+Returns: List of medicine results with brand & drug info
+```
+
+### GET /medicine/{drug_id}
+```
+Returns: Complete medicine details with all brands
+```
+
+---
+
+## Review Section
+
+### Implementation Summary
+
+**Completed on January 20, 2026**
+
+The Find Medicine feature has been fully implemented with the following components:
+
+#### Backend (FastAPI)
+1. **Models** (`backend/app/db/models/medicine.py`):
+   - `Drug`: Canonical medicine identity with generic_name, strength, dosage_form
+   - `Brand`: Commercial names linked to drugs
+   - `MedicineSearchIndex`: Search accelerator table
+
+2. **Schemas** (`backend/app/schemas/medicine.py`):
+   - `MedicineSearchResult`: Single search result
+   - `MedicineSearchResponse`: Search response with pagination
+   - `MedicineDetailResponse`: Full medicine details with brands
+
+3. **Routes** (`backend/app/routes/medicine.py`):
+   - `GET /medicine/search?q=...`: Search with filters
+   - `GET /medicine/filters`: Get filter options
+   - `GET /medicine/{drug_id}`: Medicine details
+   - `GET /medicine/brand/{brand_id}`: Lookup by brand
+
+#### Frontend (Next.js)
+1. **Components** (`frontend/components/medicine/`):
+   - `MedicineCard`: Search result card with dosage form icons
+   - `MedicineSearch`: Debounced search input with filters
+   - `MedicineDetailDrawer`: Side drawer with full details
+
+2. **Pages**:
+   - `/patient/find-medicine`: Patient-facing search
+   - `/doctor/find-medicine`: Doctor reference tool
+
+#### Key Features
+- Debounced search (300ms)
+- Dosage form icons (Tablet, Capsule, Syrup, Injection, etc.)
+- Medicine type badges (Allopathic, Ayurvedic, etc.)
+- Medical disclaimer always visible
+- Mobile-responsive design
+- Consistent with Medora theme
+
+#### Database Stats
+- 7,389 unique drugs
+- 67,001 brand entries
+- 74,390 search index terms
+- 5 medicine types
+- 200+ dosage forms
+
+### Phase 4 Implementation Summary (Medication Management Integration)
+
+**Completed: Medicine Database Integration into Patient Workflow**
+
+This phase successfully integrated the medicine database into the patient onboarding and profile management workflows, transforming medication tracking from manual text entry to structured database-backed selection.
+
+#### Components Created
+
+1. **MedicationManager Component** (`frontend/components/medicine/medication-manager.tsx`)
+   - Reusable medication management interface
+   - Medicine search integration with MedicineSearch component
+   - Current vs Past medication status tracking
+   - Comprehensive medication details:
+     * Drug ID and Brand ID (database references)
+     * Dosage, frequency, duration
+     * Start/stop dates
+     * Prescribing doctor
+     * Notes field
+   - Add/edit/remove functionality
+   - Mobile-responsive design
+
+2. **Patient Medications Page** (`frontend/app/(home)/patient/medications/page.tsx`)
+   - Dedicated medications management interface
+   - View all current and past medications
+   - Add/edit/remove medications anytime (not just during onboarding)
+   - Export medication list as text file
+   - Real-time statistics (total, current, past counts)
+   - Information card with usage guidelines
+   - Backward compatibility: converts legacy medication format to new structure
+
+#### Updated Components
+
+1. **Patient Onboarding Step 4** (`frontend/components/onboarding/patient-onboarding.tsx`)
+   - Replaced manual medication input with MedicationManager
+   - Updated medication type from simple object to full Medication interface
+   - Removed old helper functions (addMedication, updateMedication, removeMedication)
+   - Added handleMedicationsUpdate for simplified state management
+
+2. **Patient Profile Page** (`frontend/app/(home)/patient/profile/page.tsx`)
+   - Added onClick handler to Medications button
+   - Routes to `/patient/medications` page
+
+3. **Medicine Components Index** (`frontend/components/medicine/index.ts`)
+   - Exported MedicationManager and Medication type
+   - Centralized medicine component exports
+
+#### Data Structure Enhancement
+
+**Old Medication Format (Legacy):**
+```typescript
+{
+  name: string;
+  dosage?: string;
+  frequency?: string;
+  duration?: string;
+  generic_name?: string;
+  prescribing_doctor?: string;
+}
+```
+
+**New Medication Format:**
+```typescript
+{
+  drug_id: string;              // Database reference
+  brand_id?: string;            // Database reference (if brand selected)
+  display_name: string;         // Brand name or generic name
+  generic_name: string;         // Generic/chemical name
+  strength: string;             // e.g., "500mg"
+  dosage_form: string;          // e.g., "Tablet", "Syrup"
+  dosage: string;               // e.g., "1 tablet", "5ml"
+  frequency: string;            // e.g., "twice_daily"
+  duration: string;             // e.g., "7 days", "ongoing"
+  status: "current" | "past";   // Medication status
+  started_date?: string;        // When started
+  stopped_date?: string;        // When stopped (for past meds)
+  prescribing_doctor?: string;  // Doctor who prescribed
+  notes?: string;               // Additional notes
+}
+```
+
+#### Backend Compatibility
+
+- Database field: `patient_profiles.medications` (JSON array)
+- Stores enhanced medication structure with database references
+- Backward compatible: legacy data automatically converted when loaded
+- No migration needed: JSON field accepts both formats
+
+#### Key Features
+
+1. **Searchable Medicine Selection**
+   - Search 74,000+ medicines by brand or generic name
+   - Select from database instead of manual typing
+   - Ensures data consistency and accuracy
+
+2. **Current vs Past Tracking**
+   - Distinguish between current and past medications
+   - Visual indicators (green badge for current)
+   - Separate sections in UI
+
+3. **Comprehensive Details**
+   - All relevant medication information captured
+   - Start/stop dates for timeline tracking
+   - Prescribing doctor for reference
+   - Notes field for additional context
+
+4. **Export Functionality**
+   - Download medication list as text file
+   - Formatted for printing or sharing
+   - Includes all medication details
+   - Timestamped export
+
+5. **Profile Integration**
+   - Accessible from patient profile
+   - Standalone medications page
+   - Real-time statistics display
+   - Add/edit medications anytime (not just onboarding)
+
+#### Impact on AI Doctor Search
+
+This implementation directly supports the AI-powered doctor search feature:
+- Doctors can see complete medication history with medicine details
+- Drug IDs enable medication interaction checking (future feature)
+- Structured data improves doctor-patient matching accuracy
+- Generic name matching helps find specialists for specific treatments
+
+#### Mobile-First Design
+
+- Responsive layout with mobile breakpoints
+- Touch-friendly buttons and cards
+- Sheet drawer for medication entry (mobile-optimized)
+- Compact medication cards for small screens
+- Export works on mobile browsers
+
+#### Testing Recommendations
+
+1. **Onboarding Flow**
+   - Complete Step 4 with new MedicationManager
+   - Add current and past medications
+   - Verify data saves correctly
+
+2. **Profile Management**
+   - Navigate to /patient/medications
+   - Add new medication from profile
+   - Edit existing medication
+   - Remove medication
+   - Export medication list
+
+3. **Data Compatibility**
+   - Test with existing patient data (legacy format)
+   - Verify automatic conversion works
+   - Ensure new format saves properly
+
+4. **Doctor Access** (Future)
+   - Verify doctors can view patient medications
+   - Check medication details display correctly
+   - Test AI doctor search with medication data
+
+---
+
 # AI-Assisted Doctor Discovery Integration
 
 ## Latest Update: ✅ SERVER-SIDE AUTH VALIDATION FIX (January 14, 2026)

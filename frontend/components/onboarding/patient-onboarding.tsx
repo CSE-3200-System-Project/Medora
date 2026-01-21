@@ -15,6 +15,7 @@ import { RadioGroup } from "@/components/ui/radio-group-native"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
+import { MedicationManager, type Medication } from "@/components/medicine"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
 import { useRouter } from "next/navigation"
 
@@ -101,7 +102,7 @@ export function PatientOnboarding() {
     
     // Step 4 - Medications & Allergies
     takingMeds: "no",
-    medications: [] as { name: string; dosage: string; frequency: string; duration: string }[],
+    medications: [] as Medication[],
     drugAllergies: [] as DrugAllergy[],
     foodAllergies: "",
     environmentalAllergies: "",
@@ -209,8 +210,24 @@ export function PatientOnboarding() {
             otherConditions: data.other_conditions || "",
             conditionDetails: data.condition_details || "",
             
-            takingMeds: data.taking_meds || "no",
-            medications: data.medications || [],
+            takingMeds: data.taking_meds ? "yes" : "no",
+            medications: (data.medications || []).map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
+              if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+              return {
+                id: crypto.randomUUID(),
+                drug_id: "",
+                display_name: med.name || "",
+                generic_name: med.generic_name || med.name || "",
+                strength: "",
+                dosage_form: "",
+                dosage: med.dosage || "",
+                frequency: med.frequency || "",
+                duration: med.duration || "",
+                status: "current" as const,
+                prescribing_doctor: med.prescribing_doctor || "",
+                notes: "",
+              };
+            }),
             drugAllergies: data.drug_allergies || [],
             foodAllergies: data.food_allergies || "",
             environmentalAllergies: data.environmental_allergies || "",
@@ -344,7 +361,20 @@ export function PatientOnboarding() {
       condition_details: formData.conditionDetails,
       
       taking_meds: formData.takingMeds,
-      medications: formData.medications,
+      medications: (formData.medications || []).map((m: any) => {
+        const med: any = {
+          // Convert internal medication object to backend expected shape
+          name: m.display_name || m.name || "",
+          dosage: m.dosage || "",
+          frequency: m.frequency || "",
+          duration: m.duration || "",
+          generic_name: m.generic_name || null,
+        }
+        if (m.prescribing_doctor && m.prescribing_doctor.trim()) {
+          med.prescribing_doctor = m.prescribing_doctor
+        }
+        return med
+      }),
       drug_allergies: formData.drugAllergies,
       food_allergies: formData.foodAllergies,
       environmental_allergies: formData.environmentalAllergies,
@@ -449,27 +479,34 @@ export function PatientOnboarding() {
   }
 
   // Helper functions for dynamic lists
-  const addMedication = () => {
-    setFormData(prev => ({
-      ...prev,
-      medications: [...prev.medications, { name: "", dosage: "", frequency: "", duration: "" }]
-    }))
-  }
+  const handleMedicationsUpdate = async (medications: Medication[]) => {
+    setFormData(prev => ({ ...prev, medications }))
 
-  const updateMedication = (index: number, field: string, value: any) => {
-    const newMeds = [...formData.medications]
-    // @ts-ignore
-    newMeds[index][field] = value
-    setFormData(prev => ({ ...prev, medications: newMeds }))
-  }
+    // Auto-save medications when they change
+    try {
+      const backendMedications = medications.map((m: any) => {
+        const med: any = {
+          name: m.display_name || m.name || "",
+          dosage: m.dosage || "",
+          frequency: m.frequency || "",
+          duration: m.duration || "",
+          generic_name: m.generic_name || null,
+        }
+        if (m.prescribing_doctor && m.prescribing_doctor.trim()) {
+          med.prescribing_doctor = m.prescribing_doctor
+        }
+        return med
+      })
 
-  const removeMedication = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      medications: prev.medications.filter((_, i) => i !== index)
-    }))
+      await updatePatientOnboarding({
+        taking_meds: medications.length > 0 ? "yes" : "no",
+        medications: backendMedications
+      })
+    } catch (error) {
+      console.error("Failed to auto-save medications:", error)
+    }
   }
-
+  
   const addDrugAllergy = () => {
     setFormData(prev => ({
       ...prev,
@@ -760,35 +797,14 @@ export function PatientOnboarding() {
             </div>
 
             {formData.takingMeds === "yes" && (
-              <div className="space-y-4 animate-in fade-in slide-in-from-top-4">
-                {formData.medications.map((med, index) => (
-                  <div key={index} className="relative grid gap-4 rounded-lg border p-4">
-                    <Button variant="ghost" size="icon" className="absolute right-2 top-2 h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => removeMedication(index)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                    <div className="space-y-2">
-                      <Label>Medicine Name</Label>
-                      <Input value={med.name} onChange={(e) => updateMedication(index, "name", e.target.value)} placeholder="e.g. Metformin" />
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label>Dosage</Label>
-                        <Input value={med.dosage} onChange={(e) => updateMedication(index, "dosage", e.target.value)} placeholder="500mg" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Frequency</Label>
-                        <Input value={med.frequency} onChange={(e) => updateMedication(index, "frequency", e.target.value)} placeholder="Twice daily" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Duration</Label>
-                        <Input value={med.duration} onChange={(e) => updateMedication(index, "duration", e.target.value)} placeholder="Ongoing" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <Button variant="outline" onClick={addMedication} className="w-full">
-                  <Plus className="mr-2 h-4 w-4" /> Add Medication
-                </Button>
+              <div className="animate-in fade-in slide-in-from-top-4">
+                <MedicationManager
+                  medications={formData.medications}
+                  onUpdate={handleMedicationsUpdate}
+                  showStatus={true}
+                  title="Current & Past Medications"
+                  description="Search and add your medications from our database"
+                />
               </div>
             )}
 
@@ -1260,7 +1276,7 @@ export function PatientOnboarding() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="space-y-8">
-        <StepIndicator steps={STEPS} currentStep={currentStep} />
+        <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={(id) => setCurrentStep(id)} />
 
         <AnimatePresence mode="wait">
           <motion.div
