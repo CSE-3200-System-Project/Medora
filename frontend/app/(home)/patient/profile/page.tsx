@@ -427,9 +427,10 @@ export default function PatientProfilePage() {
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
+            onClick={() => router.push("/patient/medical-history")}
           >
             <Pill className="h-6 w-6 text-primary" />
-            <span>Medications</span>
+            <span>Medical History</span>
           </Button>
         </div>
       </main>

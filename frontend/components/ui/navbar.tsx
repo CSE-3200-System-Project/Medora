@@ -154,8 +154,8 @@ export function Navbar() {
                 <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
                   Find Medicine
                 </Link>
-                <Link href="/patient/find-ambulance" className={cn("transition-colors hover:text-primary", pathname === "/find-ambulance" && "text-primary")}>
-                  Find Ambulance
+                <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary", pathname === "/patient/medical-history" && "text-primary")}>
+                  Medical History
                 </Link>
               </nav>
             )}
@@ -335,8 +335,8 @@ export function Navbar() {
                           <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Activity className="h-5 w-5 text-primary" /> Find Medicine
                           </Link>
-                          <Link href="/find-ambulance" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
-                            <Shield className="h-5 w-5 text-primary" /> Find Ambulance
+                          <Link href="/patient/medical-history" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
                         </>
                       )}
