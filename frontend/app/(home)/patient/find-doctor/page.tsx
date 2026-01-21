@@ -7,7 +7,7 @@ import { SearchFilters } from "@/components/doctor/search-filters";
 import { MapView } from "@/components/doctor/map-view";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock } from "lucide-react";
+import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 // AI Analysis summary component
@@ -149,6 +149,7 @@ export default function FindDoctorPage() {
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [showMap, setShowMap] = useState(false); // Mobile map toggle
 
   const fetchDoctors = async (searchFilters: any = {}) => {
     setLoading(true);
@@ -272,8 +273,8 @@ export default function FindDoctorPage() {
             </div>
           )}
           
-          {/* Results count and clear filters */}
-          <div className="flex items-center justify-between mt-4 mb-2">
+          {/* Results count and controls */}
+          <div className="flex items-center justify-between mt-4 mb-2 gap-2 flex-wrap">
             <p className="text-sm text-muted-foreground">
               {!loading && (
                 <span className="font-semibold text-foreground">
@@ -281,22 +282,35 @@ export default function FindDoctorPage() {
                 </span>
               )}
             </p>
-            {hasFilters && (
-              <Button 
-                variant="ghost" 
+            <div className="flex items-center gap-2">
+              {/* Mobile Map Toggle */}
+              <Button
+                variant={showMap ? "default" : "outline"}
                 size="sm"
-                onClick={handleClearFilters}
-                className="text-primary hover:text-primary-muted"
+                onClick={() => setShowMap(!showMap)}
+                className="lg:hidden"
               >
-                Clear all filters
+                <Map className="w-4 h-4 mr-2" />
+                {showMap ? "Hide Map" : "Show Map"}
               </Button>
-            )}
+              
+              {hasFilters && (
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={handleClearFilters}
+                  className="text-primary hover:text-primary-muted"
+                >
+                  Clear all filters
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
           {/* Left: Doctor List */}
-          <div className="space-y-4">
+          <div className={`space-y-4 ${showMap ? 'hidden lg:block' : 'block'}`}>
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
@@ -330,10 +344,30 @@ export default function FindDoctorPage() {
             )}
           </div>
 
-          {/* Right: Map View (Hidden on mobile, visible on large screens) */}
-          <div className="hidden lg:block sticky top-28 h-[calc(100vh-8rem)]">
+          {/* Right: Map View */}
+          {/* Desktop: Always visible and sticky */}
+          <div className="hidden lg:block lg:sticky lg:top-28 lg:h-[calc(100vh-8rem)]">
             <MapView doctors={doctors} userLocation={userLocation} />
           </div>
+          
+          {/* Mobile: Toggleable full-width map */}
+          {showMap && (
+            <div className="lg:hidden fixed inset-0 z-40 bg-background pt-20">
+              <div className="h-full w-full p-4">
+                <div className="h-full w-full rounded-2xl overflow-hidden">
+                  <MapView doctors={doctors} userLocation={userLocation} />
+                </div>
+              </div>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => setShowMap(false)}
+                className="absolute top-24 right-4 shadow-lg"
+              >
+                Close Map
+              </Button>
+            </div>
+          )}
         </div>
       </main>
     </div>
