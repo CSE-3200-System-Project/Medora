@@ -11,6 +11,8 @@ from app.db.models.enums import UserRole
 from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentResponse
 import uuid
 from typing import List
+from datetime import datetime, timedelta, timezone, date as date_class
+import re
 
 router = APIRouter()
 
@@ -100,6 +102,33 @@ async def get_my_appointments(
         patient = patient_res.scalar_one_or_none()
         doctor_res = await db.execute(select(Profile).where(Profile.id == a.doctor_id))
         doctor = doctor_res.scalar_one_or_none()
+        
+        # Get patient profile for additional details (if user is doctor)
+        patient_age = None
+        patient_gender = None
+        blood_group = None
+        chronic_conditions = []
+        
+        if "DOCTOR" in role_str:
+            patient_profile_res = await db.execute(select(PatientProfile).where(PatientProfile.profile_id == a.patient_id))
+            patient_profile = patient_profile_res.scalar_one_or_none()
+            
+            if patient_profile:
+                # Calculate age
+                if patient_profile.date_of_birth:
+                    today = date_class.today()
+                    dob = patient_profile.date_of_birth
+                    patient_age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+                
+                patient_gender = patient_profile.gender
+                blood_group = patient_profile.blood_group
+                
+                # Get chronic conditions
+                if patient_profile.has_diabetes: chronic_conditions.append("Diabetes")
+                if patient_profile.has_hypertension: chronic_conditions.append("Hypertension")
+                if patient_profile.has_heart_disease: chronic_conditions.append("Heart Disease")
+                if patient_profile.has_asthma: chronic_conditions.append("Asthma")
+                if patient_profile.has_kidney_disease: chronic_conditions.append("Kidney Disease")
 
         status_value = a.status.value if hasattr(a.status, 'value') else str(a.status)
 
@@ -113,12 +142,200 @@ async def get_my_appointments(
             "doctor_id": a.doctor_id,
             "patient_name": f"{patient.first_name} {patient.last_name}" if patient else None,
             "doctor_name": f"{doctor.first_name} {doctor.last_name}" if doctor else None,
+            "patient_phone": patient.phone if patient and "DOCTOR" in role_str else None,
+            "patient_age": patient_age,
+            "patient_gender": patient_gender,
+            "blood_group": blood_group,
+            "chronic_conditions": chronic_conditions,
             "created_at": a.created_at.isoformat() if a.created_at else None,
             "updated_at": a.updated_at.isoformat() if a.updated_at else None,
         })
 
     return out
 
+@router.get("/by-date/{date}")
+async def get_appointments_by_date(
+    date: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Get all appointments for a specific date for the current doctor.
+    Returns time slots with appointment details.
+    """
+    user_id = user.id
+    
+    # Verify user is a doctor
+    result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = result.scalar_one_or_none()
+    
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    role_str = str(profile.role).upper()
+    if "DOCTOR" not in role_str:
+        raise HTTPException(status_code=403, detail="Only doctors can access this endpoint")
+    
+    # Get doctor profile for time slots
+    doc_result = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
+    doctor_profile = doc_result.scalar_one_or_none()
+    
+    if not doctor_profile:
+        raise HTTPException(status_code=404, detail="Doctor profile not found")
+    
+    # Parse date and get appointments for that day
+    try:
+        target_date = datetime.fromisoformat(date.replace('Z', '+00:00'))
+        start_of_day = datetime(target_date.year, target_date.month, target_date.day, tzinfo=timezone.utc)
+        end_of_day = start_of_day + timedelta(days=1)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
+    
+    # Get all appointments for this date
+    query = select(Appointment).where(
+        Appointment.doctor_id == user_id,
+        Appointment.appointment_date >= start_of_day,
+        Appointment.appointment_date < end_of_day
+    ).order_by(Appointment.appointment_date)
+    
+    result = await db.execute(query)
+    appointments = result.scalars().all()
+    
+    # Generate time slots based on doctor's actual schedule from onboarding
+    time_slots = []
+    
+    # Get doctor's availability from their profile
+    if doctor_profile.visiting_hours or doctor_profile.time_slots:
+        # Parse visiting hours (e.g., "Sat Sun Mon Tue Wed 03:00 PM - 08:00 PM")
+        schedule_text = doctor_profile.visiting_hours or doctor_profile.time_slots
+        
+        # Extract time ranges (e.g., "03:00 PM - 08:00 PM")
+        time_pattern = r'(\d{1,2}:\d{2}\s*(?:AM|PM))\s*-\s*(\d{1,2}:\d{2}\s*(?:AM|PM))'
+        matches = re.findall(time_pattern, schedule_text, re.IGNORECASE)
+        
+        if matches:
+            for start_time_str, end_time_str in matches:
+                # Parse start and end times
+                start_time = datetime.strptime(start_time_str.strip(), "%I:%M %p")
+                end_time = datetime.strptime(end_time_str.strip(), "%I:%M %p")
+                
+                # Generate 30-minute slots
+                current_time = start_time
+                duration = doctor_profile.appointment_duration or 30  # Default 30 mins
+                
+                while current_time < end_time:
+                    time_slots.append(current_time.strftime("%I:%M %p"))
+                    current_time = current_time + timedelta(minutes=duration)
+    
+    # Fallback to default schedule if no schedule configured
+    if not time_slots:
+        default_slots = [
+            "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+            "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
+            "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+            "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM"
+        ]
+        time_slots = default_slots
+    
+    # Map appointments to time slots
+    slot_data = []
+    
+    # If no specific time slots configured, generate default slots
+    if not time_slots or len(time_slots) == 0:
+        time_slots = [
+            "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+            "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
+            "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+            "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM"
+        ]
+    
+    for slot_time in time_slots:
+        # Find appointment matching this time slot
+        matching_appt = None
+        for appt in appointments:
+            # Check if notes contain the slot time
+            if appt.notes and slot_time in appt.notes:
+                matching_appt = appt
+                break
+            
+            # Also try to match by appointment time
+            appt_hour = appt.appointment_date.hour
+            appt_minute = appt.appointment_date.minute
+            
+            # Convert slot_time to 24-hour format for comparison
+            try:
+                slot_parts = slot_time.split()
+                time_parts = slot_parts[0].split(':')
+                slot_hour = int(time_parts[0])
+                slot_minute = int(time_parts[1]) if len(time_parts) > 1 else 0
+                
+                if len(slot_parts) > 1 and slot_parts[1].upper() == 'PM' and slot_hour != 12:
+                    slot_hour += 12
+                elif len(slot_parts) > 1 and slot_parts[1].upper() == 'AM' and slot_hour == 12:
+                    slot_hour = 0
+                
+                if appt_hour == slot_hour and appt_minute == slot_minute:
+                    matching_appt = appt
+                    break
+            except:
+                pass
+        
+        if matching_appt:
+            # Get patient details
+            patient_res = await db.execute(select(Profile).where(Profile.id == matching_appt.patient_id))
+            patient = patient_res.scalar_one_or_none()
+            
+            # Get patient medical profile
+            patient_profile_res = await db.execute(select(PatientProfile).where(PatientProfile.profile_id == matching_appt.patient_id))
+            patient_profile = patient_profile_res.scalar_one_or_none()
+            
+            status_value = matching_appt.status.value if hasattr(matching_appt.status, 'value') else str(matching_appt.status)
+            
+            # Calculate patient age
+            age = None
+            if patient_profile and patient_profile.date_of_birth:
+                today = date_class.today()
+                dob = patient_profile.date_of_birth
+                age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            
+            # Get chronic conditions
+            conditions = []
+            if patient_profile:
+                if patient_profile.has_diabetes: conditions.append("Diabetes")
+                if patient_profile.has_hypertension: conditions.append("Hypertension")
+                if patient_profile.has_heart_disease: conditions.append("Heart Disease")
+                if patient_profile.has_asthma: conditions.append("Asthma")
+                if patient_profile.has_kidney_disease: conditions.append("Kidney Disease")
+            
+            slot_data.append({
+                "time": slot_time,
+                "appointmentId": matching_appt.id,
+                "patientName": f"{patient.first_name} {patient.last_name}" if patient else "Unknown",
+                "patientPhone": patient.phone if patient else None,
+                "patientAge": age,
+                "patientGender": patient_profile.gender if patient_profile else None,
+                "bloodGroup": patient_profile.blood_group if patient_profile else None,
+                "chronicConditions": conditions,
+                "reason": matching_appt.reason,
+                "status": status_value,
+                "appointmentDate": matching_appt.appointment_date.isoformat()
+            })
+        else:
+            slot_data.append({
+                "time": slot_time,
+                "appointmentId": None,
+                "patientName": None,
+                "patientPhone": None,
+                "patientAge": None,
+                "patientGender": None,
+                "bloodGroup": None,
+                "chronicConditions": [],
+                "reason": None,
+                "status": None,
+                "appointmentDate": None
+            })
+    
+    return slot_data
 @router.patch("/{appointment_id}", response_model=AppointmentResponse)
 async def update_appointment_status(
     appointment_id: str,

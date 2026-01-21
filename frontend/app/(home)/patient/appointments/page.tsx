@@ -4,8 +4,9 @@ import React from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getMyAppointments } from "@/lib/appointment-actions";
-import { Calendar, Clock, User, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { getMyAppointments, updateAppointment } from "@/lib/appointment-actions";
+import { Calendar, Clock, User, FileText, XCircle } from "lucide-react";
 
 export default function PatientAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<any[]>([]);
@@ -26,8 +27,22 @@ export default function PatientAppointmentsPage() {
     }
   };
 
+  const handleCancelAppointment = async (appointmentId: string) => {
+    if (!confirm('Are you sure you want to cancel this appointment?')) {
+      return;
+    }
+
+    try {
+      await updateAppointment(appointmentId, { status: 'CANCELLED' });
+      loadAppointments();
+    } catch (error) {
+      console.error("Failed to cancel appointment:", error);
+      alert("Failed to cancel appointment. Please try again.");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+    <div className="min-h-screen bg-linear-to-br from-surface via-primary-more-light to-accent">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
@@ -69,6 +84,9 @@ export default function PatientAppointmentsPage() {
                          
                          <div>
                              <h3 className="font-bold text-lg text-foreground">{appt.reason}</h3>
+                             <p className="text-sm font-semibold text-primary mt-1">
+                                Dr. {appt.doctor_name || 'Unknown'}
+                             </p>
                              <p className="text-sm text-muted-foreground mt-1">
                                 {appt.notes}
                              </p>
@@ -76,7 +94,18 @@ export default function PatientAppointmentsPage() {
                     </div>
                     
                     <div className="flex flex-col gap-2 justify-center border-l md:pl-6 border-border/50">
-                        {/* Actions could go here, e.g. Cancel */}
+                        {/* Cancel Button - Only show for non-cancelled, non-completed appointments */}
+                        {appt.status !== 'CANCELLED' && appt.status !== 'COMPLETED' && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleCancelAppointment(appt.id)}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <XCircle className="h-4 w-4 mr-1" />
+                            Cancel
+                          </Button>
+                        )}
                     </div>
                   </div>
                 </CardContent>

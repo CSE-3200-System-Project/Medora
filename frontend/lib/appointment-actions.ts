@@ -77,3 +77,28 @@ export async function updateAppointment(id: string, data: any) {
   revalidatePath("/patient/appointments");
   return response.json();
 }
+
+export async function getAppointmentsByDate(date: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    return [];
+  }
+
+  const response = await fetch(`${BACKEND_URL}/appointment/by-date/${date}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+  
+  if (!response.ok) {
+    if (response.status === 401) {
+      return [];
+    }
+    throw new Error("Failed to fetch appointments by date");
+  }
+
+  return response.json();
+}

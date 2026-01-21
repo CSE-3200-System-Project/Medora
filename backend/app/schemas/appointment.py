@@ -33,6 +33,11 @@ class AppointmentResponse(AppointmentBase):
     # Optional nested details for frontend display
     doctor_name: Optional[str] = None
     patient_name: Optional[str] = None
+    patient_phone: Optional[str] = None
+    patient_age: Optional[int] = None
+    patient_gender: Optional[str] = None
+    blood_group: Optional[str] = None
+    chronic_conditions: Optional[list] = None
 
     class Config:
         from_attributes = True
