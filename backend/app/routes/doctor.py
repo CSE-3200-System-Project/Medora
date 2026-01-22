@@ -179,7 +179,13 @@ async def get_doctor_profile(
             address=doc.hospital_address or "",
             city=doc.hospital_city or "",
             country=doc.hospital_country or "Bangladesh",
-            availability=doc.visiting_hours
+            availability=doc.time_slots or "",
+            available_days=doc.available_days or [],
+            appointment_duration=doc.appointment_duration,
+            time_slots=doc.time_slots,
+            normalized_time_slots=getattr(doc, 'normalized_time_slots', None),
+            time_slots_needs_review=getattr(doc, 'time_slots_needs_review', False),
+            day_time_slots=getattr(doc, 'day_time_slots', None)
         ))
     
     # Add chamber location if different from hospital
@@ -189,7 +195,13 @@ async def get_doctor_profile(
             address=doc.chamber_address or "",
             city=doc.chamber_city or "",
             country="Bangladesh",
-            availability=doc.visiting_hours
+            availability=doc.time_slots or "",
+            available_days=doc.available_days or [],
+            appointment_duration=doc.appointment_duration,
+            time_slots=doc.time_slots,
+            normalized_time_slots=getattr(doc, 'normalized_time_slots', None),
+            time_slots_needs_review=getattr(doc, 'time_slots_needs_review', False),
+            day_time_slots=getattr(doc, 'day_time_slots', None)
         ))
 
     # Parse education from JSON
@@ -241,6 +253,7 @@ async def get_doctor_profile(
         appointment_duration=doc.appointment_duration,
         visiting_hours=doc.visiting_hours,
         available_days=doc.available_days,
+        day_time_slots=getattr(doc, 'day_time_slots', None),
         education=education,
         work_experience=work_experience,
         languages_spoken=doc.languages_spoken,
@@ -258,8 +271,13 @@ async def get_appointment_slots(
 ):
     """
     Get available appointment time slots for a doctor on a specific date.
-    This is a simplified version - in production, this would check actual bookings.
+    Uses doctor's available_days (JSON array) and time_slots (string) fields.
+    Generates slots based on appointment_duration.
     """
+    from datetime import datetime, timedelta
+    from app.db.models.appointment import Appointment, AppointmentStatus
+    import re
+    
     # Verify doctor exists
     stmt = select(DoctorProfile).where(DoctorProfile.profile_id == profile_id)
     result = await db.execute(stmt)
@@ -268,35 +286,209 @@ async def get_appointment_slots(
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
     
-    # Generate time slots based on doctor's visiting hours
-    # This is a mock implementation - in production, this would:
-    # 1. Parse visiting_hours to get actual available times
-    # 2. Check existing appointments in database
-    # 3. Mark booked slots as unavailable
+    # Parse the requested date
+    try:
+        requested_date = datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
     
-    afternoon_slots = []
-    evening_slots = []
-    night_slots = []
+    # Get full day name from requested date
+    full_day_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    requested_day_full = full_day_names[requested_date.weekday()]
     
-    # Afternoon (12:00 PM - 5:00 PM)
-    afternoon_times = ["03:00 PM", "03:10 PM", "03:20 PM", "03:30 PM", "03:40 PM", "03:50 PM",
-                      "04:00 PM", "04:10 PM", "04:20 PM", "04:30 PM", "04:40 PM", "04:50 PM"]
-    for time in afternoon_times:
-        afternoon_slots.append(TimeSlot(time=time, available=True))
+    # Check if doctor is available on requested day.
+    # If day_time_slots is present, treat it as authoritative (only days present there are available)
+    is_available_day = False
+
+    if getattr(doctor, 'day_time_slots', None) and isinstance(doctor.day_time_slots, dict) and len(doctor.day_time_slots) > 0:
+        day_slots = doctor.day_time_slots.get(requested_day_full, [])
+        if isinstance(day_slots, list) and len(day_slots) > 0:
+            is_available_day = True
+        else:
+            is_available_day = False
+    else:
+        if doctor.available_days and len(doctor.available_days) > 0:
+            # available_days is JSON array like ["Saturday", "Monday", "Thursday"]
+            # Match by checking if any day starts with the requested day (case-insensitive)
+            is_available_day = any(
+                day.strip().upper().startswith(requested_day_full[:3].upper()) 
+                for day in doctor.available_days
+            )
+        else:
+            # If no schedule set, assume available all days except Friday
+            is_available_day = requested_day_full != "Friday"
+
+    if not is_available_day:
+        # Return empty slots if doctor doesn't work on this day
+        return AppointmentSlotsResponse(
+            date=date,
+            location=location or doctor.hospital_name or "Not specified",
+            slots=[]
+        )
     
-    # Evening (5:00 PM - 8:00 PM)
-    evening_times = ["05:00 PM", "05:10 PM", "05:20 PM", "05:30 PM", "05:40 PM", "05:50 PM",
-                    "06:00 PM", "06:10 PM", "06:20 PM", "06:30 PM", "06:40 PM", "06:50 PM",
-                    "07:00 PM", "07:10 PM", "07:20 PM", "07:30 PM", "07:40 PM", "07:50 PM"]
-    for time in evening_times:
-        evening_slots.append(TimeSlot(time=time, available=True))
+    # Parse time_slots field and support multiple ranges and overnight ranges
+    # NEW: Check day_time_slots first for per-day schedules
+    time_slots_str = ""
     
-    # Night (8:00 PM onwards)
-    night_times = ["08:00 PM"]
-    for time in night_times:
-        night_slots.append(TimeSlot(time=time, available=True))
+    if doctor.day_time_slots and isinstance(doctor.day_time_slots, dict):
+        # Use per-day time slots
+        day_slots = doctor.day_time_slots.get(requested_day_full, [])
+        if isinstance(day_slots, list) and len(day_slots) > 0:
+            time_slots_str = ", ".join(day_slots)
+    
+    # Fallback to legacy single time_slots string if no day-specific slots
+    if not time_slots_str:
+        time_slots_str = (getattr(doctor, 'normalized_time_slots', None) or doctor.time_slots or "").strip()
+
+    # Split into candidate ranges by commas or semicolons (allow variations)
+    raw_ranges = [r.strip() for r in re.split(r"[,;]", time_slots_str) if r.strip()]
+
+    # Pattern to find start-end pairs (AM/PM optional — we'll handle in parser)
+    range_pattern = r"(\d{1,2}(?::\d{2})?\s*(?:AM|PM|am|pm)?)\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM|am|pm)?)"
+
+    found_ranges = []
+    for piece in raw_ranges:
+        m = re.search(range_pattern, piece, re.IGNORECASE)
+        if m:
+            found_ranges.append((m.group(1), m.group(2)))
+
+    # Fallback default if no valid ranges
+    if not found_ranges:
+        found_ranges = [("09:00 AM", "05:00 PM")]
+
+    # Helper to parse a time string into a datetime on a base date
+    def parse_time_to_dt(time_str: str, base_date: datetime) -> datetime:
+        time_str = time_str.strip()
+        # Normalize AM/PM to uppercase with a space
+        time_str = re.sub(r"(?i)\b(am)\b", "AM", time_str)
+        time_str = re.sub(r"(?i)\b(pm)\b", "PM", time_str)
+        time_str = re.sub(r"(\d)(AM|PM|am|pm)$", r"\1 \2", time_str)
+        time_str = time_str.strip()
+
+        # If it's plain 24-hour like '07:00' or '19:30', parse as 24-hour
+        try:
+            if re.match(r"^\d{1,2}:\d{2}$", time_str):
+                t = datetime.strptime(time_str, "%H:%M")
+                return datetime.combine(base_date.date(), t.time())
+        except Exception:
+            pass
+
+        # Normalize '9 AM' -> '9:00 AM'
+        if re.match(r"^\d{1,2}\s+(AM|PM)$", time_str):
+            time_str = re.sub(r"^(\d{1,2})\s+(AM|PM)$", r"\1:00 \2", time_str)
+
+        # Try parsing with 12-hour formats
+        for fmt in ["%I:%M %p", "%I %p", "%I:%M%p"]:
+            try:
+                t = datetime.strptime(time_str, fmt)
+                return datetime.combine(base_date.date(), t.time())
+            except ValueError:
+                continue
+
+        # If nothing matches, fallback to default 09:00 AM
+        t = datetime.strptime("09:00 AM", "%I:%M %p")
+        return datetime.combine(base_date.date(), t.time())
+
+    # Build list of (start_dt, end_dt) ranges relative to requested_date
+    ranges_dt: list[tuple[datetime, datetime]] = []
+
+    for s_str, e_str in found_ranges:
+        start_dt = parse_time_to_dt(s_str, requested_date)
+        end_dt = parse_time_to_dt(e_str, requested_date)
+        # If end <= start, it crosses midnight -> add one day to end
+        if end_dt <= start_dt:
+            end_dt = end_dt + timedelta(days=1)
+        ranges_dt.append((start_dt, end_dt))
+
+    # Generate slots across all ranges
+    slots = []
+    slot_duration = doctor.appointment_duration or 15
+
+    for start_dt, end_dt in ranges_dt:
+        current = start_dt
+        while current < end_dt:
+            slot_time = current.strftime("%I:%M %p").lstrip("0")
+            slots.append({
+                "time": slot_time,
+                "datetime": current
+            })
+            current = current + timedelta(minutes=slot_duration)
+
+    # Determine the query window for existing appointments (cover possible overnight ranges)
+    overall_start = min(r[0] for r in ranges_dt)
+    overall_end = max(r[1] for r in ranges_dt)
+
+    date_start = datetime.combine(overall_start.date(), datetime.min.time())
+    date_end = datetime.combine(overall_end.date(), datetime.max.time())
+    
+    # Fetch existing appointments for this doctor covering possible overnight ranges
+    from sqlalchemy import func
+
+    appt_stmt = select(Appointment).where(
+        Appointment.doctor_id == profile_id,
+        Appointment.appointment_date >= date_start,
+        Appointment.appointment_date <= date_end,
+        Appointment.status.in_([AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED])
+    )
+    appt_result = await db.execute(appt_stmt)
+    existing_appointments = appt_result.scalars().all()
+
+    # Build a set of booked slot times normalized to format like '1:00 PM'
+    booked_times = set()
+    note_time_pattern = re.compile(r"Slot:\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))", re.IGNORECASE)
+
+    for appt in existing_appointments:
+        # 1) If appointment_date has meaningful time component, use it
+        if appt.appointment_date and (appt.appointment_date.hour != 0 or appt.appointment_date.minute != 0):
+            try:
+                formatted = appt.appointment_date.strftime("%I:%M %p").lstrip("0").upper()
+                booked_times.add(formatted)
+            except Exception:
+                pass
+
+        # 2) Parse time from notes if present
+        if appt.notes:
+            note_match = note_time_pattern.search(appt.notes)
+            if note_match:
+                note_time = note_match.group(1).strip()
+                # Parse note_time into datetime for consistent formatting
+                parsed_dt = parse_time_to_dt(note_time, requested_date)
+                formatted = parsed_dt.strftime("%I:%M %p").lstrip("0").upper()
+                booked_times.add(formatted)
+    
+    # Categorize slots by time period
+    morning_slots = []  # Before 12 PM
+    afternoon_slots = []  # 12 PM - 5 PM
+    evening_slots = []  # 5 PM - 8 PM
+    night_slots = []  # After 8 PM
+    
+    now = datetime.now()
+
+    for slot in slots:
+        slot_time = slot["time"]
+        slot_dt = slot["datetime"]
+
+        # Check if slot is booked by normalized time comparison
+        is_booked = slot_dt.strftime("%I:%M %p").lstrip("0").upper() in booked_times
+
+        # Check if slot is in the past (absolute datetime comparison)
+        is_past = slot_dt < now
+
+        time_slot = TimeSlot(time=slot_time, available=(not is_booked and not is_past))
+
+        hour = slot_dt.hour
+        if hour < 12:
+            morning_slots.append(time_slot)
+        elif hour < 17:
+            afternoon_slots.append(time_slot)
+        elif hour < 20:
+            evening_slots.append(time_slot)
+        else:
+            night_slots.append(time_slot)
     
     slot_groups = []
+    if morning_slots:
+        slot_groups.append(TimeSlotGroup(period="Morning", slots=morning_slots))
     if afternoon_slots:
         slot_groups.append(TimeSlotGroup(period="Afternoon", slots=afternoon_slots))
     if evening_slots:

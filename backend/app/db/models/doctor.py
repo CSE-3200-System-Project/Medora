@@ -80,7 +80,10 @@ class DoctorProfile(Base):
     # e.g., "Sat Sun Mon Tue Wed 03:00 PM - 08:00 PM"
     visiting_hours: Mapped[str | None]
     available_days: Mapped[list | None] = mapped_column(JSON)
-    time_slots: Mapped[str | None]
+    time_slots: Mapped[str | None]  # Legacy field, kept for backwards compatibility
+    
+    # New per-day time slots: {"Friday": ["9:00 AM - 1:00 PM"], "Saturday": ["2:00 PM - 5:00 PM", "7:00 PM - 9:00 PM"]}
+    day_time_slots: Mapped[dict | None] = mapped_column(JSON)
     
     appointment_duration: Mapped[int | None]  # Minutes per appointment
     emergency_availability: Mapped[bool] = mapped_column(Boolean, default=False)

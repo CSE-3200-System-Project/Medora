@@ -53,6 +53,12 @@ class LocationInfo(BaseModel):
     city: str
     country: Optional[str] = "Bangladesh"
     availability: Optional[str] = None
+    available_days: Optional[List[str]] = None
+    appointment_duration: Optional[int] = None
+    time_slots: Optional[str] = None
+    normalized_time_slots: Optional[str] = None
+    time_slots_needs_review: Optional[bool] = None
+    day_time_slots: Optional[dict] = None  # Optional per-day schedule for this location
 
 class DoctorProfileResponse(BaseModel):
     # Basic info
