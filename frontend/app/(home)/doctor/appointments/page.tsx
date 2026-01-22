@@ -5,20 +5,31 @@ import { Navbar } from "@/components/ui/navbar";
 import { AppointmentCalendar } from "@/components/doctor/appointment-calendar";
 import { TimeSlotGrid } from "@/components/doctor/time-slot-grid";
 import { AppointmentList } from "@/components/doctor/appointment-list";
-import { getMyAppointments, getAppointmentsByDate, updateAppointment } from "@/lib/appointment-actions";
+import { DoctorPatientList } from "@/components/doctor/doctor-patient-list";
+import { getMyAppointments, getAppointmentsByDate, updateAppointment, syncAppointmentStatus } from "@/lib/appointment-actions";
+import { Button } from "@/components/ui/button";
+import { Calendar, Users } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type ViewMode = 'calendar' | 'slots';
+type TabMode = 'appointments' | 'patients';
 
 export default function DoctorAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [viewMode, setViewMode] = React.useState<ViewMode>('calendar');
+  const [tabMode, setTabMode] = React.useState<TabMode>('appointments');
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [daySlots, setDaySlots] = React.useState<any[]>([]);
   const [highlightedAppointmentId, setHighlightedAppointmentId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    loadAppointments();
+    // Sync status first (auto-complete past appointments), then load
+    const init = async () => {
+      await syncAppointmentStatus();
+      loadAppointments();
+    };
+    init();
   }, []);
 
   const loadAppointments = async () => {
@@ -122,6 +133,23 @@ export default function DoctorAppointmentsPage() {
     )];
   }, [appointments]);
 
+  // Group appointments by date for enhanced calendar
+  const appointmentsByDate = React.useMemo(() => {
+    const grouped: Record<string, { id: string; status: string; patient_name?: string }[]> = {};
+    appointments.forEach(appt => {
+      const dateKey = new Date(appt.appointment_date).toISOString().split('T')[0];
+      if (!grouped[dateKey]) {
+        grouped[dateKey] = [];
+      }
+      grouped[dateKey].push({
+        id: appt.id,
+        status: appt.status,
+        patient_name: appt.patient_name
+      });
+    });
+    return grouped;
+  }, [appointments]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-linear-to-br from-surface via-primary-more-light to-accent">
@@ -140,46 +168,73 @@ export default function DoctorAppointmentsPage() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-            Appointments Management
-          </h1>
-          <p className="text-muted-foreground mt-2 text-sm sm:text-base">
-            Manage your patient bookings and schedule
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Left Side - Appointment List */}
-          <div className="order-2 lg:order-1">
-            <AppointmentList
-              appointments={appointments}
-              highlightedId={highlightedAppointmentId}
-              onAppointmentClick={handleAppointmentClick}
-              onCancelAppointment={handleCancelAppointment}
-              onApproveAppointment={handleApproveAppointment}
-              onRejectAppointment={handleRejectAppointment}
-            />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+              Appointments Management
+            </h1>
+            <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+              Manage your patient bookings and schedule
+            </p>
           </div>
-
-          {/* Right Side - Calendar or Time Slots */}
-          <div className="order-1 lg:order-2">
-            {viewMode === 'calendar' ? (
-              <AppointmentCalendar
-                onDateSelect={handleDateSelect}
-                selectedDate={selectedDate}
-                appointmentDates={appointmentDates}
-              />
-            ) : (
-              <TimeSlotGrid
-                selectedDate={selectedDate!}
-                slots={daySlots}
-                onSlotClick={handleSlotClick}
-                onBack={handleBackToCalendar}
-              />
-            )}
+          
+          {/* Tab Switcher */}
+          <div className="flex items-center gap-2 bg-white rounded-lg p-1 shadow-sm">
+            <Button
+              variant={tabMode === 'appointments' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setTabMode('appointments')}
+            >
+              <Calendar className="w-4 h-4 mr-2" />
+              Appointments
+            </Button>
+            <Button
+              variant={tabMode === 'patients' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setTabMode('patients')}
+            >
+              <Users className="w-4 h-4 mr-2" />
+              Patients
+            </Button>
           </div>
         </div>
+
+        {tabMode === 'appointments' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Left Side - Appointment List */}
+            <div className="order-2 lg:order-1">
+              <AppointmentList
+                appointments={appointments}
+                highlightedId={highlightedAppointmentId}
+                onAppointmentClick={handleAppointmentClick}
+                onCancelAppointment={handleCancelAppointment}
+                onApproveAppointment={handleApproveAppointment}
+                onRejectAppointment={handleRejectAppointment}
+              />
+            </div>
+
+            {/* Right Side - Calendar or Time Slots */}
+            <div className="order-1 lg:order-2">
+              {viewMode === 'calendar' ? (
+                <AppointmentCalendar
+                  onDateSelect={handleDateSelect}
+                  selectedDate={selectedDate}
+                  appointmentDates={appointmentDates}
+                  appointmentsByDate={appointmentsByDate}
+                />
+              ) : (
+                <TimeSlotGrid
+                  selectedDate={selectedDate!}
+                  slots={daySlots}
+                  onSlotClick={handleSlotClick}
+                  onBack={handleBackToCalendar}
+                />
+              )}
+            </div>
+          </div>
+        ) : (
+          <DoctorPatientList />
+        )}
       </main>
     </div>
   );

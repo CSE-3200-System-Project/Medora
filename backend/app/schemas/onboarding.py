@@ -238,7 +238,8 @@ class DoctorOnboardingUpdate(BaseModel):
     follow_up_fee: Optional[str] = None
     visiting_hours: Optional[str] = None
     available_days: Optional[List[str]] = None
-    time_slots: Optional[str] = None
+    time_slots: Optional[str] = None  # Legacy field
+    day_time_slots: Optional[Dict[str, List[str]]] = None  # NEW: per-day schedules
     appointment_duration: Optional[int] = None
     emergency_availability: Optional[bool] = None
     emergency_contact: Optional[str] = None

@@ -548,3 +548,39 @@ export async function forgotPassword(email: string) {
     throw error;
   }
 }
+
+export async function updateDoctorSchedule(
+  dayTimeSlots: Record<string, string[]>,
+  appointmentDuration: number
+) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/profile/doctor/schedule`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        day_time_slots: dayTimeSlots,
+        appointment_duration: appointmentDuration
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to update schedule");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Update schedule error:", error);
+    throw error;
+  }
+}

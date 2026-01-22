@@ -132,34 +132,36 @@ export function Navbar() {
 
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-1 justify-center">
-            {user?.role?.toLowerCase() === 'doctor' ? (
-              <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-                <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary", pathname === "/doctor/appointments" && "text-primary")}>
-                  Appointments
-                </Link>
-                <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary", pathname === "/doctor/patients" && "text-primary")}>
-                  Patients
-                </Link>
-                <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary", pathname === "/doctor/analytics" && "text-primary")}>
-                  Analytics
-                </Link>
-              </nav>
-            ) : (
-              <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-                <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary", pathname === "/patient/find-doctor" && "text-primary")}>
-                  Find Doctor
-                </Link>
-                <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
-                  Appointments
-                </Link>
-                <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
-                  Find Medicine
-                </Link>
-                <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary", pathname === "/patient/medical-history" && "text-primary")}>
-                  Medical History
-                </Link>
-              </nav>
-            )}
+          {loading ? (
+            <div className="h-8 w-64 bg-surface animate-pulse rounded-full" />
+          ) : user?.role?.toLowerCase() === 'doctor' ? (
+            <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
+              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary", pathname === "/doctor/appointments" && "text-primary")}>
+                Appointments
+              </Link>
+              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary", pathname === "/doctor/patients" && "text-primary")}>
+                Patients
+              </Link>
+              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary", pathname === "/doctor/analytics" && "text-primary")}>
+                Analytics
+              </Link>
+            </nav>
+          ) : user?.role?.toLowerCase() === 'patient' ? (
+            <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
+              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary", pathname === "/patient/find-doctor" && "text-primary")}>
+                Find Doctor
+              </Link>
+              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
+                Appointments
+              </Link>
+              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
+                Find Medicine
+              </Link>
+              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary", pathname === "/patient/medical-history" && "text-primary")}>
+                Medical History
+              </Link>
+            </nav>
+          ) : null}
         </div>
 
         {/* RIGHT: Actions */}
@@ -250,7 +252,13 @@ export function Navbar() {
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col h-full py-6 px-6">
-                {!user ? (
+                {loading ? (
+                  <div className="space-y-4">
+                    <div className="h-12 bg-surface animate-pulse rounded" />
+                    <div className="h-12 bg-surface animate-pulse rounded" />
+                    <div className="h-12 bg-surface animate-pulse rounded" />
+                  </div>
+                ) : !user ? (
                   <>
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="platform" className="border-b-0">
@@ -315,7 +323,7 @@ export function Navbar() {
                 ) : (
                   <>
                     <div className="flex flex-col gap-4">
-                      {user.role?.toLowerCase() === 'doctor' ? (
+                      {user?.role?.toLowerCase() === 'doctor' ? (
                         <>
                           <Link href="/doctor/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Calendar className="h-5 w-5 text-primary" /> Appointments
@@ -323,21 +331,26 @@ export function Navbar() {
                           <Link href="/doctor/patients" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Users className="h-5 w-5 text-primary" /> Patients
                           </Link>
-                          
+                          <Link href="/doctor/analytics" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Activity className="h-5 w-5 text-primary" /> Analytics
+                          </Link>
                         </>
-                      ) : (
+                      ) : user?.role?.toLowerCase() === 'patient' ? (
                         <>
                           <Link href="/patient/find-doctor" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Users className="h-5 w-5 text-primary" /> Find Doctor
                           </Link>
-                          <Link href="/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                          </Link>
+                          <Link href="/patient/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Activity className="h-5 w-5 text-primary" /> Find Medicine
                           </Link>
                           <Link href="/patient/medical-history" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
                         </>
-                      )}
+                      ) : null}
                     </div>
                     <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
                       <div className="flex items-center gap-3 px-2">

@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAvailableSlots } from "@/lib/auth-actions";
-import { createAppointment } from "@/lib/appointment-actions";
+import { createAppointment, getDoctorBookedSlots } from "@/lib/appointment-actions";
 import { useRouter, usePathname } from "next/navigation";
-import { MapPin, Video, Calendar, Clock, CheckCircle2 } from "lucide-react";
+import { MapPin, Video, Calendar, Clock, CheckCircle2, XCircle, Navigation, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map";
 
 interface AppointmentBookingPanelProps {
   doctor: any;
@@ -32,6 +33,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
   });
 
   const [slots, setSlots] = React.useState<any>(null);
+  const [bookedSlots, setBookedSlots] = React.useState<any[]>([]);
   const [loadingSlots, setLoadingSlots] = React.useState(false);
 
   // Generate next 7 days for date selection
@@ -44,6 +46,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       date.setDate(today.getDate() + i);
       
       const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const fullDayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
       const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       
       dates.push({
@@ -51,6 +54,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         sublabel: i === 0 ? `${date.getDate()} ${monthNames[date.getMonth()]}` : dayNames[date.getDay()],
         date: date.toISOString().split('T')[0],
         dayName: dayNames[date.getDay()],
+        dayFullName: fullDayNames[date.getDay()],
       });
     }
     
@@ -72,12 +76,15 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     setLoadingSlots(true);
     try {
       const location = doctor.locations?.find((loc: any, idx: number) => idx.toString() === bookingState.locationId);
-      const data = await getAvailableSlots(
-        doctor.profile_id, 
-        bookingState.selectedDate,
-        location?.name
-      );
-      setSlots(data);
+      
+      // Fetch both available slots and booked slots in parallel
+      const [slotsData, bookedData] = await Promise.all([
+        getAvailableSlots(doctor.profile_id, bookingState.selectedDate, location?.name),
+        getDoctorBookedSlots(doctor.profile_id, bookingState.selectedDate)
+      ]);
+      
+      setSlots(slotsData);
+      setBookedSlots(bookedData.slots || []);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
     } finally {
@@ -97,6 +104,19 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       bookingState.selectedDate &&
       bookingState.selectedSlot
     );
+  };
+
+  // Check if a slot is booked or past
+  const getSlotStatus = (slotTime: string) => {
+    const bookedSlot = bookedSlots.find(s => s.time === slotTime);
+    if (bookedSlot) {
+      return {
+        isBooked: bookedSlot.is_booked,
+        isPast: bookedSlot.is_past,
+        patientName: bookedSlot.patient_name
+      };
+    }
+    return { isBooked: false, isPast: false, patientName: null };
   };
 
   const router = useRouter();
@@ -187,6 +207,54 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
           </div>
         </div>
 
+        {/* Location Map - Shows when a location is selected */}
+        {bookingState.locationId && (() => {
+          const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId)];
+          const lat = selectedLocation?.latitude;
+          const lng = selectedLocation?.longitude;
+          
+          if (lat && lng) {
+            return (
+              <div className="rounded-xl overflow-hidden border border-border">
+                <div className="h-48 md:h-56 relative">
+                  <Map
+                    center={[lng, lat]}
+                    zoom={15}
+                    className="w-full h-full"
+                    style="mapbox://styles/mapbox/streets-v12"
+                  >
+                    <MapControls position="top-right" showZoom showCompass={false} />
+                    <MapMarker longitude={lng} latitude={lat}>
+                      <MarkerContent>
+                        <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                          <MapPin className="w-5 h-5 text-white" />
+                        </div>
+                      </MarkerContent>
+                    </MapMarker>
+                  </Map>
+                </div>
+                <div className="p-3 bg-accent/30 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    <span className="font-medium">{selectedLocation.name}</span>
+                  </div>
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs text-primary hover:underline"
+                  >
+                    <Navigation className="w-3 h-3" />
+                    Get Directions
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            );
+          }
+          return null;
+        })()}
+
         {/* Step 2: Consultation Type */}
         <div>
           <h3 className="font-semibold text-foreground mb-3">Select Consultation Type</h3>
@@ -243,21 +311,50 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         <div>
           <h3 className="font-semibold text-foreground mb-3">Select an Available Time</h3>
           <div className="flex gap-2 overflow-x-auto pb-2">
-            {upcomingDates.map((dateObj) => (
-              <button
-                key={dateObj.date}
-                onClick={() => updateBookingState('selectedDate', dateObj.date)}
-                className={cn(
-                  "shrink-0 flex flex-col items-center py-2 px-4 rounded-lg border min-w-20 transition-colors",
-                  bookingState.selectedDate === dateObj.date
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-border hover:bg-accent"
-                )}
-              >
-                <div className="font-semibold text-sm">{dateObj.label}</div>
-                <div className="text-xs mt-1">{dateObj.sublabel}</div>
-              </button>
-            ))}
+            {upcomingDates.map((dateObj) => {
+              const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId || "-1")];
+
+              // If per-day schedules exist on the doctor or location, use them as authoritative
+              const locationDaySlots = selectedLocation?.day_time_slots;
+              const doctorDaySlots = doctor?.day_time_slots;
+
+              let isDateAvailable = false;
+
+              if (locationDaySlots && Object.keys(locationDaySlots).length > 0) {
+                const slotsForDay = locationDaySlots[dateObj.dayFullName];
+                isDateAvailable = Array.isArray(slotsForDay) && slotsForDay.length > 0;
+              } else if (doctorDaySlots && Object.keys(doctorDaySlots).length > 0) {
+                const slotsForDay = doctorDaySlots[dateObj.dayFullName];
+                isDateAvailable = Array.isArray(slotsForDay) && slotsForDay.length > 0;
+              } else {
+                const availableDays: string[] | undefined = selectedLocation?.available_days || doctor.available_days;
+                isDateAvailable = !availableDays || availableDays.length === 0
+                  ? true
+                  : availableDays.some(day => day.trim().slice(0,3).toUpperCase() === dateObj.dayName.toUpperCase());
+              }
+
+              return (
+                <button
+                  key={dateObj.date}
+                  onClick={() => isDateAvailable && updateBookingState('selectedDate', dateObj.date)}
+                  disabled={!isDateAvailable}
+                  className={cn(
+                    "shrink-0 flex flex-col items-center py-2 px-4 rounded-lg border min-w-20 transition-colors",
+                    bookingState.selectedDate === dateObj.date
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : isDateAvailable
+                        ? "bg-background text-foreground border-border hover:bg-accent"
+                        : "bg-gray-50 text-muted-foreground border-border cursor-not-allowed opacity-60"
+                  )}
+                >
+                  <div className="font-semibold text-sm">{dateObj.label}</div>
+                  <div className="text-xs mt-1">{dateObj.sublabel}</div>
+                  {!isDateAvailable && (
+                    <div className="text-xxs mt-2 text-muted-foreground">Not available</div>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -275,27 +372,62 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                   <div key={groupIndex}>
                     <h4 className="text-sm font-semibold text-foreground mb-2">{group.period}</h4>
                     <div className="grid grid-cols-4 gap-2">
-                      {group.slots?.map((slot: any, slotIndex: number) => (
-                        <button
-                          key={slotIndex}
-                          onClick={() => slot.available && updateBookingState('selectedSlot', slot.time)}
-                          disabled={!slot.available}
-                          className={cn(
-                            "py-2 px-2 rounded border text-xs font-medium transition-colors",
-                            !slot.available && "opacity-50 cursor-not-allowed",
-                            bookingState.selectedSlot === slot.time
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : slot.available
-                              ? "bg-background text-foreground border-border hover:bg-accent"
-                              : "bg-muted text-muted-foreground border-muted"
-                          )}
-                        >
-                          {slot.time}
-                        </button>
-                      ))}
+                      {group.slots?.map((slot: any, slotIndex: number) => {
+                        const { isBooked, isPast } = getSlotStatus(slot.time);
+                        const isUnavailable = !slot.available || isBooked || isPast;
+                        const isSelected = bookingState.selectedSlot === slot.time;
+                        
+                        return (
+                          <button
+                            key={slotIndex}
+                            onClick={() => !isUnavailable && updateBookingState('selectedSlot', slot.time)}
+                            disabled={isUnavailable}
+                            title={isPast ? "Past slot" : isBooked ? "Already booked" : !slot.available ? "Not available" : ""}
+                            className={cn(
+                              "py-2 px-2 rounded border text-xs font-medium transition-colors relative",
+                              isUnavailable && "opacity-50 cursor-not-allowed",
+                              isSelected
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : !isUnavailable
+                                ? "bg-background text-foreground border-border hover:bg-accent"
+                                : isBooked
+                                ? "bg-red-50 text-red-400 border-red-200"
+                                : isPast
+                                ? "bg-gray-100 text-gray-400 border-gray-200"
+                                : "bg-muted text-muted-foreground border-muted"
+                            )}
+                          >
+                            <span className={cn(isPast && "line-through")}>{slot.time}</span>
+                            {isBooked && (
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                                <XCircle className="w-2 h-2 text-white" />
+                              </span>
+                            )}
+                            {isPast && !isBooked && (
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-gray-400 rounded-full" />
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
+                
+                {/* Legend */}
+                <div className="flex flex-wrap gap-4 pt-2 border-t border-border text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded bg-background border border-border"></div>
+                    <span>Available</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded bg-red-50 border border-red-200"></div>
+                    <span>Booked</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded bg-gray-100 border border-gray-200"></div>
+                    <span>Past</span>
+                  </div>
+                </div>
               </div>
             ) : (
               <p className="text-sm text-muted-foreground text-center py-4">
