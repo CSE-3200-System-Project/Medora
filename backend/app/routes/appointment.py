@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, distinct
 from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
 from app.db.models.appointment import Appointment, AppointmentStatus
@@ -103,7 +103,7 @@ async def get_my_appointments(
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
         
-    query = select(Appointment)
+    query = select(Appointment).distinct()
     
     # Handle uppercase role values from database
     role_str = str(profile.role).upper()
@@ -828,11 +828,13 @@ async def get_previously_visited_doctors(
                     spec_name = spec.name
             
             doctors.append({
+                "doctor_id": appt.doctor_id,
                 "profile_id": appt.doctor_id,
                 "first_name": doc_name.first_name,
                 "last_name": doc_name.last_name,
                 "title": doc_profile.title,
                 "specialization": spec_name,
+                "photo_url": doc_profile.profile_photo_url,
                 "profile_photo_url": doc_profile.profile_photo_url,
                 "hospital_name": doc_profile.hospital_name,
                 "hospital_city": doc_profile.hospital_city,
@@ -869,7 +871,7 @@ async def get_patient_calendar_appointments(
         raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
     
     # Get all patient appointments
-    query = select(Appointment).where(
+    query = select(Appointment).distinct().where(
         Appointment.patient_id == user_id
     ).order_by(Appointment.appointment_date.desc())
     

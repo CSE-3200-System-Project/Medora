@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
-import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, User2, Phone, Activity } from "lucide-react";
+import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, Activity, Filter, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
 interface Appointment {
   id: string;
+  patient_id?: string;
   patient_name: string;
   appointment_date: string;
   reason: string;
@@ -39,7 +43,11 @@ export function AppointmentList({
   onApproveAppointment,
   onRejectAppointment
 }: AppointmentListProps) {
+  const router = useRouter();
   const listRef = React.useRef<HTMLDivElement>(null);
+  
+  // Status filter state
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   
   // Confirmation dialog state
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -54,20 +62,51 @@ export function AppointmentList({
     patientName: ''
   });
 
+  // Handle confirmation dialog actions
+  const handleConfirmAction = () => {
+    const { type, appointmentId } = confirmDialog;
+    if (type === 'approve' && onApproveAppointment) {
+      onApproveAppointment(appointmentId);
+    } else if (type === 'reject' && onRejectAppointment) {
+      onRejectAppointment(appointmentId);
+    } else if (type === 'cancel' && onCancelAppointment) {
+      onCancelAppointment(appointmentId);
+    }
+    setConfirmDialog(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const openConfirmDialog = (type: 'approve' | 'reject' | 'cancel', appointmentId: string, patientName: string) => {
+    setConfirmDialog({ isOpen: true, type, appointmentId, patientName });
+  };
+
   // Deduplicate appointments by id
   const uniqueAppointments = appointments.filter(
     (appt, index, self) => index === self.findIndex(a => a.id === appt.id)
   );
 
+  // Filter by status
+  const filteredAppointments = statusFilter === 'all' 
+    ? uniqueAppointments 
+    : uniqueAppointments.filter(appt => appt.status.toUpperCase() === statusFilter.toUpperCase());
+
+  // Count appointments by status for filter badges
+  const statusCounts = {
+    all: uniqueAppointments.length,
+    pending: uniqueAppointments.filter(a => a.status.toUpperCase() === 'PENDING').length,
+    confirmed: uniqueAppointments.filter(a => a.status.toUpperCase() === 'CONFIRMED').length,
+    cancelled: uniqueAppointments.filter(a => a.status.toUpperCase() === 'CANCELLED').length,
+    completed: uniqueAppointments.filter(a => a.status.toUpperCase() === 'COMPLETED').length,
+  };
+
   // Separate recent and past appointments
   const now = new Date();
-  const recentAppointments = uniqueAppointments.filter(
+  const recentAppointments = filteredAppointments.filter(
     appt => new Date(appt.appointment_date) >= now
   ).sort((a, b) => 
     new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime()
   );
 
-  const pastAppointments = uniqueAppointments.filter(
+  const pastAppointments = filteredAppointments.filter(
     appt => new Date(appt.appointment_date) < now
   ).sort((a, b) => 
     new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime()
@@ -169,7 +208,20 @@ export function AppointmentList({
               <User className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h4 className="font-semibold text-foreground text-base">{appointment.patient_name}</h4>
+              {appointment.patient_id ? (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/doctor/patient/${appointment.patient_id}`);
+                  }}
+                  className="font-semibold text-primary hover:underline text-base flex items-center gap-1 text-left"
+                >
+                  {appointment.patient_name}
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+              ) : (
+                <h4 className="font-semibold text-foreground text-base">{appointment.patient_name}</h4>
+              )}
               <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
                 {appointment.patient_age && (
                   <span>{appointment.patient_age} yrs</span>
@@ -243,9 +295,7 @@ export function AppointmentList({
                 size="sm"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (confirm(`Approve appointment with ${appointment.patient_name}?`)) {
-                    onApproveAppointment(appointment.id);
-                  }
+                  openConfirmDialog('approve', appointment.id, appointment.patient_name);
                 }}
                 className="flex-1 bg-success text-white hover:bg-success-muted"
               >
@@ -257,9 +307,7 @@ export function AppointmentList({
                 variant="outline"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (confirm(`Reject appointment with ${appointment.patient_name}?`)) {
-                    onRejectAppointment(appointment.id);
-                  }
+                  openConfirmDialog('reject', appointment.id, appointment.patient_name);
                 }}
                 className="flex-1 text-destructive border-destructive hover:bg-destructive/10"
               >
@@ -277,9 +325,7 @@ export function AppointmentList({
                 variant="ghost"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (confirm('Are you sure you want to cancel this appointment?')) {
-                    onCancelAppointment(appointment.id);
-                  }
+                  openConfirmDialog('cancel', appointment.id, appointment.patient_name);
                 }}
                 className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full"
               >
@@ -293,6 +339,34 @@ export function AppointmentList({
     );
   };
 
+  // Get dialog content based on type
+  const getDialogContent = () => {
+    const { type, patientName } = confirmDialog;
+    switch (type) {
+      case 'approve':
+        return {
+          title: 'Approve Appointment',
+          description: `Are you sure you want to approve the appointment with ${patientName}? They will be notified about the confirmation.`,
+          confirmText: 'Approve',
+          variant: 'success' as const
+        };
+      case 'reject':
+        return {
+          title: 'Reject Appointment',
+          description: `Are you sure you want to reject the appointment with ${patientName}? This action cannot be undone.`,
+          confirmText: 'Reject',
+          variant: 'danger' as const
+        };
+      case 'cancel':
+        return {
+          title: 'Cancel Appointment',
+          description: `Are you sure you want to cancel this appointment with ${patientName}? The patient will be notified.`,
+          confirmText: 'Cancel Appointment',
+          variant: 'danger' as const
+        };
+    }
+  };
+
   return (
     <Card className="rounded-2xl shadow-lg h-full flex flex-col bg-white border-blue-200">
       <CardHeader className="border-b border-blue-200 pb-4 shrink-0">
@@ -300,9 +374,58 @@ export function AppointmentList({
           <Calendar className="w-5 h-5 text-primary" />
           Appointments
         </CardTitle>
+        
+        {/* Status Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mt-3">
+          <Button
+            size="sm"
+            variant={statusFilter === 'all' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('all')}
+            className="text-xs h-7"
+          >
+            All ({statusCounts.all})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'pending' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('pending')}
+            className={cn("text-xs h-7", statusFilter === 'pending' && "bg-yellow-500 hover:bg-yellow-600")}
+          >
+            <AlertCircle className="w-3 h-3 mr-1" />
+            Pending ({statusCounts.pending})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'confirmed' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('confirmed')}
+            className={cn("text-xs h-7", statusFilter === 'confirmed' && "bg-blue-500 hover:bg-blue-600")}
+          >
+            <CheckCircle2 className="w-3 h-3 mr-1" />
+            Confirmed ({statusCounts.confirmed})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'cancelled' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('cancelled')}
+            className={cn("text-xs h-7", statusFilter === 'cancelled' && "bg-red-500 hover:bg-red-600")}
+          >
+            <XCircle className="w-3 h-3 mr-1" />
+            Cancelled ({statusCounts.cancelled})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'completed' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('completed')}
+            className={cn("text-xs h-7", statusFilter === 'completed' && "bg-green-500 hover:bg-green-600")}
+          >
+            <CheckCircle2 className="w-3 h-3 mr-1" />
+            Completed ({statusCounts.completed})
+          </Button>
+        </div>
+        
         <div className="flex gap-4 text-sm mt-2">
           <span className="text-muted-foreground">
-            Recent: <span className="font-semibold text-foreground">{recentAppointments.length}</span>
+            Upcoming: <span className="font-semibold text-foreground">{recentAppointments.length}</span>
           </span>
           <span className="text-muted-foreground">
             Past: <span className="font-semibold text-foreground">{pastAppointments.length}</span>
@@ -343,13 +466,26 @@ export function AppointmentList({
           </div>
         )}
 
-        {appointments.length === 0 && (
+        {filteredAppointments.length === 0 && (
           <div className="text-center py-12">
             <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground">No appointments found</p>
+            <p className="text-muted-foreground">
+              {statusFilter === 'all' ? 'No appointments found' : `No ${statusFilter} appointments`}
+            </p>
           </div>
         )}
       </CardContent>
+
+      {/* Confirmation Dialog */}
+      <ConfirmationDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={handleConfirmAction}
+        title={getDialogContent().title}
+        description={getDialogContent().description}
+        confirmText={getDialogContent().confirmText}
+        variant={getDialogContent().variant}
+      />
     </Card>
   );
 }

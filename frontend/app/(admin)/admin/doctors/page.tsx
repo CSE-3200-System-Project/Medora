@@ -30,6 +30,7 @@ import {
   Ban,
   Unlock,
 } from "lucide-react";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { getPendingDoctors, getAllDoctors, verifyDoctor, banUser, unbanUser } from "@/lib/admin-actions";
 
 type Doctor = {
@@ -60,6 +61,10 @@ function DoctorsPageContent() {
   const [verificationNotes, setVerificationNotes] = useState("");
   const [isApproving, setIsApproving] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const [banConfirmDialog, setBanConfirmDialog] = useState<{
+    isOpen: boolean;
+    doctor: Doctor | null;
+  }>({ isOpen: false, doctor: null });
 
   useEffect(() => {
     fetchData();
@@ -131,10 +136,15 @@ function DoctorsPageContent() {
     );
 
   const handleBan = async (doctor: Doctor) => {
-    if (!confirm(`Are you sure you want to ban ${doctor.name}?`)) return;
+    setBanConfirmDialog({ isOpen: true, doctor });
+  };
+
+  const confirmBan = async () => {
+    if (!banConfirmDialog.doctor) return;
     try {
-      await banUser(doctor.id);
+      await banUser(banConfirmDialog.doctor.id);
       await fetchData();
+      setBanConfirmDialog({ isOpen: false, doctor: null });
     } catch (error) {
       alert("Failed to ban user");
     }
@@ -263,6 +273,17 @@ function DoctorsPageContent() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* Ban Confirmation Dialog */}
+        <ConfirmationDialog
+          isOpen={banConfirmDialog.isOpen}
+          onClose={() => setBanConfirmDialog({ isOpen: false, doctor: null })}
+          onConfirm={confirmBan}
+          title="Ban Doctor"
+          description={`Are you sure you want to ban ${banConfirmDialog.doctor?.name}? They will no longer be able to access their account or receive appointments.`}
+          confirmText="Ban User"
+          variant="danger"
+        />
       </main>
     </div>
   );

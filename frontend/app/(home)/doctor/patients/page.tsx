@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +37,7 @@ interface Patient {
 }
 
 export default function DoctorPatientsPage() {
+  const router = useRouter();
   const [patients, setPatients] = React.useState<Patient[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -191,7 +193,11 @@ export default function DoctorPatientsPage() {
         ) : (
           <div className="space-y-4">
             {filteredPatients.map((patient) => (
-              <Card key={patient.patient_id} className="rounded-2xl hover:shadow-lg transition-shadow">
+              <Card 
+                key={patient.patient_id} 
+                className="rounded-2xl hover:shadow-lg transition-shadow cursor-pointer hover:border-primary"
+                onClick={() => router.push(`/doctor/patient/${patient.patient_id}`)}
+              >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
                     {/* Avatar and Basic Info */}
@@ -210,7 +216,7 @@ export default function DoctorPatientsPage() {
                       
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="font-bold text-lg text-foreground">
+                          <h3 className="font-bold text-lg text-foreground hover:text-primary">
                             {patient.first_name} {patient.last_name}
                           </h3>
                           <Badge variant="success" className="text-xs">

@@ -16,6 +16,7 @@ import {
   UserCog,
   Users as UsersIcon,
 } from "lucide-react";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { getAllPatients, getAllDoctors, banUser, unbanUser } from "@/lib/admin-actions";
 
 type User = {
@@ -37,6 +38,10 @@ export default function UsersManagementPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [banConfirmDialog, setBanConfirmDialog] = useState<{
+    isOpen: boolean;
+    user: User | null;
+  }>({ isOpen: false, user: null });
 
   useEffect(() => {
     fetchAllUsers();
@@ -68,10 +73,15 @@ export default function UsersManagementPage() {
   };
 
   const handleBan = async (user: User) => {
-    if (!confirm(`Are you sure you want to ban ${user.name}?`)) return;
+    setBanConfirmDialog({ isOpen: true, user });
+  };
+
+  const confirmBan = async () => {
+    if (!banConfirmDialog.user) return;
     try {
-      await banUser(user.id);
+      await banUser(banConfirmDialog.user.id);
       await fetchAllUsers();
+      setBanConfirmDialog({ isOpen: false, user: null });
     } catch (error) {
       alert("Failed to ban user");
     }
@@ -265,6 +275,17 @@ export default function UsersManagementPage() {
             ))}
           </div>
         )}
+
+        {/* Ban Confirmation Dialog */}
+        <ConfirmationDialog
+          isOpen={banConfirmDialog.isOpen}
+          onClose={() => setBanConfirmDialog({ isOpen: false, user: null })}
+          onConfirm={confirmBan}
+          title="Ban User"
+          description={`Are you sure you want to ban ${banConfirmDialog.user?.name}? They will no longer be able to access their account.`}
+          confirmText="Ban User"
+          variant="danger"
+        />
       </main>
     </div>
   );

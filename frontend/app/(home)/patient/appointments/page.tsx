@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getPatientCalendarAppointments, updateAppointment, syncAppointmentStatus } from "@/lib/appointment-actions";
 import { PatientAppointmentCalendar } from "@/components/patient/patient-appointment-calendar";
-import { Calendar, Clock, User, XCircle, RefreshCw, MapPin, CheckCircle2 } from "lucide-react";
+import { Calendar, Clock, User, XCircle, RefreshCw, MapPin, CheckCircle2, AlertCircle, Filter } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -18,12 +18,15 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
+type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
+
 export default function PatientAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
   const [appointmentToCancel, setAppointmentToCancel] = React.useState<any>(null);
   const [viewMode, setViewMode] = React.useState<'calendar' | 'list'>('calendar');
+  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
 
   React.useEffect(() => {
     // Sync status first (auto-complete past appointments), then load
@@ -97,11 +100,31 @@ export default function PatientAppointmentsPage() {
 
   // Separate upcoming and past appointments
   const now = new Date();
-  const upcomingAppointments = appointments.filter(
+  
+  // Deduplicate appointments by id
+  const uniqueAppointments = appointments.filter(
+    (appt, index, self) => index === self.findIndex(a => a.id === appt.id)
+  );
+  
+  // Count appointments by status
+  const statusCounts = {
+    all: uniqueAppointments.length,
+    pending: uniqueAppointments.filter(a => a.status?.toUpperCase() === 'PENDING').length,
+    confirmed: uniqueAppointments.filter(a => a.status?.toUpperCase() === 'CONFIRMED').length,
+    cancelled: uniqueAppointments.filter(a => a.status?.toUpperCase() === 'CANCELLED').length,
+    completed: uniqueAppointments.filter(a => a.status?.toUpperCase() === 'COMPLETED').length,
+  };
+  
+  // Filter by status
+  const filteredAppointments = statusFilter === 'all'
+    ? uniqueAppointments
+    : uniqueAppointments.filter(appt => appt.status?.toUpperCase() === statusFilter.toUpperCase());
+  
+  const upcomingAppointments = filteredAppointments.filter(
     appt => new Date(appt.appointment_date) >= now && appt.status !== 'CANCELLED'
   ).sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime());
 
-  const pastAppointments = appointments.filter(
+  const pastAppointments = filteredAppointments.filter(
     appt => new Date(appt.appointment_date) < now || appt.status === 'CANCELLED'
   ).sort((a, b) => new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime());
 
@@ -138,11 +161,70 @@ export default function PatientAppointmentsPage() {
             </Button>
           </div>
         </div>
+        
+        {/* Status Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Button
+            size="sm"
+            variant={statusFilter === 'all' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('all')}
+            className="text-xs"
+          >
+            All ({statusCounts.all})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'pending' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('pending')}
+            className={cn("text-xs", statusFilter === 'pending' && "bg-yellow-500 hover:bg-yellow-600")}
+          >
+            <AlertCircle className="w-3 h-3 mr-1" />
+            Pending ({statusCounts.pending})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'confirmed' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('confirmed')}
+            className={cn("text-xs", statusFilter === 'confirmed' && "bg-blue-500 hover:bg-blue-600")}
+          >
+            <CheckCircle2 className="w-3 h-3 mr-1" />
+            Confirmed ({statusCounts.confirmed})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'cancelled' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('cancelled')}
+            className={cn("text-xs", statusFilter === 'cancelled' && "bg-red-500 hover:bg-red-600")}
+          >
+            <XCircle className="w-3 h-3 mr-1" />
+            Cancelled ({statusCounts.cancelled})
+          </Button>
+          <Button
+            size="sm"
+            variant={statusFilter === 'completed' ? 'default' : 'outline'}
+            onClick={() => setStatusFilter('completed')}
+            className={cn("text-xs", statusFilter === 'completed' && "bg-green-500 hover:bg-green-600")}
+          >
+            <CheckCircle2 className="w-3 h-3 mr-1" />
+            Completed ({statusCounts.completed})
+          </Button>
+        </div>
 
         {loading ? (
           <div className="flex justify-center p-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
+        ) : filteredAppointments.length === 0 && statusFilter !== 'all' ? (
+          <Card className="rounded-2xl">
+            <CardContent className="flex flex-col items-center justify-center p-12">
+              <Filter className="h-12 w-12 text-muted-foreground mb-4" />
+              <p className="text-lg font-medium text-foreground">No {statusFilter} appointments</p>
+              <p className="text-muted-foreground">Try selecting a different filter.</p>
+              <Button className="mt-4" variant="outline" onClick={() => setStatusFilter('all')}>
+                Show All Appointments
+              </Button>
+            </CardContent>
+          </Card>
         ) : appointments.length === 0 ? (
           <Card className="rounded-2xl">
             <CardContent className="flex flex-col items-center justify-center p-12">
