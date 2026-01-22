@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, notification
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, notification, patient_access
 
 app = FastAPI(title="Backend API")
 
@@ -34,3 +34,4 @@ app.include_router(appointment.router, prefix="/appointment", tags=["Appointment
 app.include_router(ai_doctor.router, prefix="/ai", tags=["AI Doctor Search"])
 app.include_router(medicine.router, prefix="/medicine", tags=["Medicine"])
 app.include_router(notification.router, prefix="/notifications", tags=["Notifications"])
+app.include_router(patient_access.router, prefix="/patient-access", tags=["Patient Access"])

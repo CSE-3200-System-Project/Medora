@@ -126,13 +126,14 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
   };
 
   const handleNotificationClick = async (notification: Notification) => {
-    // Mark as read
+    // Immediately update UI - reduce count before API call for responsive feel
     if (!notification.is_read) {
-      await markNotificationAsRead(notification.id);
+      setUnreadCount((prev) => Math.max(0, prev - 1));
       setNotifications((prev) =>
         prev.map((n) => (n.id === notification.id ? { ...n, is_read: true } : n))
       );
-      setUnreadCount((prev) => Math.max(0, prev - 1));
+      // Then make API call (fire and forget for responsiveness)
+      markNotificationAsRead(notification.id);
     }
 
     // Navigate to action URL if present
@@ -140,6 +141,11 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
       setIsOpen(false);
       router.push(notification.action_url);
     }
+  };
+
+  const handleViewAll = () => {
+    setIsOpen(false);
+    router.push("/notifications");
   };
 
   const handleMarkAllRead = async () => {
@@ -274,11 +280,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
               <Button
                 variant="ghost"
                 className="w-full text-sm text-primary hover:text-primary hover:bg-primary/10"
-                onClick={() => {
-                  setIsOpen(false);
-                  // Navigate to notifications page if you create one
-                  // router.push("/notifications");
-                }}
+                onClick={handleViewAll}
               >
                 View all notifications
               </Button>

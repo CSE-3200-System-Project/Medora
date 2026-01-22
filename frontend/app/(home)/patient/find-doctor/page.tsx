@@ -162,10 +162,12 @@ function PreviouslyVisitedDoctors({
           </Badge>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
-          {doctors.map((doc) => (
+          {doctors.map((doc, index) => {
+            const docId = doc.doctor_id || doc.profile_id;
+            return (
             <button
-              key={doc.doctor_id}
-              onClick={() => onDoctorClick?.(doc.doctor_id)}
+              key={docId || `doctor-${index}`}
+              onClick={() => docId && onDoctorClick?.(docId)}
               className="shrink-0 w-52 bg-white rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
             >
               <div className="flex items-center gap-3">
@@ -190,7 +192,8 @@ function PreviouslyVisitedDoctors({
                 <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
             </button>
-          ))}
+            );
+          })}
         </div>
       </CardContent>
     </Card>

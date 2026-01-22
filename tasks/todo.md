@@ -1,6 +1,139 @@
-# Appointment System Fixes & Enhancements - Phase 3 COMPLETE (January 22, 2026)
+# Secure Patient Access System - Phase 5 COMPLETE (January 23, 2026)
 
-## ✅ Latest Fixes - Schedule Management & Enhanced Parsing
+## ✅ Patient Data Access Control & Privacy Features
+
+### Features Implemented:
+
+1. **Secure Doctor-Patient Data Access**
+   - Doctors can only view patient data if they have an appointment relationship
+   - Only BMDC-verified doctors can access patient records
+   - Patients can revoke/restore access at any time
+
+2. **Audit Logging**
+   - Every time a doctor views patient data, it's logged
+   - Stores: access type, timestamp, IP address, user agent
+   - Full access history viewable by patients
+
+3. **Patient Privacy Management**
+   - New `/patient/privacy` page for patients
+   - View which doctors have accessed their records
+   - Revoke or restore access to specific doctors
+   - Access history with timestamps
+
+4. **Notifications on Data Access**
+   - Patients receive a notification when a doctor views their medical records
+   - Links to privacy settings page
+
+5. **Clickable Patient Names**
+   - In doctor's appointment list, patient names are now clickable
+   - Links to full patient profile view
+
+### New Files Created:
+
+#### Backend:
+- `backend/app/db/models/patient_access.py` - PatientAccessLog and PatientDoctorAccess models with enums
+- `backend/app/routes/patient_access.py` - All endpoints for patient access control
+- `backend/alembic/versions/p1a2t3i4e5n6_add_patient_access_tables.py` - Migration
+
+#### Frontend:
+- `frontend/app/(home)/doctor/patient/[id]/page.tsx` - Doctor's patient view page
+- `frontend/app/(home)/patient/privacy/page.tsx` - Patient privacy management page
+
+### Backend Endpoints:
+
+1. **GET `/patient-access/patient/{patient_id}`** - Doctor views patient full record
+   - Security: Verified doctor + appointment relationship + not revoked
+
+2. **GET `/patient-access/my-access-history`** - Patient sees who accessed their data
+   - Returns: doctor name, access type, timestamp
+
+3. **GET `/patient-access/my-doctor-access`** - Patient sees all doctors with access status
+   - Returns: doctor list with access status (active/revoked)
+
+4. **POST `/patient-access/revoke-access/{doctor_id}`** - Patient revokes doctor access
+   - Creates/updates PatientDoctorAccess record with REVOKED status
+
+5. **POST `/patient-access/restore-access/{doctor_id}`** - Patient restores doctor access
+   - Updates PatientDoctorAccess record to ACTIVE status
+
+### Database Tables:
+
+1. **patient_access_logs** - Audit trail
+   - id, patient_id, doctor_id, access_type, accessed_at, ip_address, user_agent
+
+2. **patient_doctor_access** - Consent management
+   - id, patient_id, doctor_id, status, granted_at, revoked_at, expires_at, revocation_reason
+   - Unique constraint on (patient_id, doctor_id)
+
+### Enums:
+- **AccessType**: view_profile, view_medical_history, view_medications, view_allergies, view_chronic_conditions, view_family_history, view_full_record
+- **AccessStatus**: active, revoked, expired
+
+---
+
+# Appointment System Fixes & Enhancements - Phase 4 COMPLETE (January 23, 2026)
+
+## ✅ Latest Fixes - Confirmation Dialogs & Status Filtering
+
+### Issues Fixed:
+1. **Duplicate Appointments** - Added deduplication by ID in frontend
+2. **Sorting Order** - Changed to show most recent appointments first
+3. **Browser Confirm Dialogs** - Replaced all with proper ConfirmationDialog component
+4. **Status Filtering** - Added filter tabs for PENDING/CONFIRMED/CANCELLED/COMPLETED
+
+### Solutions Implemented ✅
+
+#### 1. ConfirmationDialog Component (NEW)
+**File**: `frontend/components/ui/confirmation-dialog.tsx`
+
+**Features**:
+- Reusable confirmation modal with multiple variants
+- Variants: `danger` (red), `warning` (yellow), `info` (blue), `success` (green)
+- Customizable title, description, confirm/cancel text
+- `useConfirmation` hook for easier usage
+- Proper focus management and accessibility
+
+#### 2. Doctor Appointment List Enhancements
+**File**: `frontend/components/doctor/appointment-list.tsx`
+
+**Improvements**:
+- ✅ Deduplicates appointments by ID
+- ✅ Status filter tabs (All, Pending, Confirmed, Cancelled, Completed)
+- ✅ Count badges on each filter
+- ✅ ConfirmationDialog for approve/reject/cancel actions
+- ✅ Shows "Upcoming" vs "Past" sections
+
+#### 3. Patient Appointments Page Enhancements
+**File**: `frontend/app/(home)/patient/appointments/page.tsx`
+
+**Improvements**:
+- ✅ Status filter tabs matching doctor view
+- ✅ Deduplication logic added
+- ✅ Already had proper Dialog for cancellation
+- ✅ Empty state for filtered results
+
+#### 4. Admin Pages - Ban Confirmation Dialogs
+**Files**:
+- `frontend/app/(admin)/admin/doctors/page.tsx`
+- `frontend/app/(admin)/admin/users/page.tsx`
+- `frontend/app/(admin)/admin/patients/page.tsx`
+
+**Improvements**:
+- ✅ Replaced browser `confirm()` with ConfirmationDialog
+- ✅ Danger variant for ban actions
+- ✅ Shows user name in confirmation message
+
+#### 5. Backend Sorting Fix
+**File**: `backend/app/routes/appointment.py`
+
+**Change**: 
+- Sorted by `created_at.desc()` to show most recent appointments first
+
+---
+
+# Previous Updates - Phase 3 COMPLETE (January 22, 2026)
+
+## ✅ Previous Fixes - Schedule Management & Enhanced Parsing
 
 ### Issue: Time Slots Still Not Working Properly
 **Problem**: Despite previous fixes, time slots were still not being fetched correctly. The main issue was INCONSISTENT data formats in the database.
@@ -38,12 +171,12 @@ def parse_time_to_dt(time_str: str, base_date: datetime) -> datetime:
 **Component**: `frontend/components/doctor/schedule-setter.tsx`
 
 **Features**:
-- 🎨 Mobile-first responsive design
-- 📅 Select available days (Mon-Sun toggle buttons)
-- ⏱️ Set appointment duration (15/20/30/45/60 min)
-- 🕐 Add multiple time ranges per day
-- ⚙️ Time pickers with dropdowns (hour/minute/AM-PM)
-- ✅ Validates and saves in consistent format
+- Mobile-first responsive design
+- Select available days (Mon-Sun toggle buttons)
+- Set appointment duration (15/20/30/45/60 min)
+- Add multiple time ranges per day
+- Time pickers with dropdowns (hour/minute/AM-PM)
+- Validates and saves in consistent format
 
 **Standardized Format**: `"9:00 AM - 12:00 PM, 5:00 PM - 9:00 PM"`
 
