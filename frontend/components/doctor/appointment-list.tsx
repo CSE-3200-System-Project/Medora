@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, User2, Phone, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -39,16 +40,34 @@ export function AppointmentList({
   onRejectAppointment
 }: AppointmentListProps) {
   const listRef = React.useRef<HTMLDivElement>(null);
+  
+  // Confirmation dialog state
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    type: 'approve' | 'reject' | 'cancel';
+    appointmentId: string;
+    patientName: string;
+  }>({
+    isOpen: false,
+    type: 'cancel',
+    appointmentId: '',
+    patientName: ''
+  });
+
+  // Deduplicate appointments by id
+  const uniqueAppointments = appointments.filter(
+    (appt, index, self) => index === self.findIndex(a => a.id === appt.id)
+  );
 
   // Separate recent and past appointments
   const now = new Date();
-  const recentAppointments = appointments.filter(
+  const recentAppointments = uniqueAppointments.filter(
     appt => new Date(appt.appointment_date) >= now
   ).sort((a, b) => 
     new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime()
   );
 
-  const pastAppointments = appointments.filter(
+  const pastAppointments = uniqueAppointments.filter(
     appt => new Date(appt.appointment_date) < now
   ).sort((a, b) => 
     new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime()

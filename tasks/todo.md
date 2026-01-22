@@ -1,3 +1,48 @@
+# Notification System Implementation (January 23, 2026)
+
+## Overview
+Implemented a comprehensive notification system for both doctors and patients. Notifications are created automatically when key events happen (appointments booked, confirmed, cancelled, etc.) and users can view them via a dropdown in the navbar with navigation to relevant pages.
+
+## Completed Tasks
+- [x] Created notification database model with types and priorities
+- [x] Created notification schemas for API responses
+- [x] Created notification API routes (get, mark read, delete, etc.)
+- [x] Integrated notification creation into appointment workflows
+- [x] Created frontend notification actions (server actions)
+- [x] Created NotificationDropdown UI component
+- [x] Integrated dropdown into navbar (desktop and mobile)
+- [x] Added database migration for notifications table
+
+## Notification Types Implemented
+- `appointment_booked` - When patient books an appointment (notifies doctor)
+- `appointment_confirmed` - When doctor confirms (notifies patient)
+- `appointment_cancelled` - When either party cancels (notifies other party)
+- `appointment_completed` - When doctor completes appointment (notifies patient)
+- `verification_approved/rejected` - For doctor verification status
+- `welcome` - For new user onboarding
+- And more...
+
+## Files Created/Modified
+- `backend/app/db/models/notification.py` - Database model
+- `backend/app/schemas/notification.py` - Pydantic schemas
+- `backend/app/routes/notification.py` - API routes
+- `backend/app/routes/appointment.py` - Added notification triggers
+- `backend/alembic/versions/n1t2f3c4a5b6_add_notifications_table.py` - Migration
+- `frontend/lib/notification-actions.ts` - Server actions
+- `frontend/components/ui/notification-dropdown.tsx` - UI component
+- `frontend/components/ui/navbar.tsx` - Integrated dropdown
+
+## Features
+- Real-time unread count badge
+- Click notification to navigate to relevant page (like Facebook)
+- Mark as read/unread
+- Mark all as read
+- Delete (archive) notifications
+- 30-second polling for new notifications
+- Mobile-responsive dropdown
+
+---
+
 # Find Medicine Feature - Implementation Plan (January 20, 2026)
 
 ## Overview
