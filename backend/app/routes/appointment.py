@@ -8,7 +8,9 @@ from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.patient import PatientProfile
 from app.db.models.enums import UserRole
+from app.db.models.notification import Notification, NotificationType, NotificationPriority
 from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentResponse
+from app.routes.notification import create_notification
 import uuid
 from typing import List
 from datetime import datetime, timedelta, timezone, date as date_class
@@ -44,6 +46,10 @@ async def create_appointment(
     doctor = result_doc.scalar_one_or_none()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
+    
+    # Get doctor's profile for name
+    doctor_profile_result = await db.execute(select(Profile).where(Profile.id == appointment_data.doctor_id))
+    doctor_profile = doctor_profile_result.scalar_one_or_none()
 
     new_appointment = Appointment(
         id=str(uuid.uuid4()),
@@ -58,6 +64,25 @@ async def create_appointment(
     db.add(new_appointment)
     await db.commit()
     await db.refresh(new_appointment)
+    
+    # Create notification for doctor about new appointment
+    patient_name = f"{profile.first_name} {profile.last_name}"
+    appt_date = appointment_data.appointment_date.strftime("%b %d, %Y at %I:%M %p")
+    
+    await create_notification(
+        db=db,
+        user_id=appointment_data.doctor_id,
+        notification_type=NotificationType.APPOINTMENT_BOOKED,
+        title="New Appointment Request",
+        message=f"{patient_name} has booked an appointment for {appt_date}",
+        action_url="/doctor/appointments",
+        metadata={
+            "appointment_id": new_appointment.id,
+            "patient_id": user_id,
+            "patient_name": patient_name,
+        },
+        priority=NotificationPriority.HIGH,
+    )
     
     return new_appointment
 
@@ -397,6 +422,68 @@ async def update_appointment_status(
 
     await db.commit()
     await db.refresh(appointment)
+    
+    # Send notification based on status change
+    if update_data.status is not None:
+        # Get both patient and doctor profiles for names
+        patient_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.patient_id))
+        patient_profile = patient_profile_result.scalar_one_or_none()
+        doctor_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.doctor_id))
+        doctor_profile = doctor_profile_result.scalar_one_or_none()
+        
+        patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
+        doctor_name = f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
+        appt_date = appointment.appointment_date.strftime("%b %d, %Y at %I:%M %p")
+        
+        if new_status == AppointmentStatus.CONFIRMED:
+            # Notify patient that appointment is confirmed
+            await create_notification(
+                db=db,
+                user_id=appointment.patient_id,
+                notification_type=NotificationType.APPOINTMENT_CONFIRMED,
+                title="Appointment Confirmed",
+                message=f"Your appointment with {doctor_name} on {appt_date} has been confirmed",
+                action_url="/patient/appointments",
+                metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
+                priority=NotificationPriority.HIGH,
+            )
+        elif new_status == AppointmentStatus.CANCELLED:
+            # Notify the other party about cancellation
+            if is_doctor:
+                await create_notification(
+                    db=db,
+                    user_id=appointment.patient_id,
+                    notification_type=NotificationType.APPOINTMENT_CANCELLED,
+                    title="Appointment Cancelled",
+                    message=f"Your appointment with {doctor_name} on {appt_date} has been cancelled",
+                    action_url="/patient/appointments",
+                    metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
+                    priority=NotificationPriority.HIGH,
+                )
+            else:
+                await create_notification(
+                    db=db,
+                    user_id=appointment.doctor_id,
+                    notification_type=NotificationType.APPOINTMENT_CANCELLED,
+                    title="Appointment Cancelled",
+                    message=f"{patient_name} has cancelled the appointment on {appt_date}",
+                    action_url="/doctor/appointments",
+                    metadata={"appointment_id": appointment.id, "patient_id": appointment.patient_id},
+                    priority=NotificationPriority.MEDIUM,
+                )
+        elif new_status == AppointmentStatus.COMPLETED:
+            # Notify patient that appointment is completed
+            await create_notification(
+                db=db,
+                user_id=appointment.patient_id,
+                notification_type=NotificationType.APPOINTMENT_COMPLETED,
+                title="Appointment Completed",
+                message=f"Your appointment with {doctor_name} has been completed. Thank you for visiting!",
+                action_url="/patient/appointments",
+                metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
+                priority=NotificationPriority.LOW,
+            )
+    
     return appointment
 
 # === Stats & Upcoming endpoints ===

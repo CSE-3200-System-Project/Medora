@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { NotificationDropdown } from "@/components/ui/notification-dropdown";
 
 import logo from "@/assets/image/medora-logo.png";
 
@@ -176,10 +177,7 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:bg-primary-more-light hover:text-primary relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border border-white"></span>
-              </Button>
+              <NotificationDropdown />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full">
@@ -351,6 +349,7 @@ export function Navbar() {
                           <span className="font-semibold text-foreground">{getUserDisplayName()}</span>
                           <span className="text-xs text-muted-foreground">{user.email}</span>
                         </div>
+                        <NotificationDropdown />
                       </div>
                       <div className="flex flex-col gap-2">
                         <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
