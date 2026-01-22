@@ -13,6 +13,7 @@ from app.services.geocoding import geocode_and_save_doctor_locations
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import traceback
+import re
 
 router = APIRouter()
 
@@ -321,7 +322,44 @@ async def update_doctor_onboarding(
                 pass
         if data.visiting_hours: doctor_data['visiting_hours'] = data.visiting_hours
         if data.available_days: doctor_data['available_days'] = data.available_days
-        if data.time_slots: doctor_data['time_slots'] = data.time_slots
+
+        # Handle per-day time slots (new structure)
+        if data.day_time_slots:
+            def _normalize(s: str) -> str:
+                s = (s or "").strip()
+                s = re.sub(r"\s*,\s*", ", ", s)
+                s = re.sub(r"(\d)(AM|PM|am|pm|Am|aM|Pm|pM)", r"\1 \2", s)
+                s = re.sub(r"(?i)\bam\b", "AM", s)
+                s = re.sub(r"(?i)\bpm\b", "PM", s)
+                return s.strip()
+            
+            normalized_day_slots = {}
+            for day, slots in data.day_time_slots.items():
+                normalized_day_slots[day] = [_normalize(slot) for slot in slots if slot]
+            
+            doctor_data['day_time_slots'] = normalized_day_slots
+            
+            # Also set legacy fields for backwards compatibility
+            if data.available_days and normalized_day_slots.get(data.available_days[0]):
+                legacy_time_slots = ", ".join(normalized_day_slots[data.available_days[0]])
+                doctor_data['time_slots'] = legacy_time_slots
+                doctor_data['normalized_time_slots'] = legacy_time_slots
+                doctor_data['time_slots_needs_review'] = False
+        elif data.time_slots:
+            # Legacy single time_slots field support
+            def _normalize(s: str) -> str:
+                s = (s or "").strip()
+                s = re.sub(r"\s*,\s*", ", ", s)
+                s = re.sub(r"(\d)(AM|PM|am|pm|Am|aM|Pm|pM)", r"\1 \2", s)
+                s = re.sub(r"(?i)\bam\b", "AM", s)
+                s = re.sub(r"(?i)\bpm\b", "PM", s)
+                return s.strip()
+
+            normalized = _normalize(data.time_slots)
+            doctor_data['time_slots'] = normalized
+            doctor_data['normalized_time_slots'] = normalized
+            doctor_data['time_slots_needs_review'] = not bool(re.search(r"(AM|PM)", normalized))
+
         if data.appointment_duration is not None: doctor_data['appointment_duration'] = data.appointment_duration
         if data.emergency_availability is not None: doctor_data['emergency_availability'] = data.emergency_availability
         if data.emergency_contact: doctor_data['emergency_contact'] = data.emergency_contact
@@ -649,6 +687,7 @@ async def get_doctor_onboarding_data(
             "visiting_hours": doctor.visiting_hours,
             "available_days": doctor.available_days or [],
             "time_slots": doctor.time_slots,
+            "day_time_slots": getattr(doctor, 'day_time_slots', None) or {},
             "appointment_duration": doctor.appointment_duration,
             "emergency_availability": doctor.emergency_availability,
             "emergency_contact": doctor.emergency_contact,
@@ -806,6 +845,7 @@ async def get_doctor_profile(
             "visiting_hours": doctor.visiting_hours,
             "available_days": doctor.available_days or [],
             "time_slots": doctor.time_slots,
+            "day_time_slots": getattr(doctor, 'day_time_slots', None) or {},
             "appointment_duration": doctor.appointment_duration,
             "emergency_availability": doctor.emergency_availability,
             "emergency_contact": doctor.emergency_contact,
@@ -955,3 +995,98 @@ async def update_doctor_profile(
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Failed to update profile: {str(e)}")
 
+
+@router.patch("/doctor/schedule")
+async def update_doctor_schedule(
+    day_time_slots: dict[str, List[str]],  # NEW: per-day schedules
+    appointment_duration: int,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Update doctor's schedule with per-day time slots.
+    
+    Args:
+        day_time_slots: Dictionary mapping day names to arrays of time slot strings
+                       Example: {"Friday": ["9:00 AM - 1:00 PM"], "Saturday": ["2:00 PM - 5:00 PM", "7:00 PM - 9:00 PM"]}
+        appointment_duration: Minutes per appointment (15, 20, 30, 45, or 60)
+    """
+    user_id = user.id
+    
+    try:
+        # Verify user is a doctor
+        result = await db.execute(select(Profile).where(Profile.id == user_id))
+        profile = result.scalar_one_or_none()
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found")
+        
+        role_str = str(profile.role).upper()
+        if "DOCTOR" not in role_str:
+            raise HTTPException(status_code=403, detail="Only doctors can update schedules")
+        
+        # Validate inputs
+        if not day_time_slots or len(day_time_slots) == 0:
+            raise HTTPException(status_code=400, detail="At least one day with time slots is required")
+        
+        if appointment_duration not in [15, 20, 30, 45, 60]:
+            raise HTTPException(status_code=400, detail="Invalid appointment duration")
+        
+        # Extract available days from the keys
+        available_days = list(day_time_slots.keys())
+        
+        # Normalize time slot strings in the dictionary
+        def normalize_time_slots_str(s: str) -> str:
+            if not s:
+                return s
+            s = s.strip()
+            # Normalize comma spacing
+            s = re.sub(r"\s*,\s*", ", ", s)
+            # Ensure space before AM/PM if attached to digits (e.g., '12Pm' -> '12 Pm')
+            s = re.sub(r"(\d)([AaPp][Mm])", r"\1 \2", s)
+            # Uppercase AM/PM
+            s = re.sub(r"(?i)\bam\b", "AM", s)
+            s = re.sub(r"(?i)\bpm\b", "PM", s)
+            return s.strip()
+
+        normalized_day_slots = {}
+        for day, slots in day_time_slots.items():
+            normalized_day_slots[day] = [normalize_time_slots_str(slot) for slot in slots if slot]
+        
+        # Also maintain legacy time_slots field (first day's first slot for backwards compatibility)
+        legacy_time_slots = ""
+        if available_days and normalized_day_slots.get(available_days[0]):
+            legacy_time_slots = ", ".join(normalized_day_slots[available_days[0]])
+
+        # Update doctor profile with new day_time_slots structure
+        await db.execute(
+            update(DoctorProfile)
+            .where(DoctorProfile.profile_id == user_id)
+            .values(
+                available_days=available_days,
+                day_time_slots=normalized_day_slots,
+                time_slots=legacy_time_slots,  # Legacy field
+                normalized_time_slots=legacy_time_slots,  # Legacy field
+                time_slots_needs_review=False,
+                appointment_duration=appointment_duration
+            )
+        )
+        
+        await db.commit()
+        
+        return {
+            "success": True,
+            "message": "Schedule updated successfully",
+            "available_days": available_days,
+            "day_time_slots": normalized_day_slots,
+            "appointment_duration": appointment_duration,
+            "needs_review": needs_review
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        await db.rollback()
+        print(f"Error updating schedule: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Failed to update schedule: {str(e)}")

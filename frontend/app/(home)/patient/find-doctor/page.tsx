@@ -7,8 +7,9 @@ import { SearchFilters } from "@/components/doctor/search-filters";
 import { MapView } from "@/components/doctor/map-view";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map } from "lucide-react";
+import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
 
 // AI Analysis summary component
 function AIAnalysisSummary({ analysis }: { analysis: any }) {
@@ -26,7 +27,7 @@ function AIAnalysisSummary({ analysis }: { analysis: any }) {
   };
   
   return (
-    <Card className="border-primary/20 bg-gradient-to-r from-blue-50 to-indigo-50">
+    <Card className="border-primary/20 bg-linear-to-r from-blue-50 to-indigo-50">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-primary" />
@@ -112,6 +113,90 @@ function AmbiguityClarification({ onRetry }: { onRetry: () => void }) {
   );
 }
 
+// Previously visited doctors section
+function PreviouslyVisitedDoctors({ 
+  doctors, 
+  loading,
+  onDoctorClick 
+}: { 
+  doctors: any[]; 
+  loading: boolean;
+  onDoctorClick?: (doctorId: string) => void;
+}) {
+  if (loading) {
+    return (
+      <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <History className="w-4 h-4 text-primary" />
+            <span className="font-semibold text-sm text-primary">Previously Visited</span>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="shrink-0 w-48 bg-white rounded-xl p-3 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-3 bg-gray-200 rounded w-20" />
+                    <div className="h-2 bg-gray-200 rounded w-16" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (doctors.length === 0) return null;
+
+  return (
+    <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50">
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <History className="w-4 h-4 text-primary" />
+          <span className="font-semibold text-sm text-primary">Previously Visited</span>
+          <Badge variant="secondary" className="text-xs ml-auto">
+            Quick book
+          </Badge>
+        </div>
+        <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+          {doctors.map((doc) => (
+            <button
+              key={doc.doctor_id}
+              onClick={() => onDoctorClick?.(doc.doctor_id)}
+              className="shrink-0 w-52 bg-white rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                  {doc.photo_url ? (
+                    <img src={doc.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
+                  ) : (
+                    <User className="w-5 h-5 text-primary" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-sm text-foreground truncate">
+                    {doc.title} {doc.first_name} {doc.last_name}
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {doc.specialization}
+                  </p>
+                  <p className="text-xs text-primary/70 mt-0.5">
+                    Last: {new Date(doc.last_visit).toLocaleDateString()}
+                  </p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+            </button>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function FindDoctorPage() {
   type Doctor = {
     profile_id: string;
@@ -150,6 +235,27 @@ export default function FindDoctorPage() {
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
+  const [previouslyVisited, setPreviouslyVisited] = useState<any[]>([]);
+  const [loadingPrevious, setLoadingPrevious] = useState(true);
+
+  // Fetch previously visited doctors on mount
+  useEffect(() => {
+    const loadPreviouslyVisited = async () => {
+      try {
+        const data = await getPreviouslyVisitedDoctors();
+        setPreviouslyVisited(data.doctors || []);
+      } catch (error) {
+        console.error("Failed to load previously visited doctors:", error);
+      } finally {
+        setLoadingPrevious(false);
+      }
+    };
+    loadPreviouslyVisited();
+  }, []);
+
+  const handleDoctorClick = (doctorId: string) => {
+    window.location.href = `/patient/doctor/${doctorId}`;
+  };
 
   const fetchDoctors = async (searchFilters: any = {}) => {
     setLoading(true);
@@ -256,6 +362,17 @@ export default function FindDoctorPage() {
           <p className="text-muted-foreground mb-6">
             Book appointments with minimum wait-time & video consult with verified doctors
           </p>
+          
+          {/* Previously Visited Doctors */}
+          {(loadingPrevious || previouslyVisited.length > 0) && !hasFilters && (
+            <div className="mb-6">
+              <PreviouslyVisitedDoctors 
+                doctors={previouslyVisited} 
+                loading={loadingPrevious}
+                onDoctorClick={handleDoctorClick}
+              />
+            </div>
+          )}
           
           <SearchFilters onSearch={handleSearch} />
           

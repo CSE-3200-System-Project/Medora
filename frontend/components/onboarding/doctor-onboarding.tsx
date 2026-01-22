@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
+import { ScheduleSetter } from "@/components/doctor/schedule-setter"
 import { updateDoctorOnboarding, completeOnboarding, getDoctorOnboardingData } from "@/lib/auth-actions"
 import { useRouter } from "next/navigation"
 
@@ -106,6 +107,7 @@ export function DoctorOnboarding() {
     visitingHours: "",
     availableDays: [] as string[],
     timeSlots: "",
+    dayTimeSlots: {} as Record<string, string[]>,  // NEW: per-day schedules
     appointmentDuration: "",
     emergencyAvailability: false,
     emergencyContact: "",
@@ -171,7 +173,9 @@ export function DoctorOnboarding() {
             consultationFee: data.consultation_fee || "",
             followUpFee: data.follow_up_fee || "",
             visitingHours: data.visiting_hours || "",
-            availableDays: data.available_days || [],
+            // Use day_time_slots if present (authoritative), otherwise fall back to available_days/time_slots
+            dayTimeSlots: data.day_time_slots || {},
+            availableDays: data.day_time_slots && Object.keys(data.day_time_slots).length > 0 ? Object.keys(data.day_time_slots) : (data.available_days || []),
             timeSlots: data.time_slots || "",
             appointmentDuration: data.appointment_duration?.toString() || "",
             emergencyAvailability: data.emergency_availability || false,
@@ -349,6 +353,7 @@ export function DoctorOnboarding() {
       visiting_hours: formData.visitingHours,
       available_days: formData.availableDays,
       time_slots: formData.timeSlots,
+      day_time_slots: formData.dayTimeSlots, // NEW: per-day schedules
       appointment_duration: formData.appointmentDuration ? parseInt(formData.appointmentDuration) : undefined,
       emergency_availability: formData.emergencyAvailability,
       emergency_contact: formData.emergencyContact,
@@ -789,60 +794,114 @@ export function DoctorOnboarding() {
                 <Input id="followUpFee" type="number" value={formData.followUpFee} onChange={(e) => handleInputChange("followUpFee", e.target.value)} placeholder="500" />
               </div>
             </div>
-            
+
             <div className="space-y-2">
-              <Label htmlFor="visitingHours">Visiting Hours</Label>
+              <Label htmlFor="visitingHours">Visiting Hours (optional)</Label>
               <Input id="visitingHours" value={formData.visitingHours} onChange={(e) => handleInputChange("visitingHours", e.target.value)} placeholder="Sat Sun Mon Tue Wed 03:00 PM - 08:00 PM" />
               <p className="text-xs text-muted-foreground">Example: Sat Sun Mon Tue Wed 03:00 PM - 08:00 PM</p>
             </div>
-            
+
+            {/* Use ScheduleSetter for structured time slot input */}
             <div className="space-y-2">
-              <Label>Available Days</Label>
-              <div className="flex flex-wrap gap-2">
-                {["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day) => (
-                  <div key={day} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={day}
-                      checked={formData.availableDays.includes(day)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          handleInputChange("availableDays", [...formData.availableDays, day])
-                        } else {
-                          handleInputChange("availableDays", formData.availableDays.filter(d => d !== day))
-                        }
-                      }}
-                    />
-                    <Label htmlFor={day} className="text-sm">{day.slice(0, 3)}</Label>
-                  </div>
-                ))}
+              <Label>Set Your Weekly Schedule</Label>
+              <p className="text-xs text-muted-foreground">Use the structured schedule editor to add multiple ranges per day. This helps ensure consistent time slot parsing.</p>
+
+              <div className="mt-4">
+                <ScheduleSetter
+                  initialDayTimeSlots={formData.dayTimeSlots}
+                  initialAvailableDays={formData.availableDays}
+                  initialTimeSlots={formData.timeSlots}
+                  appointmentDuration={parseInt(formData.appointmentDuration || '30')}
+                  onSave={async (dayTimeSlots, duration) => {
+                    // Create updated form data locally to ensure synchronous payload creation
+                    const updatedFormData = {
+                      ...formData,
+                      dayTimeSlots: dayTimeSlots,
+                      availableDays: Object.keys(dayTimeSlots),
+                      appointmentDuration: duration.toString()
+                    };
+                    
+                    // Update state
+                    setFormData(updatedFormData);
+                    
+                    // Prepare payload with the updated local object instead of state
+                    const payload = {
+                      onboarding_completed: false, // Don't mark complete yet
+                      
+                      // ... map other fields from updatedFormData
+                      first_name: updatedFormData.firstName,
+                      last_name: updatedFormData.lastName,
+                      phone: updatedFormData.phone,
+                      
+                      title: updatedFormData.title,
+                      gender: updatedFormData.gender,
+                      dob: updatedFormData.dob,
+                      profile_photo_url: updatedFormData.profile_photo_url,
+                      nid_number: updatedFormData.nidNumber,
+                      
+                      registration_number: updatedFormData.registrationNumber,
+                      bmdc_document_url: updatedFormData.bmdc_document_url,
+                      qualifications: updatedFormData.qualifications,
+                      degree: updatedFormData.degree,
+                      degree_certificates_url: updatedFormData.degree_certificates_url,
+                      education: updatedFormData.education,
+                      
+                      speciality_id: updatedFormData.specialityId ? parseInt(updatedFormData.specialityId) : undefined,
+                      specialization: updatedFormData.specialization,
+                      sub_specializations: updatedFormData.subSpecializations,
+                      services: updatedFormData.services,
+                      
+                      experience: updatedFormData.experience,
+                      work_experience: updatedFormData.workExperience,
+                      
+                      hospital_name: updatedFormData.hospitalName,
+                      hospital_address: updatedFormData.hospitalAddress,
+                      hospital_city: updatedFormData.hospitalCity,
+                      hospital_country: updatedFormData.hospitalCountry,
+                      
+                      chamber_name: updatedFormData.chamberName,
+                      chamber_address: updatedFormData.chamberAddress,
+                      chamber_city: updatedFormData.chamberCity,
+                      
+                      consultation_fee: updatedFormData.consultationFee,
+                      follow_up_fee: updatedFormData.followUpFee,
+                      visiting_hours: updatedFormData.visitingHours,
+                      available_days: updatedFormData.availableDays, // Use updated available days
+                      time_slots: updatedFormData.timeSlots,
+                      day_time_slots: updatedFormData.dayTimeSlots, // Use updated day slots
+                      appointment_duration: updatedFormData.appointmentDuration ? parseInt(updatedFormData.appointmentDuration) : undefined,
+                      emergency_availability: updatedFormData.emergencyAvailability,
+                      emergency_contact: updatedFormData.emergencyContact,
+                      
+                      about: updatedFormData.about,
+                      
+                      language: updatedFormData.language,
+                      languages_spoken: updatedFormData.languagesSpoken,
+                      case_types: updatedFormData.caseTypes,
+                      ai_assistance: updatedFormData.aiAssistance,
+                      terms_accepted: updatedFormData.termsAccepted,
+                      telemedicine_available: updatedFormData.telemedicineAvailable,
+                      telemedicine_platforms: updatedFormData.telemedicinePlatforms,
+                    };
+
+                    try {
+                      await updateDoctorOnboarding(payload)
+                    } catch (e) {
+                      console.error('Failed to save schedule during onboarding', e)
+                      alert('Failed to save schedule')
+                    }
+                  }}
+                />
               </div>
             </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="timeSlots">Time Slots</Label>
-              <Input id="timeSlots" value={formData.timeSlots} onChange={(e) => handleInputChange("timeSlots", e.target.value)} placeholder="e.g. 9 AM - 1 PM, 5 PM - 9 PM" />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="appointmentDuration">Appointment Duration (minutes)</Label>
-              <Select id="appointmentDuration" value={formData.appointmentDuration} onChange={(e) => handleInputChange("appointmentDuration", e.target.value)}>
-                <option value="">Select Duration</option>
-                <option value="10">10 minutes</option>
-                <option value="15">15 minutes</option>
-                <option value="20">20 minutes</option>
-                <option value="30">30 minutes</option>
-                <option value="45">45 minutes</option>
-                <option value="60">60 minutes</option>
-              </Select>
-            </div>
-            
+
             <Separator className="my-4" />
-            
+
             <div className="flex items-center space-x-2">
               <Checkbox id="emergencyAvailability" checked={formData.emergencyAvailability} onCheckedChange={(checked) => handleInputChange("emergencyAvailability", checked)} />
               <Label htmlFor="emergencyAvailability">Available for Emergencies</Label>
             </div>
-            
+
             {formData.emergencyAvailability && (
               <div className="space-y-2">
                 <Label htmlFor="emergencyContact">Emergency Contact Number</Label>
