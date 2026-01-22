@@ -6,16 +6,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+interface AppointmentInfo {
+  id: string;
+  status: string;
+  patient_name?: string;
+}
+
 interface AppointmentCalendarProps {
   onDateSelect: (date: string) => void;
   selectedDate: string | null;
   appointmentDates: string[]; // Dates with appointments
+  appointmentsByDate?: Record<string, AppointmentInfo[]>; // Appointments grouped by date
 }
 
 export function AppointmentCalendar({ 
   onDateSelect, 
   selectedDate,
-  appointmentDates 
+  appointmentDates,
+  appointmentsByDate = {}
 }: AppointmentCalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
@@ -51,10 +59,31 @@ export function AppointmentCalendar({
     onDateSelect(dateStr);
   };
 
-  const hasAppointment = (day: number) => {
+  const getDateString = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const dateStr = date.toISOString().split('T')[0];
+    return date.toISOString().split('T')[0];
+  };
+
+  const hasAppointment = (day: number) => {
+    const dateStr = getDateString(day);
     return appointmentDates.includes(dateStr);
+  };
+
+  const getAppointmentCount = (day: number) => {
+    const dateStr = getDateString(day);
+    return appointmentsByDate[dateStr]?.length || 0;
+  };
+
+  const getAppointmentStatus = (day: number) => {
+    const dateStr = getDateString(day);
+    const appts = appointmentsByDate[dateStr] || [];
+    if (appts.length === 0) return null;
+    
+    // Priority: CONFIRMED > PENDING > COMPLETED
+    if (appts.some(a => a.status === 'CONFIRMED')) return 'CONFIRMED';
+    if (appts.some(a => a.status === 'PENDING')) return 'PENDING';
+    if (appts.some(a => a.status === 'COMPLETED')) return 'COMPLETED';
+    return null;
   };
 
   const isToday = (day: number) => {
@@ -66,11 +95,30 @@ export function AppointmentCalendar({
     );
   };
 
+  const isPast = (day: number) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    return date < today;
+  };
+
   const isSelected = (day: number) => {
     if (!selectedDate) return false;
-    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = getDateString(day);
     return dateStr === selectedDate;
+  };
+
+  const getStatusColor = (status: string | null) => {
+    switch (status) {
+      case 'CONFIRMED':
+        return 'bg-blue-500';
+      case 'PENDING':
+        return 'bg-yellow-500';
+      case 'COMPLETED':
+        return 'bg-green-500';
+      default:
+        return 'bg-primary';
+    }
   };
 
   // Generate calendar grid
@@ -86,6 +134,9 @@ export function AppointmentCalendar({
     const isCurrentDay = isToday(day);
     const isSelectedDay = isSelected(day);
     const hasAppt = hasAppointment(day);
+    const apptCount = getAppointmentCount(day);
+    const apptStatus = getAppointmentStatus(day);
+    const dayIsPast = isPast(day);
 
     calendarDays.push(
       <button
@@ -95,13 +146,32 @@ export function AppointmentCalendar({
           "aspect-square rounded text-[10px] font-medium transition-all relative p-0.5",
           "hover:bg-blue-200 hover:scale-105",
           isSelectedDay && "bg-primary text-white shadow-md scale-105",
-          !isSelectedDay && isCurrentDay && "bg-blue-100 border border-primary text-blue-900",
-          !isSelectedDay && !isCurrentDay && "bg-white text-blue-900 hover:text-primary"
+          !isSelectedDay && isCurrentDay && "bg-blue-100 border-2 border-primary text-blue-900",
+          !isSelectedDay && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
+          !isSelectedDay && !isCurrentDay && !dayIsPast && "bg-white text-blue-900 hover:text-primary"
         )}
       >
         {day}
-        {hasAppt && !isSelectedDay && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0.5 h-0.5 rounded-full bg-primary" />
+        {hasAppt && (
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-0.5">
+            {apptCount > 0 && (
+              <div className={cn(
+                "w-1.5 h-1.5 rounded-full",
+                isSelectedDay ? "bg-white" : getStatusColor(apptStatus)
+              )} />
+            )}
+            {apptCount > 1 && (
+              <div className={cn(
+                "w-1.5 h-1.5 rounded-full",
+                isSelectedDay ? "bg-white/70" : `${getStatusColor(apptStatus)} opacity-60`
+              )} />
+            )}
+          </div>
+        )}
+        {apptCount > 2 && !isSelectedDay && (
+          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-primary text-white text-[6px] rounded-full flex items-center justify-center font-bold">
+            {apptCount}
+          </div>
         )}
       </button>
     );
@@ -157,13 +227,22 @@ export function AppointmentCalendar({
           {calendarDays}
         </div>
 
-        <div className="mt-1.5 pt-1.5 border-t border-blue-200 flex items-center gap-2 text-[9px] text-blue-600">
-          <div className="flex items-center gap-0.5">
-            <div className="w-1 h-1 rounded-full bg-primary" />
-            <span>Appts</span>
+        {/* Legend */}
+        <div className="mt-2 pt-2 border-t border-blue-200 grid grid-cols-2 gap-1 text-[8px] text-blue-700">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+            <span>Confirmed</span>
           </div>
-          <div className="flex items-center gap-0.5">
-            <div className="w-1 h-1 rounded-full border border-primary" />
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
+            <span>Pending</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+            <span>Completed</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded border-2 border-primary" />
             <span>Today</span>
           </div>
         </div>

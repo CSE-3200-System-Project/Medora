@@ -98,6 +98,7 @@ async function getUpcomingAppointments(limit = 3) {
 
 export default function DoctorHomePage() {
   const router = useRouter();
+  const [doctorProfileNeedsScheduleReview, setDoctorProfileNeedsScheduleReview] = React.useState(false);
   const [doctor, setDoctor] = useState<any>(null);
   const [stats, setStats] = useState({ todays_appointments: 0, total_patients: 0, pending_reviews: 0, completion_rate: 0 });
   const [upcoming, setUpcoming] = useState<any[]>([]);
@@ -108,6 +109,15 @@ export default function DoctorHomePage() {
     fetchData();
     checkOnboardingStatus();
   }, []);
+
+  React.useEffect(() => {
+    if (doctor && doctor.locations && doctor.locations.length > 0) {
+      const needsReview = doctor.locations.some((l: any) => l.time_slots_needs_review)
+      setDoctorProfileNeedsScheduleReview(!!needsReview)
+    } else {
+      setDoctorProfileNeedsScheduleReview(false)
+    }
+  }, [doctor]);
 
   const checkOnboardingStatus = () => {
     const cookies = document.cookie.split(';');
@@ -179,6 +189,26 @@ export default function DoctorHomePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="doctor" />}
+
+        {doctorProfileNeedsScheduleReview && (
+          <div className="mb-6">
+            <Card className="rounded-2xl border-destructive/20 bg-destructive/5 p-4">
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-destructive">Action Required: Schedule Format Review</p>
+                    <p className="text-sm text-muted-foreground">We detected an ambiguous schedule format on your profile. Please review and update your weekly schedule to ensure appointment slots work correctly.</p>
+                  </div>
+                  <div>
+                    <Link href="/doctor/schedule">
+                      <Button variant="medical">Fix Schedule</Button>
+                    </Link>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
         
         {/* Welcome Section */}
         <div className="mb-8">
@@ -326,7 +356,17 @@ export default function DoctorHomePage() {
                     size="lg"
                   >
                     <Calendar className="h-5 w-5 mr-3" />
-                    Schedule Appointment
+                    View Appointments
+                  </Button>
+                </Link>
+                <Link href="/doctor/schedule">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    size="lg"
+                  >
+                    <Clock className="h-5 w-5 mr-3" />
+                    Set Schedule
                   </Button>
                 </Link>
                 <Link href="/doctor/patients">

@@ -397,6 +397,70 @@ async def get_all_appointments(
         "offset": offset
     }
 
+
+# Schedule review endpoints
+@router.get("/schedule-review")
+async def get_schedules_needing_review(
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+    limit: int = 100,
+    offset: int = 0
+):
+    """List doctors whose time slots need review"""
+    result = await db.execute(
+        select(Profile, DoctorProfile)
+        .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
+        .where(Profile.role == UserRole.DOCTOR)
+        .where(DoctorProfile.time_slots_needs_review == True)
+        .limit(limit)
+        .offset(offset)
+    )
+
+    rows = result.all()
+    doctors = []
+    for profile, doctor in rows:
+        doctors.append({
+            "profile_id": profile.id,
+            "name": f"{profile.first_name} {profile.last_name}",
+            "email": profile.email,
+            "time_slots": doctor.time_slots,
+            "normalized_time_slots": getattr(doctor, 'normalized_time_slots', None)
+        })
+
+    return {"doctors": doctors, "total": len(doctors)}
+
+
+class ScheduleFixRequest(BaseModel):
+    profile_id: str
+    normalized_time_slots: str
+
+
+@router.post("/schedule-review/fix")
+async def fix_schedule_row(
+    data: ScheduleFixRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access)
+):
+    """Apply a normalized time_slots for a doctor's profile and clear the review flag"""
+    # Ensure doctor exists
+    result = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == data.profile_id))
+    doctor = result.scalar_one_or_none()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    await db.execute(
+        update(DoctorProfile)
+        .where(DoctorProfile.profile_id == data.profile_id)
+        .values(
+            time_slots=data.normalized_time_slots,
+            normalized_time_slots=data.normalized_time_slots,
+            time_slots_needs_review=False
+        )
+    )
+    await db.commit()
+
+    return {"success": True, "profile_id": data.profile_id, "normalized_time_slots": data.normalized_time_slots}
+
 # Ban/Unban User
 class BanUserRequest(BaseModel):
     reason: str | None = None
