@@ -202,6 +202,14 @@ async def update_patient_onboarding(
         if data.consent_doctor is not None: patient_data['consent_doctor'] = data.consent_doctor
         if data.consent_research is not None: patient_data['consent_research'] = data.consent_research
 
+        # AUTO-SYNC BOOLEAN FLAGS: Set flags based on array content (data consistency fix)
+        if 'surgeries' in patient_data and patient_data['surgeries']:
+            patient_data['past_surgeries'] = len(patient_data['surgeries']) > 0
+        if 'medications' in patient_data and patient_data['medications']:
+            patient_data['taking_meds'] = len(patient_data['medications']) > 0
+        if 'conditions' in patient_data and patient_data['conditions']:
+            patient_data['has_conditions'] = len(patient_data['conditions']) > 0
+
         if patient_data:
             # Check if patient profile exists
             result = await db.execute(select(PatientProfile).where(PatientProfile.profile_id == user_id))

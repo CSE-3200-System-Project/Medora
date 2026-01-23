@@ -6,10 +6,16 @@ import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MedicationManager, type Medication } from "@/components/medicine";
+import { MedicationManager, type Medication } from "@/components/medicine"
+import { SurgeryManager, type Surgery } from "@/components/medical-history/surgery-manager"
+import { HospitalizationManager, type Hospitalization } from "@/components/medical-history/hospitalization-manager"
+import { VaccinationManager, type Vaccination } from "@/components/medical-history/vaccination-manager"
+import { MedicalTimeline } from "@/components/medical-history/medical-timeline";
 import {
   ArrowLeft,
+  Calendar,
   Download,
   Loader2,
   Pill,
@@ -22,6 +28,7 @@ import {
 } from "lucide-react";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+import { getMyAppointments } from "@/lib/appointment-actions";
 
 /**
  * Comprehensive Medical History Page
@@ -37,10 +44,11 @@ function MedicalHistoryContent() {
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
-  const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
-  const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
-  const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
-  
+  const [surgeries, setSurgeries] = useState<Surgery[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+  const [vaccinations, setVaccinations] = useState<Vaccination[]>([]);
+  const [appointments, setAppointments] = useState<any[]>([]);
+
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -80,6 +88,14 @@ function MedicalHistoryContent() {
           // Load other medical history
           setSurgeries(data.surgeries || []);
           setHospitalizations(data.hospitalizations || []);
+
+          // Load appointments
+          try {
+            const apps = await getMyAppointments();
+            if (Array.isArray(apps)) setAppointments(apps);
+          } catch (e) {
+            console.error("Failed to load appointments", e);
+          }
           setVaccinations(data.vaccinations || []);
           
           setInitialLoaded(true);
@@ -381,7 +397,7 @@ function MedicalHistoryContent() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full grid grid-cols-2 lg:grid-cols-5 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
+          <TabsList className="w-full grid grid-cols-2 lg:grid-cols-6 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
             <TabsTrigger value="medications" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Pill className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Medications</span>
@@ -401,6 +417,11 @@ function MedicalHistoryContent() {
               <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Vaccinations</span>
               <span className="sm:hidden">Vaccines</span>
+            </TabsTrigger>
+            <TabsTrigger value="visits" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
+              <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Visits</span>
+              <span className="sm:hidden">Visits</span>
             </TabsTrigger>
             <TabsTrigger value="timeline" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -426,16 +447,11 @@ function MedicalHistoryContent() {
           {/* Surgeries Tab */}
           <TabsContent value="surgeries" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Surgical History</CardTitle>
-                <CardDescription>Track your past surgeries and procedures</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Syringe className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Surgery management coming soon</p>
-                  <p className="text-sm mt-2">You can add surgeries during onboarding</p>
-                </div>
+                <SurgeryManager
+                  surgeries={surgeries}
+                  onUpdate={setSurgeries}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -443,16 +459,11 @@ function MedicalHistoryContent() {
           {/* Hospitalizations Tab */}
           <TabsContent value="hospitalizations" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Hospitalization History</CardTitle>
-                <CardDescription>Record of hospital admissions</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Hospital className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Hospitalization management coming soon</p>
-                  <p className="text-sm mt-2">You can add hospitalizations during onboarding</p>
-                </div>
+                <HospitalizationManager
+                  hospitalizations={hospitalizations}
+                  onUpdate={setHospitalizations}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -460,16 +471,50 @@ function MedicalHistoryContent() {
           {/* Vaccinations Tab */}
           <TabsContent value="vaccinations" className="mt-0">
             <Card>
+              <CardContent className="p-4 sm:p-6">
+                <VaccinationManager
+                  vaccinations={vaccinations}
+                  onUpdate={setVaccinations}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Visits Tab */}
+          <TabsContent value="visits" className="mt-0">
+            <Card>
               <CardHeader>
-                <CardTitle>Vaccination Records</CardTitle>
-                <CardDescription>Keep track of your immunizations</CardDescription>
+                <CardTitle>Past Doctor Visits</CardTitle>
+                <CardDescription>History of your consultations with Medora doctors</CardDescription>
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Shield className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Vaccination management coming soon</p>
-                  <p className="text-sm mt-2">You can add vaccinations during onboarding</p>
-                </div>
+                {appointments.length > 0 ? (
+                  <div className="space-y-4">
+                    {appointments.map((app, i) => (
+                      <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg gap-4 bg-surface/30">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                             <Calendar className="h-4 w-4 text-primary" />
+                             <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
+                             <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                          </div>
+                          <div className="text-lg font-medium">{app.reason}</div>
+                          {app.notes && <div className="text-sm text-muted-foreground mt-1 max-w-xl">{app.notes}</div>}
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>
+                             {app.status}
+                           </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <CheckCircle2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
+                    <p>No past appointments found.</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -477,16 +522,14 @@ function MedicalHistoryContent() {
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Medical Timeline</CardTitle>
-                <CardDescription>Chronological view of your medical history</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Clock className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Timeline view coming soon</p>
-                  <p className="text-sm mt-2">View all medical events in chronological order</p>
-                </div>
+                <MedicalTimeline
+                  surgeries={surgeries}
+                  hospitalizations={hospitalizations}
+                  vaccinations={vaccinations}
+                  medications={medications}
+                  appointments={appointments}
+                />
               </CardContent>
             </Card>
           </TabsContent>

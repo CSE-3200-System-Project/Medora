@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/auth-utils";
+import { getMyAppointments } from "@/lib/appointment-actions";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,18 @@ interface DrugAllergy {
   severity?: string;
 }
 
+interface Surgery {
+  name: string;
+  year: string;
+  hospital?: string;
+}
+
+interface Hospitalization {
+  reason: string;
+  year: string;
+  duration?: string;
+}
+
 interface PatientData {
   // Profile
   first_name: string;
@@ -71,10 +84,14 @@ interface PatientData {
   has_liver_disease?: boolean;
   has_thyroid?: boolean;
   has_mental_health?: boolean;
+  conditions?: Array<{name: string}>;
   // Allergies & medications
   allergies?: string;
   medications?: Medication[];
   drug_allergies?: DrugAllergy[];
+  // Medical history
+  surgeries?: Surgery[];
+  hospitalizations?: Hospitalization[];
   // Emergency contact
   emergency_contact_name?: string;
   emergency_contact_phone?: string;
@@ -84,6 +101,7 @@ interface PatientData {
 export default function PatientProfilePage() {
   const router = useRouter();
   const [patient, setPatient] = React.useState<PatientData | null>(null);
+  const [appointments, setAppointments] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -105,6 +123,14 @@ export default function PatientProfilePage() {
           },
         });
         
+        // Fetch appointments
+        try {
+          const apps = await getMyAppointments();
+          if (Array.isArray(apps)) setAppointments(apps);
+        } catch (e) {
+          console.error("Failed to load appointments", e);
+        }
+
         if (detailsResponse?.ok) {
           const details = await detailsResponse.json();
           setPatient({ ...data, ...details });
@@ -134,6 +160,7 @@ export default function PatientProfilePage() {
   const getChronicConditions = () => {
     if (!patient) return [];
     const conditions = [];
+    // From boolean flags
     if (patient.has_diabetes) conditions.push("Diabetes");
     if (patient.has_hypertension) conditions.push("Hypertension");
     if (patient.has_heart_disease) conditions.push("Heart Disease");
@@ -142,6 +169,14 @@ export default function PatientProfilePage() {
     if (patient.has_liver_disease) conditions.push("Liver Disease");
     if (patient.has_thyroid) conditions.push("Thyroid");
     if (patient.has_mental_health) conditions.push("Mental Health");
+    // From conditions array (defensive check)
+    if (patient.conditions && Array.isArray(patient.conditions)) {
+      patient.conditions.forEach(c => {
+        if (c && c.name && !conditions.includes(c.name)) {
+          conditions.push(c.name);
+        }
+      });
+    }
     return conditions;
   };
 
@@ -336,6 +371,23 @@ export default function PatientProfilePage() {
               ) : (
                 <p className="text-muted-foreground text-sm">No chronic conditions reported</p>
               )}
+              {/* Current Medications */}
+              {patient.medications && patient.medications.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-border/50">
+                  <p className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
+                    <Pill className="h-4 w-4 text-primary" />
+                    Current Medications
+                  </p>
+                  <div className="space-y-1">
+                    {patient.medications.slice(0, 3).map((med, i) => (
+                      <p key={i} className="text-sm text-muted-foreground">• {med.name || med.display_name || 'Unknown medication'}</p>
+                    ))}
+                    {patient.medications.length > 3 && (
+                      <p className="text-xs text-primary mt-2">+{patient.medications.length - 3} more</p>
+                    )}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -396,6 +448,84 @@ export default function PatientProfilePage() {
               ) : (
                 <p className="text-muted-foreground text-sm">No emergency contact added</p>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Medical History Summary */}
+          <Card className="rounded-2xl border-border/50 shadow-md lg:col-span-2">
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <FileText className="h-5 w-5 text-primary" />
+                  Medical History
+                </CardTitle>
+                <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')}>
+                  View All
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Surgeries */}
+                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Hospital className="h-4 w-4 text-primary" />
+                    <p className="font-medium text-sm">Surgeries</p>
+                  </div>
+                  {patient.surgeries && patient.surgeries.length > 0 ? (
+                    <div className="space-y-1">
+                      {patient.surgeries.slice(0, 2).map((s: Surgery, i) => (
+                        <p key={i} className="text-xs text-muted-foreground">• {s.name} ({s.year})</p>
+                      ))}
+                      {patient.surgeries.length > 2 && (
+                        <p className="text-xs text-primary">+{patient.surgeries.length - 2} more</p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">No surgeries recorded</p>
+                  )}
+                </div>
+                {/* Hospitalizations */}
+                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Hospital className="h-4 w-4 text-primary" />
+                    <p className="font-medium text-sm">Hospitalizations</p>
+                  </div>
+                  {patient.hospitalizations && patient.hospitalizations.length > 0 ? (
+                    <div className="space-y-1">
+                      {patient.hospitalizations.slice(0, 2).map((h: Hospitalization, i) => (
+                        <p key={i} className="text-xs text-muted-foreground">• {h.reason} ({h.year})</p>
+                      ))}
+                      {patient.hospitalizations.length > 2 && (
+                        <p className="text-xs text-primary">+{patient.hospitalizations.length - 2} more</p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">No hospitalizations recorded</p>
+                  )}
+                </div>
+                {/* Recent Visits */}
+                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calendar className="h-4 w-4 text-primary" />
+                    <p className="font-medium text-sm">Recent Visits</p>
+                  </div>
+                  {appointments.length > 0 ? (
+                    <div className="space-y-1">
+                      {appointments.slice(0, 2).map((app: any, i) => (
+                        <p key={i} className="text-xs text-muted-foreground">
+                          • {new Date(app.appointment_date).toLocaleDateString()}
+                        </p>
+                      ))}
+                      {appointments.length > 2 && (
+                        <p className="text-xs text-primary">+{appointments.length - 2} more</p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">No visits recorded</p>
+                  )}
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
