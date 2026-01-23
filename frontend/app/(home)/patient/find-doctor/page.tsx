@@ -5,6 +5,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { DoctorCard } from "@/components/doctor/doctor-card";
 import { SearchFilters } from "@/components/doctor/search-filters";
 import { MapView } from "@/components/doctor/map-view";
+import { PatientContextDisplay } from "@/components/doctor/patient-context-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
@@ -235,6 +236,7 @@ export default function FindDoctorPage() {
   const [totalResults, setTotalResults] = useState(0);
   const [hasFilters, setHasFilters] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
+  const [patientContextFactors, setPatientContextFactors] = useState<any[]>([]);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
@@ -313,10 +315,21 @@ export default function FindDoctorPage() {
             setAiAnalysis(data.medical_intent);
           }
           
+          // Capture patient context factors from AI search response
+          if (data.patient_context_factors && data.patient_context_factors.length > 0) {
+            console.log('Patient Context Factors:', data.patient_context_factors);
+            setPatientContextFactors(data.patient_context_factors);
+          } else {
+            setPatientContextFactors([]);
+          }
+          
           // Check for high ambiguity
           if (data.ambiguity === 'high' && data.doctors.length === 0) {
             setShowAmbiguityPrompt(true);
           }
+        } else {
+          // Clear patient context when not using AI search
+          setPatientContextFactors([]);
         }
         
         setDoctors(data.doctors);
@@ -351,6 +364,7 @@ export default function FindDoctorPage() {
   const handleClearFilters = () => {
     setHasFilters(false);
     setAiAnalysis(null);
+    setPatientContextFactors([]);
     setShowAmbiguityPrompt(false);
     fetchDoctors({});
   };
@@ -383,6 +397,13 @@ export default function FindDoctorPage() {
           {aiAnalysis && !aiAnalysis.error && (
             <div className="mt-4">
               <AIAnalysisSummary analysis={aiAnalysis} />
+            </div>
+          )}
+          
+          {/* Patient Context Display - Shows how medical history influenced the search */}
+          {patientContextFactors && patientContextFactors.length > 0 && (
+            <div className="mt-4">
+              <PatientContextDisplay factors={patientContextFactors} />
             </div>
           )}
           
