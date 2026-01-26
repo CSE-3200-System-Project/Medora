@@ -133,6 +133,8 @@ async def update_patient_onboarding(
         if data.treatment_description: patient_data['treatment_description'] = data.treatment_description
         if data.ongoing_treatment_details: patient_data['ongoing_treatment_details'] = data.ongoing_treatment_details
         if data.hospitalizations is not None: patient_data['hospitalizations'] = to_dict_list(data.hospitalizations)
+        if data.has_medical_tests is not None: patient_data['has_medical_tests'] = to_bool(data.has_medical_tests)
+        if data.medical_tests is not None: patient_data['medical_tests'] = to_dict_list(data.medical_tests)
         if data.previous_doctors: patient_data['previous_doctors'] = data.previous_doctors
         if data.last_checkup_date: patient_data['last_checkup_date'] = data.last_checkup_date
         
@@ -527,6 +529,8 @@ async def get_patient_onboarding_data(
             "treatment_description": patient.treatment_description,
             "ongoing_treatment_details": getattr(patient, 'ongoing_treatment_details', None),
             "hospitalizations": patient.hospitalizations or [],
+            "has_medical_tests": "yes" if getattr(patient, 'has_medical_tests', False) else "no",
+            "medical_tests": getattr(patient, 'medical_tests', None) or [],
             "previous_doctors": getattr(patient, 'previous_doctors', None),
             "last_checkup_date": getattr(patient, 'last_checkup_date', None),
             

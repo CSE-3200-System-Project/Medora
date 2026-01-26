@@ -77,6 +77,10 @@ class PatientProfile(Base):
     # Hospitalizations: [{reason, hospital, year, duration_days}]
     hospitalizations: Mapped[list | None] = mapped_column(JSON)
     
+    # Medical Tests/Lab Reports: [{test_name, test_id, test_date, result, prescribing_doctor, hospital_lab, notes, document_url}]
+    has_medical_tests: Mapped[bool] = mapped_column(Boolean, default=False)
+    medical_tests: Mapped[list | None] = mapped_column(JSON)
+    
     previous_doctors: Mapped[str | None]
     last_checkup_date: Mapped[str | None]
 
