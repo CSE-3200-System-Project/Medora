@@ -36,6 +36,21 @@ class Hospitalization(BaseModel):
     duration: Optional[str] = None
     duration_days: Optional[int] = None
 
+class MedicalTestRecord(BaseModel):
+    """Patient's medical/lab test record"""
+    test_name: str  # Name of the test (from medicaltest table or custom)
+    test_id: Optional[int] = None  # Reference to medicaltest.id if selected from list
+    test_date: Optional[str] = None  # When the test was done (YYYY-MM-DD)
+    result: Optional[str] = None  # Test result/findings
+    result_value: Optional[str] = None  # Numeric value if applicable
+    result_unit: Optional[str] = None  # Unit of measurement
+    normal_range: Optional[str] = None  # Reference range
+    status: Optional[str] = None  # normal, abnormal, critical
+    prescribing_doctor: Optional[str] = None  # Doctor who prescribed
+    hospital_lab: Optional[str] = None  # Hospital/Lab where test was done
+    notes: Optional[str] = None  # Additional notes
+    document_url: Optional[str] = None  # Uploaded report URL
+
 class Vaccination(BaseModel):
     name: str
     date: Optional[str] = None
@@ -120,6 +135,10 @@ class PatientOnboardingUpdate(BaseModel):
     hospitalizations: Optional[List[Hospitalization]] = None
     previous_doctors: Optional[str] = None
     last_checkup_date: Optional[str] = None
+    
+    # Medical Tests/Lab Reports
+    has_medical_tests: Optional[str] = None  # "yes" or "no"
+    medical_tests: Optional[List[MedicalTestRecord]] = None
     
     # Step 6 - Family History
     family_has_diabetes: Optional[bool] = None

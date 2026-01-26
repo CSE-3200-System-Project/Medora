@@ -25,10 +25,32 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
+  FlaskConical,
+  Plus,
+  Trash2,
+  CalendarIcon,
 } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+
 import { getMyAppointments } from "@/lib/appointment-actions";
+
+import { MedicalTestSearch } from "@/components/medical-test";
+
+// Interface for medical test records
+interface MedicalTest {
+  test_name: string;
+  test_id?: number;
+  test_date: string;
+  result: string;
+  status: string;
+  prescribing_doctor: string;
+  hospital_lab: string;
+  notes: string;
+}
+
 
 /**
  * Comprehensive Medical History Page
@@ -44,10 +66,15 @@ function MedicalHistoryContent() {
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
-  const [surgeries, setSurgeries] = useState<Surgery[]>([]);
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
-  const [vaccinations, setVaccinations] = useState<Vaccination[]>([]);
+
+
   const [appointments, setAppointments] = useState<any[]>([]);
+
+
+  const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
+  const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
+  const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
 
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -97,6 +124,7 @@ function MedicalHistoryContent() {
             console.error("Failed to load appointments", e);
           }
           setVaccinations(data.vaccinations || []);
+          setMedicalTests(data.medical_tests || []);
           
           setInitialLoaded(true);
         } else {
@@ -140,6 +168,8 @@ function MedicalHistoryContent() {
         surgeries,
         hospitalizations,
         vaccinations,
+        has_medical_tests: medicalTests.length > 0 ? "yes" : "no",
+        medical_tests: medicalTests,
       });
       
       // Reload data to reflect changes
@@ -167,6 +197,7 @@ function MedicalHistoryContent() {
         setSurgeries(updatedData.surgeries || []);
         setHospitalizations(updatedData.hospitalizations || []);
         setVaccinations(updatedData.vaccinations || []);
+        setMedicalTests(updatedData.medical_tests || []);
       }
       
       setSuccessDialogOpen(true);
@@ -237,6 +268,21 @@ function MedicalHistoryContent() {
       text += "--------------\n\n";
       vaccinations.forEach((vac, idx) => {
         text += `${idx + 1}. ${vac.name} - ${vac.date}\n`;
+      });
+    }
+
+    // Medical Tests
+    if (medicalTests.length > 0) {
+      text += "\n🧪 MEDICAL TESTS\n";
+      text += "----------------\n\n";
+      medicalTests.forEach((test, idx) => {
+        text += `${idx + 1}. ${test.test_name}`;
+        if (test.test_date) text += ` (${test.test_date})`;
+        text += "\n";
+        if (test.result) text += `   Result: ${test.result}\n`;
+        if (test.hospital_lab) text += `   Lab: ${test.hospital_lab}\n`;
+        if (test.prescribing_doctor) text += `   Doctor: ${test.prescribing_doctor}\n`;
+        text += "\n";
       });
     }
 
@@ -321,7 +367,7 @@ function MedicalHistoryContent() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
           <Card className="bg-primary/5 border-primary/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
@@ -334,6 +380,24 @@ function MedicalHistoryContent() {
                   </div>
                   <div className="text-xs sm:text-sm text-muted-foreground truncate">
                     Medications
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-purple-500/5 border-purple-500/20">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xl sm:text-2xl font-bold text-foreground">
+                    {medicalTests.length}
+                  </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
+                    Lab Tests
                   </div>
                 </div>
               </div>
@@ -397,11 +461,16 @@ function MedicalHistoryContent() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full grid grid-cols-2 lg:grid-cols-6 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
+          <TabsList className="w-full grid grid-cols-3 lg:grid-cols-6 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
             <TabsTrigger value="medications" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Pill className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Medications</span>
               <span className="sm:hidden">Meds</span>
+            </TabsTrigger>
+            <TabsTrigger value="tests" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
+              <FlaskConical className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Lab Tests</span>
+              <span className="sm:hidden">Tests</span>
             </TabsTrigger>
             <TabsTrigger value="surgeries" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Syringe className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -440,6 +509,219 @@ function MedicalHistoryContent() {
                   title="Medications"
                   description="Search from our medicine database and manage your medications"
                 />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Lab Tests Tab */}
+          <TabsContent value="tests" className="mt-0">
+            <Card className="border-purple-200 shadow-sm">
+              <CardHeader className="bg-gradient-to-r from-purple-50 to-white border-b border-purple-100">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <CardTitle className="text-foreground flex items-center gap-2">
+                      <FlaskConical className="h-5 w-5 text-purple-600" />
+                      Lab Tests & Diagnostics
+                    </CardTitle>
+                    <CardDescription className="text-gray-600">Track your medical tests and results</CardDescription>
+                  </div>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setMedicalTests([
+                        ...medicalTests,
+                        {
+                          test_name: "",
+                          test_id: undefined,
+                          test_date: "",
+                          result: "",
+                          status: "completed",
+                          prescribing_doctor: "",
+                          hospital_lab: "",
+                          notes: "",
+                        },
+                      ]);
+                    }}
+                    className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Test
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="p-4 sm:p-6 bg-white">
+                {medicalTests.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+                      <FlaskConical className="h-8 w-8 text-purple-500" />
+                    </div>
+                    <p className="text-gray-700 font-medium">No lab tests recorded yet</p>
+                    <p className="text-sm mt-2 text-gray-500">Click &quot;Add Test&quot; to record your lab tests</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {medicalTests.map((test, index) => (
+                      <div key={index} className="border border-purple-200 rounded-xl p-5 bg-gradient-to-br from-purple-50/50 to-white shadow-sm">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="flex items-center gap-2">
+                            <span className="h-7 w-7 rounded-full bg-purple-600 text-white text-sm font-medium flex items-center justify-center">
+                              {index + 1}
+                            </span>
+                            <span className="text-sm font-semibold text-gray-800">
+                              Test Record
+                            </span>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setMedicalTests(medicalTests.filter((_, i) => i !== index));
+                            }}
+                            className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Test Name with Search */}
+                          <div className="md:col-span-2">
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Test Name <span className="text-red-500">*</span>
+                            </Label>
+                            <MedicalTestSearch
+                              value={test.test_name}
+                              onChange={(testName, testId) => {
+                                const updated = [...medicalTests];
+                                updated[index] = {
+                                  ...updated[index],
+                                  test_name: testName,
+                                  test_id: testId,
+                                };
+                                setMedicalTests(updated);
+                              }}
+                              placeholder="Search for a test..."
+                            />
+                          </div>
+
+                          {/* Test Date */}
+                          <div>
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Test Date
+                            </Label>
+                            <div className="relative">
+                              <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-500" />
+                              <Input
+                                type="date"
+                                value={test.test_date}
+                                onChange={(e) => {
+                                  const updated = [...medicalTests];
+                                  updated[index] = { ...updated[index], test_date: e.target.value };
+                                  setMedicalTests(updated);
+                                }}
+                                className="pl-10 border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Result */}
+                          <div>
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Result
+                            </Label>
+                            <Input
+                              type="text"
+                              value={test.result}
+                              onChange={(e) => {
+                                const updated = [...medicalTests];
+                                updated[index] = { ...updated[index], result: e.target.value };
+                                setMedicalTests(updated);
+                              }}
+                              placeholder="e.g., Normal, 120 mg/dL"
+                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                            />
+                          </div>
+
+                          {/* Status */}
+                          <div>
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Status
+                            </Label>
+                            <select
+                              value={test.status}
+                              onChange={(e) => {
+                                const updated = [...medicalTests];
+                                updated[index] = { ...updated[index], status: e.target.value };
+                                setMedicalTests(updated);
+                              }}
+                              className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-sm text-gray-900 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="completed">Completed</option>
+                              <option value="scheduled">Scheduled</option>
+                            </select>
+                          </div>
+
+                          {/* Prescribing Doctor */}
+                          <div>
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Prescribed By
+                            </Label>
+                            <Input
+                              type="text"
+                              value={test.prescribing_doctor}
+                              onChange={(e) => {
+                                const updated = [...medicalTests];
+                                updated[index] = { ...updated[index], prescribing_doctor: e.target.value };
+                                setMedicalTests(updated);
+                              }}
+                              placeholder="Doctor's name"
+                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                            />
+                          </div>
+
+                          {/* Hospital/Lab */}
+                          <div>
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Hospital/Lab
+                            </Label>
+                            <Input
+                              type="text"
+                              value={test.hospital_lab}
+                              onChange={(e) => {
+                                const updated = [...medicalTests];
+                                updated[index] = { ...updated[index], hospital_lab: e.target.value };
+                                setMedicalTests(updated);
+                              }}
+                              placeholder="Where test was conducted"
+                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                            />
+                          </div>
+
+                          {/* Notes */}
+                          <div className="md:col-span-2">
+                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                              Notes
+                            </Label>
+                            <Input
+                              type="text"
+                              value={test.notes}
+                              onChange={(e) => {
+                                const updated = [...medicalTests];
+                                updated[index] = { ...updated[index], notes: e.target.value };
+                                setMedicalTests(updated);
+                              }}
+                              placeholder="Any additional notes..."
+                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
