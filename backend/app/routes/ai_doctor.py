@@ -528,3 +528,154 @@ RULES:
         },
         patient_context_factors=patient_context_factors if patient_context_factors else None
     )
+
+
+# ============================================================================
+# VOICE-TO-TEXT ENDPOINT
+# ============================================================================
+
+from fastapi import UploadFile, File, Form
+from app.schemas.voice import VoiceTranscriptionResponse, VoiceTranscriptionError
+from app.services.asr import transcribe_audio, get_confidence_level
+
+# Maximum audio file size (10 MB)
+MAX_AUDIO_SIZE = 10 * 1024 * 1024
+
+
+@router.post(
+    "/normalize/voice",
+    response_model=VoiceTranscriptionResponse,
+    responses={
+        400: {"model": VoiceTranscriptionError},
+        413: {"model": VoiceTranscriptionError},
+        500: {"model": VoiceTranscriptionError}
+    }
+)
+async def normalize_voice(
+    audio_file: UploadFile = File(..., description="Audio file (webm, wav, mp3)"),
+    language: Optional[str] = Form(default="auto", description="Language hint: 'auto' (detect), 'bn' (Bangla), or 'en' (English)")
+):
+    """
+    Transcribe voice audio to text for AI doctor search.
+    
+    This endpoint converts speech to text using Whisper-Small ASR.
+    The transcribed text can then be used with the /ai/doctor-search endpoint.
+    
+    **Language Parameter:**
+    - `auto` (default): Auto-detect between English and Bangla - RECOMMENDED
+    - `bn`: Force Bangla transcription only
+    - `en`: Force English transcription only
+    
+    **Auto-detection Strategy:**
+    - Transcribes with both English and Bangla
+    - Compares confidence scores
+    - Returns the result with higher confidence
+    - Validates script correctness (Bengali vs Devanagari)
+    
+    Supported formats: audio/webm, audio/wav, audio/mp3, audio/mpeg
+    Max file size: 10 MB
+    Max duration: 60 seconds
+    
+    Returns:
+        VoiceTranscriptionResponse with transcribed text, confidence, and language
+    """
+    # Validate language parameter
+    valid_languages = ["bn", "en", "auto"]
+    if language not in valid_languages:
+        language = "auto"  # Default to auto-detection
+    
+    # Validate file type
+    allowed_types = [
+        "audio/webm", 
+        "audio/wav", 
+        "audio/wave",
+        "audio/x-wav",
+        "audio/mp3", 
+        "audio/mpeg",
+        "audio/ogg",
+        "audio/x-m4a",
+        "audio/mp4"
+    ]
+    
+    content_type = audio_file.content_type or ""
+    if content_type and content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": f"Unsupported audio format: {content_type}",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Read file content
+    try:
+        audio_content = await audio_file.read()
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Failed to read audio file",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Validate file size
+    if len(audio_content) > MAX_AUDIO_SIZE:
+        raise HTTPException(
+            status_code=413,
+            detail={
+                "error": "Audio file too large. Maximum size is 10 MB.",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Check for empty file
+    if len(audio_content) == 0:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Empty audio file",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Transcribe audio with language hint
+    try:
+        transcribed_text, confidence, detected_lang = await transcribe_audio(
+            audio_content, 
+            audio_file.filename or "audio.webm",
+            language_hint=language  # Pass language hint to ASR
+        )
+        
+        return VoiceTranscriptionResponse(
+            normalized_text=transcribed_text,
+            confidence=round(confidence, 2),
+            confidence_level=get_confidence_level(confidence),
+            language_detected=detected_lang,
+            source="voice"
+        )
+        
+    except ValueError as e:
+        # Empty/silence detection
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": str(e),
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    except Exception as e:
+        # Unexpected ASR failure
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": "Transcription failed. Please try again or use text input.",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
