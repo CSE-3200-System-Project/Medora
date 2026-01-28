@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, User, MapPin, Clock } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, localDateKey } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -72,12 +72,15 @@ export function PatientAppointmentCalendar({
 
   const getDateString = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    return date.toISOString().split('T')[0];
+    return localDateKey(date);
   };
 
   const getAppointmentsForDate = (day: number) => {
     const dateStr = getDateString(day);
-    return appointments.filter(a => a.date === dateStr);
+    return appointments.filter(a => {
+      const apptDate = localDateKey(a.date ?? a.appointment_date);
+      return apptDate === dateStr;
+    });
   };
 
   const isToday = (day: number) => {

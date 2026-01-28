@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AppBackground } from "@/components/ui/app-background";
 import {
   User,
   Mail,
@@ -27,10 +28,12 @@ import {
   Users,
   Scale,
   Ruler,
+  Hospital,
 } from "lucide-react";
 
 interface Medication {
-  name: string;
+  name?: string;
+  display_name?: string;
   dosage?: string;
   frequency?: string;
 }
@@ -159,7 +162,7 @@ export default function PatientProfilePage() {
 
   const getChronicConditions = () => {
     if (!patient) return [];
-    const conditions = [];
+    const conditions: string[] = [];
     // From boolean flags
     if (patient.has_diabetes) conditions.push("Diabetes");
     if (patient.has_hypertension) conditions.push("Hypertension");
@@ -182,30 +185,30 @@ export default function PatientProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground className="container-padding">
         <Navbar />
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
-            <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
+            <div className="skeleton h-12 w-12 rounded-full mx-auto mb-4"></div>
             <p className="text-foreground font-semibold">Loading profile...</p>
           </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   if (!patient) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground className="container-padding">
         <Navbar />
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
             <p className="text-foreground mb-4">Failed to load profile</p>
-            <Button onClick={() => router.push('/login')}>Go to Login</Button>
+            <Button onClick={() => router.push('/login')} className="touch-target">Go to Login</Button>
           </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
@@ -213,28 +216,28 @@ export default function PatientProfilePage() {
   const age = patient.date_of_birth ? calculateAge(patient.date_of_birth) : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+    <AppBackground className="container-padding animate-page-enter">
       <Navbar />
       
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto py-8 pt-24 md:pt-28">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">My Profile</h1>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">My Profile</h1>
             <p className="text-muted-foreground mt-1">Manage your personal and medical information</p>
           </div>
-          <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient')}>
+          <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient')} className="touch-target">
             <Edit className="h-4 w-4 mr-2" />
             Edit Profile
           </Button>
         </div>
 
         {/* Profile Header Card */}
-        <Card className="mb-6 overflow-hidden rounded-2xl border-none shadow-lg">
+        <Card className="mb-6 overflow-hidden border-none shadow-lg">
           <div className="bg-gradient-to-r from-primary via-primary-muted to-primary h-32 sm:h-40" />
           <CardContent className="relative px-4 sm:px-6 pb-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 -mt-16 sm:-mt-20">
-              <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-white shadow-lg">
+              <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-background shadow-lg">
                 <AvatarImage src={patient.profile_photo_url} alt={`${patient.first_name} ${patient.last_name}`} />
                 <AvatarFallback className="bg-primary text-white text-3xl font-bold">
                   {patient.first_name?.[0]}{patient.last_name?.[0]}
@@ -256,7 +259,7 @@ export default function PatientProfilePage() {
                     </Badge>
                   )}
                   {patient.blood_group && (
-                    <Badge className="bg-red-100 text-red-700 font-medium">
+                    <Badge className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-medium">
                       <Droplets className="h-3 w-3 mr-1" />
                       {patient.blood_group}
                     </Badge>
@@ -269,7 +272,7 @@ export default function PatientProfilePage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Contact Information */}
-          <Card className="rounded-2xl border-border/50 shadow-md">
+          <Card hoverable className="border-border/50 shadow-md">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <User className="h-5 w-5 text-primary" />
@@ -287,7 +290,7 @@ export default function PatientProfilePage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
+                <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
                 <div>
@@ -296,7 +299,7 @@ export default function PatientProfilePage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
+                <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-lg">
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
                 <div>
@@ -310,7 +313,7 @@ export default function PatientProfilePage() {
           </Card>
 
           {/* Physical Information */}
-          <Card className="rounded-2xl border-border/50 shadow-md">
+          <Card hoverable className="border-border/50 shadow-md">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Activity className="h-5 w-5 text-primary" />
@@ -319,28 +322,28 @@ export default function PatientProfilePage() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-surface rounded-xl text-center">
+                <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Ruler className="h-5 w-5 text-primary mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Height</p>
                   <p className="text-xl font-bold text-foreground">
                     {patient.height ? `${patient.height} cm` : '--'}
                   </p>
                 </div>
-                <div className="p-4 bg-surface rounded-xl text-center">
+                <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Scale className="h-5 w-5 text-primary mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Weight</p>
                   <p className="text-xl font-bold text-foreground">
                     {patient.weight ? `${patient.weight} kg` : '--'}
                   </p>
                 </div>
-                <div className="p-4 bg-surface rounded-xl text-center">
+                <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Calendar className="h-5 w-5 text-primary mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Date of Birth</p>
                   <p className="text-sm font-bold text-foreground">
                     {patient.date_of_birth ? new Date(patient.date_of_birth).toLocaleDateString() : '--'}
                   </p>
                 </div>
-                <div className="p-4 bg-surface rounded-xl text-center">
+                <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Users className="h-5 w-5 text-primary mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Marital Status</p>
                   <p className="text-sm font-bold text-foreground capitalize">
@@ -352,7 +355,7 @@ export default function PatientProfilePage() {
           </Card>
 
           {/* Medical Conditions */}
-          <Card className="rounded-2xl border-border/50 shadow-md">
+          <Card hoverable className="border-border/50 shadow-md">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Heart className="h-5 w-5 text-primary" />
@@ -363,7 +366,7 @@ export default function PatientProfilePage() {
               {chronicConditions.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {chronicConditions.map((condition, index) => (
-                    <Badge key={index} variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+                    <Badge key={index} variant="outline" className="bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-800">
                       {condition}
                     </Badge>
                   ))}
@@ -392,7 +395,7 @@ export default function PatientProfilePage() {
           </Card>
 
           {/* Allergies */}
-          <Card className="rounded-2xl border-border/50 shadow-md">
+          <Card hoverable className="border-border/50 shadow-md">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <AlertCircle className="h-5 w-5 text-destructive" />
@@ -408,7 +411,7 @@ export default function PatientProfilePage() {
                   {patient.drug_allergies && patient.drug_allergies.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {patient.drug_allergies.map((allergy: DrugAllergy, index: number) => (
-                        <Badge key={index} variant="destructive" className="bg-red-50 text-red-700 border-red-200">
+                        <Badge key={index} variant="destructive" className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800">
                           {typeof allergy === 'string' ? allergy : allergy.name}
                         </Badge>
                       ))}
@@ -422,7 +425,7 @@ export default function PatientProfilePage() {
           </Card>
 
           {/* Emergency Contact */}
-          <Card className="rounded-2xl border-border/50 shadow-md lg:col-span-2">
+          <Card hoverable className="border-border/50 shadow-md lg:col-span-2">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Shield className="h-5 w-5 text-primary" />
@@ -432,15 +435,15 @@ export default function PatientProfilePage() {
             <CardContent>
               {patient.emergency_contact_name ? (
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1 p-4 bg-surface rounded-xl">
+                  <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
                     <p className="text-sm text-muted-foreground">Name</p>
                     <p className="font-medium">{patient.emergency_contact_name}</p>
                   </div>
-                  <div className="flex-1 p-4 bg-surface rounded-xl">
+                  <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
                     <p className="text-sm text-muted-foreground">Relation</p>
                     <p className="font-medium capitalize">{patient.emergency_contact_relation || 'Not specified'}</p>
                   </div>
-                  <div className="flex-1 p-4 bg-surface rounded-xl">
+                  <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
                     <p className="text-sm text-muted-foreground">Phone</p>
                     <p className="font-medium">{patient.emergency_contact_phone || 'Not provided'}</p>
                   </div>
@@ -452,14 +455,14 @@ export default function PatientProfilePage() {
           </Card>
 
           {/* Medical History Summary */}
-          <Card className="rounded-2xl border-border/50 shadow-md lg:col-span-2">
+          <Card hoverable className="border-border/50 shadow-md lg:col-span-2">
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <FileText className="h-5 w-5 text-primary" />
                   Medical History
                 </CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')}>
+                <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')} className="touch-target">
                   View All
                 </Button>
               </div>
@@ -467,7 +470,7 @@ export default function PatientProfilePage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Surgeries */}
-                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Surgeries</p>
@@ -486,7 +489,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
                 {/* Hospitalizations */}
-                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Hospitalizations</p>
@@ -505,7 +508,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
                 {/* Recent Visits */}
-                <div className="p-4 bg-surface/50 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Recent Visits</p>
@@ -534,7 +537,7 @@ export default function PatientProfilePage() {
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Button 
             variant="outline" 
-            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
+            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
             onClick={() => router.push('/patient/find-doctor')}
           >
             <Users className="h-6 w-6 text-primary" />
@@ -542,21 +545,21 @@ export default function PatientProfilePage() {
           </Button>
           <Button 
             variant="outline" 
-            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
+            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
           >
             <Calendar className="h-6 w-6 text-primary" />
             <span>My Appointments</span>
           </Button>
           <Button 
             variant="outline" 
-            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
+            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
           >
             <FileText className="h-6 w-6 text-primary" />
             <span>Medical Records</span>
           </Button>
           <Button 
             variant="outline" 
-            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light hover:border-primary"
+            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
             onClick={() => router.push("/patient/medical-history")}
           >
             <Pill className="h-6 w-6 text-primary" />
@@ -564,6 +567,6 @@ export default function PatientProfilePage() {
           </Button>
         </div>
       </main>
-    </div>
+    </AppBackground>
   );
 }
