@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Sparkles, MapPin, Loader2, Mic } from "lucide-react";
+import { Search, Sparkles, MapPin, Loader2, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SearchableSelect } from "@/components/ui/searchable-select";
+import { MobileFilterSheet, FilterSection } from "@/components/ui/mobile-filter-sheet";
 import { BANGLADESH_DISTRICTS } from "@/lib/bangladesh-data";
 import { useVoiceRecorder } from "@/lib/use-voice-recorder";
 import { transcribeVoice } from "@/lib/voice-actions";
@@ -188,18 +189,90 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
     }
   };
 
+  // Count active filters for badge
+  const activeFilterCount = [
+    gender && gender !== "all",
+    specialityId && specialityId !== "all",
+    city && city !== "all",
+    consultationType && consultationType !== "all",
+  ].filter(Boolean).length;
+
+  // Reset all filters
+  const handleResetFilters = () => {
+    setGender("");
+    setSpecialityId("");
+    setCity("");
+    setConsultationType("");
+  };
+
+  // Filter controls component (reused for both desktop and mobile)
+  const FilterControls = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div className={isMobile ? "space-y-5" : "grid grid-cols-2 lg:grid-cols-4 gap-3"}>
+      <FilterSection title="Gender" className={isMobile ? "" : "space-y-1.5"}>
+        <Select value={gender} onValueChange={setGender}>
+          <SelectTrigger className="bg-background border-border w-full">
+            <SelectValue placeholder="All Genders" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Genders</SelectItem>
+            <SelectItem value="male">Male</SelectItem>
+            <SelectItem value="female">Female</SelectItem>
+          </SelectContent>
+        </Select>
+      </FilterSection>
+
+      <FilterSection title="Speciality" className={isMobile ? "" : "space-y-1.5"}>
+        <SearchableSelect
+          options={specialities.map(s => s.name)}
+          value={specialityId ? specialities.find(s => s.id.toString() === specialityId)?.name : ""}
+          onValueChange={(value) => {
+            const speciality = specialities.find(s => s.name === value);
+            setSpecialityId(speciality ? speciality.id.toString() : "");
+          }}
+          placeholder="All Specialities"
+          emptyMessage="No specialities found."
+          className="bg-background border-border"
+        />
+      </FilterSection>
+
+      <FilterSection title="Location" className={isMobile ? "" : "space-y-1.5"}>
+        <SearchableSelect
+          options={BANGLADESH_DISTRICTS}
+          value={city}
+          onValueChange={setCity}
+          placeholder="Select District"
+          emptyMessage="No districts found."
+          className="bg-background border-border"
+        />
+      </FilterSection>
+
+      <FilterSection title="Consultation Type" className={isMobile ? "" : "space-y-1.5"}>
+        <Select value={consultationType} onValueChange={setConsultationType}>
+          <SelectTrigger className="bg-background border-border w-full">
+            <SelectValue placeholder="All Types" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="online">Online</SelectItem>
+            <SelectItem value="offline">In-Person</SelectItem>
+          </SelectContent>
+        </Select>
+      </FilterSection>
+    </div>
+  );
+
   return (
     <div className="space-y-4">
-      {/* AI Toggle */}
-      <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg">
-         <span className="text-sm font-medium text-muted-foreground ml-2">
+      {/* AI Toggle - Mobile-first responsive */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-muted/30 p-3 sm:p-2 rounded-lg">
+         <span className="text-sm font-medium text-muted-foreground">
             {isAiMode ? "AI Assistant Mode Active" : "Standard Search Mode"}
          </span>
          <Button 
             variant={isAiMode ? "default" : "outline"} 
             size="sm"
             onClick={() => setIsAiMode(!isAiMode)}
-            className={isAiMode ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" : ""}
+            className={`w-full sm:w-auto touch-target ${isAiMode ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" : ""}`}
          >
             <Sparkles className="w-4 h-4 mr-2" />
             {isAiMode ? "Switch to Standard" : "Try AI Search"}
@@ -207,7 +280,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
       </div>
 
       {isAiMode ? (
-        <div className="space-y-4 p-6 border-2 border-primary/20 rounded-xl bg-primary/5 transition-all duration-300">
+        <div className="space-y-4 p-4 sm:p-6 border-2 border-primary/20 rounded-xl bg-primary/5 transition-all duration-300">
            {/* Voice Transcription Review (shown after recording) */}
            {showVoiceReview && voiceTranscription ? (
               <VoiceTranscriptionReview
@@ -230,7 +303,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               <div className="relative">
                 <Textarea 
                   placeholder="Ex: My father has severe chest pain since morning and history of diabetes. (Bangla/English) - Or click mic to speak"
-                  className="min-h-[120px] text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none pr-14"
+                  className="min-h-[100px] sm:min-h-[120px] text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none pr-14"
                   value={aiPrompt}
                   onChange={(e) => setAiPrompt(e.target.value)}
                   disabled={voiceRecorder.state === "recording" || voiceRecorder.state === "processing"}
@@ -261,7 +334,8 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
            </div>
            )}
            
-           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+           {/* AI Mode Filters - Mobile-first grid */}
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div className="space-y-1.5">
                   <label className="text-sm font-medium">Location (Optional)</label>
                   <SearchableSelect
@@ -291,7 +365,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                   <label className="text-sm font-medium">Your Location</label>
                   <Button 
                     variant={userLocation ? "secondary" : "outline"}
-                    className="w-full"
+                    className="w-full touch-target"
                     onClick={requestLocation}
                     disabled={locationLoading}
                   >
@@ -307,7 +381,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                   )}
                </div>
                <div className="flex items-end">
-                  <Button size="lg" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600" onClick={handleSearch}>
+                  <Button size="lg" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 touch-target" onClick={handleSearch}>
                     Find Doctors with AI
                   </Button>
                </div>
@@ -315,80 +389,45 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         </div>
       ) : (
         <>
-            {/* Main Search Bar */}
-            <div className="flex flex-col md:flex-row gap-2">
-                <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input 
-                    placeholder="Search doctors, symptoms, specialities..." 
-                    className="pl-10 h-12 text-lg shadow-sm bg-background border-border"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                />
-                </div>
-                <Button size="lg" className="h-12 px-8" onClick={handleSearch}>
+          {/* Main Search Bar - Mobile-first */}
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input 
+                placeholder="Search doctors, symptoms..." 
+                className="pl-10 h-12 text-base shadow-sm bg-background border-border"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+            </div>
+            
+            {/* Mobile: Filter button + Search button side by side */}
+            <div className="flex gap-2 sm:hidden">
+              <MobileFilterSheet
+                activeFilterCount={activeFilterCount}
+                onApply={handleSearch}
+                onReset={handleResetFilters}
+              >
+                <FilterControls isMobile />
+              </MobileFilterSheet>
+              
+              <Button size="lg" className="flex-1 h-12" onClick={handleSearch}>
+                <Search className="w-4 h-4 mr-2" />
                 Search
-                </Button>
+              </Button>
             </div>
+            
+            {/* Desktop: Just the search button */}
+            <Button size="lg" className="hidden sm:flex h-12 px-8" onClick={handleSearch}>
+              Search
+            </Button>
+          </div>
 
-            {/* Filters Row */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Gender</label>
-                <Select value={gender} onValueChange={setGender}>
-                    <SelectTrigger className="bg-background border-border">
-                    <SelectValue placeholder="All Genders" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="all">All Genders</SelectItem>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    </SelectContent>
-                </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Specialities</label>
-                <SearchableSelect
-                  options={specialities.map(s => s.name)}
-                  value={specialityId ? specialities.find(s => s.id.toString() === specialityId)?.name : ""}
-                  onValueChange={(value) => {
-                    const speciality = specialities.find(s => s.name === value);
-                    setSpecialityId(speciality ? speciality.id.toString() : "");
-                  }}
-                  placeholder="All Specialities"
-                  emptyMessage="No specialities found."
-                  className="bg-background border-border"
-                />
-                </div>
-
-                <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Location</label>
-                <SearchableSelect
-                  options={BANGLADESH_DISTRICTS}
-                  value={city}
-                  onValueChange={setCity}
-                  placeholder="Select District"
-                  emptyMessage="No districts found."
-                  className="bg-background border-border"
-                />
-                </div>
-
-                <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Type</label>
-                <Select value={consultationType} onValueChange={setConsultationType}>
-                    <SelectTrigger className="bg-background border-border">
-                    <SelectValue placeholder="All Types" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="online">Online</SelectItem>
-                    <SelectItem value="offline">In-Person</SelectItem>
-                    </SelectContent>
-                </Select>
-                </div>
-            </div>
+          {/* Desktop Filters - Hidden on mobile */}
+          <div className="hidden sm:block">
+            <FilterControls isMobile={false} />
+          </div>
         </>
       )}
     </div>

@@ -6,6 +6,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
+import { AppBackground } from "@/components/ui/app-background";
 import {
   Calendar,
   Users,
@@ -159,49 +160,51 @@ export default function DoctorHomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
-          <div className="text-center">Loading...</div>
+        <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+          <div className="text-center">
+            <div className="skeleton w-8 h-8 rounded-full mx-auto"></div>
+          </div>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   if (!doctor) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+        <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
           <div className="text-center text-destructive">
             <p className="text-lg mb-4">Unable to load profile data</p>
-            <Button onClick={() => router.push("/login")} variant="medical">Back to Login</Button>
+            <Button onClick={() => router.push("/login")} variant="medical" className="touch-target">Back to Login</Button>
           </div>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+    <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+      <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="doctor" />}
 
         {doctorProfileNeedsScheduleReview && (
           <div className="mb-6">
-            <Card className="rounded-2xl border-destructive/20 bg-destructive/5 p-4">
+            <Card className="border-destructive/20 bg-destructive/5 dark:bg-destructive/10 p-4">
               <CardContent>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <p className="font-semibold text-destructive">Action Required: Schedule Format Review</p>
                     <p className="text-sm text-muted-foreground">We detected an ambiguous schedule format on your profile. Please review and update your weekly schedule to ensure appointment slots work correctly.</p>
                   </div>
                   <div>
                     <Link href="/doctor/schedule">
-                      <Button variant="medical">Fix Schedule</Button>
+                      <Button variant="medical" className="touch-target">Fix Schedule</Button>
                     </Link>
                   </div>
                 </div>
@@ -212,7 +215,7 @@ export default function DoctorHomePage() {
         
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
             Welcome back, Dr. {doctor.last_name}! 
           </h1>
           <p className="text-muted-foreground text-lg">
@@ -222,65 +225,65 @@ export default function DoctorHomePage() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <Card className="rounded-2xl border-border/50 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Today's Appointments
                   </p>
-                  <p className="text-3xl font-bold text-foreground">{stats.todays_appointments}</p>
+                  <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.todays_appointments}</p>
                 </div>
-                <div className="bg-primary/10 rounded-full p-3">
-                  <Calendar className="h-6 w-6 text-primary" />
+                <div className="bg-primary/10 dark:bg-primary/20 rounded-full p-3">
+                  <Calendar className="h-5 w-5 md:h-6 md:w-6 text-primary" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-border/50 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Total Patients
                   </p>
-                  <p className="text-3xl font-bold text-foreground">{stats.total_patients}</p>
+                  <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.total_patients}</p>
                 </div>
-                <div className="bg-primary/10 rounded-full p-3">
-                  <Users className="h-6 w-6 text-primary" />
+                <div className="bg-primary/10 dark:bg-primary/20 rounded-full p-3">
+                  <Users className="h-5 w-5 md:h-6 md:w-6 text-primary" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-border/50 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Pending Reviews
                   </p>
-                  <p className="text-3xl font-bold text-foreground">{stats.pending_reviews}</p>
+                  <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.pending_reviews}</p>
                 </div>
-                <div className="bg-primary/10 rounded-full p-3">
-                  <FileText className="h-6 w-6 text-primary" />
+                <div className="bg-primary/10 dark:bg-primary/20 rounded-full p-3">
+                  <FileText className="h-5 w-5 md:h-6 md:w-6 text-primary" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-border/50 shadow-md hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Completion Rate
                   </p>
-                  <p className="text-3xl font-bold text-foreground">{stats.completion_rate}%</p>
+                  <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.completion_rate}%</p>
                 </div>
-                <div className="bg-success/10 rounded-full p-3">
-                  <TrendingUp className="h-6 w-6 text-success" />
+                <div className="bg-success/10 dark:bg-success/20 rounded-full p-3">
+                  <TrendingUp className="h-5 w-5 md:h-6 md:w-6 text-success" />
                 </div>
               </div>
             </CardContent>
@@ -290,9 +293,9 @@ export default function DoctorHomePage() {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Upcoming Appointments */}
-          <Card className="lg:col-span-2 rounded-2xl border-border/50 shadow-md">
+          <Card className="lg:col-span-2 border-border/50 shadow-md">
             <CardHeader className="border-b border-border">
-              <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
+              <CardTitle className="text-lg md:text-xl font-bold text-foreground flex items-center gap-2">
                 <Clock className="h-5 w-5 text-primary" />
                 Upcoming Appointments
               </CardTitle>
@@ -312,9 +315,9 @@ export default function DoctorHomePage() {
                     return (
                       <div
                         key={a.id}
-                        className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-surface rounded-xl border border-border hover:shadow-md transition-shadow"
+                        className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-surface dark:bg-muted/30 rounded-xl border border-border hover:shadow-md transition-shadow"
                       >
-                        <div className="bg-primary/10 rounded-lg px-4 py-2 text-center min-w-[60px]">
+                        <div className="bg-primary/10 dark:bg-primary/20 rounded-lg px-4 py-2 text-center min-w-[60px]">
                           <p className="text-2xl font-bold text-primary">{day}</p>
                           <p className="text-xs text-muted-foreground font-medium">{month}</p>
                         </div>
@@ -324,7 +327,7 @@ export default function DoctorHomePage() {
                             {a.patient_name || a.patient_id} • {time}
                           </p>
                         </div>
-                        <Button variant="outline" size="sm" className="w-full sm:w-auto">
+                        <Button variant="outline" size="sm" className="w-full sm:w-auto touch-target">
                           View
                         </Button>
                       </div>
@@ -333,7 +336,7 @@ export default function DoctorHomePage() {
                 )}
               </div>
               <Link href="/doctor/appointments">
-                <Button variant="link" className="text-primary mt-4 font-semibold">
+                <Button variant="link" className="text-primary mt-4 font-semibold touch-target">
                   View all appointments →
                 </Button>
               </Link>
@@ -341,9 +344,9 @@ export default function DoctorHomePage() {
           </Card>
 
           {/* Quick Actions */}
-          <Card className="rounded-2xl border-border/50 shadow-md">
+          <Card className="border-border/50 shadow-md">
             <CardHeader className="border-b border-border">
-              <CardTitle className="text-xl font-bold text-foreground">
+              <CardTitle className="text-lg md:text-xl font-bold text-foreground">
                 Quick Actions
               </CardTitle>
             </CardHeader>
@@ -352,7 +355,7 @@ export default function DoctorHomePage() {
                 <Link href="/doctor/appointments">
                   <Button
                     variant="medical"
-                    className="w-full justify-start"
+                    className="w-full justify-start touch-target"
                     size="lg"
                   >
                     <Calendar className="h-5 w-5 mr-3" />
@@ -362,7 +365,7 @@ export default function DoctorHomePage() {
                 <Link href="/doctor/schedule">
                   <Button
                     variant="outline"
-                    className="w-full justify-start"
+                    className="w-full justify-start touch-target"
                     size="lg"
                   >
                     <Clock className="h-5 w-5 mr-3" />
@@ -372,7 +375,7 @@ export default function DoctorHomePage() {
                 <Link href="/doctor/patients">
                   <Button
                     variant="outline"
-                    className="w-full justify-start"
+                    className="w-full justify-start touch-target"
                     size="lg"
                   >
                     <Users className="h-5 w-5 mr-3" />
@@ -382,7 +385,7 @@ export default function DoctorHomePage() {
                 <Link href="/doctor/profile">
                   <Button
                     variant="outline"
-                    className="w-full justify-start"
+                    className="w-full justify-start touch-target"
                     size="lg"
                   >
                     <FileText className="h-5 w-5 mr-3" />
@@ -396,8 +399,8 @@ export default function DoctorHomePage() {
 
         {/* Profile Completion Status */}
         {doctor.bmdc_verified ? (
-          <Card className="mt-6 rounded-2xl border-success/20 bg-success/5 shadow-md">
-            <CardContent className="p-6">
+          <Card className="mt-6 border-success/20 bg-success/5 dark:bg-success/10 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="bg-success rounded-full p-3">
                   <CheckCircle2 className="h-6 w-6 text-white" />
@@ -414,8 +417,8 @@ export default function DoctorHomePage() {
             </CardContent>
           </Card>
         ) : (
-          <Card className="mt-6 rounded-2xl border-destructive/20 bg-destructive/5 shadow-md">
-            <CardContent className="p-6">
+          <Card className="mt-6 border-destructive/20 bg-destructive/5 dark:bg-destructive/10 shadow-md">
+            <CardContent className="p-4 md:p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="bg-destructive rounded-full p-3">
                   <AlertCircle className="h-6 w-6 text-white" />
@@ -429,7 +432,7 @@ export default function DoctorHomePage() {
                   </p>
                 </div>
                 <Link href="/doctor/profile">
-                  <Button variant="outline" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full sm:w-auto touch-target">
                     View Status
                   </Button>
                 </Link>
@@ -438,6 +441,6 @@ export default function DoctorHomePage() {
           </Card>
         )}
       </main>
-    </div>
+    </AppBackground>
   );
 }

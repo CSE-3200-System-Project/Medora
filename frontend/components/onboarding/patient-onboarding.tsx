@@ -230,7 +230,7 @@ export function PatientOnboarding() {
             
             takingMeds: data.taking_meds ? "yes" : "no",
             medications: (data.medications || []).map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-              if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+              if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
               return {
                 id: crypto.randomUUID(),
                 drug_id: "",
