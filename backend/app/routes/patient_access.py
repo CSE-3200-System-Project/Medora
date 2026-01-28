@@ -304,6 +304,7 @@ async def get_patient_for_doctor(
         "surgeries": patient_details.surgeries,
         "hospitalizations": patient_details.hospitalizations,
         "ongoing_treatments": patient_details.ongoing_treatments,
+        "medical_tests": getattr(patient_details, 'medical_tests', None) or [],
         "vaccinations": patient_details.vaccinations,
         "last_checkup_date": patient_details.last_checkup_date if patient_details.last_checkup_date else None,
         

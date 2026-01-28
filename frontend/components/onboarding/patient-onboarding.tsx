@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { MedicationManager, type Medication } from "@/components/medicine"
+import { MedicalTestSearch } from "@/components/medical-test"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
 import { useRouter } from "next/navigation"
 
@@ -52,6 +53,21 @@ interface Vaccination {
   name: string
   date: string
   next_due: string
+}
+
+interface MedicalTest {
+  test_name: string
+  test_id?: number
+  test_date: string
+  result: string
+  result_value: string
+  result_unit: string
+  normal_range: string
+  status: string
+  prescribing_doctor: string
+  hospital_lab: string
+  notes: string
+  document_url: string
 }
 
 export function PatientOnboarding() {
@@ -115,6 +131,8 @@ export function PatientOnboarding() {
     previousDoctors: "",
     lastCheckupDate: "",
     vaccinations: [] as Vaccination[],
+    hasMedicalTests: "no",
+    medicalTests: [] as MedicalTest[],
     
     // Step 6 - Family History
     familyHasDiabetes: false,
@@ -239,6 +257,8 @@ export function PatientOnboarding() {
             previousDoctors: data.previous_doctors || "",
             lastCheckupDate: data.last_checkup_date || "",
             vaccinations: data.vaccinations || [],
+            hasMedicalTests: data.has_medical_tests === "yes" ? "yes" : "no",
+            medicalTests: data.medical_tests || [],
             
             familyHasDiabetes: data.family_has_diabetes || false,
             familyHasHeartDisease: data.family_has_heart_disease || false,
@@ -386,6 +406,8 @@ export function PatientOnboarding() {
       previous_doctors: formData.previousDoctors,
       last_checkup_date: formData.lastCheckupDate,
       vaccinations: formData.vaccinations,
+      has_medical_tests: formData.hasMedicalTests,
+      medical_tests: formData.medicalTests,
       
       family_has_diabetes: formData.familyHasDiabetes,
       family_has_heart_disease: formData.familyHasHeartDisease,
@@ -588,6 +610,39 @@ export function PatientOnboarding() {
     setFormData(prev => ({
       ...prev,
       vaccinations: prev.vaccinations.filter((_, i) => i !== index)
+    }))
+  }
+
+  const addMedicalTest = () => {
+    setFormData(prev => ({
+      ...prev,
+      medicalTests: [...prev.medicalTests, {
+        test_name: "",
+        test_date: "",
+        result: "",
+        result_value: "",
+        result_unit: "",
+        normal_range: "",
+        status: "",
+        prescribing_doctor: "",
+        hospital_lab: "",
+        notes: "",
+        document_url: ""
+      }]
+    }))
+  }
+
+  const updateMedicalTest = (index: number, field: string, value: any) => {
+    const newTests = [...formData.medicalTests]
+    // @ts-ignore
+    newTests[index][field] = value
+    setFormData(prev => ({ ...prev, medicalTests: newTests }))
+  }
+
+  const removeMedicalTest = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      medicalTests: prev.medicalTests.filter((_, i) => i !== index)
     }))
   }
 
@@ -976,6 +1031,84 @@ export function PatientOnboarding() {
                 <Plus className="mr-2 h-4 w-4" /> Add Vaccination
               </Button>
             </div>
+
+            <Separator />
+
+            <h4 className="font-medium">Medical Tests / Lab Reports</h4>
+            <div className="space-y-3 mb-4">
+              <Label>Do you have any past medical test records?</Label>
+              <RadioGroup
+                name="hasMedicalTests"
+                value={formData.hasMedicalTests}
+                onChange={(val) => handleInputChange("hasMedicalTests", val)}
+                options={[
+                  { label: "No", value: "no" },
+                  { label: "Yes", value: "yes" },
+                ]}
+              />
+            </div>
+
+            {formData.hasMedicalTests === "yes" && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-top-4">
+                {formData.medicalTests.map((test, index) => (
+                  <div key={index} className="relative rounded-lg border p-4 space-y-4">
+                    <Button variant="ghost" size="icon" className="absolute right-2 top-2 h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => removeMedicalTest(index)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Test Name *</Label>
+                        <MedicalTestSearch
+                          value={test.test_name}
+                          onChange={(testName, testId) => {
+                            updateMedicalTest(index, "test_name", testName);
+                            if (testId) updateMedicalTest(index, "test_id", testId);
+                          }}
+                          placeholder="Search or type test name..."
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>When was it done?</Label>
+                        <Input type="date" value={test.test_date} onChange={(e) => updateMedicalTest(index, "test_date", e.target.value)} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>Which doctor prescribed it?</Label>
+                        <Input value={test.prescribing_doctor} onChange={(e) => updateMedicalTest(index, "prescribing_doctor", e.target.value)} placeholder="Doctor's name (if you remember)" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Where was it done?</Label>
+                        <Input value={test.hospital_lab} onChange={(e) => updateMedicalTest(index, "hospital_lab", e.target.value)} placeholder="Hospital or Lab name" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>What was the result?</Label>
+                      <Select value={test.status} onChange={(e) => updateMedicalTest(index, "status", e.target.value)}>
+                        <option value="">I don't remember</option>
+                        <option value="normal">Normal / Everything was fine</option>
+                        <option value="abnormal">Abnormal / Doctor mentioned some issue</option>
+                        <option value="critical">Critical / Needed immediate attention</option>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Any details you remember?</Label>
+                      <Textarea value={test.notes} onChange={(e) => updateMedicalTest(index, "notes", e.target.value)} placeholder="e.g. Doctor said cholesterol was high, sugar level was 110..." rows={2} />
+                    </div>
+                  </div>
+                ))}
+                <Button variant="outline" onClick={addMedicalTest} className="w-full">
+                  <Plus className="mr-2 h-4 w-4" /> Add Medical Test
+                </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Tip: You can upload your test reports later from your profile or share them directly with your doctor.
+                </p>
+              </div>
+            )}
           </div>
         )
       case 6:
