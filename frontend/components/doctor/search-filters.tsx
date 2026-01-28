@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Sparkles, MapPin, Loader2 } from "lucide-react";
+import { Search, Sparkles, MapPin, Loader2, Mic } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/select";
 import { SearchableSelect } from "@/components/ui/searchable-select";
 import { BANGLADESH_DISTRICTS } from "@/lib/bangladesh-data";
+import { useVoiceRecorder } from "@/lib/use-voice-recorder";
+import { transcribeVoice } from "@/lib/voice-actions";
+import { VoiceInputButton } from "@/components/doctor/voice-input-button";
+import { VoiceTranscriptionReview } from "@/components/doctor/voice-transcription-review";
 
 interface UserLocation {
   latitude: number;
@@ -26,6 +30,14 @@ type Speciality = {
   id: number;
   name: string;
 };
+
+// Voice transcription result state
+interface VoiceTranscription {
+  text: string;
+  confidence: number;
+  confidenceLevel: "high" | "medium" | "low";
+  languageDetected: string;
+}
 
 export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [isAiMode, setIsAiMode] = React.useState(false);
@@ -43,6 +55,73 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [userLocation, setUserLocation] = React.useState<UserLocation | null>(null);
   const [locationLoading, setLocationLoading] = React.useState(false);
   const [locationError, setLocationError] = React.useState<string | null>(null);
+
+  // Voice input state
+  const [voiceTranscription, setVoiceTranscription] = React.useState<VoiceTranscription | null>(null);
+  const [showVoiceReview, setShowVoiceReview] = React.useState(false);
+  const [voiceError, setVoiceError] = React.useState<string | null>(null);
+
+  // Voice recorder hook
+  const voiceRecorder = useVoiceRecorder({
+    maxDuration: 60,
+    onRecordingComplete: handleRecordingComplete
+  });
+
+  // Handle recording completion - send to backend for transcription
+  async function handleRecordingComplete(audioBlob: Blob) {
+    try {
+      setVoiceError(null);
+      
+      // Create FormData with audio file
+      const formData = new FormData();
+      formData.append("audio_file", audioBlob, "recording.webm");
+      
+      // Send to backend
+      const result = await transcribeVoice(formData);
+      
+      if (result.success) {
+        setVoiceTranscription({
+          text: result.normalized_text,
+          confidence: result.confidence,
+          confidenceLevel: result.confidence_level,
+          languageDetected: result.language_detected
+        });
+        setShowVoiceReview(true);
+        voiceRecorder.resetRecorder();
+      } else {
+        setVoiceError(result.error);
+        voiceRecorder.resetRecorder();
+      }
+    } catch (error) {
+      setVoiceError("Transcription failed. Please try again.");
+      voiceRecorder.resetRecorder();
+    }
+  }
+
+  // Handle voice transcription confirmation
+  const handleVoiceConfirm = () => {
+    if (voiceTranscription) {
+      setAiPrompt(voiceTranscription.text);
+      setShowVoiceReview(false);
+      setVoiceTranscription(null);
+    }
+  };
+
+  // Handle voice retry
+  const handleVoiceRetry = () => {
+    setShowVoiceReview(false);
+    setVoiceTranscription(null);
+    setVoiceError(null);
+    voiceRecorder.resetRecorder();
+  };
+
+  // Handle voice cancel
+  const handleVoiceCancel = () => {
+    setShowVoiceReview(false);
+    setVoiceTranscription(null);
+    setVoiceError(null);
+    voiceRecorder.resetRecorder();
+  };
 
   React.useEffect(() => {
     fetchSpecialities();
@@ -129,20 +208,58 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
       {isAiMode ? (
         <div className="space-y-4 p-6 border-2 border-primary/20 rounded-xl bg-primary/5 transition-all duration-300">
+           {/* Voice Transcription Review (shown after recording) */}
+           {showVoiceReview && voiceTranscription ? (
+              <VoiceTranscriptionReview
+                text={voiceTranscription.text}
+                confidence={voiceTranscription.confidence}
+                confidenceLevel={voiceTranscription.confidenceLevel}
+                languageDetected={voiceTranscription.languageDetected}
+                onTextChange={(text) => setVoiceTranscription({ ...voiceTranscription, text })}
+                onConfirm={handleVoiceConfirm}
+                onRetry={handleVoiceRetry}
+                onCancel={handleVoiceCancel}
+              />
+           ) : (
            <div className="space-y-2">
               <label className="text-base font-semibold text-foreground flex items-center gap-2">
                  <Sparkles className="w-4 h-4 text-primary" /> Describe your health concern
               </label>
-              <Textarea 
-                placeholder="Ex: My father has severe chest pain since morning and history of diabetes. (Bangla/English)"
-                className="min-h-[120px] text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none"
-                value={aiPrompt}
-                onChange={(e) => setAiPrompt(e.target.value)}
-              />
+              
+              {/* Textarea with Voice Input Button */}
+              <div className="relative">
+                <Textarea 
+                  placeholder="Ex: My father has severe chest pain since morning and history of diabetes. (Bangla/English) - Or click mic to speak"
+                  className="min-h-[120px] text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none pr-14"
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  disabled={voiceRecorder.state === "recording" || voiceRecorder.state === "processing"}
+                />
+                
+                {/* Voice Input Button (positioned inside textarea) */}
+                <div className="absolute right-2 top-2">
+                  <VoiceInputButton
+                    state={voiceRecorder.state}
+                    duration={voiceRecorder.duration}
+                    isSupported={voiceRecorder.isSupported}
+                    error={voiceRecorder.error || voiceError}
+                    onStartRecording={voiceRecorder.startRecording}
+                    onStopRecording={voiceRecorder.stopRecording}
+                  />
+                </div>
+              </div>
+              
+              {/* Voice error message */}
+              {(voiceRecorder.error || voiceError) && (
+                <p className="text-xs text-destructive">
+                  {voiceRecorder.error || voiceError}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground">
-                 Medora AI will analyze your symptoms and suggest relevant specialists.
+                 Medora AI will analyze your symptoms and suggest relevant specialists. You can type or use the microphone.
               </p>
            </div>
+           )}
            
            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
               <div className="space-y-1.5">

@@ -1,3 +1,100 @@
+# Voice-to-Text Feature Implementation (January 28, 2026)
+
+## ✅ COMPLETED: Voice-to-Text for AI Doctor Search
+
+### Overview
+Implemented voice input for AI doctor search using faster-whisper (Whisper-Small model). Patients can now describe their symptoms via voice instead of typing, with full support for Bangla, English, and Banglish.
+
+### ⚠️ Language Handling Notes (Updated)
+
+**Issue Discovered:** Whisper-Small has very poor Bengali support. It often produces:
+- Telugu script (తెలుగు)
+- Hindi/Devanagari script (हिंदी)
+- Khmer script (្្្្្)
+- Other garbage characters
+
+**Solution Implemented:**
+1. Dual-language transcription: Try both English and Bangla modes
+2. Garbage script detection: Reject Khmer, Thai, Myanmar, Telugu, Tamil, etc.
+3. Script validation: Ensure output is either proper Bengali or Latin (Banglish)
+4. **Banglish fallback:** When Bangla produces garbage, use English mode which produces Banglish (Bangla in English script like "Amar mathay betha")
+5. Banglish is preferred over garbage characters
+
+### Implementation Summary
+
+#### Backend Changes
+
+1. **Requirements** (`backend/requirements.txt`)
+   - Added `faster-whisper>=1.0.0` for efficient Whisper inference
+   - Added `numpy>=1.24.0` as dependency
+
+2. **ASR Service** (`backend/app/services/asr.py`)
+   - Lazy-loaded Whisper-Small model (CPU with int8 quantization)
+   - `transcribe_audio()` function for speech-to-text
+   - Confidence calculation from segment log probabilities
+   - Language detection (bn, en, hi)
+   - VAD filtering for noise robustness
+
+3. **Voice Schema** (`backend/app/schemas/voice.py`)
+   - `VoiceTranscriptionResponse` model with:
+     - normalized_text, confidence, confidence_level, language_detected, source
+
+4. **Voice Endpoint** (`backend/app/routes/ai_doctor.py`)
+   - `POST /ai/normalize/voice` endpoint
+   - Accepts multipart form-data (audio_file)
+   - Max file size: 10MB
+   - Supports webm, wav, mp3, mpeg, ogg, m4a, mp4
+
+#### Frontend Changes
+
+1. **Voice Recorder Hook** (`frontend/lib/use-voice-recorder.ts`)
+   - MediaRecorder API integration
+   - States: idle, recording, processing, review, error
+   - Max 60 second recording
+   - Microphone permission handling
+
+2. **Voice Actions** (`frontend/lib/voice-actions.ts`)
+   - Server action `transcribeVoice()` to send audio to backend
+   - Error handling with retry suggestions
+
+3. **VoiceInputButton** (`frontend/components/doctor/voice-input-button.tsx`)
+   - Microphone button with pulse animation during recording
+   - Duration counter (MM:SS)
+   - Stop button with red styling
+   - Processing loader state
+
+4. **VoiceTranscriptionReview** (`frontend/components/doctor/voice-transcription-review.tsx`)
+   - Editable textarea for transcribed text
+   - Confidence indicator (high/medium/low with colors)
+   - Language detection badge
+   - Warning messages for low confidence
+   - Confirm/Retry/Cancel actions
+
+5. **SearchFilters Integration** (`frontend/components/doctor/search-filters.tsx`)
+   - Voice input button positioned inside AI textarea
+   - Voice transcription state management
+   - Seamless integration with existing AI search flow
+
+### Design Principles Followed
+- ✅ Speech converted to text only (no medical interpretation at ASR stage)
+- ✅ User must see and confirm transcription before search
+- ✅ Low-confidence transcriptions show warnings
+- ✅ ASR output is fully editable
+- ✅ Existing AI doctor search logic remains untouched
+- ✅ Mobile-first responsive design
+
+### Confidence Thresholds
+- `≥0.75` → High (green) - Acceptable
+- `0.6-0.75` → Medium (yellow) - Warn user
+- `<0.6` → Low (red) - Recommend retry
+
+### Testing Notes
+- ffmpeg must be installed on the server for audio processing
+- First transcription may be slow (model loading)
+- Tested file formats: webm, wav
+
+---
+
 # Medical Tests Feature - Medical History Page Integration (Complete)
 
 ## ✅ Added Medical Tests Tab to Medical History Page
