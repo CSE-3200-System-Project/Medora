@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AppBackground } from "@/components/ui/app-background";
 import { MedicationManager, type Medication } from "@/components/medicine"
 import { SurgeryManager, type Surgery } from "@/components/medical-history/surgery-manager"
 import { HospitalizationManager, type Hospitalization } from "@/components/medical-history/hospitalization-manager"
@@ -34,7 +35,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+
 import { getMyAppointments } from "@/lib/appointment-actions";
+
 import { MedicalTestSearch } from "@/components/medical-test";
 
 // Interface for medical test records
@@ -63,12 +66,16 @@ function MedicalHistoryContent() {
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
-  const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
-  const [surgeries, setSurgeries] = useState<Surgery[]>([]);
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
-  const [vaccinations, setVaccinations] = useState<Vaccination[]>([]);
+
+
   const [appointments, setAppointments] = useState<any[]>([]);
-  
+
+
+  const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
+  const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
+  const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
+
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -87,7 +94,7 @@ function MedicalHistoryContent() {
           // Load medications
           const meds = data.medications || [];
           const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-            if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+            if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
             return {
               id: crypto.randomUUID(),
               drug_id: "",
@@ -170,7 +177,7 @@ function MedicalHistoryContent() {
       if (updatedData) {
         const meds = updatedData.medications || [];
         const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-          if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+          if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
           return {
             id: crypto.randomUUID(),
             drug_id: "",
@@ -292,29 +299,29 @@ function MedicalHistoryContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface">
+      <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto px-4 py-8 pt-24">
+        <main className="container mx-auto py-8 pt-24">
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className="skeleton w-8 h-8 rounded-full"></div>
           </div>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   const totalMeds = medications.length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="container-padding animate-page-enter">
       <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pt-20 sm:pt-24 max-w-6xl">
+      <main className="container mx-auto py-6 sm:py-8 pt-20 sm:pt-24 max-w-6xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <Button
             variant="ghost"
             onClick={() => router.push("/patient/profile")}
-            className="mb-4 -ml-2"
+            className="mb-4 -ml-2 touch-target"
             size="sm"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -335,7 +342,7 @@ function MedicalHistoryContent() {
                 variant="outline"
                 onClick={handleExportAll}
                 size="sm"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto touch-target"
               >
                 <Download className="h-4 w-4 mr-2" />
                 <span className="sm:inline">Export All</span>
@@ -344,7 +351,7 @@ function MedicalHistoryContent() {
                 onClick={handleSave}
                 disabled={saving || !initialLoaded}
                 size="sm"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto touch-target"
               >
                 {saving ? (
                   <>
@@ -361,10 +368,10 @@ function MedicalHistoryContent() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <Card className="bg-primary/5 border-primary/20">
+          <Card hoverable className="bg-primary/5 dark:bg-primary/10 border-primary/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
                   <Pill className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
                 <div className="min-w-0">
@@ -379,11 +386,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-purple-500/5 border-purple-500/20">
+          <Card hoverable className="bg-purple-500/5 dark:bg-purple-500/10 border-purple-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center">
+                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -397,10 +404,10 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-success/5 border-success/20">
+          <Card hoverable className="bg-success/5 dark:bg-success/10 border-success/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-success/10 flex items-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-success/10 dark:bg-success/20 flex items-center justify-center">
                   <Syringe className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
                 </div>
                 <div className="min-w-0">
@@ -415,11 +422,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-amber-500/5 border-amber-500/20">
+          <Card hoverable className="bg-amber-500/5 dark:bg-amber-500/10 border-amber-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center">
+                  <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -433,11 +440,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-blue-500/5 border-blue-500/20">
+          <Card hoverable className="bg-blue-500/5 dark:bg-blue-500/10 border-blue-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center">
+                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -454,7 +461,7 @@ function MedicalHistoryContent() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full grid grid-cols-3 lg:grid-cols-7 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
+          <TabsList className="w-full grid grid-cols-3 lg:grid-cols-6 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
             <TabsTrigger value="medications" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Pill className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Medications</span>
@@ -843,26 +850,26 @@ function MedicalHistoryContent() {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button onClick={() => setErrorDialogOpen(false)}>
+              <Button onClick={() => setErrorDialogOpen(false)} className="touch-target">
                 OK
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </main>
-    </div>
+    </AppBackground>
   );
 }
 
 export default function MedicalHistoryPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-surface">
+      <AppBackground className="container-padding">
         <Navbar />
         <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <div className="skeleton w-8 h-8 rounded-full"></div>
         </div>
-      </div>
+      </AppBackground>
     }>
       <MedicalHistoryContent />
     </Suspense>

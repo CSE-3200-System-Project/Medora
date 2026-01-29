@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -147,15 +148,15 @@ export default function PatientHomePage() {
   const upcomingAppointments = getUpcomingAppointments();
 
   return (
-    <div className="min-h-screen bg-surface font-sans text-foreground">
+    <AppBackground>
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-12 px-4 md:px-6 max-w-7xl mx-auto">
+      <main className="pt-20 pb-8 sm:pt-24 md:pt-28 md:pb-12 container-padding max-w-7xl mx-auto animate-page-enter">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="patient" />}
         
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
             Welcome back! 
           </h1>
@@ -165,13 +166,13 @@ export default function PatientHomePage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 md:mb-8 stagger-enter">
           {/* Upcoming Appointments */}
-          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50">
+            <CardContent>
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 bg-primary/10 rounded-xl">
-                  <CalendarCheck className="w-6 h-6 text-primary" />
+                  <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
                 <TrendingUp className="w-4 h-4 text-success" />
               </div>
@@ -183,11 +184,11 @@ export default function PatientHomePage() {
           </Card>
 
           {/* Pending Confirmations */}
-          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50">
+            <CardContent>
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-yellow-100 rounded-xl">
-                  <Clock className="w-6 h-6 text-yellow-600" />
+                <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
+                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 dark:text-yellow-500" />
                 </div>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
@@ -198,11 +199,11 @@ export default function PatientHomePage() {
           </Card>
 
           {/* Completed Visits */}
-          <Card className="rounded-2xl border-border/50 hover:shadow-md transition-shadow sm:col-span-2 lg:col-span-1">
-            <CardContent className="p-6">
+          <Card hoverable className="border-border/50 sm:col-span-2 lg:col-span-1">
+            <CardContent>
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 bg-success/10 rounded-xl">
-                  <CheckCircle2 className="w-6 h-6 text-success" />
+                  <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-success" />
                 </div>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
@@ -383,7 +384,7 @@ export default function PatientHomePage() {
 
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4"
+                  className="w-full justify-start h-auto py-3 px-4 touch-target"
                   onClick={() => router.push('/patient/medical-records')}
                 >
                   <div className="flex items-center gap-3">
@@ -400,15 +401,15 @@ export default function PatientHomePage() {
             </Card>
 
             {/* Health Tip Card */}
-            <Card className="rounded-2xl border-border/50 bg-gradient-to-br from-primary/5 to-accent">
-              <CardContent className="p-6">
+            <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent dark:from-primary/10 dark:to-accent/20">
+              <CardContent>
                 <div className="flex items-start gap-3 mb-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
                     <Activity className="w-5 h-5 text-primary" />
                   </div>
                   <h4 className="font-semibold text-foreground">Health Tip</h4>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   Regular checkups are essential for maintaining good health. Schedule your annual health screening today!
                 </p>
               </CardContent>
@@ -416,6 +417,6 @@ export default function PatientHomePage() {
           </div>
         </div>
       </main>
-    </div>
+    </AppBackground>
   );
 }
