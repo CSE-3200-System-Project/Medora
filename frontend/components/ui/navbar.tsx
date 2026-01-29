@@ -110,54 +110,55 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-4 inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-300",
-        "rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg shadow-primary/5",
-        isScrolled ? "bg-white/80 shadow-md" : "bg-white/60"
+        "fixed top-2 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "rounded-xl sm:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg shadow-primary/5",
+        "dark:bg-card/80 dark:border-border/50",
+        isScrolled ? "bg-white/80 dark:bg-card/90 shadow-md" : "bg-white/60"
       )}
     >
-      <div className="flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
-        <Link href={homePath} className="flex items-center gap-2">
-          <div className="relative h-10 w-10 md:h-14 md:w-14">
+        <Link href={homePath} className="flex items-center gap-2 touch-target">
+          <div className="relative h-9 w-9 sm:h-10 sm:w-10 md:h-14 md:w-14">
             <Image 
               src={logo} 
               alt="Medora" 
               fill 
-              sizes="(max-width: 768px) 40px, 56px"
+              sizes="(max-width: 640px) 36px, (max-width: 768px) 40px, 56px"
               className="object-contain" 
             />
           </div>
-          <span className="text-lg font-bold tracking-tight text-primary hidden md:block">Medora</span>
+          <span className="text-base sm:text-lg font-bold tracking-tight text-primary hidden sm:block">Medora</span>
         </Link>
 
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-1 justify-center">
           {loading ? (
-            <div className="h-8 w-64 bg-surface animate-pulse rounded-full" />
+            <div className="h-8 w-64 skeleton rounded-full" />
           ) : user?.role?.toLowerCase() === 'doctor' ? (
-            <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary", pathname === "/doctor/appointments" && "text-primary")}>
+            <nav className="flex items-center gap-4 lg:gap-6 text-sm font-medium text-muted-foreground">
+              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/appointments" && "text-primary")}>
                 Appointments
               </Link>
-              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary", pathname === "/doctor/patients" && "text-primary")}>
+              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/patients" && "text-primary")}>
                 Patients
               </Link>
-              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary", pathname === "/doctor/analytics" && "text-primary")}>
+              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/analytics" && "text-primary")}>
                 Analytics
               </Link>
             </nav>
           ) : user?.role?.toLowerCase() === 'patient' ? (
-            <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary", pathname === "/patient/find-doctor" && "text-primary")}>
+            <nav className="flex items-center gap-4 lg:gap-6 text-sm font-medium text-muted-foreground">
+              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary")}>
                 Find Doctor
               </Link>
-              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary", pathname === "/patient/appointments" && "text-primary")}>
+              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary")}>
                 Appointments
               </Link>
-              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary", pathname === "/find-medicine" && "text-primary")}>
+              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary py-2", pathname === "/find-medicine" && "text-primary")}>
                 Find Medicine
               </Link>
-              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary", pathname === "/patient/medical-history" && "text-primary")}>
+              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary")}>
                 Medical History
               </Link>
             </nav>
@@ -165,9 +166,9 @@ export function Navbar() {
         </div>
 
         {/* RIGHT: Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3 lg:gap-4">
           {loading ? (
-            <div className="h-8 w-24 bg-surface animate-pulse rounded-full" />
+            <div className="h-8 w-24 skeleton rounded-full" />
           ) : !user ? (
             <>
               <Button variant="ghost" asChild className="text-muted-foreground hover:bg-primary-more-light hover:text-primary">
@@ -232,15 +233,18 @@ export function Navbar() {
         </div>
 
         {/* MOBILE: Hamburger */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          {/* Mobile notification icon */}
+          {user && <NotificationDropdown />}
+          
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-muted-foreground">
+              <Button variant="ghost" size="icon" className="text-muted-foreground touch-target">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-75 sm:w-100">
+            <SheetContent side="right" className="w-[85vw] max-w-sm">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
                   <Link href={homePath} className="flex items-center gap-2">
@@ -251,12 +255,12 @@ export function Navbar() {
                   </Link>
                 </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col h-full py-6 px-6">
+              <div className="flex flex-col h-full py-4 px-2">
                 {loading ? (
-                  <div className="space-y-4">
-                    <div className="h-12 bg-surface animate-pulse rounded" />
-                    <div className="h-12 bg-surface animate-pulse rounded" />
-                    <div className="h-12 bg-surface animate-pulse rounded" />
+                  <div className="space-y-4 px-4">
+                    <div className="h-12 skeleton rounded" />
+                    <div className="h-12 skeleton rounded" />
+                    <div className="h-12 skeleton rounded" />
                   </div>
                 ) : !user ? (
                   <>

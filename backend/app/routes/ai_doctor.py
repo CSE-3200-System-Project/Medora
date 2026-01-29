@@ -1,17 +1,26 @@
 import json
 import math
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, desc
 from typing import List, Optional, Tuple
+from datetime import date
 
 from app.core.config import settings
 from app.core.dependencies import get_db
 from app.db.models.doctor import DoctorProfile
 from app.db.models.profile import Profile
 from app.db.models.speciality import Speciality
-from app.schemas.ai_search import AIDoctorSearchRequest, AIDoctorSearchResponse, AIDoctorResult
+from app.db.models.patient import PatientProfile
+from app.db.models.appointment import Appointment
+from app.schemas.ai_search import (
+    AIDoctorSearchRequest, 
+    AIDoctorSearchResponse, 
+    AIDoctorResult,
+    PatientContextFactor
+)
 
+from app.db.supabase import supabase
 from groq import Groq
 
 from app.services.specialty_matching import (
@@ -31,13 +40,158 @@ router = APIRouter()
 client = Groq(api_key=settings.GROQ_API_KEY)
 
 
-# === HAVERSINE DISTANCE CALCULATION (PRD Section 7.3) ===
+async def get_optional_user(authorization: Optional[str] = Header(None)):
+    if not authorization:
+        return None
+    try:
+        if "Bearer" in authorization:
+            token = authorization.split(" ")[1]
+        else:
+            token = authorization
+        
+        response = supabase.auth.get_user(token)
+        return response.user if response else None 
+    except Exception:
+        return None
+
+
+async def get_patient_history_context(db: AsyncSession, user_id: str) -> Tuple[str, List[PatientContextFactor]]:
+    """
+    Fetch patient medical history and return both:
+    1. Formatted context string for LLM
+    2. Structured factors for frontend display
+    """
+    result = await db.execute(select(PatientProfile).where(PatientProfile.profile_id == user_id))
+    patient = result.scalar_one_or_none()
+    
+    if not patient:
+        return "", []
+
+    parts = []
+    context_factors = []
+    
+    # Basic Info
+    agestr = ""
+    if patient.date_of_birth:
+        age = (date.today() - patient.date_of_birth).days // 365
+        agestr = f"{age} years old"
+    
+    gender = patient.gender or "Unknown"
+    parts.append(f"PATIENT CONTEXT ({gender}, {agestr}):")
+
+    # Conditions
+    chronic = []
+    if patient.has_diabetes:
+        chronic.append("Diabetes")
+        context_factors.append(PatientContextFactor(
+            category="condition",
+            value="Diabetes",
+            influence="Requires endocrinologist or experienced general practitioner"
+        ))
+    
+    if patient.has_hypertension:
+        chronic.append("Hypertension")
+        context_factors.append(PatientContextFactor(
+            category="condition",
+            value="Hypertension",
+            influence="May require cardiologist for comprehensive management"
+        ))
+    
+    if patient.has_heart_disease:
+        chronic.append("Heart Disease")
+        context_factors.append(PatientContextFactor(
+            category="condition",
+            value="Heart Disease",
+            influence="Specialist cardiologist recommended for safety"
+        ))
+    
+    if patient.has_asthma:
+        chronic.append("Asthma")
+        context_factors.append(PatientContextFactor(
+            category="condition",
+            value="Asthma",
+            influence="Respiratory specialist or pulmonologist may be beneficial"
+        ))
+    
+    if patient.has_kidney_disease:
+        chronic.append("Kidney Disease")
+        context_factors.append(PatientContextFactor(
+            category="condition",
+            value="Kidney Disease",
+            influence="Nephrologist expertise recommended"
+        ))
+
+    if patient.conditions:
+        conds = [c.get('name') for c in patient.conditions if isinstance(c, dict) and c.get('name')]
+        chronic.extend(conds)
+        for cond in conds:
+            context_factors.append(PatientContextFactor(
+                category="condition",
+                value=cond,
+                influence=f"Consider specialists experienced with {cond}"
+            ))
+    
+    if chronic:
+        parts.append(f"- Known Conditions: {', '.join(set(chronic))}")
+
+    # Medications
+    if patient.medications:
+        meds = [m.get('name') for m in patient.medications if isinstance(m, dict) and m.get('name')]
+        if meds:
+            parts.append(f"- Current Medications: {', '.join(meds)}")
+            for med in meds:
+                context_factors.append(PatientContextFactor(
+                    category="medication",
+                    value=med,
+                    influence="Doctor should be aware of current medications for interaction checks"
+                ))
+
+    # Allergies
+    if patient.drug_allergies:
+        allergies = [a.get('drug_name') for a in patient.drug_allergies if isinstance(a, dict) and a.get('drug_name')]
+        if allergies:
+            parts.append(f"- Drug Allergies: {', '.join(allergies)}")
+            for allergy in allergies:
+                context_factors.append(PatientContextFactor(
+                    category="allergy",
+                    value=allergy,
+                    influence=f"Doctor must avoid {allergy} and alternatives"
+                ))
+
+    # Surgeries
+    if patient.surgeries:
+        surgeries = [s.get('name') for s in patient.surgeries if isinstance(s, dict) and s.get('name')]
+        if surgeries:
+            parts.append(f"- Past Surgeries: {', '.join(surgeries)}")
+            for surgery in surgeries:
+                context_factors.append(PatientContextFactor(
+                    category="surgery",
+                    value=surgery,
+                    influence=f"History of {surgery} may affect treatment approach"
+                ))
+
+    # Hospitalizations
+    if patient.hospitalizations:
+        hosps = [h.get('reason') for h in patient.hospitalizations if isinstance(h, dict) and h.get('reason')]
+        if hosps:
+            parts.append(f"- Past Hospitalizations: {', '.join(hosps)}")
+            for hosp in hosps:
+                context_factors.append(PatientContextFactor(
+                    category="hospitalization",
+                    value=hosp,
+                    influence=f"Previous hospitalization for {hosp} suggests need for specialist review"
+                ))
+
+    context_str = "\n".join(parts)
+    return context_str, context_factors
+
+
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
-    Calculate the great-circle distance between two points on Earth.
+    Calculate distance between two geographic points using Haversine formula.
     Returns distance in kilometers.
     """
-    R = 6371  # Earth's radius in km
+    R = 6371  # Earth's radius in kilometers
     
     lat1_rad = math.radians(lat1)
     lat2_rad = math.radians(lat2)
@@ -97,6 +251,7 @@ async def get_available_specialties_with_doctors(db: AsyncSession) -> set[str]:
 @router.post("/search", response_model=AIDoctorSearchResponse)
 async def ai_doctor_search(
     request: AIDoctorSearchRequest,
+    authorization: Optional[str] = Header(None),
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -109,6 +264,15 @@ async def ai_doctor_search(
     4. Rank using PRD formula with location awareness
     5. Return ranked list with explainable reasons
     """
+    # Get patient context if logged in
+    patient_context_text = ""
+    patient_context_factors: List[PatientContextFactor] = []
+    
+    if authorization:
+        user = await get_optional_user(authorization)
+        if user:
+            patient_context_text, patient_context_factors = await get_patient_history_context(db, user.id)
+
     # 1. Get available specialties for LLM context
     available_specialties = await get_all_specialties(db)
     specialties_str = ", ".join(available_specialties)
@@ -116,6 +280,8 @@ async def ai_doctor_search(
     # 2. Construct LLM Prompt (PRD Section 5)
     system_prompt = f"""You are a medical intent extraction assistant for a Bangladeshi healthcare platform.
 Analyze the user's health description and extract structured data.
+
+{patient_context_text if patient_context_text else 'No prior medical history.'}
 
 AVAILABLE SPECIALTIES (Choose from this list, but you can use common variations):
 [{specialties_str}]
@@ -176,7 +342,8 @@ RULES:
         return AIDoctorSearchResponse(
             doctors=[], 
             ambiguity="high", 
-            medical_intent={"error": str(e), "fallback": "manual_search"}
+            medical_intent={"error": str(e), "fallback": "manual_search"},
+            patient_context_factors=patient_context_factors if patient_context_factors else None
         )
 
     # 4. Get specialties that have actual doctors available
@@ -358,5 +525,157 @@ RULES:
             "extracted_specialty_names": extracted_specialties,
             "total_specialties_matched": len(extracted_specialties),
             "fallback_reason": fallback_reason
-        }
+        },
+        patient_context_factors=patient_context_factors if patient_context_factors else None
     )
+
+
+# ============================================================================
+# VOICE-TO-TEXT ENDPOINT
+# ============================================================================
+
+from fastapi import UploadFile, File, Form
+from app.schemas.voice import VoiceTranscriptionResponse, VoiceTranscriptionError
+from app.services.asr import transcribe_audio, get_confidence_level
+
+# Maximum audio file size (10 MB)
+MAX_AUDIO_SIZE = 10 * 1024 * 1024
+
+
+@router.post(
+    "/normalize/voice",
+    response_model=VoiceTranscriptionResponse,
+    responses={
+        400: {"model": VoiceTranscriptionError},
+        413: {"model": VoiceTranscriptionError},
+        500: {"model": VoiceTranscriptionError}
+    }
+)
+async def normalize_voice(
+    audio_file: UploadFile = File(..., description="Audio file (webm, wav, mp3)"),
+    language: Optional[str] = Form(default="auto", description="Language hint: 'auto' (detect), 'bn' (Bangla), or 'en' (English)")
+):
+    """
+    Transcribe voice audio to text for AI doctor search.
+    
+    This endpoint converts speech to text using Whisper-Small ASR.
+    The transcribed text can then be used with the /ai/doctor-search endpoint.
+    
+    **Language Parameter:**
+    - `auto` (default): Auto-detect between English and Bangla - RECOMMENDED
+    - `bn`: Force Bangla transcription only
+    - `en`: Force English transcription only
+    
+    **Auto-detection Strategy:**
+    - Transcribes with both English and Bangla
+    - Compares confidence scores
+    - Returns the result with higher confidence
+    - Validates script correctness (Bengali vs Devanagari)
+    
+    Supported formats: audio/webm, audio/wav, audio/mp3, audio/mpeg
+    Max file size: 10 MB
+    Max duration: 60 seconds
+    
+    Returns:
+        VoiceTranscriptionResponse with transcribed text, confidence, and language
+    """
+    # Validate language parameter
+    valid_languages = ["bn", "en", "auto"]
+    if language not in valid_languages:
+        language = "auto"  # Default to auto-detection
+    
+    # Validate file type
+    allowed_types = [
+        "audio/webm", 
+        "audio/wav", 
+        "audio/wave",
+        "audio/x-wav",
+        "audio/mp3", 
+        "audio/mpeg",
+        "audio/ogg",
+        "audio/x-m4a",
+        "audio/mp4"
+    ]
+    
+    content_type = audio_file.content_type or ""
+    if content_type and content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": f"Unsupported audio format: {content_type}",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Read file content
+    try:
+        audio_content = await audio_file.read()
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Failed to read audio file",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Validate file size
+    if len(audio_content) > MAX_AUDIO_SIZE:
+        raise HTTPException(
+            status_code=413,
+            detail={
+                "error": "Audio file too large. Maximum size is 10 MB.",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Check for empty file
+    if len(audio_content) == 0:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Empty audio file",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    
+    # Transcribe audio with language hint
+    try:
+        transcribed_text, confidence, detected_lang = await transcribe_audio(
+            audio_content, 
+            audio_file.filename or "audio.webm",
+            language_hint=language  # Pass language hint to ASR
+        )
+        
+        return VoiceTranscriptionResponse(
+            normalized_text=transcribed_text,
+            confidence=round(confidence, 2),
+            confidence_level=get_confidence_level(confidence),
+            language_detected=detected_lang,
+            source="voice"
+        )
+        
+    except ValueError as e:
+        # Empty/silence detection
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": str(e),
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )
+    except Exception as e:
+        # Unexpected ASR failure
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": "Transcription failed. Please try again or use text input.",
+                "retry_suggested": True,
+                "fallback_to_text": True
+            }
+        )

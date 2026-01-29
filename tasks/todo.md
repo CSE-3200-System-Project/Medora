@@ -1,3 +1,227 @@
+# UI/UX Comprehensive Overhaul (January 28, 2026)
+
+## Phase Plan - Mobile-First Responsive Design & PRD Implementation
+
+### Objective
+Create a calm, premium, high-performance medical web app UI that feels intentional, trustworthy, mobile-first, and app-like, without visual heaviness.
+
+### Phase 1: Foundation (globals.css)
+- [x] Add Clinical Depth Field background variables (bg-top, bg-bottom, bg-glow)
+- [x] Add noise texture opacity variable
+- [x] Add motion/animation timing variables
+- [x] Add spacing scale refinements
+- [x] Update dark mode with proper parity
+- [x] Add app-background utility class
+- [x] **UPDATED** Improved container-padding (px-5 to px-10 responsive)
+- [x] **UPDATED** Added card-padding, card-gap, page-content utilities
+- [x] **UPDATED** Added safe-area-padding for notched devices
+
+### Phase 2: Motion System
+- [x] Create motion.ts with GSAP-ready constants
+- [x] Define duration tokens (fast, base, slow)
+- [x] Define easing functions
+- [x] Define offset values for animations
+- [x] **NEW** Install GSAP library
+- [x] **NEW** Install Lenis smooth scroll library
+- [x] **NEW** Create use-gsap.ts hook with GSAP animations
+- [x] **NEW** Create SmoothScrollProvider for Lenis integration
+
+### Phase 3: Component Updates
+- [x] Update button.tsx - ensure 44px touch targets, refined hover states
+- [x] Update card.tsx - proper spacing, mobile-first responsive patterns, hoverable prop
+- [x] Add mobile filter bottom sheet component
+- [x] Update search-filters.tsx - mobile-first with bottom sheet pattern
+- [x] Update doctor-card.tsx - responsive, proper hover states
+- [x] Update input.tsx - 44px touch targets, mobile sizing
+- [x] Update textarea.tsx - mobile-first styling
+- [x] Update select.tsx - touch targets, animations
+- [x] Update navbar.tsx - mobile responsive, dark mode
+
+### Phase 4: Background & Layout
+- [x] Create AppBackground component with gradient + noise
+- [x] Update layout.tsx to use new background system
+- [x] **NEW** Integrate SmoothScrollProvider in layout.tsx
+- [x] Ensure mobile-first structure across all layouts
+
+### Phase 5: Page Updates
+- [x] Update find-doctor page - AppBackground, animations, stagger
+- [x] Update patient home page - AppBackground, hoverable cards, dark mode
+- [x] Update patient appointments page - AppBackground, stagger, touch targets
+- [x] Update patient medical-history page - AppBackground, hoverable cards
+- [x] Update patient profile page - AppBackground, hoverable cards, dark mode
+- [x] Update doctor home page - AppBackground, hoverable cards, touch targets
+- [x] Update doctor appointments page - AppBackground, stagger, touch targets
+- [x] Update doctor patients page - AppBackground, stagger, hoverable cards
+- [x] Admin pages - kept separate dark theme (intentional distinction)
+
+### Phase 6: Final Polish
+- [x] Fix all TypeScript/build errors
+- [x] Verify build succeeds
+- [ ] Test light/dark mode parity
+- [ ] Verify performance (no layout shift, smooth scrolling)
+- [ ] Review spacing consistency across pages
+
+---
+
+## Review Section - UI/UX Overhaul Summary (Updated January 28, 2026)
+
+### Changes Made
+
+#### 1. Foundation (globals.css)
+- Added Clinical Depth Field background system with `--bg-top`, `--bg-bottom`, `--bg-glow` variables
+- Added motion tokens: `--motion-duration-fast/base/slow`, `--motion-ease-standard/enter/exit`
+- Added spacing scale: `--spacing-xs` through `--spacing-3xl`
+- Added touch target minimum: `--touch-target-min: 44px`
+- Created `.app-background` class with gradient + SVG noise overlay
+- Added utility classes: `.skeleton`, `.stagger-enter`, `.card-hover`, `.touch-target`, `.animate-page-enter`
+- **Updated** `.container-padding` to `px-5 sm:px-6 md:px-8 lg:px-10` (increased mobile padding)
+- **NEW** Added `.safe-area-padding` for notched devices
+- **NEW** Added `.card-padding` (p-5 md:p-6)
+- **NEW** Added `.card-gap` (gap-4 md:gap-5)
+- **NEW** Added `.page-content` wrapper class
+- **NEW** Added `.header-spacing`, `.form-spacing`, `.button-row` utilities
+- Updated dark mode with stronger glow (`rgba(3, 96, 217, 0.18)`)
+
+#### 2. New Components & Libraries
+- **GSAP** installed for advanced animations
+- **Lenis** installed for smooth scrolling (desktop only)
+- **AppBackground** (`components/ui/app-background.tsx`): Premium background wrapper
+- **MobileFilterSheet** (`components/ui/mobile-filter-sheet.tsx`): Bottom sheet for mobile filters
+- **SmoothScrollProvider** (`components/ui/smooth-scroll-provider.tsx`): Lenis smooth scroll wrapper
+- **motion.ts** (`lib/motion.ts`): GSAP-ready animation constants and Framer Motion variants
+- **use-gsap.ts** (`lib/use-gsap.ts`): GSAP animation hooks (usePageEntry, useStaggerAnimation, useCardHover, etc.)
+
+#### 3. Updated UI Components
+- **button.tsx**: Added `min-h-[44px]` touch targets, `active:scale-[0.98]`, motion transition timing
+- **card.tsx**: Added `hoverable` prop for hover effects, uses `p-5 md:p-6` for proper padding
+- **input.tsx**: 44px min-height, mobile-first sizing
+- **textarea.tsx**: Mobile-first styling with proper sizing
+- **select.tsx**: Touch targets and animations
+- **navbar.tsx**: Mobile responsive, dark mode support, proper backdrop blur
+
+#### 4. Updated Layout
+- **layout.tsx**: Integrated SmoothScrollProvider for smooth scrolling on desktop
+- Updated metadata to "Medora - Healthcare Platform"
+
+#### 5. Updated Pages
+All patient and doctor pages now use:
+- `AppBackground` component for consistent background
+- `container-padding` class for responsive padding (increased for mobile)
+- `animate-page-enter` for page entry animations
+- `stagger-enter` for list item animations
+- `skeleton` class for loading states
+- `touch-target` class for interactive elements
+- `hoverable` prop on Card components
+- Dark mode classes for proper theme parity
+
+### Design Principles Applied
+1. **Mobile-first**: All styles start with mobile, then scale up with md/lg breakpoints
+2. **Touch targets**: Minimum 44x44px for all interactive elements
+3. **Dark mode parity**: Explicit dark: classes for consistent experience
+4. **Subtle animations**: Page entry, stagger effects, hover states
+5. **Consistent spacing**: Using spacing scale variables
+6. **Premium feel**: Gradient backgrounds, noise texture, subtle shadows
+7. **Smooth scrolling**: Lenis integration for desktop only (disabled on touch devices)
+
+---
+
+# Voice-to-Text Feature Implementation (January 28, 2026)
+
+## ✅ COMPLETED: Voice-to-Text for AI Doctor Search
+
+### Overview
+Implemented voice input for AI doctor search using faster-whisper (Whisper-Small model). Patients can now describe their symptoms via voice instead of typing, with full support for Bangla, English, and Banglish.
+
+### ⚠️ Language Handling Notes (Updated)
+
+**Issue Discovered:** Whisper-Small has very poor Bengali support. It often produces:
+- Telugu script (తెలుగు)
+- Hindi/Devanagari script (हिंदी)
+- Khmer script (្្្្្)
+- Other garbage characters
+
+**Solution Implemented:**
+1. Dual-language transcription: Try both English and Bangla modes
+2. Garbage script detection: Reject Khmer, Thai, Myanmar, Telugu, Tamil, etc.
+3. Script validation: Ensure output is either proper Bengali or Latin (Banglish)
+4. **Banglish fallback:** When Bangla produces garbage, use English mode which produces Banglish (Bangla in English script like "Amar mathay betha")
+5. Banglish is preferred over garbage characters
+
+### Implementation Summary
+
+#### Backend Changes
+
+1. **Requirements** (`backend/requirements.txt`)
+   - Added `faster-whisper>=1.0.0` for efficient Whisper inference
+   - Added `numpy>=1.24.0` as dependency
+
+2. **ASR Service** (`backend/app/services/asr.py`)
+   - Lazy-loaded Whisper-Small model (CPU with int8 quantization)
+   - `transcribe_audio()` function for speech-to-text
+   - Confidence calculation from segment log probabilities
+   - Language detection (bn, en, hi)
+   - VAD filtering for noise robustness
+
+3. **Voice Schema** (`backend/app/schemas/voice.py`)
+   - `VoiceTranscriptionResponse` model with:
+     - normalized_text, confidence, confidence_level, language_detected, source
+
+4. **Voice Endpoint** (`backend/app/routes/ai_doctor.py`)
+   - `POST /ai/normalize/voice` endpoint
+   - Accepts multipart form-data (audio_file)
+   - Max file size: 10MB
+   - Supports webm, wav, mp3, mpeg, ogg, m4a, mp4
+
+#### Frontend Changes
+
+1. **Voice Recorder Hook** (`frontend/lib/use-voice-recorder.ts`)
+   - MediaRecorder API integration
+   - States: idle, recording, processing, review, error
+   - Max 60 second recording
+   - Microphone permission handling
+
+2. **Voice Actions** (`frontend/lib/voice-actions.ts`)
+   - Server action `transcribeVoice()` to send audio to backend
+   - Error handling with retry suggestions
+
+3. **VoiceInputButton** (`frontend/components/doctor/voice-input-button.tsx`)
+   - Microphone button with pulse animation during recording
+   - Duration counter (MM:SS)
+   - Stop button with red styling
+   - Processing loader state
+
+4. **VoiceTranscriptionReview** (`frontend/components/doctor/voice-transcription-review.tsx`)
+   - Editable textarea for transcribed text
+   - Confidence indicator (high/medium/low with colors)
+   - Language detection badge
+   - Warning messages for low confidence
+   - Confirm/Retry/Cancel actions
+
+5. **SearchFilters Integration** (`frontend/components/doctor/search-filters.tsx`)
+   - Voice input button positioned inside AI textarea
+   - Voice transcription state management
+   - Seamless integration with existing AI search flow
+
+### Design Principles Followed
+- ✅ Speech converted to text only (no medical interpretation at ASR stage)
+- ✅ User must see and confirm transcription before search
+- ✅ Low-confidence transcriptions show warnings
+- ✅ ASR output is fully editable
+- ✅ Existing AI doctor search logic remains untouched
+- ✅ Mobile-first responsive design
+
+### Confidence Thresholds
+- `≥0.75` → High (green) - Acceptable
+- `0.6-0.75` → Medium (yellow) - Warn user
+- `<0.6` → Low (red) - Recommend retry
+
+### Testing Notes
+- ffmpeg must be installed on the server for audio processing
+- First transcription may be slow (model loading)
+- Tested file formats: webm, wav
+
+---
+
 # Medical Tests Feature - Medical History Page Integration (Complete)
 
 ## ✅ Added Medical Tests Tab to Medical History Page

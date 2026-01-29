@@ -61,14 +61,18 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, React.ButtonHTM
       onClick={() => !ctx.disabled && ctx.setOpen(!ctx.open)}
       disabled={ctx.disabled}
       className={cn(
-        "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none",
+        // Mobile-first with proper touch target
+        "flex h-11 min-h-[44px] w-full items-center justify-between rounded-lg border border-input bg-background px-3 py-2",
+        "text-base md:text-sm",
+        "transition-[color,box-shadow,border-color] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "focus:outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
         ctx.disabled && "opacity-50 cursor-not-allowed",
         className
       )}
       {...props}
     >
-      <div className="flex-1 text-left">{children}</div>
-      <ChevronDown className="ml-2 h-4 w-4 text-muted-foreground" />
+      <div className="flex-1 text-left truncate">{children}</div>
+      <ChevronDown className="ml-2 h-4 w-4 text-muted-foreground shrink-0" />
     </button>
   )
 })
@@ -80,14 +84,14 @@ export const SelectContent = ({ children }: { children: React.ReactNode }) => {
   if (!ctx.open) return null
 
   return (
-    <div className="absolute z-50 mt-2 w-full rounded-md border border-border bg-popover shadow-md max-h-60 overflow-y-auto">
+    <div className="absolute z-50 mt-2 w-full rounded-lg border border-border bg-popover shadow-lg max-h-60 overflow-y-auto animate-in fade-in-0 zoom-in-95 duration-200">
       <div className="p-1">{children}</div>
     </div>
   )
 }
 
 export const SelectLabel = ({ children }: { children: React.ReactNode }) => (
-  <div className="px-2 py-1 text-sm font-semibold text-muted-foreground">{children}</div>
+  <div className="px-3 py-2 text-sm font-semibold text-muted-foreground">{children}</div>
 )
 
 export const SelectItem = ({ value, children }: { value: string; children: React.ReactNode }) => {
@@ -103,7 +107,14 @@ export const SelectItem = ({ value, children }: { value: string; children: React
     <div
       role="button"
       onClick={handleClick}
-      className={cn("cursor-pointer rounded-md px-3 py-1 text-sm text-popover-foreground hover:bg-primary-more-light hover:text-primary")}
+      className={cn(
+        // Proper touch target for mobile
+        "cursor-pointer rounded-lg px-3 py-2.5 min-h-[44px] flex items-center",
+        "text-base md:text-sm text-popover-foreground",
+        "transition-colors duration-150",
+        "hover:bg-primary-more-light hover:text-primary",
+        "active:bg-primary-light"
+      )}
     >
       {children}
     </div>
