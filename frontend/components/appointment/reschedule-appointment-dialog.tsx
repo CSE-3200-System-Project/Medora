@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { localDateKey } from "@/lib/utils";
 import { getDoctorBookedSlots } from "@/lib/appointment-actions";
 
 interface RescheduleAppointmentDialogProps {
@@ -72,7 +73,7 @@ export function RescheduleAppointmentDialog({
     setSelectedSlot(null);
     
     try {
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = localDateKey(date);
       const data = await getDoctorBookedSlots(appointment.doctor_id, dateStr);
       setSlots(data.slots || []);
     } catch (error) {
@@ -95,7 +96,7 @@ export function RescheduleAppointmentDialog({
 
     setLoading(true);
     try {
-      const dateStr = selectedDate.toISOString().split('T')[0];
+      const dateStr = localDateKey(selectedDate);
       await onConfirm(appointment.id, dateStr, selectedSlot, notes || undefined);
       onOpenChange(false);
     } catch (error) {

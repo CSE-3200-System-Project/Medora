@@ -7,6 +7,14 @@
    Root Theme Variables (Light Mode)
    ====================================== */
 :root {
+  /* Background System - Clinical Depth Field */
+  --bg-top: #F4FAFF;
+  --bg-bottom: #E6F5FC;
+  --bg-glow-primary: rgba(3, 96, 217, 0.12);
+  --bg-glow-secondary: rgba(165, 204, 255, 0.08);
+  --bg-noise-opacity: 0.045;
+  --bg-pattern-opacity: 0.02;
+  
   /* Background & Surface */
   --surface: #E6F5FC;
   --background: #FFFFFF;
@@ -74,6 +82,34 @@
 
   /* Fonts */
   --font-sans: var(--sf-pro-display);
+  
+  /* ======================================
+     Spacing Scale (Vertical Rhythm)
+     ====================================== */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px - mobile card gap */
+  --spacing-lg: 1.25rem;   /* 20px - desktop card gap */
+  --spacing-xl: 1.5rem;    /* 24px - card internal padding */
+  --spacing-2xl: 2rem;     /* 32px - section to section (mobile) */
+  --spacing-3xl: 2.5rem;   /* 40px - section to section (desktop) */
+  
+  /* ======================================
+     Motion System (GSAP-Ready)
+     ====================================== */
+  --motion-duration-fast: 0.25s;
+  --motion-duration-base: 0.4s;
+  --motion-duration-slow: 0.6s;
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-enter: cubic-bezier(0.0, 0, 0.2, 1);
+  --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --motion-offset-small: 8px;
+  --motion-offset-medium: 16px;
+  
+  /* ======================================
+     Touch Targets (Mobile-First)
+     ====================================== */
+  --touch-target-min: 44px;
 }
 
 /* ======================================
@@ -157,6 +193,14 @@ hr {
 }
 
 .dark {
+  /* Background System - Clinical Depth Field (Dark Mode) */
+  --bg-top: #041C33;
+  --bg-bottom: #021526;
+  --bg-glow-primary: rgba(3, 96, 217, 0.22);
+  --bg-glow-secondary: rgba(165, 204, 255, 0.12);
+  --bg-noise-opacity: 0.06;
+  --bg-pattern-opacity: 0.03;
+  
   /* Background & Surface */
   --background: #021526;
   --surface: #0D2B46;
@@ -230,5 +274,305 @@ hr {
   }
   .maplibregl-popup-tip {
     @apply hidden!;
+  }
+}
+
+/* ======================================
+   App Background - Clinical Depth Field
+   ====================================== */
+.app-background {
+  position: relative;
+  min-height: 100vh;
+  background:
+    /* Secondary accent glow (bottom-left) */
+    radial-gradient(
+      800px 500px at 15% 110%,
+      var(--bg-glow-secondary),
+      transparent 70%
+    ),
+    /* Primary medical glow (top-right) */
+    radial-gradient(
+      1000px 700px at 85% -10%,
+      var(--bg-glow-primary),
+      transparent 65%
+    ),
+    /* Subtle center highlight */
+    radial-gradient(
+      1200px 800px at 50% 50%,
+      var(--bg-glow-secondary),
+      transparent 80%
+    ),
+    /* Base gradient */
+    linear-gradient(
+      to bottom,
+      var(--bg-top),
+      var(--bg-bottom)
+    );
+}
+
+/* Noise texture overlay */
+.app-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' seed='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: var(--bg-noise-opacity);
+  z-index: 0;
+  mix-blend-mode: overlay;
+}
+
+/* Subtle geometric pattern overlay */
+.app-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230360D9' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: var(--bg-pattern-opacity);
+  z-index: 0;
+}
+
+.app-background > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================================
+   Motion & Animation Utilities
+   ====================================== */
+@layer utilities {
+  /* Page entry animations */
+  .animate-page-enter {
+    animation: page-enter var(--motion-duration-base) var(--motion-ease-enter);
+  }
+  
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(var(--motion-offset-medium));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Card hover - desktop only */
+  .card-hover {
+    transition: transform var(--motion-duration-fast) var(--motion-ease-standard),
+                box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+  }
+  
+  @media (hover: hover) {
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  /* Stagger animation for lists */
+  .stagger-enter > * {
+    opacity: 0;
+    transform: translateY(var(--motion-offset-small));
+    animation: stagger-item var(--motion-duration-base) var(--motion-ease-enter) forwards;
+  }
+  
+  .stagger-enter > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-enter > *:nth-child(2) { animation-delay: 50ms; }
+  .stagger-enter > *:nth-child(3) { animation-delay: 100ms; }
+  .stagger-enter > *:nth-child(4) { animation-delay: 150ms; }
+  .stagger-enter > *:nth-child(5) { animation-delay: 200ms; }
+  .stagger-enter > *:nth-child(6) { animation-delay: 250ms; }
+  .stagger-enter > *:nth-child(n+7) { animation-delay: 300ms; }
+  
+  @keyframes stagger-item {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Mobile touch target enforcement */
+  .touch-target {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+  
+  /* Skeleton loading states */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--muted) 25%,
+      var(--surface) 50%,
+      var(--muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: var(--radius);
+  }
+  
+  @keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Focus visible styles for accessibility */
+  .focus-ring {
+    outline: none;
+  }
+  
+  .focus-ring:focus-visible {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    --tw-ring-color: var(--ring);
+    --tw-ring-offset-width: 2px;
+  }
+  
+  /* Section spacing utilities */
+  .section-spacing {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .section-spacing {
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
+  }
+  
+  /* Container with responsive padding - INCREASED for mobile */
+  .container-padding {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
+    .container-padding {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .container-padding {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-padding {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+  
+  /* Safe area padding (for notched devices) */
+  .safe-area-padding {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  
+  @media (min-width: 640px) {
+    .safe-area-padding {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+  
+  /* Card internal padding */
+  .card-padding {
+    padding: 1.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .card-padding {
+      padding: 1.5rem;
+    }
+  }
+  
+  /* Mobile-first card gap */
+  .card-gap {
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .card-gap {
+      gap: 1.25rem;
+    }
+  }
+  
+  /* Page content wrapper with proper spacing */
+  .page-content {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .page-content {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .page-content {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .page-content {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
+  }
+  
+  /* Header spacing */
+  .header-spacing {
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .header-spacing {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  /* Form spacing - using CSS custom spacing */
+  .form-spacing {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  @media (min-width: 768px) {
+    .form-spacing {
+      gap: 1.5rem;
+    }
+  }
+  
+  /* Button row spacing */
+  .button-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  @media (min-width: 640px) {
+    .button-row {
+      flex-direction: row;
+      gap: 1rem;
+    }
   }
 }

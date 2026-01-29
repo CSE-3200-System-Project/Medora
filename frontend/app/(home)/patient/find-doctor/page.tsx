@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { DoctorCard } from "@/components/doctor/doctor-card";
 import { SearchFilters } from "@/components/doctor/search-filters";
 import { MapView } from "@/components/doctor/map-view";
+import { PatientContextDisplay } from "@/components/doctor/patient-context-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
@@ -235,6 +237,7 @@ export default function FindDoctorPage() {
   const [totalResults, setTotalResults] = useState(0);
   const [hasFilters, setHasFilters] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<any>(null);
+  const [patientContextFactors, setPatientContextFactors] = useState<any[]>([]);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
@@ -313,10 +316,21 @@ export default function FindDoctorPage() {
             setAiAnalysis(data.medical_intent);
           }
           
+          // Capture patient context factors from AI search response
+          if (data.patient_context_factors && data.patient_context_factors.length > 0) {
+            console.log('Patient Context Factors:', data.patient_context_factors);
+            setPatientContextFactors(data.patient_context_factors);
+          } else {
+            setPatientContextFactors([]);
+          }
+          
           // Check for high ambiguity
           if (data.ambiguity === 'high' && data.doctors.length === 0) {
             setShowAmbiguityPrompt(true);
           }
+        } else {
+          // Clear patient context when not using AI search
+          setPatientContextFactors([]);
         }
         
         setDoctors(data.doctors);
@@ -351,24 +365,26 @@ export default function FindDoctorPage() {
   const handleClearFilters = () => {
     setHasFilters(false);
     setAiAnalysis(null);
+    setPatientContextFactors([]);
     setShowAmbiguityPrompt(false);
     fetchDoctors({});
   };
 
   return (
-    <div className="min-h-screen bg-surface font-sans text-foreground">
+    <AppBackground>
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-10 px-4 md:px-6 max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Find a Doctor</h1>
-          <p className="text-muted-foreground mb-6">
+      <main className="pt-20 pb-8 sm:pt-24 md:pt-28 md:pb-10 container-padding max-w-7xl mx-auto animate-page-enter">
+        {/* Header Section */}
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Find a Doctor</h1>
+          <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
             Book appointments with minimum wait-time & video consult with verified doctors
           </p>
           
           {/* Previously Visited Doctors */}
           {(loadingPrevious || previouslyVisited.length > 0) && !hasFilters && (
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               <PreviouslyVisitedDoctors 
                 doctors={previouslyVisited} 
                 loading={loadingPrevious}
@@ -386,6 +402,13 @@ export default function FindDoctorPage() {
             </div>
           )}
           
+          {/* Patient Context Display - Shows how medical history influenced the search */}
+          {patientContextFactors && patientContextFactors.length > 0 && (
+            <div className="mt-4">
+              <PatientContextDisplay factors={patientContextFactors} />
+            </div>
+          )}
+          
           {/* Ambiguity Clarification */}
           {showAmbiguityPrompt && (
             <div className="mt-4">
@@ -393,8 +416,8 @@ export default function FindDoctorPage() {
             </div>
           )}
           
-          {/* Results count and controls */}
-          <div className="flex items-center justify-between mt-4 mb-2 gap-2 flex-wrap">
+          {/* Results count and controls - Mobile-first responsive */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 mb-2 gap-2">
             <p className="text-sm text-muted-foreground">
               {!loading && (
                 <span className="font-semibold text-foreground">
@@ -408,7 +431,7 @@ export default function FindDoctorPage() {
                 variant={showMap ? "default" : "outline"}
                 size="sm"
                 onClick={() => setShowMap(!showMap)}
-                className="lg:hidden"
+                className="lg:hidden touch-target"
               >
                 <Map className="w-4 h-4 mr-2" />
                 {showMap ? "Hide Map" : "Show Map"}
@@ -428,22 +451,22 @@ export default function FindDoctorPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6">
-          {/* Left: Doctor List */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4 md:gap-6">
+          {/* Left: Doctor List with stagger animation */}
           <div className={`space-y-4 ${showMap ? 'hidden lg:block' : 'block'}`}>
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white rounded-2xl border border-border/50 p-6 animate-pulse">
-                    <div className="flex gap-6">
-                      <div className="h-32 w-32 bg-surface rounded-xl shrink-0" />
+                  <div key={i} className="bg-card rounded-2xl border border-border/50 p-5 md:p-6">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+                      <div className="h-20 w-20 sm:h-24 sm:w-24 skeleton rounded-xl shrink-0 mx-auto sm:mx-0" />
                       <div className="flex-1 space-y-3">
-                        <div className="h-6 bg-surface rounded w-1/3" />
-                        <div className="h-4 bg-surface rounded w-1/2" />
-                        <div className="h-4 bg-surface rounded w-2/3" />
-                        <div className="flex gap-2 mt-4">
-                          <div className="h-8 bg-surface rounded w-20" />
-                          <div className="h-8 bg-surface rounded w-24" />
+                        <div className="h-5 skeleton rounded w-1/2 mx-auto sm:mx-0" />
+                        <div className="h-4 skeleton rounded w-2/3 mx-auto sm:mx-0" />
+                        <div className="h-4 skeleton rounded w-3/4 mx-auto sm:mx-0" />
+                        <div className="flex gap-2 mt-4 justify-center sm:justify-start">
+                          <div className="h-8 skeleton rounded w-20" />
+                          <div className="h-8 skeleton rounded w-24" />
                         </div>
                       </div>
                     </div>
@@ -451,11 +474,13 @@ export default function FindDoctorPage() {
                 ))}
               </div>
             ) : doctors.length > 0 ? (
-              doctors.map((doctor) => (
-                <DoctorCard key={doctor.profile_id} doctor={doctor} />
-              ))
+              <div className="stagger-enter space-y-4">
+                {doctors.map((doctor) => (
+                  <DoctorCard key={doctor.profile_id} doctor={doctor} />
+                ))}
+              </div>
             ) : (
-              <div className="text-center py-12 bg-white rounded-2xl border border-border">
+              <div className="text-center py-12 bg-card rounded-2xl border border-border">
                 <p className="text-muted-foreground mb-2">No doctors found matching your criteria.</p>
                 {hasFilters && (
                   <Button variant="link" onClick={handleClearFilters}>Clear Filters</Button>
@@ -480,9 +505,9 @@ export default function FindDoctorPage() {
               </div>
               <Button
                 variant="default"
-                size="sm"
+                size="default"
                 onClick={() => setShowMap(false)}
-                className="absolute top-24 right-4 shadow-lg"
+                className="absolute top-24 right-4 shadow-lg touch-target"
               >
                 Close Map
               </Button>
@@ -490,6 +515,6 @@ export default function FindDoctorPage() {
           )}
         </div>
       </main>
-    </div>
+    </AppBackground>
   );
 }

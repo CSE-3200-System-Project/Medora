@@ -21,6 +21,11 @@ class AIDoctorResult(DoctorCardSchema):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+class PatientContextFactor(BaseModel):
+    category: str  # "condition", "medication", "surgery", "hospitalization", "allergy"
+    value: str  # e.g., "Diabetes", "Hypertension", "Chest surgery"
+    influence: str  # Brief explanation of why this matters for the search
+
 class AIDoctorSearchResponse(BaseModel):
     doctors: List[AIDoctorResult]
     ambiguity: str
@@ -31,4 +36,5 @@ class AIDoctorSearchResponse(BaseModel):
     # - extracted_specialty_names: List[str] - All specialties used for search
     # - total_specialties_matched: int
     # - fallback_reason: Optional[str] - Explanation when fallbacks are used
-    # - symptoms, severity, duration_days, etc. from LLM response 
+    # - symptoms, severity, duration_days, etc. from LLM response
+    patient_context_factors: Optional[List[PatientContextFactor]] = None  # Medical history factors influencing search

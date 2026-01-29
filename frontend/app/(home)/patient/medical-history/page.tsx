@@ -6,10 +6,17 @@ import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MedicationManager, type Medication } from "@/components/medicine";
+import { AppBackground } from "@/components/ui/app-background";
+import { MedicationManager, type Medication } from "@/components/medicine"
+import { SurgeryManager, type Surgery } from "@/components/medical-history/surgery-manager"
+import { HospitalizationManager, type Hospitalization } from "@/components/medical-history/hospitalization-manager"
+import { VaccinationManager, type Vaccination } from "@/components/medical-history/vaccination-manager"
+import { MedicalTimeline } from "@/components/medical-history/medical-timeline";
 import {
   ArrowLeft,
+  Calendar,
   Download,
   Loader2,
   Pill,
@@ -28,6 +35,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+
+import { getMyAppointments } from "@/lib/appointment-actions";
+
 import { MedicalTestSearch } from "@/components/medical-test";
 
 // Interface for medical test records
@@ -56,11 +66,16 @@ function MedicalHistoryContent() {
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
+
+
+  const [appointments, setAppointments] = useState<any[]>([]);
+
+
   const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
   const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
   const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
   const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
-  
+
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -79,7 +94,7 @@ function MedicalHistoryContent() {
           // Load medications
           const meds = data.medications || [];
           const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-            if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+            if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
             return {
               id: crypto.randomUUID(),
               drug_id: "",
@@ -100,6 +115,14 @@ function MedicalHistoryContent() {
           // Load other medical history
           setSurgeries(data.surgeries || []);
           setHospitalizations(data.hospitalizations || []);
+
+          // Load appointments
+          try {
+            const apps = await getMyAppointments();
+            if (Array.isArray(apps)) setAppointments(apps);
+          } catch (e) {
+            console.error("Failed to load appointments", e);
+          }
           setVaccinations(data.vaccinations || []);
           setMedicalTests(data.medical_tests || []);
           
@@ -154,7 +177,7 @@ function MedicalHistoryContent() {
       if (updatedData) {
         const meds = updatedData.medications || [];
         const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-          if (med.drug_id) return { ...med, id: med.id || crypto.randomUUID() } as Medication;
+          if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
           return {
             id: crypto.randomUUID(),
             drug_id: "",
@@ -276,29 +299,29 @@ function MedicalHistoryContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface">
+      <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto px-4 py-8 pt-24">
+        <main className="container mx-auto py-8 pt-24">
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className="skeleton w-8 h-8 rounded-full"></div>
           </div>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   const totalMeds = medications.length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="container-padding animate-page-enter">
       <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pt-20 sm:pt-24 max-w-6xl">
+      <main className="container mx-auto py-6 sm:py-8 pt-20 sm:pt-24 max-w-6xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <Button
             variant="ghost"
             onClick={() => router.push("/patient/profile")}
-            className="mb-4 -ml-2"
+            className="mb-4 -ml-2 touch-target"
             size="sm"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -319,7 +342,7 @@ function MedicalHistoryContent() {
                 variant="outline"
                 onClick={handleExportAll}
                 size="sm"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto touch-target"
               >
                 <Download className="h-4 w-4 mr-2" />
                 <span className="sm:inline">Export All</span>
@@ -328,7 +351,7 @@ function MedicalHistoryContent() {
                 onClick={handleSave}
                 disabled={saving || !initialLoaded}
                 size="sm"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto touch-target"
               >
                 {saving ? (
                   <>
@@ -345,10 +368,10 @@ function MedicalHistoryContent() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <Card className="bg-primary/5 border-primary/20">
+          <Card hoverable className="bg-primary/5 dark:bg-primary/10 border-primary/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
                   <Pill className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                 </div>
                 <div className="min-w-0">
@@ -363,11 +386,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-purple-500/5 border-purple-500/20">
+          <Card hoverable className="bg-purple-500/5 dark:bg-purple-500/10 border-purple-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center">
+                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -381,10 +404,10 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-success/5 border-success/20">
+          <Card hoverable className="bg-success/5 dark:bg-success/10 border-success/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-success/10 flex items-center justify-center">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-success/10 dark:bg-success/20 flex items-center justify-center">
                   <Syringe className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
                 </div>
                 <div className="min-w-0">
@@ -399,11 +422,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-amber-500/5 border-amber-500/20">
+          <Card hoverable className="bg-amber-500/5 dark:bg-amber-500/10 border-amber-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center">
+                  <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -417,11 +440,11 @@ function MedicalHistoryContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-blue-500/5 border-blue-500/20">
+          <Card hoverable className="bg-blue-500/5 dark:bg-blue-500/10 border-blue-500/20">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center">
+                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
@@ -463,6 +486,11 @@ function MedicalHistoryContent() {
               <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Vaccinations</span>
               <span className="sm:hidden">Vaccines</span>
+            </TabsTrigger>
+            <TabsTrigger value="visits" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
+              <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Visits</span>
+              <span className="sm:hidden">Visits</span>
             </TabsTrigger>
             <TabsTrigger value="timeline" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
               <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -701,16 +729,11 @@ function MedicalHistoryContent() {
           {/* Surgeries Tab */}
           <TabsContent value="surgeries" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Surgical History</CardTitle>
-                <CardDescription>Track your past surgeries and procedures</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Syringe className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Surgery management coming soon</p>
-                  <p className="text-sm mt-2">You can add surgeries during onboarding</p>
-                </div>
+                <SurgeryManager
+                  surgeries={surgeries}
+                  onUpdate={setSurgeries}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -718,16 +741,11 @@ function MedicalHistoryContent() {
           {/* Hospitalizations Tab */}
           <TabsContent value="hospitalizations" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Hospitalization History</CardTitle>
-                <CardDescription>Record of hospital admissions</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Hospital className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Hospitalization management coming soon</p>
-                  <p className="text-sm mt-2">You can add hospitalizations during onboarding</p>
-                </div>
+                <HospitalizationManager
+                  hospitalizations={hospitalizations}
+                  onUpdate={setHospitalizations}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -735,16 +753,50 @@ function MedicalHistoryContent() {
           {/* Vaccinations Tab */}
           <TabsContent value="vaccinations" className="mt-0">
             <Card>
+              <CardContent className="p-4 sm:p-6">
+                <VaccinationManager
+                  vaccinations={vaccinations}
+                  onUpdate={setVaccinations}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Visits Tab */}
+          <TabsContent value="visits" className="mt-0">
+            <Card>
               <CardHeader>
-                <CardTitle>Vaccination Records</CardTitle>
-                <CardDescription>Keep track of your immunizations</CardDescription>
+                <CardTitle>Past Doctor Visits</CardTitle>
+                <CardDescription>History of your consultations with Medora doctors</CardDescription>
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Shield className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Vaccination management coming soon</p>
-                  <p className="text-sm mt-2">You can add vaccinations during onboarding</p>
-                </div>
+                {appointments.length > 0 ? (
+                  <div className="space-y-4">
+                    {appointments.map((app, i) => (
+                      <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg gap-4 bg-surface/30">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                             <Calendar className="h-4 w-4 text-primary" />
+                             <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
+                             <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                          </div>
+                          <div className="text-lg font-medium">{app.reason}</div>
+                          {app.notes && <div className="text-sm text-muted-foreground mt-1 max-w-xl">{app.notes}</div>}
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>
+                             {app.status}
+                           </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <CheckCircle2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
+                    <p>No past appointments found.</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -752,16 +804,14 @@ function MedicalHistoryContent() {
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="mt-0">
             <Card>
-              <CardHeader>
-                <CardTitle>Medical Timeline</CardTitle>
-                <CardDescription>Chronological view of your medical history</CardDescription>
-              </CardHeader>
               <CardContent className="p-4 sm:p-6">
-                <div className="text-center py-12 text-muted-foreground">
-                  <Clock className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                  <p>Timeline view coming soon</p>
-                  <p className="text-sm mt-2">View all medical events in chronological order</p>
-                </div>
+                <MedicalTimeline
+                  surgeries={surgeries}
+                  hospitalizations={hospitalizations}
+                  vaccinations={vaccinations}
+                  medications={medications}
+                  appointments={appointments}
+                />
               </CardContent>
             </Card>
           </TabsContent>
@@ -800,26 +850,26 @@ function MedicalHistoryContent() {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button onClick={() => setErrorDialogOpen(false)}>
+              <Button onClick={() => setErrorDialogOpen(false)} className="touch-target">
                 OK
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </main>
-    </div>
+    </AppBackground>
   );
 }
 
 export default function MedicalHistoryPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-surface">
+      <AppBackground className="container-padding">
         <Navbar />
         <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <div className="skeleton w-8 h-8 rounded-full"></div>
         </div>
-      </div>
+      </AppBackground>
     }>
       <MedicalHistoryContent />
     </Suspense>
