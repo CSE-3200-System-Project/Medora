@@ -1,9 +1,40 @@
 import os
+import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access
 
-app = FastAPI(title="Backend API")
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    FastAPI lifespan context manager.
+    - Startup: Preload Whisper model for voice transcription
+    - Shutdown: Cleanup resources
+    """
+    # Startup: Preload the Whisper ASR model
+    # This avoids slow first request when voice transcription is used
+    try:
+        logger.info("Preloading Whisper ASR model...")
+        from app.services.asr import preload_model
+        preload_model()
+        logger.info("Whisper model preloaded successfully")
+    except Exception as e:
+        logger.warning(f"Failed to preload Whisper model: {e}")
+        logger.warning("Model will be loaded on first voice transcription request")
+    
+    yield  # Application runs
+    
+    # Shutdown: Cleanup (if needed)
+    logger.info("Shutting down...")
+
+
+app = FastAPI(title="Backend API", lifespan=lifespan)
 
 # Get allowed origins from env or default to localhost
 origins = [

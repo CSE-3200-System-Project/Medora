@@ -4,7 +4,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, localDateKey } from "@/lib/utils";
 
 interface AppointmentInfo {
   id: string;
@@ -55,18 +55,19 @@ export function AppointmentCalendar({
 
   const handleDateClick = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = localDateKey(date);
     onDateSelect(dateStr);
   };
 
   const getDateString = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    return date.toISOString().split('T')[0];
+    return localDateKey(date);
   };
 
   const hasAppointment = (day: number) => {
     const dateStr = getDateString(day);
-    return appointmentDates.includes(dateStr);
+    // Normalize appointmentDates to local keys when checking
+    return appointmentDates.map(d => localDateKey(d)).includes(dateStr);
   };
 
   const getAppointmentCount = (day: number) => {

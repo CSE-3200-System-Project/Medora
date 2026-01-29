@@ -8,7 +8,7 @@ import { getAvailableSlots } from "@/lib/auth-actions";
 import { createAppointment, getDoctorBookedSlots } from "@/lib/appointment-actions";
 import { useRouter, usePathname } from "next/navigation";
 import { MapPin, Video, Calendar, Clock, CheckCircle2, XCircle, Navigation, ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, localDateKey } from "@/lib/utils";
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map";
 
 interface AppointmentBookingPanelProps {
@@ -52,7 +52,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       dates.push({
         label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : `${date.getDate()} ${monthNames[date.getMonth()]}`,
         sublabel: i === 0 ? `${date.getDate()} ${monthNames[date.getMonth()]}` : dayNames[date.getDay()],
-        date: date.toISOString().split('T')[0],
+        date: localDateKey(date),
         dayName: dayNames[date.getDay()],
         dayFullName: fullDayNames[date.getDay()],
       });
@@ -216,12 +216,10 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
           if (lat && lng) {
             return (
               <div className="rounded-xl overflow-hidden border border-border">
-                <div className="h-48 md:h-56 relative">
+                <div className="h-48 md:h-56 relative w-full">
                   <Map
                     center={[lng, lat]}
                     zoom={15}
-                    className="w-full h-full"
-                    style="mapbox://styles/mapbox/streets-v12"
                   >
                     <MapControls position="top-right" showZoom showCompass={false} />
                     <MapMarker longitude={lng} latitude={lat}>
