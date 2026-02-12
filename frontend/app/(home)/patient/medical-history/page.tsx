@@ -30,6 +30,7 @@ import {
   Plus,
   Trash2,
   CalendarIcon,
+  Bell,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -39,6 +40,8 @@ import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-ac
 import { getMyAppointments } from "@/lib/appointment-actions";
 
 import { MedicalTestSearch } from "@/components/medical-test";
+import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
+import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
 
 // Interface for medical test records
 interface MedicalTest {
@@ -75,11 +78,22 @@ function MedicalHistoryContent() {
   const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
   const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
   const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
+  
+  // Doctor prescriptions state (accepted prescriptions from consultations)
+  const [doctorPrescriptions, setDoctorPrescriptions] = useState<Prescription[]>([]);
 
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [errorDialogOpen, setErrorDialogOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  
+  // Prescription reminder dialog state
+  const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
+  const [selectedMedicationForReminder, setSelectedMedicationForReminder] = useState<{
+    medicineName: string;
+    prescriptionId: string;
+    doseTimes: { morning?: boolean; afternoon?: boolean; evening?: boolean; night?: boolean };
+  } | null>(null);
   
   const [initialLoaded, setInitialLoaded] = useState(false);
 
@@ -123,6 +137,15 @@ function MedicalHistoryContent() {
           } catch (e) {
             console.error("Failed to load appointments", e);
           }
+          
+          // Load doctor prescriptions (accepted prescriptions from consultations)
+          try {
+            const prescriptionData = await getMedicalHistoryPrescriptions();
+            setDoctorPrescriptions(prescriptionData.prescriptions || []);
+          } catch (e) {
+            console.error("Failed to load doctor prescriptions", e);
+          }
+          
           setVaccinations(data.vaccinations || []);
           setMedicalTests(data.medical_tests || []);
           
@@ -310,7 +333,9 @@ function MedicalHistoryContent() {
     );
   }
 
-  const totalMeds = medications.length;
+  const totalMeds = medications.length + doctorPrescriptions.filter(p => p.type === "medication").reduce((acc, p) => acc + p.medications.length, 0);
+  const totalTests = medicalTests.length + doctorPrescriptions.filter(p => p.type === "test").reduce((acc, p) => acc + p.tests.length, 0);
+  const totalSurgeries = surgeries.length + doctorPrescriptions.filter(p => p.type === "surgery").reduce((acc, p) => acc + p.surgeries.length, 0);
 
   return (
     <AppBackground className="container-padding animate-page-enter">
@@ -394,7 +419,7 @@ function MedicalHistoryContent() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {medicalTests.length}
+                    {totalTests}
                   </div>
                   <div className="text-xs sm:text-sm text-muted-foreground truncate">
                     Lab Tests
@@ -412,7 +437,7 @@ function MedicalHistoryContent() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {surgeries.length}
+                    {totalSurgeries}
                   </div>
                   <div className="text-xs sm:text-sm text-muted-foreground truncate">
                     Surgeries
@@ -499,14 +524,111 @@ function MedicalHistoryContent() {
           </TabsList>
 
           {/* Medications Tab */}
-          <TabsContent value="medications" className="mt-0">
+          <TabsContent value="medications" className="mt-0 space-y-6">
+            {/* Doctor Prescribed Medications */}
+            {doctorPrescriptions.filter(p => p.type === "medication" && p.medications.length > 0).length > 0 && (
+              <Card className="border-primary/30 dark:border-primary/50">
+                <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent dark:from-primary/10">
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Pill className="h-5 w-5 text-primary" />
+                    Doctor Prescribed Medications
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Medications prescribed by your doctors during consultations
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4 sm:p-6">
+                  <div className="space-y-4">
+                    {doctorPrescriptions
+                      .filter(p => p.type === "medication" && p.medications.length > 0)
+                      .map(prescription => (
+                        <div key={prescription.id} className="space-y-3">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
+                            <span>•</span>
+                            <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
+                          </div>
+                          {prescription.medications.map((med: MedicationPrescription) => (
+                            <div key={med.id} className="p-4 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/20">
+                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                <div>
+                                  <h4 className="font-semibold text-foreground">{med.medicine_name}</h4>
+                                  {med.generic_name && (
+                                    <p className="text-sm text-muted-foreground">{med.generic_name}</p>
+                                  )}
+                                </div>
+                                <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/30">
+                                  {med.medicine_type}
+                                </Badge>
+                              </div>
+                              <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                                {med.strength && (
+                                  <div>
+                                    <span className="text-muted-foreground">Strength:</span>
+                                    <span className="ml-1 font-medium text-foreground">{med.strength}</span>
+                                  </div>
+                                )}
+                                <div>
+                                  <span className="text-muted-foreground">Doses:</span>
+                                  <span className="ml-1 font-medium text-foreground">
+                                    {[med.dose_morning && "Morning", med.dose_afternoon && "Afternoon", med.dose_evening && "Evening", med.dose_night && "Night"].filter(Boolean).join(", ") || "As directed"}
+                                  </span>
+                                </div>
+                                {med.duration_value && (
+                                  <div>
+                                    <span className="text-muted-foreground">Duration:</span>
+                                    <span className="ml-1 font-medium text-foreground">{med.duration_value} {med.duration_unit}</span>
+                                  </div>
+                                )}
+                                <div>
+                                  <span className="text-muted-foreground">Meal:</span>
+                                  <span className="ml-1 font-medium text-foreground">{med.meal_instruction?.replace(/_/g, " ") || "Any time"}</span>
+                                </div>
+                              </div>
+                              {med.special_instructions && (
+                                <p className="mt-2 text-sm text-muted-foreground italic">Note: {med.special_instructions}</p>
+                              )}
+                              {/* Set Reminder Button */}
+                              <div className="mt-3 pt-3 border-t border-primary/10">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="gap-2 text-primary border-primary/30 hover:bg-primary/10"
+                                  onClick={() => {
+                                    setSelectedMedicationForReminder({
+                                      medicineName: med.medicine_name,
+                                      prescriptionId: prescription.id,
+                                      doseTimes: {
+                                        morning: med.dose_morning,
+                                        afternoon: med.dose_afternoon,
+                                        evening: med.dose_evening,
+                                        night: med.dose_night,
+                                      }
+                                    });
+                                    setReminderDialogOpen(true);
+                                  }}
+                                >
+                                  <Bell className="h-4 w-4" />
+                                  Set Reminder
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
+            {/* Self-Reported Medications */}
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <MedicationManager
                   medications={medications}
                   onUpdate={setMedications}
                   showStatus={true}
-                  title="Medications"
+                  title="My Medications"
                   description="Search from our medicine database and manage your medications"
                 />
               </CardContent>
@@ -514,16 +636,78 @@ function MedicalHistoryContent() {
           </TabsContent>
 
           {/* Lab Tests Tab */}
-          <TabsContent value="tests" className="mt-0">
-            <Card className="border-purple-200 shadow-sm">
-              <CardHeader className="bg-gradient-to-r from-purple-50 to-white border-b border-purple-100">
+          <TabsContent value="tests" className="mt-0 space-y-6">
+            {/* Doctor Prescribed Tests */}
+            {doctorPrescriptions.filter(p => p.type === "test" && p.tests.length > 0).length > 0 && (
+              <Card className="border-purple-300 dark:border-purple-700">
+                <CardHeader className="bg-gradient-to-r from-purple-50 to-transparent dark:from-purple-950/30">
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    Doctor Prescribed Tests
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Tests ordered by your doctors during consultations
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4 sm:p-6">
+                  <div className="space-y-4">
+                    {doctorPrescriptions
+                      .filter(p => p.type === "test" && p.tests.length > 0)
+                      .map(prescription => (
+                        <div key={prescription.id} className="space-y-3">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
+                            <span>•</span>
+                            <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
+                          </div>
+                          {prescription.tests.map((test: TestPrescription) => (
+                            <div key={test.id} className="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700">
+                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                <div>
+                                  <h4 className="font-semibold text-foreground">{test.test_name}</h4>
+                                  {test.test_type && (
+                                    <p className="text-sm text-muted-foreground">{test.test_type}</p>
+                                  )}
+                                </div>
+                                <Badge variant="outline" className={`w-fit ${test.urgency === "urgent" ? "bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400" : "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-900/30 dark:text-purple-400"}`}>
+                                  {test.urgency}
+                                </Badge>
+                              </div>
+                              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                {test.preferred_lab && (
+                                  <div>
+                                    <span className="text-muted-foreground">Preferred Lab:</span>
+                                    <span className="ml-1 font-medium text-foreground">{test.preferred_lab}</span>
+                                  </div>
+                                )}
+                                {test.expected_date && (
+                                  <div>
+                                    <span className="text-muted-foreground">Expected Date:</span>
+                                    <span className="ml-1 font-medium text-foreground">{new Date(test.expected_date).toLocaleDateString()}</span>
+                                  </div>
+                                )}
+                              </div>
+                              {test.instructions && (
+                                <p className="mt-2 text-sm text-muted-foreground italic">Instructions: {test.instructions}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
+            <Card className="border-purple-200 dark:border-purple-800 shadow-sm">
+              <CardHeader className="bg-gradient-to-r from-purple-50 to-white dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <CardTitle className="text-foreground flex items-center gap-2">
-                      <FlaskConical className="h-5 w-5 text-purple-600" />
+                      <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                       Lab Tests & Diagnostics
                     </CardTitle>
-                    <CardDescription className="text-gray-600">Track your medical tests and results</CardDescription>
+                    <CardDescription className="text-gray-600 dark:text-muted-foreground">Track your medical tests and results</CardDescription>
                   </div>
                   <Button
                     type="button"
@@ -550,25 +734,25 @@ function MedicalHistoryContent() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 sm:p-6 bg-white">
+              <CardContent className="p-4 sm:p-6 bg-white dark:bg-card">
                 {medicalTests.length === 0 ? (
                   <div className="text-center py-12">
-                    <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                      <FlaskConical className="h-8 w-8 text-purple-500" />
+                    <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                      <FlaskConical className="h-8 w-8 text-purple-500 dark:text-purple-400" />
                     </div>
-                    <p className="text-gray-700 font-medium">No lab tests recorded yet</p>
-                    <p className="text-sm mt-2 text-gray-500">Click &quot;Add Test&quot; to record your lab tests</p>
+                    <p className="text-gray-700 dark:text-foreground font-medium">No lab tests recorded yet</p>
+                    <p className="text-sm mt-2 text-gray-500 dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {medicalTests.map((test, index) => (
-                      <div key={index} className="border border-purple-200 rounded-xl p-5 bg-gradient-to-br from-purple-50/50 to-white shadow-sm">
+                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-gradient-to-br from-purple-50/50 to-white dark:from-purple-950/20 dark:to-card shadow-sm">
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
                             <span className="h-7 w-7 rounded-full bg-purple-600 text-white text-sm font-medium flex items-center justify-center">
                               {index + 1}
                             </span>
-                            <span className="text-sm font-semibold text-gray-800">
+                            <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
                               Test Record
                             </span>
                           </div>
@@ -727,7 +911,78 @@ function MedicalHistoryContent() {
           </TabsContent>
 
           {/* Surgeries Tab */}
-          <TabsContent value="surgeries" className="mt-0">
+          <TabsContent value="surgeries" className="mt-0 space-y-6">
+            {/* Doctor Recommended Surgeries */}
+            {doctorPrescriptions.filter(p => p.type === "surgery" && p.surgeries.length > 0).length > 0 && (
+              <Card className="border-success/30 dark:border-success/50">
+                <CardHeader className="bg-gradient-to-r from-success/5 to-transparent dark:from-success/10">
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Syringe className="h-5 w-5 text-success" />
+                    Doctor Recommended Surgeries
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Surgical procedures recommended by your doctors
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-4 sm:p-6">
+                  <div className="space-y-4">
+                    {doctorPrescriptions
+                      .filter(p => p.type === "surgery" && p.surgeries.length > 0)
+                      .map(prescription => (
+                        <div key={prescription.id} className="space-y-3">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
+                            <span>•</span>
+                            <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
+                          </div>
+                          {prescription.surgeries.map((surgery: SurgeryRecommendation) => (
+                            <div key={surgery.id} className="p-4 rounded-lg bg-success/5 dark:bg-success/10 border border-success/20">
+                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                <div>
+                                  <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
+                                  {surgery.procedure_type && (
+                                    <p className="text-sm text-muted-foreground">{surgery.procedure_type}</p>
+                                  )}
+                                </div>
+                                <Badge variant="outline" className={`w-fit ${surgery.urgency === "immediate" ? "bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400" : "bg-success/20 text-success border-success/30"}`}>
+                                  {surgery.urgency}
+                                </Badge>
+                              </div>
+                              {surgery.reason && (
+                                <p className="mt-2 text-sm text-muted-foreground">Reason: {surgery.reason}</p>
+                              )}
+                              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                {surgery.preferred_facility && (
+                                  <div>
+                                    <span className="text-muted-foreground">Facility:</span>
+                                    <span className="ml-1 font-medium text-foreground">{surgery.preferred_facility}</span>
+                                  </div>
+                                )}
+                                {surgery.recommended_date && (
+                                  <div>
+                                    <span className="text-muted-foreground">Recommended Date:</span>
+                                    <span className="ml-1 font-medium text-foreground">{new Date(surgery.recommended_date).toLocaleDateString()}</span>
+                                  </div>
+                                )}
+                                {surgery.estimated_cost_min && surgery.estimated_cost_max && (
+                                  <div>
+                                    <span className="text-muted-foreground">Est. Cost:</span>
+                                    <span className="ml-1 font-medium text-foreground">৳{surgery.estimated_cost_min.toLocaleString()} - ৳{surgery.estimated_cost_max.toLocaleString()}</span>
+                                  </div>
+                                )}
+                              </div>
+                              {surgery.pre_op_instructions && (
+                                <p className="mt-2 text-sm text-muted-foreground italic">Pre-op: {surgery.pre_op_instructions}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <SurgeryManager
@@ -856,6 +1111,23 @@ function MedicalHistoryContent() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        
+        {/* Prescription Reminder Dialog */}
+        {selectedMedicationForReminder && (
+          <PrescriptionReminderDialog
+            open={reminderDialogOpen}
+            onOpenChange={(open) => {
+              setReminderDialogOpen(open);
+              if (!open) setSelectedMedicationForReminder(null);
+            }}
+            medicineName={selectedMedicationForReminder.medicineName}
+            prescriptionId={selectedMedicationForReminder.prescriptionId}
+            doseTimes={selectedMedicationForReminder.doseTimes}
+            onSuccess={() => {
+              // Optionally refresh data or show success message
+            }}
+          />
+        )}
       </main>
     </AppBackground>
   );

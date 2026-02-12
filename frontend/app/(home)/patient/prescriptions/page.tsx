@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +43,7 @@ export default function PatientPrescriptionsPage() {
       setLoading(true);
       setError(null);
       const data = await getPatientPrescriptions();
-      setPrescriptions(data);
+      setPrescriptions(data.prescriptions);
     } catch (err: any) {
       console.error("Failed to load prescriptions:", err);
       setError(err.message || "Failed to load prescriptions");
@@ -130,10 +131,10 @@ export default function PatientPrescriptionsPage() {
   const pendingCount = prescriptions.filter((p) => p.status === "pending").length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="animate-page-enter">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-6 max-w-4xl">
+      <main className="container mx-auto container-padding py-6 pt-24 max-w-4xl">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />
@@ -251,10 +252,10 @@ export default function PatientPrescriptionsPage() {
 
                         {/* Doctor and Date Info */}
                         <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                          {prescription.consultation?.doctor && (
+                          {prescription.doctor_name && (
                             <span className="flex items-center gap-1">
                               <User className="h-3 w-3" />
-                              Dr. {prescription.consultation.doctor.first_name} {prescription.consultation.doctor.last_name}
+                              Dr. {prescription.doctor_name}
                             </span>
                           )}
                           <span className="flex items-center gap-1">
@@ -268,10 +269,9 @@ export default function PatientPrescriptionsPage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            ))}n          </div>
         )}
       </main>
-    </div>
+    </AppBackground>
   );
 }
