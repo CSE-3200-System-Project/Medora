@@ -6,6 +6,7 @@ import { updateDoctorSchedule } from "@/lib/auth-actions";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppBackground } from "@/components/ui/app-background";
 
 export default function DoctorSchedulePage() {
   const router = useRouter();
@@ -45,16 +46,16 @@ export default function DoctorSchedulePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface">
+      <AppBackground className="min-h-screen flex items-center justify-center">
         <p className="text-muted-foreground">Loading...</p>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="min-h-screen animate-page-enter">
       {/* Mobile-First Header */}
-      <div className="sticky top-0 z-20 bg-background border-b border-border">
+      <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm border-b border-border">
         <div className="flex items-center gap-3 px-4 py-4 max-w-4xl mx-auto">
           <Button
             variant="ghost"
@@ -85,6 +86,6 @@ export default function DoctorSchedulePage() {
           onSave={handleSave}
         />
       </div>
-    </div>
+    </AppBackground>
   );
 }

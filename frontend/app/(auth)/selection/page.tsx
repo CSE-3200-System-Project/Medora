@@ -4,13 +4,14 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Stethoscope, UserCircle, ArrowRight } from "lucide-react";
+import { AppBackground } from "@/components/ui/app-background";
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 import logo from "@/assets/image/medora-logo.png";
 
 export default function SelectionPage() {
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="min-h-screen animate-page-enter">
       {/* Mobile-first stacked layout, side-by-side on desktop */}
       <div className="flex flex-col lg:flex-row min-h-screen p-4 md:p-6 lg:p-8 gap-4">
         
@@ -97,6 +98,6 @@ export default function SelectionPage() {
           </p>
         </div>
       </div>
-    </div>
+    </AppBackground>
   );
 }

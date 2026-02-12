@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,24 +48,24 @@ export default function DoctorProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground>
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-foreground font-semibold">Loading profile...</p>
           </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   if (!doctor) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground>
         <div className="flex items-center justify-center h-screen">
           <p className="text-foreground">Failed to load profile</p>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
@@ -73,10 +74,10 @@ export default function DoctorProfilePage() {
     : doctor.services?.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface via-primary-more-light to-accent">
+    <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div>
@@ -417,6 +418,6 @@ export default function DoctorProfilePage() {
           )}
         </div>
       </main>
-    </div>
+    </AppBackground>
   );
 }

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Bell, Check, CheckCheck, Trash2, X, Calendar, UserPlus, ShieldCheck, ShieldX, AlertCircle, Info } from "lucide-react";
+import { Bell, Check, CheckCheck, Trash2, X, Calendar, UserPlus, ShieldCheck, ShieldX, AlertCircle, Info, Pill, FlaskConical, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +47,13 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   onboarding_reminder: AlertCircle,
   system_announcement: Info,
   welcome: Info,
+  medication_reminder: Pill,
+  test_reminder: FlaskConical,
+  consultation_started: FileText,
+  consultation_completed: CheckCheck,
+  prescription_created: Pill,
+  prescription_accepted: Check,
+  prescription_rejected: X,
 };
 
 // Color mapping for notification types
@@ -69,6 +76,13 @@ const notificationColors: Record<NotificationType, string> = {
   onboarding_reminder: "text-yellow-600 bg-yellow-100",
   system_announcement: "text-primary bg-primary/10",
   welcome: "text-primary bg-primary/10",
+  medication_reminder: "text-blue-600 bg-blue-100",
+  test_reminder: "text-purple-600 bg-purple-100",
+  consultation_started: "text-primary bg-primary/10",
+  consultation_completed: "text-success bg-success/10",
+  prescription_created: "text-blue-600 bg-blue-100",
+  prescription_accepted: "text-success bg-success/10",
+  prescription_rejected: "text-destructive bg-destructive/10",
 };
 
 function formatTimeAgo(dateString: string): string {

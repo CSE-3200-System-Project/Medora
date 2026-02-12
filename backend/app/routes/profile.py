@@ -353,8 +353,6 @@ async def update_doctor_onboarding(
             if data.available_days and normalized_day_slots.get(data.available_days[0]):
                 legacy_time_slots = ", ".join(normalized_day_slots[data.available_days[0]])
                 doctor_data['time_slots'] = legacy_time_slots
-                doctor_data['normalized_time_slots'] = legacy_time_slots
-                doctor_data['time_slots_needs_review'] = False
         elif data.time_slots:
             # Legacy single time_slots field support
             def _normalize(s: str) -> str:
@@ -367,8 +365,6 @@ async def update_doctor_onboarding(
 
             normalized = _normalize(data.time_slots)
             doctor_data['time_slots'] = normalized
-            doctor_data['normalized_time_slots'] = normalized
-            doctor_data['time_slots_needs_review'] = not bool(re.search(r"(AM|PM)", normalized))
 
         if data.appointment_duration is not None: doctor_data['appointment_duration'] = data.appointment_duration
         if data.emergency_availability is not None: doctor_data['emergency_availability'] = data.emergency_availability

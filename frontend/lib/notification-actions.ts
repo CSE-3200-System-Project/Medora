@@ -32,7 +32,14 @@ export type NotificationType =
   | "profile_update"
   | "onboarding_reminder"
   | "system_announcement"
-  | "welcome";
+  | "welcome"
+  | "medication_reminder"
+  | "test_reminder"
+  | "consultation_started"
+  | "consultation_completed"
+  | "prescription_created"
+  | "prescription_accepted"
+  | "prescription_rejected";
 
 export type NotificationPriority = "low" | "medium" | "high" | "urgent";
 

@@ -3,6 +3,7 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -71,8 +72,9 @@ export default function PatientPrescriptionDetailPage() {
     try {
       setActionLoading(true);
       setError(null);
-      const updated = await acceptPrescription(prescriptionId);
-      setPrescription(updated);
+      await acceptPrescription(prescriptionId);
+      // Refetch prescription to get updated status
+      await loadPrescription();
     } catch (err: any) {
       setError(err.message || "Failed to accept prescription");
     } finally {
@@ -89,8 +91,9 @@ export default function PatientPrescriptionDetailPage() {
     try {
       setActionLoading(true);
       setError(null);
-      const updated = await rejectPrescription(prescriptionId, rejectReason);
-      setPrescription(updated);
+      await rejectPrescription(prescriptionId, rejectReason);
+      // Refetch prescription to get updated status
+      await loadPrescription();
       setShowRejectForm(false);
     } catch (err: any) {
       setError(err.message || "Failed to reject prescription");
@@ -176,20 +179,20 @@ export default function PatientPrescriptionDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface">
+      <AppBackground>
         <Navbar />
         <div className="flex justify-center items-center py-24">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   if (error && !prescription) {
     return (
-      <div className="min-h-screen bg-surface">
+      <AppBackground>
         <Navbar />
-        <main className="container mx-auto px-4 py-6 max-w-4xl">
+        <main className="container mx-auto container-padding py-6 pt-24 max-w-4xl">
           <Card className="border-destructive">
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
@@ -201,17 +204,17 @@ export default function PatientPrescriptionDetailPage() {
             </CardContent>
           </Card>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   if (!prescription) return null;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <AppBackground className="animate-page-enter">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-6 max-w-4xl">
+      <main className="container mx-auto container-padding py-6 pt-24 max-w-4xl">
         {/* Header */}
         <div className="mb-6">
           <Button
@@ -249,19 +252,27 @@ export default function PatientPrescriptionDetailPage() {
         )}
 
         {/* Doctor Info */}
-        {prescription.consultation?.doctor && (
+        {prescription.doctor_name && (
           <Card className="mb-6">
             <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="h-6 w-6 text-primary" />
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                {prescription.doctor_photo ? (
+                  <img 
+                    src={prescription.doctor_photo} 
+                    alt={prescription.doctor_name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User className="h-6 w-6 text-primary" />
+                )}
               </div>
               <div>
                 <p className="font-semibold text-foreground">
-                  Dr. {prescription.consultation.doctor.first_name} {prescription.consultation.doctor.last_name}
+                  Dr. {prescription.doctor_name}
                 </p>
-                {prescription.consultation.doctor.specialization && (
+                {prescription.doctor_specialization && (
                   <p className="text-sm text-muted-foreground">
-                    {prescription.consultation.doctor.specialization}
+                    {prescription.doctor_specialization}
                   </p>
                 )}
               </div>
@@ -269,31 +280,14 @@ export default function PatientPrescriptionDetailPage() {
           </Card>
         )}
 
-        {/* Consultation Notes */}
-        {prescription.consultation && (
+        {/* Notes */}
+        {prescription.notes && (
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="text-lg">Consultation Summary</CardTitle>
+              <CardTitle className="text-lg">Prescription Notes</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {prescription.consultation.chief_complaint && (
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Chief Complaint</Label>
-                  <p className="mt-1">{prescription.consultation.chief_complaint}</p>
-                </div>
-              )}
-              {prescription.consultation.diagnosis && (
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Diagnosis</Label>
-                  <p className="mt-1">{prescription.consultation.diagnosis}</p>
-                </div>
-              )}
-              {prescription.consultation.notes && (
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">Notes</Label>
-                  <p className="mt-1">{prescription.consultation.notes}</p>
-                </div>
-              )}
+            <CardContent>
+              <p className="text-foreground">{prescription.notes}</p>
             </CardContent>
           </Card>
         )}
@@ -329,28 +323,28 @@ export default function PatientPrescriptionDetailPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-sm text-muted-foreground">Dosage:</span>
                       <div className="flex gap-2">
-                        {med.morning_dose && (
+                        {med.dose_morning && (
                           <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 rounded text-sm">
                             <Sunrise className="h-3 w-3 text-orange-600" />
-                            {med.morning_dose}
+                            {med.dose_morning_amount || "Morning"}
                           </div>
                         )}
-                        {med.afternoon_dose && (
+                        {med.dose_afternoon && (
                           <div className="flex items-center gap-1 px-2 py-1 bg-yellow-100 rounded text-sm">
                             <Sun className="h-3 w-3 text-yellow-600" />
-                            {med.afternoon_dose}
+                            {med.dose_afternoon_amount || "Afternoon"}
                           </div>
                         )}
-                        {med.evening_dose && (
+                        {med.dose_evening && (
                           <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 rounded text-sm">
                             <Sunset className="h-3 w-3 text-purple-600" />
-                            {med.evening_dose}
+                            {med.dose_evening_amount || "Evening"}
                           </div>
                         )}
-                        {med.night_dose && (
+                        {med.dose_night && (
                           <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-sm">
                             <Moon className="h-3 w-3 text-blue-600" />
-                            {med.night_dose}
+                            {med.dose_night_amount || "Night"}
                           </div>
                         )}
                       </div>
@@ -459,10 +453,10 @@ export default function PatientPrescriptionDetailPage() {
                     </div>
                     
                     <div className="flex flex-wrap gap-4 text-sm mb-3">
-                      {surgery.recommended_facility && (
+                      {surgery.preferred_facility && (
                         <div className="flex items-center gap-1">
                           <Building2 className="h-4 w-4 text-muted-foreground" />
-                          <span>{surgery.recommended_facility}</span>
+                          <span>{surgery.preferred_facility}</span>
                         </div>
                       )}
                       {surgery.recommended_date && (
@@ -492,12 +486,20 @@ export default function PatientPrescriptionDetailPage() {
                       </div>
                     )}
 
-                    {/* Risk Warning */}
-                    {surgery.risks && (
-                      <div className="mt-3 p-2 bg-red-50 rounded border border-red-200">
-                        <p className="text-sm text-red-700 flex items-start gap-2">
-                          <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                          <span><strong>Risks:</strong> {surgery.risks}</span>
+                    {/* Reason for Surgery */}
+                    {surgery.reason && (
+                      <div className="mt-3 p-2 bg-blue-50 rounded border border-blue-100">
+                        <p className="text-sm text-muted-foreground">
+                          <strong>Reason:</strong> {surgery.reason}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Additional Notes */}
+                    {surgery.notes && (
+                      <div className="mt-3 p-2 bg-gray-50 rounded border border-gray-200">
+                        <p className="text-sm text-muted-foreground">
+                          <strong>Notes:</strong> {surgery.notes}
                         </p>
                       </div>
                     )}
@@ -596,16 +598,16 @@ export default function PatientPrescriptionDetailPage() {
 
         {/* Added to History Indicator */}
         {prescription.added_to_history && (
-          <Card className="mt-6 border-green-200 bg-green-50">
+          <Card className="mt-6 border-green-200 bg-green-50 dark:bg-green-950/30 dark:border-green-800">
             <CardContent className="p-4 flex items-center gap-3">
-              <CheckCircle2 className="h-5 w-5 text-green-600" />
-              <span className="text-green-700">
+              <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <span className="text-green-700 dark:text-green-300">
                 This prescription has been added to your medical history.
               </span>
             </CardContent>
           </Card>
         )}
       </main>
-    </div>
+    </AppBackground>
   );
 }
