@@ -77,7 +77,7 @@ export default function DoctorPatientsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto py-8 pt-16 md:pt-[50px]">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">My Patients</h1>

@@ -7,13 +7,18 @@
    Root Theme Variables (Light Mode)
    ====================================== */
 :root {
-  /* Background System - Clinical Depth Field */
-  --bg-top: #F4FAFF;
-  --bg-bottom: #E6F5FC;
-  --bg-glow-primary: rgba(3, 96, 217, 0.12);
+  /* Background System - Premium Medical Gradient */
+  --bg-top: #E6F1F8; /* slightly more muted page background */
+  --bg-mid: #E0EAF2; /* increased contrast so cards stand out */
+  --bg-bottom: #DCE6EE; /* subtle darkening for depth */
+  --bg-glow-primary: rgba(3, 96, 217, 0.10);
   --bg-glow-secondary: rgba(165, 204, 255, 0.08);
-  --bg-noise-opacity: 0.045;
-  --bg-pattern-opacity: 0.02;
+  --bg-glow-accent: rgba(19, 121, 177, 0.06);
+  --bg-noise-opacity: 0.03;
+  --bg-pattern-opacity: 0.015;
+  --bg-orb-1: rgba(3, 96, 217, 0.05);
+  --bg-orb-2: rgba(165, 204, 255, 0.06);
+  --bg-orb-3: rgba(225, 238, 255, 0.10);
   
   /* Background & Surface */
   --surface: #E6F5FC;
@@ -21,7 +26,7 @@
   --foreground: #2E2E2E;
 
   /* Text */
-  --foreground-muted: #A8A8A8;
+  --foreground-muted: #6B7280;
 
   /* Primary Doctor Blue */
   --primary: #0360D9;
@@ -40,7 +45,7 @@
 
   /* Muted */
   --muted: #E6F5FC;
-  --muted-foreground: #A8A8A8;
+  --muted-foreground: #4B5563;
 
   /* Optional Success */
   --success: rgb(57, 224, 57);
@@ -51,6 +56,15 @@
   --input: #D9D9D9;
   --ring: #0360D9;
   --radius: 0.625rem;
+  /* Calendar specific */
+  --calendar-border: #374151; /* slate-700 - clear, modern dark border */
+  --calendar-date-foreground: #0F172A; /* slate-900 - high contrast date numbers */
+
+  /* Calendar subtle tonal system - soft bluish tints */
+  --calendar-card-bg: #D6EAFB; /* stronger bluish container (clearly distinct from page) */
+  --calendar-cell-bg: #EFF9FF; /* date cells lighter than container */
+  --calendar-cell-hover: #E6F6FF; /* gentle hover tint */
+  --calendar-cell-selected-bg: rgba(3,96,217,0.08); /* subtle selected surface when not primary */
 
   /* Cards & Popovers */
   --card: #FFFFFF;
@@ -193,13 +207,18 @@ hr {
 }
 
 .dark {
-  /* Background System - Clinical Depth Field (Dark Mode) */
-  --bg-top: #041C33;
-  --bg-bottom: #021526;
-  --bg-glow-primary: rgba(3, 96, 217, 0.22);
-  --bg-glow-secondary: rgba(165, 204, 255, 0.12);
-  --bg-noise-opacity: 0.06;
-  --bg-pattern-opacity: 0.03;
+  /* Background System - Premium Medical Gradient (Dark Mode) */
+  --bg-top: #061E35;
+  --bg-mid: #041828;
+  --bg-bottom: #02121E;
+  --bg-glow-primary: rgba(3, 96, 217, 0.25);
+  --bg-glow-secondary: rgba(165, 204, 255, 0.15);
+  --bg-glow-accent: rgba(19, 121, 177, 0.12);
+  --bg-noise-opacity: 0.05;
+  --bg-pattern-opacity: 0.02;
+  --bg-orb-1: rgba(3, 96, 217, 0.12);
+  --bg-orb-2: rgba(165, 204, 255, 0.08);
+  --bg-orb-3: rgba(13, 43, 70, 0.25);
   
   /* Background & Surface */
   --background: #021526;
@@ -278,59 +297,122 @@ hr {
 }
 
 /* ======================================
-   App Background - Clinical Depth Field
+   App Background - Premium Medical Gradient
    ====================================== */
 .app-background {
   position: relative;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
-    /* Secondary accent glow (bottom-left) */
+    /* Floating orb 1 - top right */
     radial-gradient(
-      800px 500px at 15% 110%,
-      var(--bg-glow-secondary),
+      ellipse 600px 600px at 85% 5%,
+      var(--bg-orb-1),
       transparent 70%
     ),
-    /* Primary medical glow (top-right) */
+    /* Floating orb 2 - bottom left */
     radial-gradient(
-      1000px 700px at 85% -10%,
-      var(--bg-glow-primary),
+      ellipse 700px 500px at 10% 95%,
+      var(--bg-orb-2),
       transparent 65%
     ),
-    /* Subtle center highlight */
+    /* Floating orb 3 - center accent */
     radial-gradient(
-      1200px 800px at 50% 50%,
-      var(--bg-glow-secondary),
-      transparent 80%
+      ellipse 900px 600px at 50% 60%,
+      var(--bg-orb-3),
+      transparent 75%
     ),
-    /* Base gradient */
+    /* Primary glow - upper area */
+    radial-gradient(
+      1200px 800px at 75% -5%,
+      var(--bg-glow-primary),
+      transparent 60%
+    ),
+    /* Secondary glow - lower left */
+    radial-gradient(
+      1000px 700px at 20% 110%,
+      var(--bg-glow-secondary),
+      transparent 65%
+    ),
+    /* Accent glow - mid right */
+    radial-gradient(
+      600px 400px at 95% 50%,
+      var(--bg-glow-accent),
+      transparent 70%
+    ),
+    /* Smooth tri-tone gradient */
     linear-gradient(
-      to bottom,
-      var(--bg-top),
-      var(--bg-bottom)
+      180deg,
+      var(--bg-top) 0%,
+      var(--bg-mid) 45%,
+      var(--bg-bottom) 100%
     );
 }
 
-/* Noise texture overlay */
+/* Animated ambient orbs - subtle floating effect */
 .app-background::before {
   content: "";
   position: fixed;
-  inset: 0;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' seed='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: var(--bg-noise-opacity);
+  opacity: 0.5;
+  background:
+    radial-gradient(
+      ellipse 600px 600px at 70% 25%,
+      var(--bg-orb-1),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 500px 500px at 25% 75%,
+      var(--bg-orb-2),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 450px 450px at 60% 80%,
+      var(--bg-glow-accent),
+      transparent 70%
+    );
+  animation: ambient-drift 30s ease-in-out infinite;
   z-index: 0;
-  mix-blend-mode: overlay;
+  will-change: transform;
 }
 
-/* Subtle geometric pattern overlay */
+@keyframes ambient-drift {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+  }
+  25% {
+    transform: translate(2%, -1.5%) scale(1.02);
+  }
+  50% {
+    transform: translate(-1.5%, 2%) scale(0.98);
+  }
+  75% {
+    transform: translate(1%, 1%) scale(1.01);
+  }
+}
+
+/* Noise texture overlay - refined */
 .app-background::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230360D9' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  opacity: var(--bg-pattern-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: var(--bg-noise-opacity);
   z-index: 0;
+  mix-blend-mode: soft-light;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .app-background::before {
+    animation: none;
+    transform: none;
+  }
 }
 
 .app-background > * {
@@ -338,9 +420,16 @@ hr {
   z-index: 1;
 }
 
-/* ======================================
-   Motion & Animation Utilities
-   ====================================== */
+/* Calendar elevation utility - subtle bluish layered shadow */
+.calendar-elevated {
+  box-shadow: 0 10px 30px rgba(3,96,217,0.06), 0 2px 8px rgba(2,6,23,0.04);
+  border: 1px solid rgba(3,96,217,0.06);
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-elevated { transition: none; transform: none; }
+}
 @layer utilities {
   /* Page entry animations */
   .animate-page-enter {

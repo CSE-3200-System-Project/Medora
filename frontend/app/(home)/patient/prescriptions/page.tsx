@@ -134,7 +134,7 @@ export default function PatientPrescriptionsPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
       
-      <main className="container mx-auto container-padding py-6 pt-24 max-w-4xl">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />

@@ -162,7 +162,7 @@ export default function DoctorHomePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="text-center">
             <div className="skeleton w-8 h-8 rounded-full mx-auto"></div>
           </div>
@@ -175,7 +175,7 @@ export default function DoctorHomePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="text-center text-destructive">
             <p className="text-lg mb-4">Unable to load profile data</p>
             <Button onClick={() => router.push("/login")} variant="medical" className="touch-target">Back to Login</Button>
@@ -189,7 +189,7 @@ export default function DoctorHomePage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="doctor" />}
 
@@ -218,7 +218,7 @@ export default function DoctorHomePage() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
             Welcome back, Dr. {doctor.last_name}! 
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-gray-600 text-lg">
             Here's what's happening with your practice today
           </p>
         </div>
@@ -229,7 +229,7 @@ export default function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1">
                     Today's Appointments
                   </p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.todays_appointments}</p>
@@ -245,7 +245,7 @@ export default function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1">
                     Total Patients
                   </p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.total_patients}</p>
@@ -261,7 +261,7 @@ export default function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1">
                     Pending Reviews
                   </p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.pending_reviews}</p>
@@ -277,7 +277,7 @@ export default function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">
+                  <p className="text-sm font-medium text-gray-600 mb-1">
                     Completion Rate
                   </p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">{stats.completion_rate}%</p>

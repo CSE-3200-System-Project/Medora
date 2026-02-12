@@ -283,7 +283,7 @@ export default function ConsultationPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -296,7 +296,7 @@ export default function ConsultationPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button

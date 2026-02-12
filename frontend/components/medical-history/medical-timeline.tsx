@@ -6,12 +6,15 @@ import { Surgery } from "./surgery-manager";
 import { Hospitalization } from "./hospitalization-manager";
 import { Vaccination } from "./vaccination-manager";
 import { Medication } from "@/components/medicine";
+import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 interface Appointment {
   appointment_date: string;
   reason: string;
   notes?: string;
   status: string;
+  doctor_name?: string | null;
+  doctor_title?: string | null;
 }
 
 interface TimelineEvent {
@@ -109,15 +112,23 @@ export function MedicalTimeline({
     }
   });
 
-  // Add appointments
+  // Add appointments (display doctor name as primary, consultation type secondary, notes tertiary)
   appointments.forEach((app, index) => {
+    const { consultationType, appointmentType } = parseCompositeReason(app.reason || "");
+    const ct = humanizeConsultationType(consultationType);
+    const at = humanizeAppointmentType(appointmentType);
+
+    const primaryTitle = `${app.doctor_title ? `${app.doctor_title} ` : 'Dr.'}${app.doctor_name || app.doctor || 'Doctor'}`;
+    const secondary = ct ? (at ? `${ct} • ${at}` : ct) : undefined;
+    const tertiary = app.notes ? app.notes : `Status: ${app.status}`;
+
     events.push({
       id: `appointment-${index}`,
       type: 'appointment',
       date: app.appointment_date,
-      title: app.reason,
-      description: app.notes,
-      details: `Status: ${app.status}`,
+      title: primaryTitle,
+      description: secondary || app.reason,
+      details: tertiary,
       icon: <CheckCircle2 className="h-4 w-4" />,
       color: 'text-purple-600',
     });

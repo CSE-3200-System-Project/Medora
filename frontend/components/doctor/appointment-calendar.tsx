@@ -144,27 +144,31 @@ export function AppointmentCalendar({
         key={day}
         onClick={() => handleDateClick(day)}
         className={cn(
-          "aspect-square rounded text-[10px] font-medium transition-all relative p-0.5",
-          "hover:bg-blue-200 hover:scale-105",
+          "aspect-square rounded text-[10px] font-medium transition-all relative p-0.5 border p-1",
+          !isSelectedDay && "hover:bg-[var(--calendar-cell-hover)] hover:scale-105",
           isSelectedDay && "bg-primary text-white shadow-md scale-105",
-          !isSelectedDay && isCurrentDay && "bg-blue-100 border-2 border-primary text-blue-900",
+          !isSelectedDay && isCurrentDay && "bg-primary-light border-2 border-primary text-blue-900",
           !isSelectedDay && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
-          !isSelectedDay && !isCurrentDay && !dayIsPast && "bg-white text-blue-900 hover:text-primary"
+          !isSelectedDay && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-blue-900 hover:text-primary"
         )}
+        style={!isSelectedDay && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
       >
-        {day}
+        <span className={cn(
+          isSelectedDay ? 'text-white' : dayIsPast ? 'text-gray-400' : 'text-[var(--calendar-date-foreground)]',
+          'relative z-10 text-[10px]'
+        )}>{day}</span>
         {hasAppt && (
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-0.5">
             {apptCount > 0 && (
               <div className={cn(
                 "w-1.5 h-1.5 rounded-full",
-                isSelectedDay ? "bg-white" : getStatusColor(apptStatus)
+                isSelectedDay ? "bg-[var(--calendar-cell-bg)]" : getStatusColor(apptStatus)
               )} />
             )}
             {apptCount > 1 && (
               <div className={cn(
                 "w-1.5 h-1.5 rounded-full",
-                isSelectedDay ? "bg-white/70" : `${getStatusColor(apptStatus)} opacity-60`
+                isSelectedDay ? "bg-[var(--calendar-cell-bg)]/70" : `${getStatusColor(apptStatus)} opacity-60`
               )} />
             )}
           </div>
@@ -179,14 +183,15 @@ export function AppointmentCalendar({
   }
 
   return (
-    <Card className="rounded-2xl shadow-lg bg-blue-50 border-blue-200">
-      <CardHeader className="border-b border-blue-200 pb-2">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-sm flex items-center gap-1.5 text-blue-900">
+    <Card className="rounded-2xl bg-[var(--calendar-card-bg)] border-primary/20 p-6">
+      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+        <CardHeader className="border-b border-blue-200 pb-2">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <CardTitle className="text-sm flex items-center gap-1.5 text-blue-900 whitespace-nowrap">
             <CalendarIcon className="w-3.5 h-3.5 text-primary" />
             Calendar
           </CardTitle>
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-1 whitespace-nowrap min-w-0">
             <Button
               variant="ghost"
               size="icon"
@@ -195,7 +200,7 @@ export function AppointmentCalendar({
             >
               <ChevronLeft className="w-3 h-3 text-blue-700" />
             </Button>
-            <span className="text-[10px] font-semibold min-w-20 text-center text-blue-800">
+            <span className="text-[10px] font-semibold min-w-0 text-center truncate text-blue-800">
               {monthNames[currentMonth.getMonth()].slice(0, 3)} {currentMonth.getFullYear()}
             </span>
             <Button
@@ -248,6 +253,7 @@ export function AppointmentCalendar({
           </div>
         </div>
       </CardContent>
+        </div>
     </Card>
   );
 }

@@ -220,7 +220,7 @@ export default function PatientProfilePage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
       
-      <main className="max-w-6xl mx-auto py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto py-8 pt-16 md:pt-[50px]">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>

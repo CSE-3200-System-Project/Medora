@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, ChevronLeft, User, Phone, Activity, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -390,8 +390,18 @@ export function TimeSlotGrid({
               
               {selectedSlot.reason && (
                 <div className="bg-accent/50 rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">Reason</p>
-                  <p className="text-foreground">{selectedSlot.reason}</p>
+                    <p className="text-xs text-muted-foreground mb-1">Consultation</p>
+                    {(() => {
+                      const { consultationType, appointmentType } = parseCompositeReason(selectedSlot.reason)
+                      const ct = humanizeConsultationType(consultationType)
+                      const at = humanizeAppointmentType(appointmentType)
+                      return (
+                        <>
+                          <p className="text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                          {selectedSlot.notes && <p className="text-xs text-muted-foreground mt-1">{selectedSlot.notes}</p>}
+                        </>
+                      )
+                    })()}
                 </div>
               )}
               

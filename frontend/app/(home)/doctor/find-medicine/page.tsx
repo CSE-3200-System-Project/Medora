@@ -115,7 +115,7 @@ export default function DoctorFindMedicinePage() {
     <AppBackground className="min-h-screen font-sans text-foreground animate-page-enter">
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-10 px-4 md:px-6 max-w-4xl mx-auto">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">

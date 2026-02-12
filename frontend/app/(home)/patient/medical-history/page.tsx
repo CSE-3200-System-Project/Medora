@@ -38,6 +38,7 @@ import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
 
 import { getMyAppointments } from "@/lib/appointment-actions";
+import { humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
 
 import { MedicalTestSearch } from "@/components/medical-test";
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
@@ -324,7 +325,7 @@ function MedicalHistoryContent() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto py-8 pt-24">
+        <main className="container mx-auto py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-12">
             <div className="skeleton w-8 h-8 rounded-full"></div>
           </div>
@@ -340,7 +341,7 @@ function MedicalHistoryContent() {
   return (
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
-      <main className="container mx-auto py-6 sm:py-8 pt-20 sm:pt-24 max-w-6xl">
+      <main className="container mx-auto py-6 sm:py-8 pt-16 md:pt-[50px] max-w-6xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <Button
@@ -1035,8 +1036,20 @@ function MedicalHistoryContent() {
                              <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
                              <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                           </div>
-                          <div className="text-lg font-medium">{app.reason}</div>
-                          {app.notes && <div className="text-sm text-muted-foreground mt-1 max-w-xl">{app.notes}</div>}
+                          <div className="text-lg font-semibold">
+                            {app.doctor_title ? `${app.doctor_title} ` : 'Dr.'}{app.doctor_name || app.doctor || 'Doctor'}
+                          </div>
+
+                          <div className="text-sm text-muted-foreground mt-0.5">
+                            {(() => {
+                              const { consultationType, appointmentType } = parseCompositeReason(app.reason)
+                              const ct = humanizeConsultationType(consultationType)
+                              const at = humanizeAppointmentType(appointmentType)
+                              return <>{ct}{at ? ` • ${at}` : ''}</>
+                            })()}
+                          </div>
+
+                          {app.notes && <div className="text-sm text-muted-foreground mt-2 max-w-xl">{app.notes}</div>}
                         </div>
                         <div className="flex items-center gap-2">
                            <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>

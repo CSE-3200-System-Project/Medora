@@ -17,7 +17,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { cn, localDateKey } from "@/lib/utils";
+import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
@@ -145,11 +145,11 @@ export default function PatientAppointmentsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto py-8 pt-16 md:pt-[50px]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground">My Appointments</h1>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-gray-600 mt-2">
               Track your upcoming and past consultations
             </p>
           </div>
@@ -162,9 +162,9 @@ export default function PatientAppointmentsPage() {
         ) : appointments.length === 0 ? (
           <Card hoverable>
             <CardContent className="flex flex-col items-center justify-center py-12">
-              <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+              <Calendar className="h-12 w-12 text-gray-500 mb-4" />
               <p className="text-lg font-medium text-foreground">No appointments found</p>
-              <p className="text-muted-foreground">Book an appointment with a doctor to get started.</p>
+              <p className="text-gray-600">Book an appointment with a doctor to get started.</p>
               <Button className="mt-4 touch-target" onClick={() => window.location.href = '/patient/find-doctor'}>
                 Find a Doctor
               </Button>
@@ -192,15 +192,15 @@ export default function PatientAppointmentsPage() {
                       <Clock className="w-5 h-5 text-primary" />
                       Upcoming Appointments
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-gray-600 mt-1">
                       Next {Math.min(5, upcomingAppointments.length)} appointments
                     </p>
                   </CardHeader>
                   <CardContent className="p-4">
                     {upcomingAppointments.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-8 text-center">
-                        <Calendar className="h-10 w-10 text-muted-foreground mb-3" />
-                        <p className="text-muted-foreground">No upcoming appointments</p>
+                        <Calendar className="h-10 w-10 text-gray-500 mb-3" />
+                        <p className="text-gray-600">No upcoming appointments</p>
                         {!selectedDate && (
                           <Button 
                             className="mt-3 touch-target" 
@@ -238,7 +238,7 @@ export default function PatientAppointmentsPage() {
                                     <p className="font-semibold text-sm text-foreground truncate">
                                       {appt.doctor_title} {appt.doctor_name}
                                     </p>
-                                    <p className="text-xs text-muted-foreground truncate">
+                                    <p className="text-xs text-gray-600 truncate">
                                       {appt.doctor_specialization}
                                     </p>
                                   </div>
@@ -284,7 +284,7 @@ export default function PatientAppointmentsPage() {
                       'All Appointments'
                     )}
                   </CardTitle>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-gray-600">
                     Showing {paginatedAppointments.length} of {allFilteredAppointments.length}
                   </div>
                 </div>
@@ -293,11 +293,11 @@ export default function PatientAppointmentsPage() {
               <CardContent className="p-6">
                 {allFilteredAppointments.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+                    <Calendar className="h-12 w-12 text-gray-500 mb-4" />
                     <p className="text-lg font-medium text-foreground">
                       {selectedDate ? 'No appointments on this date' : 'No appointments found'}
                     </p>
-                    <p className="text-muted-foreground">
+                    <p className="text-gray-600">
                       {selectedDate ? 'Try selecting a different date.' : 'Book an appointment with a doctor to get started.'}
                     </p>
                     {!selectedDate ? (
@@ -367,12 +367,12 @@ export default function PatientAppointmentsPage() {
                                 <Clock className="w-4 h-4 text-primary shrink-0" />
                                 <div>
                                   <div className="font-medium">{time}</div>
-                                  <div className="text-xs text-muted-foreground">{date}</div>
+                                  <div className="text-xs text-gray-600">{date}</div>
                                 </div>
                               </div>
 
                               {appt.hospital_name && (
-                                <div className="flex items-center gap-2 text-muted-foreground">
+                                <div className="flex items-center gap-2 text-gray-600">
                                   <MapPin className="w-4 h-4 shrink-0" />
                                   <span className="text-xs">{appt.hospital_name}</span>
                                 </div>
@@ -380,8 +380,18 @@ export default function PatientAppointmentsPage() {
 
                               {appt.reason && (
                                 <div className="bg-accent/50 dark:bg-accent/20 rounded p-2">
-                                  <p className="text-xs text-muted-foreground mb-1">Reason</p>
-                                  <p className="text-sm text-foreground">{appt.reason}</p>
+                                  <p className="text-xs text-gray-600 mb-1">Consultation</p>
+                                  {(() => {
+                                    const { consultationType, appointmentType } = parseCompositeReason(appt.reason)
+                                    const ct = humanizeConsultationType(consultationType)
+                                    const at = humanizeAppointmentType(appointmentType)
+                                    return (
+                                      <>
+                                        <p className="text-sm text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                                        {appt.notes && <p className="text-xs text-muted-foreground mt-1">{appt.notes}</p>}
+                                      </>
+                                    )
+                                  })()}
                                 </div>
                               )}
                             </div>
@@ -405,7 +415,7 @@ export default function PatientAppointmentsPage() {
                     {/* Pagination Controls */}
                     {totalPages > 1 && (
                       <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-gray-600">
                           Page {currentPage} of {totalPages}
                         </div>
                         <div className="flex gap-2">
@@ -454,10 +464,10 @@ export default function PatientAppointmentsPage() {
               <p className="font-semibold text-foreground">
                 {appointmentToCancel.doctor_title} {appointmentToCancel.doctor_name}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-gray-600 mt-1">
                 {formatDateTime(appointmentToCancel.appointment_date, appointmentToCancel.slot_time).date}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-gray-600">
                 {appointmentToCancel.slot_time || "Time not set"}
               </p>
             </div>

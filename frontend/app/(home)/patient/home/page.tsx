@@ -151,7 +151,7 @@ export default function PatientHomePage() {
     <AppBackground>
       <Navbar />
       
-      <main className="pt-20 pb-8 sm:pt-24 md:pt-28 md:pb-12 container-padding max-w-7xl mx-auto animate-page-enter">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px] animate-page-enter">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="patient" />}
         
@@ -160,7 +160,7 @@ export default function PatientHomePage() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
             Welcome back! 
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
+          <p className="text-sm sm:text-base text-gray-600">
             Here's an overview of your healthcare journey
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function PatientHomePage() {
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.upcoming}
               </h3>
-              <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
+              <p className="text-sm text-gray-600">Upcoming Appointments</p>
             </CardContent>
           </Card>
 
@@ -194,7 +194,7 @@ export default function PatientHomePage() {
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.pending}
               </h3>
-              <p className="text-sm text-muted-foreground">Pending Confirmations</p>
+              <p className="text-sm text-gray-600">Pending Confirmations</p>
             </CardContent>
           </Card>
 
@@ -209,7 +209,7 @@ export default function PatientHomePage() {
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.completed}
               </h3>
-              <p className="text-sm text-muted-foreground">Completed Visits</p>
+              <p className="text-sm text-gray-600">Completed Visits</p>
             </CardContent>
           </Card>
         </div>
@@ -273,11 +273,11 @@ export default function PatientHomePage() {
                               Dr. {appointment.doctor?.first_name} {appointment.doctor?.last_name}
                             </h4>
                             {appointment.doctor?.specialization && (
-                              <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+                              <p className="text-xs sm:text-sm text-gray-600 mb-2">
                                 {appointment.doctor.specialization}
                               </p>
                             )}
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
                               <span className="flex items-center gap-1">
                                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                                 {new Date(appointment.appointment_date).toLocaleDateString('en-US', {
@@ -313,8 +313,8 @@ export default function PatientHomePage() {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-                    <p className="text-muted-foreground mb-4">No upcoming appointments</p>
+                    <Calendar className="w-12 h-12 text-gray-500 mx-auto mb-3 opacity-50" />
+                    <p className="text-gray-600 mb-4">No upcoming appointments</p>
                     <Button 
                       variant="medical"
                       onClick={() => router.push('/patient/find-doctor')}
@@ -345,7 +345,7 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">Find a Doctor</p>
-                      <p className="text-xs text-muted-foreground">Search & book appointments</p>
+                      <p className="text-xs text-gray-600">Search & book appointments</p>
                     </div>
                   </div>
                 </Button>
@@ -361,7 +361,7 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">My Appointments</p>
-                      <p className="text-xs text-muted-foreground">View all appointments</p>
+                      <p className="text-xs text-gray-600">View all appointments</p>
                     </div>
                   </div>
                 </Button>
@@ -377,7 +377,7 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">My Profile</p>
-                      <p className="text-xs text-muted-foreground">Update health information</p>
+                      <p className="text-xs text-gray-600">Update health information</p>
                     </div>
                   </div>
                 </Button>
@@ -393,7 +393,7 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">Medical Records</p>
-                      <p className="text-xs text-muted-foreground">Access your history</p>
+                      <p className="text-xs text-gray-600">Access your history</p>
                     </div>
                   </div>
                 </Button>
@@ -409,7 +409,7 @@ export default function PatientHomePage() {
                   </div>
                   <h4 className="font-semibold text-foreground">Health Tip</h4>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-gray-600 leading-relaxed">
                   Regular checkups are essential for maintaining good health. Schedule your annual health screening today!
                 </p>
               </CardContent>

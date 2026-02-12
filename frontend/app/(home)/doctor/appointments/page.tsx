@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Users, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, ExternalLink, Filter, ArrowLeft } from "lucide-react";
-import { cn, localDateKey } from "@/lib/utils";
+import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 type TabMode = 'appointments' | 'patients';
@@ -288,8 +288,18 @@ export default function DoctorAppointmentsPage() {
             <div className="flex items-start gap-2 text-muted-foreground">
               <FileText className="w-4 h-4 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-xs text-muted-foreground mb-0.5">Reason:</p>
-                <p className="text-foreground">{appointment.reason}</p>
+                <p className="text-xs text-muted-foreground mb-0.5">Reason</p>
+                {(() => {
+                  const { consultationType, appointmentType } = parseCompositeReason(appointment.reason)
+                  const ct = humanizeConsultationType(consultationType)
+                  const at = humanizeAppointmentType(appointmentType)
+                  return (
+                    <>
+                      <p className="text-sm text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                      {appointment.notes && <p className="text-xs text-muted-foreground mt-1">{appointment.notes}</p>}
+                    </>
+                  )
+                })()}
               </div>
             </div>
           )}
@@ -348,7 +358,7 @@ export default function DoctorAppointmentsPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-20">
             <div className="skeleton w-12 h-12 rounded-full"></div>
           </div>
@@ -361,7 +371,7 @@ export default function DoctorAppointmentsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">

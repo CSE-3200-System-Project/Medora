@@ -67,7 +67,7 @@ export default function DoctorProfilePage() {
       <Navbar />
       
       {/* Main Content */}
-      <div className="container mx-auto container-padding pt-32 pb-6 md:pt-36 lg:pt-40 lg:pb-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-20 sm:pt-24 md:pt-28">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left: Doctor Information (takes 2 columns on desktop) */}
           <div className="lg:col-span-2">
@@ -81,7 +81,7 @@ export default function DoctorProfilePage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Mobile: Fixed bottom CTA (shown only on mobile) */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-card border-t border-border p-4 shadow-lg z-40">

@@ -69,7 +69,7 @@ export default function Home() {
     <div className="min-h-screen bg-surface font-sans text-foreground">
       <Navbar />
       
-      <main className="pt-24 pb-8 md:pt-28 md:pb-10">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px] animate-page-enter">
         {/* 2. HERO SECTION (SLIDESHOW) */}
         <section className="w-[calc(100%-2rem)] max-w-7xl mx-auto mb-12 md:mb-16">
           <div className="relative overflow-hidden rounded-2xl md:rounded-3xl shadow-xl border border-border bg-white min-h-[550px] md:min-h-[600px] flex items-center">
