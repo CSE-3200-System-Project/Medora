@@ -141,12 +141,12 @@ def build_consultation_response(
     
     if doctor_profile:
         response["doctor_name"] = f"{doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip()
-        response["doctor_photo"] = getattr(consultation.doctor, 'profile_photo_url', None) if consultation.doctor else None
-        response["doctor_specialization"] = getattr(consultation.doctor, 'specialization', None) if consultation.doctor else None
+        response["doctor_photo"] = getattr(doctor_profile, 'profile_photo_url', None)
+        response["doctor_specialization"] = None  # Will fetch from DoctorProfile if needed
     
     if patient_profile:
         response["patient_name"] = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip()
-        response["patient_photo"] = getattr(consultation.patient, 'profile_photo_url', None) if consultation.patient else None
+        response["patient_photo"] = getattr(patient_profile, 'profile_photo_url', None)
     
     return response
 

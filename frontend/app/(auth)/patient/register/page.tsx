@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { signupPatient } from "@/lib/auth-actions";
+import { AppBackground } from "@/components/ui/app-background";
 
 // Import images
 import doctorImg from "@/assets/image/doctors.jpg";
@@ -70,7 +71,7 @@ export default function PatientRegister() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface p-4">
+      <AppBackground className="min-h-screen flex items-center justify-center p-4 animate-page-enter">
         <Card className="max-w-md w-full">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-20 w-20 bg-green-100 rounded-full flex items-center justify-center">
@@ -94,14 +95,14 @@ export default function PatientRegister() {
             </Link>
           </CardFooter>
         </Card>
-      </div>
+      </AppBackground>
     );
   }
 
   const inputStyles = "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-lg border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16">
+    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
       <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
@@ -301,6 +302,6 @@ export default function PatientRegister() {
           </div>
         </div>
       </Card>
-    </div>
+    </AppBackground>
   );
 }

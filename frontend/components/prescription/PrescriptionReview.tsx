@@ -104,25 +104,25 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
                 {/* Dosage Schedule */}
                 <div className="flex flex-wrap gap-2 mb-2">
                   {med.dose_morning && (
-                    <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-2 py-1 rounded-lg text-xs">
                       <Sun className="w-3 h-3" />
                       <span>Morning {med.dose_morning_amount && `(${med.dose_morning_amount})`}</span>
                     </div>
                   )}
                   {med.dose_afternoon && (
-                    <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-lg text-xs">
                       <Cloud className="w-3 h-3" />
                       <span>Afternoon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
                     </div>
                   )}
                   {med.dose_evening && (
-                    <div className="flex items-center gap-1 bg-orange-50 text-orange-700 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-lg text-xs">
                       <Moon className="w-3 h-3" />
                       <span>Evening {med.dose_evening_amount && `(${med.dose_evening_amount})`}</span>
                     </div>
                   )}
                   {med.dose_night && (
-                    <div className="flex items-center gap-1 bg-indigo-50 text-indigo-700 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-lg text-xs">
                       <Star className="w-3 h-3" />
                       <span>Night {med.dose_night_amount && `(${med.dose_night_amount})`}</span>
                     </div>
@@ -158,16 +158,16 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
 
       {/* Tests Review */}
       {type === "test" && tests.length > 0 && (
-        <Card className="rounded-xl bg-purple-50 border-purple-200">
+        <Card className="rounded-xl bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <FlaskConical className="w-5 h-5 text-purple-600" />
+              <FlaskConical className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               Medical Tests ({tests.length})
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {tests.map((test, index) => (
-              <div key={index} className="bg-white rounded-lg p-4 border">
+              <div key={index} className="bg-white dark:bg-card rounded-lg p-4 border dark:border-border">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{test.test_name}</h4>
                   <div className="flex gap-1">
@@ -211,16 +211,16 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
 
       {/* Surgeries Review */}
       {type === "surgery" && surgeries.length > 0 && (
-        <Card className="rounded-xl bg-red-50 border-red-200">
+        <Card className="rounded-xl bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Scissors className="w-5 h-5 text-red-600" />
+              <Scissors className="w-5 h-5 text-red-600 dark:text-red-400" />
               Procedures ({surgeries.length})
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {surgeries.map((surgery, index) => (
-              <div key={index} className="bg-white rounded-lg p-4 border">
+              <div key={index} className="bg-white dark:bg-card rounded-lg p-4 border dark:border-border">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
                   <div className="flex gap-1">

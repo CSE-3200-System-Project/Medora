@@ -6,6 +6,7 @@ import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Pill, Search, Info } from "lucide-react";
+import { AppBackground } from "@/components/ui/app-background";
 
 // Types
 interface MedicineResult {
@@ -111,7 +112,7 @@ export default function DoctorFindMedicinePage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface font-sans text-foreground">
+    <AppBackground className="min-h-screen font-sans text-foreground animate-page-enter">
       <Navbar />
       
       <main className="pt-24 pb-8 md:pt-28 md:pb-10 px-4 md:px-6 max-w-4xl mx-auto">
@@ -217,6 +218,6 @@ export default function DoctorFindMedicinePage() {
           </div>
         </div>
       )}
-    </div>
+    </AppBackground>
   );
 }

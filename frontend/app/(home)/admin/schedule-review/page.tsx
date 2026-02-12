@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AppBackground } from "@/components/ui/app-background";
 
 export default function ScheduleReviewPage() {
   const [password, setPassword] = useState("");
@@ -52,7 +53,7 @@ export default function ScheduleReviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface px-4 py-6">
+    <AppBackground className="min-h-screen px-4 py-6 animate-page-enter">
       <div className="max-w-4xl mx-auto">
         <Card>
           <CardHeader>
@@ -94,6 +95,6 @@ export default function ScheduleReviewPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </AppBackground>
   );
 }

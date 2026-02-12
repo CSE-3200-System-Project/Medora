@@ -3,7 +3,7 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -67,3 +67,5 @@ app.include_router(medicine.router, prefix="/medicine", tags=["Medicine"])
 app.include_router(medical_test.router, prefix="/medical-test", tags=["Medical Test"])
 app.include_router(notification.router, prefix="/notifications", tags=["Notifications"])
 app.include_router(patient_access.router, prefix="/patient-access", tags=["Patient Access"])
+app.include_router(reminder.router, prefix="/reminders", tags=["Reminders"])
+app.include_router(consultation.router, prefix="/consultation", tags=["Consultation"])

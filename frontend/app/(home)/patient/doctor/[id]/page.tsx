@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { getPublicDoctorProfile, getAvailableSlots } from "@/lib/auth-actions";
 import { DoctorInformationSection } from "@/components/doctor/doctor-information-section";
 import { AppointmentBookingPanel } from "@/components/doctor/appointment-booking-panel";
+import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
 
 export default function DoctorProfilePage() {
@@ -35,34 +36,38 @@ export default function DoctorProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading doctor profile...</p>
+      <AppBackground>
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading doctor profile...</p>
+          </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   if (error || !doctor) {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-destructive mb-4">{error || "Doctor not found"}</p>
-          <a href="/patient/find-doctor" className="text-primary hover:underline">
-            ← Back to search
-          </a>
+      <AppBackground>
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <p className="text-destructive mb-4">{error || "Doctor not found"}</p>
+            <a href="/patient/find-doctor" className="text-primary hover:underline">
+              ← Back to search
+            </a>
+          </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-more-light via-surface to-accent">
+    <AppBackground className="animate-page-enter">
       <Navbar />
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 pt-32 pb-6 md:pt-36 lg:pt-40 lg:pb-8">
+      <div className="container mx-auto container-padding pt-32 pb-6 md:pt-36 lg:pt-40 lg:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left: Doctor Information (takes 2 columns on desktop) */}
           <div className="lg:col-span-2">
@@ -79,11 +84,11 @@ export default function DoctorProfilePage() {
       </div>
 
       {/* Mobile: Fixed bottom CTA (shown only on mobile) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 shadow-lg z-40">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-card border-t border-border p-4 shadow-lg z-40">
         <button className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary-muted transition-colors">
           Book Appointment
         </button>
       </div>
-    </div>
+    </AppBackground>
   );
 }

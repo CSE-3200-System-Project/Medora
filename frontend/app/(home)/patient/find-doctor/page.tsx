@@ -127,7 +127,7 @@ function PreviouslyVisitedDoctors({
 }) {
   if (loading) {
     return (
-      <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50">
+      <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50 dark:from-primary/10 dark:to-accent/10">
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-3">
             <History className="w-4 h-4 text-primary" />
@@ -135,12 +135,12 @@ function PreviouslyVisitedDoctors({
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="shrink-0 w-48 bg-white rounded-xl p-3 animate-pulse">
+              <div key={i} className="shrink-0 w-48 bg-white dark:bg-card rounded-xl p-3 animate-pulse">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full" />
+                  <div className="w-10 h-10 bg-gray-200 dark:bg-muted rounded-full" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-3 bg-gray-200 rounded w-20" />
-                    <div className="h-2 bg-gray-200 rounded w-16" />
+                    <div className="h-3 bg-gray-200 dark:bg-muted rounded w-20" />
+                    <div className="h-2 bg-gray-200 dark:bg-muted rounded w-16" />
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@ function PreviouslyVisitedDoctors({
   if (doctors.length === 0) return null;
 
   return (
-    <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50">
+    <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50 dark:from-primary/10 dark:to-accent/10">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <History className="w-4 h-4 text-primary" />
@@ -170,7 +170,7 @@ function PreviouslyVisitedDoctors({
             <button
               key={docId || `doctor-${index}`}
               onClick={() => docId && onDoctorClick?.(docId)}
-              className="shrink-0 w-52 bg-white rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
+              className="shrink-0 w-52 bg-white dark:bg-card rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
