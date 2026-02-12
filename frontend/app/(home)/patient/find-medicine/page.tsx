@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
 import { AddMedicationDialog, type Medication } from "@/components/medicine/add-medication-dialog";
 import { Card, CardContent } from "@/components/ui/card";
@@ -180,7 +181,7 @@ export default function PatientFindMedicinePage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface font-sans text-foreground">
+    <AppBackground className="animate-page-enter">
       <Navbar />
       
       {/* Success Toast */}
@@ -195,7 +196,7 @@ export default function PatientFindMedicinePage() {
         </div>
       )}
       
-      <main className="pt-20 pb-8 md:pt-24 md:pb-12 px-4 sm:px-6 md:px-8 max-w-4xl mx-auto">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px] animate-page-enter">
         {/* Header */}
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
@@ -299,6 +300,6 @@ export default function PatientFindMedicinePage() {
           </div>
         </div>
       )}
-    </div>
+    </AppBackground>
   );
 }

@@ -109,26 +109,27 @@ export function Navbar() {
 
   return (
     <header
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       className={cn(
-        "fixed top-2 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "fixed top-4 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
         "rounded-xl sm:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg shadow-primary/5",
         "dark:bg-card/80 dark:border-border/50",
         isScrolled ? "bg-white/80 dark:bg-card/90 shadow-md" : "bg-white/60"
       )}
     >
-      <div className="flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4 md:px-6">
+      <div className="flex h-16 sm:h-18 md:h-20 items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
         <Link href={homePath} className="flex items-center gap-2 touch-target">
-          <div className="relative h-9 w-9 sm:h-10 sm:w-10 md:h-14 md:w-14">
+          <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
             <Image 
               src={logo} 
               alt="Medora" 
               fill 
-              sizes="(max-width: 640px) 36px, (max-width: 768px) 40px, 56px"
+              sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="object-contain" 
             />
           </div>
-          <span className="text-base sm:text-lg font-bold tracking-tight text-primary hidden sm:block">Medora</span>
+          <span className="text-lg sm:text-xl font-bold tracking-tight text-primary hidden sm:block">Medora</span>
         </Link>
 
         {/* CENTER: Desktop Menu */}
@@ -136,29 +137,29 @@ export function Navbar() {
           {loading ? (
             <div className="h-8 w-64 skeleton rounded-full" />
           ) : user?.role?.toLowerCase() === 'doctor' ? (
-            <nav className="flex items-center gap-4 lg:gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/appointments" && "text-primary")}>
+            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-gray-700">
+              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/appointments" && "text-primary font-semibold")}>
                 Appointments
               </Link>
-              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/patients" && "text-primary")}>
+              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/patients" && "text-primary font-semibold")}>
                 Patients
               </Link>
-              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/analytics" && "text-primary")}>
+              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/analytics" && "text-primary font-semibold")}>
                 Analytics
               </Link>
             </nav>
           ) : user?.role?.toLowerCase() === 'patient' ? (
-            <nav className="flex items-center gap-4 lg:gap-6 text-sm font-medium text-muted-foreground">
-              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary")}>
+            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-gray-700">
+              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary font-semibold")}>
                 Find Doctor
               </Link>
-              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary")}>
+              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary font-semibold")}>
                 Appointments
               </Link>
-              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary py-2", pathname === "/find-medicine" && "text-primary")}>
+              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary py-2", pathname === "/find-medicine" && "text-primary font-semibold")}>
                 Find Medicine
               </Link>
-              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary")}>
+              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary font-semibold")}>
                 Medical History
               </Link>
             </nav>
@@ -183,12 +184,12 @@ export function Navbar() {
               <NotificationDropdown />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full">
-                    <Avatar className="h-8 w-8 border border-primary/20">
+                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full h-10">
+                    <Avatar className="h-9 w-9 border border-primary/20">
                       <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="text-sm font-medium text-foreground">{getUserDisplayName()}</span>
+                    <span className="text-base font-medium text-gray-800">{getUserDisplayName()}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>

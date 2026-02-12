@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -98,9 +99,17 @@ export function CancelAppointmentDialog({
                 </div>
               )}
               {appointment.reason && (
-                <p className="text-sm text-muted-foreground mt-2 border-t border-border/50 pt-2">
-                  {appointment.reason}
-                </p>
+                <div className="mt-2 border-t border-border/50 pt-2 text-sm text-muted-foreground">
+                  <p className="text-xs font-medium mb-1">Consultation</p>
+                  {(() => {
+                    const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
+                    const ct = humanizeConsultationType(consultationType);
+                    const at = humanizeAppointmentType(appointmentType);
+                    return (
+                      <p className="truncate">{ct || appointment.reason}{at ? ` • ${at}` : ''}</p>
+                    );
+                  })()}
+                </div>
               )}
             </div>
 

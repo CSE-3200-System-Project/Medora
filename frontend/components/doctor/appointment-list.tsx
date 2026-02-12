@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, Activity, Filter, ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
@@ -273,20 +273,25 @@ export function AppointmentList({
             </div>
           )}
           
-          {/* Reason for Visit */}
+          {/* Reason for Visit (structured) */}
           <div className="flex items-start gap-2 text-foreground bg-muted/50 p-2 rounded">
             <FileText className="w-4 h-4 mt-0.5 text-primary" />
             <div className="flex-1">
               <span className="text-xs font-medium text-muted-foreground">Reason for visit:</span>
-              <p className="mt-0.5">{appointment.reason}</p>
+              {(() => {
+                const { consultationType, appointmentType } = parseCompositeReason(appointment.reason)
+                const ct = humanizeConsultationType(consultationType)
+                const at = humanizeAppointmentType(appointmentType)
+
+                return (
+                  <>
+                    <p className="mt-0.5 text-sm text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                    {appointment.notes && <p className="text-xs text-muted-foreground mt-1">{appointment.notes}</p>}
+                  </>
+                )
+              })()}
             </div>
           </div>
-
-          {appointment.notes && (
-            <div className="mt-2 p-2 bg-muted rounded text-xs text-muted-foreground">
-              <span className="font-medium">Notes:</span> {appointment.notes}
-            </div>
-          )}
           
           {/* Action Buttons */}
           {isPending && onApproveAppointment && onRejectAppointment && (

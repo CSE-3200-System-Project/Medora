@@ -128,18 +128,25 @@ export function AppointmentCalendar({
         onClick={() => handleDayClick(day)}
         disabled={!hasAppointments}
         className={cn(
-          "aspect-square rounded-lg text-sm font-medium transition-all relative",
-          hasAppointments && "hover:bg-primary-more-light hover:scale-105 cursor-pointer",
+          "aspect-square rounded-lg text-sm font-medium transition-all relative border p-1",
+          hasAppointments && "hover:scale-105 cursor-pointer",
           !hasAppointments && "cursor-default",
-          isSelected && "bg-primary text-white shadow-md scale-105 ring-2 ring-primary/50",
+          isSelected && "bg-primary text-white shadow-md scale-105 ring-2 ring-primary/50 border-primary",
           !isSelected && isCurrentDay && "bg-primary-light border-2 border-primary text-foreground",
           !isSelected && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
-          !isSelected && !isCurrentDay && !dayIsPast && "bg-white text-foreground",
+          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-gray-900",
           hasAppointments && "font-bold hover:text-primary",
+          !isSelected && !isCurrentDay && "hover:bg-[var(--calendar-cell-hover)]",
           !hasAppointments && "opacity-50"
         )}
+        style={!isSelected && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
       >
-        {day}
+        <span className={cn(
+          isSelected ? 'text-white' : dayIsPast ? 'text-gray-400' : 'text-[var(--calendar-date-foreground)]',
+          'relative z-10'
+        )}>
+          {day}
+        </span>
         {dayAppts.length > 0 && (
           <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 flex gap-0.5">
             {dayAppts.slice(0, 3).map((appt, idx) => (
@@ -147,7 +154,7 @@ export function AppointmentCalendar({
                 key={idx} 
                 className={cn(
                   "w-1.5 h-1.5 rounded-full",
-                  isSelected ? "bg-white" : getStatusColor(appt.status)
+                  isSelected ? "bg-[var(--calendar-cell-bg)]" : getStatusColor(appt.status)
                 )} 
               />
             ))}
@@ -163,14 +170,15 @@ export function AppointmentCalendar({
   }
 
   return (
-    <Card className={cn("rounded-2xl shadow-lg bg-white dark:bg-card border-primary/20", className)}>
-      <CardHeader className="border-b border-primary/10 bg-primary-more-light/50 dark:bg-primary/5">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2 text-foreground">
+    <Card className={cn("rounded-2xl bg-[var(--calendar-card-bg)] border-primary/20 p-6", className)}>
+      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+        <CardHeader className="border-b border-primary/10 bg-primary-more-light/50 dark:bg-primary/5">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <CardTitle className="text-lg flex items-center gap-2 text-foreground whitespace-nowrap">
             <CalendarIcon className="w-5 h-5 text-primary" />
             {title}
           </CardTitle>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2 whitespace-nowrap min-w-0">
             <Button
               variant="ghost"
               size="icon"
@@ -179,7 +187,7 @@ export function AppointmentCalendar({
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-sm font-semibold min-w-28 text-center">
+            <span className="text-sm font-semibold min-w-0 text-center truncate">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </span>
             <Button
@@ -195,7 +203,7 @@ export function AppointmentCalendar({
         
         {selectedDate && (
           <div className="mt-2 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-600">
               Showing appointments for selected date
             </p>
             <Button
@@ -214,13 +222,13 @@ export function AppointmentCalendar({
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-2">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
-            <div
-              key={idx}
-              className="text-center text-xs font-semibold text-muted-foreground py-2"
-            >
-              {day}
-            </div>
-          ))}
+              <div
+                key={idx}
+                className="text-center text-xs font-semibold text-gray-900 py-2"
+              >
+                {day}
+              </div>
+            ))}
         </div>
 
         {/* Calendar grid */}
@@ -229,25 +237,26 @@ export function AppointmentCalendar({
         </div>
 
         {/* Legend */}
-        <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap gap-3 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-muted-foreground">Confirmed</span>
+        <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap items-center gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
+            <span className="text-gray-600 leading-none">Confirmed</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-yellow-500" />
-            <span className="text-muted-foreground">Pending</span>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
+            <span className="text-gray-600 leading-none">Pending</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-green-500" />
-            <span className="text-muted-foreground">Completed</span>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
+            <span className="text-gray-600 leading-none">Completed</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded border-2 border-primary" />
-            <span className="text-muted-foreground">Today</span>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded border-2 border-primary flex-shrink-0" />
+            <span className="text-gray-600 leading-none">Today</span>
           </div>
         </div>
       </CardContent>
+        </div>
     </Card>
   );
 }

@@ -18,6 +18,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { getAllAppointments } from "@/lib/admin-actions";
+import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 type Appointment = {
   id: string;
@@ -202,9 +203,19 @@ export default function AppointmentsPage() {
 
                     {appointment.reason && (
                       <div className="mt-4 pt-4 border-t border-slate-700/50">
-                        <p className="text-sm text-slate-400">
-                          <span className="font-medium">Reason:</span> {appointment.reason}
-                        </p>
+                        {/* Structured reason: Consultation Type (humanized) • Appointment Type */}
+                        {(() => {
+                          const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
+                          const ct = humanizeConsultationType(consultationType);
+                          const at = humanizeAppointmentType(appointmentType);
+
+                          return (
+                            <p className="text-sm text-slate-400">
+                              <span className="font-medium">Reason:</span>{' '}
+                              {ct || appointment.reason}{at ? ` • ${at}` : ''}
+                            </p>
+                          );
+                        })()}
                       </div>
                     )}
                   </CardContent>

@@ -16,3 +16,34 @@ export function localDateKey(dateInput: string | Date) {
   const day = String(d.getDate()).padStart(2, '0')
   return `${y}-${m}-${day}`
 }
+
+// --- Appointment display helpers ---
+export function humanizeConsultationType(value?: string | null) {
+  if (!value) return ''
+  const v = value.toLowerCase()
+  if (v === 'face-to-face' || v === 'in-person') return 'Face‑to‑Face Consultation'
+  if (v === 'online' || v === 'telemedicine') return 'Video Consultation'
+  return v.replace(/(^|\s)\S/g, t => t.toUpperCase())
+}
+
+export function humanizeAppointmentType(value?: string | null) {
+  if (!value) return ''
+  const v = value.toLowerCase()
+  if (v === 'new') return 'New patient'
+  if (v === 'follow-up' || v === 'follow_up') return 'Follow‑up'
+  if (v === 'report') return 'Report'
+  return v.replace(/(^|\s)\S/g, t => t.toUpperCase())
+}
+
+/**
+ * Parse a composite reason string created by the booking flow: "consultationType - appointmentType"
+ * Returns { consultationType, appointmentType }
+ */
+export function parseCompositeReason(reason?: string | null) {
+  if (!reason) return { consultationType: '', appointmentType: '' }
+  const parts = reason.split(' - ').map(p => p.trim())
+  return {
+    consultationType: parts[0] || '',
+    appointmentType: parts[1] || '',
+  }
+}

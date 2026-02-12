@@ -45,12 +45,12 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
                 initial={false}
                 animate={{
                   backgroundColor: isCompleted || isCurrent ? "var(--primary)" : "var(--background)",
-                  borderColor: isCompleted || isCurrent ? "var(--primary)" : "var(--muted-foreground)",
+                  borderColor: isCompleted || isCurrent ? "var(--primary)" : "#374151",
                   scale: isCurrent ? 1.1 : 1,
                 }}
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors duration-300",
-                  isCompleted || isCurrent ? "border-primary bg-primary text-primary-foreground" : "bg-background border-muted-foreground text-muted-foreground"
+                  isCompleted || isCurrent ? "border-primary bg-primary text-primary-foreground" : "bg-background border-gray-700 text-gray-700"
                 )}
               >
                 {isCompleted ? (
@@ -63,7 +63,7 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
                 <span
                   className={cn(
                     "text-xs font-medium transition-colors duration-300",
-                    isCurrent ? "text-primary font-bold" : "text-muted-foreground"
+                    isCurrent ? "text-primary font-bold" : "text-gray-700"
                   )}
                 >
                   {step.shortName}
