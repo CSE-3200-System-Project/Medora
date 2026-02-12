@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { login, getCurrentUser } from "@/lib/auth-actions";
 import { setAdminAccess } from "@/lib/admin-actions";
+import { AppBackground } from "@/components/ui/app-background";
 
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
@@ -122,7 +123,7 @@ function LoginPageContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16 relative">
+    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 relative animate-page-enter">
       {/* Admin Access Button */}
       <button
         onClick={() => setShowAdminDialog(true)}
@@ -334,13 +335,13 @@ function LoginPageContent() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </AppBackground>
   );
 }
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-pulse text-primary">Loading...</div></div>}>
+    <Suspense fallback={<AppBackground className="min-h-screen flex items-center justify-center"><div className="animate-pulse text-primary">Loading...</div></AppBackground>}>
       <LoginPageContent />
     </Suspense>
   );

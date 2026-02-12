@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { CheckCircle2, Calendar, Clock, User, ArrowRight, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import logo from "@/assets/images/logo.png";
@@ -34,16 +35,19 @@ function AppointmentSuccessContent() {
 
   if (!appointmentData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-surface via-background to-accent flex items-center justify-center px-4">
-        <div className="text-center">
-          <p className="text-muted-foreground">Loading appointment details...</p>
+      <AppBackground>
+        <div className="flex items-center justify-center h-screen px-4">
+          <div className="text-center">
+            <p className="text-muted-foreground">Loading appointment details...</p>
+          </div>
         </div>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface via-background to-accent flex items-center justify-center px-4 py-8">
+    <AppBackground className="animate-page-enter">
+      <div className="flex items-center justify-center min-h-screen px-4 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -208,7 +212,8 @@ function AppointmentSuccessContent() {
           </Button>
         </motion.div>
       </motion.div>
-    </div>
+      </div>
+    </AppBackground>
   );
 }
 
@@ -216,9 +221,11 @@ export default function AppointmentSuccessPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-surface via-background to-accent flex items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
+        <AppBackground>
+          <div className="flex items-center justify-center h-screen">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </AppBackground>
       }
     >
       <AppointmentSuccessContent />

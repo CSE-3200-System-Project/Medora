@@ -28,6 +28,7 @@ import {
   Users,
   Scale,
   Ruler,
+  Bell,
   Hospital,
 } from "lucide-react";
 
@@ -534,7 +535,7 @@ export default function PatientProfilePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
@@ -546,6 +547,7 @@ export default function PatientProfilePage() {
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
+            onClick={() => router.push('/patient/appointments')}
           >
             <Calendar className="h-6 w-6 text-primary" />
             <span>My Appointments</span>
@@ -553,17 +555,26 @@ export default function PatientProfilePage() {
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
+            onClick={() => router.push("/patient/medical-history")}
           >
             <FileText className="h-6 w-6 text-primary" />
-            <span>Medical Records</span>
+            <span>Medical History</span>
           </Button>
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
-            onClick={() => router.push("/patient/medical-history")}
+            onClick={() => router.push("/patient/prescriptions")}
           >
             <Pill className="h-6 w-6 text-primary" />
-            <span>Medical History</span>
+            <span>Prescriptions</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-500 touch-target"
+            onClick={() => router.push("/patient/reminders")}
+          >
+            <Bell className="h-6 w-6 text-amber-500" />
+            <span>Reminders</span>
           </Button>
         </div>
       </main>

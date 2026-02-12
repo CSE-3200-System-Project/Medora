@@ -8,6 +8,7 @@ import {
   Building, ArrowLeft, Stethoscope
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { AppBackground } from "@/components/ui/app-background"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
 import { 
@@ -137,17 +138,19 @@ export default function PatientPrivacyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-more-light via-white to-surface flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-muted-foreground">Loading privacy settings...</p>
+      <AppBackground>
+        <div className="flex items-center justify-center h-screen">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="text-muted-foreground">Loading privacy settings...</p>
+          </div>
         </div>
-      </div>
+      </AppBackground>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-more-light via-white to-surface">
+    <AppBackground className="animate-page-enter">
       {/* Confirmation Dialog */}
       <ConfirmationDialog
         isOpen={confirmDialog.isOpen}
@@ -377,6 +380,6 @@ export default function PatientPrivacyPage() {
           </div>
         )}
       </div>
-    </div>
+    </AppBackground>
   )
 }

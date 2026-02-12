@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Pencil, Trash2, AlertCircle, Pill, Calendar, User } from "lucide-react";
+import { Plus, Pencil, Trash2, AlertCircle, Pill, Calendar, User, Bell } from "lucide-react";
 import { AddMedicationDialog, type Medication } from "./add-medication-dialog";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ReminderDialog } from "@/components/ui/reminder-dialog";
 import { cn } from "@/lib/utils";
 
 interface MedicationManagerProps {
@@ -198,7 +199,7 @@ export function MedicationManager({
 
 /**
  * Medication Card Component
- * Displays a single medication with edit/remove actions.
+ * Displays a single medication with edit/remove actions and reminder option.
  */
 function MedicationCard({
   medication,
@@ -209,43 +210,46 @@ function MedicationCard({
   onEdit: () => void;
   onRemove: () => void;
 }) {
-  return (
-    <Card className="border-border/50 hover:border-primary/30 transition-colors">
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
-            <div className={cn(
-              "rounded-lg p-2 shrink-0",
-              medication.status === "current" ? "bg-success/10" : "bg-muted"
-            )}>
-              <Pill className={cn(
-                "w-5 h-5",
-                medication.status === "current" ? "text-success" : "text-muted-foreground"
-              )} />
-            </div>
-            
-            <div className="flex-1 min-w-0 space-y-2">
-              <div>
-                <p className="font-semibold text-foreground truncate">
-                  {medication.display_name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {medication.generic_name}
-                </p>
-              </div>
+  const [reminderOpen, setReminderOpen] = useState(false);
 
-              <div className="flex flex-wrap gap-1.5">
-                <Badge variant="outline" className="text-xs">
-                  {medication.strength}
-                </Badge>
-                <Badge variant="secondary" className="text-xs">
-                  {medication.dosage_form}
-                </Badge>
-                {medication.status === "current" && (
-                  <Badge className="text-xs bg-success/10 text-success border-success/20">
-                    Current
+  return (
+    <>
+      <Card className="border-border/50 hover:border-primary/30 transition-colors">
+        <div className="p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3 flex-1 min-w-0">
+              <div className={cn(
+                "rounded-lg p-2 shrink-0",
+                medication.status === "current" ? "bg-success/10" : "bg-muted"
+              )}>
+                <Pill className={cn(
+                  "w-5 h-5",
+                  medication.status === "current" ? "text-success" : "text-muted-foreground"
+                )} />
+              </div>
+              
+              <div className="flex-1 min-w-0 space-y-2">
+                <div>
+                  <p className="font-semibold text-foreground truncate">
+                    {medication.display_name}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {medication.generic_name}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  <Badge variant="outline" className="text-xs">
+                    {medication.strength}
                   </Badge>
-                )}
+                  <Badge variant="secondary" className="text-xs">
+                    {medication.dosage_form}
+                  </Badge>
+                  {medication.status === "current" && (
+                    <Badge className="text-xs bg-success/10 text-success border-success/20">
+                      Current
+                    </Badge>
+                  )}
               </div>
 
               <div className="space-y-1 text-sm">
@@ -287,6 +291,15 @@ function MedicationCard({
             <Button
               variant="ghost"
               size="sm"
+              onClick={() => setReminderOpen(true)}
+              className="h-8 w-8 p-0 text-primary hover:text-primary hover:bg-primary/10"
+              title="Set reminder"
+            >
+              <Bell className="w-3.5 h-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onEdit}
               className="h-8 w-8 p-0"
             >
@@ -304,6 +317,16 @@ function MedicationCard({
         </div>
       </div>
     </Card>
+
+    {/* Reminder Dialog */}
+    <ReminderDialog
+      open={reminderOpen}
+      onOpenChange={setReminderOpen}
+      itemName={medication.display_name}
+      itemId={medication.drug_id}
+      type="medication"
+    />
+  </>
   );
 }
 

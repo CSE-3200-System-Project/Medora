@@ -38,6 +38,17 @@ class NotificationType(str, enum.Enum):
     # System
     SYSTEM_ANNOUNCEMENT = "system_announcement"
     WELCOME = "welcome"
+    
+    # Medication & Test Reminders
+    MEDICATION_REMINDER = "medication_reminder"
+    TEST_REMINDER = "test_reminder"
+    
+    # Consultation & Prescription
+    CONSULTATION_STARTED = "consultation_started"
+    CONSULTATION_COMPLETED = "consultation_completed"
+    PRESCRIPTION_CREATED = "prescription_created"
+    PRESCRIPTION_ACCEPTED = "prescription_accepted"
+    PRESCRIPTION_REJECTED = "prescription_rejected"
 
 
 class NotificationPriority(str, enum.Enum):

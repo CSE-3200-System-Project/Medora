@@ -3,6 +3,7 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -280,22 +281,22 @@ export default function ConsultationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-surface via-primary-more-light to-accent">
+      <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         </main>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-surface via-primary-more-light to-accent">
+    <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button
@@ -581,6 +582,6 @@ export default function ConsultationPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </AppBackground>
   );
 }

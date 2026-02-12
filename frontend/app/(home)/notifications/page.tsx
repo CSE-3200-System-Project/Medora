@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +21,11 @@ import {
   Info,
   ChevronLeft,
   ChevronRight,
-  Filter
+  Filter,
+  Pill,
+  FlaskConical,
+  Stethoscope,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -52,6 +57,14 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   onboarding_reminder: AlertCircle,
   system_announcement: Info,
   welcome: Info,
+  medication_reminder: Pill,
+  test_reminder: FlaskConical,
+  // Consultation & Prescription types
+  consultation_started: Stethoscope,
+  consultation_completed: CheckCheck,
+  prescription_created: FileText,
+  prescription_accepted: Check,
+  prescription_rejected: X,
 };
 
 // Color mapping for notification types
@@ -74,6 +87,14 @@ const notificationColors: Record<NotificationType, string> = {
   onboarding_reminder: "text-yellow-600 bg-yellow-100",
   system_announcement: "text-primary bg-primary/10",
   welcome: "text-primary bg-primary/10",
+  medication_reminder: "text-blue-600 bg-blue-100",
+  test_reminder: "text-purple-600 bg-purple-100",
+  // Consultation & Prescription colors
+  consultation_started: "text-primary bg-primary/10",
+  consultation_completed: "text-green-600 bg-green-100",
+  prescription_created: "text-primary bg-primary/10",
+  prescription_accepted: "text-green-600 bg-green-100",
+  prescription_rejected: "text-red-600 bg-red-100",
 };
 
 type FilterType = 'all' | 'unread' | 'read';
@@ -167,10 +188,10 @@ export default function NotificationsPage() {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-surface via-primary-more-light to-accent">
+    <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24 md:pt-28">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-24 md:pt-28">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
           <div>
@@ -331,6 +352,6 @@ export default function NotificationsPage() {
           </div>
         )}
       </main>
-    </div>
+    </AppBackground>
   );
 }

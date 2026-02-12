@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { signupDoctor } from "@/lib/auth-actions";
 import { useRouter } from "next/navigation";
+import { AppBackground } from "@/components/ui/app-background";
 
 // Import images
 import doctorImg from "@/assets/image/doctors.jpg";
@@ -71,7 +72,7 @@ export default function DoctorRegister() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface p-4">
+      <AppBackground className="min-h-screen flex items-center justify-center p-4 animate-page-enter">
         <Card className="max-w-md w-full">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-20 w-20 bg-green-100 rounded-full flex items-center justify-center">
@@ -100,12 +101,12 @@ export default function DoctorRegister() {
             </Link>
           </CardFooter>
         </Card>
-      </div>
+      </AppBackground>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16">
+    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
       <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
@@ -277,6 +278,6 @@ export default function DoctorRegister() {
           </div>
         </div>
       </Card>
-    </div>
+    </AppBackground>
   );
 }
