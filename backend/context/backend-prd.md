@@ -14,14 +14,14 @@
 
 Medora backend is a **production-ready healthcare data platform** built with FastAPI, PostgreSQL (Supabase), and Groq AI. It implements:
 
-* ✅ **Patient & Doctor Onboarding** (8-step wizards with comprehensive medical data collection)
-* ✅ **Doctor Verification System** (BMDC credentials validation by admins)
-* ✅ **Doctor Search & Discovery** (with AI-powered intent extraction via Groq)
-* ✅ **Appointment Management** (booking, status updates, cancellation)
-* ✅ **Role-Based Access Control** (Patient, Doctor, Admin with strict permission enforcement)
-* ✅ **JWT Authentication** (via Supabase Auth)
-* ✅ **File Upload** (profiles, documents, medical records to Supabase Storage)
-* ✅ **Async Database** (SQLAlchemy 2.0 + asyncpg for non-blocking I/O)
+* **Patient & Doctor Onboarding** (8-step wizards with comprehensive medical data collection)
+* **Doctor Verification System** (BMDC credentials validation by admins)
+* **Doctor Search & Discovery** (with AI-powered intent extraction via Groq)
+* **Appointment Management** (booking, status updates, cancellation)
+* **Role-Based Access Control** (Patient, Doctor, Admin with strict permission enforcement)
+* **JWT Authentication** (via Supabase Auth)
+* **File Upload** (profiles, documents, medical records to Supabase Storage)
+* **Async Database** (SQLAlchemy 2.0 + asyncpg for non-blocking I/O)
 
 ---
 
@@ -45,11 +45,11 @@ The backend is the **source of truth**, not the frontend, not AI.
 
 ### 1.2 Backend Non-Negotiables
 
-* ❌ No diagnosis or medical decision-making
-* ❌ No autonomous medical decisions without human review
-* ❌ No silent data access without audit logging
-* ❌ No uncontrolled AI output—all AI responses are validated and logged
-* ❌ No cross-role data leakage—strict permission enforcement at the route level
+* No diagnosis or medical decision-making
+* No autonomous medical decisions without human review
+* No silent data access without audit logging
+* No uncontrolled AI output—all AI responses are validated and logged
+* No cross-role data leakage—strict permission enforcement at the route level
 
 ---
 
@@ -137,21 +137,21 @@ The backend is the **source of truth**, not the frontend, not AI.
 
 ```
 Backend Components:
-├── Authentication Layer (Supabase Auth + JWT)
-├── Database Layer (PostgreSQL + SQLAlchemy 2.0 async ORM)
-├── API Routes (FastAPI)
-│   ├── /auth - Signup, login, logout, token verification
-│   ├── /profile - Onboarding PATCH/GET for patients and doctors
-│   ├── /doctor - Doctor search, discovery, and profile retrieval
-│   ├── /appointment - Appointment CRUD and status management
-│   ├── /admin - Doctor verification, user management
-│   ├── /specialities - Specialization master data
-│   ├── /upload - File upload to Supabase Storage
-│   ├── /ai - AI-powered doctor matching and intent extraction
-│   └── /health - Health check endpoint
-├── Validation Layer (Pydantic v2 schemas)
-├── AI Orchestration (Groq LLM client)
-└── Storage Layer (Supabase Storage for files)
+ Authentication Layer (Supabase Auth + JWT)
+ Database Layer (PostgreSQL + SQLAlchemy 2.0 async ORM)
+ API Routes (FastAPI)
+    /auth - Signup, login, logout, token verification
+    /profile - Onboarding PATCH/GET for patients and doctors
+    /doctor - Doctor search, discovery, and profile retrieval
+    /appointment - Appointment CRUD and status management
+    /admin - Doctor verification, user management
+    /specialities - Specialization master data
+    /upload - File upload to Supabase Storage
+    /ai - AI-powered doctor matching and intent extraction
+    /health - Health check endpoint
+ Validation Layer (Pydantic v2 schemas)
+ AI Orchestration (Groq LLM client)
+ Storage Layer (Supabase Storage for files)
 ```
 
 ---
@@ -715,33 +715,33 @@ class WorkExperience(BaseModel):
 
 ```sql
 profiles (base user table)
-├── id (PK, UUID from Supabase)
-├── role (ENUM)
-├── status (ENUM)
-├── verification_status (ENUM)
-├── verified_at, created_at, updated_at
+ id (PK, UUID from Supabase)
+ role (ENUM)
+ status (ENUM)
+ verification_status (ENUM)
+ verified_at, created_at, updated_at
 
 patient_profiles (medical data)
-├── profile_id (PK, FK)
-├── ~100 columns for medical history
-├── JSON arrays: medications, allergies, surgeries, vaccinations, etc.
+ profile_id (PK, FK)
+ ~100 columns for medical history
+ JSON arrays: medications, allergies, surgeries, vaccinations, etc.
 
 doctor_profiles (professional data)
-├── profile_id (PK, FK)
-├── bmdc_number (UNIQUE)
-├── speciality_id (FK)
-├── ~80 columns for credentials
-├── JSON arrays: education, work_experience, telemedicine_platforms
+ profile_id (PK, FK)
+ bmdc_number (UNIQUE)
+ speciality_id (FK)
+ ~80 columns for credentials
+ JSON arrays: education, work_experience, telemedicine_platforms
 
 appointments
-├── id (PK, UUID)
-├── doctor_id, patient_id (FK)
-├── appointment_date, status, reason, notes
-├── created_at, updated_at
+ id (PK, UUID)
+ doctor_id, patient_id (FK)
+ appointment_date, status, reason, notes
+ created_at, updated_at
 
 specialities (master data)
-├── id (PK, auto-increment)
-├── name (UNIQUE)
+ id (PK, auto-increment)
+ name (UNIQUE)
 ```
 
 ### 8.2 Migrations (Alembic)
@@ -820,12 +820,12 @@ Frontend displays: Matching doctors
 
 ### 11.1 Implemented
 
-* ✅ JWT authentication via Supabase
-* ✅ CORS allowlist
-* ✅ Role-based access control
-* ✅ Authorization header validation
-* ✅ Password hashing (Supabase)
-* ✅ Banned account detection
+*  JWT authentication via Supabase
+*  CORS allowlist
+*  Role-based access control
+*  Authorization header validation
+*  Password hashing (Supabase)
+*  Banned account detection
 
 ### 11.2 Future
 
@@ -850,14 +850,14 @@ Frontend displays: Matching doctors
 
 ## 13. SUCCESS METRICS
 
-* ✅ Zero unauthorized access incidents
-* ✅ Doctor verification workflow functional
-* ✅ Appointment booking working
-* ✅ Patient onboarding captures all data
-* ✅ AI doctor search returns relevant specialists
-* ✅ API response time < 500ms
-* ✅ File uploads working
-* ⏳ Comprehensive audit trails
+*  Zero unauthorized access incidents
+*  Doctor verification workflow functional
+*  Appointment booking working
+*  Patient onboarding captures all data
+*  AI doctor search returns relevant specialists
+*  API response time < 500ms
+*  File uploads working
+*  Comprehensive audit trails
 
 ---
 

@@ -164,7 +164,7 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
         {/* Footer note */}
         <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
           <p className="text-xs text-primary leading-relaxed">
-            💡 <span className="font-medium">Personalized Search:</span> Our AI analyzed your medical history alongside your description to recommend specialists who are best equipped to help you.
+            <span className="font-medium">Personalized Search:</span> Our AI analyzed your medical history alongside your description to recommend specialists who are best equipped to help you.
           </p>
         </div>
       </CardContent>

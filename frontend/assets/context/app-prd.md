@@ -14,18 +14,18 @@
 
 Medora frontend is a **production-ready healthcare web application** built with Next.js 15, React 19, TypeScript, and Tailwind CSS. It implements:
 
-* ✅ **Landing Page** (hero, features, CTA, doctor/patient differentiation)
-* ✅ **Authentication** (signup, login, logout, email verification, role selection)
-* ✅ **Patient Onboarding** (8-step wizard with mobile-first UI, comprehensive medical history)
-* ✅ **Doctor Onboarding** (8-step wizard for professional credentials and practice info)
-* ✅ **Doctor Discovery** (search, filter, AI-powered recommendations, detail pages)
-* ✅ **Appointment Management** (booking, history, status tracking)
-* ✅ **Patient Dashboard** (profile, medical records, doctor access control)
-* ✅ **Doctor Dashboard** (search patients, view appointments, manage profile)
-* ✅ **Admin Portal** (doctor verification, pending doctor approval)
-* ✅ **Mobile-First Responsive Design** (works on all screen sizes)
-* ✅ **Theme System** (CSS variables, doctor blue primary color, comprehensive color palette)
-* ✅ **shadcn/ui Components** (buttons, cards, forms, modals, dropdowns)
+* **Landing Page** (hero, features, CTA, doctor/patient differentiation)
+* **Authentication** (signup, login, logout, email verification, role selection)
+* **Patient Onboarding** (8-step wizard with mobile-first UI, comprehensive medical history)
+* **Doctor Onboarding** (8-step wizard for professional credentials and practice info)
+* **Doctor Discovery** (search, filter, AI-powered recommendations, detail pages)
+* **Appointment Management** (booking, history, status tracking)
+* **Patient Dashboard** (profile, medical records, doctor access control)
+* **Doctor Dashboard** (search patients, view appointments, manage profile)
+* **Admin Portal** (doctor verification, pending doctor approval)
+* **Mobile-First Responsive Design** (works on all screen sizes)
+* **Theme System** (CSS variables, doctor blue primary color, comprehensive color palette)
+* **shadcn/ui Components** (buttons, cards, forms, modals, dropdowns)
 
 ---
 
@@ -63,10 +63,10 @@ It must:
 * Medical data clearly labeled and explained
 
 **Safety:**
-* ❌ No diagnosis language (never "you have X")
-* ❌ No autonomous medical decisions
-* ❌ No confusing disclaimers (clear, upfront explanations)
-* ✅ Clear disclaimers everywhere medical content appears
+* No diagnosis language (never "you have X")
+* No autonomous medical decisions
+* No confusing disclaimers (clear, upfront explanations)
+* Clear disclaimers everywhere medical content appears
 
 ---
 
@@ -145,13 +145,13 @@ It must:
 ### 3.2 Using Theme Colors in Tailwind
 
 ```tsx
-// ✅ CORRECT - Use theme variables
+// CORRECT - Use theme variables
 className="bg-primary text-primary-foreground"
 className="bg-surface text-foreground"
 className="border-border"
 className="text-muted-foreground"
 
-// ❌ WRONG - Hardcoded colors
+// WRONG - Hardcoded colors
 className="bg-blue-500"
 className="text-gray-600"
 ```
@@ -233,38 +233,38 @@ Available components in `frontend/components/ui/`:
 
 ```
 PUBLIC
-├── /                              Landing page (hero, features)
-├── /(auth)/login                  Login form
-├── /(auth)/selection              Role selection (Patient / Doctor)
-├── /(auth)/patient/signup         Patient registration
-├── /(auth)/doctor/signup          Doctor registration
-├── /(auth)/forgot-password        Password reset
-├── /(auth)/logout                 Logout confirmation
+ /                              Landing page (hero, features)
+ /(auth)/login                  Login form
+ /(auth)/selection              Role selection (Patient / Doctor)
+ /(auth)/patient/signup         Patient registration
+ /(auth)/doctor/signup          Doctor registration
+ /(auth)/forgot-password        Password reset
+ /(auth)/logout                 Logout confirmation
 
 PATIENT AUTHENTICATED
-├── /(onboarding)/onboarding/patient   8-step wizard
-├── /(home)/patient/home               Dashboard
-├── /(home)/patient/profile            View/edit profile
-├── /(home)/patient/appointments       Appointment history
-├── /(home)/patient/find-doctor        Doctor search & discovery
-├── /(home)/patient/doctor/{id}        Doctor detail page
-├── /(home)/patient/appointment-success Booking confirmation
+ /(onboarding)/onboarding/patient   8-step wizard
+ /(home)/patient/home               Dashboard
+ /(home)/patient/profile            View/edit profile
+ /(home)/patient/appointments       Appointment history
+ /(home)/patient/find-doctor        Doctor search & discovery
+ /(home)/patient/doctor/{id}        Doctor detail page
+ /(home)/patient/appointment-success Booking confirmation
 
 DOCTOR AUTHENTICATED
-├── /(onboarding)/onboarding/doctor    8-step wizard
-├── /(home)/doctor/home                Dashboard
-├── /(home)/doctor/appointments        Appointment history
-├── /(home)/doctor/profile             View/edit profile
+ /(onboarding)/onboarding/doctor    8-step wizard
+ /(home)/doctor/home                Dashboard
+ /(home)/doctor/appointments        Appointment history
+ /(home)/doctor/profile             View/edit profile
 
 ADMIN AUTHENTICATED
-├── /admin/dashboard                   Verification dashboard
-├── /admin/verify-pending              Pending doctor approval
-├── /admin/clear-admin                 Admin login/logout
+ /admin/dashboard                   Verification dashboard
+ /admin/verify-pending              Pending doctor approval
+ /admin/clear-admin                 Admin login/logout
 
 POST-AUTH ROUTING
-├── /(onboarding)/verify-email         Email verification prompt
-├── /(onboarding)/verification-success Success confirmation
-├── /(onboarding)/verify-pending       Doctor awaiting BMDC verification
+ /(onboarding)/verify-email         Email verification prompt
+ /(onboarding)/verification-success Success confirmation
+ /(onboarding)/verify-pending       Doctor awaiting BMDC verification
 ```
 
 ---
@@ -764,7 +764,7 @@ Similar structure to patient wizard with professional-specific fields:
 
 ## 12. IMPLEMENTATION STATUS
 
-### Completed Features ✅
+### Completed Features
 
 * Landing page (hero, features, CTA)
 * Authentication flows (signup, login, logout)
@@ -786,7 +786,7 @@ Similar structure to patient wizard with professional-specific fields:
 * Server actions for backend communication
 - Framer Motion animations on onboarding
 
-### Partial/Future Implementations ⏳
+### Partial/Future Implementations 
 
 * Patient-doctor messaging/chat
 * Real-time notifications (email/SMS)
@@ -826,66 +826,66 @@ Similar structure to patient wizard with professional-specific fields:
 
 ```
 frontend/
-├── app/
-│   ├── (admin)/
-│   │   ├── admin/
-│   │   ├── clear-admin/
-│   │   └── verify-pending/
-│   ├── (auth)/
-│   │   ├── auth/
-│   │   ├── doctor/
-│   │   ├── patient/
-│   │   ├── login/
-│   │   ├── selection/
-│   │   ├── logout/
-│   │   └── forgot-password/
-│   ├── (home)/
-│   │   ├── doctor/
-│   │   └── patient/
-│   ├── (onboarding)/
-│   │   ├── onboarding/
-│   │   ├── verify-email/
-│   │   ├── verify-pending/
-│   │   └── verification-success/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx (landing)
-│
-├── components/
-│   ├── admin/
-│   │   ├── admin-navbar.tsx
-│   │   └── admin-notifications.tsx
-│   ├── doctor/
-│   │   ├── doctor-card.tsx
-│   │   ├── doctor-information-section.tsx
-│   │   ├── doctor-navbar.tsx
-│   │   ├── search-filters.tsx
-│   │   └── appointment-booking-panel.tsx
-│   ├── onboarding/
-│   │   ├── patient-onboarding.tsx
-│   │   ├── doctor-onboarding.tsx
-│   │   ├── step-indicator.tsx
-│   │   └── onboarding-banner.tsx
-│   └── ui/
-│       ├── button.tsx
-│       ├── card.tsx
-│       ├── input.tsx
-│       ├── select.tsx
-│       ├── checkbox.tsx
-│       ├── navbar.tsx
-│       └── ... (20+ shadcn/ui components)
-│
-├── lib/
-│   ├── auth-actions.ts (server actions)
-│   ├── appointment-actions.ts (server actions)
-│   ├── admin-actions.ts (server actions)
-│   └── utils.ts (cn(), validators, helpers)
-│
-├── middleware.ts (route protection)
-├── package.json
-├── tsconfig.json
-├── tailwind.config.ts
-└── next.config.ts
+ app/
+    (admin)/
+       admin/
+       clear-admin/
+       verify-pending/
+    (auth)/
+       auth/
+       doctor/
+       patient/
+       login/
+       selection/
+       logout/
+       forgot-password/
+    (home)/
+       doctor/
+       patient/
+    (onboarding)/
+       onboarding/
+       verify-email/
+       verify-pending/
+       verification-success/
+    globals.css
+    layout.tsx
+    page.tsx (landing)
+
+ components/
+    admin/
+       admin-navbar.tsx
+       admin-notifications.tsx
+    doctor/
+       doctor-card.tsx
+       doctor-information-section.tsx
+       doctor-navbar.tsx
+       search-filters.tsx
+       appointment-booking-panel.tsx
+    onboarding/
+       patient-onboarding.tsx
+       doctor-onboarding.tsx
+       step-indicator.tsx
+       onboarding-banner.tsx
+    ui/
+        button.tsx
+        card.tsx
+        input.tsx
+        select.tsx
+        checkbox.tsx
+        navbar.tsx
+        ... (20+ shadcn/ui components)
+
+ lib/
+    auth-actions.ts (server actions)
+    appointment-actions.ts (server actions)
+    admin-actions.ts (server actions)
+    utils.ts (cn(), validators, helpers)
+
+ middleware.ts (route protection)
+ package.json
+ tsconfig.json
+ tailwind.config.ts
+ next.config.ts
 ```
 
 ---
@@ -991,27 +991,27 @@ const MedicationSchema = z.object({
 
 ## 18. MOBILE-FIRST IMPLEMENTATION CHECKLIST
 
-- ✅ All touch targets ≥ 44x44px
-- ✅ Readable font sizes on mobile (16px base)
-- ✅ Single column on mobile, multi-column on tablet/desktop
-- ✅ Full-width on mobile, constrained on desktop
-- ✅ Hamburger menu on mobile, full nav on desktop
-- ✅ Tap-friendly buttons and inputs
-- ✅ Responsive images (next/image with sizes)
-- ✅ Responsive modals (full screen on mobile, centered on desktop)
+- All touch targets ≥ 44x44px
+- Readable font sizes on mobile (16px base)
+- Single column on mobile, multi-column on tablet/desktop
+- Full-width on mobile, constrained on desktop
+- Hamburger menu on mobile, full nav on desktop
+- Tap-friendly buttons and inputs
+- Responsive images (next/image with sizes)
+- Responsive modals (full screen on mobile, centered on desktop)
 
 ---
 
 ## 19. SUCCESS METRICS
 
-* ✅ Patient can complete signup → onboarding → book appointment in < 5 minutes
-* ✅ Doctor can complete signup → verification → view patients in < 2 minutes
-* ✅ All forms validate correctly on client and server
-* ✅ Mobile-responsive on all screen sizes
-* ✅ API response times < 500ms (patient feel smooth, fast)
-* ✅ No layout shifts (CLS minimized)
-* ✅ Dark mode ready (CSS variables scalable)
-* ✅ Accessibility score > 90 (future improvement)
+* Patient can complete signup → onboarding → book appointment in < 5 minutes
+* Doctor can complete signup → verification → view patients in < 2 minutes
+* All forms validate correctly on client and server
+* Mobile-responsive on all screen sizes
+* API response times < 500ms (patient feel smooth, fast)
+* No layout shifts (CLS minimized)
+* Dark mode ready (CSS variables scalable)
+* Accessibility score > 90 (future improvement)
 
 ---
 

@@ -242,7 +242,7 @@ function MedicalHistoryContent() {
     
     // Medications
     if (medications.length > 0) {
-      text += "\n📋 MEDICATIONS\n";
+      text += "\nMEDICATIONS\n";
       text += "-------------\n\n";
       const current = medications.filter(m => m.status === "current");
       const past = medications.filter(m => m.status === "past");
@@ -266,7 +266,7 @@ function MedicalHistoryContent() {
     
     // Surgeries
     if (surgeries.length > 0) {
-      text += "\n🔪 SURGERIES\n";
+      text += "\nSURGERIES\n";
       text += "-----------\n\n";
       surgeries.forEach((surgery, idx) => {
         text += `${idx + 1}. ${surgery.name} (${surgery.year})\n`;
@@ -277,7 +277,7 @@ function MedicalHistoryContent() {
     
     // Hospitalizations
     if (hospitalizations.length > 0) {
-      text += "\n🏥 HOSPITALIZATIONS\n";
+      text += "\nHOSPITALIZATIONS\n";
       text += "------------------\n\n";
       hospitalizations.forEach((hosp, idx) => {
         text += `${idx + 1}. ${hosp.reason} (${hosp.year})\n`;
@@ -288,7 +288,7 @@ function MedicalHistoryContent() {
     
     // Vaccinations
     if (vaccinations.length > 0) {
-      text += "\n💉 VACCINATIONS\n";
+      text += "\nVACCINATIONS\n";
       text += "--------------\n\n";
       vaccinations.forEach((vac, idx) => {
         text += `${idx + 1}. ${vac.name} - ${vac.date}\n`;
@@ -297,7 +297,7 @@ function MedicalHistoryContent() {
 
     // Medical Tests
     if (medicalTests.length > 0) {
-      text += "\n🧪 MEDICAL TESTS\n";
+      text += "\nMEDICAL TESTS\n";
       text += "----------------\n\n";
       medicalTests.forEach((test, idx) => {
         text += `${idx + 1}. ${test.test_name}`;

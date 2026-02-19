@@ -244,7 +244,7 @@ async def update_doctor_onboarding(
     user_id = user.id
     try:
         # Debug log incoming data
-        print("📥 Received doctor onboarding payload:", data.model_dump(exclude_unset=True))
+        print("Received doctor onboarding payload:", data.model_dump(exclude_unset=True))
         # 1. Update Profile table
         profile_data = {}
         if data.first_name: profile_data['first_name'] = data.first_name
@@ -405,12 +405,12 @@ async def update_doctor_onboarding(
         ])
         
         if address_fields_updated:
-            print(f"📍 Address fields updated for doctor {user_id}, triggering geocoding...")
+            print(f"Address fields updated for doctor {user_id}, triggering geocoding...")
             try:
                 geocode_result = await geocode_and_save_doctor_locations(db, user_id, force_regeocode=True)
-                print(f"✅ Geocoding completed for doctor {user_id}: {geocode_result}")
+                print(f"Geocoding completed for doctor {user_id}: {geocode_result}")
             except Exception as geocode_error:
-                print(f"⚠️ Geocoding failed for doctor {user_id}: {geocode_error}")
+                print(f"Geocoding failed for doctor {user_id}: {geocode_error}")
                 # Don't fail the entire onboarding if geocoding fails
                 # Just log the error and continue
         
@@ -418,7 +418,7 @@ async def update_doctor_onboarding(
         # Debug: show updated speciality_id
         updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
         updated_doc = updated.scalar_one_or_none()
-        print("🔁 Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
+        print("Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
         return {"message": "Profile updated successfully"}
     except Exception as e:
         await db.rollback()
@@ -885,7 +885,7 @@ async def update_doctor_profile(
     
     try:
         # Debug log incoming data
-        print("📥 Received doctor update payload:", data.model_dump(exclude_unset=True))
+        print(" Received doctor update payload:", data.model_dump(exclude_unset=True))
         # 1. Update Profile table (common fields)
         profile_data = {}
         if data.first_name: profile_data['first_name'] = data.first_name
@@ -993,7 +993,7 @@ async def update_doctor_profile(
         # Debug: show updated speciality_id
         updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
         updated_doc = updated.scalar_one_or_none()
-        print("🔁 Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
+        print(" Doctor profile after update (speciality_id):", getattr(updated_doc, 'speciality_id', None))
         
         return {"success": True, "message": "Profile updated successfully"}
         
