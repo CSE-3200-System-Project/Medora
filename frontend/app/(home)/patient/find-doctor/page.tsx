@@ -16,29 +16,26 @@ import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
 // AI Analysis summary component
 function AIAnalysisSummary({ analysis }: { analysis: any }) {
   if (!analysis || analysis.error) return null;
-  
+
   const symptoms = analysis.symptoms || [];
   const specialties = analysis.specialties || [];
   const severity = analysis.severity || "medium";
   const language = analysis.language_detected || "en";
-  
-  const severityColors: Record<string, string> = {
-    low: "bg-green-100 text-green-800 border-green-200",
-    medium: "bg-yellow-100 text-yellow-800 border-yellow-200",
-    high: "bg-red-100 text-red-800 border-red-200"
-  };
-  
+
+  const severityVariant: "destructive" | "warning" | "success" =
+    severity === "high" ? "destructive" : severity === "medium" ? "warning" : "success";
+
   return (
-    <Card className="border-primary/20 bg-linear-to-r from-blue-50 to-indigo-50">
+    <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50 dark:from-primary/10 dark:to-accent/10">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="font-semibold text-sm text-primary">AI Analysis</span>
-          <Badge variant="outline" className="ml-auto text-xs">
+          <Badge variant="outline" className="ml-auto text-xs" aria-label={`language-${language}`}>
             {language === "bn" ? "Bangla" : language === "mixed" ? "Mixed" : "English"}
           </Badge>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           {/* Detected Symptoms */}
           {symptoms.length > 0 && (
@@ -56,7 +53,7 @@ function AIAnalysisSummary({ analysis }: { analysis: any }) {
               </div>
             </div>
           )}
-          
+
           {/* Suggested Specialties */}
           {specialties.length > 0 && (
             <div className="space-y-1.5">
@@ -66,21 +63,21 @@ function AIAnalysisSummary({ analysis }: { analysis: any }) {
               </div>
               <div className="flex flex-wrap gap-1">
                 {specialties.map((s: any, i: number) => (
-                  <Badge key={i} className="text-xs bg-primary/10 text-primary border-primary/20">
+                  <Badge key={i} variant="secondary" className="text-xs">
                     {s.name}
                   </Badge>
                 ))}
               </div>
             </div>
           )}
-          
+
           {/* Severity */}
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <Clock className="w-3.5 h-3.5" />
               <span className="font-medium">Urgency Level</span>
             </div>
-            <Badge className={`text-xs ${severityColors[severity]}`}>
+            <Badge variant={severityVariant} className="text-xs">
               {severity === "high" ? "Urgent - Seek Care Soon" : 
                severity === "medium" ? "Moderate Priority" : "Routine Visit"}
             </Badge>

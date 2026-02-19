@@ -7,6 +7,7 @@ import { DoctorInformationSection } from "@/components/doctor/doctor-information
 import { AppointmentBookingPanel } from "@/components/doctor/appointment-booking-panel";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 
 export default function DoctorProfilePage() {
   const params = useParams();
@@ -37,12 +38,7 @@ export default function DoctorProfilePage() {
   if (loading) {
     return (
       <AppBackground>
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading doctor profile...</p>
-          </div>
-        </div>
+        <MedoraLoader size="lg" label="Loading doctor profile..." fullScreen />
       </AppBackground>
     );
   }

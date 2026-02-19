@@ -223,26 +223,26 @@ hr {
   /* Background & Surface */
   --background: #021526;
   --surface: #0D2B46;
-  --foreground: #FFFFFF;
+  --foreground: #F0F4F8;
 
-  /* Text */
-  --foreground-muted: #A8A8A8;
+  /* Text — boosted for readability */
+  --foreground-muted: #C0C8D4;
 
-  /* Primary */
-  --primary: #0360D9;
+  /* Primary — brighter for dark backgrounds (WCAG AA on #021526) */
+  --primary: #4A9BFF;
   --primary-foreground: #FFFFFF;
-  --primary-muted: #1379B1;
+  --primary-muted: #38ACE2;
   --primary-muted-foreground: #FFFFFF;
   --primary-light: #A5CCFF;
-  --primary-more-light: #E1EEFF;
+  --primary-more-light: #1E3A5F;
 
   /* Secondary */
-  --secondary: #163048;
-  --secondary-foreground: #FFFFFF;
+  --secondary: #1A3652;
+  --secondary-foreground: #E8EDF2;
 
-  /* Muted */
-  --muted: #163048;
-  --muted-foreground: #A8A8A8;
+  /* Muted — boosted foreground for readability */
+  --muted: #1A3652;
+  --muted-foreground: #B8C4D0;
 
   /* Accent */
   --accent: #F5BF00;
@@ -252,16 +252,16 @@ hr {
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-muted: #991B1B;
 
-  /* Borders & UI */
-  --border: #163048;
-  --input: #163048;
-  --ring: #0360D9;
+  /* Borders & UI — slightly lighter for visibility */
+  --border: #1E3A5F;
+  --input: #1E3A5F;
+  --ring: #4A9BFF;
 
-  /* Cards & Popovers */
+  /* Cards & Popovers — brighter foreground */
   --card: #0D2B46;
-  --card-foreground: #FFFFFF;
+  --card-foreground: #F0F4F8;
   --popover: #0D2B46;
-  --popover-foreground: #FFFFFF;
+  --popover-foreground: #F0F4F8;
 
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -272,13 +272,21 @@ hr {
 
   /* Sidebar */
   --sidebar: #021526;
-  --sidebar-foreground: #FFFFFF;
-  --sidebar-primary: #0360D9;
+  --sidebar-foreground: #F0F4F8;
+  --sidebar-primary: #4A9BFF;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #0D2B46;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #163048;
-  --sidebar-ring: #0360D9;
+  --sidebar-accent-foreground: #E8EDF2;
+  --sidebar-border: #1E3A5F;
+  --sidebar-ring: #4A9BFF;
+
+  /* Calendar dark overrides */
+  --calendar-border: #1E3A5F;
+  --calendar-date-foreground: #F0F4F8;
+  --calendar-card-bg: #0D2B46;
+  --calendar-cell-bg: #132D4A;
+  --calendar-cell-hover: #1A3652;
+  --calendar-cell-selected-bg: rgba(74, 155, 255, 0.15);
 }
 
 @layer base {
