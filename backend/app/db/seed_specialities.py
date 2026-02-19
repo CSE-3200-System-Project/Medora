@@ -130,10 +130,10 @@ async def seed_specialities():
                 session.add(speciality)
             
             await session.commit()
-            print(f"✅ Successfully seeded {len(SPECIALITIES)} specialities!")
+            print(f"Successfully seeded {len(SPECIALITIES)} specialities!")
         except Exception as e:
             await session.rollback()
-            print(f"❌ Error seeding specialities: {e}")
+            print(f"Error seeding specialities: {e}")
         finally:
             await engine.dispose()
 

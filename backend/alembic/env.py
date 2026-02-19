@@ -15,7 +15,7 @@ from app.core.config import settings
 # access to the values within the .ini file in use.
 config = context.config
 
-# ✅ SET THE DATABASE URL FROM YOUR .ENV
+# SET THE DATABASE URL FROM YOUR .ENV
 config.set_main_option("sqlalchemy.url", settings.SUPABASE_DATABASE_URL)
 
 # Interpret the config file for Python logging.
@@ -47,7 +47,7 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-    # ✅ CHANGE FROM async to sync URL for Alembic
+    # CHANGE FROM async to sync URL for Alembic
     # Alembic doesn't support asyncpg directly, we need psycopg2
     sync_url = settings.SUPABASE_DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
     

@@ -121,7 +121,7 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
         await db.commit()
         
         # Debug: Print session structure
-        print(f"✅ Doctor signup successful - User ID: {user_id}")
+        print(f"Doctor signup successful - User ID: {user_id}")
         print(f"Session object type: {type(auth_response.session)}")
         if auth_response.session:
             print(f"Session has access_token: {hasattr(auth_response.session, 'access_token')}")

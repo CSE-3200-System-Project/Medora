@@ -470,7 +470,7 @@ export function MapView({
                 {location.doctor.title} {location.doctor.first_name} {location.doctor.last_name}
                 <br />
                 <span className="text-[10px] opacity-80">
-                  {location.type === 'hospital' ? '🏥 Hospital' : '🏪 Chamber'}
+                  {location.type === 'hospital' ? 'Hospital' : 'Chamber'}
                 </span>
               </MarkerTooltip>
               

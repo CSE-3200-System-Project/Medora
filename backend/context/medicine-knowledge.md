@@ -397,10 +397,10 @@ Allow users (patients + doctors) to:
 
 ```
 <PageContainer>
- ├─ <FindMedicineHeader />
- ├─ <MedicineSearchInput />
- ├─ <MedicineSearchResults />
- └─ <MedicineDetailDrawer /> (lazy-loaded)
+  <FindMedicineHeader />
+  <MedicineSearchInput />
+  <MedicineSearchResults />
+  <MedicineDetailDrawer /> (lazy-loaded)
 </PageContainer>
 ```
 
@@ -470,9 +470,9 @@ Show ranked, scannable medicine results
 
 ```
 <ResultList>
- ├─ <MedicineResultCard />
- ├─ <MedicineResultCard />
- └─ ...
+  <MedicineResultCard />
+  <MedicineResultCard />
+  ...
 </ResultList>
 ```
 
