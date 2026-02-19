@@ -31,6 +31,7 @@ import {
   Unlock,
 } from "lucide-react";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 import { getPendingDoctors, getAllDoctors, verifyDoctor, banUser, unbanUser } from "@/lib/admin-actions";
 
 type Doctor = {
@@ -432,7 +433,9 @@ export default function DoctorsPage() {
       <div className="min-h-screen bg-surface">
         <AdminNavbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 md:pt-[50px]">
-          <div className="animate-pulse">Loading...</div>
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <MedoraLoader size="lg" label="Loading doctors..." />
+          </div>
         </main>
       </div>
     }>

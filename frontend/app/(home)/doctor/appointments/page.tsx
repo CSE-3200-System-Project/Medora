@@ -6,7 +6,8 @@ import { AppBackground } from "@/components/ui/app-background";
 import { AppointmentCalendar } from "@/components/ui/appointment-calendar";
 import { TimeSlotGrid } from "@/components/doctor/time-slot-grid";
 import { DoctorPatientList } from "@/components/doctor/doctor-patient-list";
-import { getMyAppointments, getAppointmentsByDate, updateAppointment, syncAppointmentStatus } from "@/lib/appointment-actions";
+import { getMyAppointments, getAppointmentsByDate, updateAppointment, syncAppointmentStatus, completeAppointment } from "@/lib/appointment-actions";
+import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -227,6 +228,26 @@ export default function DoctorAppointmentsPage() {
     const slotTime = extractSlotTime(appointment.notes);
     const displayTime = slotTime || time;
     const isPending = appointment.status.toUpperCase() === 'PENDING';
+    const isConfirmed = appointment.status.toUpperCase() === 'CONFIRMED';
+    const appointmentPassed = new Date(appointment.appointment_date) <= new Date();
+    const canComplete = isConfirmed && appointmentPassed;
+    const [completing, setCompleting] = React.useState(false);
+
+    const handleComplete = async () => {
+      setCompleting(true);
+      try {
+        await completeAppointment(appointment.id);
+        loadAppointments();
+        if (selectedDate) {
+          const slots = await getAppointmentsByDate(selectedDate);
+          setDaySlots(slots);
+        }
+      } catch (error: any) {
+        alert(error.message || 'Failed to complete appointment');
+      } finally {
+        setCompleting(false);
+      }
+    };
 
     return (
       <div
@@ -350,6 +371,25 @@ export default function DoctorAppointmentsPage() {
             </Button>
           </div>
         )}
+
+        {/* Complete Button for Confirmed + Past Appointments */}
+        {canComplete && (
+          <div className="mt-4 pt-3 border-t border-border">
+            <Button
+              size="sm"
+              variant="default"
+              onClick={handleComplete}
+              disabled={completing}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
+            >
+              {completing ? (
+                <><ButtonLoader className="mr-2" /> Completing...</>
+              ) : (
+                <><CheckCircle2 className="w-4 h-4 mr-2" /> Complete Appointment</>
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     );
   };
@@ -360,7 +400,7 @@ export default function DoctorAppointmentsPage() {
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-20">
-            <div className="skeleton w-12 h-12 rounded-full"></div>
+            <MedoraLoader size="lg" label="Loading appointments..." />
           </div>
         </main>
       </AppBackground>

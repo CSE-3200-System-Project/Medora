@@ -1,6 +1,7 @@
 import React from 'react'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth-actions'
+import { ReminderNotificationService } from '@/components/ui/reminder-notification-service'
 
 export default async function HomeLayout({
   children,
@@ -17,6 +18,7 @@ export default async function HomeLayout({
   
   return (
     <>
+      <ReminderNotificationService />
       {children}
     </>
   )

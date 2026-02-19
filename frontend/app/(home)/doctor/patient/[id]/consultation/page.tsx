@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { MedicationForm, TestForm, SurgeryForm, PrescriptionReview } from "@/components/prescription";
+import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 import {
   startConsultation,
   updateConsultation,
@@ -41,7 +42,6 @@ import {
   Scissors,
   CheckCircle2,
   ArrowLeft,
-  Loader2,
   Send,
   Save,
   AlertCircle,
@@ -283,7 +283,7 @@ export default function ConsultationPage() {
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <MedoraLoader size="lg" label="Loading consultation..." />
           </div>
         </main>
       </AppBackground>
@@ -435,7 +435,7 @@ export default function ConsultationPage() {
                   disabled={saving || !consultation}
                 >
                   {saving ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <ButtonLoader className="mr-2" />
                   ) : (
                     <Save className="w-4 h-4 mr-2" />
                   )}
@@ -452,7 +452,7 @@ export default function ConsultationPage() {
               disabled={submitting || !consultation}
             >
               {submitting ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <ButtonLoader className="mr-2" />
               ) : (
                 <CheckCircle2 className="w-4 h-4 mr-2" />
               )}
@@ -544,7 +544,7 @@ export default function ConsultationPage() {
                     className="min-w-[200px]"
                   >
                     {submitting ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <ButtonLoader className="mr-2" />
                     ) : (
                       <Send className="w-4 h-4 mr-2" />
                     )}
