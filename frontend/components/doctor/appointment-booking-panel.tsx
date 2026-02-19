@@ -123,6 +123,12 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
   const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+  const hasValidCoords = (location: any) => {
+    const latitude = Number(location?.latitude);
+    const longitude = Number(location?.longitude);
+    return Number.isFinite(latitude) && Number.isFinite(longitude);
+  };
+
   const handleConfirm = async () => {
     if (!isConfirmEnabled()) return;
 
@@ -180,7 +186,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                 key={index}
                 className={cn(
                   "flex items-start gap-3 p-4 border border-border rounded-lg cursor-pointer transition-colors",
-                  bookingState.locationId === index.toString() ? "bg-accent border-primary" : "hover:bg-accent/50"
+                  bookingState.locationId === index.toString() ? "bg-primary/10 border-primary/50" : "hover:bg-accent/50"
                 )}
               >
                 <input
@@ -210,10 +216,10 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         {/* Location Map - Shows when a location is selected */}
         {bookingState.locationId && (() => {
           const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId)];
-          const lat = selectedLocation?.latitude;
-          const lng = selectedLocation?.longitude;
+          const lat = Number(selectedLocation?.latitude);
+          const lng = Number(selectedLocation?.longitude);
           
-          if (lat && lng) {
+          if (hasValidCoords(selectedLocation)) {
             return (
               <div className="rounded-xl overflow-hidden border border-border">
                 <div className="h-48 md:h-56 relative w-full">
@@ -342,7 +348,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                       ? "bg-primary text-primary-foreground border-primary"
                       : isDateAvailable
                         ? "bg-background text-foreground border-border hover:bg-accent"
-                        : "bg-gray-50 text-muted-foreground border-border cursor-not-allowed opacity-60"
+                        : "bg-muted/60 text-muted-foreground border-border cursor-not-allowed opacity-60"
                   )}
                 >
                   <div className="font-semibold text-sm">{dateObj.label}</div>
@@ -389,20 +395,20 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                                 : !isUnavailable
                                 ? "bg-background text-foreground border-border hover:bg-accent"
                                 : isBooked
-                                ? "bg-red-50 text-red-400 border-red-200"
+                                ? "bg-destructive/10 text-destructive-muted border-destructive/20"
                                 : isPast
-                                ? "bg-gray-100 text-gray-400 border-gray-200"
+                                ? "bg-muted/70 text-muted-foreground border-border"
                                 : "bg-muted text-muted-foreground border-muted"
                             )}
                           >
                             <span className={cn(isPast && "line-through")}>{slot.time}</span>
                             {isBooked && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center">
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full flex items-center justify-center">
                                 <XCircle className="w-2 h-2 text-white" />
                               </span>
                             )}
                             {isPast && !isBooked && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-gray-400 rounded-full" />
+                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-muted-foreground rounded-full" />
                             )}
                           </button>
                         );

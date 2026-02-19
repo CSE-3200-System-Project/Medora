@@ -16,10 +16,10 @@ import {
   Pill,
   FlaskConical,
   Trash2,
-  Loader2,
   Calendar,
   AlertCircle
 } from "lucide-react";
+import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 import {
   getReminders,
   deleteReminder,
@@ -189,7 +189,7 @@ export default function PatientRemindersPage() {
             {/* Loading State */}
             {loading && (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                <MedoraLoader size="lg" label="Loading reminders..." />
               </div>
             )}
 
@@ -381,7 +381,7 @@ export default function PatientRemindersPage() {
               disabled={actionLoading === reminderToDelete}
             >
               {actionLoading === reminderToDelete ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                <ButtonLoader className="mr-2" />
               ) : (
                 <Trash2 className="w-4 h-4 mr-2" />
               )}

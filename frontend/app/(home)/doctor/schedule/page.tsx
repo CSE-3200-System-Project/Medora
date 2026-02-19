@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppBackground } from "@/components/ui/app-background";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 
 export default function DoctorSchedulePage() {
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function DoctorSchedulePage() {
   if (loading) {
     return (
       <AppBackground className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
+        <MedoraLoader size="lg" label="Loading schedule..." />
       </AppBackground>
     );
   }

@@ -578,12 +578,20 @@ async def add_prescription(
             )
         
         # Create prescription
+        # Use item presence as source of truth so mixed-item prescriptions remain visible
+        # across medication/test/surgery views.
+        resolved_type = (
+            PrescriptionType.MEDICATION if has_medications
+            else PrescriptionType.TEST if has_tests
+            else PrescriptionType.SURGERY
+        )
+
         prescription = Prescription(
             id=str(uuid.uuid4()),
             consultation_id=consultation_id,
             doctor_id=user.id,
             patient_id=consultation.patient_id,
-            type=data.type,
+            type=resolved_type,
             notes=data.notes,
             status=PrescriptionStatus.PENDING,
         )

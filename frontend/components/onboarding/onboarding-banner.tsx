@@ -21,8 +21,8 @@ export function OnboardingBanner({ role }: OnboardingBannerProps) {
     <Alert className="mb-6 bg-primary-more-light border-primary">
       <AlertCircle className="h-4 w-4 text-primary" />
       <AlertDescription className="flex items-center justify-between gap-4">
-        <span className="text-gray-800">
-          <strong className="text-black">Complete Your Profile:</strong> Finish your onboarding to unlock all features and get the best experience.
+        <span className="text-foreground">
+          <strong className="text-foreground">Complete Your Profile:</strong> Finish your onboarding to unlock all features and get the best experience.
         </span>
         <Button
           onClick={handleCompleteOnboarding}

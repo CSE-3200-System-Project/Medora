@@ -15,6 +15,7 @@ import {
   Activity
 } from "lucide-react";
 import { getAdminStats } from "@/lib/admin-actions";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 
 type Stats = {
   total_users: number;
@@ -58,7 +59,7 @@ export default function AdminDashboard() {
         <AdminNavbar />
         <main className="p-6 max-w-[1600px] mx-auto">
           <div className="flex items-center justify-center min-h-[60vh]">
-            <div className="text-white text-lg">Loading...</div>
+            <MedoraLoader size="lg" label="Loading admin dashboard..." className="text-white" />
           </div>
         </main>
       </div>

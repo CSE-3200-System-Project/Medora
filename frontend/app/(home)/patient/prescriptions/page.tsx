@@ -22,10 +22,10 @@ import {
   XCircle,
   AlertCircle,
   ArrowRight,
-  Loader2,
   Calendar,
   User,
 } from "lucide-react";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 
 export default function PatientPrescriptionsPage() {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function PatientPrescriptionsPage() {
     try {
       setLoading(true);
       setError(null);
-      const data = await getPatientPrescriptions();
+      const data = await getPatientPrescriptions(undefined, 100, 0);
       setPrescriptions(data.prescriptions);
     } catch (err: any) {
       console.error("Failed to load prescriptions:", err);
@@ -178,7 +178,7 @@ export default function PatientPrescriptionsPage() {
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <MedoraLoader size="lg" label="Loading prescriptions..." />
           </div>
         )}
 
@@ -269,7 +269,8 @@ export default function PatientPrescriptionsPage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}n          </div>
+            ))}
+          </div>
         )}
       </main>
     </AppBackground>
