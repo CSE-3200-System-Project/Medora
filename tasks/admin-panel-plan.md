@@ -2,13 +2,13 @@
 
 ## Backend Features (FastAPI)
 
-### ✅ Already Exists
+### Already Exists
 - `/admin/pending-doctors` - Get pending doctor verifications
 - `/admin/verify-doctor/{doctor_id}` - Approve/reject doctors
 - `/admin/doctors` - Get all doctors
 - `/admin/stats` - Basic platform stats
 
-### 🔨 To Create
+###  To Create
 - `/admin/dashboard` - Enhanced dashboard with comprehensive stats
 - `/admin/patients` - Patient management endpoints
 - `/admin/patients/{id}` - Get specific patient details
@@ -21,22 +21,22 @@
 ### Structure
 ```
 frontend/app/(admin)/
-  ├── layout.tsx (Admin-specific layout with dark theme)
-  ├── admin/
-  │   ├── dashboard/
-  │   │   └── page.tsx (Dashboard overview)
-  │   ├── doctors/
-  │   │   ├── page.tsx (Doctor list & verification)
-  │   │   └── [id]/
-  │   │       └── page.tsx (Doctor detail view)
-  │   ├── patients/
-  │   │   ├── page.tsx (Patient list)
-  │   │   └── [id]/
-  │   │       └── page.tsx (Patient detail view)
-  │   ├── appointments/
-  │   │   └── page.tsx (Appointment oversight)
-  │   └── analytics/
-  │       └── page.tsx (Analytics & reports)
+   layout.tsx (Admin-specific layout with dark theme)
+   admin/
+      dashboard/
+         page.tsx (Dashboard overview)
+      doctors/
+         page.tsx (Doctor list & verification)
+         [id]/
+             page.tsx (Doctor detail view)
+      patients/
+         page.tsx (Patient list)
+         [id]/
+             page.tsx (Patient detail view)
+      appointments/
+         page.tsx (Appointment oversight)
+      analytics/
+          page.tsx (Analytics & reports)
 ```
 
 ### Components

@@ -1,6 +1,6 @@
 # Geocoding Optimization & In-App Routing Plan
 
-## 📋 Overview
+## Overview
 Optimize doctor location system by:
 1. Saving geocoded coordinates to database (avoid repeated API calls)
 2. Supporting multiple locations per doctor (chambers)
@@ -9,7 +9,7 @@ Optimize doctor location system by:
 
 ---
 
-## 🎯 Requirements Analysis
+##  Requirements Analysis
 
 ### Current Issues
 - Geocoding API called every time MapView renders (rate-limited, slow)
@@ -26,7 +26,7 @@ Optimize doctor location system by:
 
 ---
 
-## 📝 Task Breakdown
+## Task Breakdown
 
 ### Backend Tasks
 
@@ -210,7 +210,7 @@ useEffect(() => {
 
 ---
 
-## 📦 Database Migration
+##  Database Migration
 
 ```python
 # alembic/versions/xxxx_add_location_coordinates.py
@@ -234,7 +234,7 @@ def downgrade():
 
 ---
 
-## 🔄 Workflow
+##  Workflow
 
 ### Data Flow
 1. **Doctor Onboarding**: When doctor saves address → backend geocodes → saves lat/lng to DB
@@ -250,7 +250,7 @@ def downgrade():
 
 ---
 
-## 🎨 Visual Design
+## Visual Design
 
 ### Marker Styles
 ```tsx
@@ -298,7 +298,7 @@ def downgrade():
 
 ---
 
-## ✅ Testing Checklist
+## Testing Checklist
 
 - [ ] Doctor onboarding saves coordinates to DB
 - [ ] Search results include coordinates
@@ -313,7 +313,7 @@ def downgrade():
 
 ---
 
-## 🚀 Deployment Steps
+## Deployment Steps
 
 1. Run database migration
 2. Deploy backend with geocoding service
@@ -324,7 +324,7 @@ def downgrade():
 
 ---
 
-## 📊 Performance Metrics
+##  Performance Metrics
 
 **Before:**
 - API calls per page load: N doctors × 1 geocoding request = slow + rate-limited
@@ -337,7 +337,7 @@ def downgrade():
 
 ---
 
-## 🔐 Security Considerations
+##  Security Considerations
 
 - Rate limit geocoding endpoint to prevent abuse
 - Validate address inputs before geocoding
@@ -346,9 +346,9 @@ def downgrade():
 
 ---
 
-## 📝 Review Section
+## Review Section
 
-### ✅ Implementation Complete (January 14, 2026)
+### Implementation Complete (January 14, 2026)
 
 **All tasks successfully implemented!**
 
@@ -418,13 +418,13 @@ def downgrade():
 
 #### Key Features
 
-✅ **Database persistence** - Coordinates saved permanently
-✅ **Multiple locations** - Hospital and chamber support
-✅ **In-app routing** - OSRM API integration with `MapRoute`
-✅ **Route alternatives** - Multiple options with selection
-✅ **Patient-centric** - Map centers on patient
-✅ **Visual distinction** - Different markers for location types
-✅ **Performance optimized** - No repeated API calls
+**Database persistence** - Coordinates saved permanently
+**Multiple locations** - Hospital and chamber support
+**In-app routing** - OSRM API integration with `MapRoute`
+**Route alternatives** - Multiple options with selection
+**Patient-centric** - Map centers on patient
+**Visual distinction** - Different markers for location types
+**Performance optimized** - No repeated API calls
 
 ### Performance Improvement
 
@@ -543,71 +543,71 @@ Headers: Authorization: Bearer <doctor_token>
 ### Architecture Diagram
 
 ```
-┌─────────────┐
-│   Patient   │
-│  (Browser)  │
-└──────┬──────┘
-       │ 1. Search doctors
-       ↓
-┌─────────────────────┐
-│   Next.js Frontend  │
-│  - find-doctor page │
-│  - MapView component│
-└──────┬──────────────┘
-       │ 2. GET /doctor/search
-       ↓
-┌─────────────────────┐
-│  FastAPI Backend    │
-│  - Returns doctors  │
-│    with coordinates │
-└──────┬──────────────┘
-       │ 3. Query PostgreSQL
-       ↓
-┌─────────────────────┐
-│    Database         │
-│  doctor_profiles    │
-│  - hospital_lat/lng │
-│  - chamber_lat/lng  │
-└─────────────────────┘
 
-┌─────────────┐
-│   Patient   │ 4. Clicks "Get Directions"
-└──────┬──────┘
-       │
+   Patient   
+  (Browser)  
+
+        1. Search doctors
        ↓
-┌─────────────────────┐
-│  MapView Component  │
-│  - fetchRoutes()    │
-└──────┬──────────────┘
-       │ 5. GET OSRM API
+
+   Next.js Frontend  
+  - find-doctor page 
+  - MapView component
+
+        2. GET /doctor/search
        ↓
-┌─────────────────────┐
-│   OSRM Router       │
-│  (OpenStreetMap)    │
-│  - Returns routes   │
-└──────┬──────────────┘
-       │ 6. Display with MapRoute
+
+  FastAPI Backend    
+  - Returns doctors  
+    with coordinates 
+
+        3. Query PostgreSQL
        ↓
-┌─────────────────────┐
-│   Map with Routes   │
-│  - Select fastest   │
-└─────────────────────┘
+
+    Database         
+  doctor_profiles    
+  - hospital_lat/lng 
+  - chamber_lat/lng  
+
+
+
+   Patient    4. Clicks "Get Directions"
+
+       
+       ↓
+
+  MapView Component  
+  - fetchRoutes()    
+
+        5. GET OSRM API
+       ↓
+
+   OSRM Router       
+  (OpenStreetMap)    
+  - Returns routes   
+
+        6. Display with MapRoute
+       ↓
+
+   Map with Routes   
+  - Select fastest   
+
 ```
 
 ### Code Quality
 
-- ✅ TypeScript strict mode compatible
-- ✅ Async/await patterns used throughout
-- ✅ Proper error handling
-- ✅ Responsive design (mobile-first)
-- ✅ Accessibility (ARIA labels, keyboard nav)
-- ✅ Performance optimized (React.useMemo)
-- ✅ Clean code (no duplication)
-- ✅ Well-documented (comments + logging)
+- TypeScript strict mode compatible
+- Async/await patterns used throughout
+- Proper error handling
+- Responsive design (mobile-first)
+- Accessibility (ARIA labels, keyboard nav)
+- Performance optimized (React.useMemo)
+- Clean code (no duplication)
+- Well-documented (comments + logging)
 
 ---
 
-## 🚀 Deployment Complete
+##  Deployment Complete
 
 The geocoding optimization and in-app routing features are now fully implemented and ready for testing!
 

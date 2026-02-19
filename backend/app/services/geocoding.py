@@ -60,10 +60,10 @@ async def geocode_address(address: str, timeout: int = 10) -> Optional[Dict[str,
                     "lat": float(data[0]["lat"]),
                     "lng": float(data[0]["lon"])
                 }
-                logger.info(f"✓ Geocoded: '{address}' → {result['lat']}, {result['lng']}")
+                logger.info(f"Geocoded: '{address}' → {result['lat']}, {result['lng']}")
                 return result
             else:
-                logger.warning(f"✗ No geocoding results for: {address}")
+                logger.warning(f"No geocoding results for: {address}")
                 return None
                 
     except httpx.TimeoutException:
@@ -127,7 +127,7 @@ async def geocode_and_save_doctor_locations(
                     doctor.latitude = coords["lat"]
                     doctor.longitude = coords["lng"]
                     result["hospital_geocoded"] = True
-                    logger.info(f"✓ Saved hospital coordinates for doctor {doctor_id}")
+                    logger.info(f"Saved hospital coordinates for doctor {doctor_id}")
     else:
         logger.info(f"Hospital coordinates already exist for doctor {doctor_id}")
     
@@ -153,7 +153,7 @@ async def geocode_and_save_doctor_locations(
                     doctor.chamber_latitude = coords["lat"]
                     doctor.chamber_longitude = coords["lng"]
                     result["chamber_geocoded"] = True
-                    logger.info(f"✓ Saved chamber coordinates for doctor {doctor_id}")
+                    logger.info(f"Saved chamber coordinates for doctor {doctor_id}")
     else:
         logger.info(f"Chamber coordinates already exist for doctor {doctor_id}")
     

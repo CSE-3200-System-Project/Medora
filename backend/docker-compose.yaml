@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  # =========================================================================
+  # FastAPI Backend Service
+  # =========================================================================
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    
+    container_name: medora-backend
+    
+    # Port mapping: container:host
+    ports:
+      - "8000:8000"
+    
+    # Environment variables
+    env_file:
+      - .env
+    environment:
+      # Database
+      SUPABASE_DATABASE_URL: ${SUPABASE_DATABASE_URL}
+      
+      # Supabase Auth & Storage
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      
+      # AI Services
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      
+      # CORS Configuration
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
+      
+      # Admin
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      
+      # Development
+      RELOAD: ${RELOAD:-false}
+    
+    # Volume mounts for development (hot reload)
+    volumes:
+      # Mount source code for live editing (dev only - comment out for prod)
+      - ./:/app:cached
+      # Exclude pycache to avoid sync issues
+      - /app/__pycache__
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Resource limits (optional, adjust as needed)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 2G
+    #     reservations:
+    #       cpus: '1'
+    #       memory: 1G
+
+# =========================================================================
+# Networks (optional - useful for multi-service setups)
+# =========================================================================
+networks:
+  default:
+    name: medora-network
+    driver: bridge

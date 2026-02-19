@@ -67,14 +67,14 @@ It is an **alternative input channel** that converts speech → text and then fe
 
 ```
 Next.js Frontend
-  ├── Microphone UI
-  ├── Audio Recorder
-  ├── Confirmation UI
+   Microphone UI
+   Audio Recorder
+   Confirmation UI
   ↓
 FastAPI Backend
-  ├── /ai/normalize/voice
-  ├── Whisper-Small ASR
-  ├── Confidence Estimator
+   /ai/normalize/voice
+   Whisper-Small ASR
+   Confidence Estimator
   ↓
 Normalized Text
   ↓
@@ -93,7 +93,7 @@ Add a **voice input option** next to the text input.
 
 #### UI Elements
 
-* 🎤 Microphone button
+* Microphone button
 * Recording indicator (pulse / waveform)
 * “Listening…” state
 * Stop button
@@ -232,7 +232,7 @@ Compute confidence using:
 
 ## 10. FRONTEND ↔ BACKEND FLOW (STEP-BY-STEP)
 
-1. User taps 🎤
+1. User taps the microphone
 2. Audio recording starts
 3. User stops recording
 4. Frontend sends audio blob to `/ai/normalize/voice`
@@ -385,9 +385,9 @@ Only the inference engine changes.
 
 So for Bangla:
 
-* ✔ “বুকে ব্যথা”
-* ✔ “শ্বাস নিতে কষ্ট”
-* ✔ Banglish like “bukey betha”
+* “বুকে ব্যথা”
+* “শ্বাস নিতে কষ্ট”
+* Banglish like “bukey betha”
 
 All work the same.
 

@@ -1,6 +1,6 @@
 # Medical History & AI Context Integration
 
-## ✅ Completed Tasks
+##  Completed Tasks
 
 1.  **AI Doctor Search Context**
     - Modified `backend/app/routes/ai_doctor.py` to fetch patient history.
@@ -22,7 +22,7 @@
     - Displayed detailed appointment cards with date, reason, notes, and status.
     - Implemented responsive grid layout for tab triggers.
 
-## 📝 Impact Analysis
+##  Impact Analysis
 
 - **Personalization**: AI Doctor now suggests specialists based on CHRONIC conditions and PAST history, not just current query.
 - **Accessibility**: Patients can easily view past consultations in one place.
