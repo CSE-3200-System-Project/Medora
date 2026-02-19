@@ -49,7 +49,7 @@ export default function VerifyEmailPage() {
         const user = await getCurrentUser();
         if (isMounted && user) {
           // Debug logging
-          console.log("📧 Email Verification Debug:");
+          console.log(" Email Verification Debug:");
           console.log("  - Email Verified:", user.email_verified);
           console.log("  - Role:", user.role);
           
@@ -59,7 +59,7 @@ export default function VerifyEmailPage() {
             setHasRedirected(true);
             
             // Redirect to login page with verified=true query param
-            console.log("✅ Email verified, redirecting to login");
+            console.log("Email verified, redirecting to login");
             router.replace('/login?verified=true');
           }
         }
@@ -81,7 +81,7 @@ export default function VerifyEmailPage() {
       
       if (user && user.email_verified) {
         // Redirect to login page with verified=true query param
-        console.log("✅ Email verified, redirecting to login");
+        console.log("Email verified, redirecting to login");
         router.replace('/login?verified=true');
       } else {
         setMessage("Email not verified yet. Please check your inbox.");

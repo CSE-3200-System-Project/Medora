@@ -1,6 +1,6 @@
 # Medora - AI Coding Agent Instructions
 
-## ⚠️ HIGH PRIORITY RULES (READ FIRST)
+## HIGH PRIORITY RULES (READ FIRST)
 
 > **These rules are NON-NEGOTIABLE and apply to EVERY task.**
 
@@ -54,7 +54,7 @@ Medora is a **healthcare platform** for Bangladesh enabling structured patient m
 
 ---
 
-## 📱 Mobile-First Responsive UI (FIRST PRIORITY)
+## Mobile-First Responsive UI (FIRST PRIORITY)
 
 > **All UI must be designed mobile-first, then scale up to larger screens.**
 
@@ -88,9 +88,9 @@ className="
 
 ---
 
-## 🎨 Theme System & Dynamic Colors
+## Theme System & Dynamic Colors
 
-### CSS Variables (from `globals.css`)
+### CSS Variables (from `globals.css`) 
 ```css
 :root {
   /* Background & Surface */
@@ -127,20 +127,20 @@ className="
 
 ### Using Theme Colors in Tailwind
 ```tsx
-// ✅ CORRECT - Use theme variables
+// CORRECT - Use theme variables
 className="bg-primary text-primary-foreground"
 className="bg-surface text-foreground"
 className="border-border"
 className="text-muted-foreground"
 
-// ❌ WRONG - Hardcoded colors
+// WRONG - Hardcoded colors
 className="bg-blue-500"
 className="text-gray-600"
 ```
 
 ---
 
-## 🧩 shadcn/ui Components
+## shadcn/ui Components
 
 ### Available Components (`frontend/components/ui/`)
 - `button.tsx` - With custom variants (medical, transaction, emergency)
@@ -234,7 +234,7 @@ function Badge({ className, variant, ...props }: BadgeProps) {
 
 ---
 
-## 📝 8-Step Patient Onboarding Wizard
+## 8-Step Patient Onboarding Wizard
 
 ### Step Structure
 | Step | Title | Fields |
@@ -284,7 +284,7 @@ const payload = {
 
 ---
 
-## 📁 File Upload Pattern (Supabase Storage)
+## File Upload Pattern (Supabase Storage)
 
 ### Backend Upload Route (`backend/app/routes/upload.py`)
 ```python
@@ -522,7 +522,7 @@ cd frontend && npm run dev
 
 ---
 
-## 🎯 Frontend Development Best Practices
+## Frontend Development Best Practices
 
 ### Core Principles
 - Write concise, technical TypeScript code with accurate examples
@@ -546,7 +546,7 @@ cd frontend && npm run dev
 - **User-friendly messages**: Provide clear feedback to users
 
 ```typescript
-// ✅ Good - Early return with guard clause
+// Good - Early return with guard clause
 async function processPayment(userId: string) {
   if (!userId) {
     throw new Error("User ID is required")
@@ -561,7 +561,7 @@ async function processPayment(userId: string) {
   return await executePayment(user)
 }
 
-// ❌ Bad - Nested conditions
+// Bad - Nested conditions
 async function processPayment(userId: string) {
   if (userId) {
     const user = await getUser(userId)
@@ -606,7 +606,7 @@ async function processPayment(userId: string) {
 
 ---
 
-## 🔧 Backend Development Best Practices
+## Backend Development Best Practices
 
 ### Core Principles
 - Write concise, technical responses with accurate Python examples
@@ -624,7 +624,7 @@ async function processPayment(userId: string) {
 - File structure: exported router → sub-routes → utilities → static content → types
 
 ```python
-# ✅ Good - Type hints, async, early returns
+# Good - Type hints, async, early returns
 async def get_user_profile(
     user_id: str,
     db: AsyncSession = Depends(get_db)
@@ -643,7 +643,7 @@ async def get_user_profile(
     
     return profile
 
-# ❌ Bad - No type hints, nested conditions
+# Bad - No type hints, nested conditions
 def get_user_profile(user_id, db):
     if user_id:
         result = db.execute(select(Profile).where(Profile.id == user_id))
@@ -695,7 +695,7 @@ def get_user_profile(user_id, db):
 
 ### Database Patterns (SQLAlchemy 2.0)
 ```python
-# ✅ Modern async pattern with type hints
+# Modern async pattern with type hints
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import Optional
@@ -741,7 +741,7 @@ class PatientOnboardingUpdate(BaseModel):
 
 ---
 
-## 🚀 Integration Summary
+## Integration Summary
 
 ### Combined Best Practices
 1. **Type Safety**: TypeScript (frontend) + Python type hints (backend)

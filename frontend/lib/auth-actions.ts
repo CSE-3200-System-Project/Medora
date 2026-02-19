@@ -27,8 +27,8 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     // Store the access token
     if (data.session?.access_token) {
       const cookieOptions: any = {
-        httpOnly: false,  // ✅ Changed to false for accessibility
-        secure: false,  // ✅ Changed to false for local development
+        httpOnly: false,  // Changed to false for accessibility
+        secure: false,  // Changed to false for local development
         sameSite: "lax",
         path: "/",
       };
@@ -49,7 +49,7 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     const cookieStore = await cookies();
     
     // Debug logging
-    console.log("🔍 Login Debug:");
+    console.log("Login Debug:");
     console.log("  - Role:", role);
     console.log("  - Verification Status:", verificationStatus);
     console.log("  - Onboarding Completed:", profile?.onboarding_completed);
@@ -62,24 +62,24 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     
     // Check email verification FIRST
     if (!data.user.email_confirmed_at) {
-      console.log("❌ Email not verified, redirecting to /verify-email");
+      console.log("Email not verified, redirecting to /verify-email");
       redirect("/verify-email");
     }
     
     // Doctors must be admin-verified before proceeding (check for pending, rejected, unverified, etc.)
     if (role === "doctor" && verificationStatus !== "verified") {
-      console.log("⏳ Doctor not admin-verified (status:", verificationStatus, "), redirecting to /verify-pending");
+      console.log("Doctor not admin-verified (status:", verificationStatus, "), redirecting to /verify-pending");
       redirect("/verify-pending");
     }
     
     // Check onboarding
     if (!profile?.onboarding_completed) {
-      console.log("📝 Onboarding not completed, redirecting to /onboarding/" + role);
+      console.log("Onboarding not completed, redirecting to /onboarding/" + role);
       redirect(`/onboarding/${role}`);
     }
     
     // Redirect based on role
-    console.log("✅ All checks passed, redirecting to home");
+    console.log("All checks passed, redirecting to home");
     if (role === "doctor") {
       redirect("/doctor/home");
     } else if (role === "patient") {
@@ -134,11 +134,11 @@ async function getAuthHeaders() {
   
   // Debug: Log all cookies
   const allCookies = cookieStore.getAll();
-  console.log("🍪 Available cookies:", allCookies.map(c => c.name));
-  console.log("🔑 Session token found:", !!token);
+  console.log("Available cookies:", allCookies.map(c => c.name));
+  console.log("Session token found:", !!token);
   
   if (!token) {
-    console.error("❌ No session token found in cookies");
+    console.error("No session token found in cookies");
     console.error("Available cookies:", allCookies);
     throw new Error("Authentication required. Please log in again.");
   }
@@ -178,7 +178,7 @@ export async function updateDoctorOnboarding(data: any) {
   try {
     const headers = await getAuthHeaders();
     
-    console.log("📤 Sending doctor onboarding update to:", `${BACKEND_URL}/profile/doctor/onboarding`);
+    console.log("Sending doctor onboarding update to:", `${BACKEND_URL}/profile/doctor/onboarding`);
     
     const response = await fetch(`${BACKEND_URL}/profile/doctor/onboarding`, {
       method: "PATCH",
@@ -188,12 +188,12 @@ export async function updateDoctorOnboarding(data: any) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("❌ Doctor onboarding update failed:", errorData);
+      console.error("Doctor onboarding update failed:", errorData);
       throw new Error(errorData.detail || "Update failed");
     }
 
     const result = await response.json();
-    console.log("✅ Doctor onboarding update successful");
+    console.log("Doctor onboarding update successful");
     return result;
   } catch (error) {
     console.error("Onboarding update error:", error);
@@ -317,7 +317,7 @@ export async function signupPatient(formData: FormData) {
     first_name: formData.get("firstName") as string,
     last_name: formData.get("lastName") as string,
     email: formData.get("email") as string,
-    phone: formData.get("phone") as string,  // ✅ ADD THIS
+    phone: formData.get("phone") as string,  // ADD THIS
     password: formData.get("password") as string,
     date_of_birth: formData.get("dob") as string,
     gender: formData.get("gender") as string,
@@ -343,8 +343,8 @@ export async function signupPatient(formData: FormData) {
     if (data.session?.access_token) {
       const cookieStore = await cookies();
       cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: false,  // ✅ Changed to false for accessibility
-        secure: false,  // ✅ Changed to false for local development  
+        httpOnly: false,  // Changed to false for accessibility
+        secure: false,  // Changed to false for local development  
         sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
@@ -366,7 +366,7 @@ export async function signupDoctor(formData: FormData) {
     first_name: formData.get("firstName") as string,
     last_name: formData.get("lastName") as string,
     email: formData.get("email") as string,
-    phone: formData.get("phone") as string,  // ✅ ADD THIS
+    phone: formData.get("phone") as string,  // ADD THIS
     password: formData.get("password") as string,
     bmdc_number: formData.get("bmdc") as string,
     bmdc_document: null, // Handle file upload separately
@@ -386,16 +386,16 @@ export async function signupDoctor(formData: FormData) {
 
     const data = await response.json();
     
-    console.log("📦 Signup response:", { hasSession: !!data.session, hasAccessToken: !!data.session?.access_token });
+    console.log("Signup response:", { hasSession: !!data.session, hasAccessToken: !!data.session?.access_token });
     
     // Store session token
     if (data.session?.access_token) {
       const cookieStore = await cookies();
       
-      console.log("🍪 Setting session_token cookie...");
+      console.log("Setting session_token cookie...");
       cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: false,  // ✅ Changed to false so client can access it
-        secure: false,  // ✅ Changed to false for local development
+        httpOnly: false,  // Changed to false so client can access it
+        secure: false,  // Changed to false for local development
         sameSite: "lax",
         maxAge: 60 * 60 * 24 * 7,
         path: "/",
@@ -405,10 +405,10 @@ export async function signupDoctor(formData: FormData) {
       
       // Verify the cookie was set
       const verifyToken = cookieStore.get("session_token");
-      console.log("✅ Cookie set verification:", !!verifyToken);
-      console.log("✅ Doctor signup successful - Session token stored");
+      console.log("Cookie set verification:", !!verifyToken);
+      console.log("Doctor signup successful - Session token stored");
     } else {
-      console.error("❌ No session token in signup response:", data);
+      console.error("No session token in signup response:", data);
     }
 
     return { success: true, userId: data.user_id };
