@@ -277,7 +277,7 @@ async def start_consultation(
                 )
             )
         )
-        existing = result.scalar_one_or_none()
+        existing = result.scalars().first()  # Use first() to handle edge case of multiple rows
         if existing:
             raise HTTPException(status_code=400, detail="Active consultation already exists with this patient")
         
@@ -566,15 +566,16 @@ async def add_prescription(
         if consultation.status == ConsultationStatus.COMPLETED:
             raise HTTPException(status_code=400, detail="Cannot add prescriptions to a completed consultation")
         
-        # Validate that items match the type
-        if data.type == PrescriptionType.MEDICATION and (not data.medications or len(data.medications) == 0):
-            raise HTTPException(status_code=400, detail="Medication prescription requires at least one medication")
+        # Validate that at least one type of prescription item is provided
+        has_medications = data.medications and len(data.medications) > 0
+        has_tests = data.tests and len(data.tests) > 0
+        has_surgeries = data.surgeries and len(data.surgeries) > 0
         
-        if data.type == PrescriptionType.TEST and (not data.tests or len(data.tests) == 0):
-            raise HTTPException(status_code=400, detail="Test prescription requires at least one test")
-        
-        if data.type == PrescriptionType.SURGERY and (not data.surgeries or len(data.surgeries) == 0):
-            raise HTTPException(status_code=400, detail="Surgery prescription requires at least one surgery")
+        if not (has_medications or has_tests or has_surgeries):
+            raise HTTPException(
+                status_code=400,
+                detail="Prescription must include at least one medication, test, or procedure"
+            )
         
         # Create prescription
         prescription = Prescription(
@@ -663,27 +664,39 @@ async def add_prescription(
         doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
         
         # Create notification for patient
+        # Build notification message based on what's included
+        prescription_items = []
+        if data.medications and len(data.medications) > 0:
+            prescription_items.append(f"{len(data.medications)} medication(s)")
+        if data.tests and len(data.tests) > 0:
+            prescription_items.append(f"{len(data.tests)} test(s)")
+        if data.surgeries and len(data.surgeries) > 0:
+            prescription_items.append(f"{len(data.surgeries)} procedure(s)")
+        
+        items_text = ", ".join(prescription_items)
         type_label = data.type.value.replace("_", " ").title()
+        
         print(f"\n{'='*60}")
         print(f"CREATING PRESCRIPTION NOTIFICATION")
         print(f"  - Patient ID: {consultation.patient_id}")
         print(f"  - Doctor ID: {user.id}")
         print(f"  - Prescription ID: {prescription.id}")
-        print(f"  - Type: {type_label}")
+        print(f"  - Items: {items_text}")
         print(f"{'='*60}\n")
         
         notification = await create_notification(
             db=db,
             user_id=consultation.patient_id,
             notification_type=NotificationType.PRESCRIPTION_CREATED,
-            title=f"New {type_label} Prescription",
-            message=f"{doctor_name} has prescribed {type_label.lower()} for you. Please review and accept.",
+            title="New Prescription",
+            message=f"{doctor_name} has prescribed {items_text}. Please review and accept.",
             action_url=f"/patient/prescriptions/{prescription.id}",
             metadata={
                 "prescription_id": prescription.id,
                 "consultation_id": consultation_id,
                 "doctor_id": user.id,
                 "type": data.type.value,
+                "items": items_text,
             },
             priority=NotificationPriority.HIGH,
         )
@@ -794,43 +807,59 @@ async def get_patient_prescriptions(
     db: AsyncSession = Depends(get_db),
 ):
     """Get all prescriptions for the current patient."""
-    await get_patient_profile(db, user.id)
-    
-    query = select(Prescription).options(
-        selectinload(Prescription.medications),
-        selectinload(Prescription.tests),
-        selectinload(Prescription.surgeries),
-        selectinload(Prescription.doctor),
-    ).where(Prescription.patient_id == user.id)
-    
-    if status_filter:
-        query = query.where(Prescription.status == status_filter)
-    
-    query = query.order_by(Prescription.created_at.desc()).limit(limit).offset(offset)
-    
-    result = await db.execute(query)
-    prescriptions = result.scalars().all()
-    
-    # Get total count
-    count_query = select(func.count(Prescription.id)).where(Prescription.patient_id == user.id)
-    if status_filter:
-        count_query = count_query.where(Prescription.status == status_filter)
-    count_result = await db.execute(count_query)
-    total = count_result.scalar() or 0
-    
-    # Get doctor profiles
-    doctor_ids = list(set([p.doctor_id for p in prescriptions]))
-    result = await db.execute(
-        select(Profile).where(Profile.id.in_(doctor_ids))
-    )
-    doctor_profiles = {p.id: p for p in result.scalars().all()}
-    
-    response_list = []
-    for prescription in prescriptions:
-        doctor_profile = doctor_profiles.get(prescription.doctor_id)
-        response_list.append(build_prescription_response(prescription, doctor_profile))
-    
-    return {"prescriptions": response_list, "total": total}
+    import traceback
+    try:
+        print(f"\n{'='*60}")
+        print(f"GET PATIENT PRESCRIPTIONS")
+        print(f"User ID: {user.id}")
+        print(f"Status Filter: {status_filter}")
+        print(f"{'='*60}\n")
+        
+        # Query prescriptions directly - don't require consultation to exist
+        query = select(Prescription).options(
+            selectinload(Prescription.medications),
+            selectinload(Prescription.tests),
+            selectinload(Prescription.surgeries),
+        ).where(Prescription.patient_id == user.id)
+        
+        if status_filter:
+            query = query.where(Prescription.status == status_filter)
+        
+        query = query.order_by(Prescription.created_at.desc()).limit(limit).offset(offset)
+        
+        result = await db.execute(query)
+        prescriptions = result.scalars().all()
+        
+        # Get total count
+        count_query = select(func.count(Prescription.id)).where(Prescription.patient_id == user.id)
+        if status_filter:
+            count_query = count_query.where(Prescription.status == status_filter)
+        count_result = await db.execute(count_query)
+        total = count_result.scalar() or 0
+        
+        # Get doctor profiles
+        doctor_ids = list(set([p.doctor_id for p in prescriptions]))
+        if doctor_ids:  # Only query if we have doctor IDs
+            result = await db.execute(
+                select(Profile).where(Profile.id.in_(doctor_ids))
+            )
+            doctor_profiles = {p.id: p for p in result.scalars().all()}
+        else:
+            doctor_profiles = {}
+        
+        response_list = []
+        for prescription in prescriptions:
+            doctor_profile = doctor_profiles.get(prescription.doctor_id)
+            response_list.append(build_prescription_response(prescription, doctor_profile))
+        
+        print(f"Returning {len(response_list)} prescriptions\n")
+        return {"prescriptions": response_list, "total": total}
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"ERROR in get_patient_prescriptions: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 
 @router.get("/patient/prescription/{prescription_id}", response_model=PrescriptionResponse)
@@ -846,7 +875,6 @@ async def get_patient_prescription(
             selectinload(Prescription.medications),
             selectinload(Prescription.tests),
             selectinload(Prescription.surgeries),
-            selectinload(Prescription.doctor),
         )
         .where(Prescription.id == prescription_id)
     )
