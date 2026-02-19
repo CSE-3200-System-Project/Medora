@@ -48,10 +48,11 @@ const getMedicineTypeLabel = (type: string) => {
 };
 
 export function PrescriptionReview({ type, medications, tests, surgeries, notes }: PrescriptionReviewProps) {
-  const hasContent = 
-    (type === "medication" && medications.length > 0) ||
-    (type === "test" && tests.length > 0) ||
-    (type === "surgery" && surgeries.length > 0);
+  // Check if ANY type has content (not just the active type)
+  const hasMedications = medications.length > 0;
+  const hasTests = tests.length > 0;
+  const hasSurgeries = surgeries.length > 0;
+  const hasContent = hasMedications || hasTests || hasSurgeries;
 
   if (!hasContent) {
     return (
@@ -72,8 +73,8 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
         Prescription Preview
       </h3>
 
-      {/* Medications Review */}
-      {type === "medication" && medications.length > 0 && (
+      {/* Medications Review - Show if there are any medications */}
+      {hasMedications && (
         <Card className="rounded-xl bg-primary/5 border-primary/20">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
@@ -156,8 +157,8 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
         </Card>
       )}
 
-      {/* Tests Review */}
-      {type === "test" && tests.length > 0 && (
+      {/* Tests Review - Show if there are any tests */}
+      {hasTests && (
         <Card className="rounded-xl bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
@@ -209,8 +210,8 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
         </Card>
       )}
 
-      {/* Surgeries Review */}
-      {type === "surgery" && surgeries.length > 0 && (
+      {/* Surgeries Review - Show if there are any surgeries */}
+      {hasSurgeries && (
         <Card className="rounded-xl bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
