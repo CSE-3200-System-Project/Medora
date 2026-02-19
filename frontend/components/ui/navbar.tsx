@@ -137,7 +137,7 @@ export function Navbar() {
           {loading ? (
             <div className="h-8 w-64 skeleton rounded-full" />
           ) : user?.role?.toLowerCase() === 'doctor' ? (
-            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-gray-700">
+            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/appointments" && "text-primary font-semibold")}>
                 Appointments
               </Link>
@@ -149,7 +149,7 @@ export function Navbar() {
               </Link>
             </nav>
           ) : user?.role?.toLowerCase() === 'patient' ? (
-            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-gray-700">
+            <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary font-semibold")}>
                 Find Doctor
               </Link>
@@ -175,7 +175,7 @@ export function Navbar() {
               <Button variant="ghost" asChild className="text-muted-foreground hover:bg-primary-more-light hover:text-primary">
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button asChild className="bg-primary hover:bg-primary-muted text-white rounded-full px-6">
+              <Button asChild className="bg-primary hover:bg-primary-muted text-primary-foreground rounded-full px-6">
                 <Link href="/selection">Sign up</Link>
               </Button>
             </>
@@ -189,7 +189,7 @@ export function Navbar() {
                       <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="text-base font-medium text-gray-800">{getUserDisplayName()}</span>
+                    <span className="text-base font-medium text-foreground">{getUserDisplayName()}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>

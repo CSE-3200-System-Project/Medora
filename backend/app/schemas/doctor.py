@@ -52,6 +52,8 @@ class LocationInfo(BaseModel):
     address: str
     city: str
     country: Optional[str] = "Bangladesh"
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
     availability: Optional[str] = None
     available_days: Optional[List[str]] = None
     appointment_duration: Optional[int] = None
