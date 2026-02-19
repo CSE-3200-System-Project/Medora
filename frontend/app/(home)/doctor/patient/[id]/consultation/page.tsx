@@ -174,22 +174,18 @@ export default function ConsultationPage() {
   const handleAddPrescription = async () => {
     if (!consultation) return;
 
-    // Validation
-    if (prescriptionType === "medication" && medications.length === 0) {
-      setError("Please add at least one medication");
-      return;
-    }
-    if (prescriptionType === "test" && tests.length === 0) {
-      setError("Please add at least one test");
-      return;
-    }
-    if (prescriptionType === "surgery" && surgeries.length === 0) {
-      setError("Please add at least one procedure");
+    // Validation - check if at least one item is added across all types
+    const hasMedications = medications.length > 0;
+    const hasTests = tests.length > 0;
+    const hasSurgeries = surgeries.length > 0;
+
+    if (!hasMedications && !hasTests && !hasSurgeries) {
+      setError("Please add at least one medication, test, or procedure");
       return;
     }
 
-    // Validate medication fields
-    if (prescriptionType === "medication") {
+    // Validate medication fields (if any)
+    if (hasMedications) {
       for (const med of medications) {
         if (!med.medicine_name.trim()) {
           setError("Medicine name is required for all medications");
@@ -202,8 +198,8 @@ export default function ConsultationPage() {
       }
     }
 
-    // Validate test fields
-    if (prescriptionType === "test") {
+    // Validate test fields (if any)
+    if (hasTests) {
       for (const test of tests) {
         if (!test.test_name.trim()) {
           setError("Test name is required for all tests");
@@ -212,8 +208,8 @@ export default function ConsultationPage() {
       }
     }
 
-    // Validate surgery fields
-    if (prescriptionType === "surgery") {
+    // Validate surgery fields (if any)
+    if (hasSurgeries) {
       for (const surgery of surgeries) {
         if (!surgery.procedure_name.trim()) {
           setError("Procedure name is required for all procedures");
@@ -226,18 +222,20 @@ export default function ConsultationPage() {
       setSubmitting(true);
       setError(null);
 
+      // Send all types in a single prescription
+      // The backend will handle all types together
       await addPrescription(consultation.id, {
-        type: prescriptionType,
+        type: prescriptionType, // Keep for backward compatibility, but all types will be sent
         notes: prescriptionNotes,
-        medications: prescriptionType === "medication" ? medications : undefined,
-        tests: prescriptionType === "test" ? tests : undefined,
-        surgeries: prescriptionType === "surgery" ? surgeries : undefined,
+        medications: hasMedications ? medications : undefined,
+        tests: hasTests ? tests : undefined,
+        surgeries: hasSurgeries ? surgeries : undefined,
       });
 
-      // Clear form after successful submission
-      if (prescriptionType === "medication") setMedications([]);
-      if (prescriptionType === "test") setTests([]);
-      if (prescriptionType === "surgery") setSurgeries([]);
+      // Clear all forms after successful submission
+      setMedications([]);
+      setTests([]);
+      setSurgeries([]);
       setPrescriptionNotes("");
 
       setShowSuccessDialog(true);

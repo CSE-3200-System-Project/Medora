@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getMyAppointments } from "@/lib/appointment-actions";
+import { getPatientPrescriptions, Prescription } from "@/lib/prescription-actions";
 import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
 import { 
   Calendar, 
@@ -20,7 +21,10 @@ import {
   ArrowRight,
   CalendarCheck,
   AlertCircle,
-  CheckCircle2
+  CheckCircle2,
+  Pill,
+  FlaskConical,
+  Scissors
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +46,7 @@ type Appointment = {
 export default function PatientHomePage() {
   const router = useRouter();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [loading, setLoading] = useState(true);
   const [showOnboardingBanner, setShowOnboardingBanner] = useState(false);
   const [stats, setStats] = useState({
@@ -52,6 +57,7 @@ export default function PatientHomePage() {
 
   useEffect(() => {
     fetchAppointments();
+    fetchPrescriptions();
     checkOnboardingStatus();
   }, []);
 
@@ -66,6 +72,7 @@ export default function PatientHomePage() {
 
   const fetchAppointments = async () => {
     try {
+      setLoading(true);
       const data = await getMyAppointments();
       
       // If data is empty array and no token, redirect to home
@@ -104,6 +111,28 @@ export default function PatientHomePage() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPrescriptions = async () => {
+    try {
+      const data = await getPatientPrescriptions("pending", 3, 0);
+      setPrescriptions(data.prescriptions);
+    } catch (error) {
+      console.error("Failed to fetch prescriptions:", error);
+    }
+  };
+
+  const getPrescriptionIcon = (type: string) => {
+    switch (type) {
+      case "medication":
+        return <Pill className="h-5 w-5" />;
+      case "test":
+        return <FlaskConical className="h-5 w-5" />;
+      case "surgery":
+        return <Scissors className="h-5 w-5" />;
+      default:
+        return <FileText className="h-5 w-5" />;
     }
   };
 
@@ -213,6 +242,91 @@ export default function PatientHomePage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* New Prescriptions Alert */}
+        {prescriptions.length > 0 && (
+          <Card className="mb-6 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <div className="p-3 bg-primary/10 rounded-xl">
+                    <Pill className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      New Prescriptions Awaiting Review
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      You have {prescriptions.length} prescription{prescriptions.length > 1 ? 's' : ''} that require{prescriptions.length === 1 ? 's' : ''} your attention
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => router.push('/patient/prescriptions')}
+                  className="shrink-0"
+                >
+                  View All
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </Button>
+              </div>
+
+              {/* Prescription Preview Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {prescriptions.map((prescription) => (
+                  <Card
+                    key={prescription.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow bg-white"
+                    onClick={() => router.push(`/patient/prescriptions/${prescription.id}`)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          {getPrescriptionIcon(prescription.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm text-foreground capitalize">
+                            {prescription.type}
+                          </p>
+                          {prescription.doctor_name && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Dr. {prescription.doctor_name}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Preview items */}
+                      {prescription.medications && prescription.medications.length > 0 && (
+                        <div className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                          {prescription.medications.length} medicine{prescription.medications.length > 1 ? 's' : ''}: {prescription.medications[0].medicine_name}
+                          {prescription.medications.length > 1 && ` +${prescription.medications.length - 1} more`}
+                        </div>
+                      )}
+                      {prescription.tests && prescription.tests.length > 0 && (
+                        <div className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                          {prescription.tests.length} test{prescription.tests.length > 1 ? 's' : ''}: {prescription.tests[0].test_name}
+                          {prescription.tests.length > 1 && ` +${prescription.tests.length - 1} more`}
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                        <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">
+                          <Clock className="h-3 w-3 mr-1" />
+                          Pending
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(prescription.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -394,6 +508,22 @@ export default function PatientHomePage() {
                     <div className="text-left">
                       <p className="font-semibold text-sm">Medical Records</p>
                       <p className="text-xs text-gray-600">Access your history</p>
+                    </div>
+                  </div>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto py-3 px-4"
+                  onClick={() => router.push('/patient/my-prescriptions')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                      <Pill className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-sm">My Prescriptions</p>
+                      <p className="text-xs text-gray-600">View & manage prescriptions</p>
                     </div>
                   </div>
                 </Button>
