@@ -23,6 +23,18 @@ interface DoctorInformationSectionProps {
 export function DoctorInformationSection({ doctor }: DoctorInformationSectionProps) {
   const [showAllServices, setShowAllServices] = React.useState(false);
 
+  const buildDirectionsUrl = (location: any) => {
+    if (typeof location?.latitude === "number" && typeof location?.longitude === "number") {
+      return `https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}`;
+    }
+
+    const destination = [location?.name, location?.address, location?.city, location?.country]
+      .filter(Boolean)
+      .join(", ");
+
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(destination)}`;
+  };
+
   const displayedServices = showAllServices 
     ? doctor.services 
     : doctor.services?.slice(0, 6);
@@ -30,7 +42,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Doctor Header Card - Blue Background */}
-      <Card className="rounded-2xl shadow-lg border-primary/20 bg-gradient-to-br from-primary-more-light to-accent">
+      <Card className="rounded-2xl shadow-lg border-primary/20 bg-linear-to-br from-primary-more-light/70 to-accent/70 dark:from-card dark:to-card">
         <CardContent className="p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6">
             {/* Profile Photo */}
@@ -64,7 +76,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
               </div>
 
               {/* Specialization */}
-              <div className="flex items-center gap-2 bg-white/50 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex">
+              <div className="inline-flex items-center gap-2 bg-background/80 rounded-lg px-3 py-2 border border-border/50">
                 <Award className="h-5 w-5 text-primary" />
                 <span className="text-lg font-semibold text-foreground">
                   {doctor.speciality_name || doctor.specialization || "General Physician"}
@@ -74,7 +86,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
               {/* Experience and Status */}
               <div className="flex flex-wrap gap-3 md:gap-4">
                 {doctor.years_of_experience && (
-                  <div className="flex items-center gap-2 bg-white/50 backdrop-blur-sm rounded-lg px-3 py-1.5">
+                  <div className="flex items-center gap-2 bg-background/80 rounded-lg px-3 py-1.5 border border-border/50">
                     <Briefcase className="h-4 w-4 text-primary" />
                     <span className="text-sm font-medium text-foreground">
                       {doctor.years_of_experience} Years of Experience Overall
@@ -95,7 +107,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 )}
 
                 {doctor.bmdc_number && (
-                  <span className="text-sm font-semibold text-foreground bg-white/50 backdrop-blur-sm rounded-lg px-3 py-1.5">
+                  <span className="text-sm font-semibold text-foreground bg-background/80 rounded-lg px-3 py-1.5 border border-border/50">
                     ID: {doctor.bmdc_number}
                   </span>
                 )}
@@ -107,7 +119,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
 
       {/* About the Doctor - Immediately after profile */}
       {doctor.about && (
-        <Card className="rounded-2xl shadow-md border-primary/10 bg-gradient-to-br from-white to-accent/30">
+        <Card className="rounded-2xl shadow-md border-primary/10 bg-linear-to-br from-background to-accent/20 dark:from-card dark:to-card">
           <CardHeader className="border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground">About Dr. {doctor.last_name}</h2>
           </CardHeader>
@@ -121,7 +133,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
 
       {/* Hospital/Location Info */}
       {doctor.locations && doctor.locations.length > 0 && (
-        <Card className="rounded-2xl shadow-md border-primary/10 bg-gradient-to-br from-white to-primary-more-light/40">
+        <Card className="rounded-2xl shadow-md border-primary/10 bg-linear-to-br from-background to-primary-more-light/40 dark:from-card dark:to-card">
           <CardHeader className="border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
@@ -130,7 +142,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
             {doctor.locations.map((location: any, index: number) => (
-              <div key={index} className="pb-4 border-b border-primary/10 last:border-0 last:pb-0 bg-white/50 backdrop-blur-sm rounded-lg p-4">
+              <div key={index} className="pb-4 last:pb-0 bg-background/80 rounded-lg p-4 border border-border/40">
                 <div className="flex items-start gap-2 mb-2">
                   <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div className="flex-1">
@@ -146,14 +158,21 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                   </div>
                 </div>
                 {location.availability && (
-                  <div className="flex items-center gap-2 text-sm text-foreground mb-3 ml-7 bg-accent/30 rounded px-2 py-1.5 inline-flex">
+                  <div className="inline-flex items-center gap-2 text-sm text-foreground mb-3 ml-7 bg-accent/30 rounded px-2 py-1.5">
                     <Clock className="h-4 w-4 text-primary" />
                     <span className="font-semibold">{location.availability}</span>
                   </div>
                 )}
-                <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary hover:text-white font-semibold ml-7">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="text-primary border-primary hover:bg-primary hover:text-primary-foreground font-semibold ml-7"
+                >
+                  <a href={buildDirectionsUrl(location)} target="_blank" rel="noopener noreferrer">
                   <MapPin className="h-4 w-4 mr-2" />
                   Get Direction
+                  </a>
                 </Button>
               </div>
             ))}
@@ -163,7 +182,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
 
       {/* Services/Conditions Treated */}
       {doctor.services && doctor.services.length > 0 && (
-        <Card className="rounded-2xl shadow-md border-primary/10 bg-gradient-to-br from-white to-accent/30">
+        <Card className="rounded-2xl shadow-md border-primary/10 bg-linear-to-br from-background to-accent/20 dark:from-card dark:to-card">
           <CardHeader className="border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground">
               Serves for:
@@ -276,10 +295,10 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
 
       {/* Languages */}
       {doctor.languages_spoken && doctor.languages_spoken.length > 0 && (
-        <Card className="rounded-2xl shadow-md bg-gradient-to-r from-primary-more-light/30 to-accent/30 border-primary/10">
+        <Card className="rounded-2xl shadow-md bg-linear-to-r from-primary-more-light/30 to-accent/30 dark:from-card dark:to-card border-primary/10">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="bg-white rounded-full p-2">
+              <div className="bg-background rounded-full p-2 border border-border/40">
                 <Globe className="h-5 w-5 text-primary" />
               </div>
               <div>

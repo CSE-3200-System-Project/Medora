@@ -12,13 +12,7 @@ function Card({ className, hoverable = false, ...props }: CardProps) {
     <div
       data-slot="card"
       className={cn(
-        // Base card styles with improved spacing
-        "bg-card text-card-foreground flex flex-col rounded-2xl border border-border shadow-sm",
-        // Mobile-first padding (20-24px as per PRD)
-        "p-5 md:p-6",
-        // Gap between card children
-        "gap-4 md:gap-5",
-        // Hover animation for desktop only (as per PRD)
+        "bg-card/95 text-card-foreground flex flex-col rounded-2xl border border-border/70 shadow-[0_16px_36px_-28px_rgba(3,96,217,0.75)] backdrop-blur-sm",
         hoverable && "card-hover cursor-pointer",
         className
       )}
@@ -32,7 +26,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "flex flex-col space-y-1.5",
+        "flex flex-col space-y-1.5 px-5 pt-5 pb-3 md:px-6 md:pt-6 md:pb-4",
         className
       )}
       {...props}
@@ -80,7 +74,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("", className)}
+      className={cn("px-5 pb-5 md:px-6 md:pb-6", className)}
       {...props}
     />
   )
@@ -90,7 +84,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center pt-2 -mx-5 -mb-5 md:-mx-6 md:-mb-6 px-5 md:px-6 py-4 bg-surface/50 rounded-b-2xl border-t border-border/50", className)}
+      className={cn("flex items-center px-5 pb-5 pt-3 md:px-6 md:pb-6 md:pt-4 border-t border-border/60 bg-surface/35 rounded-b-2xl", className)}
       {...props}
     />
   )

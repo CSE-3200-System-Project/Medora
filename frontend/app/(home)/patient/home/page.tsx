@@ -147,13 +147,13 @@ export default function PatientHomePage() {
   const getStatusColor = (status: string) => {
     switch (status?.toLowerCase()) {
       case 'confirmed':
-        return 'text-success bg-success/10';
+        return 'text-success-muted bg-success/15 dark:text-green-300 dark:bg-green-500/15';
       case 'pending':
-        return 'text-yellow-600 bg-yellow-50';
+        return 'text-amber-700 bg-amber-100/70 dark:text-amber-300 dark:bg-amber-500/15';
       case 'completed':
-        return 'text-primary bg-primary/10';
+        return 'text-primary bg-primary/15';
       case 'cancelled':
-        return 'text-destructive bg-destructive/10';
+        return 'text-destructive bg-destructive/15';
       default:
         return 'text-muted-foreground bg-surface';
     }
@@ -180,24 +180,24 @@ export default function PatientHomePage() {
     <AppBackground>
       <Navbar />
       
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px] animate-page-enter">
+      <main className="mx-auto max-w-7xl page-content pt-28 md:pt-32 pb-12 md:pb-16 animate-page-enter">
         {/* Onboarding Banner */}
         {showOnboardingBanner && <OnboardingBanner role="patient" />}
         
         {/* Header */}
-        <div className="mb-6 md:mb-8">
+        <div className="mb-6 md:mb-8 header-spacing">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
             Welcome back! 
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
-            Here's an overview of your healthcare journey
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Here&apos;s an overview of your healthcare journey
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 md:mb-8 stagger-enter">
           {/* Upcoming Appointments */}
-          <Card hoverable className="border-border/50">
+          <Card hoverable className="border-border/70 bg-card/95">
             <CardContent>
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 bg-primary/10 rounded-xl">
@@ -208,27 +208,27 @@ export default function PatientHomePage() {
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.upcoming}
               </h3>
-              <p className="text-sm text-gray-600">Upcoming Appointments</p>
+              <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
             </CardContent>
           </Card>
 
           {/* Pending Confirmations */}
-          <Card hoverable className="border-border/50">
+          <Card hoverable className="border-border/70 bg-card/95">
             <CardContent>
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
-                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 dark:text-yellow-500" />
+                <div className="p-3 rounded-xl bg-amber-100/80 dark:bg-amber-500/15">
+                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 dark:text-amber-300" />
                 </div>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.pending}
               </h3>
-              <p className="text-sm text-gray-600">Pending Confirmations</p>
+              <p className="text-sm text-muted-foreground">Pending Confirmations</p>
             </CardContent>
           </Card>
 
           {/* Completed Visits */}
-          <Card hoverable className="border-border/50 sm:col-span-2 lg:col-span-1">
+          <Card hoverable className="border-border/70 bg-card/95 sm:col-span-2 lg:col-span-1">
             <CardContent>
               <div className="flex items-start justify-between mb-4">
                 <div className="p-3 bg-success/10 rounded-xl">
@@ -238,14 +238,14 @@ export default function PatientHomePage() {
               <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                 {loading ? "..." : stats.completed}
               </h3>
-              <p className="text-sm text-gray-600">Completed Visits</p>
+              <p className="text-sm text-muted-foreground">Completed Visits</p>
             </CardContent>
           </Card>
         </div>
 
         {/* New Prescriptions Alert */}
         {prescriptions.length > 0 && (
-          <Card className="mb-6 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50">
+          <Card className="mb-6 border-primary/35 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex items-start gap-3">
@@ -277,7 +277,7 @@ export default function PatientHomePage() {
                 {prescriptions.map((prescription) => (
                   <Card
                     key={prescription.id}
-                    className="cursor-pointer hover:shadow-md transition-shadow bg-white"
+                    className="cursor-pointer hover:shadow-md transition-shadow bg-background/85 border-border/70"
                     onClick={() => router.push(`/patient/prescriptions/${prescription.id}`)}
                   >
                     <CardContent className="p-4">
@@ -312,7 +312,7 @@ export default function PatientHomePage() {
                       )}
 
                       <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-                        <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 text-xs">
+                        <Badge variant="outline" className="bg-amber-100/70 text-amber-700 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-400/40 text-xs">
                           <Clock className="h-3 w-3 mr-1" />
                           Pending
                         </Badge>
@@ -387,11 +387,11 @@ export default function PatientHomePage() {
                               Dr. {appointment.doctor?.first_name} {appointment.doctor?.last_name}
                             </h4>
                             {appointment.doctor?.specialization && (
-                              <p className="text-xs sm:text-sm text-gray-600 mb-2">
-                                {appointment.doctor.specialization}
-                              </p>
+                            <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+                              {appointment.doctor.specialization}
+                            </p>
                             )}
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                                 {new Date(appointment.appointment_date).toLocaleDateString('en-US', {
@@ -427,8 +427,8 @@ export default function PatientHomePage() {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <Calendar className="w-12 h-12 text-gray-500 mx-auto mb-3 opacity-50" />
-                    <p className="text-gray-600 mb-4">No upcoming appointments</p>
+                    <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-60" />
+                    <p className="text-muted-foreground mb-4">No upcoming appointments</p>
                     <Button 
                       variant="medical"
                       onClick={() => router.push('/patient/find-doctor')}
@@ -450,7 +450,7 @@ export default function PatientHomePage() {
               <CardContent className="p-4 space-y-3">
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4"
+                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
                   onClick={() => router.push('/patient/find-doctor')}
                 >
                   <div className="flex items-center gap-3">
@@ -459,14 +459,14 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">Find a Doctor</p>
-                      <p className="text-xs text-gray-600">Search & book appointments</p>
+                      <p className="text-xs text-muted-foreground">Search and book appointments</p>
                     </div>
                   </div>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4"
+                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
                   onClick={() => router.push('/patient/appointments')}
                 >
                   <div className="flex items-center gap-3">
@@ -475,14 +475,14 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">My Appointments</p>
-                      <p className="text-xs text-gray-600">View all appointments</p>
+                      <p className="text-xs text-muted-foreground">View all appointments</p>
                     </div>
                   </div>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4"
+                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
                   onClick={() => router.push('/patient/profile')}
                 >
                   <div className="flex items-center gap-3">
@@ -491,15 +491,15 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">My Profile</p>
-                      <p className="text-xs text-gray-600">Update health information</p>
+                      <p className="text-xs text-muted-foreground">Update health information</p>
                     </div>
                   </div>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 touch-target"
-                  onClick={() => router.push('/patient/medical-records')}
+                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 touch-target"
+                  onClick={() => router.push('/patient/medical-history')}
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-accent/50 rounded-lg">
@@ -507,23 +507,23 @@ export default function PatientHomePage() {
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">Medical Records</p>
-                      <p className="text-xs text-gray-600">Access your history</p>
+                      <p className="text-xs text-muted-foreground">Access your history</p>
                     </div>
                   </div>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4"
+                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
                   onClick={() => router.push('/patient/my-prescriptions')}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                      <Pill className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                    <div className="p-2 rounded-lg bg-primary/15">
+                      <Pill className="w-5 h-5 text-primary" />
                     </div>
                     <div className="text-left">
                       <p className="font-semibold text-sm">My Prescriptions</p>
-                      <p className="text-xs text-gray-600">View & manage prescriptions</p>
+                      <p className="text-xs text-muted-foreground">View and manage prescriptions</p>
                     </div>
                   </div>
                 </Button>
@@ -531,7 +531,7 @@ export default function PatientHomePage() {
             </Card>
 
             {/* Health Tip Card */}
-            <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent dark:from-primary/10 dark:to-accent/20">
+            <Card className="border-border/70 bg-gradient-to-br from-primary/12 via-primary/5 to-transparent">
               <CardContent>
                 <div className="flex items-start gap-3 mb-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
@@ -539,7 +539,7 @@ export default function PatientHomePage() {
                   </div>
                   <h4 className="font-semibold text-foreground">Health Tip</h4>
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   Regular checkups are essential for maintaining good health. Schedule your annual health screening today!
                 </p>
               </CardContent>
@@ -550,3 +550,4 @@ export default function PatientHomePage() {
     </AppBackground>
   );
 }
+

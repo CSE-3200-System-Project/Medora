@@ -508,7 +508,7 @@ export async function rejectPrescription(
  */
 export async function getMedicalHistoryPrescriptions(
   prescriptionType?: PrescriptionType,
-  limit: number = 50,
+  limit: number = 100,
   offset: number = 0
 ): Promise<PrescriptionListResponse> {
   const headers = await getAuthHeaders();
