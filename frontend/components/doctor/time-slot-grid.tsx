@@ -27,6 +27,7 @@ interface TimeSlot {
   bloodGroup?: string;
   chronicConditions?: string[];
   appointmentDate?: string;
+  notes?: string;
 }
 
 interface TimeSlotGridProps {
