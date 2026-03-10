@@ -19,9 +19,9 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground active:bg-accent/80 dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        medical: "bg-primary text-white hover:bg-primary-muted active:bg-primary-muted/90 shadow-sm hover:shadow-md",
-        transaction: "bg-success text-white hover:bg-success-muted active:bg-success-muted/90 shadow-sm hover:shadow-md",
-        emergency: "bg-destructive text-white hover:bg-destructive-muted active:bg-destructive-muted/90 shadow-sm hover:shadow-md focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        medical: "bg-primary text-white hover:bg-primary-muted active:bg-primary-muted/90 shadow-sm hover:shadow-md dark:text-foreground dark:bg-primary/90 dark:hover:bg-primary/75",
+        transaction: "bg-success text-white hover:bg-success-muted active:bg-success-muted/90 shadow-sm hover:shadow-md dark:text-foreground dark:bg-success/80 dark:hover:bg-success/70",
+        emergency: "bg-destructive text-white hover:bg-destructive-muted active:bg-destructive-muted/90 shadow-sm hover:shadow-md focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive dark:text-foreground dark:hover:bg-destructive/90",
       },
       size: {
         default: "h-10 min-h-[44px] px-4 py-2 has-[>svg]:px-3",
