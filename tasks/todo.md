@@ -1,3 +1,106 @@
+# Prescription, Loader, Dark Mode & Location Consistency Fix (2026-02-19)
+
+## Status: completed
+
+### Plan
+- Trace and fix prescription visibility from acceptance flow to patient history/prescription views.
+- Fix doctor location serialization so coordinates are available where map/directions are rendered.
+- Standardize page-level loading states to use Medora loaders for UI consistency.
+- Repair dark-mode readability issues on doctor details and booking panel without introducing new design tokens.
+- Validate frontend type safety and capture a review summary.
+
+### Todo
+- [x] Fix prescription visibility logic for accepted prescriptions and mixed prescription item types
+- [x] Add latitude/longitude to doctor profile location payload and align frontend usage
+- [x] Replace non-standard page loaders with MedoraLoader/ButtonLoader on affected screens
+- [x] Fix dark-mode contrast/readability issues on doctor detail + booking panel
+- [x] Run targeted validation checks and document results
+
+### Review
+- Prescription visibility fixed at root by resolving prescription type from actual item payload in backend and by rendering accepted medical-history sections based on item arrays (not a single parent type).
+- Doctor location inconsistency fixed by returning `latitude`/`longitude` in doctor profile `locations` API and consuming those coordinates in booking map/directions.
+- Dark-mode readability improved on doctor detail and booking panel by replacing light-only backgrounds with theme-safe surfaces and contrast-friendly selected-state styles.
+- Loader consistency improved by replacing ad-hoc spinners/text loaders with `MedoraLoader`/`ButtonLoader` on consultation, prescriptions, reminders, doctor profile, doctor schedule, and admin loading states.
+- Validation: backend changed files report no diagnostics; frontend local type-check still shows pre-existing unrelated errors in `components/doctor/time-slot-grid.tsx` and `components/medical-history/medical-timeline.tsx`.
+
+---
+
+# Medora System Improvements - Phase Plan (2026-02-19)
+
+## Status: completed
+
+## Phase 1: Global Loader System
+- [x] Create reusable `<MedoraLoader />` component (pulse animation, theme-aware)
+- [x] Add `loading.tsx` files for all route groups (Next.js Suspense boundaries)
+- [x] Create `<ButtonLoader />` inline variant for buttons/save actions
+
+## Phase 2: Dark Theme Text Readability
+- [x] Improve dark mode CSS variables for better contrast
+- [x] Fix `--primary` text usage in dark mode (bumped to #4A9BFF)
+- [x] Ensure muted text, card text, and all surfaces have WCAG AA+ contrast
+
+## Phase 3: Appointment Completion Flow
+- [x] Add "Complete Appointment" button for CONFIRMED + past-time appointments
+- [x] Patient sees completed status reflected
+
+## Phase 4: Prescription Approval Notification Flow  
+- [x] Verified notification sent when doctor assigns prescription (already in backend)
+- [x] Verified patient prescription page shows pending prescriptions with Accept/Reject
+- [x] Verified doctor gets notified on accept/reject (already in backend)
+- [x] Fixed stray character bug in prescriptions page
+- [x] Fixed fetch limit (was defaulting to 20, now 100)
+
+## Phase 5: Medicine Reminder Notifications (Client-Side)
+- [x] Built client-side reminder checker using Notification API
+- [x] Checks active reminders every 60s, triggers browser notifications at matching times
+- [x] Mounted in (home) layout for all authenticated users
+
+## Phase 6: Auth Guard + Proxy Migration
+- [x] Migrated `middleware.ts` → `proxy.ts` (Next.js 16 convention)
+- [x] Strengthened auth guards with clear flow: public → admin → auth → protected
+- [x] Root `/` redirects logged-in users at proxy level (no client-side flash)
+- [x] Created (onboarding) layout with server-side auth check
+- [x] Role-based guards: patients can't access /doctor/*, doctors can't access /patient/*
+- [x] Onboarding gate prevents access to app until onboarding is done
+
+## Review
+- **Phase 1**: Created `MedoraLoader` (sm/md/lg sizes, fullScreen mode) and `ButtonLoader` in `components/ui/medora-loader.tsx`. Added `loading.tsx` for (home), (auth), (onboarding), and (admin) route groups.
+- **Phase 2**: Boosted dark mode contrast — `--primary` to `#4A9BFF`, `--foreground` to `#F0F4F8`, `--foreground-muted` to `#C0C8D4`, `--muted-foreground` to `#B8C4D0`, borders to `#1E3A5F`. All reach WCAG AA on dark backgrounds.
+- **Phase 3**: Added `completeAppointment` import and "Complete Appointment" button with loading state to doctor appointments page. Shows only for CONFIRMED appointments where time has passed.
+- **Phase 4**: Backend already fully handles prescription → notification → accept/reject flow. Fixed a stray `n` character bug and increased default prescription fetch limit from 20 to 100.
+- **Phase 5**: Created `ReminderNotificationService` component using browser Notification API. Polls active reminders every 60s, fires notifications at matching HH:MM times, deduplicates per day. Mounted in (home) layout.
+- **Phase 6**: Renamed middleware.ts to proxy.ts and function to `proxy()`. Rewrote auth logic with clear priority: public routes → root redirect → admin → auth routes (logged out only) → all others require auth → doctor verification gate → onboarding gate → role-based routing. Created (onboarding) layout with server-side auth. No new TypeScript errors introduced.
+
+---
+
+# Previous: Settings Page Implementation (2026-02-19)
+
+## Status: completed
+
+### Plan
+- Establish app-wide light/dark theme provider in the root layout.
+- Build a mobile-first `/settings` page with shadcn/ui cards, switches, and selectors aligned with Medora theme tokens.
+- Prioritize a polished dark/light mode control with smooth, user-friendly interaction.
+- Add functional healthcare/app settings with persistence (localStorage + browser notification permission where applicable).
+- Verify frontend type/build sanity and summarize the work.
+
+### Todo
+- [x] Create phased plan in `tasks/todo.md`
+- [x] Add global theme provider wiring
+- [x] Implement comprehensive settings page UI and interactions
+- [x] Wire persistence and permission-based settings behavior
+- [x] Run frontend validation and update review section
+
+### Review
+- Added app-wide `next-themes` provider so dark/light/system themes are available across the app.
+- Created a new mobile-first `/settings` page using shadcn/ui primitives and Medora theme tokens.
+- Implemented a polished, primary dark/light theme control with instant switching and additional mode buttons (light/dark/system).
+- Added functional settings groups with persistence in localStorage:
+   - Notifications (in-app, push with permission request, email, SMS, appointment, medication, lab, prescription, care tips)
+   - Healthcare preferences (preferred language, emergency contact details, reminder toggles)
+   - Privacy/security and app behavior (biometric lock, auto-lock timeout, access sharing, sensitive notification hiding, compact mode, large text, reduce motion, start page)
+- Validation: changed files are error-free via diagnostics; broader frontend diagnostics show pre-existing Tailwind class-style suggestions in unrelated files.
+
 # Docker entrypoint path fix (2026-02-16)
 
 ## Status: completed

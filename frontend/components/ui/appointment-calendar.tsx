@@ -133,8 +133,8 @@ export function AppointmentCalendar({
           !hasAppointments && "cursor-default",
           isSelected && "bg-primary text-white shadow-md scale-105 ring-2 ring-primary/50 border-primary",
           !isSelected && isCurrentDay && "bg-primary-light border-2 border-primary text-foreground",
-          !isSelected && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
-          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-gray-900",
+          !isSelected && !isCurrentDay && dayIsPast && "bg-muted text-muted-foreground",
+          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-foreground",
           hasAppointments && "font-bold hover:text-primary",
           !isSelected && !isCurrentDay && "hover:bg-[var(--calendar-cell-hover)]",
           !hasAppointments && "opacity-50"
@@ -142,7 +142,7 @@ export function AppointmentCalendar({
         style={!isSelected && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
       >
         <span className={cn(
-          isSelected ? 'text-white' : dayIsPast ? 'text-gray-400' : 'text-[var(--calendar-date-foreground)]',
+          isSelected ? 'text-white' : dayIsPast ? 'text-muted-foreground' : 'text-[var(--calendar-date-foreground)]',
           'relative z-10'
         )}>
           {day}
@@ -203,7 +203,7 @@ export function AppointmentCalendar({
         
         {selectedDate && (
           <div className="mt-2 flex items-center justify-between">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               Showing appointments for selected date
             </p>
             <Button
@@ -224,7 +224,7 @@ export function AppointmentCalendar({
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
               <div
                 key={idx}
-                className="text-center text-xs font-semibold text-gray-900 py-2"
+                className="text-center text-xs font-semibold text-foreground py-2"
               >
                 {day}
               </div>
@@ -240,19 +240,19 @@ export function AppointmentCalendar({
         <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-            <span className="text-gray-600 leading-none">Confirmed</span>
+            <span className="text-muted-foreground leading-none">Confirmed</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-            <span className="text-gray-600 leading-none">Pending</span>
+            <span className="text-muted-foreground leading-none">Pending</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
-            <span className="text-gray-600 leading-none">Completed</span>
+            <span className="text-muted-foreground leading-none">Completed</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded border-2 border-primary flex-shrink-0" />
-            <span className="text-gray-600 leading-none">Today</span>
+            <span className="text-muted-foreground leading-none">Today</span>
           </div>
         </div>
       </CardContent>

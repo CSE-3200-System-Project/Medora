@@ -11,7 +11,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PORT=8000
 
 # Install system dependencies
 # - gcc: Required for building some Python packages (faster-whisper dependencies)
@@ -58,7 +59,7 @@ EXPOSE 8000
 
 # Health check (optional but useful)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD sh -c 'curl -fsS "http://localhost:${PORT:-8000}/health" || exit 1'
 
 # Run entrypoint script
-ENTRYPOINT ["/bin/bash", "/app/app/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "sed -i 's/\\r$//' /app/app/entrypoint.sh && exec /bin/bash /app/app/entrypoint.sh"]

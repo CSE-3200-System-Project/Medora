@@ -17,16 +17,21 @@ async def lifespan(app: FastAPI):
     - Startup: Preload Whisper model for voice transcription
     - Shutdown: Cleanup resources
     """
+    preload_whisper = os.getenv("PRELOAD_WHISPER_ON_STARTUP", "false").lower() == "true"
+
     # Startup: Preload the Whisper ASR model
     # This avoids slow first request when voice transcription is used
-    try:
-        logger.info("Preloading Whisper ASR model...")
-        from app.services.asr import preload_model
-        preload_model()
-        logger.info("Whisper model preloaded successfully")
-    except Exception as e:
-        logger.warning(f"Failed to preload Whisper model: {e}")
-        logger.warning("Model will be loaded on first voice transcription request")
+    if preload_whisper:
+        try:
+            logger.info("Preloading Whisper ASR model...")
+            from app.services.asr import preload_model
+            preload_model()
+            logger.info("Whisper model preloaded successfully")
+        except Exception as e:
+            logger.warning(f"Failed to preload Whisper model: {e}")
+            logger.warning("Model will be loaded on first voice transcription request")
+    else:
+        logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
     
     yield  # Application runs
     

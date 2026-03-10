@@ -166,15 +166,15 @@ export function PatientAppointmentCalendar({
           "aspect-square rounded-lg text-sm font-medium transition-all relative border p-1",
           isSelected && "bg-primary text-white shadow-md scale-105 border-primary",
           !isSelected && isCurrentDay && "bg-primary-light border-2 border-primary text-foreground",
-          !isSelected && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
-          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-gray-900 hover:text-primary",
+          !isSelected && !isCurrentDay && dayIsPast && "bg-muted text-muted-foreground",
+          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-foreground hover:text-primary",
           dayAppts.length > 0 && "font-bold hover:scale-105",
           !isSelected && !isCurrentDay && "hover:bg-[var(--calendar-cell-hover)]"
         )}
         style={!isSelected && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
       >
         <span className={cn(
-          isSelected ? 'text-white' : dayIsPast ? 'text-gray-400' : 'text-[var(--calendar-date-foreground)]',
+          isSelected ? 'text-white' : dayIsPast ? 'text-muted-foreground' : 'text-[var(--calendar-date-foreground)]',
           'relative z-10'
         )}>
           {day}
@@ -246,7 +246,7 @@ export function PatientAppointmentCalendar({
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
               <div
                 key={idx}
-                className="text-center text-xs font-semibold text-gray-900 py-2"
+                className="text-center text-xs font-semibold text-foreground py-2"
               >
                 {day}
               </div>
@@ -262,19 +262,19 @@ export function PatientAppointmentCalendar({
           <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap items-center gap-3 text-xs">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-              <span className="text-gray-600 leading-none">Confirmed</span>
+              <span className="text-muted-foreground leading-none">Confirmed</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-              <span className="text-gray-600 leading-none">Pending</span>
+              <span className="text-muted-foreground leading-none">Pending</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
-              <span className="text-gray-600 leading-none">Completed</span>
+              <span className="text-muted-foreground leading-none">Completed</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded border-2 border-primary flex-shrink-0" />
-              <span className="text-gray-600 leading-none">Today</span>
+              <span className="text-muted-foreground leading-none">Today</span>
             </div>
           </div>
         </CardContent>
@@ -309,7 +309,7 @@ export function PatientAppointmentCalendar({
                     {appt.status}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Clock className="w-3 h-3" />
                   <span>{appt.slot_time || "Time not set"}</span>
                 </div>
@@ -353,7 +353,7 @@ export function PatientAppointmentCalendar({
                     <p className="font-semibold text-foreground">
                       {selectedAppointment.doctor_title} {selectedAppointment.doctor_name}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       {selectedAppointment.doctor_specialization}
                     </p>
                   </div>
@@ -368,14 +368,14 @@ export function PatientAppointmentCalendar({
                   <Clock className="w-4 h-4 text-primary" />
                   <div>
                     <p className="font-medium">{selectedAppointment.slot_time || "Time not set"}</p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-muted-foreground">
                       {formatDateTime(selectedAppointment.appointment_date).date}
                     </p>
                   </div>
                 </div>
                 
                 {selectedAppointment.hospital_name && (
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <MapPin className="w-4 h-4" />
                     <span>{selectedAppointment.hospital_name}</span>
                   </div>
@@ -383,7 +383,7 @@ export function PatientAppointmentCalendar({
                 
                 {selectedAppointment.reason && (
                   <div className="bg-accent/50 rounded-lg p-3">
-                    <p className="text-xs text-gray-600 mb-1">Consultation</p>
+                    <p className="text-xs text-muted-foreground mb-1">Consultation</p>
                     {(() => {
                       const { consultationType, appointmentType } = parseCompositeReason(selectedAppointment.reason)
                       const ct = humanizeConsultationType(consultationType)

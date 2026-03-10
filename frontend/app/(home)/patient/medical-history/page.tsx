@@ -334,9 +334,9 @@ function MedicalHistoryContent() {
     );
   }
 
-  const totalMeds = medications.length + doctorPrescriptions.filter(p => p.type === "medication").reduce((acc, p) => acc + p.medications.length, 0);
-  const totalTests = medicalTests.length + doctorPrescriptions.filter(p => p.type === "test").reduce((acc, p) => acc + p.tests.length, 0);
-  const totalSurgeries = surgeries.length + doctorPrescriptions.filter(p => p.type === "surgery").reduce((acc, p) => acc + p.surgeries.length, 0);
+  const totalMeds = medications.length + doctorPrescriptions.reduce((acc, p) => acc + (p.medications?.length || 0), 0);
+  const totalTests = medicalTests.length + doctorPrescriptions.reduce((acc, p) => acc + (p.tests?.length || 0), 0);
+  const totalSurgeries = surgeries.length + doctorPrescriptions.reduce((acc, p) => acc + (p.surgeries?.length || 0), 0);
 
   return (
     <AppBackground className="container-padding animate-page-enter">
@@ -527,7 +527,7 @@ function MedicalHistoryContent() {
           {/* Medications Tab */}
           <TabsContent value="medications" className="mt-0 space-y-6">
             {/* Doctor Prescribed Medications */}
-            {doctorPrescriptions.filter(p => p.type === "medication" && p.medications.length > 0).length > 0 && (
+            {doctorPrescriptions.filter(p => p.medications.length > 0).length > 0 && (
               <Card className="border-primary/30 dark:border-primary/50">
                 <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent dark:from-primary/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -541,7 +541,7 @@ function MedicalHistoryContent() {
                 <CardContent className="p-4 sm:p-6">
                   <div className="space-y-4">
                     {doctorPrescriptions
-                      .filter(p => p.type === "medication" && p.medications.length > 0)
+                      .filter(p => p.medications.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -639,7 +639,7 @@ function MedicalHistoryContent() {
           {/* Lab Tests Tab */}
           <TabsContent value="tests" className="mt-0 space-y-6">
             {/* Doctor Prescribed Tests */}
-            {doctorPrescriptions.filter(p => p.type === "test" && p.tests.length > 0).length > 0 && (
+            {doctorPrescriptions.filter(p => p.tests.length > 0).length > 0 && (
               <Card className="border-purple-300 dark:border-purple-700">
                 <CardHeader className="bg-gradient-to-r from-purple-50 to-transparent dark:from-purple-950/30">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -653,7 +653,7 @@ function MedicalHistoryContent() {
                 <CardContent className="p-4 sm:p-6">
                   <div className="space-y-4">
                     {doctorPrescriptions
-                      .filter(p => p.type === "test" && p.tests.length > 0)
+                      .filter(p => p.tests.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -914,7 +914,7 @@ function MedicalHistoryContent() {
           {/* Surgeries Tab */}
           <TabsContent value="surgeries" className="mt-0 space-y-6">
             {/* Doctor Recommended Surgeries */}
-            {doctorPrescriptions.filter(p => p.type === "surgery" && p.surgeries.length > 0).length > 0 && (
+            {doctorPrescriptions.filter(p => p.surgeries.length > 0).length > 0 && (
               <Card className="border-success/30 dark:border-success/50">
                 <CardHeader className="bg-gradient-to-r from-success/5 to-transparent dark:from-success/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -928,7 +928,7 @@ function MedicalHistoryContent() {
                 <CardContent className="p-4 sm:p-6">
                   <div className="space-y-4">
                     {doctorPrescriptions
-                      .filter(p => p.type === "surgery" && p.surgeries.length > 0)
+                      .filter(p => p.surgeries.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">

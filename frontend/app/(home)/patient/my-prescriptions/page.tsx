@@ -21,7 +21,6 @@ import {
   Pill,
   FlaskConical,
   Scissors,
-  Loader2,
   CheckCircle2,
   XCircle,
   Calendar,
@@ -44,6 +43,7 @@ import {
 } from "@/lib/prescription-actions";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 
 export default function MyPrescriptionsPage() {
   const router = useRouter();
@@ -169,7 +169,7 @@ export default function MyPrescriptionsPage() {
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <MedoraLoader size="lg" label="Loading prescriptions..." />
           </div>
         </main>
       </AppBackground>
@@ -484,7 +484,7 @@ export default function MyPrescriptionsPage() {
                         className="flex-1"
                       >
                         {submitting ? (
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          <ButtonLoader className="mr-2" />
                         ) : (
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                         )}
@@ -544,7 +544,7 @@ export default function MyPrescriptionsPage() {
               disabled={submitting}
             >
               {submitting ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <ButtonLoader className="mr-2" />
               ) : (
                 <XCircle className="w-4 h-4 mr-2" />
               )}
