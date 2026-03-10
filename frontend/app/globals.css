@@ -208,60 +208,60 @@ hr {
 
 .dark {
   /* Background System - Premium Medical Gradient (Dark Mode) */
-  --bg-top: #061E35;
-  --bg-mid: #041828;
-  --bg-bottom: #02121E;
-  --bg-glow-primary: rgba(3, 96, 217, 0.25);
-  --bg-glow-secondary: rgba(165, 204, 255, 0.15);
-  --bg-glow-accent: rgba(19, 121, 177, 0.12);
-  --bg-noise-opacity: 0.05;
+  --bg-top: #071f34;
+  --bg-mid: #09253b;
+  --bg-bottom: #0a2b42;
+  --bg-glow-primary: rgba(66, 153, 255, 0.20);
+  --bg-glow-secondary: rgba(112, 187, 255, 0.12);
+  --bg-glow-accent: rgba(53, 141, 216, 0.10);
+  --bg-noise-opacity: 0.035;
   --bg-pattern-opacity: 0.02;
-  --bg-orb-1: rgba(3, 96, 217, 0.12);
-  --bg-orb-2: rgba(165, 204, 255, 0.08);
-  --bg-orb-3: rgba(13, 43, 70, 0.25);
+  --bg-orb-1: rgba(55, 151, 255, 0.09);
+  --bg-orb-2: rgba(136, 199, 255, 0.09);
+  --bg-orb-3: rgba(39, 92, 138, 0.20);
   
   /* Background & Surface */
-  --background: #021526;
-  --surface: #0D2B46;
-  --foreground: #F0F4F8;
+  --background: #082137;
+  --surface: #113650;
+  --foreground: #f5f9ff;
 
-  /* Text — boosted for readability */
-  --foreground-muted: #C0C8D4;
+  /* Text */
+  --foreground-muted: #d7e2ef;
 
-  /* Primary — brighter for dark backgrounds (WCAG AA on #021526) */
-  --primary: #4A9BFF;
-  --primary-foreground: #FFFFFF;
-  --primary-muted: #38ACE2;
+  /* Primary */
+  --primary: #5aa9ff;
+  --primary-foreground: #0a1929;
+  --primary-muted: #45b2ec;
   --primary-muted-foreground: #FFFFFF;
-  --primary-light: #A5CCFF;
-  --primary-more-light: #1E3A5F;
+  --primary-light: #b7d7ff;
+  --primary-more-light: #184569;
 
   /* Secondary */
-  --secondary: #1A3652;
-  --secondary-foreground: #E8EDF2;
+  --secondary: #204566;
+  --secondary-foreground: #f5f9ff;
 
-  /* Muted — boosted foreground for readability */
-  --muted: #1A3652;
-  --muted-foreground: #B8C4D0;
+  /* Muted */
+  --muted: #1a405f;
+  --muted-foreground: #c5d4e3;
 
   /* Accent */
-  --accent: #F5BF00;
-  --accent-foreground: #021526;
+  --accent: #1b4d75;
+  --accent-foreground: #f0f5ff;
 
   /* Destructive */
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-muted: #991B1B;
 
-  /* Borders & UI — slightly lighter for visibility */
-  --border: #1E3A5F;
-  --input: #1E3A5F;
-  --ring: #4A9BFF;
+  /* Borders & UI */
+  --border: #27577d;
+  --input: #27577d;
+  --ring: #5aa9ff;
 
-  /* Cards & Popovers — brighter foreground */
-  --card: #0D2B46;
-  --card-foreground: #F0F4F8;
-  --popover: #0D2B46;
-  --popover-foreground: #F0F4F8;
+  /* Cards & Popovers */
+  --card: #103657;
+  --card-foreground: #f5f9ff;
+  --popover: #103657;
+  --popover-foreground: #f5f9ff;
 
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -271,24 +271,23 @@ hr {
   --chart-5: oklch(0.645 0.246 16.439);
 
   /* Sidebar */
-  --sidebar: #021526;
-  --sidebar-foreground: #F0F4F8;
-  --sidebar-primary: #4A9BFF;
+  --sidebar: #082137;
+  --sidebar-foreground: #f5f9ff;
+  --sidebar-primary: #5aa9ff;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #0D2B46;
-  --sidebar-accent-foreground: #E8EDF2;
-  --sidebar-border: #1E3A5F;
-  --sidebar-ring: #4A9BFF;
+  --sidebar-accent: #103657;
+  --sidebar-accent-foreground: #eaf2fa;
+  --sidebar-border: #27577d;
+  --sidebar-ring: #5aa9ff;
 
   /* Calendar dark overrides */
-  --calendar-border: #1E3A5F;
-  --calendar-date-foreground: #F0F4F8;
-  --calendar-card-bg: #0D2B46;
-  --calendar-cell-bg: #132D4A;
-  --calendar-cell-hover: #1A3652;
-  --calendar-cell-selected-bg: rgba(74, 155, 255, 0.15);
+  --calendar-border: #27577d;
+  --calendar-date-foreground: #f5f9ff;
+  --calendar-card-bg: #103657;
+  --calendar-cell-bg: #154062;
+  --calendar-cell-hover: #1f4a6f;
+  --calendar-cell-selected-bg: rgba(90, 169, 255, 0.20);
 }
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

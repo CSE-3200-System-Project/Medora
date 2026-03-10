@@ -5,19 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { Menu, Bell, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
+import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import {
   Sheet,
   SheetContent,
@@ -111,13 +103,13 @@ export function Navbar() {
     <header
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       className={cn(
-        "fixed top-4 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
-        "rounded-xl sm:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg shadow-primary/5",
-        "dark:bg-card/80 dark:border-border/50",
-        isScrolled ? "bg-white/80 dark:bg-card/90 shadow-md" : "bg-white/60"
+        "fixed top-3 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
+        "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
+        isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
       )}
     >
-      <div className="flex h-16 sm:h-18 md:h-20 items-center justify-between px-3 sm:px-4 md:px-6">
+      <div className="flex h-16 md:h-[4.5rem] items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
         <Link href={homePath} className="flex items-center gap-2 touch-target">
           <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
@@ -172,10 +164,10 @@ export function Navbar() {
             <div className="h-8 w-24 skeleton rounded-full" />
           ) : !user ? (
             <>
-              <Button variant="ghost" asChild className="text-muted-foreground hover:bg-primary-more-light hover:text-primary">
+              <Button variant="ghost" asChild className="text-foreground/80 hover:bg-accent hover:text-foreground">
                 <Link href="/login">Log in</Link>
               </Button>
-              <Button asChild className="bg-primary hover:bg-primary-muted text-primary-foreground rounded-full px-6">
+              <Button asChild className="rounded-xl px-6 shadow-sm">
                 <Link href="/selection">Sign up</Link>
               </Button>
             </>
@@ -184,12 +176,12 @@ export function Navbar() {
               <NotificationDropdown />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-primary-more-light pl-2 pr-4 rounded-full h-10">
+                  <Button variant="ghost" className="flex items-center gap-2 h-10 rounded-xl pl-2 pr-3 hover:bg-accent hover:text-foreground">
                     <Avatar className="h-9 w-9 border border-primary/20">
                       <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="text-base font-medium text-foreground">{getUserDisplayName()}</span>
+                    <span className="max-w-[9.5rem] truncate text-sm font-semibold text-foreground">{getUserDisplayName()}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
