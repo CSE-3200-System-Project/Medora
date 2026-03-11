@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { 
   Shield, Eye, Clock, User, AlertCircle, 
@@ -249,10 +250,13 @@ export default function PatientPrivacyPage() {
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
                             {doctor.doctor_photo_url ? (
-                              <img 
-                                src={doctor.doctor_photo_url} 
+                              <Image
+                                src={doctor.doctor_photo_url}
                                 alt={doctor.doctor_name}
+                                width={48}
+                                height={48}
                                 className="w-full h-full object-cover"
+                                unoptimized
                               />
                             ) : (
                               <User className="w-6 h-6 text-primary" />
@@ -347,10 +351,13 @@ export default function PatientPrivacyPage() {
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
                             {item.doctor_photo_url ? (
-                              <img 
-                                src={item.doctor_photo_url} 
+                              <Image
+                                src={item.doctor_photo_url}
                                 alt={item.doctor_name}
+                                width={40}
+                                height={40}
                                 className="w-full h-full object-cover"
+                                unoptimized
                               />
                             ) : (
                               <User className="w-5 h-5 text-primary" />

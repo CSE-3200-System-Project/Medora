@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
+from sqlalchemy import text, update
 from app.core.dependencies import get_db
 from app.schemas.auth import PatientSignup, DoctorSignup, UserLogin
 from app.db.supabase import supabase
@@ -11,6 +11,8 @@ from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
 from sqlalchemy import select
 import os
+from types import SimpleNamespace
+from app.core.security import verify_jwt
 
 router = APIRouter()
 
@@ -71,7 +73,6 @@ async def signup_patient(user_data: PatientSignup, db: AsyncSession = Depends(ge
 
     except Exception as e:
         await db.rollback()
-        print(f"Signup Error: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/signup/doctor", status_code=status.HTTP_201_CREATED)
@@ -120,12 +121,6 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
 
         await db.commit()
         
-        # Debug: Print session structure
-        print(f"Doctor signup successful - User ID: {user_id}")
-        print(f"Session object type: {type(auth_response.session)}")
-        if auth_response.session:
-            print(f"Session has access_token: {hasattr(auth_response.session, 'access_token')}")
-        
         return {
             "message": "Registration successful! Please wait 24-48 hours for BMDC verification by our admin team.",
             "user_id": user_id,
@@ -134,7 +129,6 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
 
     except Exception as e:
         await db.rollback()
-        print(f"Signup Error: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login")
@@ -175,8 +169,6 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
     except HTTPException:
         raise
     except Exception as e:
-        # Log the actual error for debugging
-        print(f"Login Error: {str(e)}")
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
 @router.post("/logout")
@@ -187,23 +179,32 @@ async def logout():
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-from sqlalchemy import update
-from app.db.models.profile import Profile
-
-# Helper to get user from token
 async def get_current_user_token(authorization: str = Header(...), db: AsyncSession = Depends(get_db)):
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid header format")
     
     token = authorization.split(" ")[1]
     try:
-        user = supabase.auth.get_user(token)
-        if not user or not user.user:
-            raise HTTPException(status_code=401, detail="Invalid token")
+        payload = await verify_jwt(token)
+        user_id = payload.get("sub")
+
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Invalid token payload")
+
+        user = SimpleNamespace(
+            id=user_id,
+            email=payload.get("email"),
+            email_confirmed_at=payload.get("email_confirmed_at") or payload.get("confirmed_at"),
+        )
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=401, detail="Token verification failed")
+    try:
         
         # Check if user is banned
         result = await db.execute(
-            select(Profile).where(Profile.id == user.user.id)
+            select(Profile).where(Profile.id == user.id)
         )
         profile = result.scalar_one_or_none()
         
@@ -213,7 +214,7 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
                 detail="Your account has been banned. Please contact support."
             )
         
-        return user.user
+        return user
     except HTTPException:
         raise
     except Exception:
@@ -298,6 +299,5 @@ async def forgot_password(request: ForgotPasswordRequest, db: AsyncSession = Dep
         return {"message": "If an account with that email exists, a password reset link has been sent"}
         
     except Exception as e:
-        print(f"Forgot password error: {str(e)}")
         # Still return success to prevent email enumeration
         return {"message": "If an account with that email exists, a password reset link has been sent"}

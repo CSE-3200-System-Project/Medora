@@ -14,7 +14,7 @@ async def get_current_user(
     db: AsyncSession = Depends(get_db)
 ):
     token = authorization.replace("Bearer ", "")
-    payload = verify_jwt(token)
+    payload = await verify_jwt(token)
 
     user_id = payload.get("sub")
     result = await db.execute(

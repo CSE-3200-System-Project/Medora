@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -340,10 +341,13 @@ export function PatientAppointmentCalendar({
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                     {selectedAppointment.doctor_photo_url ? (
-                      <img 
-                        src={selectedAppointment.doctor_photo_url} 
-                        alt={selectedAppointment.doctor_name || ""} 
+                      <Image
+                        src={selectedAppointment.doctor_photo_url}
+                        alt={selectedAppointment.doctor_name || "Doctor"}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 rounded-full object-cover"
+                        unoptimized
                       />
                     ) : (
                       <User className="w-6 h-6 text-primary" />
@@ -390,7 +394,7 @@ export function PatientAppointmentCalendar({
                       const at = humanizeAppointmentType(appointmentType)
                       return (
                         <>
-                          <p className="text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                          <p className="text-foreground">{ct}{at ? ` | ${at}` : ''}</p>
                           {selectedAppointment.notes && <p className="text-xs text-muted-foreground mt-1">{selectedAppointment.notes}</p>}
                         </>
                       )

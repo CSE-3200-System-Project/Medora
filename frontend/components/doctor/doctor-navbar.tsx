@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -82,10 +83,13 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                 <div className="flex items-center gap-3 bg-white/20 hover:bg-white/30 rounded-lg px-3 py-2 transition-all cursor-pointer">
                   <Avatar className="h-8 w-8 border-2 border-white">
                     {doctor.profile_photo_url ? (
-                      <img
+                      <Image
                         src={doctor.profile_photo_url}
                         alt={`${doctor.first_name} ${doctor.last_name}`}
+                        width={32}
+                        height={32}
                         className="h-full w-full object-cover"
+                        unoptimized
                       />
                     ) : (
                       <div className="h-full w-full bg-white flex items-center justify-center text-sm font-bold text-primary">

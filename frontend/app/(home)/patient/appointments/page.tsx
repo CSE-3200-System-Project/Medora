@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AppBackground } from "@/components/ui/app-background";
-import { AppointmentCalendar } from "@/components/ui/appointment-calendar";
 import { getPatientCalendarAppointments, updateAppointment, syncAppointmentStatus } from "@/lib/appointment-actions";
 import { Calendar, Clock, User, XCircle, MapPin, CheckCircle2, AlertCircle } from "lucide-react";
 import {
@@ -19,9 +21,13 @@ import {
 } from "@/components/ui/dialog";
 import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
-type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
+const AppointmentCalendar = dynamic(
+  () => import("@/components/ui/appointment-calendar").then((module) => module.AppointmentCalendar),
+  { loading: () => <div className="skeleton h-[360px] w-full rounded-2xl" /> },
+);
 
 export default function PatientAppointmentsPage() {
+  const router = useRouter();
   const [appointments, setAppointments] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
@@ -165,7 +171,7 @@ export default function PatientAppointmentsPage() {
               <Calendar className="h-12 w-12 text-gray-500 mb-4" />
               <p className="text-lg font-medium text-foreground">No appointments found</p>
               <p className="text-gray-600">Book an appointment with a doctor to get started.</p>
-              <Button className="mt-4 touch-target" onClick={() => window.location.href = '/patient/find-doctor'}>
+              <Button className="mt-4 touch-target" onClick={() => router.push("/patient/find-doctor")}>
                 Find a Doctor
               </Button>
             </CardContent>
@@ -205,7 +211,7 @@ export default function PatientAppointmentsPage() {
                           <Button 
                             className="mt-3 touch-target" 
                             size="sm"
-                            onClick={() => window.location.href = '/patient/find-doctor'}
+                            onClick={() => router.push("/patient/find-doctor")}
                           >
                             Find a Doctor
                           </Button>
@@ -225,10 +231,13 @@ export default function PatientAppointmentsPage() {
                                 <div className="flex items-center gap-2">
                                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                                     {appt.doctor_photo_url ? (
-                                      <img 
-                                        src={appt.doctor_photo_url} 
-                                        alt="" 
+                                      <Image
+                                        src={appt.doctor_photo_url}
+                                        alt={`${appt.doctor_name || "Doctor"} profile`}
+                                        width={32}
+                                        height={32}
                                         className="w-8 h-8 rounded-full object-cover"
+                                        unoptimized
                                       />
                                     ) : (
                                       <User className="w-4 h-4 text-primary" />
@@ -301,7 +310,7 @@ export default function PatientAppointmentsPage() {
                       {selectedDate ? 'Try selecting a different date.' : 'Book an appointment with a doctor to get started.'}
                     </p>
                     {!selectedDate ? (
-                      <Button className="mt-4 touch-target" onClick={() => window.location.href = '/patient/find-doctor'}>
+                      <Button className="mt-4 touch-target" onClick={() => router.push("/patient/find-doctor")}>
                         Find a Doctor
                       </Button>
                     ) : (
@@ -335,13 +344,16 @@ export default function PatientAppointmentsPage() {
                               <div className="flex items-start gap-3">
                                 <div className="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0">
                                   {appt.doctor_photo_url ? (
-                                    <img 
-                                      src={appt.doctor_photo_url} 
-                                      alt="" 
+                                    <Image
+                                      src={appt.doctor_photo_url}
+                                      alt={`${appt.doctor_name || "Doctor"} profile`}
+                                      width={48}
+                                      height={48}
                                       className={cn(
                                         "w-12 h-12 rounded-full object-cover",
-                                        isPast && "grayscale"
+                                        isPast && "grayscale",
                                       )}
+                                      unoptimized
                                     />
                                   ) : (
                                     <User className="w-6 h-6 text-primary" />
@@ -387,7 +399,7 @@ export default function PatientAppointmentsPage() {
                                     const at = humanizeAppointmentType(appointmentType)
                                     return (
                                       <>
-                                        <p className="text-sm text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                                        <p className="text-sm text-foreground">{ct}{at ? ` | ${at}` : ''}</p>
                                         {appt.notes && <p className="text-xs text-muted-foreground mt-1">{appt.notes}</p>}
                                       </>
                                     )

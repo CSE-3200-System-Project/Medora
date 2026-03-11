@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import { 
   User, Calendar, Phone, Mail, MapPin, Heart, Activity, 
@@ -197,10 +198,13 @@ export default function DoctorPatientViewPage() {
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-primary/10 flex items-center justify-center overflow-hidden ring-4 ring-background shadow-md">
                     {patient.profile_photo_url ? (
-                      <img 
-                        src={patient.profile_photo_url} 
+                      <Image
+                        src={patient.profile_photo_url}
                         alt={`${patient.first_name} ${patient.last_name}`}
+                        width={96}
+                        height={96}
                         className="w-full h-full object-cover"
+                        unoptimized
                       />
                     ) : (
                       <User className="w-10 h-10 sm:w-12 sm:h-12 text-primary" />

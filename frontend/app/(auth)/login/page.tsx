@@ -112,8 +112,7 @@ function LoginPageContent() {
       if (result.success) {
         setShowAdminDialog(false);
         setAdminPassword("");
-        // Use window.location for hard navigation to ensure middleware sees the cookies
-        window.location.href = "/admin";
+        router.replace("/admin");
       } else {
         setAdminError(result.error || "Incorrect admin password");
       }

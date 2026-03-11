@@ -1,17 +1,31 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { DoctorCard } from "@/components/doctor/doctor-card";
 import { SearchFilters } from "@/components/doctor/search-filters";
-import { MapView } from "@/components/doctor/map-view";
 import { PatientContextDisplay } from "@/components/doctor/patient-context-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
+
+const MapView = dynamic(
+  () => import("@/components/doctor/map-view").then((module) => module.MapView),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full min-h-[320px] items-center justify-center rounded-2xl border border-border bg-card">
+        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+      </div>
+    ),
+  },
+);
 
 // AI Analysis summary component
 function AIAnalysisSummary({ analysis }: { analysis: any }) {
@@ -172,7 +186,14 @@ function PreviouslyVisitedDoctors({
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                   {doc.photo_url ? (
-                    <img src={doc.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
+                    <Image
+                      src={doc.photo_url}
+                      alt={`${doc.first_name ?? "Doctor"} ${doc.last_name ?? ""}`}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 rounded-full object-cover"
+                      unoptimized
+                    />
                   ) : (
                     <User className="w-5 h-5 text-primary" />
                   )}
@@ -200,6 +221,7 @@ function PreviouslyVisitedDoctors({
 }
 
 export default function FindDoctorPage() {
+  const router = useRouter();
   type Doctor = {
     profile_id: string;
     first_name: string;
@@ -257,7 +279,7 @@ export default function FindDoctorPage() {
   }, []);
 
   const handleDoctorClick = (doctorId: string) => {
-    window.location.href = `/patient/doctor/${doctorId}`;
+    router.push(`/patient/doctor/${doctorId}`);
   };
 
   const fetchDoctors = async (searchFilters: any = {}) => {
@@ -283,8 +305,6 @@ export default function FindDoctorPage() {
            payload.user_location = searchFilters.user_location;
          }
 
-         console.log('AI Search Request payload:', payload);
-
          options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -300,22 +320,17 @@ export default function FindDoctorPage() {
         url = `${url}?${params.toString()}`;
       }
       
-      console.log('Fetching doctors from:', url); 
-      
       const res = await fetch(url, options);
       if (res.ok) {
         const data = await res.json();
         
         if (searchFilters.mode === 'ai') {
-          console.log('AI Search Response:', data);
           if (data.medical_intent) {
-            console.log('AI Medical Intent:', data.medical_intent);
             setAiAnalysis(data.medical_intent);
           }
           
           // Capture patient context factors from AI search response
           if (data.patient_context_factors && data.patient_context_factors.length > 0) {
-            console.log('Patient Context Factors:', data.patient_context_factors);
             setPatientContextFactors(data.patient_context_factors);
           } else {
             setPatientContextFactors([]);
@@ -339,7 +354,6 @@ export default function FindDoctorPage() {
       }
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
-      alert('Unable to connect to server. Please ensure the backend is running.');
     } finally {
       setLoading(false);
     }

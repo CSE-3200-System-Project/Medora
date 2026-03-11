@@ -1,7 +1,8 @@
 import os
 import logging
+from time import perf_counter
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation
 
@@ -58,6 +59,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def add_performance_headers(request: Request, call_next):
+    start = perf_counter()
+    response = await call_next(request)
+    duration_ms = (perf_counter() - start) * 1000
+
+    response.headers["X-Response-Time"] = f"{duration_ms:.1f}ms"
+    server_timing_value = f"app;dur={duration_ms:.1f}"
+    existing_server_timing = response.headers.get("Server-Timing")
+    if existing_server_timing:
+        response.headers["Server-Timing"] = f"{existing_server_timing}, {server_timing_value}"
+    else:
+        response.headers["Server-Timing"] = server_timing_value
+
+    return response
 
 app.include_router(health.router)
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])

@@ -15,7 +15,7 @@ export default function ClearAdminPage() {
     
     // Redirect to home after clearing
     setTimeout(() => {
-      window.location.href = "/";
+      router.replace("/");
     }, 500);
   }, [router]);
 

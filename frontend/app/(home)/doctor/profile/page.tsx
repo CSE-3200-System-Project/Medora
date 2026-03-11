@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -106,10 +107,13 @@ export default function DoctorProfilePage() {
                 <div className="shrink-0">
                   <Avatar className="h-32 w-32 md:h-40 md:w-40 rounded-2xl border-4 border-white shadow-xl">
                     {doctor.profile_photo_url ? (
-                      <img
+                      <Image
                         src={doctor.profile_photo_url}
                         alt={`${doctor.first_name} ${doctor.last_name}`}
+                        width={160}
+                        height={160}
                         className="h-full w-full object-cover"
+                        unoptimized
                       />
                     ) : (
                       <div className="h-full w-full bg-primary flex items-center justify-center text-4xl font-bold text-white">
