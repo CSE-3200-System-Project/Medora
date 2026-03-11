@@ -159,7 +159,7 @@
 
 # Emoji cleanup — plan
 
-## Status: in-progress
+## Status: completed
 
 ### Plan
 
@@ -258,6 +258,31 @@ The backend route `get_patient_prescriptions` was querying `Prescription` record
    - "Set Reminder" button on each doctor-prescribed medication
    - Supports adding/removing multiple times per day
 5. **Notification Type Mappings**: Added missing types to notifications page
+
+---
+
+# Frontend Server-First Conversion Pass (2026-03-12)
+
+## Status: in-progress
+
+### Todo
+- [x] Finalize execution plan for phased server-first conversion
+- [x] Phase 1: Convert admin pages to server wrappers with client islands
+- [x] Seed admin pages with server-fetched initial data to remove mount-time client fetches
+- [x] Convert verify-pending and admin schedule review pages to server page wrappers
+- [x] Run `npm run build` and `npm run perf:bundle-budget` and document results
+
+### Review
+- Converted 7 pages to server-first wrappers and extracted client islands:
+   - `/admin`, `/admin/doctors`, `/admin/patients`, `/admin/users`, `/admin/appointments`, `/verify-pending`, `/admin/schedule-review`
+- Added server-fetched initial data hydration for admin dashboard/list pages, removing first paint client-fetch waterfalls on initial mount.
+- Added `export const dynamic = "force-dynamic"` to admin server wrappers to prevent static-render attempts with `no-store`/auth-bound requests.
+- Introduced dedicated client components under `frontend/components/admin/pages/` for interactive behavior isolation.
+- Validation results:
+   - `npm run build`: passed.
+   - `npm run perf:bundle-budget`: passed.
+   - Client bundle metrics after pass: `totalClientJsBytes=2441675`, `largestClientChunkBytes=993154`.
+   - `use client` page directives reduced from `35` to `28` across `frontend/app/**/page.tsx`.
    - consultation_started, consultation_completed
    - prescription_created, prescription_accepted, prescription_rejected
 
@@ -3130,6 +3155,37 @@ Built a comprehensive dashboard with:
 
 ---
 
+# Performance Continuation - Phase 3 Then Phase 2 (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify a low-risk Phase 3 hydration/rendering target in admin routes
+- [x] Convert that target from client-rendered navigation handling to server-compatible link navigation
+- [x] Execute a Phase 2 follow-up check for nearby admin pages and confirm no similarly low-risk conversion was missed
+- [x] Validate changed files for diagnostics regressions
+
+### Review
+- Prioritized Phase 3 first as requested by converting `frontend/components/admin/pages/admin-dashboard-client.tsx` from a client component to a server-compatible component.
+- Removed `"use client"` and `useRouter()` from the dashboard page, and replaced route transitions with `Link`-based navigation.
+- Kept UX behavior unchanged: pending-doctor row and all quick-action items remain clickable and route to the same destinations.
+- Phase 2 follow-up was performed on sibling admin pages (`admin-patients-client.tsx`, `admin-appointments-client.tsx`): these still require client runtime for local state, filters, pagination, and mutation flows, so no safe no-risk conversion was forced.
+- Net effect: reduced hydration/client JS for the admin dashboard route while preserving behavior.
+
+### Delta Update
+- Finished pending cleanup by resolving diagnostics hints in `frontend/components/admin/pages/admin-dashboard-client.tsx` for gradient/container utility usage.
+- Continued Phase 3 with additional route-level server-first conversions:
+   - `frontend/app/(admin)/clear-admin/page.tsx` now performs cookie clearing and redirect fully on the server.
+   - `frontend/app/(onboarding)/verification-success/page.tsx` converted to a server wrapper with client island in `frontend/components/onboarding/pages/verification-success-client.tsx`.
+   - `frontend/app/(onboarding)/verify-email/page.tsx` converted to a server wrapper with client island in `frontend/components/onboarding/pages/verify-email-client.tsx`.
+- Phase 2 impact: reduced `use client` directives directly in App Router page files for these onboarding/admin routes while preserving existing behavior.
+- Additional continuation pass:
+   - `frontend/app/(home)/patient/appointment-success/page.tsx` converted to a server wrapper that parses query params server-side.
+   - Added `frontend/components/patient/pages/appointment-success-client.tsx` as the interaction island and replaced client-side URL parsing/effect-based hydration with prop-driven rendering.
+   - `frontend/app/(auth)/forgot-password/page.tsx` converted to server wrapper with `frontend/components/auth/pages/forgot-password-client.tsx` client island.
+
+---
+
 # Appointment Success Screen Implementation
 
 ## Goal
@@ -3932,3 +3988,50 @@ Patient Home Page (localhost:3000/patient/home)
 -  **Loading states**: Skeleton UI for better UX
 
 
+
+---
+
+# Ultra Performance Mode - Phase 3 Heavy + Low-Risk Pair (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Migrate heavy `find-medicine` patient route to server-wrapper + isolated client island
+- [x] Migrate heavy `find-medicine` doctor route to server-wrapper + isolated client island
+- [x] Replace direct client medicine backend fetches with centralized server actions
+- [x] Apply same optimization pattern to one low-risk pair (admin users/patients post-action refresh)
+- [x] Run targeted diagnostics on changed files
+
+### Review
+- Added `frontend/lib/medicine-actions.ts` to centralize medicine search/detail calls through server actions (`searchMedicines`, `getMedicineDetails`).
+- Converted `frontend/app/(home)/patient/find-medicine/page.tsx` and `frontend/app/(home)/doctor/find-medicine/page.tsx` into server wrapper routes.
+- Added client islands:
+  - `frontend/components/medicine/pages/patient-find-medicine-client.tsx`
+  - `frontend/components/medicine/pages/doctor-find-medicine-client.tsx`
+- Patient medicine save now uses existing server actions (`getPatientOnboardingData`, `updatePatientOnboarding`) instead of client-side token parsing + direct fetch.
+- Low-risk pair optimization:
+  - `frontend/components/admin/pages/admin-users-client.tsx`: removed full users refetch after ban/unban; updates local row state instead.
+  - `frontend/components/admin/pages/admin-patients-client.tsx`: removed post-action refetch for ban/unban; updates local page state instead.
+- Diagnostics: no type errors in new/converted medicine files; remaining hints in admin files are pre-existing class-normalization suggestions.
+- Additional heavy-page split completed: `frontend/app/(home)/patient/find-doctor/page.tsx` and `frontend/app/(home)/patient/medical-history/page.tsx` now use server wrappers with extracted client islands.
+
+---
+
+# Remaining Pages & Screens Conversion Sweep (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify all remaining `frontend/app/**/page.tsx` files with `"use client"`
+- [x] Extract each to client-island files under `frontend/components/screens/pages/`
+- [x] Replace each app page with thin server wrapper imports
+- [x] Validate no route pages retain `"use client"`
+- [x] Run diagnostics on converted app + screen files
+
+### Review
+- Converted all remaining client route pages to server wrappers.
+- Added 19 extracted client screens in `frontend/components/screens/pages/` (auth/home doctor/patient/notifications/settings).
+- Verified no remaining `"use client"` directives exist in `frontend/app/**/page.tsx`.
+- Diagnostics: no type errors introduced by wrappers; existing Tailwind normalization hints remain in unrelated files (e.g., `frontend/app/(home)/patient/home/page.tsx`).
+- Validation update: `npm run build` and `npm run perf:bundle-budget` both pass after fixes.
+- Backend runtime check via terminal was skipped in this session, so backend startup state remains unverified here.

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cookies } from "next/headers";
 import {
   Calendar,
@@ -186,7 +186,7 @@ export default async function PatientHomePage() {
         </div>
 
         {prescriptions.length > 0 ? (
-          <Card className="mb-6 border-primary/35 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
+          <Card className="mb-6 border-primary/35 bg-linear-to-r from-primary/10 via-primary/5 to-transparent">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex items-start gap-3">
@@ -301,7 +301,7 @@ export default async function PatientHomePage() {
                       <Link key={appointment.id} href="/patient/appointments">
                         <div className="p-4 bg-surface rounded-xl border border-border hover:border-primary/50 transition-colors cursor-pointer">
                           <div className="flex items-start gap-3 sm:gap-4">
-                            <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <div className="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
                               <User className="w-6 h-6 text-primary" />
                             </div>
 
@@ -459,7 +459,7 @@ export default async function PatientHomePage() {
               </CardContent>
             </Card>
 
-            <Card className="border-border/70 bg-gradient-to-br from-primary/12 via-primary/5 to-transparent">
+            <Card className="border-border/70 bg-linear-to-br from-primary/12 via-primary/5 to-transparent">
               <CardContent>
                 <div className="flex items-start gap-3 mb-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
@@ -479,3 +479,4 @@ export default async function PatientHomePage() {
     </AppBackground>
   );
 }
+

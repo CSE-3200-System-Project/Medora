@@ -1,30 +1,13 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+export default async function ClearAdminPage() {
+  const cookieStore = await cookies();
 
-export default function ClearAdminPage() {
-  const router = useRouter();
+  cookieStore.delete("admin_access");
+  cookieStore.delete("user_role");
+  cookieStore.delete("session_token");
+  cookieStore.delete("onboarding_completed");
 
-  useEffect(() => {
-    // Clear all cookies
-    document.cookie = "admin_access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "onboarding_completed=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    
-    // Redirect to home after clearing
-    setTimeout(() => {
-      router.replace("/");
-    }, 500);
-  }, [router]);
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-surface">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Clearing session...</h1>
-        <p className="text-muted-foreground">Redirecting to home page...</p>
-      </div>
-    </div>
-  );
+  redirect("/");
 }
