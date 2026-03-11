@@ -25,6 +25,9 @@ const fullyPublicPaths = [
   '/_next',
   '/api',
   '/favicon.ico',
+  '/manifest.json',
+  '/sw.js',
+  '/icons',
 ]
 
 export async function proxy(request: NextRequest) {
@@ -157,6 +160,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder files (svg, png, jpg, etc.)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 }

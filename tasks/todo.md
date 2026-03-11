@@ -1,13 +1,35 @@
-# Prescription, Loader, Dark Mode & Location Consistency Fix (2026-02-19)
+# PWA Conversion & Security Fix Plan
 
 ## Status: completed
 
-### Plan
-- Trace and fix prescription visibility from acceptance flow to patient history/prescription views.
-- Fix doctor location serialization so coordinates are available where map/directions are rendered.
-- Standardize page-level loading states to use Medora loaders for UI consistency.
-- Repair dark-mode readability issues on doctor details and booking panel without introducing new design tokens.
-- Validate frontend type safety and capture a review summary.
+## Audit Fixes
+- [x] Removed `next-pwa` v5.6.0 (eliminated serialize-javascript RCE + workbox vulnerability chain: 267 packages removed)
+- [x] Replaced with `@serwist/next` v9.5.6 (modern, maintained PWA library)
+- [x] Updated `next` 16.1.0 -> 16.1.6 (fixed 3 high severity DoS vulnerabilities)
+- [x] Ran `npm audit fix` for ajv ReDoS + minimatch ReDoS
+- [x] Result: **0 vulnerabilities** (was 8: 1 moderate + 7 high)
+
+## PWA Setup
+- [x] Created `public/manifest.json` with full icon set, theme colors, standalone display
+- [x] Created `app/sw.ts` service worker with Serwist (precaching, runtime caching, push, background sync)
+- [x] Configured `next.config.ts` with Serwist webpack wrapper (disabled in dev)
+- [x] Updated `layout.tsx` with PWA metadata (viewport, theme-color, manifest, apple-web-app)
+- [x] Created `components/pwa-registration.tsx` for service worker registration
+- [x] Created placeholder PWA icons in `public/icons/`
+
+## PWA Feature Utilities
+- [x] `lib/use-push-notifications.ts` - VAPID push subscription/unsubscription with backend integration
+- [x] `lib/use-offline.ts` - Network status hook, background sync trigger, offline data cache
+- [x] `lib/use-device-access.ts` - Camera (start/stop/capture), location (GPS), file picker hooks
+
+## Build
+- [x] Build script updated to `next build --webpack` (Serwist requires webpack, Turbopack for dev)
+- [x] `npm run build` succeeds
+- [x] `npm audit` clean (0 vulnerabilities)
+
+## Note
+- PWA icons in `public/icons/` are copies of the logo — replace with properly sized versions for production
+- Push notifications require VAPID keys configured on the FastAPI backend (`/notifications/vapid-key`, `/notifications/subscribe`, `/notifications/unsubscribe` endpoints)
 
 ### Todo
 - [x] Fix prescription visibility logic for accepted prescriptions and mixed prescription item types
