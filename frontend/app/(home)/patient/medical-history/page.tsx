@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AppBackground } from "@/components/ui/app-background";
-import { MedicationManager, type Medication } from "@/components/medicine"
-import { SurgeryManager, type Surgery } from "@/components/medical-history/surgery-manager"
-import { HospitalizationManager, type Hospitalization } from "@/components/medical-history/hospitalization-manager"
-import { VaccinationManager, type Vaccination } from "@/components/medical-history/vaccination-manager"
-import { MedicalTimeline } from "@/components/medical-history/medical-timeline";
+import type { Medication } from "@/components/medicine";
+import type { Surgery } from "@/components/medical-history/surgery-manager";
+import type { Hospitalization } from "@/components/medical-history/hospitalization-manager";
+import type { Vaccination } from "@/components/medical-history/vaccination-manager";
 import {
   ArrowLeft,
   Calendar,
@@ -40,9 +40,44 @@ import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-ac
 import { getMyAppointments } from "@/lib/appointment-actions";
 import { humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
 
-import { MedicalTestSearch } from "@/components/medical-test";
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
 import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
+
+const MedicationManager = dynamic(
+  () => import("@/components/medicine").then((module) => module.MedicationManager),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const SurgeryManager = dynamic(
+  () => import("@/components/medical-history/surgery-manager").then((module) => module.SurgeryManager),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const HospitalizationManager = dynamic(
+  () =>
+    import("@/components/medical-history/hospitalization-manager").then(
+      (module) => module.HospitalizationManager,
+    ),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const VaccinationManager = dynamic(
+  () =>
+    import("@/components/medical-history/vaccination-manager").then(
+      (module) => module.VaccinationManager,
+    ),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const MedicalTimeline = dynamic(
+  () => import("@/components/medical-history/medical-timeline").then((module) => module.MedicalTimeline),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const MedicalTestSearch = dynamic(
+  () => import("@/components/medical-test").then((module) => module.MedicalTestSearch),
+  { ssr: false, loading: () => <div className="skeleton h-10 w-full rounded-md" /> },
+);
 
 // Interface for medical test records
 interface MedicalTest {
@@ -526,6 +561,8 @@ function MedicalHistoryContent() {
 
           {/* Medications Tab */}
           <TabsContent value="medications" className="mt-0 space-y-6">
+            {activeTab === "medications" ? (
+              <>
             {/* Doctor Prescribed Medications */}
             {doctorPrescriptions.filter(p => p.medications.length > 0).length > 0 && (
               <Card className="border-primary/30 dark:border-primary/50">
@@ -634,10 +671,14 @@ function MedicalHistoryContent() {
                 />
               </CardContent>
             </Card>
+              </>
+            ) : null}
           </TabsContent>
 
           {/* Lab Tests Tab */}
           <TabsContent value="tests" className="mt-0 space-y-6">
+            {activeTab === "tests" ? (
+              <>
             {/* Doctor Prescribed Tests */}
             {doctorPrescriptions.filter(p => p.tests.length > 0).length > 0 && (
               <Card className="border-purple-300 dark:border-purple-700">
@@ -909,10 +950,14 @@ function MedicalHistoryContent() {
                 )}
               </CardContent>
             </Card>
+              </>
+            ) : null}
           </TabsContent>
 
           {/* Surgeries Tab */}
           <TabsContent value="surgeries" className="mt-0 space-y-6">
+            {activeTab === "surgeries" ? (
+              <>
             {/* Doctor Recommended Surgeries */}
             {doctorPrescriptions.filter(p => p.surgeries.length > 0).length > 0 && (
               <Card className="border-success/30 dark:border-success/50">
@@ -992,34 +1037,42 @@ function MedicalHistoryContent() {
                 />
               </CardContent>
             </Card>
+              </>
+            ) : null}
           </TabsContent>
 
           {/* Hospitalizations Tab */}
           <TabsContent value="hospitalizations" className="mt-0">
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <HospitalizationManager
-                  hospitalizations={hospitalizations}
-                  onUpdate={setHospitalizations}
-                />
-              </CardContent>
-            </Card>
+            {activeTab === "hospitalizations" ? (
+              <Card>
+                <CardContent className="p-4 sm:p-6">
+                  <HospitalizationManager
+                    hospitalizations={hospitalizations}
+                    onUpdate={setHospitalizations}
+                  />
+                </CardContent>
+              </Card>
+            ) : null}
           </TabsContent>
 
           {/* Vaccinations Tab */}
           <TabsContent value="vaccinations" className="mt-0">
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <VaccinationManager
-                  vaccinations={vaccinations}
-                  onUpdate={setVaccinations}
-                />
-              </CardContent>
-            </Card>
+            {activeTab === "vaccinations" ? (
+              <Card>
+                <CardContent className="p-4 sm:p-6">
+                  <VaccinationManager
+                    vaccinations={vaccinations}
+                    onUpdate={setVaccinations}
+                  />
+                </CardContent>
+              </Card>
+            ) : null}
           </TabsContent>
 
           {/* Visits Tab */}
           <TabsContent value="visits" className="mt-0">
+            {activeTab === "visits" ? (
+              <>
             <Card>
               <CardHeader>
                 <CardTitle>Past Doctor Visits</CardTitle>
@@ -1067,10 +1120,14 @@ function MedicalHistoryContent() {
                 )}
               </CardContent>
             </Card>
+              </>
+            ) : null}
           </TabsContent>
 
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="mt-0">
+            {activeTab === "timeline" ? (
+              <>
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <MedicalTimeline
@@ -1082,6 +1139,8 @@ function MedicalHistoryContent() {
                 />
               </CardContent>
             </Card>
+              </>
+            ) : null}
           </TabsContent>
         </Tabs>
 

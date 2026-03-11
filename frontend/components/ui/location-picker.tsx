@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { MapPin, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,8 +10,7 @@ import {
   MapMarker,
   MarkerContent,
   MapControls,
-  useMap,
-} from "@/components/ui/map";
+} from "@/components/ui/map-lazy";
 
 interface LocationPickerProps {
   value?: {

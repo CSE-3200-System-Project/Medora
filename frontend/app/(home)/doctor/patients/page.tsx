@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
@@ -206,10 +207,13 @@ export default function DoctorPatientsPage() {
                     <div className="flex items-center gap-4 flex-1">
                       <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                         {patient.profile_photo_url ? (
-                          <img 
-                            src={patient.profile_photo_url} 
-                            alt="" 
+                          <Image
+                            src={patient.profile_photo_url}
+                            alt={`${patient.first_name} ${patient.last_name}`}
+                            width={64}
+                            height={64}
                             className="w-full h-full object-cover"
+                            unoptimized
                           />
                         ) : (
                           <User className="w-7 h-7 text-primary" />

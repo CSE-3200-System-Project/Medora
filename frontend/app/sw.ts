@@ -1,7 +1,14 @@
 /// <reference lib="webworker" />
-import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist, BackgroundSyncQueue } from "serwist";
+import {
+  BackgroundSyncQueue,
+  CacheFirst,
+  ExpirationPlugin,
+  NetworkFirst,
+  Serwist,
+  StaleWhileRevalidate,
+  type RuntimeCaching,
+} from "serwist";
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -15,6 +22,94 @@ declare const self: ServiceWorkerGlobalScope & typeof globalThis;
 const bgSyncQueue = new BackgroundSyncQueue("medora-api-queue", {
   maxRetentionTime: 24 * 60, // 24 hours in minutes
 });
+
+const API_CACHE_TTL_SECONDS = Number(process.env.NEXT_PUBLIC_PERF_API_CACHE_TTL ?? "60") || 60;
+
+function toManifestUrl(entry: PrecacheEntry | string): string {
+  const url = typeof entry === "string" ? entry : entry.url;
+  return url.replaceAll("\\", "/");
+}
+
+function isInstallCriticalAsset(url: string): boolean {
+  if (url === "/" || url === "/manifest.json" || url.startsWith("/icons/")) {
+    return true;
+  }
+
+  if (url.includes("/_next/static/")) {
+    if (url.endsWith("_buildManifest.js") || url.endsWith("_ssgManifest.js")) {
+      return true;
+    }
+    if (url.includes("/_next/static/css/")) {
+      return true;
+    }
+    if (
+      url.includes("/_next/static/chunks/framework-") ||
+      url.includes("/_next/static/chunks/main-") ||
+      url.includes("/_next/static/chunks/main-app-") ||
+      url.includes("/_next/static/chunks/polyfills-") ||
+      url.includes("/_next/static/chunks/webpack-") ||
+      url.includes("/_next/static/chunks/app/layout-") ||
+      url.includes("/_next/static/chunks/app/page-")
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const runtimeCaching: RuntimeCaching[] = [
+  {
+    matcher: ({ url, sameOrigin }) =>
+      sameOrigin && url.pathname.startsWith("/_next/static/"),
+    handler: new CacheFirst({
+      cacheName: "next-static-assets-v1",
+      plugins: [new ExpirationPlugin({ maxEntries: 96, maxAgeSeconds: 30 * 24 * 60 * 60 })],
+    }),
+  },
+  {
+    matcher: ({ request, sameOrigin, url }) =>
+      sameOrigin &&
+      request.method === "GET" &&
+      (url.pathname.startsWith("/icons/") ||
+        url.pathname.startsWith("/images/") ||
+        url.pathname.startsWith("/assets/") ||
+        url.pathname.startsWith("/_next/image")),
+    handler: new StaleWhileRevalidate({
+      cacheName: "image-assets-v1",
+      plugins: [new ExpirationPlugin({ maxEntries: 80, maxAgeSeconds: 14 * 24 * 60 * 60 })],
+    }),
+  },
+  {
+    matcher: ({ request, sameOrigin }) => sameOrigin && request.destination === "font",
+    handler: new CacheFirst({
+      cacheName: "font-assets-v1",
+      plugins: [new ExpirationPlugin({ maxEntries: 20, maxAgeSeconds: 30 * 24 * 60 * 60 })],
+    }),
+  },
+  {
+    matcher: ({ request, sameOrigin, url }) =>
+      request.method === "GET" &&
+      ((sameOrigin && url.pathname.startsWith("/api/")) ||
+        (!sameOrigin && url.pathname.startsWith("/api/"))),
+    handler: new StaleWhileRevalidate({
+      cacheName: "api-get-v1",
+      plugins: [new ExpirationPlugin({ maxEntries: 40, maxAgeSeconds: API_CACHE_TTL_SECONDS })],
+    }),
+  },
+  {
+    matcher: ({ request, sameOrigin, url }) =>
+      sameOrigin &&
+      request.method === "GET" &&
+      request.mode === "navigate" &&
+      !url.pathname.startsWith("/api/"),
+    handler: new NetworkFirst({
+      cacheName: "pages-v1",
+      networkTimeoutSeconds: 3,
+      plugins: [new ExpirationPlugin({ maxEntries: 30, maxAgeSeconds: 24 * 60 * 60 })],
+    }),
+  },
+];
 
 // Listen for failed fetch requests and add to background sync queue
 self.addEventListener("fetch", (event: FetchEvent) => {
@@ -81,11 +176,13 @@ self.addEventListener("notificationclick", (event: NotificationEvent) => {
 });
 
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries: (self.__SW_MANIFEST ?? []).filter((entry) =>
+    isInstallCriticalAsset(toManifestUrl(entry)),
+  ),
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  runtimeCaching: defaultCache,
+  runtimeCaching,
 });
 
 serwist.addEventListeners();

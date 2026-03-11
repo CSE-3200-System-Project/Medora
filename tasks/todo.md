@@ -1,3 +1,20 @@
+# Fix Supabase JWT Login Verification (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify root cause from backend logs and auth flow
+- [x] Replace manual JWT secret dependency with Supabase JWKS-based verification
+- [x] Update auth dependency call sites to use unified verification behavior
+- [x] Validate `/auth/me` and protected endpoints no longer return 500 after login
+
+### Review
+- Root cause fixed: backend auth verification still expected `SUPABASE_JWT_SECRET`, but settings no longer defines it, causing 500 errors on any protected endpoint.
+- Implemented Supabase-native JWT validation path in `backend/app/core/security.py` using `/auth/v1/.well-known/jwks.json` (cached) with issuer/audience checks.
+- Added a safe fallback to `supabase.auth.get_user(token)` when local JWKS decode cannot validate a token, preserving compatibility.
+- Updated async call sites to await verification in `backend/app/routes/auth.py`, `backend/app/core/dependencies.py`, and `backend/app/routes/ai_doctor.py`.
+- Verified changed files report no diagnostics and removed all backend references to `SUPABASE_JWT_SECRET`.
+
 # PWA Conversion & Security Fix Plan
 
 ## Status: completed

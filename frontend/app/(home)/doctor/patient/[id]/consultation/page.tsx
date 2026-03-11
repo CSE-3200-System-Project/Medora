@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
@@ -345,16 +346,19 @@ export default function ConsultationPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                      {patient.profile_photo_url ? (
-                        <img
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                    {patient.profile_photo_url ? (
+                        <Image
                           src={patient.profile_photo_url}
                           alt={patient.first_name}
+                          width={64}
+                          height={64}
                           className="w-full h-full object-cover"
+                          unoptimized
                         />
-                      ) : (
-                        <User className="w-8 h-8 text-primary" />
-                      )}
+                    ) : (
+                      <User className="w-8 h-8 text-primary" />
+                    )}
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">

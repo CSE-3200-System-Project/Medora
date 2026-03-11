@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
@@ -257,10 +258,13 @@ export default function PatientPrescriptionDetailPage() {
             <CardContent className="p-4 flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
                 {prescription.doctor_photo ? (
-                  <img 
-                    src={prescription.doctor_photo} 
+                  <Image
+                    src={prescription.doctor_photo}
                     alt={prescription.doctor_name}
+                    width={48}
+                    height={48}
                     className="w-full h-full object-cover"
+                    unoptimized
                   />
                 ) : (
                   <User className="h-6 w-6 text-primary" />
@@ -309,7 +313,7 @@ export default function PatientPrescriptionDetailPage() {
                       <div>
                         <h4 className="font-semibold text-foreground">{med.medicine_name}</h4>
                         <p className="text-sm text-muted-foreground">
-                          {med.medicine_type} • {med.strength}
+                          {med.medicine_type} | {med.strength}
                         </p>
                       </div>
                       {med.quantity && (

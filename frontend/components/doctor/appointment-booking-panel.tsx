@@ -9,7 +9,7 @@ import { createAppointment, getDoctorBookedSlots } from "@/lib/appointment-actio
 import { useRouter, usePathname } from "next/navigation";
 import { MapPin, Video, Calendar, Clock, CheckCircle2, XCircle, Navigation, ExternalLink } from "lucide-react";
 import { cn, localDateKey } from "@/lib/utils";
-import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map";
+import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map-lazy";
 
 interface AppointmentBookingPanelProps {
   doctor: any;

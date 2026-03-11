@@ -1,11 +1,9 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
-import { AppointmentCalendar } from "@/components/ui/appointment-calendar";
-import { TimeSlotGrid } from "@/components/doctor/time-slot-grid";
-import { DoctorPatientList } from "@/components/doctor/doctor-patient-list";
 import { getMyAppointments, getAppointmentsByDate, updateAppointment, syncAppointmentStatus, completeAppointment } from "@/lib/appointment-actions";
 import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 import { Button } from "@/components/ui/button";
@@ -18,6 +16,21 @@ import { useRouter } from "next/navigation";
 type TabMode = 'appointments' | 'patients';
 type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
+const AppointmentCalendar = dynamic(
+  () => import("@/components/ui/appointment-calendar").then((module) => module.AppointmentCalendar),
+  { loading: () => <div className="skeleton h-[360px] w-full rounded-2xl" /> },
+);
+
+const TimeSlotGrid = dynamic(
+  () => import("@/components/doctor/time-slot-grid").then((module) => module.TimeSlotGrid),
+  { loading: () => <div className="skeleton h-[220px] w-full rounded-2xl" /> },
+);
+
+const DoctorPatientList = dynamic(
+  () => import("@/components/doctor/doctor-patient-list").then((module) => module.DoctorPatientList),
+  { loading: () => <div className="skeleton h-[420px] w-full rounded-2xl" /> },
+);
+
 export default function DoctorAppointmentsPage() {
   const router = useRouter();
   const [appointments, setAppointments] = React.useState<any[]>([]);
@@ -28,6 +41,7 @@ export default function DoctorAppointmentsPage() {
   const [daySlots, setDaySlots] = React.useState<any[]>([]);
   const [showTimeSlots, setShowTimeSlots] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [actionError, setActionError] = React.useState<string | null>(null);
   const itemsPerPage = 10;
 
   React.useEffect(() => {
@@ -41,10 +55,11 @@ export default function DoctorAppointmentsPage() {
 
   const loadAppointments = async () => {
     try {
+      setActionError(null);
       const data = await getMyAppointments();
       setAppointments(data);
-    } catch (error) {
-      console.error("Failed to load appointments:", error);
+    } catch {
+      setActionError("Failed to load appointments. Please refresh and try again.");
     } finally {
       setLoading(false);
     }
@@ -57,10 +72,11 @@ export default function DoctorAppointmentsPage() {
       setShowTimeSlots(true);
       // Fetch time slots for this date
       try {
+        setActionError(null);
         const slots = await getAppointmentsByDate(date);
         setDaySlots(slots);
-      } catch (error) {
-        console.error("Failed to fetch slots:", error);
+      } catch {
+        setActionError("Failed to fetch time slots for the selected day.");
       }
     } else {
       setShowTimeSlots(false);
@@ -75,12 +91,12 @@ export default function DoctorAppointmentsPage() {
   };
 
   const handleSlotClick = (appointmentId: string) => {
-    // Optional: Highlight or scroll to appointment in the list
-    console.log("Slot clicked:", appointmentId);
+    void appointmentId;
   };
 
   const handleUpdateAppointment = async (appointmentId: string, status: string) => {
     try {
+      setActionError(null);
       await updateAppointment(appointmentId, { status });
       loadAppointments();
       // Refresh slots if viewing a date
@@ -88,9 +104,8 @@ export default function DoctorAppointmentsPage() {
         const slots = await getAppointmentsByDate(selectedDate);
         setDaySlots(slots);
       }
-    } catch (error) {
-      console.error(`Failed to ${status.toLowerCase()} appointment:`, error);
-      alert(`Failed to ${status.toLowerCase()} appointment. Please try again.`);
+    } catch {
+      setActionError(`Failed to ${status.toLowerCase()} appointment. Please try again.`);
     }
   };
 
@@ -236,6 +251,7 @@ export default function DoctorAppointmentsPage() {
     const handleComplete = async () => {
       setCompleting(true);
       try {
+        setActionError(null);
         await completeAppointment(appointment.id);
         loadAppointments();
         if (selectedDate) {
@@ -243,7 +259,7 @@ export default function DoctorAppointmentsPage() {
           setDaySlots(slots);
         }
       } catch (error: any) {
-        alert(error.message || 'Failed to complete appointment');
+        setActionError(error?.message || "Failed to complete appointment");
       } finally {
         setCompleting(false);
       }
@@ -283,10 +299,10 @@ export default function DoctorAppointmentsPage() {
                   <span>{appointment.patient_age} yrs</span>
                 )}
                 {appointment.patient_gender && (
-                  <span>• {appointment.patient_gender}</span>
+                  <span>| {appointment.patient_gender}</span>
                 )}
                 {appointment.blood_group && (
-                  <span>• {appointment.blood_group}</span>
+                  <span>| {appointment.blood_group}</span>
                 )}
               </div>
             </div>
@@ -316,7 +332,7 @@ export default function DoctorAppointmentsPage() {
                   const at = humanizeAppointmentType(appointmentType)
                   return (
                     <>
-                      <p className="text-sm text-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                      <p className="text-sm text-foreground">{ct}{at ? ` | ${at}` : ''}</p>
                       {appointment.notes && <p className="text-xs text-muted-foreground mt-1">{appointment.notes}</p>}
                     </>
                   )
@@ -445,6 +461,12 @@ export default function DoctorAppointmentsPage() {
           </div>
         </div>
 
+        {actionError ? (
+          <div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            {actionError}
+          </div>
+        ) : null}
+
         {tabMode === 'appointments' ? (
           <div className="space-y-6">
             {/* Top Section: Calendar (1 col) + Upcoming Appointments (1 col) */}
@@ -500,7 +522,7 @@ export default function DoctorAppointmentsPage() {
                                     </p>
                                     <p className="text-xs text-muted-foreground">
                                       {appt.patient_age && `${appt.patient_age} yrs`}
-                                      {appt.patient_gender && ` • ${appt.patient_gender}`}
+                                      {appt.patient_gender && ` | ${appt.patient_gender}`}
                                     </p>
                                   </div>
                                 </div>
