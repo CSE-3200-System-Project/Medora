@@ -38,6 +38,10 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
+      - name: Install Azure Container Apps extension
+        run: |
+          az extension add --name containerapp
+
       - name: Build and push backend image
         id: build-image
         env:
