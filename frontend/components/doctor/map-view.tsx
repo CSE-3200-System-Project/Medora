@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MapPin, Plus, Stethoscope, Navigation, Clock, Route, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
-  Map,
+  Map as MedoraMap,
   MapMarker,
   MarkerContent,
   MarkerPopup,
@@ -14,7 +14,7 @@ import {
   MapControls,
   MapRoute,
   MarkerLabel,
-} from "@/components/ui/map";
+} from "@/components/ui/map-lazy";
 
 interface Doctor {
   profile_id: string;
@@ -66,6 +66,8 @@ interface MapViewProps {
 // Default center (Dhaka, Bangladesh)
 const DEFAULT_CENTER: [number, number] = [90.4125, 23.8103];
 const DEFAULT_ZOOM = 11;
+const ROUTE_CACHE_TTL_MS = 5 * 60 * 1000;
+const routeCache = new Map<string, { data: RouteData[]; ts: number }>();
 
 // Format duration from seconds
 function formatDuration(seconds: number): string {
@@ -85,31 +87,42 @@ function formatDistance(meters: number): string {
 // Fetch routes from OSRM API
 async function fetchRoutes(
   from: { lat: number; lng: number },
-  to: { lat: number; lng: number }
+  to: { lat: number; lng: number },
+  signal?: AbortSignal,
 ): Promise<RouteData[]> {
+  const cacheKey = `${from.lat.toFixed(4)},${from.lng.toFixed(4)}-${to.lat.toFixed(4)},${to.lng.toFixed(4)}`;
+  const cached = routeCache.get(cacheKey);
+  if (cached && Date.now() - cached.ts < ROUTE_CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   try {
     const response = await fetch(
-      `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson&alternatives=true`
+      `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson&alternatives=true`,
+      {
+        signal,
+        cache: "force-cache",
+      },
     );
     
     if (!response.ok) {
-      console.error('OSRM API error:', response.status);
       return [];
     }
     
     const data = await response.json();
     
     if (data.routes && data.routes.length > 0) {
-      return data.routes.map((route: any) => ({
+      const parsed = data.routes.map((route: any) => ({
         coordinates: route.geometry.coordinates,
         duration: route.duration,
         distance: route.distance,
       }));
+      routeCache.set(cacheKey, { data: parsed, ts: Date.now() });
+      return parsed;
     }
     
     return [];
-  } catch (error) {
-    console.error('Route fetching error:', error);
+  } catch {
     return [];
   }
 }
@@ -247,6 +260,7 @@ export function MapView({
   const [routes, setRoutes] = useState<RouteData[]>([]);
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
   const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
+  const [routeError, setRouteError] = useState<string | null>(null);
 
   // Convert doctors to locations (hospital + chamber + generic lat/lng)
   const allLocations: DoctorLocation[] = React.useMemo(() => {
@@ -347,24 +361,29 @@ export function MapView({
   // Handle get directions
   const handleGetDirections = async (location: DoctorLocation) => {
     if (!userLocation) {
-      alert('Please enable location services to get directions');
+      setRouteError("Enable location services to get directions.");
       return;
     }
 
     setIsLoadingRoutes(true);
+    setRouteError(null);
     setSelectedLocation(location);
-    
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 5000);
     const routesData = await fetchRoutes(
       { lat: userLocation.latitude, lng: userLocation.longitude },
-      { lat: location.latitude, lng: location.longitude }
+      { lat: location.latitude, lng: location.longitude },
+      controller.signal,
     );
+    window.clearTimeout(timeoutId);
     
     setRoutes(routesData);
     setSelectedRouteIndex(0);
     setIsLoadingRoutes(false);
     
     if (routesData.length === 0) {
-      alert('Unable to find route. Please try again.');
+      setRouteError("Unable to find a route right now. Please try again.");
     }
   };
 
@@ -373,6 +392,7 @@ export function MapView({
     setRoutes([]);
     setSelectedLocation(null);
     setSelectedRouteIndex(0);
+    setRouteError(null);
   };
 
   // Handle marker click
@@ -403,7 +423,7 @@ export function MapView({
 
   return (
     <div className={`w-full h-full min-h-[400px] rounded-2xl border border-border overflow-hidden relative ${className}`}>
-      <Map center={mapCenter} zoom={DEFAULT_ZOOM}>
+      <MedoraMap center={mapCenter} zoom={DEFAULT_ZOOM}>
         <MapControls
           position="bottom-right"
           showZoom
@@ -446,7 +466,7 @@ export function MapView({
         )}
 
         {/* Doctor location markers */}
-        {allLocations.map((location, idx) => {
+        {allLocations.map((location) => {
           const isSelected = selectedLocation?.doctor.profile_id === location.doctor.profile_id &&
                             selectedLocation?.type === location.type;
           const uniqueKey = `${location.doctor.profile_id}-${location.type}`;
@@ -495,7 +515,7 @@ export function MapView({
             </MarkerContent>
           </MapMarker>
         )}
-      </Map>
+      </MedoraMap>
 
       {/* Route selection panel */}
       {routes.length > 0 && (
@@ -566,6 +586,12 @@ export function MapView({
             {allLocations.length}
           </span>
           {' '}location{allLocations.length !== 1 ? 's' : ''} shown
+        </div>
+      )}
+
+      {routeError && (
+        <div className="absolute bottom-3 left-3 max-w-[300px] rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 shadow-sm">
+          {routeError}
         </div>
       )}
     </div>

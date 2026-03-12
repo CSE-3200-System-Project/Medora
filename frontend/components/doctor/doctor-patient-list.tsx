@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Calendar, Clock, Phone, Mail, CheckCircle2 } from "lucide-react";
@@ -112,10 +113,13 @@ export function DoctorPatientList() {
               {/* Avatar */}
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                 {patient.photo_url ? (
-                  <img 
-                    src={patient.photo_url} 
-                    alt="" 
+                  <Image
+                    src={patient.photo_url}
+                    alt={`${patient.first_name} ${patient.last_name}`}
+                    width={48}
+                    height={48}
                     className="w-12 h-12 rounded-full object-cover"
+                    unoptimized
                   />
                 ) : (
                   <User className="w-6 h-6 text-primary" />

@@ -1,0 +1,11 @@
+{
+  "regressionThresholdPercent": 10,
+  "metrics": {
+    "totalClientJsBytes": 2406944,
+    "largestClientChunkBytes": 993154,
+    "frameworkBundleBytes": 189706,
+    "mainBundleBytes": 139831,
+    "mainAppBundleBytes": 1495,
+    "polyfillsBundleBytes": 112594
+  }
+}

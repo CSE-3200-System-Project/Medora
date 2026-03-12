@@ -105,15 +105,6 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
   const [loading, setLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // Fetch notifications on mount and periodically
-  React.useEffect(() => {
-    fetchUnreadCount();
-    
-    // Poll for new notifications every 30 seconds
-    const interval = setInterval(fetchUnreadCount, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Fetch full notifications when dropdown opens
   React.useEffect(() => {
     if (isOpen) {
@@ -121,10 +112,44 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
     }
   }, [isOpen]);
 
-  const fetchUnreadCount = async () => {
+  const fetchUnreadCount = React.useCallback(async () => {
     const count = await getUnreadCount();
     setUnreadCount(count);
-  };
+  }, []);
+
+  // Visibility-aware polling with adaptive cadence.
+  React.useEffect(() => {
+    let timeoutId: number | null = null;
+    let disposed = false;
+
+    const poll = async () => {
+      if (disposed) return;
+
+      if (document.visibilityState === "visible" || isOpen) {
+        await fetchUnreadCount();
+      }
+
+      const nextIntervalMs = document.visibilityState === "visible" ? 30_000 : 120_000;
+      timeoutId = window.setTimeout(poll, nextIntervalMs);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        fetchUnreadCount();
+      }
+    };
+
+    poll();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      disposed = true;
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [fetchUnreadCount, isOpen]);
 
   const fetchNotifications = async () => {
     setLoading(true);

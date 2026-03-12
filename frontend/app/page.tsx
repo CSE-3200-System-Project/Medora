@@ -1,15 +1,11 @@
-"use client";
-
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import {
   Activity,
   ArrowRight,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   Clock,
   FileText,
   Shield,
@@ -18,176 +14,39 @@ import {
 } from "lucide-react";
 
 import { AppBackground } from "@/components/ui/app-background";
-import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { fetchWithAuth } from "@/lib/auth-utils";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 
-type Slide = {
-  id: "patient" | "doctor";
-  badge: string;
-  title: string;
-  accent: string;
-  description: string;
-  primaryLabel: string;
-  secondaryLabel: string;
-  primaryHref: string;
-  secondaryHref: string;
-  image: typeof patientImg;
-  imageAlt: string;
-};
+const Navbar = dynamic(
+  () => import("@/components/ui/navbar").then((mod) => mod.Navbar),
+  {
+    loading: () => <div className="mx-auto h-16 w-full max-w-7xl rounded-2xl border border-border/70 bg-background/75 shadow-surface" />,
+  }
+);
 
-const HERO_SLIDES: Slide[] = [
+const AuthRedirectGate = dynamic(
+  () => import("@/components/landing/auth-redirect").then((mod) => mod.AuthRedirectGate)
+);
+
+const HeroCarousel = dynamic(
+  () => import("@/components/landing/hero-carousel").then((mod) => mod.HeroCarousel),
   {
-    id: "patient",
-    badge: "For Patients",
-    title: "Take control of your health",
-    accent: "clearly, safely, and over time",
-    description:
-      "Keep your records organized, track conditions and medication, and share accurate context with doctors when needed.",
-    primaryLabel: "Create Patient Account",
-    secondaryLabel: "Explore how it works",
-    primaryHref: "/selection",
-    secondaryHref: "#how-it-works",
-    image: patientImg,
-    imageAlt: "Patient consultation",
-  },
-  {
-    id: "doctor",
-    badge: "For Doctors",
-    title: "Practice with complete context",
-    accent: "not fragmented information",
-    description:
-      "Review structured patient history faster, reduce repetitive intake questions, and focus your time on decisions.",
-    primaryLabel: "Create Doctor Account",
-    secondaryLabel: "See doctor features",
-    primaryHref: "/selection",
-    secondaryHref: "#for-doctors",
-    image: doctorImg,
-    imageAlt: "Doctor examining patient",
-  },
-];
+    loading: () => <CardSkeleton className="min-h-90" />,
+  }
+);
 
 export default function Home() {
-  const router = useRouter();
-  const [slideIndex, setSlideIndex] = useState(0);
-
-  useEffect(() => {
-    async function checkAuthAndRedirect() {
-      try {
-        const response = await fetchWithAuth("/api/auth/me");
-        if (!response?.ok) {
-          return;
-        }
-
-        const user = await response.json();
-        const role = user?.role?.toLowerCase();
-
-        if (role === "admin") {
-          router.push("/admin");
-        } else if (role === "doctor") {
-          router.push("/doctor/home");
-        } else if (role === "patient") {
-          router.push("/patient/home");
-        }
-      } catch {
-        // Unauthenticated users stay on landing page.
-      }
-    }
-
-    checkAuthAndRedirect();
-  }, [router]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const activeSlide = useMemo(() => HERO_SLIDES[slideIndex], [slideIndex]);
-
-  const previousSlide = () => {
-    setSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
-
   return (
-    <AppBackground className="min-h-screen">
+    <AppBackground className="min-h-dvh min-h-app">
+      <AuthRedirectGate />
       <Navbar />
 
       <main className="mx-auto max-w-7xl page-content pt-28 md:pt-32 pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
-        <section className="rounded-3xl border border-border/70 bg-card/95 shadow-[0_24px_50px_-35px_rgba(3,96,217,0.85)] overflow-hidden">
-          <div className="grid lg:grid-cols-12">
-            <div className="lg:col-span-6 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-gradient-to-b from-background/85 via-card/70 to-card/95">
-              <span className="mb-4 inline-flex w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                {activeSlide.badge}
-              </span>
-
-              <h1 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight leading-tight">
-                {activeSlide.title}
-                <span className="mt-2 block text-primary">{activeSlide.accent}</span>
-              </h1>
-
-              <p className="mt-5 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-                {activeSlide.description}
-              </p>
-
-              <div className="mt-8 button-row">
-                <Button size="lg" asChild className="w-full sm:w-auto px-7">
-                  <Link href={activeSlide.primaryHref}>{activeSlide.primaryLabel}</Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild className="w-full sm:w-auto px-7 border-border/70 bg-background/55">
-                  <Link href={activeSlide.secondaryHref}>{activeSlide.secondaryLabel}</Link>
-                </Button>
-              </div>
-
-              <div className="mt-8 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={previousSlide}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/70 text-foreground hover:bg-accent"
-                  aria-label="Previous slide"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={nextSlide}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/70 text-foreground hover:bg-accent"
-                  aria-label="Next slide"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-                <div className="ml-2 flex gap-2">
-                  {HERO_SLIDES.map((slide, index) => (
-                    <button
-                      type="button"
-                      key={slide.id}
-                      onClick={() => setSlideIndex(index)}
-                      className={`h-2 rounded-full transition-all ${
-                        index === slideIndex ? "w-8 bg-primary" : "w-2 bg-primary/35"
-                      }`}
-                      aria-label={`Show ${slide.badge}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 relative min-h-[280px] sm:min-h-[340px] lg:min-h-[560px] border-t lg:border-t-0 lg:border-l border-border/70">
-              <Image src={activeSlide.image} alt={activeSlide.imageAlt} fill className="object-cover" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-transparent" />
-            </div>
-          </div>
-        </section>
+        <HeroCarousel />
 
         <section className="space-y-8">
           <div className="text-center space-y-3 max-w-3xl mx-auto">
@@ -251,9 +110,9 @@ export default function Home() {
         </section>
 
         <section id="for-patients" className="scroll-mt-28 grid gap-8 lg:grid-cols-2 items-center">
-          <div className="relative h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={patientImg} alt="Patient experience" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I no longer need to repeat my full history every time.
               </p>
@@ -295,9 +154,9 @@ export default function Home() {
               <Link href="/selection">Start as a Doctor</Link>
             </Button>
           </div>
-          <div className="relative h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={doctorImg} alt="Doctor experience" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I can focus on decisions, not searching for missing records.
               </p>
@@ -328,7 +187,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
+        <section className="rounded-3xl border border-primary/30 bg-linear-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
           <div className="px-6 py-10 md:px-10 md:py-14 text-center">
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight">Build better care with shared context</h2>
             <p className="mt-3 text-primary-foreground/90 text-sm md:text-base">
@@ -361,7 +220,7 @@ export default function Home() {
           <FooterColumn title="Contact" links={["Support", "Contact Us"]} />
         </div>
         <div className="border-t border-border/60 py-5 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Medora. All rights reserved.
+          (c) {new Date().getFullYear()} Medora. All rights reserved.
         </div>
       </footer>
     </AppBackground>
