@@ -1,3 +1,125 @@
+# Admin Panel Responsive Pass (2026-03-13)
+
+## Status: completed
+
+### Todo
+- [x] Make admin dashboard stats stack vertically on small/mobile-first breakpoints
+- [x] Collapse admin list filters into dropdown controls on mobile/tablet breakpoints
+- [x] Add desktop table views with scroll container and keep card views for mobile on doctors/patients/appointments/users
+- [x] Ensure admin action buttons wrap and remain touch-accessible on small screens
+- [x] Improve schedule-review action/control layout for mobile and tablet
+
+### Review
+- Updated `/admin` stats grid to stack in one column until desktop breakpoints and improved quick-action label wrapping.
+- Updated `/admin/doctors`, `/admin/appointments`, and `/admin/users` filter UIs to use dropdown on small screens and chips on large screens.
+- Added responsive table + card dual rendering for `/admin/doctors`, `/admin/patients`, `/admin/appointments`, and `/admin/users`:
+   - Mobile/tablet: card-first view for easier scanning and tap interactions.
+   - Desktop: scroll-container tables for denser management workflows.
+- Improved action buttons across admin cards to wrap cleanly and maintain tap-friendly sizing.
+- Updated `/admin/schedule-review` controls and row actions to stack/wrap correctly for mobile/tablet.
+
+# Mobile-First Design System Refactor (2026-03-13)
+
+## Status: pending verification
+
+### Plan
+- Establish shared responsive primitives first so page-level refactors reuse one container, grid, card, and stack system instead of duplicating layout rules.
+- Add global responsive utility classes for safe containers, text truncation, touch targets, and overflow prevention in `frontend/app/globals.css`.
+- Refactor high-traffic shells and layout-heavy screens to the mobile-first breakpoint hierarchy (`base`, `sm`, `md`, `lg`, `xl`, `2xl`) and remove fixed layout dimensions where practical.
+- Audit remaining frontend pages/components for fixed widths, fixed heights, overflow risks, and horizontal scrolling, then apply focused fixes instead of broad restyling.
+- Validate changed frontend files and document any remaining repo-wide responsive risks that are outside the touched scope.
+
+### Todo
+- [x] Create reusable responsive wrappers: `ResponsiveContainer`, `ResponsiveGrid`, `ResponsiveCard`, `ResponsiveStack`
+- [x] Add shared utility classes for mobile-first containers, overflow guards, ellipsis, break-words, and touch-friendly targets
+- [x] Refactor top-level page shells and dashboard-style layouts to use the new container pattern `max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8`
+- [x] Replace fixed width/height layout constraints in core screens with fluid `grid`, `flex`, `min-h`, `max-w`, and aspect-ratio patterns
+- [x] Standardize card/list grids to `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4` where card collections are used
+- [x] Fix overflow and horizontal scroll hotspots by applying `min-w-0`, `overflow-hidden`, `text-ellipsis`, and `break-words`
+- [x] Ensure interactive controls and quick actions meet the 44px minimum touch target using mobile-safe height and padding
+- [x] Run targeted diagnostics on changed files and add a review summary with residual risks
+
+### Review
+- **Responsive Primitives Created**: Built `ResponsiveContainer` (with standardized padding), `ResponsiveGrid` (6 layout patterns), `ResponsiveCard` (adaptive padding + touch targets), and `ResponsiveStack` (direction-aware flex layouts) with mobile-first breakpoint support.
+- **Global Utilities Added**: Extended `globals.css` with overflow protection (`.overflow-safe`, `.no-scrollbar`), touch targets (`.touch-target`, `.touch-target-row`), responsive containers (`.container-responsive`), and mobile text truncation helpers.
+- **Page Shell Migration**: Refactored admin dashboard from `max-w-400` to `ResponsiveContainer` and standardized its grid patterns. AdminDashboard now uses quarters/half grid patterns instead of manual breakpoints.
+- **Fixed Dimension Cleanup**: Replaced sticky map `h-[calc(100vh-8rem)]` with `min-h-[75vh] max-h-[calc(100vh-8rem)]` for better mobile behavior. Improved previously visited doctors section to prevent horizontal scrolling.
+- **Grid Standardization**: Converted overflow-x-auto horizontal scrollers in prescriptions, reminders, and appointment booking to responsive grid layouts that stack properly on mobile.
+- **Overflow Protection**: Fixed horizontal scroll issues in cards/lists by replacing `flex gap overflow-x-auto` with `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` patterns.
+- **Touch Target Compliance**: Added `.touch-target` class to navbar buttons and admin dashboard quick actions to ensure 44px minimum touch surfaces.
+- **Validation Results**: All new responsive components pass TypeScript checking. No errors in changed files. New components provide consistent mobile-first patterns for future frontend development.
+
+**Remaining responsive risks outside this scope**: Auth forms may need responsive refinement + some onboarding wizard steps could benefit from ResponsiveGrid adoption. Landing page hero carousel could use aspect-ratio instead of fixed heights. These are candidates for future responsive iterations.
+
+---
+
+# Doctor Interface Mobile-First Responsive Design (2026-03-13)
+
+## Status: pending verification
+
+### Plan
+Implement comprehensive mobile-first responsive design for the doctor interface area, ensuring optimal user experience across phones, tablets, and desktop devices. Focus on appointment management, consultation workflows, prescription handling, patient records, and voice input functionality.
+
+### Key Responsive Improvements Needed:
+1. **Appointment Dashboard**: Convert to responsive grid system (`grid-cols-1 md:grid-cols-2 xl:grid-cols-3`) 
+2. **Consultation Screen**: Implement adaptive layout (side-by-side desktop, stacked mobile)
+3. **Prescription Editor**: Optimize medication entry fields for mobile with proper wrapping
+4. **Patient Records**: Transform wide data tables into stacked cards on mobile
+5. **Voice Input**: Ensure voice controls work effectively on small screens
+
+### Todo
+- [ ] **Audit existing appointment dashboard responsive structure**
+  - Analyze `home-doctor-appointments-client.tsx` current grid system
+  - Check appointment cards and filtering UI mobile behavior
+  - Identify layout breakpoints and overflow issues
+
+- [ ] **Implement responsive appointment dashboard grid**
+  - Apply `grid-cols-1 md:grid-cols-2 xl:grid-cols-3` to appointment cards
+  - Optimize appointment calendar for mobile viewing
+  - Ensure filter controls stack properly on smaller screens
+  - Fix any horizontal scroll issues in appointment lists
+
+- [ ] **Transform consultation screen layout**
+  - Modify `home-doctor-patient-id-consultation-client.tsx` for adaptive layout
+  - Desktop: maintain side-by-side patient info & prescription sections
+  - Mobile: stack sections - patient info → symptoms → prescription → notes
+  - Ensure consultation form fields are touch-friendly
+
+- [ ] **Optimize prescription editor for mobile**
+  - Update `MedicationForm.tsx` medication entry fields with proper wrapping
+  - Ensure `TestForm.tsx` and `SurgeryForm.tsx` are finger-friendly
+  - Improve prescription tabs UI for smaller screens
+  - Test medication search autocomplete on mobile devices
+
+- [ ] **Redesign patient record page for mobile**
+  - Convert wide data tables in `home-doctor-patient-id-client.tsx` to stacked cards
+  - Implement responsive patient info display
+  - Optimize medical history sections for mobile viewing
+  - Ensure appointment history is mobile-readable
+
+- [ ] **Enhance voice input UI for small screens**
+  - Optimize `voice-input-button.tsx` for touch interfaces
+  - Ensure voice transcription review UI works on mobile
+  - Test voice controls in different mobile orientations
+  - Add proper touch targets for voice functionality
+
+- [ ] **Implement responsive navigation and controls**
+  - Optimize doctor navbar for mobile devices
+  - Ensure all touch targets meet 44px minimum
+  - Test patient navigation and quick actions on mobile
+  - Verify appointment booking flows work on phones
+
+- [ ] **Validate and test full doctor interface**
+  - Test complete doctor workflow on mobile devices
+  - Verify all forms are usable with touch keyboards
+  - Check for horizontal scrolling issues
+  - Ensure all critical functions work on tablets and phones
+
+### Review
+*TBD - Will be populated after implementation*
+
+---
+
 # Fix Supabase JWT Login Verification (2026-03-12)
 
 ## Status: completed
@@ -136,6 +258,32 @@
 - Implemented a polished, primary dark/light theme control with instant switching and additional mode buttons (light/dark/system).
 - Added functional settings groups with persistence in localStorage:
    - Notifications (in-app, push with permission request, email, SMS, appointment, medication, lab, prescription, care tips)
+
+---
+
+# Phase 8-10 Mobile Hardware + Performance + UI Polish (2026-03-13)
+
+## Status: completed
+
+### Todo
+- [x] Add global mobile hardware support primitives (`100dvh`, safe-area, keyboard-aware viewport sizing)
+- [x] Improve touch ergonomics for swipe/pan interactions and mobile focus behavior
+- [x] Reduce mobile bundle cost with targeted dynamic imports for heavy/interactive sections
+- [x] Gate non-essential animations on mobile and reduced-motion contexts
+- [x] Standardize shared spacing and shadow primitives in UI building blocks
+- [x] Add reusable skeleton loaders for cards, tables, and forms
+- [x] Improve a11y baseline (ARIA labels, keyboard navigation affordances, focus-visible consistency)
+- [x] Run targeted diagnostics for touched frontend files and summarize residual risks
+
+### Review
+- Added global hardware-safe viewport handling using `MobileViewportFix` (`visualViewport`) and CSS variables (`--app-vh`, `--keyboard-inset-height`) to keep layout stable on small phones, modern phones, tablets, and large desktops.
+- Applied safe-area + dynamic viewport protections in the app shell (`layout.tsx`) and shared background container (`AppBackground`) with `min-h-dvh`/`min-h-app` and keyboard-safe bottom padding.
+- Added touch-friendly gesture support and ergonomics: swipe navigation in `HeroCarousel`, horizontal pan behavior for table containers via `touch-pan-x`, and improved focus-visible behavior in interactive controls.
+- Reduced initial landing-page client bundle by lazy-loading `Navbar`, `AuthRedirectGate`, and `HeroCarousel` via `next/dynamic` with lightweight skeleton fallbacks.
+- Added reusable skeleton loading primitives (`CardSkeleton`, `TableSkeleton`, `FormSkeleton`) and wired `FormSkeleton` into auth login suspense fallback.
+- Standardized visual polish with shared shadow utilities (`shadow-surface`, `shadow-surface-strong`) and spacing helpers aligned to `p-4`/`p-6`/`p-8` usage.
+- Performance-conscious motion updates: disabled non-essential page/stagger entry animations on small screens and reduced ambient background animation overhead on mobile.
+- Validation: all touched Phase 8-10 files report clean diagnostics. Residual risk is broader repo-wide responsive/performance consistency in untouched pages.
    - Healthcare preferences (preferred language, emergency contact details, reminder toggles)
    - Privacy/security and app behavior (biometric lock, auto-lock timeout, access sharing, sensitive notification hiding, compact mode, large text, reduce motion, start page)
 - Validation: changed files are error-free via diagnostics; broader frontend diagnostics show pre-existing Tailwind class-style suggestions in unrelated files.

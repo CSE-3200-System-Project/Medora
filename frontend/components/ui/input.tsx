@@ -10,9 +10,9 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       className={cn(
         // Base styles with mobile-first sizing (44px min touch target)
         "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input",
-        "h-11 min-h-[44px] w-full min-w-0 rounded-lg border bg-transparent px-3 py-2",
-        // Typography
-        "text-base md:text-sm",
+        "h-10 sm:h-11 min-h-[44px] w-full min-w-0 rounded-lg border bg-transparent px-3 sm:px-4 py-2",
+        // Typography with responsive sizing
+        "text-base sm:text-sm break-words",
         // Transitions
         "shadow-xs transition-[color,box-shadow,border-color] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] outline-none",
         // File input styles

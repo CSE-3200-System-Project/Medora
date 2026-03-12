@@ -69,24 +69,24 @@ export function AdminScheduleReviewClient() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex gap-2">
-                <Input placeholder="Admin password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Button onClick={fetchList} disabled={!password || loading}>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Input placeholder="Admin password" value={password} onChange={(e) => setPassword(e.target.value)} className="h-11" />
+                <Button onClick={fetchList} disabled={!password || loading} className="w-full sm:w-auto min-h-11">
                   {loading ? "Loading..." : "Fetch"}
                 </Button>
               </div>
 
               <div className="space-y-2">
                 {doctors.map((d) => (
-                  <div key={d.profile_id} className="p-3 border rounded-lg flex items-center justify-between">
-                    <div>
+                  <div key={d.profile_id} className="p-3 border rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="min-w-0">
                       <div className="font-medium">{d.name}</div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-muted-foreground wrap-break-word">
                         {d.email} - {d.time_slots || "No time_slots"}
                       </div>
                     </div>
-                    <div>
-                      <Button variant="outline" onClick={() => setSelected(d)}>
+                    <div className="w-full sm:w-auto">
+                      <Button variant="outline" onClick={() => setSelected(d)} className="w-full sm:w-auto min-h-11">
                         Open
                       </Button>
                     </div>
@@ -102,11 +102,11 @@ export function AdminScheduleReviewClient() {
                     value={selected.normalized_time_slots || ""}
                     onChange={(e) => setSelected({ ...selected, normalized_time_slots: e.target.value })}
                   />
-                  <div className="mt-3 flex gap-2">
-                    <Button onClick={applyFix} disabled={saving}>
+                  <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                    <Button onClick={applyFix} disabled={saving} className="w-full sm:w-auto min-h-11">
                       {saving ? "Applying..." : "Apply Fix"}
                     </Button>
-                    <Button variant="ghost" onClick={() => setSelected(null)}>
+                    <Button variant="ghost" onClick={() => setSelected(null)} className="w-full sm:w-auto min-h-11">
                       Close
                     </Button>
                   </div>

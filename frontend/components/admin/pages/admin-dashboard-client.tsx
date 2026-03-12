@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ResponsiveContainer } from "@/components/ui/responsive-container";
+import { ResponsiveGrid } from "@/components/ui/responsive-grid";
 import {
   Users,
   UserCog,
@@ -40,13 +42,14 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-          <p className="text-slate-400">Platform overview and statistics</p>
-        </div>
+      <main>
+        <ResponsiveContainer className="py-4 sm:py-6">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
+            <p className="text-slate-400">Platform overview and statistics</p>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
+          <ResponsiveGrid pattern="custom" gap="md" className="mb-6 sm:mb-8 grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           <StatCard
             title="Total Users"
             value={stats?.total_users || 0}
@@ -75,9 +78,9 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
             trend={`${stats?.confirmed_appointments || 0} confirmed`}
             color="bg-gradient-to-br from-orange-500 to-orange-600"
           />
-        </div>
+          </ResponsiveGrid>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <ResponsiveGrid pattern="half" gap="lg" className="mb-6 sm:mb-8">
           <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
@@ -142,18 +145,18 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
               />
             </CardContent>
           </Card>
-        </div>
+          </ResponsiveGrid>
 
-        <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur">
-          <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary-light" />
-              Quick Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              <QuickActionButton
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary-light" />
+                Quick Actions
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveGrid pattern="quarters" gap="sm">
+                <QuickActionButton
                 label="Review Pending Doctors"
                 count={stats?.pending_doctors || 0}
                 href="/admin/doctors?tab=pending"
@@ -173,9 +176,10 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
                 count={stats?.total_appointments || 0}
                 href="/admin/appointments"
               />
-            </div>
-          </CardContent>
-        </Card>
+              </ResponsiveGrid>
+            </CardContent>
+          </Card>
+        </ResponsiveContainer>
       </main>
     </div>
   );
@@ -257,9 +261,9 @@ function QuickActionButton({
   return (
     <Link
       href={href}
-      className="block p-3 sm:p-4 rounded-lg bg-slate-900/50 border border-slate-700/50 hover:bg-slate-900/80 hover:border-primary/50 transition-all text-left group"
+      className="block min-h-11 p-3 sm:p-4 rounded-lg bg-slate-900/50 border border-slate-700/50 hover:bg-slate-900/80 hover:border-primary/50 transition-all text-left group touch-target"
     >
-      <p className="text-slate-400 text-xs sm:text-sm mb-1.5 sm:mb-2 group-hover:text-primary-light transition-colors truncate">{label}</p>
+      <p className="text-slate-400 text-xs sm:text-sm mb-1.5 sm:mb-2 group-hover:text-primary-light transition-colors whitespace-normal wrap-break-word">{label}</p>
       <p className="text-white text-xl sm:text-2xl font-bold">{count}</p>
     </Link>
   );

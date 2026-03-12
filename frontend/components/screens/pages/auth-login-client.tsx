@@ -21,6 +21,7 @@ import {
 import { login, getCurrentUser } from "@/lib/auth-actions";
 import { setAdminAccess } from "@/lib/admin-actions";
 import { AppBackground } from "@/components/ui/app-background";
+import { FormSkeleton } from "@/components/ui/skeleton-loaders";
 
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
@@ -126,14 +127,14 @@ function LoginPageContent() {
       {/* Admin Access Button */}
       <button
         onClick={() => setShowAdminDialog(true)}
-        className="fixed top-4 right-4 p-3 bg-gradient-to-br from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 rounded-full shadow-lg border border-slate-700/50 transition-all hover:scale-105 group z-50"
+        className="fixed top-4 right-4 p-3 bg-linear-to-br from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 rounded-full shadow-lg border border-slate-700/50 transition-all hover:scale-105 group z-50"
         aria-label="Admin Access"
       >
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
       </button>
 
-      <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
-        <div className="flex flex-col lg:flex-row min-h-[600px]">
+      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
+        <div className="flex flex-col lg:flex-row min-h-150">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
@@ -201,7 +202,7 @@ function LoginPageContent() {
 
               {showVerifiedMessage && (
                 <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 shrink-0" />
                   <div className="flex-1">
                     <p className="text-sm font-medium">Email Verified Successfully!</p>
                     <p className="text-xs text-success-muted/80 mt-1">You can now login to your account</p>
@@ -209,10 +210,10 @@ function LoginPageContent() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
-                  <Input name="email" id="email" type="email" placeholder="name@example.com" required />
+                  <Input name="email" id="email" type="email" placeholder="name@example.com" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
@@ -226,7 +227,7 @@ function LoginPageContent() {
                       type={showPassword ? "text" : "password"} 
                       placeholder="••••••••" 
                       required 
-                      className="pr-10"
+                      className="w-full pr-10"
                     />
                     <button
                       type="button"
@@ -269,7 +270,7 @@ function LoginPageContent() {
 
       {/* Admin Access Dialog */}
       <Dialog open={showAdminDialog} onOpenChange={setShowAdminDialog}>
-        <DialogContent className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 text-white sm:max-w-md">
+        <DialogContent className="bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 text-white sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-xl">
               <div className="p-2 bg-primary/20 rounded-lg">
@@ -327,7 +328,7 @@ function LoginPageContent() {
             </Button>
             <Button
               onClick={handleAdminAccess}
-              className="bg-gradient-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
+              className="bg-linear-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
             >
               Enter admin panel
             </Button>
@@ -340,7 +341,13 @@ function LoginPageContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<AppBackground className="min-h-screen flex items-center justify-center"><div className="animate-pulse text-primary">Loading...</div></AppBackground>}>
+    <Suspense
+      fallback={
+        <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 md:p-6 lg:p-8">
+          <FormSkeleton className="w-full max-w-md" />
+        </AppBackground>
+      }
+    >
       <LoginPageContent />
     </Suspense>
   );

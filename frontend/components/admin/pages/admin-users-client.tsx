@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select-native";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
 import { User, Mail, Phone, Search, Ban, Unlock, UserCog } from "lucide-react";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { banUser, unbanUser } from "@/lib/admin-actions";
@@ -106,7 +108,26 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
             />
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="lg:hidden">
+            <Select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              aria-label="Filter users by account status"
+            >
+              {[
+                { value: "all", count: allUsers.length },
+                { value: "active", count: activeCount },
+                { value: "banned", count: bannedCount },
+              ].map((status) => (
+                <option key={status.value} value={status.value}>
+                  {status.value.charAt(0).toUpperCase() + status.value.slice(1)} ({status.count})
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="hidden lg:flex flex-wrap gap-2">
             {["all", "active", "banned"].map((status) => (
               <Button
                 key={status}
@@ -130,7 +151,8 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:hidden">
             {filteredUsers.map((user) => (
               <Card key={user.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
                 <CardContent className="p-4 sm:p-6">
@@ -174,14 +196,14 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                     {user.blood_group && <p className="text-slate-400">Blood: {user.blood_group}</p>}
                   </div>
 
-                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 sm:justify-between">
+                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
                     {user.account_status === "banned" ? (
                       <>
                         <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
                           <Ban className="h-3 w-3 mr-1" />
                           Banned
                         </Badge>
-                        <Button size="sm" onClick={() => handleUnban(user)} className="bg-green-600 hover:bg-green-700">
+                        <Button size="sm" onClick={() => handleUnban(user)} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
                           <Unlock className="h-4 w-4 mr-1" />
                           Unban
                         </Button>
@@ -193,7 +215,7 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                           size="sm"
                           variant="outline"
                           onClick={() => handleBan(user)}
-                          className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                          className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10"
                         >
                           <Ban className="h-4 w-4 mr-1" />
                           Ban
@@ -205,6 +227,78 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
               </Card>
             ))}
           </div>
+
+          <div className="hidden lg:block">
+            <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+              <Table>
+                <TableHeader className="bg-slate-800/60 border-slate-600/50">
+                  <TableRow className="border-slate-600/50 hover:bg-transparent">
+                    <TableHead className="text-slate-300">User</TableHead>
+                    <TableHead className="text-slate-300">Role</TableHead>
+                    <TableHead className="text-slate-300">Contact</TableHead>
+                    <TableHead className="text-slate-300">Details</TableHead>
+                    <TableHead className="text-slate-300">Status</TableHead>
+                    <TableHead className="text-right text-slate-300">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredUsers.map((user) => (
+                    <TableRow key={user.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                      <TableCell>
+                        <p className="text-white font-medium">{user.name}</p>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          className={
+                            user.role === "doctor"
+                              ? "bg-blue-500/20 text-blue-400 border-blue-500/30"
+                              : "bg-purple-500/20 text-purple-400 border-purple-500/30"
+                          }
+                        >
+                          {user.role}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <p className="text-slate-200 wrap-break-word">{user.email}</p>
+                        {user.phone && <p className="text-xs text-slate-400">{user.phone}</p>}
+                      </TableCell>
+                      <TableCell className="text-slate-300">
+                        {user.specialization && <p>Specialization: {user.specialization}</p>}
+                        {user.blood_group && <p>Blood: {user.blood_group}</p>}
+                        {!user.specialization && !user.blood_group && <p>N/A</p>}
+                      </TableCell>
+                      <TableCell>
+                        {user.account_status === "banned" ? (
+                          <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Banned</Badge>
+                        ) : (
+                          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex flex-wrap justify-end gap-2">
+                          {user.account_status === "banned" ? (
+                            <Button size="sm" onClick={() => handleUnban(user)} className="bg-green-600 hover:bg-green-700">
+                              Unban
+                            </Button>
+                          ) : (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleBan(user)}
+                              className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                            >
+                              Ban
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableScrollContainer>
+          </div>
+          </>
         )}
 
         <ConfirmationDialog

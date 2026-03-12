@@ -4,6 +4,7 @@ import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { PWARegistration } from "@/components/pwa-registration";
+import { MobileViewportFix } from "@/components/ui/mobile-viewport-fix";
 
 const APP_NAME = "Medora";
 const APP_DESCRIPTION = "AI-assisted healthcare platform for Bangladesh";
@@ -51,10 +52,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={sfProDisplay.variable} suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
+        <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SmoothScrollProvider>
-            {children}
+            <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
+              {children}
+            </div>
           </SmoothScrollProvider>
         </ThemeProvider>
         <PWARegistration />

@@ -144,45 +144,91 @@ export default async function PatientHomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 md:mb-8 stagger-enter">
-          <Card hoverable className="border-border/70 bg-card/95">
-            <CardContent>
-              <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-primary/10 rounded-xl">
-                  <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+        {/* Stats Cards - Horizontal scroll on mobile, grid on larger screens */}
+        <div className="mb-6 md:mb-8 stagger-enter">
+          {/* Mobile: Horizontal scroll */}
+          <div className="flex gap-4 overflow-x-auto pb-2 sm:hidden">
+            <Card hoverable className="border-border/70 bg-card/95 min-w-[280px] flex-shrink-0">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 bg-primary/10 rounded-xl">
+                    <CalendarCheck className="w-5 h-5 text-primary" />
+                  </div>
+                  <TrendingUp className="w-4 h-4 text-success" />
                 </div>
-                <TrendingUp className="w-4 h-4 text-success" />
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{stats.upcoming}</h3>
-              <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
-            </CardContent>
-          </Card>
+                <h3 className="text-2xl font-bold text-foreground mb-1">{stats.upcoming}</h3>
+                <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
+              </CardContent>
+            </Card>
 
-          <Card hoverable className="border-border/70 bg-card/95">
-            <CardContent>
-              <div className="flex items-start justify-between mb-4">
-                <div className="p-3 rounded-xl bg-amber-100/80 dark:bg-amber-500/15">
-                  <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 dark:text-amber-300" />
+            <Card hoverable className="border-border/70 bg-card/95 min-w-[280px] flex-shrink-0">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 rounded-xl bg-amber-100/80 dark:bg-amber-500/15">
+                    <Clock className="w-5 h-5 text-amber-700 dark:text-amber-300" />
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{stats.pending}</h3>
-              <p className="text-sm text-muted-foreground">Pending Confirmations</p>
-            </CardContent>
-          </Card>
+                <h3 className="text-2xl font-bold text-foreground mb-1">{stats.pending}</h3>
+                <p className="text-sm text-muted-foreground">Pending Confirmations</p>
+              </CardContent>
+            </Card>
 
-          <Card hoverable className="border-border/70 bg-card/95 sm:col-span-2 lg:col-span-1">
-            <CardContent>
-              <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-success/10 rounded-xl">
-                  <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-success" />
+            <Card hoverable className="border-border/70 bg-card/95 min-w-[280px] flex-shrink-0">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 bg-success/10 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 text-success" />
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
-                {stats.completed}
-              </h3>
-              <p className="text-sm text-muted-foreground">Completed Visits</p>
-            </CardContent>
-          </Card>
+                <h3 className="text-2xl font-bold text-foreground mb-1">
+                  {stats.completed}
+                </h3>
+                <p className="text-sm text-muted-foreground">Completed Visits</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Desktop: Grid layout */}
+          <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-4">
+            <Card hoverable className="border-border/70 bg-card/95">
+              <CardContent>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 bg-primary/10 rounded-xl">
+                    <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                  </div>
+                  <TrendingUp className="w-4 h-4 text-success" />
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{stats.upcoming}</h3>
+                <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
+              </CardContent>
+            </Card>
+
+            <Card hoverable className="border-border/70 bg-card/95">
+              <CardContent>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 rounded-xl bg-amber-100/80 dark:bg-amber-500/15">
+                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-amber-700 dark:text-amber-300" />
+                  </div>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{stats.pending}</h3>
+                <p className="text-sm text-muted-foreground">Pending Confirmations</p>
+              </CardContent>
+            </Card>
+
+            <Card hoverable className="border-border/70 bg-card/95 lg:col-span-1 sm:col-span-2 lg:col-span-1">
+              <CardContent>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 bg-success/10 rounded-xl">
+                    <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-success" />
+                  </div>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
+                  {stats.completed}
+                </h3>
+                <p className="text-sm text-muted-foreground">Completed Visits</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {prescriptions.length > 0 ? (
@@ -212,21 +258,22 @@ export default async function PatientHomePage() {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {/* Enhanced mobile scroll for prescription cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-full overflow-hidden">
                 {prescriptions.map((prescription) => (
                   <Link key={prescription.id} href={`/patient/prescriptions/${prescription.id}`}>
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow bg-background/85 border-border/70">
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow bg-background/85 border-border/70 w-full max-w-full">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3 mb-3">
-                          <div className="p-2 bg-primary/10 rounded-lg">
+                          <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
                             {getPrescriptionIcon(prescription.type)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-sm text-foreground capitalize">
+                            <p className="font-semibold text-sm text-foreground capitalize truncate">
                               {prescription.type}
                             </p>
                             {prescription.doctor_name ? (
-                              <p className="text-xs text-muted-foreground mt-1">
+                              <p className="text-xs text-muted-foreground mt-1 truncate">
                                 Dr. {prescription.doctor_name}
                               </p>
                             ) : null}
@@ -234,7 +281,7 @@ export default async function PatientHomePage() {
                         </div>
 
                         {prescription.medications && prescription.medications.length > 0 ? (
-                          <div className="text-xs text-muted-foreground line-clamp-2 mb-2">
+                          <div className="text-xs text-muted-foreground line-clamp-2 mb-2 overflow-hidden">
                             {prescription.medications.length} medicine
                             {prescription.medications.length > 1 ? "s" : ""}:{" "}
                             {prescription.medications[0].medicine_name}
@@ -296,13 +343,13 @@ export default async function PatientHomePage() {
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
                 {upcomingAppointments.length > 0 ? (
-                  <div className="space-y-3">
+                  <div className="space-y-3 md:space-y-4">
                     {upcomingAppointments.map((appointment) => (
                       <Link key={appointment.id} href="/patient/appointments">
-                        <div className="p-4 bg-surface rounded-xl border border-border hover:border-primary/50 transition-colors cursor-pointer">
+                        <div className="p-4 bg-surface rounded-xl border border-border hover:border-primary/50 active:border-primary/70 transition-colors cursor-pointer touch-manipulation min-h-[60px]">
                           <div className="flex items-start gap-3 sm:gap-4">
-                            <div className="shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                              <User className="w-6 h-6 text-primary" />
+                            <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                              <User className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                             </div>
 
                             <div className="flex-1 min-w-0">
@@ -310,38 +357,42 @@ export default async function PatientHomePage() {
                                 Dr. {appointment.doctor?.first_name} {appointment.doctor?.last_name}
                               </h4>
                               {appointment.doctor?.specialization ? (
-                                <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+                                <p className="text-xs sm:text-sm text-muted-foreground mb-2 truncate">
                                   {appointment.doctor.specialization}
                                 </p>
                               ) : null}
-                              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
                                 <span className="flex items-center gap-1">
-                                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                                  {new Date(appointment.appointment_date).toLocaleDateString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                  })}
+                                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                                  <span className="truncate">
+                                    {new Date(appointment.appointment_date).toLocaleDateString("en-US", {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                    })}
+                                  </span>
                                 </span>
                                 <span className="flex items-center gap-1">
-                                  <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                                  {new Date(appointment.appointment_date).toLocaleTimeString("en-US", {
-                                    hour: "numeric",
-                                    minute: "2-digit",
-                                    hour12: true,
-                                  })}
+                                  <Clock className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                                  <span className="truncate">
+                                    {new Date(appointment.appointment_date).toLocaleTimeString("en-US", {
+                                      hour: "numeric",
+                                      minute: "2-digit",
+                                      hour12: true,
+                                    })}
+                                  </span>
                                 </span>
                               </div>
                             </div>
 
                             <Badge
                               className={cn(
-                                "flex items-center gap-1 text-xs",
+                                "flex items-center gap-1 text-xs flex-shrink-0",
                                 getStatusColor(appointment.status),
                               )}
                             >
                               {getStatusIcon(appointment.status)}
-                              {appointment.status}
+                              <span className="hidden xs:inline">{appointment.status}</span>
                             </Badge>
                           </div>
                         </div>
@@ -366,20 +417,20 @@ export default async function PatientHomePage() {
               <CardHeader className="border-b border-border">
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>
-              <CardContent className="p-4 space-y-3">
+              <CardContent className="p-4 space-y-3 md:space-y-4">
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
+                  className="w-full justify-start h-auto min-h-[52px] py-4 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 active:bg-primary/15 touch-manipulation"
                 >
                   <Link href="/patient/find-doctor">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 rounded-lg">
+                      <div className="p-2.5 bg-primary/10 rounded-lg flex-shrink-0">
                         <Search className="w-5 h-5 text-primary" />
                       </div>
-                      <div className="text-left">
-                        <p className="font-semibold text-sm">Find a Doctor</p>
-                        <p className="text-xs text-muted-foreground">Search and book appointments</p>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-semibold text-sm truncate">Find a Doctor</p>
+                        <p className="text-xs text-muted-foreground truncate">Search and book appointments</p>
                       </div>
                     </div>
                   </Link>
@@ -388,16 +439,16 @@ export default async function PatientHomePage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
+                  className="w-full justify-start h-auto min-h-[52px] py-4 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 active:bg-primary/15 touch-manipulation"
                 >
                   <Link href="/patient/appointments">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-success/10 rounded-lg">
+                      <div className="p-2.5 bg-success/10 rounded-lg flex-shrink-0">
                         <CalendarCheck className="w-5 h-5 text-success" />
                       </div>
-                      <div className="text-left">
-                        <p className="font-semibold text-sm">My Appointments</p>
-                        <p className="text-xs text-muted-foreground">View all appointments</p>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-semibold text-sm truncate">My Appointments</p>
+                        <p className="text-xs text-muted-foreground truncate">View all appointments</p>
                       </div>
                     </div>
                   </Link>
@@ -406,16 +457,16 @@ export default async function PatientHomePage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
+                  className="w-full justify-start h-auto min-h-[52px] py-4 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 active:bg-primary/15 touch-manipulation"
                 >
                   <Link href="/patient/profile">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-primary/10 rounded-lg">
+                      <div className="p-2.5 bg-primary/10 rounded-lg flex-shrink-0">
                         <User className="w-5 h-5 text-primary" />
                       </div>
-                      <div className="text-left">
-                        <p className="font-semibold text-sm">My Profile</p>
-                        <p className="text-xs text-muted-foreground">Update health information</p>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-semibold text-sm truncate">My Profile</p>
+                        <p className="text-xs text-muted-foreground truncate">Update health information</p>
                       </div>
                     </div>
                   </Link>
@@ -424,16 +475,16 @@ export default async function PatientHomePage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 touch-target"
+                  className="w-full justify-start h-auto min-h-[52px] py-4 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 active:bg-primary/15 touch-manipulation"
                 >
                   <Link href="/patient/medical-history">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-accent/50 rounded-lg">
+                      <div className="p-2.5 bg-accent/50 rounded-lg flex-shrink-0">
                         <FileText className="w-5 h-5 text-primary" />
                       </div>
-                      <div className="text-left">
-                        <p className="font-semibold text-sm">Medical Records</p>
-                        <p className="text-xs text-muted-foreground">Access your history</p>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-semibold text-sm truncate">Medical Records</p>
+                        <p className="text-xs text-muted-foreground truncate">Access your history</p>
                       </div>
                     </div>
                   </Link>
@@ -442,16 +493,16 @@ export default async function PatientHomePage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="w-full justify-start h-auto py-3 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10"
+                  className="w-full justify-start h-auto min-h-[52px] py-4 px-4 rounded-xl border-border/70 bg-background/50 hover:bg-primary/10 active:bg-primary/15 touch-manipulation"
                 >
                   <Link href="/patient/my-prescriptions">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/15">
+                      <div className="p-2.5 rounded-lg bg-primary/15 flex-shrink-0">
                         <Pill className="w-5 h-5 text-primary" />
                       </div>
-                      <div className="text-left">
-                        <p className="font-semibold text-sm">My Prescriptions</p>
-                        <p className="text-xs text-muted-foreground">View and manage prescriptions</p>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="font-semibold text-sm truncate">My Prescriptions</p>
+                        <p className="text-xs text-muted-foreground truncate">View and manage prescriptions</p>
                       </div>
                     </div>
                   </Link>

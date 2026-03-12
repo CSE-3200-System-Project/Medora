@@ -502,7 +502,7 @@ export default function FindDoctorPage() {
 
           {/* Right: Map View */}
           {/* Desktop: Always visible and sticky */}
-          <div className="hidden lg:block lg:sticky lg:top-28 lg:h-[calc(100vh-8rem)]">
+          <div className="hidden lg:block lg:sticky lg:top-28 lg:min-h-[75vh] lg:max-h-[calc(100vh-8rem)]">
             <MapView doctors={doctors} userLocation={userLocation} />
           </div>
           

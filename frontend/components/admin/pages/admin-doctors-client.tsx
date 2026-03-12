@@ -17,6 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select } from "@/components/ui/select-native";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
+import { ResponsiveGrid } from "@/components/ui/responsive-grid";
 import {
   CheckCircle2,
   XCircle,
@@ -118,6 +121,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
 
   const verifiedDoctors = allDoctors.filter((d) => d.verification_status === "verified");
   const rejectedDoctors = allDoctors.filter((d) => d.verification_status === "rejected");
+  const statusOptions = ["all", "pending", "verified", "rejected"] as const;
 
   const filteredDoctors = allDoctors
     .filter((d) => {
@@ -171,8 +175,34 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
             />
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {["all", "pending", "verified", "rejected"].map((status) => (
+          <div className="lg:hidden">
+            <Select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              aria-label="Filter doctors by status"
+            >
+              {statusOptions.map((status) => {
+                const count =
+                  status === "all"
+                    ? allDoctors.length
+                    : status === "pending"
+                    ? pendingDoctors.length
+                    : status === "verified"
+                    ? verifiedDoctors.length
+                    : rejectedDoctors.length;
+
+                return (
+                  <option key={status} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)} ({count})
+                  </option>
+                );
+              })}
+            </Select>
+          </div>
+
+          <div className="hidden lg:flex flex-wrap gap-2">
+            {statusOptions.map((status) => (
               <Button
                 key={status}
                 variant="outline"
@@ -299,103 +329,195 @@ function DoctorGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-      {doctors.map((doctor) => (
-        <Card key={doctor.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex items-start justify-between mb-3 sm:mb-4">
-              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                  <User className="h-6 w-6 text-primary-light" />
+    <>
+      <ResponsiveGrid pattern="thirds" gap="sm" className="lg:hidden">
+        {doctors.map((doctor) => (
+          <Card key={doctor.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-start justify-between mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                    <User className="h-6 w-6 text-primary-light" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">{doctor.name}</h3>
+                    <p className="text-sm text-slate-400">{doctor.specialization || "No specialty"}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-white">{doctor.name}</h3>
-                  <p className="text-sm text-slate-400">{doctor.specialization || "No specialty"}</p>
-                </div>
+                {getVerificationBadge(doctor.verification_status)}
               </div>
-              {getVerificationBadge(doctor.verification_status)}
-            </div>
 
-            <div className="space-y-2 mb-4 text-xs sm:text-sm">
-              <div className="flex items-center gap-2 text-slate-400 min-w-0">
-                <Mail className="h-4 w-4 shrink-0" />
-                <span className="truncate">{doctor.email}</span>
+              <div className="space-y-2 mb-4 text-xs sm:text-sm">
+                <div className="flex items-center gap-2 text-slate-400 min-w-0">
+                  <Mail className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{doctor.email}</span>
+                </div>
+                {doctor.phone && (
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <Phone className="h-4 w-4" />
+                    <span>{doctor.phone}</span>
+                  </div>
+                )}
+                {doctor.bmdc_number && (
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <FileText className="h-4 w-4" />
+                    <span>BMDC: {doctor.bmdc_number}</span>
+                  </div>
+                )}
               </div>
-              {doctor.phone && (
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Phone className="h-4 w-4" />
-                  <span>{doctor.phone}</span>
-                </div>
-              )}
-              {doctor.bmdc_number && (
-                <div className="flex items-center gap-2 text-slate-400">
-                  <FileText className="h-4 w-4" />
-                  <span>BMDC: {doctor.bmdc_number}</span>
-                </div>
-              )}
-            </div>
 
-            {doctor.bmdc_document_url && (
-              <a
-                href={doctor.bmdc_document_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-primary-light hover:text-primary mb-4"
-              >
-                <ExternalLink className="h-4 w-4" />
-                View BMDC Document
-              </a>
-            )}
-
-            {(showActions || doctor.verification_status === "pending") && (
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <Button size="sm" onClick={() => onVerify(doctor, true)} className="flex-1 bg-green-600 hover:bg-green-700">
-                  <CheckCircle2 className="h-4 w-4 mr-1" />
-                  Approve
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onVerify(doctor, false)}
-                  className="flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10"
+              {doctor.bmdc_document_url && (
+                <a
+                  href={doctor.bmdc_document_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-primary-light hover:text-primary mb-4"
                 >
-                  <XCircle className="h-4 w-4 mr-1" />
-                  Reject
-                </Button>
-              </div>
-            )}
+                  <ExternalLink className="h-4 w-4" />
+                  View BMDC Document
+                </a>
+              )}
 
-            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 sm:justify-between">
-              {doctor.account_status === "banned" ? (
-                <>
-                  <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
-                    <Ban className="h-3 w-3 mr-1" />
-                    Banned
-                  </Badge>
-                  <Button size="sm" onClick={() => onUnban(doctor)} className="bg-green-600 hover:bg-green-700">
-                    <Unlock className="h-4 w-4 mr-1" />
-                    Unban
+              {(showActions || doctor.verification_status === "pending") && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Button size="sm" onClick={() => onVerify(doctor, true)} className="flex-1 min-w-28 bg-green-600 hover:bg-green-700">
+                    <CheckCircle2 className="h-4 w-4 mr-1" />
+                    Approve
                   </Button>
-                </>
-              ) : (
-                <>
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => onBan(doctor)}
-                    className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    onClick={() => onVerify(doctor, false)}
+                    className="flex-1 min-w-28 border-red-500/30 text-red-400 hover:bg-red-500/10"
                   >
-                    <Ban className="h-4 w-4 mr-1" />
-                    Ban User
+                    <XCircle className="h-4 w-4 mr-1" />
+                    Reject
                   </Button>
-                </>
+                </div>
               )}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
+                {doctor.account_status === "banned" ? (
+                  <>
+                    <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                      <Ban className="h-3 w-3 mr-1" />
+                      Banned
+                    </Badge>
+                    <Button size="sm" onClick={() => onUnban(doctor)} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+                      <Unlock className="h-4 w-4 mr-1" />
+                      Unban
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => onBan(doctor)}
+                      className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    >
+                      <Ban className="h-4 w-4 mr-1" />
+                      Ban User
+                    </Button>
+                  </>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </ResponsiveGrid>
+
+      <div className="hidden lg:block">
+        <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+          <Table>
+            <TableHeader className="bg-slate-800/60 border-slate-600/50">
+              <TableRow className="border-slate-600/50 hover:bg-transparent">
+                <TableHead className="text-slate-300">Doctor</TableHead>
+                <TableHead className="text-slate-300">Contact</TableHead>
+                <TableHead className="text-slate-300">BMDC</TableHead>
+                <TableHead className="text-slate-300">Verification</TableHead>
+                <TableHead className="text-slate-300">Account</TableHead>
+                <TableHead className="text-right text-slate-300">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {doctors.map((doctor) => (
+                <TableRow key={doctor.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                  <TableCell>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-white">{doctor.name}</p>
+                      <p className="text-xs text-slate-400">{doctor.specialization || "No specialty"}</p>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <p className="text-slate-200 wrap-break-word">{doctor.email}</p>
+                    {doctor.phone && <p className="text-xs text-slate-400">{doctor.phone}</p>}
+                  </TableCell>
+                  <TableCell>
+                    <div className="space-y-1">
+                      <p className="text-slate-200">{doctor.bmdc_number || "N/A"}</p>
+                      {doctor.bmdc_document_url && (
+                        <a
+                          href={doctor.bmdc_document_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs text-primary-light hover:text-primary"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          Document
+                        </a>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>{getVerificationBadge(doctor.verification_status)}</TableCell>
+                  <TableCell>
+                    {doctor.account_status === "banned" ? (
+                      <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Banned</Badge>
+                    ) : (
+                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex flex-wrap justify-end gap-2">
+                      {(showActions || doctor.verification_status === "pending") && (
+                        <>
+                          <Button size="sm" onClick={() => onVerify(doctor, true)} className="bg-green-600 hover:bg-green-700">
+                            Approve
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => onVerify(doctor, false)}
+                            className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      )}
+                      {doctor.account_status === "banned" ? (
+                        <Button size="sm" onClick={() => onUnban(doctor)} className="bg-green-600 hover:bg-green-700">
+                          Unban
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => onBan(doctor)}
+                          className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                        >
+                          Ban
+                        </Button>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableScrollContainer>
+      </div>
+    </>
   );
 }
 

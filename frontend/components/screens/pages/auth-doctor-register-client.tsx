@@ -107,7 +107,7 @@ export default function DoctorRegister() {
 
   return (
     <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
-      <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
+      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-[600px]">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
@@ -154,7 +154,7 @@ export default function DoctorRegister() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="w-full lg:w-1/2 bg-card p-8 lg:p-12">
+          <div className="w-full lg:w-1/2 bg-card p-6 lg:p-12">
             <div className="space-y-6">
               <div className="space-y-1 text-center lg:text-left">
                 <h2 className="text-2xl font-bold tracking-tight">Doctor Registration</h2>
@@ -173,28 +173,28 @@ export default function DoctorRegister() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
-                    <Input name="firstName" id="firstName" placeholder="John" required />
+                    <Input name="firstName" id="firstName" placeholder="John" required className="w-full" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name</Label>
-                    <Input name="lastName" id="lastName" placeholder="Doe" required />
+                    <Input name="lastName" id="lastName" placeholder="Doe" required className="w-full" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
-                  <Input name="email" id="email" type="email" placeholder="doctor@example.com" required />
+                  <Input name="email" id="email" type="email" placeholder="doctor@example.com" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
-                  <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required />
+                  <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="bmdc">BM&DC Registration Number</Label>
                   <div className="relative">
-                    <Input name="bmdc" id="bmdc" className="pl-16" placeholder="A-12345" required />
+                    <Input name="bmdc" id="bmdc" className="w-full pl-16" placeholder="A-12345" required />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <span className="text-muted-foreground font-bold text-xs">BMDC</span>
                     </div>
@@ -203,7 +203,7 @@ export default function DoctorRegister() {
 
                 <div className="space-y-2">
                   <Label htmlFor="document">Upload Document (BM&DC Certificate)</Label>
-                  <Input name="document" id="document" type="file" className="cursor-pointer file:text-primary" />
+                  <Input name="document" id="document" type="file" className="w-full cursor-pointer file:text-primary" />
                   <p className="text-xs text-muted-foreground">Please upload a clear scan of your registration certificate.</p>
                 </div>
 
@@ -217,7 +217,7 @@ export default function DoctorRegister() {
                         type={showPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
-                        className="pr-10"
+                        className="w-full pr-10"
                         minLength={6}
                       />
                       <button
@@ -238,7 +238,7 @@ export default function DoctorRegister() {
                         type={showConfirmPassword ? "text" : "password"} 
                         placeholder="••••••••" 
                         required 
-                        className="pr-10"
+                        className="w-full pr-10"
                         minLength={6}
                       />
                       <button

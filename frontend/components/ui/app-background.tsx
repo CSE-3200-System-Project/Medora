@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface AppBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Whether to use the full page background (min-height: 100vh)
+   * Whether to use the full page background (mobile-safe viewport height)
    * @default true
    */
   fullPage?: boolean;
@@ -38,8 +38,8 @@ export function AppBackground({
     <div
       data-slot="app-background"
       className={cn(
-        "app-background",
-        fullPage && "min-h-screen",
+        "app-background keyboard-safe-bottom",
+        fullPage && "min-h-dvh min-h-app",
         className
       )}
       {...props}
