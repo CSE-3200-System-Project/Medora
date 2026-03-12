@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import func, select, update
+from sqlalchemy.orm import aliased
 from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
@@ -8,7 +9,6 @@ from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import VerificationStatus, UserRole, AccountStatus
 from datetime import datetime
 from pydantic import BaseModel
-from app.core.config import settings
 
 router = APIRouter()
 
@@ -21,7 +21,6 @@ async def require_admin_access(
     db: AsyncSession = Depends(get_db)
 ):
     """Verify admin access via password (no account required)"""
-    print(f"Received admin password header: {x_admin_password}")  # Debug logging
     if x_admin_password != ADMIN_PASSWORD:
         raise HTTPException(status_code=403, detail="Invalid admin credentials")
     return True
@@ -161,104 +160,65 @@ async def get_admin_stats(
 ):
     """Get comprehensive platform statistics"""
     try:
-        from app.db.models.patient import PatientProfile
         from app.db.models.appointment import Appointment, AppointmentStatus
-        from sqlalchemy import func, and_
         from datetime import timedelta
-        from datetime import timedelta
-        
-        print("Fetching admin stats...")  # Debug log
-        
-        # Count all users by role
         total_users_result = await db.execute(select(func.count(Profile.id)))
         total_users = total_users_result.scalar() or 0
-        
-        # Count doctors
-        doctors_result = await db.execute(
-            select(Profile).where(Profile.role == UserRole.DOCTOR)
+
+        role_counts_result = await db.execute(
+            select(Profile.role, func.count(Profile.id)).group_by(Profile.role)
         )
-        all_doctors = doctors_result.scalars().all()
-        total_doctors = len(all_doctors)
-        
-        verified_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.verified])
-        pending_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.pending])
-        rejected_doctors = len([d for d in all_doctors if d.verification_status == VerificationStatus.rejected])
-        
-        # Count patients
-        patients_result = await db.execute(
-            select(Profile).where(Profile.role == UserRole.PATIENT)
+        role_counts = {row[0]: row[1] for row in role_counts_result.all()}
+
+        doctor_verification_result = await db.execute(
+            select(Profile.verification_status, func.count(Profile.id))
+            .where(Profile.role == UserRole.DOCTOR)
+            .group_by(Profile.verification_status)
         )
-        all_patients = patients_result.scalars().all()
-        total_patients = len(all_patients)
-        
-        # Patients with completed onboarding
-        patients_with_onboarding = len([p for p in all_patients if p.onboarding_completed])
-        
-        # Count appointments - with error handling
-        try:
-            from app.db.models.appointment import Appointment, AppointmentStatus
-            
-            total_appointments_result = await db.execute(select(func.count(Appointment.id)))
-            total_appointments = total_appointments_result.scalar() or 0
-            
-            # Appointments by status - use enum values
-            pending_appointments_result = await db.execute(
-                select(func.count(Appointment.id)).where(Appointment.status == AppointmentStatus.PENDING)
+        verification_counts = {row[0]: row[1] for row in doctor_verification_result.all()}
+
+        patients_with_onboarding_result = await db.execute(
+            select(func.count(Profile.id)).where(
+                Profile.role == UserRole.PATIENT,
+                Profile.onboarding_completed.is_(True),
             )
-            pending_appointments = pending_appointments_result.scalar() or 0
-            
-            confirmed_appointments_result = await db.execute(
-                select(func.count(Appointment.id)).where(Appointment.status == AppointmentStatus.CONFIRMED)
+        )
+        patients_with_onboarding = patients_with_onboarding_result.scalar() or 0
+
+        appointment_stats_result = await db.execute(
+            select(
+                func.count(Appointment.id).label("total"),
+                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.PENDING).label("pending"),
+                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CONFIRMED).label("confirmed"),
+                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.COMPLETED).label("completed"),
+                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CANCELLED).label("cancelled"),
             )
-            confirmed_appointments = confirmed_appointments_result.scalar() or 0
-            
-            completed_appointments_result = await db.execute(
-                select(func.count(Appointment.id)).where(Appointment.status == AppointmentStatus.COMPLETED)
-            )
-            completed_appointments = completed_appointments_result.scalar() or 0
-            
-            cancelled_appointments_result = await db.execute(
-                select(func.count(Appointment.id)).where(Appointment.status == AppointmentStatus.CANCELLED)
-            )
-            cancelled_appointments = cancelled_appointments_result.scalar() or 0
-        except Exception as e:
-            print(f"Error fetching appointments: {e}")
-            total_appointments = 0
-            pending_appointments = 0
-            confirmed_appointments = 0
-            completed_appointments = 0
-            cancelled_appointments = 0
-        
-        # Recent registrations (last 7 days)
+        )
+        appointment_stats = appointment_stats_result.one()
+
         week_ago = datetime.utcnow() - timedelta(days=7)
         recent_users_result = await db.execute(
             select(func.count(Profile.id)).where(Profile.created_at >= week_ago)
         )
         recent_registrations = recent_users_result.scalar() or 0
-        
-        stats = {
+
+        return {
             "total_users": total_users,
-            "total_doctors": total_doctors,
-            "total_patients": total_patients,
-            "verified_doctors": verified_doctors,
-            "pending_doctors": pending_doctors,
-            "rejected_doctors": rejected_doctors,
+            "total_doctors": role_counts.get(UserRole.DOCTOR, 0),
+            "total_patients": role_counts.get(UserRole.PATIENT, 0),
+            "verified_doctors": verification_counts.get(VerificationStatus.verified, 0),
+            "pending_doctors": verification_counts.get(VerificationStatus.pending, 0),
+            "rejected_doctors": verification_counts.get(VerificationStatus.rejected, 0),
             "patients_with_complete_profile": patients_with_onboarding,
-            "total_appointments": total_appointments,
-            "pending_appointments": pending_appointments,
-            "confirmed_appointments": confirmed_appointments,
-            "completed_appointments": completed_appointments,
-            "cancelled_appointments": cancelled_appointments,
+            "total_appointments": appointment_stats.total or 0,
+            "pending_appointments": appointment_stats.pending or 0,
+            "confirmed_appointments": appointment_stats.confirmed or 0,
+            "completed_appointments": appointment_stats.completed or 0,
+            "cancelled_appointments": appointment_stats.cancelled or 0,
             "recent_registrations_7days": recent_registrations,
         }
         
-        print(f"Admin stats retrieved successfully: {stats}")
-        return stats
-        
     except Exception as e:
-        print(f"Error in get_admin_stats: {str(e)}")
-        import traceback
-        traceback.print_exc()
         # Return zeros if there's an error
         return {
             "total_users": 0,
@@ -287,9 +247,6 @@ async def get_all_patients(
     """Get all patients with pagination"""
     try:
         from app.db.models.patient import PatientProfile
-        from sqlalchemy import func
-        
-        print(f"Fetching patients with limit={limit}, offset={offset}")
         
         result = await db.execute(
             select(Profile, PatientProfile)
@@ -318,19 +275,14 @@ async def get_all_patients(
             select(func.count(Profile.id)).where(Profile.role == UserRole.PATIENT)
         )
         total = count_result.scalar() or 0
-        
-        print(f"Found {len(patients)} patients, total: {total}")
-        
+
         return {
             "patients": patients,
             "total": total,
             "limit": limit,
             "offset": offset
         }
-    except Exception as e:
-        print(f"Error fetching patients: {str(e)}")
-        import traceback
-        traceback.print_exc()
+    except Exception:
         return {
             "patients": [],
             "total": 0,
@@ -348,33 +300,25 @@ async def get_all_appointments(
 ):
     """Get all appointments with doctor and patient info"""
     from app.db.models.appointment import Appointment
-    from sqlalchemy import func
+    doctor_alias = aliased(Profile)
+    patient_alias = aliased(Profile)
     
     result = await db.execute(
-        select(Appointment)
+        select(Appointment, doctor_alias, patient_alias)
+        .join(doctor_alias, doctor_alias.id == Appointment.doctor_id, isouter=True)
+        .join(patient_alias, patient_alias.id == Appointment.patient_id, isouter=True)
         .limit(limit)
         .offset(offset)
         .order_by(Appointment.appointment_date.desc())
     )
     
     appointments = []
-    for appointment in result.scalars().all():
-        # Get doctor info
-        doctor_result = await db.execute(
-            select(Profile).where(Profile.id == appointment.doctor_id)
-        )
-        doctor = doctor_result.scalar()
-        
-        # Get patient info
-        patient_result = await db.execute(
-            select(Profile).where(Profile.id == appointment.patient_id)
-        )
-        patient = patient_result.scalar()
-        
+    for appointment, doctor, patient in result.all():
+        status_value = appointment.status.value if hasattr(appointment.status, "value") else str(appointment.status)
         appointments.append({
             "id": appointment.id,
             "appointment_date": appointment.appointment_date.isoformat(),
-            "status": appointment.status.lower(),
+            "status": status_value.lower(),
             "reason": appointment.reason,
             "doctor": {
                 "id": doctor.id if doctor else None,

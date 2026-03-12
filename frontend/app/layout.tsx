@@ -4,31 +4,26 @@ import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { PWARegistration } from "@/components/pwa-registration";
+import { MobileViewportFix } from "@/components/ui/mobile-viewport-fix";
 
 const APP_NAME = "Medora";
 const APP_DESCRIPTION = "AI-assisted healthcare platform for Bangladesh";
 
 const sfProDisplay = localFont({
   src: [
-    { path: './fonts/SFPRODISPLAYULTRALIGHTITALIC.otf', weight: '200', style: 'italic' },
-    { path: './fonts/SFPRODISPLAYTHINITALIC.otf', weight: '300', style: 'italic' },
-    { path: './fonts/SFPRODISPLAYLIGHTITALIC.otf', weight: '400', style: 'italic' },
-    { path: './fonts/SFPRODISPLAYREGULAR.otf', weight: '500', style: 'normal' },
-    { path: './fonts/SFPRODISPLAYMEDIUM.otf', weight: '600', style: 'normal' },
-    { path: './fonts/SFPRODISPLAYSEMIBOLDITALIC.otf', weight: '700', style: 'italic' },
-    { path: './fonts/SFPRODISPLAYBOLD.otf', weight: '800', style: 'normal' },
-    { path: './fonts/SFPRODISPLAYHEAVYITALIC.otf', weight: '900', style: 'italic' },
-    { path: './fonts/SFPRODISPLAYBLACKITALIC.otf', weight: '900', style: 'italic' },
+    { path: "./fonts/SFPRODISPLAYREGULAR.otf", weight: "400", style: "normal" },
+    { path: "./fonts/SFPRODISPLAYBOLD.otf", weight: "700", style: "normal" },
   ],
-  variable: '--sf-pro-display'
+  variable: "--sf-pro-display",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: "#0360D9",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  minimumScale: 1,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -57,10 +52,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={sfProDisplay.variable} suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
+        <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SmoothScrollProvider>
-            {children}
+            <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
+              {children}
+            </div>
           </SmoothScrollProvider>
         </ThemeProvider>
         <PWARegistration />

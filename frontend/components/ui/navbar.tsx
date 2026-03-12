@@ -39,6 +39,9 @@ interface UserData {
   profile_photo_url?: string;
 }
 
+const USER_CACHE_KEY = "medora:user-cache:v1";
+const USER_CACHE_TTL_MS = 5 * 60 * 1000;
+
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -47,35 +50,87 @@ export function Navbar() {
   const [loading, setLoading] = React.useState(true);
   const [loggingOut, setLoggingOut] = React.useState(false);
 
-  // Fetch user data on mount
   React.useEffect(() => {
+    const hasSessionToken = document.cookie.includes("session_token=");
+    if (!hasSessionToken) {
+      setLoading(false);
+      return;
+    }
+
+    const fromCache = sessionStorage.getItem(USER_CACHE_KEY);
+    if (fromCache) {
+      try {
+        const parsed = JSON.parse(fromCache) as { ts: number; user: UserData };
+        if (Date.now() - parsed.ts < USER_CACHE_TTL_MS) {
+          setUser(parsed.user);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // Ignore invalid cache payload.
+      }
+    }
+
+    const controller = new AbortController();
     async function fetchUser() {
       try {
-        const response = await fetchWithAuth('/api/auth/me');
+        const response = await fetchWithAuth("/api/auth/me", {
+          signal: controller.signal,
+        });
         if (response?.ok) {
           const data = await response.json();
           setUser(data);
+          sessionStorage.setItem(
+            USER_CACHE_KEY,
+            JSON.stringify({
+              ts: Date.now(),
+              user: data,
+            }),
+          );
         }
-      } catch (error) {
-        console.error('Failed to fetch user:', error);
+      } catch {
+        // Best effort user lookup.
       } finally {
         setLoading(false);
       }
     }
+
     fetchUser();
+    const handleLogout = () => {
+      sessionStorage.removeItem(USER_CACHE_KEY);
+      setUser(null);
+      setLoading(false);
+    };
+    window.addEventListener("medora:logged_out", handleLogout);
+    return () => {
+      controller.abort();
+      window.removeEventListener("medora:logged_out", handleLogout);
+    };
   }, []);
 
   React.useEffect(() => {
+    let frameId = 0;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (frameId) return;
+      frameId = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 20);
+        frameId = 0;
+      });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
+      sessionStorage.removeItem(USER_CACHE_KEY);
       // Redirect to logout route which handles cookie cleanup
       router.push('/logout');
     } catch (error) {
@@ -359,7 +414,6 @@ export function Navbar() {
                           <span className="font-semibold text-foreground">{getUserDisplayName()}</span>
                           <span className="text-xs text-muted-foreground">{user.email}</span>
                         </div>
-                        <NotificationDropdown />
                       </div>
                       <div className="flex flex-col gap-2">
                         <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">

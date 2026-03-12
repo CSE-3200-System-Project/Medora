@@ -24,12 +24,12 @@ const buttonVariants = cva(
         emergency: "bg-destructive text-white hover:bg-destructive-muted active:bg-destructive-muted/90 shadow-sm hover:shadow-md focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive dark:text-foreground dark:hover:bg-destructive/90",
       },
       size: {
-        default: "h-10 min-h-[44px] px-4 py-2 has-[>svg]:px-3",
-        sm: "h-9 min-h-[36px] rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-12 min-h-[48px] rounded-md px-6 has-[>svg]:px-4 text-base",
-        icon: "size-10 min-w-[44px] min-h-[44px]",
-        "icon-sm": "size-9 min-w-[36px] min-h-[36px]",
-        "icon-lg": "size-12 min-w-[48px] min-h-[48px]",
+        default: "h-10 sm:h-11 min-h-[44px] px-3 sm:px-4 py-2 has-[>svg]:px-2.5 has-[>svg]:sm:px-3 text-sm sm:text-sm",
+        sm: "h-9 sm:h-10 min-h-[36px] rounded-md gap-1.5 px-2.5 sm:px-3 has-[>svg]:px-2 has-[>svg]:sm:px-2.5 text-sm",
+        lg: "h-11 sm:h-12 min-h-[44px] rounded-md px-4 sm:px-6 has-[>svg]:px-3 has-[>svg]:sm:px-4 text-base",
+        icon: "size-10 sm:size-11 min-w-[44px] min-h-[44px]",
+        "icon-sm": "size-9 sm:size-10 min-w-[36px] min-h-[36px]",
+        "icon-lg": "size-11 sm:size-12 min-w-[44px] min-h-[44px]",
       },
     },
     defaultVariants: {
