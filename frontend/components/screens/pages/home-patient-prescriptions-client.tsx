@@ -158,7 +158,7 @@ export default function PatientPrescriptionsPage() {
         )}
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-6 overflow-hidden">
           {(["all", "pending", "accepted", "rejected"] as const).map((f) => (
             <Button
               key={f}

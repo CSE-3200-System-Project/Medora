@@ -314,7 +314,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         {/* Step 4: Date Selection */}
         <div>
           <h3 className="font-semibold text-foreground mb-3">Select an Available Time</h3>
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 overflow-hidden">
             {upcomingDates.map((dateObj) => {
               const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId || "-1")];
 

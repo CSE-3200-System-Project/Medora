@@ -177,11 +177,11 @@ export default function PatientAppointmentsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 overflow-hidden">
             {/* Top Section: Calendar (1 col) + Upcoming Appointments (1 col) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 overflow-hidden">
               {/* Calendar - 1 Column */}
-              <div>
+              <div className="overflow-hidden">
                 <AppointmentCalendar
                   appointments={uniqueAppointments}
                   selectedDate={selectedDate}
@@ -191,12 +191,13 @@ export default function PatientAppointmentsPage() {
               </div>
               
               {/* Upcoming Appointments - 1 Column */}
-              <div>
+              <div className="overflow-hidden">
                 <Card className="rounded-2xl shadow-lg h-full">
                   <CardHeader className="border-b border-border/50">
                     <CardTitle className="text-lg flex items-center gap-2">
                       <Clock className="w-5 h-5 text-primary" />
-                      Upcoming Appointments
+                      <span className="hidden sm:inline">Upcoming Appointments</span>
+                      <span className="sm:hidden">Upcoming</span>
                     </CardTitle>
                     <p className="text-sm text-gray-600 mt-1">
                       Next {Math.min(5, upcomingAppointments.length)} appointments
@@ -325,8 +326,8 @@ export default function PatientAppointmentsPage() {
                   </div>
                 ) : (
                   <>
-                    {/* Appointments List */}
-                    <div className="space-y-3">
+                    {/* Appointments List - Mobile-optimized cards */}
+                    <div className="space-y-2 md:space-y-3">
                       {paginatedAppointments.map((appt) => {
                         const { date, time } = formatDateTime(appt.appointment_date, appt.slot_time);
                         const isPast = new Date(appt.appointment_date) < now || appt.status === 'CANCELLED';
@@ -335,14 +336,15 @@ export default function PatientAppointmentsPage() {
                           <div
                             key={appt.id}
                             className={cn(
-                              "p-4 rounded-lg border-2 transition-all",
-                              "border-blue-200 bg-white dark:bg-card hover:bg-blue-50 dark:hover:bg-card/80",
+                              "p-3 md:p-4 rounded-lg border-2 transition-all touch-manipulation",
+                              "border-blue-200 bg-white dark:bg-card hover:bg-blue-50 dark:hover:bg-card/80 active:bg-blue-100 dark:active:bg-card/90",
                               isPast && "opacity-75"
                             )}
                           >
-                            <div className="flex items-start justify-between gap-4 mb-3">
+                            {/* Mobile: Stack vertically, Desktop: Side-by-side */}
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-2 md:mb-3">
                               <div className="flex items-start gap-3">
-                                <div className="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0">
+                                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center shrink-0">
                                   {appt.doctor_photo_url ? (
                                     <Image
                                       src={appt.doctor_photo_url}
@@ -350,43 +352,43 @@ export default function PatientAppointmentsPage() {
                                       width={48}
                                       height={48}
                                       className={cn(
-                                        "w-12 h-12 rounded-full object-cover",
+                                        "w-10 h-10 md:w-12 md:h-12 rounded-full object-cover",
                                         isPast && "grayscale",
                                       )}
                                       unoptimized
                                     />
                                   ) : (
-                                    <User className="w-6 h-6 text-primary" />
+                                    <User className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                                   )}
                                 </div>
-                                <div>
-                                  <p className="font-semibold text-foreground text-base">
+                                <div className="min-w-0 flex-1">
+                                  <p className="font-semibold text-foreground text-sm md:text-base truncate">
                                     {appt.doctor_title} {appt.doctor_name}
                                   </p>
-                                  <p className="text-sm text-primary font-medium">
+                                  <p className="text-sm text-primary font-medium truncate">
                                     {appt.doctor_specialization}
                                   </p>
                                 </div>
                               </div>
-                              <Badge variant={getStatusBadgeVariant(appt.status)} className="flex items-center gap-1 shrink-0">
+                              <Badge variant={getStatusBadgeVariant(appt.status)} className="flex items-center gap-1 shrink-0 self-start sm:self-auto">
                                 {getStatusIcon(appt.status)}
-                                {appt.status}
+                                <span className="hidden xs:inline">{appt.status}</span>
                               </Badge>
                             </div>
 
-                            <div className="space-y-2 text-sm">
+                            <div className="space-y-1.5 md:space-y-2 text-sm">
                               <div className="flex items-center gap-2 text-foreground bg-blue-50 dark:bg-primary/10 p-2 rounded">
                                 <Clock className="w-4 h-4 text-primary shrink-0" />
-                                <div>
-                                  <div className="font-medium">{time}</div>
-                                  <div className="text-xs text-gray-600">{date}</div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="font-medium text-sm md:text-base">{time}</div>
+                                  <div className="text-xs md:text-sm text-gray-600 truncate">{date}</div>
                                 </div>
                               </div>
 
                               {appt.hospital_name && (
-                                <div className="flex items-center gap-2 text-gray-600">
-                                  <MapPin className="w-4 h-4 shrink-0" />
-                                  <span className="text-xs">{appt.hospital_name}</span>
+                                <div className="flex items-start gap-2 text-gray-600">
+                                  <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
+                                  <span className="text-xs md:text-sm leading-tight">{appt.hospital_name}</span>
                                 </div>
                               )}
 
@@ -399,8 +401,8 @@ export default function PatientAppointmentsPage() {
                                     const at = humanizeAppointmentType(appointmentType)
                                     return (
                                       <>
-                                        <p className="text-sm text-foreground">{ct}{at ? ` | ${at}` : ''}</p>
-                                        {appt.notes && <p className="text-xs text-muted-foreground mt-1">{appt.notes}</p>}
+                                        <p className="text-sm text-foreground leading-tight">{ct}{at ? ` | ${at}` : ''}</p>
+                                        {appt.notes && <p className="text-xs text-muted-foreground mt-1 leading-tight">{appt.notes}</p>}
                                       </>
                                     )
                                   })()}
@@ -413,9 +415,9 @@ export default function PatientAppointmentsPage() {
                                 size="sm"
                                 variant="ghost"
                                 onClick={() => openCancelDialog(appt)}
-                                className="mt-3 w-full text-destructive hover:text-destructive hover:bg-destructive/10 text-xs touch-target"
+                                className="mt-3 w-full text-destructive hover:text-destructive hover:bg-destructive/10 text-xs md:text-sm h-8 md:h-10 touch-manipulation"
                               >
-                                <XCircle className="h-3 w-3 mr-1" />
+                                <XCircle className="h-3 w-3 md:h-4 md:w-4 mr-1" />
                                 Cancel Appointment
                               </Button>
                             )}
@@ -424,26 +426,29 @@ export default function PatientAppointmentsPage() {
                       })}
                     </div>
 
-                    {/* Pagination Controls */}
+                    {/* Pagination Controls - Mobile-optimized */}
                     {totalPages > 1 && (
-                      <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-                        <div className="text-sm text-gray-600">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4 md:mt-6 pt-3 md:pt-4 border-t border-border">
+                        <div className="text-xs md:text-sm text-gray-600 text-center sm:text-left">
                           Page {currentPage} of {totalPages}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 justify-center sm:justify-end">
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                             disabled={currentPage === 1}
+                            className="h-8 md:h-10 px-3 md:px-4 text-xs md:text-sm touch-manipulation"
                           >
-                            Previous
+                            <span className="hidden sm:inline">Previous</span>
+                            <span className="sm:hidden">Prev</span>
                           </Button>
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                             disabled={currentPage === totalPages}
+                            className="h-8 md:h-10 px-3 md:px-4 text-xs md:text-sm touch-manipulation"
                           >
                             Next
                           </Button>

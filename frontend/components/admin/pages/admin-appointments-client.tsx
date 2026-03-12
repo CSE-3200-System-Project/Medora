@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select-native";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
 import { Calendar, User, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { getAllAppointments } from "@/lib/admin-actions";
 import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
@@ -115,7 +117,22 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
             />
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="lg:hidden">
+            <Select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              aria-label="Filter appointments by status"
+            >
+              {statuses.map((status) => (
+                <option key={status} value={status}>
+                  {status.charAt(0).toUpperCase() + status.slice(1)} ({statusCounts[status as keyof typeof statusCounts]})
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="hidden lg:flex flex-wrap gap-2">
             {statuses.map((status) => (
               <Button
                 key={status}
@@ -146,7 +163,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
           </Card>
         ) : (
           <>
-            <div className="space-y-3 sm:space-y-4 mb-6">
+            <div className="space-y-3 sm:space-y-4 mb-6 lg:hidden">
               {filteredAppointments.map((appointment) => (
                 <Card key={appointment.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-4 sm:p-6">
@@ -206,8 +223,50 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
               ))}
             </div>
 
+            <div className="hidden lg:block mb-6">
+              <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+                <Table>
+                  <TableHeader className="bg-slate-800/60 border-slate-600/50">
+                    <TableRow className="border-slate-600/50 hover:bg-transparent">
+                      <TableHead className="text-slate-300">Date & Time</TableHead>
+                      <TableHead className="text-slate-300">Patient</TableHead>
+                      <TableHead className="text-slate-300">Doctor</TableHead>
+                      <TableHead className="text-slate-300">Reason</TableHead>
+                      <TableHead className="text-slate-300">Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredAppointments.map((appointment) => {
+                      const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
+                      const ct = humanizeConsultationType(consultationType);
+                      const at = humanizeAppointmentType(appointmentType);
+                      const reasonLabel = appointment.reason ? `${ct || appointment.reason}${at ? ` - ${at}` : ""}` : "N/A";
+
+                      return (
+                        <TableRow key={appointment.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                          <TableCell>
+                            <p className="text-white font-medium">{new Date(appointment.appointment_date).toLocaleDateString()}</p>
+                            <p className="text-xs text-slate-400">
+                              {new Date(appointment.appointment_date).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </p>
+                          </TableCell>
+                          <TableCell className="text-slate-200">{appointment.patient.name}</TableCell>
+                          <TableCell className="text-slate-200">{appointment.doctor.name}</TableCell>
+                          <TableCell className="text-slate-300 wrap-break-word">{reasonLabel}</TableCell>
+                          <TableCell>{getStatusBadge(appointment.status)}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableScrollContainer>
+            </div>
+
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -218,7 +277,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Previous
                 </Button>
-                <div className="text-slate-400 text-sm">
+                <div className="text-slate-400 text-sm px-2">
                   Page {page + 1} of {totalPages}
                 </div>
                 <Button

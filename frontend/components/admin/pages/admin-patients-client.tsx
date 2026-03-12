@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
 import {
   User,
   Mail,
@@ -156,7 +157,7 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
           </Card>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 lg:hidden">
               {filteredPatients.map((patient) => (
                 <Card key={patient.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-4 sm:p-6">
@@ -205,14 +206,14 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                       )}
                     </div>
 
-                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 sm:justify-between">
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
                       {patient.account_status === "banned" ? (
                         <>
                           <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
                             <Ban className="h-3 w-3 mr-1" />
                             Banned
                           </Badge>
-                          <Button size="sm" onClick={() => handleUnban(patient)} className="bg-green-600 hover:bg-green-700">
+                          <Button size="sm" onClick={() => handleUnban(patient)} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
                             <Unlock className="h-4 w-4 mr-1" />
                             Unban
                           </Button>
@@ -224,7 +225,7 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                             size="sm"
                             variant="outline"
                             onClick={() => handleBan(patient)}
-                            className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                            className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10"
                           >
                             <Ban className="h-4 w-4 mr-1" />
                             Ban User
@@ -236,6 +237,78 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                 </Card>
               ))}
             </div>
+
+              <div className="hidden lg:block mb-6">
+                <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+                  <Table>
+                    <TableHeader className="bg-slate-800/60 border-slate-600/50">
+                      <TableRow className="border-slate-600/50 hover:bg-transparent">
+                        <TableHead className="text-slate-300">Patient</TableHead>
+                        <TableHead className="text-slate-300">Contact</TableHead>
+                        <TableHead className="text-slate-300">Location</TableHead>
+                        <TableHead className="text-slate-300">Onboarding</TableHead>
+                        <TableHead className="text-slate-300">Joined</TableHead>
+                        <TableHead className="text-slate-300">Account</TableHead>
+                        <TableHead className="text-right text-slate-300">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredPatients.map((patient) => (
+                        <TableRow key={patient.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                          <TableCell>
+                            <p className="text-white font-medium">{patient.name}</p>
+                            {patient.blood_group && <p className="text-xs text-slate-400">{patient.blood_group}</p>}
+                          </TableCell>
+                          <TableCell>
+                            <p className="text-slate-200 wrap-break-word">{patient.email}</p>
+                            {patient.phone && <p className="text-xs text-slate-400">{patient.phone}</p>}
+                          </TableCell>
+                          <TableCell className="text-slate-300">{patient.city || "N/A"}</TableCell>
+                          <TableCell>
+                            {patient.onboarding_completed ? (
+                              <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                Complete
+                              </Badge>
+                            ) : (
+                              <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+                                <XCircle className="h-3 w-3 mr-1" />
+                                Incomplete
+                              </Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-slate-300">{patient.created_at ? new Date(patient.created_at).toLocaleDateString() : "N/A"}</TableCell>
+                          <TableCell>
+                            {patient.account_status === "banned" ? (
+                              <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Banned</Badge>
+                            ) : (
+                              <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex flex-wrap justify-end gap-2">
+                              {patient.account_status === "banned" ? (
+                                <Button size="sm" onClick={() => handleUnban(patient)} className="bg-green-600 hover:bg-green-700">
+                                  Unban
+                                </Button>
+                              ) : (
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleBan(patient)}
+                                  className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                                >
+                                  Ban
+                                </Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableScrollContainer>
+              </div>
 
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-2">

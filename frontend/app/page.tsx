@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   Activity,
   ArrowRight,
@@ -13,18 +14,34 @@ import {
 } from "lucide-react";
 
 import { AppBackground } from "@/components/ui/app-background";
-import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { AuthRedirectGate } from "@/components/landing/auth-redirect";
-import { HeroCarousel } from "@/components/landing/hero-carousel";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
 
+const Navbar = dynamic(
+  () => import("@/components/ui/navbar").then((mod) => mod.Navbar),
+  {
+    loading: () => <div className="mx-auto h-16 w-full max-w-7xl rounded-2xl border border-border/70 bg-background/75 shadow-surface" />,
+  }
+);
+
+const AuthRedirectGate = dynamic(
+  () => import("@/components/landing/auth-redirect").then((mod) => mod.AuthRedirectGate)
+);
+
+const HeroCarousel = dynamic(
+  () => import("@/components/landing/hero-carousel").then((mod) => mod.HeroCarousel),
+  {
+    loading: () => <CardSkeleton className="min-h-90" />,
+  }
+);
+
 export default function Home() {
   return (
-    <AppBackground className="min-h-screen">
+    <AppBackground className="min-h-dvh min-h-app">
       <AuthRedirectGate />
       <Navbar />
 
@@ -93,9 +110,9 @@ export default function Home() {
         </section>
 
         <section id="for-patients" className="scroll-mt-28 grid gap-8 lg:grid-cols-2 items-center">
-          <div className="relative h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={patientImg} alt="Patient experience" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I no longer need to repeat my full history every time.
               </p>
@@ -137,9 +154,9 @@ export default function Home() {
               <Link href="/selection">Start as a Doctor</Link>
             </Button>
           </div>
-          <div className="relative h-[320px] md:h-[460px] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={doctorImg} alt="Doctor experience" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I can focus on decisions, not searching for missing records.
               </p>
@@ -170,7 +187,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
+        <section className="rounded-3xl border border-primary/30 bg-linear-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
           <div className="px-6 py-10 md:px-10 md:py-14 text-center">
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight">Build better care with shared context</h2>
             <p className="mt-3 text-primary-foreground/90 text-sm md:text-base">

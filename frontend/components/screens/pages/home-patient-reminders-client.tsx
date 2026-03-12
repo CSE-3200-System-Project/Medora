@@ -158,7 +158,7 @@ export default function PatientRemindersPage() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-6 overflow-hidden">
               <Button
                 variant={filter === "all" ? "default" : "outline"}
                 size="sm"

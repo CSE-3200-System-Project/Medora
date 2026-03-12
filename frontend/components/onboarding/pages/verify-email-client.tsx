@@ -77,8 +77,8 @@ export function VerifyEmailClient() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-6 md:px-10 py-10 lg:p-16">
-      <Card className="w-full max-w-7xl overflow-hidden p-0 gap-0 shadow-xl border-border">
+    <div className="min-h-screen flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
+      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-150">
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
@@ -115,7 +115,7 @@ export function VerifyEmailClient() {
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 bg-card p-8 lg:p-12 flex flex-col justify-center">
+          <div className="w-full lg:w-1/2 bg-card p-6 lg:p-12 flex flex-col justify-center">
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-24 h-24 mb-4 bg-primary/10 rounded-full flex items-center justify-center">
