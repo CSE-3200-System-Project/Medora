@@ -2,7 +2,7 @@ import { PatientHomeDashboard } from "@/components/dashboard/patient-home-dashbo
 import { AppBackground } from "@/components/ui/app-background"
 import { Navbar } from "@/components/ui/navbar"
 
-export default function PatientHomePage() {
+export default function PatientDashboardPage() {
   return (
     <AppBackground>
       <Navbar />

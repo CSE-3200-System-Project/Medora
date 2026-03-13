@@ -218,6 +218,27 @@ Implement comprehensive mobile-first responsive design for the doctor interface 
 
 ## Phase 6: Auth Guard + Proxy Migration
 - [x] Migrated `middleware.ts` → `proxy.ts` (Next.js 16 convention)
+
+---
+
+# Patient Home Intelligence Dashboard (2026-03-14)
+
+## Status: completed
+
+### Todo
+- [x] Install Apache ECharts dependencies in frontend (`echarts`, `echarts-for-react`)
+- [x] Create reusable dashboard components in `frontend/components/dashboard/`
+- [x] Build dashboard page shell in `frontend/app/(patient)/dashboard/page.tsx` using existing layout only (no navbar)
+- [x] Ensure responsive 12-column grid structure with row-level composition from the provided design
+- [x] Add framer-motion entrance/hover transitions and dynamic chart imports
+- [x] Run diagnostics on changed frontend files and summarize results
+
+### Review
+- Added reusable dashboard UI modules in `frontend/components/dashboard/`: health gauge card, medication trend chart, appointment card, AI insight card, health stat card, and device connection card.
+- Implemented Apache ECharts via dynamic imports (`echarts-for-react`) and memoized chart options for both gauge and bar visualizations.
+- Added the requested page entry at `frontend/app/(patient)/dashboard/page.tsx` and routed existing `frontend/app/(home)/patient/home/page.tsx` to render the same shared dashboard component so `/patient/home` also reflects the new design.
+- Used neutral card surfaces and restrained blue accents according to design constraints, with responsive 12-column desktop layout and mobile fallbacks.
+- Applied framer-motion for card entrance and hover micro-transitions and verified changed files with diagnostics.
 - [x] Strengthened auth guards with clear flow: public → admin → auth → protected
 - [x] Root `/` redirects logged-in users at proxy level (no client-side flash)
 - [x] Created (onboarding) layout with server-side auth check
