@@ -28,10 +28,6 @@ const Navbar = dynamic(
   }
 );
 
-const AuthRedirectGate = dynamic(
-  () => import("@/components/landing/auth-redirect").then((mod) => mod.AuthRedirectGate)
-);
-
 const HeroCarousel = dynamic(
   () => import("@/components/landing/hero-carousel").then((mod) => mod.HeroCarousel),
   {
@@ -42,7 +38,6 @@ const HeroCarousel = dynamic(
 export default function Home() {
   return (
     <AppBackground className="min-h-dvh min-h-app">
-      <AuthRedirectGate />
       <Navbar />
 
       <main className="mx-auto max-w-7xl page-content pt-28 md:pt-32 pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
