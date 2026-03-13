@@ -48,13 +48,6 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     const verificationStatus = (profile?.verification_status || "unverified").toLowerCase();
     const cookieStore = await cookies();
     
-    // Debug logging
-    console.log("Login Debug:");
-    console.log("  - Role:", role);
-    console.log("  - Verification Status:", verificationStatus);
-    console.log("  - Onboarding Completed:", profile?.onboarding_completed);
-    console.log("  - Email Confirmed:", data.user.email_confirmed_at);
-    
     // Set role and onboarding status cookies for middleware
     cookieStore.set("user_role", role, { path: "/" });
     cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), { path: "/" });
@@ -62,24 +55,20 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     
     // Check email verification FIRST
     if (!data.user.email_confirmed_at) {
-      console.log("Email not verified, redirecting to /verify-email");
       redirect("/verify-email");
     }
     
     // Doctors must be admin-verified before proceeding (check for pending, rejected, unverified, etc.)
     if (role === "doctor" && verificationStatus !== "verified") {
-      console.log("Doctor not admin-verified (status:", verificationStatus, "), redirecting to /verify-pending");
       redirect("/verify-pending");
     }
     
     // Check onboarding
     if (!profile?.onboarding_completed) {
-      console.log("Onboarding not completed, redirecting to /onboarding/" + role);
       redirect(`/onboarding/${role}`);
     }
     
     // Redirect based on role
-    console.log("All checks passed, redirecting to home");
     if (role === "doctor") {
       redirect("/doctor/home");
     } else if (role === "patient") {
@@ -132,14 +121,7 @@ async function getAuthHeaders() {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
   
-  // Debug: Log all cookies
-  const allCookies = cookieStore.getAll();
-  console.log("Available cookies:", allCookies.map(c => c.name));
-  console.log("Session token found:", !!token);
-  
   if (!token) {
-    console.error("No session token found in cookies");
-    console.error("Available cookies:", allCookies);
     throw new Error("Authentication required. Please log in again.");
   }
   
@@ -177,9 +159,7 @@ export async function updatePatientOnboarding(data: any) {
 export async function updateDoctorOnboarding(data: any) {
   try {
     const headers = await getAuthHeaders();
-    
-    console.log("Sending doctor onboarding update to:", `${BACKEND_URL}/profile/doctor/onboarding`);
-    
+
     const response = await fetch(`${BACKEND_URL}/profile/doctor/onboarding`, {
       method: "PATCH",
       headers,
@@ -192,9 +172,7 @@ export async function updateDoctorOnboarding(data: any) {
       throw new Error(errorData.detail || "Update failed");
     }
 
-    const result = await response.json();
-    console.log("Doctor onboarding update successful");
-    return result;
+    return await response.json();
   } catch (error) {
     console.error("Onboarding update error:", error);
     throw error;
@@ -204,8 +182,6 @@ export async function updateDoctorOnboarding(data: any) {
 export async function getPatientOnboardingData() {
   try {
     const headers = await getAuthHeaders();
-    console.log("Fetching patient data from:", `${BACKEND_URL}/profile/patient/onboarding`);
-    console.log("Headers:", headers);
     
     const response = await fetch(`${BACKEND_URL}/profile/patient/onboarding`, {
       method: "GET",
@@ -213,15 +189,11 @@ export async function getPatientOnboardingData() {
       cache: "no-store",
     });
 
-    console.log("Response status:", response.status);
     if (!response.ok) {
-      console.error("Failed to fetch patient data, status:", response.status);
       return null;
     }
 
-    const data = await response.json();
-    console.log("Patient data received:", data);
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Failed to fetch patient onboarding data:", error);
     return null;
@@ -386,13 +358,9 @@ export async function signupDoctor(formData: FormData) {
 
     const data = await response.json();
     
-    console.log("Signup response:", { hasSession: !!data.session, hasAccessToken: !!data.session?.access_token });
-    
     // Store session token
     if (data.session?.access_token) {
       const cookieStore = await cookies();
-      
-      console.log("Setting session_token cookie...");
       cookieStore.set("session_token", data.session.access_token, {
         httpOnly: false,  // Changed to false so client can access it
         secure: false,  // Changed to false for local development
@@ -402,13 +370,6 @@ export async function signupDoctor(formData: FormData) {
       });
       cookieStore.set("onboarding_completed", "false", { path: "/" });
       cookieStore.set("user_role", "doctor", { path: "/" });
-      
-      // Verify the cookie was set
-      const verifyToken = cookieStore.get("session_token");
-      console.log("Cookie set verification:", !!verifyToken);
-      console.log("Doctor signup successful - Session token stored");
-    } else {
-      console.error("No session token in signup response:", data);
     }
 
     return { success: true, userId: data.user_id };
@@ -430,7 +391,7 @@ export async function signout() {
     cookieStore.delete("verification_status");
     cookieStore.delete("admin_access");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   
   revalidatePath("/", "layout");

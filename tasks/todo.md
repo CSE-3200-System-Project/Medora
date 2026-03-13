@@ -1,13 +1,174 @@
-# Prescription, Loader, Dark Mode & Location Consistency Fix (2026-02-19)
+# Admin Panel Responsive Pass (2026-03-13)
 
 ## Status: completed
 
+### Todo
+- [x] Make admin dashboard stats stack vertically on small/mobile-first breakpoints
+- [x] Collapse admin list filters into dropdown controls on mobile/tablet breakpoints
+- [x] Add desktop table views with scroll container and keep card views for mobile on doctors/patients/appointments/users
+- [x] Ensure admin action buttons wrap and remain touch-accessible on small screens
+- [x] Improve schedule-review action/control layout for mobile and tablet
+
+### Review
+- Updated `/admin` stats grid to stack in one column until desktop breakpoints and improved quick-action label wrapping.
+- Updated `/admin/doctors`, `/admin/appointments`, and `/admin/users` filter UIs to use dropdown on small screens and chips on large screens.
+- Added responsive table + card dual rendering for `/admin/doctors`, `/admin/patients`, `/admin/appointments`, and `/admin/users`:
+   - Mobile/tablet: card-first view for easier scanning and tap interactions.
+   - Desktop: scroll-container tables for denser management workflows.
+- Improved action buttons across admin cards to wrap cleanly and maintain tap-friendly sizing.
+- Updated `/admin/schedule-review` controls and row actions to stack/wrap correctly for mobile/tablet.
+
+# Mobile-First Design System Refactor (2026-03-13)
+
+## Status: pending verification
+
 ### Plan
-- Trace and fix prescription visibility from acceptance flow to patient history/prescription views.
-- Fix doctor location serialization so coordinates are available where map/directions are rendered.
-- Standardize page-level loading states to use Medora loaders for UI consistency.
-- Repair dark-mode readability issues on doctor details and booking panel without introducing new design tokens.
-- Validate frontend type safety and capture a review summary.
+- Establish shared responsive primitives first so page-level refactors reuse one container, grid, card, and stack system instead of duplicating layout rules.
+- Add global responsive utility classes for safe containers, text truncation, touch targets, and overflow prevention in `frontend/app/globals.css`.
+- Refactor high-traffic shells and layout-heavy screens to the mobile-first breakpoint hierarchy (`base`, `sm`, `md`, `lg`, `xl`, `2xl`) and remove fixed layout dimensions where practical.
+- Audit remaining frontend pages/components for fixed widths, fixed heights, overflow risks, and horizontal scrolling, then apply focused fixes instead of broad restyling.
+- Validate changed frontend files and document any remaining repo-wide responsive risks that are outside the touched scope.
+
+### Todo
+- [x] Create reusable responsive wrappers: `ResponsiveContainer`, `ResponsiveGrid`, `ResponsiveCard`, `ResponsiveStack`
+- [x] Add shared utility classes for mobile-first containers, overflow guards, ellipsis, break-words, and touch-friendly targets
+- [x] Refactor top-level page shells and dashboard-style layouts to use the new container pattern `max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8`
+- [x] Replace fixed width/height layout constraints in core screens with fluid `grid`, `flex`, `min-h`, `max-w`, and aspect-ratio patterns
+- [x] Standardize card/list grids to `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4` where card collections are used
+- [x] Fix overflow and horizontal scroll hotspots by applying `min-w-0`, `overflow-hidden`, `text-ellipsis`, and `break-words`
+- [x] Ensure interactive controls and quick actions meet the 44px minimum touch target using mobile-safe height and padding
+- [x] Run targeted diagnostics on changed files and add a review summary with residual risks
+
+### Review
+- **Responsive Primitives Created**: Built `ResponsiveContainer` (with standardized padding), `ResponsiveGrid` (6 layout patterns), `ResponsiveCard` (adaptive padding + touch targets), and `ResponsiveStack` (direction-aware flex layouts) with mobile-first breakpoint support.
+- **Global Utilities Added**: Extended `globals.css` with overflow protection (`.overflow-safe`, `.no-scrollbar`), touch targets (`.touch-target`, `.touch-target-row`), responsive containers (`.container-responsive`), and mobile text truncation helpers.
+- **Page Shell Migration**: Refactored admin dashboard from `max-w-400` to `ResponsiveContainer` and standardized its grid patterns. AdminDashboard now uses quarters/half grid patterns instead of manual breakpoints.
+- **Fixed Dimension Cleanup**: Replaced sticky map `h-[calc(100vh-8rem)]` with `min-h-[75vh] max-h-[calc(100vh-8rem)]` for better mobile behavior. Improved previously visited doctors section to prevent horizontal scrolling.
+- **Grid Standardization**: Converted overflow-x-auto horizontal scrollers in prescriptions, reminders, and appointment booking to responsive grid layouts that stack properly on mobile.
+- **Overflow Protection**: Fixed horizontal scroll issues in cards/lists by replacing `flex gap overflow-x-auto` with `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` patterns.
+- **Touch Target Compliance**: Added `.touch-target` class to navbar buttons and admin dashboard quick actions to ensure 44px minimum touch surfaces.
+- **Validation Results**: All new responsive components pass TypeScript checking. No errors in changed files. New components provide consistent mobile-first patterns for future frontend development.
+
+**Remaining responsive risks outside this scope**: Auth forms may need responsive refinement + some onboarding wizard steps could benefit from ResponsiveGrid adoption. Landing page hero carousel could use aspect-ratio instead of fixed heights. These are candidates for future responsive iterations.
+
+---
+
+# Doctor Interface Mobile-First Responsive Design (2026-03-13)
+
+## Status: pending verification
+
+### Plan
+Implement comprehensive mobile-first responsive design for the doctor interface area, ensuring optimal user experience across phones, tablets, and desktop devices. Focus on appointment management, consultation workflows, prescription handling, patient records, and voice input functionality.
+
+### Key Responsive Improvements Needed:
+1. **Appointment Dashboard**: Convert to responsive grid system (`grid-cols-1 md:grid-cols-2 xl:grid-cols-3`) 
+2. **Consultation Screen**: Implement adaptive layout (side-by-side desktop, stacked mobile)
+3. **Prescription Editor**: Optimize medication entry fields for mobile with proper wrapping
+4. **Patient Records**: Transform wide data tables into stacked cards on mobile
+5. **Voice Input**: Ensure voice controls work effectively on small screens
+
+### Todo
+- [ ] **Audit existing appointment dashboard responsive structure**
+  - Analyze `home-doctor-appointments-client.tsx` current grid system
+  - Check appointment cards and filtering UI mobile behavior
+  - Identify layout breakpoints and overflow issues
+
+- [ ] **Implement responsive appointment dashboard grid**
+  - Apply `grid-cols-1 md:grid-cols-2 xl:grid-cols-3` to appointment cards
+  - Optimize appointment calendar for mobile viewing
+  - Ensure filter controls stack properly on smaller screens
+  - Fix any horizontal scroll issues in appointment lists
+
+- [ ] **Transform consultation screen layout**
+  - Modify `home-doctor-patient-id-consultation-client.tsx` for adaptive layout
+  - Desktop: maintain side-by-side patient info & prescription sections
+  - Mobile: stack sections - patient info → symptoms → prescription → notes
+  - Ensure consultation form fields are touch-friendly
+
+- [ ] **Optimize prescription editor for mobile**
+  - Update `MedicationForm.tsx` medication entry fields with proper wrapping
+  - Ensure `TestForm.tsx` and `SurgeryForm.tsx` are finger-friendly
+  - Improve prescription tabs UI for smaller screens
+  - Test medication search autocomplete on mobile devices
+
+- [ ] **Redesign patient record page for mobile**
+  - Convert wide data tables in `home-doctor-patient-id-client.tsx` to stacked cards
+  - Implement responsive patient info display
+  - Optimize medical history sections for mobile viewing
+  - Ensure appointment history is mobile-readable
+
+- [ ] **Enhance voice input UI for small screens**
+  - Optimize `voice-input-button.tsx` for touch interfaces
+  - Ensure voice transcription review UI works on mobile
+  - Test voice controls in different mobile orientations
+  - Add proper touch targets for voice functionality
+
+- [ ] **Implement responsive navigation and controls**
+  - Optimize doctor navbar for mobile devices
+  - Ensure all touch targets meet 44px minimum
+  - Test patient navigation and quick actions on mobile
+  - Verify appointment booking flows work on phones
+
+- [ ] **Validate and test full doctor interface**
+  - Test complete doctor workflow on mobile devices
+  - Verify all forms are usable with touch keyboards
+  - Check for horizontal scrolling issues
+  - Ensure all critical functions work on tablets and phones
+
+### Review
+*TBD - Will be populated after implementation*
+
+---
+
+# Fix Supabase JWT Login Verification (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify root cause from backend logs and auth flow
+- [x] Replace manual JWT secret dependency with Supabase JWKS-based verification
+- [x] Update auth dependency call sites to use unified verification behavior
+- [x] Validate `/auth/me` and protected endpoints no longer return 500 after login
+
+### Review
+- Root cause fixed: backend auth verification still expected `SUPABASE_JWT_SECRET`, but settings no longer defines it, causing 500 errors on any protected endpoint.
+- Implemented Supabase-native JWT validation path in `backend/app/core/security.py` using `/auth/v1/.well-known/jwks.json` (cached) with issuer/audience checks.
+- Added a safe fallback to `supabase.auth.get_user(token)` when local JWKS decode cannot validate a token, preserving compatibility.
+- Updated async call sites to await verification in `backend/app/routes/auth.py`, `backend/app/core/dependencies.py`, and `backend/app/routes/ai_doctor.py`.
+- Verified changed files report no diagnostics and removed all backend references to `SUPABASE_JWT_SECRET`.
+
+# PWA Conversion & Security Fix Plan
+
+## Status: completed
+
+## Audit Fixes
+- [x] Removed `next-pwa` v5.6.0 (eliminated serialize-javascript RCE + workbox vulnerability chain: 267 packages removed)
+- [x] Replaced with `@serwist/next` v9.5.6 (modern, maintained PWA library)
+- [x] Updated `next` 16.1.0 -> 16.1.6 (fixed 3 high severity DoS vulnerabilities)
+- [x] Ran `npm audit fix` for ajv ReDoS + minimatch ReDoS
+- [x] Result: **0 vulnerabilities** (was 8: 1 moderate + 7 high)
+
+## PWA Setup
+- [x] Created `public/manifest.json` with full icon set, theme colors, standalone display
+- [x] Created `app/sw.ts` service worker with Serwist (precaching, runtime caching, push, background sync)
+- [x] Configured `next.config.ts` with Serwist webpack wrapper (disabled in dev)
+- [x] Updated `layout.tsx` with PWA metadata (viewport, theme-color, manifest, apple-web-app)
+- [x] Created `components/pwa-registration.tsx` for service worker registration
+- [x] Created placeholder PWA icons in `public/icons/`
+
+## PWA Feature Utilities
+- [x] `lib/use-push-notifications.ts` - VAPID push subscription/unsubscription with backend integration
+- [x] `lib/use-offline.ts` - Network status hook, background sync trigger, offline data cache
+- [x] `lib/use-device-access.ts` - Camera (start/stop/capture), location (GPS), file picker hooks
+
+## Build
+- [x] Build script updated to `next build --webpack` (Serwist requires webpack, Turbopack for dev)
+- [x] `npm run build` succeeds
+- [x] `npm audit` clean (0 vulnerabilities)
+
+## Note
+- PWA icons in `public/icons/` are copies of the logo — replace with properly sized versions for production
+- Push notifications require VAPID keys configured on the FastAPI backend (`/notifications/vapid-key`, `/notifications/subscribe`, `/notifications/unsubscribe` endpoints)
 
 ### Todo
 - [x] Fix prescription visibility logic for accepted prescriptions and mixed prescription item types
@@ -97,6 +258,32 @@
 - Implemented a polished, primary dark/light theme control with instant switching and additional mode buttons (light/dark/system).
 - Added functional settings groups with persistence in localStorage:
    - Notifications (in-app, push with permission request, email, SMS, appointment, medication, lab, prescription, care tips)
+
+---
+
+# Phase 8-10 Mobile Hardware + Performance + UI Polish (2026-03-13)
+
+## Status: completed
+
+### Todo
+- [x] Add global mobile hardware support primitives (`100dvh`, safe-area, keyboard-aware viewport sizing)
+- [x] Improve touch ergonomics for swipe/pan interactions and mobile focus behavior
+- [x] Reduce mobile bundle cost with targeted dynamic imports for heavy/interactive sections
+- [x] Gate non-essential animations on mobile and reduced-motion contexts
+- [x] Standardize shared spacing and shadow primitives in UI building blocks
+- [x] Add reusable skeleton loaders for cards, tables, and forms
+- [x] Improve a11y baseline (ARIA labels, keyboard navigation affordances, focus-visible consistency)
+- [x] Run targeted diagnostics for touched frontend files and summarize residual risks
+
+### Review
+- Added global hardware-safe viewport handling using `MobileViewportFix` (`visualViewport`) and CSS variables (`--app-vh`, `--keyboard-inset-height`) to keep layout stable on small phones, modern phones, tablets, and large desktops.
+- Applied safe-area + dynamic viewport protections in the app shell (`layout.tsx`) and shared background container (`AppBackground`) with `min-h-dvh`/`min-h-app` and keyboard-safe bottom padding.
+- Added touch-friendly gesture support and ergonomics: swipe navigation in `HeroCarousel`, horizontal pan behavior for table containers via `touch-pan-x`, and improved focus-visible behavior in interactive controls.
+- Reduced initial landing-page client bundle by lazy-loading `Navbar`, `AuthRedirectGate`, and `HeroCarousel` via `next/dynamic` with lightweight skeleton fallbacks.
+- Added reusable skeleton loading primitives (`CardSkeleton`, `TableSkeleton`, `FormSkeleton`) and wired `FormSkeleton` into auth login suspense fallback.
+- Standardized visual polish with shared shadow utilities (`shadow-surface`, `shadow-surface-strong`) and spacing helpers aligned to `p-4`/`p-6`/`p-8` usage.
+- Performance-conscious motion updates: disabled non-essential page/stagger entry animations on small screens and reduced ambient background animation overhead on mobile.
+- Validation: all touched Phase 8-10 files report clean diagnostics. Residual risk is broader repo-wide responsive/performance consistency in untouched pages.
    - Healthcare preferences (preferred language, emergency contact details, reminder toggles)
    - Privacy/security and app behavior (biometric lock, auto-lock timeout, access sharing, sensitive notification hiding, compact mode, large text, reduce motion, start page)
 - Validation: changed files are error-free via diagnostics; broader frontend diagnostics show pre-existing Tailwind class-style suggestions in unrelated files.
@@ -120,7 +307,7 @@
 
 # Emoji cleanup — plan
 
-## Status: in-progress
+## Status: completed
 
 ### Plan
 
@@ -219,6 +406,31 @@ The backend route `get_patient_prescriptions` was querying `Prescription` record
    - "Set Reminder" button on each doctor-prescribed medication
    - Supports adding/removing multiple times per day
 5. **Notification Type Mappings**: Added missing types to notifications page
+
+---
+
+# Frontend Server-First Conversion Pass (2026-03-12)
+
+## Status: in-progress
+
+### Todo
+- [x] Finalize execution plan for phased server-first conversion
+- [x] Phase 1: Convert admin pages to server wrappers with client islands
+- [x] Seed admin pages with server-fetched initial data to remove mount-time client fetches
+- [x] Convert verify-pending and admin schedule review pages to server page wrappers
+- [x] Run `npm run build` and `npm run perf:bundle-budget` and document results
+
+### Review
+- Converted 7 pages to server-first wrappers and extracted client islands:
+   - `/admin`, `/admin/doctors`, `/admin/patients`, `/admin/users`, `/admin/appointments`, `/verify-pending`, `/admin/schedule-review`
+- Added server-fetched initial data hydration for admin dashboard/list pages, removing first paint client-fetch waterfalls on initial mount.
+- Added `export const dynamic = "force-dynamic"` to admin server wrappers to prevent static-render attempts with `no-store`/auth-bound requests.
+- Introduced dedicated client components under `frontend/components/admin/pages/` for interactive behavior isolation.
+- Validation results:
+   - `npm run build`: passed.
+   - `npm run perf:bundle-budget`: passed.
+   - Client bundle metrics after pass: `totalClientJsBytes=2441675`, `largestClientChunkBytes=993154`.
+   - `use client` page directives reduced from `35` to `28` across `frontend/app/**/page.tsx`.
    - consultation_started, consultation_completed
    - prescription_created, prescription_accepted, prescription_rejected
 
@@ -3091,6 +3303,37 @@ Built a comprehensive dashboard with:
 
 ---
 
+# Performance Continuation - Phase 3 Then Phase 2 (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify a low-risk Phase 3 hydration/rendering target in admin routes
+- [x] Convert that target from client-rendered navigation handling to server-compatible link navigation
+- [x] Execute a Phase 2 follow-up check for nearby admin pages and confirm no similarly low-risk conversion was missed
+- [x] Validate changed files for diagnostics regressions
+
+### Review
+- Prioritized Phase 3 first as requested by converting `frontend/components/admin/pages/admin-dashboard-client.tsx` from a client component to a server-compatible component.
+- Removed `"use client"` and `useRouter()` from the dashboard page, and replaced route transitions with `Link`-based navigation.
+- Kept UX behavior unchanged: pending-doctor row and all quick-action items remain clickable and route to the same destinations.
+- Phase 2 follow-up was performed on sibling admin pages (`admin-patients-client.tsx`, `admin-appointments-client.tsx`): these still require client runtime for local state, filters, pagination, and mutation flows, so no safe no-risk conversion was forced.
+- Net effect: reduced hydration/client JS for the admin dashboard route while preserving behavior.
+
+### Delta Update
+- Finished pending cleanup by resolving diagnostics hints in `frontend/components/admin/pages/admin-dashboard-client.tsx` for gradient/container utility usage.
+- Continued Phase 3 with additional route-level server-first conversions:
+   - `frontend/app/(admin)/clear-admin/page.tsx` now performs cookie clearing and redirect fully on the server.
+   - `frontend/app/(onboarding)/verification-success/page.tsx` converted to a server wrapper with client island in `frontend/components/onboarding/pages/verification-success-client.tsx`.
+   - `frontend/app/(onboarding)/verify-email/page.tsx` converted to a server wrapper with client island in `frontend/components/onboarding/pages/verify-email-client.tsx`.
+- Phase 2 impact: reduced `use client` directives directly in App Router page files for these onboarding/admin routes while preserving existing behavior.
+- Additional continuation pass:
+   - `frontend/app/(home)/patient/appointment-success/page.tsx` converted to a server wrapper that parses query params server-side.
+   - Added `frontend/components/patient/pages/appointment-success-client.tsx` as the interaction island and replaced client-side URL parsing/effect-based hydration with prop-driven rendering.
+   - `frontend/app/(auth)/forgot-password/page.tsx` converted to server wrapper with `frontend/components/auth/pages/forgot-password-client.tsx` client island.
+
+---
+
 # Appointment Success Screen Implementation
 
 ## Goal
@@ -3893,3 +4136,50 @@ Patient Home Page (localhost:3000/patient/home)
 -  **Loading states**: Skeleton UI for better UX
 
 
+
+---
+
+# Ultra Performance Mode - Phase 3 Heavy + Low-Risk Pair (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Migrate heavy `find-medicine` patient route to server-wrapper + isolated client island
+- [x] Migrate heavy `find-medicine` doctor route to server-wrapper + isolated client island
+- [x] Replace direct client medicine backend fetches with centralized server actions
+- [x] Apply same optimization pattern to one low-risk pair (admin users/patients post-action refresh)
+- [x] Run targeted diagnostics on changed files
+
+### Review
+- Added `frontend/lib/medicine-actions.ts` to centralize medicine search/detail calls through server actions (`searchMedicines`, `getMedicineDetails`).
+- Converted `frontend/app/(home)/patient/find-medicine/page.tsx` and `frontend/app/(home)/doctor/find-medicine/page.tsx` into server wrapper routes.
+- Added client islands:
+  - `frontend/components/medicine/pages/patient-find-medicine-client.tsx`
+  - `frontend/components/medicine/pages/doctor-find-medicine-client.tsx`
+- Patient medicine save now uses existing server actions (`getPatientOnboardingData`, `updatePatientOnboarding`) instead of client-side token parsing + direct fetch.
+- Low-risk pair optimization:
+  - `frontend/components/admin/pages/admin-users-client.tsx`: removed full users refetch after ban/unban; updates local row state instead.
+  - `frontend/components/admin/pages/admin-patients-client.tsx`: removed post-action refetch for ban/unban; updates local page state instead.
+- Diagnostics: no type errors in new/converted medicine files; remaining hints in admin files are pre-existing class-normalization suggestions.
+- Additional heavy-page split completed: `frontend/app/(home)/patient/find-doctor/page.tsx` and `frontend/app/(home)/patient/medical-history/page.tsx` now use server wrappers with extracted client islands.
+
+---
+
+# Remaining Pages & Screens Conversion Sweep (2026-03-12)
+
+## Status: completed
+
+### Todo
+- [x] Identify all remaining `frontend/app/**/page.tsx` files with `"use client"`
+- [x] Extract each to client-island files under `frontend/components/screens/pages/`
+- [x] Replace each app page with thin server wrapper imports
+- [x] Validate no route pages retain `"use client"`
+- [x] Run diagnostics on converted app + screen files
+
+### Review
+- Converted all remaining client route pages to server wrappers.
+- Added 19 extracted client screens in `frontend/components/screens/pages/` (auth/home doctor/patient/notifications/settings).
+- Verified no remaining `"use client"` directives exist in `frontend/app/**/page.tsx`.
+- Diagnostics: no type errors introduced by wrappers; existing Tailwind normalization hints remain in unrelated files (e.g., `frontend/app/(home)/patient/home/page.tsx`).
+- Validation update: `npm run build` and `npm run perf:bundle-budget` both pass after fixes.
+- Backend runtime check via terminal was skipped in this session, so backend startup state remains unverified here.

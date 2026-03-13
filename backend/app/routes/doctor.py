@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, and_, Text
 from typing import List, Optional
+import logging
 
 from app.core.dependencies import get_db
 from app.db.models.doctor import DoctorProfile
@@ -20,8 +21,10 @@ from app.schemas.doctor import (
 )
 from app.services.geocoding import geocode_and_save_doctor_locations, geocode_all_doctors_missing_coordinates
 from app.routes.auth import get_current_user_token
+from app.core.http_cache import build_etag, is_not_modified, not_modified_response, set_cache_headers
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 @router.get("/testxyz")
 async def test_route():
@@ -29,6 +32,8 @@ async def test_route():
 
 @router.get("/search", response_model=DoctorSearchResponse)
 async def search_doctors(
+    request: Request,
+    response: Response,
     query: Optional[str] = Query(None, description="Search by name, specialization, or symptoms"),
     speciality_id: Optional[int] = Query(None, description="Filter by speciality ID"),
     specialization: Optional[str] = Query(None, description="Legacy: filter by specialization text"),
@@ -126,21 +131,32 @@ async def search_doctors(
             consultation_mode=doc.consultation_mode
         ))
 
-    return DoctorSearchResponse(doctors=doctors, total=len(doctors))
+    result_payload = DoctorSearchResponse(doctors=doctors, total=len(doctors))
+    etag = build_etag(result_payload.model_dump(mode="json"))
+    set_cache_headers(
+        response,
+        etag=etag,
+        max_age_seconds=60,
+        stale_while_revalidate_seconds=120,
+        is_private=False,
+    )
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+
+    return result_payload
 
 
 @router.get("/{profile_id}", response_model=DoctorProfileResponse)
 async def get_doctor_profile(
     profile_id: str,
+    request: Request,
+    response: Response,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Get complete doctor profile by profile_id for the detail page.
     Returns comprehensive information including bio, education, work experience, locations, etc.
     """
-    with open("debug_log.txt", "a") as f:
-        f.write(f"Fetching doctor profile for ID: '{profile_id}'\n")
-    
     # Join DoctorProfile, Profile, and Speciality tables
     stmt = select(DoctorProfile, Profile, Speciality).join(
         Profile, DoctorProfile.profile_id == Profile.id
@@ -152,19 +168,7 @@ async def get_doctor_profile(
     row = result.first()
     
     if not row:
-        with open("debug_log.txt", "a") as f:
-            f.write(f"Doctor not found for ID: {profile_id}\n")
-        
-        # Check if it exists in doctor_profiles table at least
-        check_stmt = select(DoctorProfile).where(DoctorProfile.profile_id == profile_id)
-        check_result = await db.execute(check_stmt)
-        if check_result.first():
-             with open("debug_log.txt", "a") as f:
-                 f.write("Doctor exists in doctor_profiles table but join failed (missing Profile?)\n")
-        else:
-             with open("debug_log.txt", "a") as f:
-                 f.write("Doctor does not exist in doctor_profiles table\n")
-        
+        logger.info("Doctor profile not found: %s", profile_id)
         raise HTTPException(status_code=404, detail="Doctor not found")
 
     doc, prof, spec = row
@@ -234,7 +238,7 @@ async def get_doctor_profile(
             sanitized_work.append(WorkExperienceItem(**work_item))
         work_experience = sanitized_work
 
-    return DoctorProfileResponse(
+    result_payload = DoctorProfileResponse(
         profile_id=doc.profile_id,
         first_name=prof.first_name,
         last_name=prof.last_name,
@@ -264,6 +268,18 @@ async def get_doctor_profile(
         emergency_availability=doc.emergency_availability or False,
         telemedicine_available=doc.telemedicine_available or False
     )
+    etag = build_etag(result_payload.model_dump(mode="json"))
+    set_cache_headers(
+        response,
+        etag=etag,
+        max_age_seconds=60,
+        stale_while_revalidate_seconds=180,
+        is_private=False,
+    )
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+
+    return result_payload
 
 
 @router.get("/{profile_id}/slots", response_model=AppointmentSlotsResponse)

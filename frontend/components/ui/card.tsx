@@ -1,24 +1,35 @@
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-interface CardProps extends React.ComponentProps<"div"> {
+const cardVariants = cva(
+  "bg-card/95 text-card-foreground flex flex-col rounded-2xl border border-border/70 shadow-surface backdrop-blur-sm",
+  {
+    variants: {
+      size: {
+        sm: "p-3 sm:p-4",
+        md: "p-4 sm:p-6", 
+        lg: "p-6 sm:p-8",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  }
+)
+
+interface CardProps extends React.ComponentProps<"div">, VariantProps<typeof cardVariants> {
   /** Enable hover animation (desktop only) */
   hoverable?: boolean;
 }
 
-function Card({ className, hoverable = false, ...props }: CardProps) {
+function Card({ className, hoverable = false, size, ...props }: CardProps) {
   return (
     <div
       data-slot="card"
       className={cn(
-        // Base card styles with improved spacing
-        "bg-card text-card-foreground flex flex-col rounded-2xl border border-border shadow-sm",
-        // Mobile-first padding (20-24px as per PRD)
-        "p-5 md:p-6",
-        // Gap between card children
-        "gap-4 md:gap-5",
-        // Hover animation for desktop only (as per PRD)
+        cardVariants({ size }),
         hoverable && "card-hover cursor-pointer",
         className
       )}
@@ -32,7 +43,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "flex flex-col space-y-1.5",
+        "flex flex-col space-y-1.5 p-4 sm:p-6 pb-3 sm:pb-4",
         className
       )}
       {...props}
@@ -80,7 +91,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("", className)}
+      className={cn("px-4 sm:px-6 pb-4 sm:pb-6", className)}
       {...props}
     />
   )
@@ -90,7 +101,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center pt-2 -mx-5 -mb-5 md:-mx-6 md:-mb-6 px-5 md:px-6 py-4 bg-surface/50 rounded-b-2xl border-t border-border/50", className)}
+      className={cn("flex items-center px-4 sm:px-6 pb-4 sm:pb-6 pt-3 sm:pt-4 border-t border-border/60 bg-surface/35 rounded-b-2xl", className)}
       {...props}
     />
   )
@@ -104,4 +115,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  cardVariants,
 }

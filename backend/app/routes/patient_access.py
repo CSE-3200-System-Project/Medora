@@ -7,7 +7,7 @@ Endpoints for:
 3. Viewing access history
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, or_, func
 from app.core.dependencies import get_db
@@ -388,18 +388,21 @@ async def get_my_access_history(
     total = count_result.scalar() or 0
     
     # Build response with doctor details
+    doctor_ids = {log.doctor_id for log in logs}
+    profiles_by_id = {}
+    doctor_profiles_by_id = {}
+    if doctor_ids:
+        doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
+        profiles_by_id = {row.id: row for row in doctor_rows.scalars().all()}
+        doctor_profile_rows = await db.execute(
+            select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
+        )
+        doctor_profiles_by_id = {row.profile_id: row for row in doctor_profile_rows.scalars().all()}
+
     access_history = []
     for log in logs:
-        # Get doctor info
-        doctor_result = await db.execute(
-            select(Profile).where(Profile.id == log.doctor_id)
-        )
-        doctor = doctor_result.scalar_one_or_none()
-        
-        doctor_details_result = await db.execute(
-            select(DoctorProfile).where(DoctorProfile.profile_id == log.doctor_id)
-        )
-        doctor_details = doctor_details_result.scalar_one_or_none()
+        doctor = profiles_by_id.get(log.doctor_id)
+        doctor_details = doctor_profiles_by_id.get(log.doctor_id)
         
         access_history.append({
             "id": log.id,
@@ -419,6 +422,8 @@ async def get_my_access_history(
 
 @router.get("/my-doctor-access")
 async def get_my_doctor_access_settings(
+    page: int = Query(1, ge=1),
+    size: int | None = Query(None, ge=1, le=100),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
@@ -446,57 +451,64 @@ async def get_my_doctor_access_settings(
         select(Appointment.doctor_id).distinct()
         .where(Appointment.patient_id == patient_id)
     )
-    doctor_ids = [row[0] for row in appointments_result.fetchall()]
-    
+    all_doctor_ids = [row[0] for row in appointments_result.fetchall()]
+    doctor_ids = all_doctor_ids
+
+    if size is not None:
+        start = (page - 1) * size
+        doctor_ids = all_doctor_ids[start:start + size]
+
+    if not doctor_ids:
+        return {"doctors": [], "total": len(all_doctor_ids)}
+
+    doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
+    doctors_by_id = {row.id: row for row in doctor_rows.scalars().all()}
+
+    doctor_detail_rows = await db.execute(
+        select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
+    )
+    doctor_details_by_id = {row.profile_id: row for row in doctor_detail_rows.scalars().all()}
+
+    access_rows = await db.execute(
+        select(PatientDoctorAccess).where(
+            and_(
+                PatientDoctorAccess.patient_id == patient_id,
+                PatientDoctorAccess.doctor_id.in_(doctor_ids),
+            )
+        )
+    )
+    access_by_doctor_id = {row.doctor_id: row for row in access_rows.scalars().all()}
+
+    appointment_count_rows = await db.execute(
+        select(
+            Appointment.doctor_id,
+            func.count(Appointment.id).label("appointment_count"),
+        )
+        .where(Appointment.patient_id == patient_id, Appointment.doctor_id.in_(doctor_ids))
+        .group_by(Appointment.doctor_id)
+    )
+    appointment_counts = {row.doctor_id: row.appointment_count for row in appointment_count_rows}
+
+    last_access_rows = await db.execute(
+        select(
+            PatientAccessLog.doctor_id,
+            func.max(PatientAccessLog.accessed_at).label("last_access"),
+        )
+        .where(
+            PatientAccessLog.patient_id == patient_id,
+            PatientAccessLog.doctor_id.in_(doctor_ids),
+        )
+        .group_by(PatientAccessLog.doctor_id)
+    )
+    last_access_by_doctor_id = {row.doctor_id: row.last_access for row in last_access_rows}
+
     doctors_list = []
     for doctor_id in doctor_ids:
-        # Get doctor info
-        doctor_result = await db.execute(
-            select(Profile).where(Profile.id == doctor_id)
-        )
-        doctor = doctor_result.scalar_one_or_none()
-        
-        doctor_details_result = await db.execute(
-            select(DoctorProfile).where(DoctorProfile.profile_id == doctor_id)
-        )
-        doctor_details = doctor_details_result.scalar_one_or_none()
-        
-        # Get access control record if exists
-        access_result = await db.execute(
-            select(PatientDoctorAccess).where(
-                and_(
-                    PatientDoctorAccess.patient_id == patient_id,
-                    PatientDoctorAccess.doctor_id == doctor_id
-                )
-            )
-        )
-        access_record = access_result.scalar_one_or_none()
-        
-        # Count appointments
-        appt_count_result = await db.execute(
-            select(func.count(Appointment.id)).where(
-                and_(
-                    Appointment.patient_id == patient_id,
-                    Appointment.doctor_id == doctor_id
-                )
-            )
-        )
-        appt_count = appt_count_result.scalar() or 0
-        
-        # Get last access
-        last_access_result = await db.execute(
-            select(PatientAccessLog)
-            .where(
-                and_(
-                    PatientAccessLog.patient_id == patient_id,
-                    PatientAccessLog.doctor_id == doctor_id
-                )
-            )
-            .order_by(PatientAccessLog.accessed_at.desc())
-            .limit(1)
-        )
-        last_access = last_access_result.scalar_one_or_none()
-        
+        doctor = doctors_by_id.get(doctor_id)
+        doctor_details = doctor_details_by_id.get(doctor_id)
+        access_record = access_by_doctor_id.get(doctor_id)
+        last_access = last_access_by_doctor_id.get(doctor_id)
+
         doctors_list.append({
             "doctor_id": doctor_id,
             "doctor_name": f"{doctor_details.title or 'Dr.'} {doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
@@ -504,12 +516,12 @@ async def get_my_doctor_access_settings(
             "doctor_photo_url": doctor_details.profile_photo_url if doctor_details else None,
             "hospital_name": doctor_details.hospital_name if doctor_details else None,
             "access_status": access_record.status.value if access_record else "active",
-            "appointment_count": appt_count,
-            "last_access": last_access.accessed_at.isoformat() if last_access else None,
-            "revoked_at": access_record.revoked_at.isoformat() if access_record and access_record.revoked_at else None
+            "appointment_count": appointment_counts.get(doctor_id, 0),
+            "last_access": last_access.isoformat() if last_access else None,
+            "revoked_at": access_record.revoked_at.isoformat() if access_record and access_record.revoked_at else None,
         })
-    
-    return {"doctors": doctors_list}
+
+    return {"doctors": doctors_list, "total": len(all_doctor_ids)}
 
 
 @router.post("/revoke-access/{doctor_id}")

@@ -15,11 +15,19 @@ export default async function HomeLayout({
   if (!user) {
     redirect('/logout?redirect=login')
   }
+
+  const roleValue =
+    typeof user?.role === "string"
+      ? user.role
+      : (user?.role?.value ?? "");
+  const isPatient = roleValue.toLowerCase() === "patient";
   
   return (
-    <>
-      <ReminderNotificationService />
-      {children}
-    </>
+    <div className="min-h-screen w-full overflow-x-hidden">
+      {isPatient ? <ReminderNotificationService /> : null}
+      <div className="min-h-screen w-full">
+        {children}
+      </div>
+    </div>
   )
 }

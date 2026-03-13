@@ -55,17 +55,13 @@ async function getAuthHeaders() {
 export async function getAdminStats() {
   try {
     const headers = await getAdminHeaders();
-    console.log("Fetching admin stats from:", `${BACKEND_URL}/admin/stats`);
-    console.log("Headers:", headers);
     
     const response = await fetch(`${BACKEND_URL}/admin/stats`, {
       headers,
       cache: "no-store",
     });
 
-    console.log("Response status:", response.status);
     const responseText = await response.text();
-    console.log("Response text:", responseText);
 
     if (!response.ok) {
       let errorData;

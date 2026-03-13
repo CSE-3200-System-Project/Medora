@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # =========================================================================
   # FastAPI Backend Service
@@ -13,7 +11,7 @@ services:
     
     # Port mapping: container:host
     ports:
-      - "8000:8000"
+      - "${PORT:-8000}:${PORT:-8000}"
     
     # Environment variables
     env_file:
@@ -37,6 +35,13 @@ services:
       
       # Development
       RELOAD: ${RELOAD:-false}
+
+      # Runtime config (Azure Container Apps compatible)
+      PORT: ${PORT:-8000}
+      UVICORN_WORKERS: ${UVICORN_WORKERS:-1}
+      WAIT_FOR_DB: ${WAIT_FOR_DB:-true}
+      RUN_MIGRATIONS: ${RUN_MIGRATIONS:-true}
+      PRELOAD_WHISPER_ON_STARTUP: ${PRELOAD_WHISPER_ON_STARTUP:-false}
     
     # Volume mounts for development (hot reload)
     volumes:

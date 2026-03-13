@@ -1,12 +1,17 @@
 import json
 import math
+import asyncio
+import time
+import logging
 from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, desc
 from typing import List, Optional, Tuple
 from datetime import date
+from types import SimpleNamespace
 
 from app.core.config import settings
+from app.core.security import verify_jwt
 from app.core.dependencies import get_db
 from app.db.models.doctor import DoctorProfile
 from app.db.models.profile import Profile
@@ -20,7 +25,6 @@ from app.schemas.ai_search import (
     PatientContextFactor
 )
 
-from app.db.supabase import supabase
 from groq import Groq
 
 from app.services.specialty_matching import (
@@ -37,20 +41,23 @@ from app.services.medical_knowledge import (
 )
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 client = Groq(api_key=settings.GROQ_API_KEY)
+SPECIALTY_CACHE_TTL_SECONDS = max(60, settings.PERF_API_CACHE_TTL)
+_all_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
+_available_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
 
 
 async def get_optional_user(authorization: Optional[str] = Header(None)):
     if not authorization:
         return None
     try:
-        if "Bearer" in authorization:
-            token = authorization.split(" ")[1]
-        else:
-            token = authorization
-        
-        response = supabase.auth.get_user(token)
-        return response.user if response else None 
+        token = authorization.split(" ", 1)[1] if authorization.startswith("Bearer ") else authorization
+        payload = await verify_jwt(token)
+        user_id = payload.get("sub")
+        if not user_id:
+            return None
+        return SimpleNamespace(id=user_id)
     except Exception:
         return None
 
@@ -228,9 +235,15 @@ def calculate_location_score(distance_km: Optional[float]) -> float:
 
 
 async def get_all_specialties(db: AsyncSession) -> List[str]:
+    if _all_specialties_cache["value"] and time.time() < float(_all_specialties_cache["expires_at"]):
+        return _all_specialties_cache["value"]  # type: ignore[return-value]
+
     stmt = select(Speciality.name)
     result = await db.execute(stmt)
-    return [row[0] for row in result.all()]
+    values = [row[0] for row in result.all()]
+    _all_specialties_cache["value"] = values
+    _all_specialties_cache["expires_at"] = time.time() + SPECIALTY_CACHE_TTL_SECONDS
+    return values
 
 
 async def get_available_specialties_with_doctors(db: AsyncSession) -> set[str]:
@@ -238,6 +251,10 @@ async def get_available_specialties_with_doctors(db: AsyncSession) -> set[str]:
     Get specialties that actually have verified doctors in the database.
     This ensures fallbacks only suggest specialties with available doctors.
     """
+    cached = _available_specialties_cache["value"]
+    if cached and time.time() < float(_available_specialties_cache["expires_at"]):
+        return cached  # type: ignore[return-value]
+
     stmt = select(Speciality.name).join(
         DoctorProfile, DoctorProfile.speciality_id == Speciality.id
     ).where(
@@ -245,7 +262,10 @@ async def get_available_specialties_with_doctors(db: AsyncSession) -> set[str]:
     ).distinct()
     
     result = await db.execute(stmt)
-    return set(row[0] for row in result.all())
+    values = set(row[0] for row in result.all())
+    _available_specialties_cache["value"] = values
+    _available_specialties_cache["expires_at"] = time.time() + SPECIALTY_CACHE_TTL_SECONDS
+    return values
 
 
 @router.post("/search", response_model=AIDoctorSearchResponse)
@@ -320,15 +340,19 @@ RULES:
 
     # 3. Call Groq LLM (PRD Section 4.3)
     try:
-        completion = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.1,
-            max_tokens=300
+        completion = await asyncio.wait_for(
+            asyncio.to_thread(
+                client.chat.completions.create,
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.1,
+                max_tokens=300,
+            ),
+            timeout=8,
         )
         content = completion.choices[0].message.content
         if content:
@@ -338,7 +362,7 @@ RULES:
             
     except Exception as e:
         # PRD Section 10: LLM Failure - fallback to manual search
-        print(f"LLM Error: {e}")
+        logger.warning("LLM error in AI search: %s", e)
         return AIDoctorSearchResponse(
             doctors=[], 
             ambiguity="high", 

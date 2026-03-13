@@ -56,6 +56,56 @@ export async function getMyAppointments() {
   return response.json();
 }
 
+export async function getDoctorAppointmentStats() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    return null;
+  }
+
+  const response = await fetch(`${BACKEND_URL}/appointment/stats`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      return null;
+    }
+    throw new Error("Failed to fetch doctor appointment stats");
+  }
+
+  return response.json();
+}
+
+export async function getDoctorUpcomingAppointments(limit: number = 3) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    return [];
+  }
+
+  const response = await fetch(`${BACKEND_URL}/appointment/upcoming?limit=${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      return [];
+    }
+    throw new Error("Failed to fetch doctor upcoming appointments");
+  }
+
+  return response.json();
+}
+
 export async function updateAppointment(id: string, data: any) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
