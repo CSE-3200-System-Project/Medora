@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import Link from "next/link";
@@ -167,7 +167,7 @@ export function AdminNavbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[280px] bg-[#1E3A5F] border-l border-[#2196F3]/20"
+              className="w-70 bg-[#1E3A5F] border-l border-[#2196F3]/20"
             >
               <SheetHeader className="border-b border-[#2196F3]/20 pb-4">
                 <SheetTitle className="flex items-center gap-2 text-white">
@@ -232,4 +232,5 @@ export function AdminNavbar() {
     </header>
   );
 }
+
 

@@ -2,13 +2,14 @@
 Medicine routes for search and detail endpoints.
 Based on PRD: medicine-knowledge.md
 """
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, func, text
 from typing import Optional, List
 from uuid import UUID
 
 from app.core.dependencies import get_db
+from app.core.http_cache import build_etag, is_not_modified, not_modified_response, set_cache_headers
 from app.db.models.medicine import Drug, Brand, MedicineSearchIndex
 from app.schemas.medicine import (
     MedicineSearchResult,
@@ -25,6 +26,8 @@ router = APIRouter()
 
 @router.get("/search", response_model=MedicineSearchResponse)
 async def search_medicines(
+    request: Request,
+    response: Response,
     q: str = Query(..., min_length=2, description="Search term"),
     limit: int = Query(20, ge=1, le=100, description="Max results"),
     dosage_form: Optional[str] = Query(None, description="Filter by dosage form"),
@@ -116,15 +119,29 @@ async def search_medicines(
             is_brand=is_brand,
         ))
     
-    return MedicineSearchResponse(
+    payload = MedicineSearchResponse(
         results=results,
         total=len(results),
         query=q
     )
+    etag = build_etag(payload.model_dump(mode="json"))
+    set_cache_headers(
+        response,
+        etag=etag,
+        max_age_seconds=30,
+        stale_while_revalidate_seconds=60,
+        is_private=False,
+    )
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+
+    return payload
 
 
 @router.get("/filters", response_model=MedicineFiltersResponse)
 async def get_medicine_filters(
+    request: Request,
+    response: Response,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -157,15 +174,29 @@ async def get_medicine_filters(
         for row in type_result.all()
     ]
     
-    return MedicineFiltersResponse(
+    payload = MedicineFiltersResponse(
         dosage_forms=dosage_forms,
         medicine_types=medicine_types
     )
+    etag = build_etag(payload.model_dump(mode="json"))
+    set_cache_headers(
+        response,
+        etag=etag,
+        max_age_seconds=300,
+        stale_while_revalidate_seconds=600,
+        is_private=False,
+    )
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+
+    return payload
 
 
 @router.get("/{drug_id}", response_model=MedicineDetailResponse)
 async def get_medicine_detail(
     drug_id: UUID,
+    request: Request,
+    response: Response,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -185,7 +216,7 @@ async def get_medicine_detail(
     brands_result = await db.execute(brands_stmt)
     brands = brands_result.scalars().all()
     
-    return MedicineDetailResponse(
+    payload = MedicineDetailResponse(
         drug_id=drug.id,
         generic_name=drug.generic_name,
         strength=drug.strength,
@@ -203,11 +234,25 @@ async def get_medicine_detail(
         ],
         created_at=drug.created_at,
     )
+    etag = build_etag(payload.model_dump(mode="json"))
+    set_cache_headers(
+        response,
+        etag=etag,
+        max_age_seconds=300,
+        stale_while_revalidate_seconds=900,
+        is_private=False,
+    )
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+
+    return payload
 
 
 @router.get("/brand/{brand_id}", response_model=MedicineDetailResponse)
 async def get_medicine_by_brand(
     brand_id: UUID,
+    request: Request,
+    response: Response,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -226,4 +271,4 @@ async def get_medicine_by_brand(
         raise HTTPException(status_code=404, detail="No associated medicine found")
     
     # Return the drug detail
-    return await get_medicine_detail(brand.drug_id, db)
+    return await get_medicine_detail(brand.drug_id, request, response, db)

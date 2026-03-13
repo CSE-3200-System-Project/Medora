@@ -14,6 +14,7 @@ interface Appointment {
   notes?: string;
   status: string;
   doctor_name?: string | null;
+  doctor?: string | null;
   doctor_title?: string | null;
 }
 

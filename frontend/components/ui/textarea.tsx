@@ -9,9 +9,9 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
       className={cn(
         // Base styles with mobile-first sizing
         "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input",
-        "field-sizing-content min-h-[80px] w-full min-w-0 rounded-lg border bg-transparent px-3 py-3",
-        // Typography - larger on mobile for better readability
-        "text-base md:text-sm",
+        "field-sizing-content min-h-[80px] w-full min-w-0 rounded-lg border bg-transparent px-3 sm:px-4 py-3",
+        // Typography with better wrapping and responsive sizing
+        "text-base sm:text-sm break-words resize-none",
         // Transitions
         "shadow-xs transition-[color,box-shadow,border-color] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] outline-none",
         // Disabled state
