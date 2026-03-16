@@ -1,3 +1,25 @@
+# Patient Medical History Responsive Adaptation (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient medical history page and related timeline/manager components for responsive gaps
+- [x] Refactor top-level tab navigation and timeline layout for mobile, tablet, desktop, and touch ergonomics
+- [x] Fix timeline year-group rendering and node/card positioning so mobile and desktop patterns are both clean
+- [x] Improve manager/list/action layouts to avoid overflow and keep 44px touch targets
+- [x] Run targeted diagnostics for changed frontend files
+- [x] Add review summary with implemented changes and residual risks
+
+### Review
+- Updated patient medical history tabs to a horizontal, touch-friendly scroll pattern so all sections remain accessible on narrow devices without squeezed labels.
+- Improved timeline responsiveness with a mobile left-rail model and desktop centerline alternation while removing duplicate mobile card rendering in yearly groups.
+- Made timeline cards full-width on smaller screens, refined type badge/title wrapping, and preserved alternating desktop alignment for readability.
+- Improved filter controls and manager module action controls to maintain mobile touch target sizes and cleaner wrapping on phones and tablets.
+- Standardized a few problematic text/currency separators in medical history rendering to avoid mojibake artifacts and improve consistency.
+- Validation: targeted diagnostics report no TypeScript/TSX errors in all changed frontend medical-history files.
+
+---
+
 # Doctor Profile Appointment Booking Page (2026-03-16)
 
 ## Status: completed

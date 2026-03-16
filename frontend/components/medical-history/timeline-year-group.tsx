@@ -24,7 +24,7 @@ export const TimelineYearGroup = React.memo(function TimelineYearGroup({
   return (
     <div className="space-y-6">
       {/* Year header with collapse */}
-      <div className="flex items-center gap-3 px-4">
+      <div className="flex items-center gap-3 px-2 sm:px-4">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="flex items-center gap-3 flex-1 text-left hover:opacity-70 transition-opacity"
@@ -50,7 +50,7 @@ export const TimelineYearGroup = React.memo(function TimelineYearGroup({
         <div className="relative px-2 sm:px-4">
           {/* Vertical center line */}
           <div
-            className="absolute left-1/2 top-0 bottom-0 z-0 w-px -translate-x-1/2 bg-linear-to-b from-primary/30 via-primary/20 to-primary/10"
+            className="absolute left-4 top-0 bottom-0 z-0 w-px bg-linear-to-b from-primary/30 via-primary/20 to-primary/10 lg:left-1/2 lg:-translate-x-1/2"
             style={{
               height: "100%",
             }}
@@ -62,16 +62,16 @@ export const TimelineYearGroup = React.memo(function TimelineYearGroup({
               const isAlternate = index % 2 === 1;
 
               return (
-                <div key={event.id} className="relative min-h-60 lg:min-h-65">
+                <div key={event.id} className="relative min-h-48 lg:min-h-65">
                   {/* Timeline node */}
                   <TimelineNode event={event} isAlternate={isAlternate} />
 
                   {/* Event card row */}
-                  <div className="grid grid-cols-1 gap-6 pt-2 lg:grid-cols-2 lg:gap-16">
-                    <div className={isAlternate ? "hidden lg:block" : "block"}>
+                  <div className="grid grid-cols-1 gap-4 pt-2 pl-10 lg:grid-cols-2 lg:gap-16 lg:pl-0">
+                    <div className="hidden lg:block">
                       {!isAlternate && <TimelineEventCard event={event} isAlternate={false} />}
                     </div>
-                    <div className={!isAlternate ? "hidden lg:block" : "block"}>
+                    <div className="hidden lg:block">
                       {isAlternate && <TimelineEventCard event={event} isAlternate />}
                     </div>
 

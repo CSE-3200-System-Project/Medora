@@ -424,7 +424,7 @@ function PatientMedicalHistoryPage() {
             Active Patient Profile
           </Badge>
 
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                 Patient Medical History
@@ -435,7 +435,7 @@ function PatientMedicalHistoryPage() {
                 {patientId !== "N/A" ? ` | ID: ${patientId}` : ""}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Button
                 variant="outline"
                 onClick={handleExportAll}
@@ -458,38 +458,38 @@ function PatientMedicalHistoryPage() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
-            <TabsTrigger value="timeline" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
+          <TabsList className="mb-6 flex h-auto w-full gap-2 overflow-x-auto p-1 bg-muted/30 no-scrollbar">
+            <TabsTrigger value="timeline" className="h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm">
               <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Timeline</span>
               <span className="sm:hidden">Timeline</span>
             </TabsTrigger>
-            <TabsTrigger value="medications" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabActiveState}`}>
+            <TabsTrigger value="medications" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabActiveState}`}>
               <Pill className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabIconText}`} />
               <span className="hidden sm:inline">Medications</span>
               <span className="sm:hidden">Meds</span>
             </TabsTrigger>
-            <TabsTrigger value="tests" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabActiveState}`}>
+            <TabsTrigger value="tests" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabActiveState}`}>
               <FlaskConical className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabIconText}`} />
               <span className="hidden sm:inline">Lab Tests</span>
               <span className="sm:hidden">Tests</span>
             </TabsTrigger>
-            <TabsTrigger value="surgeries" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabActiveState}`}>
+            <TabsTrigger value="surgeries" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabActiveState}`}>
               <Syringe className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabIconText}`} />
               <span className="hidden sm:inline">Surgeries</span>
               <span className="sm:hidden">Surgery</span>
             </TabsTrigger>
-            <TabsTrigger value="hospitalizations" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabActiveState}`}>
+            <TabsTrigger value="hospitalizations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabActiveState}`}>
               <Hospital className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabIconText}`} />
               <span className="hidden sm:inline">Hospitalizations</span>
               <span className="sm:hidden">Hospital</span>
             </TabsTrigger>
-            <TabsTrigger value="vaccinations" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabActiveState}`}>
+            <TabsTrigger value="vaccinations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabActiveState}`}>
               <Shield className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabIconText}`} />
               <span className="hidden sm:inline">Vaccinations</span>
               <span className="sm:hidden">Vaccines</span>
             </TabsTrigger>
-            <TabsTrigger value="visits" className={`text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabActiveState}`}>
+            <TabsTrigger value="visits" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabActiveState}`}>
               <CheckCircle2 className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabIconText}`} />
               <span className="hidden sm:inline">Visits</span>
               <span className="sm:hidden">Visits</span>
@@ -518,9 +518,9 @@ function PatientMedicalHistoryPage() {
                       .filter(p => p.medications.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.medications.map((med: MedicationPrescription) => (
@@ -536,7 +536,7 @@ function PatientMedicalHistoryPage() {
                                   {med.medicine_type}
                                 </Badge>
                               </div>
-                              <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                              <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
                                 {med.strength && (
                                   <div>
                                     <span className="text-muted-foreground">Strength:</span>
@@ -634,9 +634,9 @@ function PatientMedicalHistoryPage() {
                       .filter(p => p.tests.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.tests.map((test: TestPrescription) => (
@@ -913,9 +913,9 @@ function PatientMedicalHistoryPage() {
                       .filter(p => p.surgeries.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.surgeries.map((surgery: SurgeryRecommendation) => (
@@ -950,7 +950,7 @@ function PatientMedicalHistoryPage() {
                                 {surgery.estimated_cost_min && surgery.estimated_cost_max && (
                                   <div>
                                     <span className="text-muted-foreground">Est. Cost:</span>
-                                    <span className="ml-1 font-medium text-foreground">à§³{surgery.estimated_cost_min.toLocaleString()} - à§³{surgery.estimated_cost_max.toLocaleString()}</span>
+                                    <span className="ml-1 font-medium text-foreground">BDT {surgery.estimated_cost_min.toLocaleString()} - BDT {surgery.estimated_cost_max.toLocaleString()}</span>
                                   </div>
                                 )}
                               </div>
@@ -1019,9 +1019,9 @@ function PatientMedicalHistoryPage() {
                 {appointments.length > 0 ? (
                   <div className="space-y-4">
                     {appointments.map((app, i) => (
-                      <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg gap-4 bg-surface/30">
+                      <div key={i} className="flex flex-col justify-between gap-4 rounded-lg border bg-surface/30 p-4 md:flex-row md:items-center">
                         <div>
-                          <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1 flex flex-wrap items-center gap-2">
                              <Calendar className="h-4 w-4 text-primary" />
                              <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
                              <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -1035,13 +1035,13 @@ function PatientMedicalHistoryPage() {
                               const { consultationType, appointmentType } = parseCompositeReason(app.reason)
                               const ct = humanizeConsultationType(consultationType)
                               const at = humanizeAppointmentType(appointmentType)
-                              return <>{ct}{at ? ` â€¢ ${at}` : ''}</>
+                              return <>{ct}{at ? ` | ${at}` : ''}</>
                             })()}
                           </div>
 
-                          {app.notes && <div className="text-sm text-muted-foreground mt-2 max-w-xl">{app.notes}</div>}
+                          {app.notes && <div className="mt-2 max-w-xl text-sm text-muted-foreground break-words">{app.notes}</div>}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 self-start md:self-center">
                            <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>
                              {app.status}
                            </Badge>
@@ -1064,7 +1064,7 @@ function PatientMedicalHistoryPage() {
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="mt-0">
             {activeTab === "timeline" ? (
-              <div className="grid grid-cols-12 gap-8">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
                 {/* Left Column - Timeline (8 cols) */}
                 <div className="col-span-12 lg:col-span-8">
                   <EnhancedMedicalHistoryTimeline

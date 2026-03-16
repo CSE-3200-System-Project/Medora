@@ -39,18 +39,19 @@ export const TimelineEventCard = React.memo(function TimelineEventCard({
   const itemLine = event.items && event.items.length === 1 ? event.items[0].trim() : undefined;
   const showDetails = Boolean(event.items && event.items.length > 0);
   const accent = getTimelineAccentByEventType(event.type);
+  const desktopAlignment = isAlternate ? "lg:ml-auto" : "";
 
   return (
-    <Card className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 w-fit max-w-sm">
+    <Card className={`w-full max-w-none rounded-xl border border-slate-200 bg-white p-4 shadow-sm lg:max-w-sm ${desktopAlignment}`}>
       <CardContent className="p-0">
         <div className={`rounded-lg p-3 ${accent.timelineStripeBg}`}>
-          <div className="flex items-center justify-between gap-3">
-            <h4 className="text-left text-xl font-semibold text-foreground break-normal leading-snug whitespace-normal">
+          <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+            <h4 className="text-left text-lg font-semibold leading-snug whitespace-normal text-foreground sm:text-xl">
               {event.title}
             </h4>
             <Badge
               variant="outline"
-              className={`rounded-full border px-2 py-1 text-xs font-semibold ${accent.timelineBadge}`}
+              className={`rounded-full border px-2 py-1 text-[11px] font-semibold sm:text-xs ${accent.timelineBadge}`}
             >
               {getEventTypeLabel(event.type)}
             </Badge>
