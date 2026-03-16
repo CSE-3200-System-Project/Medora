@@ -1,5 +1,32 @@
 # Patient Medical History Responsive Adaptation (2026-03-16)
 
+## Medication Reminder & Analytics Dashboard (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add patient navigation link for Analytics and route it to `/analytics`
+- [x] Create new analytics page entry at `frontend/app/analytics/page.tsx`
+- [x] Build reusable dashboard components under `frontend/components/analytics/`
+- [x] Implement medication tick system (`Take`, `Skip`, `Snooze`) with local React state
+- [x] Recompute adherence metrics, heatmap, and missed-dose chart from local status data
+- [x] Add responsive two-column analytics layout and floating due-alert banner
+- [x] Run targeted diagnostics for all changed analytics files
+- [x] Add review summary with outcomes and residual frontend-only limitations
+
+### Review
+- Added the new analytics route at `frontend/app/analytics/page.tsx` and composed it with a dedicated client dashboard container.
+- Implemented modular analytics UI under `frontend/components/analytics/` with the requested component split: `AnalyticsDashboard`, `AdherenceStats`, `AdherenceHeatmap`, `MissedDoseChart`, `TodaySchedule`, `MedicationTimelineItem`, and `SmartInsight`.
+- Added live medication tick interactions (`Take`, `Skip`, `Remind`, `Snooze`) using local React state and immediate UI updates.
+- Wired derived analytics to local state changes so adherence score, perfect days, streak, heatmap colors, and missed-dose bar chart all recompute instantly.
+- Added a floating due alert panel with `Take` and `Snooze` actions when a medication is due.
+- Updated patient top navigation in `frontend/components/ui/navbar.tsx` (desktop and mobile) to include `Analytics` linking to `/analytics`.
+- Installed `recharts` dependency for chart rendering.
+- Validation: targeted diagnostics report no TypeScript errors in the changed analytics files.
+- Residual limitation: data is currently mock/local state only (frontend scope), with no backend persistence yet.
+
+# Patient Medical History Responsive Adaptation (2026-03-16)
+
 ## Status: completed
 
 ### Todo
