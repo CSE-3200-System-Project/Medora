@@ -1,5 +1,10 @@
-﻿import PageClient from "@/components/screens/pages/home-patient-doctor-id-client";
+﻿import { DoctorProfileAppointmentPage } from "@/components/doctor-profile/DoctorProfileAppointmentPage";
 
-export default function Page() {
-  return <PageClient />;
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { id } = await params;
+  return <DoctorProfileAppointmentPage doctorId={id} />;
 }
