@@ -29,7 +29,7 @@ export const TimelineFilters = React.memo(function TimelineFilters({
 
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border/70 bg-background p-2 shadow-xs">
-      <div className="relative min-w-40">
+      <div className="relative w-full sm:min-w-40 sm:flex-1">
         <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <select
@@ -50,7 +50,7 @@ export const TimelineFilters = React.memo(function TimelineFilters({
         variant={!upcomingOnly ? "default" : "outline"}
         size="sm"
         onClick={() => onUpcomingChange(false)}
-        className="h-10 rounded-xl px-4"
+        className="h-11 flex-1 rounded-xl px-4 sm:h-10 sm:flex-none"
       >
         All Events
       </Button>
@@ -59,13 +59,13 @@ export const TimelineFilters = React.memo(function TimelineFilters({
         variant={upcomingOnly ? "default" : "outline"}
         size="sm"
         onClick={() => onUpcomingChange(!upcomingOnly)}
-        className="h-10 rounded-xl px-4"
+        className="h-11 flex-1 rounded-xl px-4 sm:h-10 sm:flex-none"
       >
         <Clock className="mr-2 h-4 w-4" />
         Upcoming Events
       </Button>
 
-      <Badge variant="outline" className="h-10 rounded-xl px-4 text-sm font-semibold text-muted-foreground">
+      <Badge variant="outline" className="h-11 w-full justify-center rounded-xl px-4 text-sm font-semibold text-muted-foreground sm:h-10 sm:w-auto">
         {yearLabel} • {selectedYearEventCount} events
       </Badge>
     </div>

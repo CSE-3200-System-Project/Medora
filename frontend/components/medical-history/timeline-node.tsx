@@ -26,7 +26,7 @@ export const TimelineNode = React.memo(function TimelineNode({
 
   return (
     <div
-      className="absolute left-1/2 z-20 -translate-x-1/2"
+      className="absolute left-4 z-20 -translate-x-1/2 lg:left-1/2"
       style={{
         top: "2rem",
       }}
@@ -43,7 +43,7 @@ export const TimelineNode = React.memo(function TimelineNode({
       {isAlternate !== undefined && (
         <>
           <div
-            className={`absolute top-5 h-px ${colors.bg}`}
+            className={`absolute top-5 hidden h-px ${colors.bg} lg:block`}
             style={{
               width: "4rem",
               [isAlternate ? "right" : "left"]: "100%",
