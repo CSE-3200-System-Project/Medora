@@ -1,3 +1,143 @@
+# Doctor Profile Appointment Booking Page (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add new patient-facing dynamic route `/doctor/[doctorId]` and keep existing `/patient/doctor/[id]` wired to the same implementation
+- [x] Build modular doctor profile components matching Stitch reference layout and Medora design tokens
+- [x] Build modular booking components (`AppointmentBookingCard`, `AppointmentDateSelector`, `AppointmentSlotSelector`) with location/date/slot state
+- [x] Fetch real doctor and slot data from backend actions and normalize backend payloads for UI sections
+- [x] Integrate booking submit flow with existing appointment creation action and success redirect
+- [x] Ensure responsive behavior (desktop two-column + sticky booking card, mobile single-column flow)
+- [x] Validate changed frontend files for TypeScript/lint issues and add review summary
+
+### Review
+- Implemented a new reusable doctor booking page module under `frontend/components/doctor-profile/` with the requested component split: `DoctorProfileHeader`, `DoctorAboutCard`, `DoctorPracticeLocations`, `AppointmentBookingCard`, `AppointmentDateSelector`, and `AppointmentSlotSelector`.
+- Added the requested route `frontend/app/(home)/doctor/[doctorId]/page.tsx` and wired the existing `frontend/app/(home)/patient/doctor/[id]/page.tsx` to use the same shared implementation so existing patient flows remain functional.
+- Integrated live backend data using existing actions: doctor profile from `getPublicDoctorProfile`, slots from `getAvailableSlots`, and booking submit via `createAppointment` with redirect to the existing success page.
+- Implemented the specified layout behavior: `lg:grid-cols-12` with `lg:col-span-8` content area, `lg:col-span-4` booking panel, and sticky booking container (`top-24`) on large screens.
+- Implemented mobile-first behavior with single-column flow and horizontal date scrolling in the booking step.
+- Ran diagnostics on all changed files; no TypeScript/lint errors were reported for those files.
+
+# Patient Appointments Consistency Fixes (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and fix selected-date appointment visibility issue
+- [x] Rename appointments page header and breadcrumb copy to My Appointments
+- [x] Improve appointment dashboard dark-mode color consistency using theme tokens
+- [x] Adjust specialty distribution bubble sizing so larger labels render in larger circles
+- [x] Standardize appointment card surfaces/borders/colors for cross-component consistency
+- [x] Validate diagnostics for all changed appointment-related files
+
+### Review
+- Updated date filtering logic to use all selected-day appointments (not only upcoming), so selecting a date consistently shows that day’s appointments.
+- Updated header copy from patient-centric wording to patient-first wording: My Appointments.
+- Replaced hardcoded light/dark slate card backgrounds with theme tokens (`bg-card`, `border-border`, muted surfaces) across appointment dashboard components.
+- Improved ECharts dark-mode rendering by adapting tooltip, axis, and label colors based on the current theme class.
+- Updated specialty distribution bubble sizing formula to account for both visit count and specialty name length, so longer text naturally receives larger circle area.
+- Hardened local date key parsing for date-only strings (`YYYY-MM-DD`) to avoid timezone-induced day shifts.
+
+# Patient Appointments Dashboard Implementation (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Audit and reuse existing patient appointments data/action sources
+- [x] Build modular dashboard components under `frontend/components/appointments/`
+- [x] Implement patient summary card with profile + appointment metadata
+- [x] Implement appointment heatmap with month density + legend + tooltips
+- [x] Implement monthly trend and specialty distribution visualizations with SSR-safe dynamic ECharts
+- [x] Integrate existing calendar behavior into new dashboard section and remove bluish calendar shell
+- [x] Build upcoming appointments panel with date-based filtering and status badges
+- [x] Wire `Appointment History` and `New Appointment` actions to patient routes
+- [x] Update `/patient/appointments` screen composition to match Stitch light layout structure and keep patient navbar
+- [x] Validate diagnostics for changed files and add review summary
+
+### Review
+- Built a new modular patient appointments dashboard architecture under `frontend/components/appointments/` with dedicated components for summary, heatmap, calendar integration, upcoming list, and analytics charts.
+- Replaced the old page client implementation by wiring `home-patient-appointments-client.tsx` to the new `PatientAppointmentsPage` while preserving the existing patient navbar and route.
+- Implemented patient-facing header and segmented range toggle (`Month`, `Quarter`, `Year`) and removed doctor/admin-specific content from this route.
+- Added patient summary card with avatar, patient ID, next appointment, last visit, and a working `New Appointment` action routing to booking discovery.
+- Implemented appointment heatmap day-density visualization with legend (`Less` → `More`) and per-day hover tooltips.
+- Added monthly trend and specialty distribution ECharts panels using dynamic imports (`ssr: false`) for SSR-safe rendering.
+- Integrated existing calendar filtering behavior so selecting a date filters the upcoming list to that day; clearing selection shows all upcoming appointments.
+- Added `Appointment History` action routing to `/patient/medical-history?tab=visits`.
+- Updated shared `frontend/components/ui/appointment-calendar.tsx` styling to a neutral card shell (`bg-white`, dark slate, border, shadow-sm) to remove the prior blue-tinted container.
+- Verified diagnostics on all changed files; no remaining compile/lint issues were reported.
+
+# Patient Medical History Analytics Panel Fix (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Fix right-side analytics column to use vertical stacked layout
+- [x] Standardize analytics card shell styling for all three cards
+- [x] Ensure ECharts renders with explicit height wrappers and dynamic SSR-safe import
+- [x] Improve Condition Distribution card with donut center labels and legend list
+- [x] Improve Prescription History card with active month highlight and monthly badge
+- [x] Redesign Vitals Summary card with gradient metric layout
+
+### Review
+- Updated timeline-tab right column container to `flex flex-col gap-6`, ensuring all analytics cards stack consistently.
+- Standardized chart card shells with rounded, bordered, elevated styling and hover depth; removed fixed full-height behavior that could cause layout artifacts.
+- Ensured charts render reliably by keeping dynamic `echarts-for-react` imports and fixed-height chart wrappers.
+- Enhanced Condition Distribution with center metric text (`5` and `TOTAL ACTIVE`) and an explicit legend list matching design percentages.
+- Enhanced Prescription History with a header indicator dot, monthly badge, interactive tooltip, and active month (`Feb`) primary-color emphasis.
+- Reworked Vitals Summary into a gradient metric card with icon, primary vital value, and trend message.
+
+# Medical History Page Redesign (2026-03-16)
+
+## Status: planning
+
+### Phase 1: Component Architecture & Timeline Aggregator
+- [ ] Create TimelineAggregator component to merge all medical events
+- [ ] Build TimelineNode component for centered vertical timeline nodes
+- [ ] Create TimelineEventCard component with event-specific styling
+- [ ] Implement TimelineYearGroup component for year grouping
+- [ ] Build TimelineFilters component for event type filtering
+
+### Phase 2: Timeline & Two-Column Layout
+- [ ] Create new MedicalHistoryTimeline component (enhanced version)
+- [ ] Implement left column (8 cols) with centered vertical timeline
+- [ ] Add alternating left/right card positioning
+- [ ] Implement year grouping with collapsible sections
+- [ ] Add horizontal centerline visual element
+
+### Phase 3: Analytics Panel Components
+- [ ] Create ConditionDistributionChart component (donut/pie chart using ECharts)
+- [ ] Build PrescriptionHistoryChart component (bar chart with monthly data)
+- [ ] Create VitalsSummaryCard component with latest vitals display
+- [ ] Ensure all charts use theme colors
+
+### Phase 4: Timeline Filtering & Integration
+- [ ] Implement event type filter buttons (All, Consultations, Prescriptions, Labs, Imaging)
+- [ ] Create filter logic for timeline events
+- [ ] Integrate TimelineAggregator with existing data sources
+- [ ] Map event types to colors (Consultation→blue, Prescription→green, Lab→red, Imaging→purple, Follow-up→amber)
+
+### Phase 5: Layout & Styling
+- [ ] Implement two-column grid layout (grid-cols-12, gap-8)
+- [ ] Build header section with patient info and buttons
+- [ ] Make timeline the DEFAULT/FIRST tab
+- [ ] Ensure responsive behavior (stack on mobile, side-by-side on desktop)
+- [ ] Apply theme colors and styling from design
+
+### Phase 6: Integration & Testing
+- [ ] Update existing tabs to remain unchanged in functionality
+- [ ] Ensure Timeline tab is the initial active tab
+- [ ] Test event aggregation from all sources
+- [ ] Verify filtering works correctly
+- [ ] Test responsive breakpoints
+
+### Phase 7: Final Polish & Performance
+- [ ] Memoize timeline components for performance
+- [ ] Optimize chart rendering
+- [ ] Ensure no horizontal scrolling on mobile
+- [ ] Final styling refinement
+- [ ] Testing across devices
+
 # Admin Panel Responsive Pass (2026-03-13)
 
 ## Status: completed
