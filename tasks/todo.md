@@ -1,5 +1,31 @@
 # Patient Medical History Responsive Adaptation (2026-03-16)
 
+## Doctor Schedule Performance Dashboard Refactor (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Refactor existing doctor appointments page shell to Schedule Performance dashboard layout
+- [x] Create reusable module under `frontend/components/doctor-appointments/` with requested component split
+- [x] Keep existing appointment calendar component and wrap it in the new dashboard area
+- [x] Replace old all-appointments section with calendar-driven right panel list behavior
+- [x] Implement appointment modal workflow (approve, cancel, reschedule with time selector)
+- [x] Ensure selected-date filtering, upcoming default sorting, and card status updates
+- [x] Align with current dark theme tokens and mobile responsive stacking
+- [x] Run targeted diagnostics for changed doctor appointment files
+- [x] Add review summary and residual frontend-only notes
+
+### Review
+- Refactored the existing doctor appointments screen (`home-doctor-appointments-client`) into a Schedule Performance dashboard layout with: header, KPI row, analytics charts row, and calendar/list management area.
+- Added requested reusable components in `frontend/components/doctor-appointments/`: `ScheduleMetrics`, `DailyWorkloadChart`, `AppointmentDensityChart`, `AppointmentCalendar`, `AppointmentListPanel`, `AppointmentCard`, and `AppointmentModal`.
+- Kept the existing calendar implementation by wrapping and reusing `frontend/components/ui/appointment-calendar.tsx` (no rewrite), preserving selected-day highlight and status indicators.
+- Removed the old full "All Appointments" section and replaced it with a calendar-driven right panel that defaults to upcoming appointments and switches to selected-date appointments on calendar click.
+- Implemented modal workflow: approve/cancel/reschedule actions with centered floating dialog, dimmed backdrop, and smooth dialog animation. Reschedule opens a time selector and commits updates.
+- Added optimistic local state updates for status and time changes, with server sync via existing appointment update action and rollback on failure.
+- Kept dark mode alignment through existing theme tokens (`bg-card`, `border-border`, `text-foreground`, muted surfaces) and made all layout sections mobile-first responsive.
+- Validation: targeted diagnostics report no TypeScript errors in all changed doctor appointment files.
+- Residual note: chart series are currently static demo analytics data (frontend-only) while appointment panel data is live from existing appointments action.
+
 ## Medication Reminder & Analytics Dashboard (2026-03-16)
 
 ## Status: completed

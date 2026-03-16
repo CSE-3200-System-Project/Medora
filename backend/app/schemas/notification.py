@@ -11,6 +11,9 @@ class NotificationType(str, Enum):
     APPOINTMENT_CANCELLED = "appointment_cancelled"
     APPOINTMENT_COMPLETED = "appointment_completed"
     APPOINTMENT_REMINDER = "appointment_reminder"
+    APPOINTMENT_RESCHEDULE_REQUEST = "appointment_reschedule_request"
+    APPOINTMENT_RESCHEDULE_ACCEPTED = "appointment_reschedule_accepted"
+    APPOINTMENT_RESCHEDULE_REJECTED = "appointment_reschedule_rejected"
     
     # Patient related (for doctors)
     NEW_PATIENT = "new_patient"
