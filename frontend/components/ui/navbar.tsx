@@ -200,6 +200,9 @@ export function Navbar() {
               <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary font-semibold")}>
                 Find Doctor
               </Link>
+              <Link href="/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/analytics" && "text-primary font-semibold")}>
+                Analytics
+              </Link>
               <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary font-semibold")}>
                 Appointments
               </Link>
@@ -391,6 +394,9 @@ export function Navbar() {
                         <>
                           <Link href="/patient/find-doctor" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Users className="h-5 w-5 text-primary" /> Find Doctor
+                          </Link>
+                          <Link href="/analytics" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                            <Activity className="h-5 w-5 text-primary" /> Analytics
                           </Link>
                           <Link href="/patient/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
                             <Calendar className="h-5 w-5 text-primary" /> Appointments
