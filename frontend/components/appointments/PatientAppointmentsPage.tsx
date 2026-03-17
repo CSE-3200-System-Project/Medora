@@ -12,9 +12,11 @@ import { MonthlyAppointmentTrend } from "@/components/appointments/MonthlyAppoin
 import { PatientAppointmentSummary } from "@/components/appointments/PatientAppointmentSummary";
 import { SpecialtyDistributionChart } from "@/components/appointments/SpecialtyDistributionChart";
 import { UpcomingAppointmentsList } from "@/components/appointments/UpcomingAppointmentsList";
+import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
 import type { PatientAppointment, PatientSummary } from "@/components/appointments/types";
 import { Button } from "@/components/ui/button";
 import { cn, localDateKey } from "@/lib/utils";
+import { requestReschedule } from "@/lib/availability-actions";
 
 const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
 
@@ -47,7 +49,7 @@ function formatSummaryDate(date?: string) {
 
 function isUpcoming(appointment: PatientAppointment) {
   const status = appointment.status.toUpperCase();
-  if (status === "CANCELLED" || status === "COMPLETED") return false;
+  if (status === "CANCELLED" || status === "COMPLETED" || status === "NO_SHOW") return false;
   return new Date(appointment.appointment_date).getTime() >= Date.now();
 }
 
@@ -58,6 +60,7 @@ function normalizeAppointments(raw: any[]): PatientAppointment[] {
       id: String(item.id),
       title: item.title || null,
       reason: item.reason || null,
+      doctor_id: item.doctor_id || null,
       doctor_name: item.doctor_name || null,
       doctor_title: item.doctor_title || null,
       doctor_specialization: item.doctor_specialization || null,
@@ -135,6 +138,23 @@ export default function PatientAppointmentsPage() {
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [range, setRange] = React.useState<RangeKey>("month");
   const [loading, setLoading] = React.useState(true);
+  const [rescheduleTarget, setRescheduleTarget] = React.useState<PatientAppointment | null>(null);
+
+  const handleRescheduleConfirm = async (appointmentId: string, newDate: string, slotTime: string, notes?: string) => {
+    await requestReschedule({
+      appointment_id: appointmentId,
+      proposed_date: newDate,
+      proposed_time: slotTime,
+      reason: notes || "Patient requested reschedule",
+    });
+    // Reload appointments
+    try {
+      const response = await getPatientCalendarAppointments();
+      setAppointments(normalizeAppointments(response?.appointments || []));
+    } catch (error) {
+      console.error("Failed to reload appointments:", error);
+    }
+  };
 
   React.useEffect(() => {
     const load = async () => {
@@ -262,6 +282,7 @@ export default function PatientAppointmentsPage() {
                 appointments={filteredUpcomingAppointments}
                 selectedDate={selectedDate}
                 onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
+                onRequestReschedule={setRescheduleTarget}
               />
             </section>
 
@@ -275,6 +296,21 @@ export default function PatientAppointmentsPage() {
           </>
         )}
       </main>
+
+      <RescheduleAppointmentDialog
+        open={!!rescheduleTarget}
+        onOpenChange={(open) => !open && setRescheduleTarget(null)}
+        appointment={rescheduleTarget ? {
+          id: rescheduleTarget.id,
+          doctor_id: rescheduleTarget.doctor_id || undefined,
+          doctor_name: rescheduleTarget.doctor_name || undefined,
+          doctor_title: rescheduleTarget.doctor_title || undefined,
+          appointment_date: rescheduleTarget.appointment_date,
+          slot_time: rescheduleTarget.slot_time,
+        } : null}
+        onConfirm={handleRescheduleConfirm}
+        userRole="patient"
+      />
     </AppBackground>
   );
 }

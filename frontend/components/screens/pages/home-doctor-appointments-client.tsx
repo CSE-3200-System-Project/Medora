@@ -14,7 +14,7 @@ import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, human
 import { useRouter } from "next/navigation";
 
 type TabMode = 'appointments' | 'patients';
-type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
+type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'reschedule_requested' | 'no_show';
 
 const AppointmentCalendar = dynamic(
   () => import("@/components/ui/appointment-calendar").then((module) => module.AppointmentCalendar),
@@ -142,6 +142,8 @@ export default function DoctorAppointmentsPage() {
       confirmed: base.filter(a => a.status.toUpperCase() === 'CONFIRMED').length,
       cancelled: base.filter(a => a.status.toUpperCase() === 'CANCELLED').length,
       completed: base.filter(a => a.status.toUpperCase() === 'COMPLETED').length,
+      reschedule_requested: base.filter(a => a.status.toUpperCase() === 'RESCHEDULE_REQUESTED').length,
+      no_show: base.filter(a => a.status.toUpperCase() === 'NO_SHOW').length,
     };
   }, [selectedDate, dateFilteredAppointments, uniqueAppointments]);
 
@@ -224,6 +226,48 @@ export default function DoctorAppointmentsPage() {
           <Badge variant="destructive" className="flex items-center gap-1">
             <XCircle className="w-3 h-3" />
             Cancelled
+          </Badge>
+        );
+      case 'PENDING_ADMIN_REVIEW':
+        return (
+          <Badge className="flex items-center gap-1 bg-orange-500 text-white">
+            <AlertCircle className="w-3 h-3" />
+            Admin Review
+          </Badge>
+        );
+      case 'PENDING_DOCTOR_CONFIRMATION':
+        return (
+          <Badge variant="warning" className="flex items-center gap-1">
+            <AlertCircle className="w-3 h-3" />
+            Awaiting Confirm
+          </Badge>
+        );
+      case 'PENDING_PATIENT_CONFIRMATION':
+        return (
+          <Badge variant="warning" className="flex items-center gap-1">
+            <AlertCircle className="w-3 h-3" />
+            Patient Confirm
+          </Badge>
+        );
+      case 'RESCHEDULE_REQUESTED':
+        return (
+          <Badge className="flex items-center gap-1 bg-purple-500 text-white">
+            <Clock className="w-3 h-3" />
+            Reschedule
+          </Badge>
+        );
+      case 'CANCEL_REQUESTED':
+        return (
+          <Badge className="flex items-center gap-1 bg-rose-400 text-white">
+            <XCircle className="w-3 h-3" />
+            Cancel Req
+          </Badge>
+        );
+      case 'NO_SHOW':
+        return (
+          <Badge className="flex items-center gap-1 bg-gray-500 text-white">
+            <XCircle className="w-3 h-3" />
+            No Show
           </Badge>
         );
       default:
@@ -627,6 +671,24 @@ export default function DoctorAppointmentsPage() {
                   >
                     <CheckCircle2 className="w-3 h-3 mr-1" />
                     Completed ({statusCounts.completed})
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={statusFilter === 'reschedule_requested' ? 'default' : 'outline'}
+                    onClick={() => setStatusFilter('reschedule_requested')}
+                    className={cn("text-xs touch-target", statusFilter === 'reschedule_requested' && "bg-purple-500 hover:bg-purple-600")}
+                  >
+                    <AlertCircle className="w-3 h-3 mr-1" />
+                    Reschedule ({statusCounts.reschedule_requested})
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={statusFilter === 'no_show' ? 'default' : 'outline'}
+                    onClick={() => setStatusFilter('no_show')}
+                    className={cn("text-xs touch-target", statusFilter === 'no_show' && "bg-gray-500 hover:bg-gray-600")}
+                  >
+                    <XCircle className="w-3 h-3 mr-1" />
+                    No Show ({statusCounts.no_show})
                   </Button>
                 </div>
               </CardHeader>

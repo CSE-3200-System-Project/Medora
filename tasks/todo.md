@@ -1,3 +1,44 @@
+# Migration + Extraction Setup (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Apply and verify Alembic migration head for media storage schema
+- [x] Add explicit backend environment placeholders for extraction smoke testing
+- [x] Add executable local smoke test script for `/upload/prescription/extract`
+- [x] Document credential placement and run flow for user handoff
+
+### Review
+- Migration command executed and DB confirmed at `m3d1a_f1l35_001 (head)`.
+- Added optional local test placeholders in `backend/.env.example` for backend base URL, JWT token, test image path, and save-file flag.
+- Added `backend/scripts/test_prescription_extraction.ps1` to run authenticated multipart extraction tests in one command.
+- Kept production behavior unchanged; these additions are setup and validation tooling only.
+
+# Media Upload + Prescription Extraction (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add database support for media/file metadata and profile banner URL fields
+- [x] Implement robust backend storage API for upload/list/update/delete using Supabase Storage + DB metadata
+- [x] Keep backward compatibility with existing onboarding upload flow (`/upload/` response shape)
+- [x] Implement prescription image extraction endpoint with LLM-based OCR-style text extraction
+- [x] Add frontend integration helpers for authenticated file upload and prescription extraction
+- [x] Implement patient Find Medicine prescription upload demo UI with modern split layout, live preview, processing overlay, and extracted text panel
+- [x] Validate changed files for diagnostics/runtime issues and document review summary
+
+### Notes
+- Scope includes image + document upload lifecycle foundation and a production-ready demo integration at the patient find-medicine flow.
+- Medical safety constraint maintained: extraction returns transcribed text only, with no diagnosis/prescription decisions.
+
+### Review
+- Added backend persistence and schema support for uploaded file metadata via `media_files` and added `profile_banner_url` fields for patient and doctor profile models.
+- Built an end-to-end media lifecycle API on `/upload`: legacy upload, authenticated upload/list/replace/delete, and prescription text extraction endpoint.
+- Kept old onboarding upload compatibility while upgrading patient/doctor onboarding clients to use the new authenticated upload API with fallback to the legacy endpoint.
+- Added reusable frontend storage helpers in `frontend/lib/file-storage-actions.ts` so future profile/banner/document features can integrate consistently.
+- Implemented patient Find Medicine prescription upload demo UI with mobile-first responsive split layout, image preview, animated processing overlay, and extracted-text result panel.
+- Diagnostics: no current errors in changed backend and frontend files touched for this feature set.
+
 # Patient Medical History Responsive Adaptation (2026-03-16)
 
 ## Status: completed

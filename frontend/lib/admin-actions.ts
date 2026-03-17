@@ -193,6 +193,71 @@ export async function getAllAppointments(limit = 50, offset = 0) {
     throw error;
   }
 }
+// Audit Logs
+export async function getAuditLogs(
+  appointmentId?: string,
+  limit = 50,
+  offset = 0
+) {
+  try {
+    const headers = await getAdminHeaders();
+    const params = new URLSearchParams({
+      limit: String(limit),
+      offset: String(offset),
+    });
+    if (appointmentId) params.set("appointment_id", appointmentId);
+
+    const response = await fetch(
+      `${BACKEND_URL}/admin/audit-logs?${params.toString()}`,
+      {
+        headers,
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch audit logs");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching audit logs:", error);
+    throw error;
+  }
+}
+
+// Override Appointment Status (admin force)
+export async function overrideAppointmentStatus(
+  appointmentId: string,
+  newStatus: string,
+  notes?: string
+) {
+  try {
+    const headers = await getAdminHeaders();
+    const response = await fetch(
+      `${BACKEND_URL}/admin/appointments/${appointmentId}/override-status`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          new_status: newStatus,
+          notes: notes || undefined,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail || "Failed to override status");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error overriding appointment status:", error);
+    throw error;
+  }
+}
+
 // Ban user
 export async function banUser(userId: string, reason?: string) {
   try {

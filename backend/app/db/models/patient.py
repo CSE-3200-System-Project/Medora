@@ -12,6 +12,7 @@ class PatientProfile(Base):
     date_of_birth: Mapped[date | None]
     gender: Mapped[str | None]
     profile_photo_url: Mapped[str | None]
+    profile_banner_url: Mapped[str | None]
     nid_number: Mapped[str | None]  # National ID
     
     # === CONTACT & ADDRESS (Step 2) ===

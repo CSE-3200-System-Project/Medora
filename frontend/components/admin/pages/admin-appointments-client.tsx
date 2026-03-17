@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-native";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
-import { Calendar, User, Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { getAllAppointments } from "@/lib/admin-actions";
+import { Calendar, User, Search, ChevronLeft, ChevronRight, Shield } from "lucide-react";
+import { getAllAppointments, overrideAppointmentStatus } from "@/lib/admin-actions";
 import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 type Appointment = {
@@ -41,7 +41,20 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
   const [page, setPage] = useState(initialPage);
   const [total, setTotal] = useState(initialTotal);
   const hasMounted = useRef(false);
+  const [overridingId, setOverridingId] = useState<string | null>(null);
   const limit = 10;
+
+  const handleOverrideStatus = async (appointmentId: string, newStatus: string) => {
+    setOverridingId(appointmentId);
+    try {
+      await overrideAppointmentStatus(appointmentId, newStatus, "Admin override");
+      await fetchAppointments();
+    } catch (error) {
+      console.error("Failed to override status:", error);
+    } finally {
+      setOverridingId(null);
+    }
+  };
 
   const fetchAppointments = useCallback(async () => {
     setLoading(true);
@@ -65,7 +78,8 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
   }, [fetchAppointments]);
 
   const getStatusBadge = (status: string) => {
-    switch (status) {
+    const s = status.toLowerCase();
+    switch (s) {
       case "confirmed":
         return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Confirmed</Badge>;
       case "completed":
@@ -74,6 +88,18 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
         return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Cancelled</Badge>;
       case "pending":
         return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">Pending</Badge>;
+      case "pending_admin_review":
+        return <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">Admin Review</Badge>;
+      case "pending_doctor_confirmation":
+        return <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Doctor Confirm</Badge>;
+      case "pending_patient_confirmation":
+        return <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Patient Confirm</Badge>;
+      case "reschedule_requested":
+        return <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30">Reschedule</Badge>;
+      case "cancel_requested":
+        return <Badge className="bg-rose-500/20 text-rose-400 border-rose-500/30">Cancel Req</Badge>;
+      case "no_show":
+        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/30">No Show</Badge>;
       default:
         return <Badge className="bg-slate-500/20 text-slate-400 border-slate-500/30">{status}</Badge>;
     }
@@ -87,14 +113,14 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
 
   const totalPages = Math.ceil(total / limit);
 
-  const statuses = ["all", "pending", "confirmed", "completed", "cancelled"];
-  const statusCounts = {
-    all: appointments.length,
-    pending: appointments.filter((a) => a.status === "pending").length,
-    confirmed: appointments.filter((a) => a.status === "confirmed").length,
-    completed: appointments.filter((a) => a.status === "completed").length,
-    cancelled: appointments.filter((a) => a.status === "cancelled").length,
-  };
+  const statuses = [
+    "all", "pending", "confirmed", "completed", "cancelled",
+    "pending_admin_review", "reschedule_requested", "no_show",
+  ];
+  const statusCounts: Record<string, number> = { all: appointments.length };
+  for (const s of statuses.filter((s) => s !== "all")) {
+    statusCounts[s] = appointments.filter((a) => a.status === s).length;
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -218,6 +244,32 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                         })()}
                       </div>
                     )}
+
+                    {!["completed", "cancelled", "no_show"].includes(appointment.status.toLowerCase()) && (
+                      <div className="mt-3 pt-3 border-t border-slate-700/50">
+                        <div className="flex items-center gap-2">
+                          <Shield className="h-3.5 w-3.5 text-orange-400" />
+                          <span className="text-xs text-slate-400 font-medium">Override:</span>
+                          <Select
+                            value=""
+                            onChange={(e) => {
+                              if (e.target.value) handleOverrideStatus(appointment.id, e.target.value);
+                            }}
+                            disabled={overridingId === appointment.id}
+                            className="h-7 text-xs bg-slate-800/60 border-slate-600 text-slate-300 flex-1"
+                            aria-label="Override status"
+                          >
+                            <option value="">
+                              {overridingId === appointment.id ? "Updating..." : "Select status..."}
+                            </option>
+                            <option value="CONFIRMED">Confirm</option>
+                            <option value="CANCELLED">Cancel</option>
+                            <option value="COMPLETED">Complete</option>
+                            <option value="NO_SHOW">No Show</option>
+                          </Select>
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -233,6 +285,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                       <TableHead className="text-slate-300">Doctor</TableHead>
                       <TableHead className="text-slate-300">Reason</TableHead>
                       <TableHead className="text-slate-300">Status</TableHead>
+                      <TableHead className="text-slate-300">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -241,6 +294,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                       const ct = humanizeConsultationType(consultationType);
                       const at = humanizeAppointmentType(appointmentType);
                       const reasonLabel = appointment.reason ? `${ct || appointment.reason}${at ? ` - ${at}` : ""}` : "N/A";
+                      const isTerminal = ["completed", "cancelled", "no_show"].includes(appointment.status.toLowerCase());
 
                       return (
                         <TableRow key={appointment.id} className="border-slate-600/30 hover:bg-slate-700/40">
@@ -257,6 +311,29 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                           <TableCell className="text-slate-200">{appointment.doctor.name}</TableCell>
                           <TableCell className="text-slate-300 wrap-break-word">{reasonLabel}</TableCell>
                           <TableCell>{getStatusBadge(appointment.status)}</TableCell>
+                          <TableCell>
+                            {isTerminal ? (
+                              <span className="text-xs text-slate-500">—</span>
+                            ) : (
+                              <Select
+                                value=""
+                                onChange={(e) => {
+                                  if (e.target.value) handleOverrideStatus(appointment.id, e.target.value);
+                                }}
+                                disabled={overridingId === appointment.id}
+                                className="h-8 text-xs bg-slate-800/60 border-slate-600 text-slate-300 w-36"
+                                aria-label="Override status"
+                              >
+                                <option value="">
+                                  {overridingId === appointment.id ? "Updating..." : "Override..."}
+                                </option>
+                                <option value="CONFIRMED">Confirm</option>
+                                <option value="CANCELLED">Cancel</option>
+                                <option value="COMPLETED">Complete</option>
+                                <option value="NO_SHOW">No Show</option>
+                              </Select>
+                            )}
+                          </TableCell>
                         </TableRow>
                       );
                     })}

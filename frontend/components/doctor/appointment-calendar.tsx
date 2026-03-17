@@ -117,6 +117,20 @@ export function AppointmentCalendar({
         return 'bg-yellow-500';
       case 'COMPLETED':
         return 'bg-green-500';
+      case 'CANCELLED':
+        return 'bg-red-500';
+      case 'PENDING_ADMIN_REVIEW':
+        return 'bg-orange-500';
+      case 'PENDING_DOCTOR_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'PENDING_PATIENT_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'RESCHEDULE_REQUESTED':
+        return 'bg-purple-500';
+      case 'CANCEL_REQUESTED':
+        return 'bg-rose-400';
+      case 'NO_SHOW':
+        return 'bg-gray-500';
       default:
         return 'bg-primary';
     }

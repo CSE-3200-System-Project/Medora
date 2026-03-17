@@ -81,6 +81,7 @@ class PatientOnboardingUpdate(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     profile_photo_url: Optional[str] = None
+    profile_banner_url: Optional[str] = None
     nid_number: Optional[str] = None
     
     # Step 2 - Contact & Physical
@@ -219,6 +220,7 @@ class DoctorOnboardingUpdate(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     profile_photo_url: Optional[str] = None
+    profile_banner_url: Optional[str] = None
     nid_number: Optional[str] = None
     
     # Step 2 - Professional Credentials

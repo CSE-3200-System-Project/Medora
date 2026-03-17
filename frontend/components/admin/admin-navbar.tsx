@@ -10,7 +10,7 @@ import {
   Users,
   UserCheck,
   Calendar,
-  BarChart3,
+  ClipboardList,
   Settings,
   LogOut,
   Shield,
@@ -66,6 +66,7 @@ export function AdminNavbar() {
     { name: "Doctors", href: "/admin/doctors", icon: UserCheck },
     { name: "Patients", href: "/admin/patients", icon: Users },
     { name: "Appointments", href: "/admin/appointments", icon: Calendar },
+    { name: "Audit Log", href: "/admin/audit-log", icon: ClipboardList },
     { name: "User Management", href: "/admin/users", icon: Ban },
   ];
 

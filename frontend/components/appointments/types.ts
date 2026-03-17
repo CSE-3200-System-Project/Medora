@@ -4,6 +4,7 @@ export interface PatientAppointment {
   id: string;
   title?: string | null;
   reason?: string | null;
+  doctor_id?: string | null;
   doctor_name?: string | null;
   doctor_title?: string | null;
   doctor_specialization?: string | null;
