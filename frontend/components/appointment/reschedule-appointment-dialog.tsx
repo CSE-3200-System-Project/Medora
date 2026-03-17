@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
 import { getDoctorBookedSlots } from "@/lib/appointment-actions";
+import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 
 interface RescheduleAppointmentDialogProps {
   open: boolean;
@@ -90,6 +91,14 @@ export function RescheduleAppointmentDialog({
       fetchSlots(selectedDate);
     }
   }, [selectedDate, appointment?.doctor_id, fetchSlots]);
+
+  // Realtime: auto-refresh slots when availability changes
+  const realtimeDateKey = selectedDate ? localDateKey(selectedDate) : null;
+  useRealtimeSlots(
+    appointment?.doctor_id,
+    realtimeDateKey,
+    () => { if (selectedDate) fetchSlots(selectedDate); },
+  );
 
   const handleConfirm = async () => {
     if (!appointment || !selectedDate || !selectedSlot) return;

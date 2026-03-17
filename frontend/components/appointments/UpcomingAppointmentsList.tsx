@@ -1,6 +1,6 @@
 "use client";
 
-import { Brain, CalendarClock, HeartPulse, Stethoscope } from "lucide-react";
+import { Brain, CalendarClock, HeartPulse, RefreshCw, Stethoscope } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,12 +10,21 @@ interface UpcomingAppointmentsListProps {
   appointments: PatientAppointment[];
   selectedDate: string | null;
   onViewHistory: () => void;
+  onRequestReschedule?: (appointment: PatientAppointment) => void;
 }
 
 function statusVariant(status: string): "success" | "warning" | "destructive" {
   const value = status.toUpperCase();
   if (value === "CONFIRMED") return "success";
+  if (value === "COMPLETED") return "success";
   if (value === "PENDING") return "warning";
+  if (value === "PENDING_ADMIN_REVIEW") return "warning";
+  if (value === "PENDING_DOCTOR_CONFIRMATION") return "warning";
+  if (value === "PENDING_PATIENT_CONFIRMATION") return "warning";
+  if (value === "RESCHEDULE_REQUESTED") return "warning";
+  if (value === "CANCEL_REQUESTED") return "destructive";
+  if (value === "CANCELLED") return "destructive";
+  if (value === "NO_SHOW") return "destructive";
   return "destructive";
 }
 
@@ -55,6 +64,7 @@ export function UpcomingAppointmentsList({
   appointments,
   selectedDate,
   onViewHistory,
+  onRequestReschedule,
 }: UpcomingAppointmentsListProps) {
   return (
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
@@ -98,9 +108,22 @@ export function UpcomingAppointmentsList({
                   <p className="text-sm font-semibold text-foreground">{formatDateLabel(appointment.appointment_date)}</p>
                   <p className="text-xs text-muted-foreground">{formatTimeLabel(appointment.appointment_date, appointment.slot_time)}</p>
                 </div>
-                <Badge variant={statusVariant(appointment.status)} className="uppercase tracking-wide">
-                  {appointment.status}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant={statusVariant(appointment.status)} className="uppercase tracking-wide">
+                    {appointment.status}
+                  </Badge>
+                  {onRequestReschedule && appointment.status.toUpperCase() === "CONFIRMED" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 px-2 text-xs text-muted-foreground hover:text-primary"
+                      onClick={() => onRequestReschedule(appointment)}
+                    >
+                      <RefreshCw className="h-3 w-3 mr-1" />
+                      Reschedule
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           ))

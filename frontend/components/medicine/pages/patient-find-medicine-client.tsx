@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
+import { PrescriptionUploadDemo } from "@/components/medicine/prescription-upload-demo";
 import { AddMedicationDialog, type Medication } from "@/components/medicine/add-medication-dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -132,6 +133,10 @@ export function PatientFindMedicineClient() {
             This information is for general awareness only. Always consult your doctor before taking any medication.
           </AlertDescription>
         </Alert>
+
+        <div className="mb-6">
+          <PrescriptionUploadDemo />
+        </div>
 
         <MedicineSearch
           onSearch={handleSearch}

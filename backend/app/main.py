@@ -4,7 +4,7 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation, availability, reschedule, oauth
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -92,3 +92,6 @@ app.include_router(notification.router, prefix="/notifications", tags=["Notifica
 app.include_router(patient_access.router, prefix="/patient-access", tags=["Patient Access"])
 app.include_router(reminder.router, prefix="/reminders", tags=["Reminders"])
 app.include_router(consultation.router, prefix="/consultation", tags=["Consultation"])
+app.include_router(availability.router, prefix="/availability", tags=["Availability"])
+app.include_router(reschedule.router, prefix="/reschedule", tags=["Reschedule"])
+app.include_router(oauth.router, prefix="/oauth", tags=["OAuth"])

@@ -18,6 +18,7 @@ import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { MedicationManager, type Medication } from "@/components/medicine"
 import { MedicalTestSearch } from "@/components/medical-test"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
+import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
 import { useRouter } from "next/navigation"
 
 const STEPS = [
@@ -321,19 +322,38 @@ export function PatientOnboarding() {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0]
     if (file) {
-      const formDataUpload = new FormData()
-      formDataUpload.append("file", file)
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
-          method: 'POST',
-          body: formDataUpload,
-        })
-        if (res.ok) {
-          const data = await res.json()
-          handleInputChange(field, data.url)
+        const fieldToCategory: Record<string, MediaCategory> = {
+          profile_photo_url: "profile_photo",
+          medical_summary_url: "medical_document",
+        }
+
+        const category = fieldToCategory[field] || "general"
+
+        try {
+          const result = await uploadMediaFile({
+            file,
+            category,
+            entityType: "patient_onboarding",
+            visibility: "public",
+          })
+          handleInputChange(field, result.url || result.file.public_url || "")
           alert("File uploaded successfully!")
-        } else {
-          alert("Upload failed")
+        } catch {
+          // Fallback to legacy upload endpoint to avoid breaking existing onboarding flow
+          const formDataUpload = new FormData()
+          formDataUpload.append("file", file)
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
+            method: 'POST',
+            body: formDataUpload,
+          })
+          if (res.ok) {
+            const data = await res.json()
+            handleInputChange(field, data.url)
+            alert("File uploaded successfully!")
+          } else {
+            alert("Upload failed")
+          }
         }
       } catch (err) {
         console.error(err)

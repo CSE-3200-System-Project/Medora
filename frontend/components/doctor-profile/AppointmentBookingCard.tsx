@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { localDateKey } from "@/lib/utils";
 import { createAppointment } from "@/lib/appointment-actions";
 import { getAvailableSlots } from "@/lib/auth-actions";
+import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 import type { BackendDoctorProfile, DateOption, SlotGroup } from "@/components/doctor-profile/types";
 import { AppointmentDateSelector } from "@/components/doctor-profile/AppointmentDateSelector";
 import { AppointmentSlotSelector } from "@/components/doctor-profile/AppointmentSlotSelector";
@@ -96,6 +97,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
   const [slotGroups, setSlotGroups] = React.useState<SlotGroup[]>([]);
   const [loadingSlots, setLoadingSlots] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+  const [visitReason, setVisitReason] = React.useState("");
 
   const dateOptions = React.useMemo(
     () => buildDateOptions(doctor, selectedLocationIndex),
@@ -108,32 +110,35 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
     setSelectedSlot(null);
   }, [dateOptions]);
 
-  React.useEffect(() => {
-    async function loadSlots() {
-      if (!selectedDate) {
-        setSlotGroups([]);
-        return;
-      }
-
-      const selectedLocation = doctor.locations?.[selectedLocationIndex];
-      setLoadingSlots(true);
-      try {
-        const response = await getAvailableSlots(
-          doctor.profile_id,
-          selectedDate,
-          selectedLocation?.name
-        );
-        setSlotGroups(response?.slots || []);
-      } catch (error) {
-        console.error("Failed to load available slots", error);
-        setSlotGroups([]);
-      } finally {
-        setLoadingSlots(false);
-      }
+  const loadSlots = React.useCallback(async () => {
+    if (!selectedDate) {
+      setSlotGroups([]);
+      return;
     }
 
-    loadSlots();
+    const selectedLocation = doctor.locations?.[selectedLocationIndex];
+    setLoadingSlots(true);
+    try {
+      const response = await getAvailableSlots(
+        doctor.profile_id,
+        selectedDate,
+        selectedLocation?.name
+      );
+      setSlotGroups(response?.slots || []);
+    } catch (error) {
+      console.error("Failed to load available slots", error);
+      setSlotGroups([]);
+    } finally {
+      setLoadingSlots(false);
+    }
   }, [doctor.profile_id, doctor.locations, selectedDate, selectedLocationIndex]);
+
+  React.useEffect(() => {
+    loadSlots();
+  }, [loadSlots]);
+
+  // Realtime: auto-refresh slots when another user books/cancels
+  useRealtimeSlots(doctor.profile_id, selectedDate, loadSlots);
 
   const selectedLocation = doctor.locations?.[selectedLocationIndex];
   const consultationFee = selectedLocation?.appointment_duration
@@ -157,7 +162,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
       await createAppointment({
         doctor_id: doctor.profile_id,
         appointment_date: parseDateTimeToIso(selectedDate, selectedSlot),
-        reason: "face-to-face - new",
+        reason: visitReason.trim() || "New consultation",
         notes: `Slot: ${selectedSlot} | Location: ${selectedLocation?.name}`,
       });
 
@@ -258,6 +263,17 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
                   onSelectSlot={setSelectedSlot}
                 />
               )}
+            </section>
+
+            <section className="space-y-2.5">
+              <h3 className="text-sm font-semibold text-foreground">4. Reason for Visit</h3>
+              <input
+                type="text"
+                value={visitReason}
+                onChange={(e) => setVisitReason(e.target.value)}
+                placeholder="e.g., Follow-up checkup, New consultation..."
+                className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/40"
+              />
             </section>
 
             <div className="grid grid-cols-2 border-t border-border pt-3.5">

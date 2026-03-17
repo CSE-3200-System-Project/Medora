@@ -11,6 +11,7 @@ from app.db.models.enums import UserRole
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
 from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentResponse
 from app.routes.notification import create_notification
+from app.services import appointment_service, notification_service, slot_service
 import uuid
 from typing import List
 from datetime import datetime, timedelta, timezone, date as date_class
@@ -128,65 +129,70 @@ async def create_appointment(
 ):
     """
     Patient books an appointment with a doctor.
+    Uses transactional SELECT FOR UPDATE to prevent double-booking.
     """
     user_id = user.id
-    
+
     # Verify user is a patient
     result = await db.execute(select(Profile).where(Profile.id == user_id))
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
-    # Handle uppercase role values from database (PATIENT, DOCTOR, ADMIN)
+
     role_str = str(profile.role).upper()
     if "PATIENT" not in role_str:
-        raise HTTPException(status_code=403, detail=f"Only patients can book appointments")
-    
+        raise HTTPException(status_code=403, detail="Only patients can book appointments")
+
     # Verify doctor exists
     result_doc = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == appointment_data.doctor_id))
     doctor = result_doc.scalar_one_or_none()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
-    
-    # Get doctor's profile for name
-    doctor_profile_result = await db.execute(select(Profile).where(Profile.id == appointment_data.doctor_id))
-    doctor_profile = doctor_profile_result.scalar_one_or_none()
 
-    new_appointment = Appointment(
-        id=str(uuid.uuid4()),
-        doctor_id=appointment_data.doctor_id,
-        patient_id=user_id,
-        appointment_date=appointment_data.appointment_date,
-        reason=appointment_data.reason,
-        notes=appointment_data.notes,
-        status=AppointmentStatus.PENDING
-    )
-    
-    db.add(new_appointment)
-    await db.commit()
-    await db.refresh(new_appointment)
-    
-    # Create notification for doctor about new appointment
-    patient_name = f"{profile.first_name} {profile.last_name}"
-    appt_date = appointment_data.appointment_date.strftime("%b %d, %Y at %I:%M %p")
-    
-    await create_notification(
-        db=db,
-        user_id=appointment_data.doctor_id,
-        notification_type=NotificationType.APPOINTMENT_BOOKED,
-        title="New Appointment Request",
-        message=f"{patient_name} has booked an appointment for {appt_date}",
-        action_url="/doctor/appointments",
-        metadata={
-            "appointment_id": new_appointment.id,
-            "patient_id": user_id,
-            "patient_name": patient_name,
-        },
-        priority=NotificationPriority.HIGH,
-    )
-    
-    return new_appointment
+    # Extract slot_time from appointment_date or notes
+    slot_time_val = None
+    appt_dt = appointment_data.appointment_date
+    if appt_dt.hour != 0 or appt_dt.minute != 0:
+        from datetime import time as time_type
+        slot_time_val = time_type(appt_dt.hour, appt_dt.minute)
+    elif appointment_data.notes:
+        slot_match = re.search(r'Slot:\s*(\d{1,2}:\d{2}\s*(?:AM|PM))', appointment_data.notes, re.IGNORECASE)
+        if slot_match:
+            from datetime import time as time_type
+            parsed = datetime.strptime(slot_match.group(1).strip(), "%I:%M %p")
+            slot_time_val = time_type(parsed.hour, parsed.minute)
+
+    try:
+        new_appointment = await appointment_service.create_appointment(
+            db,
+            patient_id=user_id,
+            doctor_id=appointment_data.doctor_id,
+            appointment_date=appt_dt,
+            slot_time_val=slot_time_val,
+            reason=appointment_data.reason,
+            notes=appointment_data.notes,
+            duration_minutes=doctor.appointment_duration or 30,
+        )
+
+        # Notify doctor
+        patient_name = f"{profile.first_name} {profile.last_name}"
+        appt_date_str = appt_dt.strftime("%b %d, %Y at %I:%M %p")
+        await notification_service.notify_appointment_created(
+            db,
+            doctor_id=appointment_data.doctor_id,
+            patient_name=patient_name,
+            appointment_id=new_appointment.id,
+            patient_id=user_id,
+            appt_date_str=appt_date_str,
+        )
+
+        await db.commit()
+        await db.refresh(new_appointment)
+        return new_appointment
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/my-appointments", response_model=List[AppointmentResponse])
 async def get_my_appointments(
@@ -423,120 +429,117 @@ async def update_appointment_status(
     db: AsyncSession = Depends(get_db)
 ):
     """
-    Update appointment status (Cancel, Confirm, Complete).
-     Doctor can Confirm/Complete/Cancel.
-     Patient can Cancel.
+    Update appointment status using the state machine.
+    Doctor can Confirm/Complete/Cancel. Patient can Cancel.
+    All transitions are validated and audit-logged.
     """
     user_id = user.id
-    
+
     result = await db.execute(select(Profile).where(Profile.id == user_id))
     profile = result.scalar_one_or_none()
     if not profile:
-         raise HTTPException(status_code=404, detail="User profile not found")
+        raise HTTPException(status_code=404, detail="User profile not found")
 
     result_appt = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
     appointment = result_appt.scalar_one_or_none()
-    
+
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
-        
-    # Permission check
+
     is_patient = appointment.patient_id == user_id
     is_doctor = appointment.doctor_id == user_id
-    
+
     if not (is_patient or is_doctor):
         raise HTTPException(status_code=403, detail="Not authorized to modify this appointment")
-        
+
+    role_str = str(profile.role).upper()
+    performed_by_role = "patient" if "PATIENT" in role_str else "doctor"
+
     if update_data.status is not None:
-        # Normalize status to AppointmentStatus enum
-        new_status = None
+        # Normalize status
         if isinstance(update_data.status, AppointmentStatus):
             new_status = update_data.status
         else:
-            # Try to coerce from string
             try:
                 new_status = AppointmentStatus(update_data.status)
             except Exception:
                 raise HTTPException(status_code=400, detail="Invalid status value")
 
-        # Rules
+        # Patients can only cancel
         if is_patient and new_status != AppointmentStatus.CANCELLED:
             raise HTTPException(status_code=403, detail="Patients can only cancel appointments")
 
-        # Doctor can do anything
-        appointment.status = new_status
-        
-    if update_data.notes and is_doctor:
-        appointment.notes = update_data.notes
-        
-    if update_data.appointment_date:
-        # Maybe allow rescheduling?
-        appointment.appointment_date = update_data.appointment_date
+        try:
+            appointment = await appointment_service.transition_status(
+                db,
+                appointment_id=appointment_id,
+                new_status=new_status,
+                performed_by_id=user_id,
+                performed_by_role=performed_by_role,
+                notes=update_data.notes,
+            )
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+    else:
+        # Non-status updates (notes, date)
+        if update_data.notes and is_doctor:
+            appointment.notes = update_data.notes
+        if update_data.appointment_date:
+            appointment.appointment_date = update_data.appointment_date
 
     await db.commit()
     await db.refresh(appointment)
-    
-    # Send notification based on status change
+
+    # Send notifications based on status change
     if update_data.status is not None:
-        # Get both patient and doctor profiles for names
         patient_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.patient_id))
         patient_profile = patient_profile_result.scalar_one_or_none()
         doctor_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.doctor_id))
         doctor_profile = doctor_profile_result.scalar_one_or_none()
-        
+
         patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
         doctor_name = f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
-        appt_date = appointment.appointment_date.strftime("%b %d, %Y at %I:%M %p")
-        
+        appt_date_str = appointment.appointment_date.strftime("%b %d, %Y at %I:%M %p")
+
         if new_status == AppointmentStatus.CONFIRMED:
-            # Notify patient that appointment is confirmed
-            await create_notification(
-                db=db,
-                user_id=appointment.patient_id,
-                notification_type=NotificationType.APPOINTMENT_CONFIRMED,
-                title="Appointment Confirmed",
-                message=f"Your appointment with {doctor_name} on {appt_date} has been confirmed",
-                action_url="/patient/appointments",
-                metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
-                priority=NotificationPriority.HIGH,
+            await notification_service.notify_appointment_confirmed(
+                db,
+                patient_id=appointment.patient_id,
+                doctor_name=doctor_name,
+                appointment_id=appointment.id,
+                doctor_id=appointment.doctor_id,
+                appt_date_str=appt_date_str,
             )
         elif new_status == AppointmentStatus.CANCELLED:
-            # Notify the other party about cancellation
-            if is_doctor:
-                await create_notification(
-                    db=db,
-                    user_id=appointment.patient_id,
-                    notification_type=NotificationType.APPOINTMENT_CANCELLED,
-                    title="Appointment Cancelled",
-                    message=f"Your appointment with {doctor_name} on {appt_date} has been cancelled",
-                    action_url="/patient/appointments",
-                    metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
-                    priority=NotificationPriority.HIGH,
-                )
+            if performed_by_role == "doctor":
+                notify_user_id = appointment.patient_id
+                other_party_name = doctor_name
+                other_party_id = appointment.doctor_id
             else:
-                await create_notification(
-                    db=db,
-                    user_id=appointment.doctor_id,
-                    notification_type=NotificationType.APPOINTMENT_CANCELLED,
-                    title="Appointment Cancelled",
-                    message=f"{patient_name} has cancelled the appointment on {appt_date}",
-                    action_url="/doctor/appointments",
-                    metadata={"appointment_id": appointment.id, "patient_id": appointment.patient_id},
-                    priority=NotificationPriority.MEDIUM,
-                )
-        elif new_status == AppointmentStatus.COMPLETED:
-            # Notify patient that appointment is completed
-            await create_notification(
-                db=db,
-                user_id=appointment.patient_id,
-                notification_type=NotificationType.APPOINTMENT_COMPLETED,
-                title="Appointment Completed",
-                message=f"Your appointment with {doctor_name} has been completed. Thank you for visiting!",
-                action_url="/patient/appointments",
-                metadata={"appointment_id": appointment.id, "doctor_id": appointment.doctor_id},
-                priority=NotificationPriority.LOW,
+                notify_user_id = appointment.doctor_id
+                other_party_name = patient_name
+                other_party_id = appointment.patient_id
+
+            await notification_service.notify_appointment_cancelled(
+                db,
+                notify_user_id=notify_user_id,
+                other_party_name=other_party_name,
+                appointment_id=appointment.id,
+                other_party_id=other_party_id,
+                appt_date_str=appt_date_str,
+                cancelled_by_role=performed_by_role,
             )
-    
+        elif new_status == AppointmentStatus.COMPLETED:
+            await notification_service.notify_appointment_completed(
+                db,
+                patient_id=appointment.patient_id,
+                doctor_name=doctor_name,
+                appointment_id=appointment.id,
+                doctor_id=appointment.doctor_id,
+            )
+
+        await db.commit()
+
     return appointment
 
 # === Stats & Upcoming endpoints ===
@@ -659,101 +662,42 @@ async def get_doctor_booked_slots(
 ):
     """
     Get all booked/confirmed time slots for a doctor on a specific date.
-    Returns slots with their booking status and appointment details.
+    Delegates to slot_service for structured availability with fallback.
     Public endpoint for patients to see availability.
     """
-    # Get doctor profile for time slots configuration
+    # Verify doctor exists
     doc_result = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == doctor_id))
     doctor_profile = doc_result.scalar_one_or_none()
-    
+
     if not doctor_profile:
         raise HTTPException(status_code=404, detail="Doctor not found")
-    
-    # Parse the date
+
+    # Parse date
     try:
-        target_date = datetime.fromisoformat(date.replace("Z", "+00:00"))
-        if target_date.tzinfo is None:
-            target_date = datetime.strptime(date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
-        start_of_day = datetime(target_date.year, target_date.month, target_date.day, tzinfo=timezone.utc)
-        end_of_day = start_of_day + timedelta(days=1)
+        target_date = datetime.strptime(date[:10], "%Y-%m-%d").date()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
-    
-    # Get all appointments for this doctor on this date
-    query = select(Appointment).where(
-        Appointment.doctor_id == doctor_id,
-        Appointment.appointment_date >= start_of_day,
-        Appointment.appointment_date < end_of_day,
-        Appointment.status.in_([AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED, AppointmentStatus.COMPLETED])
-    )
-    
-    result = await db.execute(query)
-    appointments = result.scalars().all()
 
-    appointment_duration = doctor_profile.appointment_duration or 30
-    requested_day_full = start_of_day.strftime("%A")
-    time_slots: list[str] = []
+    result = await slot_service.get_available_slots(db, doctor_id, target_date)
 
-    if (
-        getattr(doctor_profile, "day_time_slots", None)
-        and isinstance(doctor_profile.day_time_slots, dict)
-        and len(doctor_profile.day_time_slots) > 0
-    ):
-        day_slots = doctor_profile.day_time_slots.get(requested_day_full, [])
-        if isinstance(day_slots, list) and day_slots:
-            time_slots = _expand_slot_ranges(day_slots, appointment_duration)
-    elif doctor_profile.visiting_hours or doctor_profile.time_slots:
-        schedule_text = doctor_profile.visiting_hours or doctor_profile.time_slots or ""
-        legacy_ranges = [
-            f"{start} - {end}"
-            for start, end in re.findall(
-                r"(\d{1,2}:\d{2}\s*(?:AM|PM))\s*-\s*(\d{1,2}:\d{2}\s*(?:AM|PM))",
-                schedule_text,
-                re.IGNORECASE,
-            )
-        ]
-        time_slots = _expand_slot_ranges(legacy_ranges, appointment_duration)
-
-    if not time_slots:
-        time_slots = list(DEFAULT_TIME_SLOTS)
-
-    appointment_by_slot = _build_appointment_slot_index(appointments)
-    now = datetime.now(timezone.utc)
+    # Flatten grouped slots into the legacy booked-slots format
     slot_data = []
-    for slot_time in time_slots:
-        normalized_slot = _normalize_slot_label(slot_time)
-        matching_appointment = appointment_by_slot.get(normalized_slot)
+    for group in result.get("slot_groups", []):
+        for slot in group.get("slots", []):
+            slot_data.append({
+                "time": slot["time"],
+                "is_past": slot.get("is_past", False),
+                "is_booked": not slot.get("is_available", True),
+                "appointment_id": slot.get("appointment_id"),
+                "status": slot.get("status"),
+                "reason": None,
+            })
 
-        slot_datetime: datetime | None = None
-        try:
-            parsed_time = datetime.strptime(normalized_slot, "%I:%M %p")
-            slot_datetime = datetime(
-                target_date.year,
-                target_date.month,
-                target_date.day,
-                parsed_time.hour,
-                parsed_time.minute,
-                tzinfo=timezone.utc,
-            )
-        except ValueError:
-            slot_datetime = None
-
-        slot_data.append(
-            {
-                "time": slot_time,
-                "is_past": bool(slot_datetime and slot_datetime < now),
-                "is_booked": matching_appointment is not None,
-                "appointment_id": matching_appointment.id if matching_appointment else None,
-                "status": _status_value(matching_appointment.status) if matching_appointment else None,
-                "reason": matching_appointment.reason if matching_appointment else None,
-            }
-        )
-    
     return {
         "date": date,
         "doctor_id": doctor_id,
         "appointment_duration": doctor_profile.appointment_duration or 30,
-        "slots": slot_data
+        "slots": slot_data,
     }
 
 
@@ -1148,13 +1092,32 @@ async def complete_appointment(
             detail="Cannot complete appointment before its scheduled time"
         )
     
-    # Mark as completed
-    appointment.status = AppointmentStatus.COMPLETED
-    appointment.updated_at = now
-    
+    # Mark as completed via state machine with audit trail
+    try:
+        appointment = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=AppointmentStatus.COMPLETED,
+            performed_by_id=user_id,
+            performed_by_role="doctor",
+            notes="Appointment completed by doctor",
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    # Notify patient
+    doctor_name = f"Dr. {profile.first_name} {profile.last_name}"
+    await notification_service.notify_appointment_completed(
+        db,
+        patient_id=appointment.patient_id,
+        doctor_name=doctor_name,
+        appointment_id=appointment.id,
+        doctor_id=appointment.doctor_id,
+    )
+
     await db.commit()
     await db.refresh(appointment)
-    
+
     return {
         "message": "Appointment marked as completed",
         "appointment": {

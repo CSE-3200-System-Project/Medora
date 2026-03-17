@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ScheduleSetter } from "@/components/doctor/schedule-setter";
-import { updateDoctorSchedule } from "@/lib/auth-actions";
+import { AvailabilityManager } from "@/components/doctor/availability-manager";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,19 +31,6 @@ export default function DoctorSchedulePage() {
     }
   };
 
-  const handleSave = async (
-    dayTimeSlots: Record<string, string[]>,
-    duration: number
-  ) => {
-    try {
-      await updateDoctorSchedule(dayTimeSlots, duration);
-      alert("Schedule updated successfully!");
-      router.push("/doctor/home");
-    } catch (error: any) {
-      throw error;
-    }
-  };
-
   if (loading) {
     return (
       <AppBackground className="min-h-screen flex items-center justify-center">
@@ -71,7 +57,7 @@ export default function DoctorSchedulePage() {
               Schedule Settings
             </h1>
             <p className="text-xs text-muted-foreground sm:text-sm">
-              Set your available days and hours
+              Manage your availability, leave, and special dates
             </p>
           </div>
         </div>
@@ -79,13 +65,13 @@ export default function DoctorSchedulePage() {
 
       {/* Content */}
       <div className="px-4 py-6 max-w-4xl mx-auto">
-        <ScheduleSetter
-          initialDayTimeSlots={profile?.day_time_slots}
-          initialAvailableDays={profile?.available_days || []}
-          initialTimeSlots={profile?.time_slots || ""}
-          appointmentDuration={profile?.appointment_duration || 30}
-          onSave={handleSave}
-        />
+        {profile?.id ? (
+          <AvailabilityManager doctorId={profile.id} />
+        ) : (
+          <p className="text-sm text-muted-foreground text-center py-8">
+            Unable to load doctor profile.
+          </p>
+        )}
       </div>
     </AppBackground>
   );
