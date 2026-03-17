@@ -98,3 +98,28 @@ class DurationUnit(str, enum.Enum):
     YEARS = "years"
     ONGOING = "ongoing"
     AS_NEEDED = "as_needed"
+
+
+# ========== Appointment Scheduling Enums ==========
+
+class AppointmentRequestStatus(str, enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    RESCHEDULE_PROPOSED = "reschedule_proposed"
+
+
+class RescheduleRequestStatus(str, enum.Enum):
+    PENDING = "pending"
+    ACCEPTED = "accepted"
+    REJECTED = "rejected"
+
+
+class DayOfWeek(int, enum.Enum):
+    MONDAY = 0
+    TUESDAY = 1
+    WEDNESDAY = 2
+    THURSDAY = 3
+    FRIDAY = 4
+    SATURDAY = 5
+    SUNDAY = 6
