@@ -3,21 +3,87 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, update, and_
 from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
-from app.db.models.notification import Notification, NotificationType, NotificationPriority
-from app.db.models.profile import Profile
+from app.db.models.notification import Notification, NotificationType, NotificationPriority, PushSubscription
+from app.services.push_service import get_vapid_public_key
 from app.schemas.notification import (
     NotificationResponse,
     NotificationListResponse,
     NotificationMarkRead,
     NotificationUpdate,
     UnreadCountResponse,
-    NotificationCreate,
+    PushSubscriptionRequest,
+    PushUnsubscribeRequest,
 )
 from typing import List, Optional
 from datetime import datetime, timezone
 import uuid
 
 router = APIRouter()
+
+
+@router.get("/vapid-key", response_model=dict)
+async def get_web_push_vapid_key():
+    public_key = get_vapid_public_key()
+    if not public_key:
+        raise HTTPException(status_code=503, detail="Web push is not configured")
+    return {"public_key": public_key}
+
+
+@router.post("/subscribe", response_model=dict)
+async def subscribe_to_push(
+    payload: PushSubscriptionRequest,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    user_id = user.id
+
+    result = await db.execute(
+        select(PushSubscription).where(PushSubscription.endpoint == payload.endpoint)
+    )
+    existing = result.scalar_one_or_none()
+    if existing:
+        existing.user_id = user_id
+        existing.p256dh = payload.keys.p256dh
+        existing.auth = payload.keys.auth
+        existing.is_active = True
+        existing.updated_at = datetime.now(timezone.utc)
+        existing.failure_count = 0
+    else:
+        db.add(
+            PushSubscription(
+                user_id=user_id,
+                endpoint=payload.endpoint,
+                p256dh=payload.keys.p256dh,
+                auth=payload.keys.auth,
+                is_active=True,
+            )
+        )
+
+    await db.commit()
+    return {"subscribed": True}
+
+
+@router.post("/unsubscribe", response_model=dict)
+async def unsubscribe_from_push(
+    payload: PushUnsubscribeRequest,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    user_id = user.id
+    result = await db.execute(
+        select(PushSubscription).where(
+            PushSubscription.user_id == user_id,
+            PushSubscription.endpoint == payload.endpoint,
+        )
+    )
+    subscription = result.scalar_one_or_none()
+    if not subscription:
+        return {"unsubscribed": True}
+
+    subscription.is_active = False
+    subscription.updated_at = datetime.now(timezone.utc)
+    await db.commit()
+    return {"unsubscribed": True}
 
 
 # ========== HELPER FUNCTIONS ==========

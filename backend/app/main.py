@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation, availability, reschedule, oauth
+from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -34,9 +35,16 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
 
+    # Startup: begin reminder dispatch loop
+    try:
+        await start_reminder_dispatcher()
+    except Exception as exc:
+        logger.warning("Failed to start reminder dispatcher: %s", exc)
+
     yield  # Application runs
 
     # Shutdown: Cleanup (if needed)
+    await stop_reminder_dispatcher()
     logger.info("Shutting down...")
 
 

@@ -110,3 +110,17 @@ class NotificationUpdate(BaseModel):
 class UnreadCountResponse(BaseModel):
     """Schema for unread count response"""
     unread_count: int
+
+
+class PushSubscriptionKeys(BaseModel):
+    p256dh: str
+    auth: str
+
+
+class PushSubscriptionRequest(BaseModel):
+    endpoint: str
+    keys: PushSubscriptionKeys
+
+
+class PushUnsubscribeRequest(BaseModel):
+    endpoint: str

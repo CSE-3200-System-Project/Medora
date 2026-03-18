@@ -1,5 +1,39 @@
 # Migration + Extraction Setup (2026-03-16)
 
+# Analytics Live Reminder Integration (2026-03-18)
+
+## Status: completed
+
+### Todo
+- [x] Audit analytics dashboard and confirm hardcoded reminder source
+- [x] Fetch medication reminders from backend for analytics initial render
+- [x] Replace static schedule with reminder-derived live schedule and due-alert logic
+- [x] Add client-side refresh for up-to-date reminder changes while page stays open
+- [x] Validate changed analytics files for TypeScript diagnostics
+
+### Review
+- Analytics now receives live medication reminders from backend via server-side fetch in `frontend/app/analytics/page.tsx`.
+- `AnalyticsDashboard` no longer uses seeded reminder constants; it derives today's schedule from real reminder times and weekday rules.
+- Added periodic client refresh (60s) and clock tick updates (30s) to keep due/upcoming/skipped states current.
+- Kept existing interaction buttons (`Take`, `Skip`, `Remind`, `Snooze`) as local UI state overlays on top of live reminder schedule.
+- Added graceful error messaging when reminder fetch refresh fails.
+
+# Reminder Timezone Runtime Fix (2026-03-18)
+
+## Status: completed
+
+### Todo
+- [x] Confirm root cause from backend logs and dispatcher code path
+- [x] Make reminder timezone handling resilient when tz database is missing
+- [x] Add missing timezone database dependency for Python on Windows
+- [x] Verify reminder API/dispatcher no longer fail with Asia/Dhaka on startup
+
+### Review
+- Added `tzdata>=2024.1` to backend dependencies so IANA zones (for example `Asia/Dhaka`) resolve correctly on Windows Python runtimes.
+- Hardened reminder dispatcher timezone fallback to avoid crash loops when the configured zone cannot be loaded; it now degrades to UTC with an explicit log message.
+- Updated reminder timezone validation to handle tz-database-unavailable environments more gracefully for default/UTC values, which prevents false-invalid rejections.
+- Verified in the backend venv that `ZoneInfo('Asia/Dhaka')` resolves successfully after installing `tzdata`.
+
 ## Status: completed
 
 ### Todo
