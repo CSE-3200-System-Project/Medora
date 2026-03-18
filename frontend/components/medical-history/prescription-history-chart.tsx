@@ -100,7 +100,7 @@ export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryC
   );
 
   return (
-    <Card className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+    <Card className="bg-card dark:bg-background rounded-2xl p-6 border border-border dark:border-border shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="p-0 pb-4">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-base flex items-center gap-2">
@@ -132,3 +132,4 @@ export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryC
 });
 
 PrescriptionHistoryChart.displayName = "PrescriptionHistoryChart";
+

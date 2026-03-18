@@ -428,7 +428,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                     <span>Booked</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded bg-gray-100 border border-gray-200"></div>
+                    <div className="w-3 h-3 rounded bg-muted/50 border border-border"></div>
                     <span>Past</span>
                   </div>
                 </div>
@@ -454,3 +454,4 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     </Card>
   );
 }
+

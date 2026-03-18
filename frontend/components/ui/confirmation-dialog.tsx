@@ -33,27 +33,27 @@ export function ConfirmationDialog({
   const variantConfig = {
     danger: {
       icon: AlertTriangle,
-      iconBg: "bg-red-100",
-      iconColor: "text-red-600",
-      buttonClass: "bg-red-600 hover:bg-red-700 text-white",
+      iconBg: "bg-destructive/15",
+      iconColor: "text-destructive",
+      buttonClass: "bg-destructive hover:bg-destructive/85 text-destructive-foreground",
     },
     warning: {
       icon: AlertCircle,
-      iconBg: "bg-yellow-100",
-      iconColor: "text-yellow-600",
-      buttonClass: "bg-yellow-600 hover:bg-yellow-700 text-white",
+      iconBg: "bg-warning/15",
+      iconColor: "text-warning",
+      buttonClass: "bg-warning hover:bg-warning/85 text-warning-foreground",
     },
     info: {
       icon: Info,
-      iconBg: "bg-blue-100",
-      iconColor: "text-blue-600",
-      buttonClass: "bg-blue-600 hover:bg-blue-700 text-white",
+      iconBg: "bg-primary/15",
+      iconColor: "text-primary",
+      buttonClass: "bg-primary hover:bg-primary/90 text-primary-foreground",
     },
     success: {
       icon: CheckCircle2,
-      iconBg: "bg-green-100",
-      iconColor: "text-green-600",
-      buttonClass: "bg-green-600 hover:bg-green-700 text-white",
+      iconBg: "bg-success/15",
+      iconColor: "text-success",
+      buttonClass: "bg-success hover:bg-success/85 text-primary-foreground",
     },
   };
 
@@ -69,11 +69,11 @@ export function ConfirmationDialog({
       />
       
       {/* Dialog */}
-      <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-card text-card-foreground border border-border rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -135,12 +135,12 @@ export function useConfirmation() {
   const handleConfirm = React.useCallback(() => {
     state.resolve?.(true);
     setState({ isOpen: false, resolve: null });
-  }, [state.resolve]);
+  }, [state]);
 
   const handleCancel = React.useCallback(() => {
     state.resolve?.(false);
     setState({ isOpen: false, resolve: null });
-  }, [state.resolve]);
+  }, [state]);
 
   return {
     isOpen: state.isOpen,

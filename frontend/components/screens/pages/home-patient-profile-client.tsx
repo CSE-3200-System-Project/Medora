@@ -240,7 +240,7 @@ export default function PatientProfilePage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 -mt-16 sm:-mt-20">
               <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-background shadow-lg">
                 <AvatarImage src={patient.profile_photo_url} alt={`${patient.first_name} ${patient.last_name}`} />
-                <AvatarFallback className="bg-primary text-white text-3xl font-bold">
+                <AvatarFallback className="bg-primary text-primary-foreground text-3xl font-bold">
                   {patient.first_name?.[0]}{patient.last_name?.[0]}
                 </AvatarFallback>
               </Avatar>

@@ -105,7 +105,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
   );
 
   return (
-    <Card className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+    <Card className="bg-card dark:bg-background rounded-2xl p-6 border border-border dark:border-border shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="p-0 pb-4">
         <CardTitle className="text-base flex items-center gap-2">
           <div className="h-3 w-3 rounded-full bg-primary" />
@@ -125,11 +125,11 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
             <ul className="mt-4 space-y-2">
               {chartData.map((item) => (
                 <li key={item.name} className="flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                  <span className="flex items-center gap-2 text-foreground dark:text-foreground">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
                     {item.name}
                   </span>
-                  <span className="font-semibold text-slate-700 dark:text-slate-200">{item.value}%</span>
+                  <span className="font-semibold text-foreground dark:text-foreground">{item.value}%</span>
                 </li>
               ))}
             </ul>
@@ -147,3 +147,4 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
 });
 
 ConditionDistributionChart.displayName = "ConditionDistributionChart";
+

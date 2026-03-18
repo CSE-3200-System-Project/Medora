@@ -1108,15 +1108,15 @@ export function DoctorOnboarding() {
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="max-w-md w-full bg-white">
+            <Card className="max-w-md w-full bg-card">
               <CardHeader>
                 <CardTitle className="text-black">Skip Onboarding?</CardTitle>
-                <CardDescription className="text-gray-700">
+                <CardDescription className="text-foreground">
                   You can complete your profile information later from your dashboard settings.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Having a complete profile helps patients find and trust you. We recommend completing all sections.
                 </p>
               </CardContent>
@@ -1143,3 +1143,4 @@ export function DoctorOnboarding() {
     </div>
   )
 }
+

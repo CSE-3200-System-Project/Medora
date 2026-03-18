@@ -130,7 +130,7 @@ export function RescheduleNotificationCard({
 
         {/* Proposed Time */}
         {newAppointmentTime && (
-          <div className="rounded-lg border border-amber-200/60 bg-white p-3 dark:border-amber-900/40 dark:bg-background">
+          <div className="rounded-lg border border-amber-200/60 bg-card p-3 dark:border-amber-900/40 dark:bg-background">
             <div className="flex items-start gap-3">
               <Clock className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
               <div className="flex-1">
@@ -172,3 +172,4 @@ export function RescheduleNotificationCard({
     </Card>
   );
 }
+

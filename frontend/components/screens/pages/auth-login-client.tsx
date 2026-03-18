@@ -127,7 +127,7 @@ function LoginPageContent() {
       {/* Admin Access Button */}
       <button
         onClick={() => setShowAdminDialog(true)}
-        className="fixed top-4 right-4 p-3 bg-linear-to-br from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 rounded-full shadow-lg border border-slate-700/50 transition-all hover:scale-105 group z-50"
+        className="fixed top-4 right-4 p-3 bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
         aria-label="Admin Access"
       >
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
@@ -172,7 +172,7 @@ function LoginPageContent() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentImageIndex ? "w-8 bg-white" : "w-2 bg-white/50"
+                      index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -270,7 +270,7 @@ function LoginPageContent() {
 
       {/* Admin Access Dialog */}
       <Dialog open={showAdminDialog} onOpenChange={setShowAdminDialog}>
-        <DialogContent className="bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700 text-white sm:max-w-md">
+        <DialogContent className="bg-linear-to-br from-background via-surface to-background border-border text-white sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-xl">
               <div className="p-2 bg-primary/20 rounded-lg">
@@ -278,14 +278,14 @@ function LoginPageContent() {
               </div>
               Access Verification
             </DialogTitle>
-            <DialogDescription className="text-slate-400">
+            <DialogDescription className="text-muted-foreground">
               To access the admin panel, please enter the passkey.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="admin-password" className="text-slate-300">
+              <Label htmlFor="admin-password" className="text-muted-foreground">
                 Admin Passkey
               </Label>
               <Input
@@ -302,7 +302,7 @@ function LoginPageContent() {
                   }
                 }}
                 placeholder="Enter admin passkey"
-                className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-primary"
+                className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
                 autoFocus
               />
               {adminError && (
@@ -322,7 +322,7 @@ function LoginPageContent() {
                 setAdminPassword("");
                 setAdminError("");
               }}
-              className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white"
+              className="border-border text-muted-foreground hover:bg-card hover:text-foreground"
             >
               Cancel
             </Button>
@@ -352,3 +352,4 @@ export default function LoginPage() {
     </Suspense>
   );
 }
+

@@ -39,14 +39,14 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
   const stats = initialStats;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main>
         <ResponsiveContainer className="py-4 sm:py-6">
           <div className="mb-6 sm:mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-            <p className="text-slate-400">Platform overview and statistics</p>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+            <p className="text-muted-foreground">Platform overview and statistics</p>
           </div>
 
           <ResponsiveGrid pattern="custom" gap="md" className="mb-6 sm:mb-8 grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
@@ -81,9 +81,9 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
           </ResponsiveGrid>
 
           <ResponsiveGrid pattern="half" gap="lg" className="mb-6 sm:mb-8">
-          <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
+          <Card className="bg-card/60 border-border/50 backdrop-blur">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <UserCog className="h-5 w-5 text-primary-light" />
                 Doctor Verification Status
               </CardTitle>
@@ -111,9 +111,9 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-700/60 border-slate-600/50 backdrop-blur">
+          <Card className="bg-card/60 border-border/50 backdrop-blur">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary-light" />
                 Appointment Status
               </CardTitle>
@@ -147,9 +147,9 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
           </Card>
           </ResponsiveGrid>
 
-          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur">
+          <Card className="bg-card/50 border-border/50 backdrop-blur">
             <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Activity className="h-5 w-5 text-primary-light" />
                 Quick Actions
               </CardTitle>
@@ -199,16 +199,16 @@ function StatCard({
   color: string;
 }) {
   return (
-    <Card className={`${color} border-0 text-white shadow-lg`}>
+    <Card className={`${color} border-0 text-primary-foreground shadow-lg`}>
       <CardContent className="p-4 sm:p-6">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
-          <div className="p-1.5 sm:p-2 bg-white/20 rounded-lg backdrop-blur">{icon}</div>
-          <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white/60" />
+          <div className="p-1.5 sm:p-2 bg-card/20 rounded-lg backdrop-blur">{icon}</div>
+          <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary-foreground/70" />
         </div>
         <div className="space-y-0.5 sm:space-y-1">
-          <p className="text-xs sm:text-sm font-medium text-white/80">{title}</p>
+          <p className="text-xs sm:text-sm font-medium text-primary-foreground/85">{title}</p>
           <p className="text-2xl sm:text-3xl font-bold">{value.toLocaleString()}</p>
-          <p className="text-xs text-white/70">{trend}</p>
+          <p className="text-xs text-primary-foreground/75">{trend}</p>
         </div>
       </CardContent>
     </Card>
@@ -230,11 +230,11 @@ function StatusRow({
 }) {
   const rowContent = (
     <div
-      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-slate-900/50 border border-slate-700/50 ${href ? "cursor-pointer hover:bg-slate-900/80 transition-colors" : ""}`}
+      className={`flex items-center justify-between p-2.5 sm:p-3 rounded-lg bg-background/50 border border-border/50 ${href ? "cursor-pointer hover:bg-background/80 transition-colors" : ""}`}
     >
       <div className="flex items-center gap-2 sm:gap-3">
         <div className="shrink-0">{icon}</div>
-        <span className="text-sm sm:text-base text-slate-300 font-medium truncate">{label}</span>
+        <span className="text-sm sm:text-base text-muted-foreground font-medium truncate">{label}</span>
       </div>
       <span className={`text-xl sm:text-2xl font-bold ${color} shrink-0`}>{value}</span>
     </div>
@@ -261,10 +261,11 @@ function QuickActionButton({
   return (
     <Link
       href={href}
-      className="block min-h-11 p-3 sm:p-4 rounded-lg bg-slate-900/50 border border-slate-700/50 hover:bg-slate-900/80 hover:border-primary/50 transition-all text-left group touch-target"
+      className="block min-h-11 p-3 sm:p-4 rounded-lg bg-background/50 border border-border/50 hover:bg-background/80 hover:border-primary/50 transition-all text-left group touch-target"
     >
-      <p className="text-slate-400 text-xs sm:text-sm mb-1.5 sm:mb-2 group-hover:text-primary-light transition-colors whitespace-normal wrap-break-word">{label}</p>
-      <p className="text-white text-xl sm:text-2xl font-bold">{count}</p>
+      <p className="text-muted-foreground text-xs sm:text-sm mb-1.5 sm:mb-2 group-hover:text-primary-light transition-colors whitespace-normal wrap-break-word">{label}</p>
+      <p className="text-foreground text-xl sm:text-2xl font-bold">{count}</p>
     </Link>
   );
 }
+

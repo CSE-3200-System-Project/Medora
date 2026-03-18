@@ -52,7 +52,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <Link href="/doctor/home" className="flex items-center gap-2 touch-target">
-            <div className="bg-white rounded-lg p-1 sm:p-2">
+            <div className="bg-card rounded-lg p-1 sm:p-2">
               <span className="text-xl sm:text-2xl font-bold text-primary">M</span>
             </div>
             <span className="text-lg sm:text-xl font-bold text-white hidden sm:block">
@@ -69,8 +69,8 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "text-white hover:bg-white/20 transition-all",
-                      isActive(item.href) && "bg-white/30 font-semibold"
+                      "text-white hover:bg-card/20 transition-all",
+                      isActive(item.href) && "bg-card/30 font-semibold"
                     )}
                   >
                     <Icon className="h-4 w-4 mr-2" />
@@ -85,7 +85,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
           <div className="hidden md:flex items-center gap-3">
             {doctor && (
               <Link href="/doctor/profile">
-                <div className="flex items-center gap-3 bg-white/20 hover:bg-white/30 rounded-lg px-3 py-2 transition-all cursor-pointer">
+                <div className="flex items-center gap-3 bg-card/20 hover:bg-card/30 rounded-lg px-3 py-2 transition-all cursor-pointer">
                   <Avatar className="h-8 w-8 border-2 border-white">
                     {doctor.profile_photo_url ? (
                       <Image
@@ -97,7 +97,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                         unoptimized
                       />
                     ) : (
-                      <div className="h-full w-full bg-white flex items-center justify-center text-sm font-bold text-primary">
+                      <div className="h-full w-full bg-card flex items-center justify-center text-sm font-bold text-primary">
                         {doctor.first_name?.[0]}{doctor.last_name?.[0]}
                       </div>
                     )}
@@ -118,7 +118,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
             <Link href="/logout">
               <Button
                 variant="ghost"
-                className="text-white hover:bg-white/20"
+                className="text-white hover:bg-card/20"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -130,7 +130,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 touch-target">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-card/20 touch-target">
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
@@ -138,7 +138,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
               <SheetContent side="right" className="w-[85vw] max-w-sm bg-primary border-l border-primary-light/20">
                 <SheetHeader>
                   <SheetTitle className="text-white flex items-center gap-2">
-                    <div className="bg-white rounded-lg p-1">
+                    <div className="bg-card rounded-lg p-1">
                       <span className="text-lg font-bold text-primary">M</span>
                     </div>
                     Medora Doctor
@@ -153,8 +153,8 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                           key={item.href}
                           href={item.href}
                           className={cn(
-                            "flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/20 transition-all",
-                            isActive(item.href) && "bg-white/30 font-semibold"
+                            "flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-card/20 transition-all",
+                            isActive(item.href) && "bg-card/30 font-semibold"
                           )}
                         >
                           <Icon className="h-5 w-5" />
@@ -178,7 +178,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                               unoptimized
                             />
                           ) : (
-                            <div className="h-full w-full bg-white flex items-center justify-center text-sm font-bold text-primary">
+                            <div className="h-full w-full bg-card flex items-center justify-center text-sm font-bold text-primary">
                               {doctor.first_name?.[0]}{doctor.last_name?.[0]}
                             </div>
                           )}
@@ -196,7 +196,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                       </div>
                       <Link 
                         href="/logout" 
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-white/20 transition-all"
+                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-card/20 transition-all"
                       >
                         <LogOut className="h-5 w-5" />
                         <span>Logout</span>
@@ -212,3 +212,4 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
     </nav>
   );
 }
+

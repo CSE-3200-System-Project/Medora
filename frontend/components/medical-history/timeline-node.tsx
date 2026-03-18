@@ -34,7 +34,7 @@ export const TimelineNode = React.memo(function TimelineNode({
       {/* Outer ring */}
       <div className={`h-10 w-10 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center`}>
         {/* Inner circle with icon */}
-        <div className={`h-6 w-6 rounded-full bg-white dark:bg-card flex items-center justify-center`}>
+        <div className={`h-6 w-6 rounded-full bg-card dark:bg-card flex items-center justify-center`}>
           <IconComponent className={`h-4 w-4 ${colors.text}`} strokeWidth={2.5} />
         </div>
       </div>
@@ -56,3 +56,4 @@ export const TimelineNode = React.memo(function TimelineNode({
 });
 
 TimelineNode.displayName = "TimelineNode";
+

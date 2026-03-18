@@ -130,7 +130,7 @@ export function AppointmentCalendar({
       case 'CANCEL_REQUESTED':
         return 'bg-rose-400';
       case 'NO_SHOW':
-        return 'bg-gray-500';
+        return 'bg-muted';
       default:
         return 'bg-primary';
     }
@@ -160,15 +160,15 @@ export function AppointmentCalendar({
         className={cn(
           "aspect-square rounded text-[10px] font-medium transition-all relative p-0.5 border p-1",
           !isSelectedDay && "hover:bg-[var(--calendar-cell-hover)] hover:scale-105",
-          isSelectedDay && "bg-primary text-white shadow-md scale-105",
+          isSelectedDay && "bg-primary text-primary-foreground shadow-md scale-105",
           !isSelectedDay && isCurrentDay && "bg-primary-light border-2 border-primary text-blue-900",
-          !isSelectedDay && !isCurrentDay && dayIsPast && "bg-gray-100 text-gray-400",
+          !isSelectedDay && !isCurrentDay && dayIsPast && "bg-muted/50 text-muted-foreground",
           !isSelectedDay && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-blue-900 hover:text-primary"
         )}
         style={!isSelectedDay && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
       >
         <span className={cn(
-          isSelectedDay ? 'text-white' : dayIsPast ? 'text-gray-400' : 'text-[var(--calendar-date-foreground)]',
+          isSelectedDay ? 'text-white' : dayIsPast ? 'text-muted-foreground' : 'text-[var(--calendar-date-foreground)]',
           'relative z-10 text-[10px]'
         )}>{day}</span>
         {hasAppt && (
@@ -188,7 +188,7 @@ export function AppointmentCalendar({
           </div>
         )}
         {apptCount > 2 && !isSelectedDay && (
-          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-primary text-white text-[6px] rounded-full flex items-center justify-center font-bold">
+          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-primary text-primary-foreground text-[6px] rounded-full flex items-center justify-center font-bold">
             {apptCount}
           </div>
         )}
@@ -198,7 +198,7 @@ export function AppointmentCalendar({
 
   return (
     <Card className="rounded-2xl bg-[var(--calendar-card-bg)] border-primary/20 p-6">
-      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+      <div className="rounded-2xl bg-card shadow-md overflow-hidden">
         <CardHeader className="border-b border-blue-200 pb-2">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <CardTitle className="text-sm flex items-center gap-1.5 text-blue-900 whitespace-nowrap">
@@ -271,3 +271,4 @@ export function AppointmentCalendar({
     </Card>
   );
 }
+

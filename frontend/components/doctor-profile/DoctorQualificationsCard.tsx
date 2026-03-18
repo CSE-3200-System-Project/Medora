@@ -41,7 +41,7 @@ export function DoctorQualificationsCard({ doctor }: DoctorQualificationsCardPro
           {qualifications.map((qual, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 rounded-lg bg-primary-more-light p-3 dark:bg-slate-800/50"
+              className="flex items-start gap-3 rounded-lg bg-primary-more-light p-3 dark:bg-card/50"
             >
               <div className="mt-1 h-2 w-2 min-w-2 rounded-full bg-primary" />
               <p className="text-sm font-medium leading-relaxed text-foreground/85">{qual}</p>
@@ -52,3 +52,4 @@ export function DoctorQualificationsCard({ doctor }: DoctorQualificationsCardPro
     </motion.section>
   );
 }
+

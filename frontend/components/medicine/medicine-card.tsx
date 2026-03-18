@@ -115,7 +115,7 @@ function getDosageFormIcon(dosageForm: string): React.ReactNode {
  * Get badge color based on medicine type.
  */
 function getMedicineTypeStyle(type?: string): string {
-  if (!type) return "bg-gray-100 text-gray-700";
+  if (!type) return "bg-muted/50 text-foreground";
   
   switch (type.toLowerCase()) {
     case "allopathic":
@@ -129,7 +129,7 @@ function getMedicineTypeStyle(type?: string): string {
     case "herbal":
       return "bg-emerald-50 text-emerald-700 border-emerald-200";
     default:
-      return "bg-gray-50 text-gray-700 border-gray-200";
+      return "bg-muted/30 text-foreground border-border";
   }
 }
 
@@ -208,3 +208,4 @@ export function MedicineCard({ medicine, onClick }: MedicineCardProps) {
 }
 
 export { getDosageFormIcon, getMedicineTypeStyle };
+

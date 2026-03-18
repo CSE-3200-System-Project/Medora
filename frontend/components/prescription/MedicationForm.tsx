@@ -173,7 +173,7 @@ function MedicineSearchInput({
 
       {/* Dropdown */}
       {isOpen && results.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-primary/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-primary/20 rounded-lg shadow-xl max-h-60 overflow-y-auto">
           <ul className="py-1">
             {results.map((medicine, idx) => (
               <li key={`${medicine.drug_id}-${idx}`}>
@@ -196,7 +196,7 @@ function MedicineSearchInput({
       )}
 
       {isOpen && query.length >= 2 && results.length === 0 && !loading && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-primary/20 rounded-lg shadow-xl p-3 text-center text-sm text-muted-foreground">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-primary/20 rounded-lg shadow-xl p-3 text-center text-sm text-muted-foreground">
           No medicines found. You can type a custom name.
         </div>
       )}
@@ -502,3 +502,4 @@ export function MedicationForm({ medications, onMedicationsChange }: MedicationF
     </div>
   );
 }
+

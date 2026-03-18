@@ -7,7 +7,7 @@ const AppointmentCalendarCore = dynamic(
   () => import("@/components/ui/appointment-calendar").then((mod) => mod.AppointmentCalendar),
   {
     ssr: false,
-    loading: () => <div className="h-90 rounded-2xl border bg-white dark:bg-slate-900" />,
+    loading: () => <div className="h-90 rounded-2xl border bg-card dark:bg-background" />,
   },
 );
 
@@ -28,3 +28,4 @@ export function AppointmentCalendar({ appointments, selectedDate, onDateSelect }
     />
   );
 }
+
