@@ -510,6 +510,62 @@ export async function forgotPassword(email: string) {
   }
 }
 
+export async function resetPassword(accessToken: string, newPassword: string) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/auth/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        access_token: accessToken,
+        new_password: newPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to reset password");
+    }
+
+    return { success: true, message: "Password has been reset successfully" };
+  } catch (error: any) {
+    console.error("Reset password error:", error);
+    throw error;
+  }
+}
+
+export async function changePassword(currentPassword: string, newPassword: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        current_password: currentPassword,
+        new_password: newPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || "Failed to change password");
+    }
+
+    return { success: true, message: "Password changed successfully" };
+  } catch (error: any) {
+    console.error("Change password error:", error);
+    throw error;
+  }
+}
+
 export async function updateDoctorSchedule(
   dayTimeSlots: Record<string, string[]>,
   appointmentDuration: number

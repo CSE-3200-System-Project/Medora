@@ -26,6 +26,7 @@ import {
   FlaskConical,
   Stethoscope,
   FileText,
+  RefreshCw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -65,6 +66,9 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   prescription_created: FileText,
   prescription_accepted: Check,
   prescription_rejected: X,
+  appointment_reschedule_request: RefreshCw,
+  appointment_reschedule_accepted: Check,
+  appointment_reschedule_rejected: X,
 };
 
 // Color mapping for notification types
@@ -95,6 +99,9 @@ const notificationColors: Record<NotificationType, string> = {
   prescription_created: "text-primary bg-primary/10",
   prescription_accepted: "text-success bg-success/10",
   prescription_rejected: "text-destructive bg-destructive/10",
+  appointment_reschedule_request: "text-purple-600 bg-purple-500/10",
+  appointment_reschedule_accepted: "text-success bg-success/10",
+  appointment_reschedule_rejected: "text-destructive bg-destructive/10",
 };
 
 type FilterType = 'all' | 'unread' | 'read';
