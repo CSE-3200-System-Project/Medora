@@ -98,7 +98,7 @@ export function DoctorFindMedicineClient() {
               ))}
             </div>
           ) : searchQuery.length >= 2 && results.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-2xl border border-border">
+            <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground mb-1">No medicines found</p>
               <p className="text-sm text-muted-foreground">
@@ -106,7 +106,7 @@ export function DoctorFindMedicineClient() {
               </p>
             </div>
           ) : searchQuery.length < 2 ? (
-            <div className="text-center py-12 bg-white rounded-2xl border border-border">
+            <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Pill className="h-12 w-12 text-primary/30 mx-auto mb-4" />
               <p className="text-muted-foreground mb-1">Search for medicines</p>
               <p className="text-sm text-muted-foreground">
@@ -142,3 +142,4 @@ export function DoctorFindMedicineClient() {
     </AppBackground>
   );
 }
+

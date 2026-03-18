@@ -198,7 +198,7 @@ export function AppointmentList({
           "hover:shadow-md hover:scale-[1.02]",
           isHighlighted 
             ? "border-primary bg-blue-50 shadow-lg scale-[1.02]" 
-            : "border-blue-200 bg-white hover:bg-blue-50",
+            : "border-blue-200 bg-card hover:bg-blue-50",
           isPast && "opacity-75"
         )}
       >
@@ -302,7 +302,7 @@ export function AppointmentList({
                   e.stopPropagation();
                   openConfirmDialog('approve', appointment.id, appointment.patient_name);
                 }}
-                className="flex-1 bg-success text-white hover:bg-success-muted"
+                className="flex-1 bg-success text-primary-foreground hover:bg-success-muted"
               >
                 <CheckCircle2 className="w-4 h-4 mr-1" />
                 Approve
@@ -373,7 +373,7 @@ export function AppointmentList({
   };
 
   return (
-    <Card className="rounded-2xl shadow-lg h-full flex flex-col bg-white border-blue-200">
+    <Card className="rounded-2xl shadow-lg h-full flex flex-col bg-card border-blue-200">
       <CardHeader className="border-b border-blue-200 pb-4 shrink-0">
         <CardTitle className="text-lg flex items-center gap-2 text-foreground">
           <Calendar className="w-5 h-5 text-primary" />
@@ -440,7 +440,7 @@ export function AppointmentList({
 
       <CardContent 
         ref={listRef}
-        className="p-4 space-y-6 overflow-y-auto flex-1 bg-white"
+        className="p-4 space-y-6 overflow-y-auto flex-1 bg-card"
       >
         {/* Recent Appointments */}
         {recentAppointments.length > 0 && (
@@ -494,3 +494,4 @@ export function AppointmentList({
     </Card>
   );
 }
+

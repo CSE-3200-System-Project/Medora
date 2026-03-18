@@ -10,7 +10,15 @@ export function cn(...inputs: ClassValue[]) {
  * This avoids timezone shifts caused by toISOString().
  */
 export function localDateKey(dateInput: string | Date) {
+  if (typeof dateInput === 'string') {
+    const dateOnlyMatch = dateInput.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (dateOnlyMatch) {
+      return `${dateOnlyMatch[1]}-${dateOnlyMatch[2]}-${dateOnlyMatch[3]}`
+    }
+  }
+
   const d = typeof dateInput === 'string' ? new Date(dateInput) : dateInput
+  if (Number.isNaN(d.getTime())) return ''
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')

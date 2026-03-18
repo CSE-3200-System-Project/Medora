@@ -78,7 +78,8 @@ async def update_patient_onboarding(
         # Basic Identity
         if data.dob: patient_data['date_of_birth'] = datetime.strptime(data.dob, '%Y-%m-%d').date()
         if data.gender: patient_data['gender'] = data.gender
-        if data.profile_photo_url: patient_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_photo_url is not None: patient_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_banner_url is not None: patient_data['profile_banner_url'] = data.profile_banner_url
         if data.nid_number: patient_data['nid_number'] = data.nid_number
         
         # Contact & Address
@@ -271,7 +272,8 @@ async def update_doctor_onboarding(
         if data.title: doctor_data['title'] = data.title
         if data.gender: doctor_data['gender'] = data.gender
         if data.dob: doctor_data['date_of_birth'] = datetime.strptime(data.dob, '%Y-%m-%d').date()
-        if data.profile_photo_url: doctor_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_photo_url is not None: doctor_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_banner_url is not None: doctor_data['profile_banner_url'] = data.profile_banner_url
         if data.nid_number: doctor_data['nid_number'] = data.nid_number
         
         # Professional Credentials
@@ -479,6 +481,7 @@ async def get_patient_onboarding_data(
             "dob": str(patient.date_of_birth) if patient.date_of_birth else None,
             "gender": patient.gender,
             "profile_photo_url": patient.profile_photo_url,
+            "profile_banner_url": getattr(patient, "profile_banner_url", None),
             "nid_number": patient.nid_number,
             
             # Contact & Address
@@ -655,6 +658,7 @@ async def get_doctor_onboarding_data(
             "gender": doctor.gender,
             "dob": str(doctor.date_of_birth) if doctor.date_of_birth else None,
             "profile_photo_url": doctor.profile_photo_url,
+            "profile_banner_url": getattr(doctor, "profile_banner_url", None),
             "nid_number": doctor.nid_number,
             
             # Professional Credentials
@@ -812,6 +816,7 @@ async def get_doctor_profile(
             "gender": doctor.gender,
             "date_of_birth": str(doctor.date_of_birth) if doctor.date_of_birth else None,
             "profile_photo_url": doctor.profile_photo_url,
+            "profile_banner_url": getattr(doctor, "profile_banner_url", None),
             "nid_number": doctor.nid_number,
             
             # Professional Credentials
@@ -913,7 +918,8 @@ async def update_doctor_profile(
         if data.gender: doctor_data['gender'] = data.gender
         if data.dob: 
             doctor_data['date_of_birth'] = datetime.strptime(data.dob, '%Y-%m-%d').date()
-        if data.profile_photo_url: doctor_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_photo_url is not None: doctor_data['profile_photo_url'] = data.profile_photo_url
+        if data.profile_banner_url is not None: doctor_data['profile_banner_url'] = data.profile_banner_url
         if data.nid_number: doctor_data['nid_number'] = data.nid_number
         
         # Professional Credentials

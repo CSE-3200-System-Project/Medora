@@ -64,18 +64,6 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // ──────── ROOT PAGE "/" — redirect logged-in users ────────
-  if (isRootPage && isLoggedIn) {
-    if (isAdmin) return NextResponse.redirect(new URL('/admin', request.url))
-    if (userRole === 'doctor') {
-      if (verificationStatus !== 'verified') {
-        return NextResponse.redirect(new URL('/verify-pending', request.url))
-      }
-      return NextResponse.redirect(new URL('/doctor/home', request.url))
-    }
-    return NextResponse.redirect(new URL('/patient/home', request.url))
-  }
-
   // ──────── ADMIN ROUTES ────────
   if (isAdminRoute) {
     if (isAdmin) return NextResponse.next()

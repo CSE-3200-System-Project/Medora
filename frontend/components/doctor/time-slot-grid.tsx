@@ -218,13 +218,13 @@ export function TimeSlotGrid({
         case 'CANCELLED':
           return 'bg-red-100 border-red-400 text-red-800 opacity-50';
         default:
-          return 'bg-gray-100 border-gray-400 text-gray-700';
+          return 'bg-muted/50 border-border text-foreground';
       }
     }
     
     // Past empty slots
     if (isPast) {
-      return 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed';
+      return 'bg-muted/50 border-border text-muted-foreground cursor-not-allowed';
     }
     
     // Available slots
@@ -248,7 +248,7 @@ export function TimeSlotGrid({
 
   return (
     <>
-    <Card className="rounded-2xl shadow-lg bg-white border-blue-200">
+    <Card className="rounded-2xl shadow-lg bg-card border-blue-200">
       <CardHeader className="border-b border-blue-200">
         <div className="flex items-center gap-3">
           <Button
@@ -267,14 +267,14 @@ export function TimeSlotGrid({
             <p className="text-sm text-muted-foreground mt-1">
               {formatDate(selectedDate)}
               {isDatePast() && (
-                <span className="ml-2 text-xs text-gray-500">(Past date)</span>
+                <span className="ml-2 text-xs text-muted-foreground">(Past date)</span>
               )}
             </p>
           </div>
         </div>
       </CardHeader>
 
-      <CardContent className="p-4 sm:p-6 bg-white">
+      <CardContent className="p-4 sm:p-6 bg-card">
         <div className="space-y-6">
           {groupedSlots.map((group, groupIndex) => (
             <div key={groupIndex}>
@@ -345,7 +345,7 @@ export function TimeSlotGrid({
               <span>Available</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-4 h-4 rounded bg-gray-100 border-2 border-gray-300" />
+              <div className="w-4 h-4 rounded bg-muted/50 border-2 border-border" />
               <span>Past</span>
             </div>
           </div>
@@ -444,3 +444,4 @@ export function TimeSlotGrid({
     </>
   );
 }
+

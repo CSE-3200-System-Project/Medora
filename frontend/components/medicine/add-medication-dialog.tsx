@@ -245,7 +245,7 @@ export function AddMedicationDialog({
                 className={cn(
                   "flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-colors",
                   step >= s
-                    ? "bg-primary text-white"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-surface text-muted-foreground"
                 )}
               >

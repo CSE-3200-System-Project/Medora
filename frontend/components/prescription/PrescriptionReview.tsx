@@ -84,7 +84,7 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
           </CardHeader>
           <CardContent className="space-y-3">
             {medications.map((med, index) => (
-              <div key={index} className="bg-white rounded-lg p-4 border">
+              <div key={index} className="bg-card rounded-lg p-4 border">
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <h4 className="font-semibold text-foreground">{med.medicine_name}</h4>
@@ -168,7 +168,7 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
           </CardHeader>
           <CardContent className="space-y-3">
             {tests.map((test, index) => (
-              <div key={index} className="bg-white dark:bg-card rounded-lg p-4 border dark:border-border">
+              <div key={index} className="bg-card dark:bg-card rounded-lg p-4 border dark:border-border">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{test.test_name}</h4>
                   <div className="flex gap-1">
@@ -221,7 +221,7 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
           </CardHeader>
           <CardContent className="space-y-3">
             {surgeries.map((surgery, index) => (
-              <div key={index} className="bg-white dark:bg-card rounded-lg p-4 border dark:border-border">
+              <div key={index} className="bg-card dark:bg-card rounded-lg p-4 border dark:border-border">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
                   <div className="flex gap-1">
@@ -287,3 +287,4 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
     </div>
   );
 }
+

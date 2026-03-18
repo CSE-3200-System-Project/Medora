@@ -4,10 +4,11 @@ Reminder Routes
 CRUD endpoints for medication and test reminders.
 Supports multiple reminder times per day based on dosage.
 """
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 from app.core.dependencies import get_db
+from app.core.config import settings
 from app.routes.auth import get_current_user_token
 from app.db.models.reminder import Reminder, ReminderType
 from app.schemas.reminder import (
@@ -15,6 +16,7 @@ from app.schemas.reminder import (
     ReminderUpdate,
     ReminderResponse,
     ReminderListResponse,
+    validate_timezone_name,
 )
 from typing import Optional
 from datetime import datetime
@@ -39,6 +41,31 @@ def validate_time_string(time_str: str) -> str:
         )
 
 
+def normalize_reminder_times(reminder_times: list[str]) -> list[str]:
+    normalized = sorted({validate_time_string(time_str) for time_str in reminder_times})
+    if not normalized:
+        raise HTTPException(status_code=400, detail="At least one reminder time is required")
+    return normalized
+
+
+def normalize_days_of_week(days: list[int] | None) -> list[int]:
+    if days is None or len(days) == 0:
+        return [0, 1, 2, 3, 4, 5, 6]
+
+    normalized = sorted(set(days))
+    if any(day < 0 or day > 6 for day in normalized):
+        raise HTTPException(status_code=400, detail="days_of_week values must be between 0 and 6 (0=Monday, 6=Sunday)")
+    return normalized
+
+
+def resolve_timezone(explicit_timezone: str | None, request: Request) -> str:
+    candidate = explicit_timezone or request.headers.get("x-timezone") or settings.DEFAULT_REMINDER_TIMEZONE
+    try:
+        return validate_timezone_name(candidate)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
 def build_reminder_response(reminder: Reminder) -> ReminderResponse:
     """Build response object from reminder model."""
     return ReminderResponse(
@@ -50,6 +77,7 @@ def build_reminder_response(reminder: Reminder) -> ReminderResponse:
         prescription_id=reminder.prescription_id,
         reminder_times=reminder.reminder_times or [],
         days_of_week=reminder.days_of_week or [0,1,2,3,4,5,6],
+        timezone=reminder.timezone or settings.DEFAULT_REMINDER_TIMEZONE,
         notes=reminder.notes,
         is_active=reminder.is_active,
         created_at=reminder.created_at,
@@ -60,15 +88,14 @@ def build_reminder_response(reminder: Reminder) -> ReminderResponse:
 @router.post("/", response_model=ReminderResponse, status_code=status.HTTP_201_CREATED)
 async def create_reminder(
     data: ReminderCreate,
+    request: Request,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Create a new reminder for medication or test."""
-    # Validate and normalize all reminder times
-    validated_times = [validate_time_string(t) for t in data.reminder_times]
-    
-    if not validated_times:
-        raise HTTPException(status_code=400, detail="At least one reminder time is required")
+    validated_times = normalize_reminder_times(data.reminder_times)
+    normalized_days = normalize_days_of_week(data.days_of_week)
+    timezone_name = resolve_timezone(data.timezone, request)
     
     reminder = Reminder(
         id=str(uuid.uuid4()),
@@ -78,7 +105,8 @@ async def create_reminder(
         item_id=data.item_id,
         prescription_id=data.prescription_id,
         reminder_times=validated_times,
-        days_of_week=data.days_of_week if data.days_of_week else [0,1,2,3,4,5,6],
+        days_of_week=normalized_days,
+        timezone=timezone_name,
         notes=data.notes,
         is_active=True,
     )
@@ -107,7 +135,7 @@ async def get_reminders(
     
     if type_filter:
         try:
-            reminder_type = ReminderType(type_filter)
+            reminder_type = ReminderType(type_filter.lower())
             conditions.append(Reminder.type == reminder_type)
         except ValueError:
             pass  # Ignore invalid type filter
@@ -161,6 +189,7 @@ async def get_reminder(
 async def update_reminder(
     reminder_id: str,
     data: ReminderUpdate,
+    request: Request,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -182,12 +211,12 @@ async def update_reminder(
     if data.item_name is not None:
         reminder.item_name = data.item_name
     if data.reminder_times is not None:
-        validated_times = [validate_time_string(t) for t in data.reminder_times]
-        if not validated_times:
-            raise HTTPException(status_code=400, detail="At least one reminder time is required")
+        validated_times = normalize_reminder_times(data.reminder_times)
         reminder.reminder_times = validated_times
     if data.days_of_week is not None:
-        reminder.days_of_week = data.days_of_week
+        reminder.days_of_week = normalize_days_of_week(data.days_of_week)
+    if data.timezone is not None:
+        reminder.timezone = resolve_timezone(data.timezone, request)
     if data.notes is not None:
         reminder.notes = data.notes
     if data.is_active is not None:

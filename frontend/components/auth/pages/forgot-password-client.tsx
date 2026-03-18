@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -80,7 +80,7 @@ export function ForgotPasswordClient() {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? "w-8 bg-white" : "w-2 bg-white/50"}`}
+                    className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"}`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
@@ -157,4 +157,5 @@ export function ForgotPasswordClient() {
     </div>
   );
 }
+
 

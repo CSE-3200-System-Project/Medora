@@ -53,6 +53,8 @@
   /* Optional Success */
   --success: rgb(57, 224, 57);
   --success-muted: #047857;
+  --warning: #B7791F;
+  --warning-foreground: #FFFFFF;
 
   /* Borders & UI */
   --border: #D9D9D9;
@@ -146,6 +148,8 @@
   --color-accent: var(--accent);
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
 
   --color-border: var(--border);
   --color-ring: var(--ring);
@@ -358,6 +362,8 @@ hr {
   /* Muted */
   --muted: #1a405f;
   --muted-foreground: #c5d4e3;
+  --warning: #F2C56A;
+  --warning-foreground: #1E2734;
 
   /* Accent */
   --accent: #1b4d75;
@@ -549,6 +555,32 @@ hr {
 .app-background > * {
   position: relative;
   z-index: 1;
+}
+
+/* ======================================
+   Admin Theme Normalization
+   ====================================== */
+.admin-theme .text-white {
+  color: var(--foreground);
+}
+
+.admin-theme .hover\:text-white:hover {
+  color: var(--foreground);
+}
+
+.admin-theme .bg-primary.text-white,
+.admin-theme .bg-primary .text-white {
+  color: var(--primary-foreground);
+}
+
+.admin-theme .bg-red-500.text-white,
+.admin-theme .bg-red-600.text-white,
+.admin-theme .bg-green-500.text-white,
+.admin-theme .bg-green-600.text-white,
+.admin-theme .bg-blue-500.text-white,
+.admin-theme .bg-orange-500.text-white,
+.admin-theme .bg-purple-500.text-white {
+  color: #fff;
 }
 
 /* Calendar elevation utility - subtle bluish layered shadow */

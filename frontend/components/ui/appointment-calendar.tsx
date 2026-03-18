@@ -88,8 +88,20 @@ export function AppointmentCalendar({
         return 'bg-green-500';
       case 'CANCELLED':
         return 'bg-red-500';
+      case 'PENDING_ADMIN_REVIEW':
+        return 'bg-orange-500';
+      case 'PENDING_DOCTOR_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'PENDING_PATIENT_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'RESCHEDULE_REQUESTED':
+        return 'bg-purple-500';
+      case 'CANCEL_REQUESTED':
+        return 'bg-rose-400';
+      case 'NO_SHOW':
+        return 'bg-muted';
       default:
-        return 'bg-gray-500';
+        return 'bg-primary';
     }
   };
 
@@ -131,18 +143,18 @@ export function AppointmentCalendar({
           "aspect-square rounded-lg text-sm font-medium transition-all relative border p-1",
           hasAppointments && "hover:scale-105 cursor-pointer",
           !hasAppointments && "cursor-default",
-          isSelected && "bg-primary text-white shadow-md scale-105 ring-2 ring-primary/50 border-primary",
-          !isSelected && isCurrentDay && "bg-primary-light border-2 border-primary text-foreground",
+          isSelected && "bg-primary text-primary-foreground shadow-md scale-105 ring-2 ring-primary/50 border-primary",
+          !isSelected && isCurrentDay && "bg-primary/10 border-2 border-primary text-foreground",
           !isSelected && !isCurrentDay && dayIsPast && "bg-muted text-muted-foreground",
-          !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-foreground",
+          !isSelected && !isCurrentDay && !dayIsPast && "bg-background text-foreground",
           hasAppointments && "font-bold hover:text-primary",
-          !isSelected && !isCurrentDay && "hover:bg-[var(--calendar-cell-hover)]",
+          !isSelected && !isCurrentDay && "hover:bg-accent/70",
           !hasAppointments && "opacity-50"
         )}
-        style={!isSelected && !isCurrentDay ? { borderColor: 'var(--calendar-border)' } : undefined}
+        style={!isSelected && !isCurrentDay ? { borderColor: "hsl(var(--border))" } : undefined}
       >
         <span className={cn(
-          isSelected ? 'text-white' : dayIsPast ? 'text-muted-foreground' : 'text-[var(--calendar-date-foreground)]',
+          isSelected ? 'text-white' : dayIsPast ? 'text-muted-foreground' : 'text-foreground',
           'relative z-10'
         )}>
           {day}
@@ -154,14 +166,14 @@ export function AppointmentCalendar({
                 key={idx} 
                 className={cn(
                   "w-1.5 h-1.5 rounded-full",
-                  isSelected ? "bg-[var(--calendar-cell-bg)]" : getStatusColor(appt.status)
+                  isSelected ? "bg-background" : getStatusColor(appt.status)
                 )} 
               />
             ))}
           </div>
         )}
         {dayAppts.length > 3 && !isSelected && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[8px] rounded-full flex items-center justify-center font-bold">
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-[8px] rounded-full flex items-center justify-center font-bold">
             {dayAppts.length}
           </div>
         )}
@@ -170,9 +182,8 @@ export function AppointmentCalendar({
   }
 
   return (
-    <Card className={cn("rounded-2xl bg-[var(--calendar-card-bg)] border-primary/20 p-6", className)}>
-      <div className="rounded-2xl bg-white shadow-md overflow-hidden">
-        <CardHeader className="border-b border-primary/10 bg-primary-more-light/50 dark:bg-primary/5">
+    <Card className={cn("rounded-2xl border border-border bg-card shadow-sm p-0 overflow-hidden", className)}>
+      <CardHeader className="border-b border-border/70 bg-muted/30">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <CardTitle className="text-lg flex items-center gap-2 text-foreground whitespace-nowrap">
             <CalendarIcon className="w-5 h-5 text-primary" />
@@ -183,7 +194,7 @@ export function AppointmentCalendar({
               variant="ghost"
               size="icon"
               onClick={handlePrevMonth}
-              className="h-8 w-8 hover:bg-primary-light"
+              className="h-8 w-8 hover:bg-accent"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
@@ -194,7 +205,7 @@ export function AppointmentCalendar({
               variant="ghost"
               size="icon"
               onClick={handleNextMonth}
-              className="h-8 w-8 hover:bg-primary-light"
+              className="h-8 w-8 hover:bg-accent"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
@@ -237,26 +248,26 @@ export function AppointmentCalendar({
         </div>
 
         {/* Legend */}
-        <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap items-center gap-3 text-xs">
+        <div className="mt-4 pt-4 border-t border-border/70 flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
+            <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
             <span className="text-muted-foreground leading-none">Confirmed</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
+            <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             <span className="text-muted-foreground leading-none">Pending</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
+            <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
             <span className="text-muted-foreground leading-none">Completed</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded border-2 border-primary flex-shrink-0" />
+            <div className="w-3 h-3 rounded border-2 border-primary shrink-0" />
             <span className="text-muted-foreground leading-none">Today</span>
           </div>
         </div>
       </CardContent>
-        </div>
     </Card>
   );
 }
+

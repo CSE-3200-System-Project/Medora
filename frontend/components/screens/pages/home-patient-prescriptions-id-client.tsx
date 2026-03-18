@@ -140,7 +140,7 @@ export default function PatientPrescriptionDetailPage() {
       case "emergency":
         return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Emergency</Badge>;
       case "elective":
-        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">Elective</Badge>;
+        return <Badge variant="outline" className="bg-muted/30 text-foreground border-border">Elective</Badge>;
       default:
         return <Badge variant="outline">{urgency}</Badge>;
     }
@@ -317,7 +317,7 @@ export default function PatientPrescriptionDetailPage() {
                         </p>
                       </div>
                       {med.quantity && (
-                        <Badge variant="outline" className="bg-white">
+                        <Badge variant="outline" className="bg-card">
                           Qty: {med.quantity}
                         </Badge>
                       )}
@@ -372,7 +372,7 @@ export default function PatientPrescriptionDetailPage() {
 
                     {/* Special Instructions */}
                     {med.special_instructions && (
-                      <div className="mt-3 p-2 bg-white rounded border border-blue-100">
+                      <div className="mt-3 p-2 bg-card rounded border border-blue-100">
                         <p className="text-sm text-muted-foreground">
                           <strong>Note:</strong> {med.special_instructions}
                         </p>
@@ -422,7 +422,7 @@ export default function PatientPrescriptionDetailPage() {
                     </div>
 
                     {test.instructions && (
-                      <div className="mt-3 p-2 bg-white rounded border border-purple-100">
+                      <div className="mt-3 p-2 bg-card rounded border border-purple-100">
                         <p className="text-sm text-muted-foreground">
                           <strong>Instructions:</strong> {test.instructions}
                         </p>
@@ -483,7 +483,7 @@ export default function PatientPrescriptionDetailPage() {
                     )}
 
                     {surgery.pre_op_instructions && (
-                      <div className="mt-3 p-2 bg-white rounded border border-orange-100">
+                      <div className="mt-3 p-2 bg-card rounded border border-orange-100">
                         <p className="text-sm text-muted-foreground">
                           <strong>Pre-operative Instructions:</strong> {surgery.pre_op_instructions}
                         </p>
@@ -501,7 +501,7 @@ export default function PatientPrescriptionDetailPage() {
 
                     {/* Additional Notes */}
                     {surgery.notes && (
-                      <div className="mt-3 p-2 bg-gray-50 rounded border border-gray-200">
+                      <div className="mt-3 p-2 bg-muted/30 rounded border border-border">
                         <p className="text-sm text-muted-foreground">
                           <strong>Notes:</strong> {surgery.notes}
                         </p>
@@ -615,3 +615,4 @@ export default function PatientPrescriptionDetailPage() {
     </AppBackground>
   );
 }
+

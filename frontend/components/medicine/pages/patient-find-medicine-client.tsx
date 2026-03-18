@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
+import { PrescriptionUploadDemo } from "@/components/medicine/prescription-upload-demo";
 import { AddMedicationDialog, type Medication } from "@/components/medicine/add-medication-dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -133,6 +134,10 @@ export function PatientFindMedicineClient() {
           </AlertDescription>
         </Alert>
 
+        <div className="mb-6">
+          <PrescriptionUploadDemo />
+        </div>
+
         <MedicineSearch
           onSearch={handleSearch}
           loading={loading}
@@ -158,7 +163,7 @@ export function PatientFindMedicineClient() {
               ))}
             </div>
           ) : searchQuery.length >= 2 && results.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-2xl border border-border">
+            <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground mb-1">No medicines found</p>
               <p className="text-sm text-muted-foreground">
@@ -166,7 +171,7 @@ export function PatientFindMedicineClient() {
               </p>
             </div>
           ) : searchQuery.length < 2 ? (
-            <div className="text-center py-12 bg-white rounded-2xl border border-border">
+            <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Pill className="h-12 w-12 text-primary/30 mx-auto mb-4" />
               <p className="text-muted-foreground mb-1">Search for medicines</p>
               <p className="text-sm text-muted-foreground">
@@ -210,3 +215,4 @@ export function PatientFindMedicineClient() {
     </AppBackground>
   );
 }
+

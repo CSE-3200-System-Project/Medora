@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -119,47 +119,47 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Patient Management</h1>
-          <p className="text-slate-400">View and manage patient accounts</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Patient Management</h1>
+          <p className="text-muted-foreground">View and manage patient accounts</p>
         </div>
 
         <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
           <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
-          <div className="text-slate-400 text-sm">
-            Total Patients: <span className="text-white font-semibold">{total}</span>
+          <div className="text-muted-foreground text-sm">
+            Total Patients: <span className="text-foreground font-semibold">{total}</span>
           </div>
         </div>
 
         {loading ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">Loading patients...</p>
+              <p className="text-muted-foreground">Loading patients...</p>
             </CardContent>
           </Card>
         ) : filteredPatients.length === 0 ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">No patients found</p>
+              <p className="text-muted-foreground">No patients found</p>
             </CardContent>
           </Card>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 lg:hidden">
               {filteredPatients.map((patient) => (
-                <Card key={patient.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
+                <Card key={patient.id} className="bg-card/60 border-border/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex items-start justify-between mb-3 sm:mb-4">
                       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -167,8 +167,8 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                           <User className="h-6 w-6 text-purple-400" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-white">{patient.name}</h3>
-                          {patient.blood_group && <p className="text-sm text-slate-400">{patient.blood_group}</p>}
+                          <h3 className="font-semibold text-foreground">{patient.name}</h3>
+                          {patient.blood_group && <p className="text-sm text-muted-foreground">{patient.blood_group}</p>}
                         </div>
                       </div>
                       {patient.onboarding_completed ? (
@@ -185,28 +185,28 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                     </div>
 
                     <div className="space-y-2 text-xs sm:text-sm">
-                      <div className="flex items-center gap-2 text-slate-400 min-w-0">
+                      <div className="flex items-center gap-2 text-muted-foreground min-w-0">
                         <Mail className="h-4 w-4 shrink-0" />
                         <span className="truncate">{patient.email}</span>
                       </div>
                       {patient.phone && (
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-muted-foreground">
                           <Phone className="h-4 w-4" />
                           <span>{patient.phone}</span>
                         </div>
                       )}
                       {patient.city && (
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-muted-foreground">
                           <MapPin className="h-4 w-4" />
                           <span>{patient.city}</span>
                         </div>
                       )}
                       {patient.created_at && (
-                        <div className="text-xs text-slate-500 mt-2">Joined: {new Date(patient.created_at).toLocaleDateString()}</div>
+                        <div className="text-xs text-muted-foreground mt-2">Joined: {new Date(patient.created_at).toLocaleDateString()}</div>
                       )}
                     </div>
 
-                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border/50 flex flex-wrap items-center gap-2 sm:justify-between">
                       {patient.account_status === "banned" ? (
                         <>
                           <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
@@ -239,31 +239,31 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
             </div>
 
               <div className="hidden lg:block mb-6">
-                <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+                <TableScrollContainer className="border-border/50 bg-card/40">
                   <Table>
-                    <TableHeader className="bg-slate-800/60 border-slate-600/50">
-                      <TableRow className="border-slate-600/50 hover:bg-transparent">
-                        <TableHead className="text-slate-300">Patient</TableHead>
-                        <TableHead className="text-slate-300">Contact</TableHead>
-                        <TableHead className="text-slate-300">Location</TableHead>
-                        <TableHead className="text-slate-300">Onboarding</TableHead>
-                        <TableHead className="text-slate-300">Joined</TableHead>
-                        <TableHead className="text-slate-300">Account</TableHead>
-                        <TableHead className="text-right text-slate-300">Actions</TableHead>
+                    <TableHeader className="bg-card/60 border-border/50">
+                      <TableRow className="border-border/50 hover:bg-transparent">
+                        <TableHead className="text-muted-foreground">Patient</TableHead>
+                        <TableHead className="text-muted-foreground">Contact</TableHead>
+                        <TableHead className="text-muted-foreground">Location</TableHead>
+                        <TableHead className="text-muted-foreground">Onboarding</TableHead>
+                        <TableHead className="text-muted-foreground">Joined</TableHead>
+                        <TableHead className="text-muted-foreground">Account</TableHead>
+                        <TableHead className="text-right text-muted-foreground">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredPatients.map((patient) => (
-                        <TableRow key={patient.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                        <TableRow key={patient.id} className="border-border/30 hover:bg-card/40">
                           <TableCell>
-                            <p className="text-white font-medium">{patient.name}</p>
-                            {patient.blood_group && <p className="text-xs text-slate-400">{patient.blood_group}</p>}
+                            <p className="text-foreground font-medium">{patient.name}</p>
+                            {patient.blood_group && <p className="text-xs text-muted-foreground">{patient.blood_group}</p>}
                           </TableCell>
                           <TableCell>
-                            <p className="text-slate-200 wrap-break-word">{patient.email}</p>
-                            {patient.phone && <p className="text-xs text-slate-400">{patient.phone}</p>}
+                            <p className="text-foreground wrap-break-word">{patient.email}</p>
+                            {patient.phone && <p className="text-xs text-muted-foreground">{patient.phone}</p>}
                           </TableCell>
-                          <TableCell className="text-slate-300">{patient.city || "N/A"}</TableCell>
+                          <TableCell className="text-muted-foreground">{patient.city || "N/A"}</TableCell>
                           <TableCell>
                             {patient.onboarding_completed ? (
                               <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
@@ -277,7 +277,7 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                               </Badge>
                             )}
                           </TableCell>
-                          <TableCell className="text-slate-300">{patient.created_at ? new Date(patient.created_at).toLocaleDateString() : "N/A"}</TableCell>
+                          <TableCell className="text-muted-foreground">{patient.created_at ? new Date(patient.created_at).toLocaleDateString() : "N/A"}</TableCell>
                           <TableCell>
                             {patient.account_status === "banned" ? (
                               <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Banned</Badge>
@@ -317,12 +317,12 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                   size="sm"
                   onClick={() => setPage((p) => Math.max(0, p - 1))}
                   disabled={page === 0}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Previous
                 </Button>
-                <div className="text-slate-400 text-sm">
+                <div className="text-muted-foreground text-sm">
                   Page {page + 1} of {totalPages}
                 </div>
                 <Button
@@ -330,7 +330,7 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
                   size="sm"
                   onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                   disabled={page >= totalPages - 1}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   Next
                   <ChevronRight className="h-4 w-4 ml-1" />
@@ -353,4 +353,5 @@ export function AdminPatientsClient({ initialPatients, initialTotal, initialPage
     </div>
   );
 }
+
 

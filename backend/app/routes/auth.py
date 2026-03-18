@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text, update
 from app.core.dependencies import get_db
 from app.schemas.auth import PatientSignup, DoctorSignup, UserLogin
-from app.db.supabase import supabase
+from app.db.supabase import supabase, storage_supabase as admin_supabase
 from pydantic import BaseModel
 from app.db.models.profile import Profile 
 from app.db.models.patient import PatientProfile
@@ -301,3 +301,84 @@ async def forgot_password(request: ForgotPasswordRequest, db: AsyncSession = Dep
     except Exception as e:
         # Still return success to prevent email enumeration
         return {"message": "If an account with that email exists, a password reset link has been sent"}
+
+
+class ResetPasswordRequest(BaseModel):
+    access_token: str
+    new_password: str
+
+
+@router.post("/reset-password")
+async def reset_password(request: ResetPasswordRequest):
+    """
+    Reset a user's password using a Supabase recovery access token.
+    The frontend exchanges the recovery token from the URL hash,
+    then sends the resulting access_token here along with the new password.
+    """
+    try:
+        # Use the recovery access token to get the user
+        user_response = supabase.auth.get_user(request.access_token)
+        if not user_response or not user_response.user:
+            raise HTTPException(status_code=401, detail="Invalid or expired reset token")
+
+        user_id = user_response.user.id
+
+        # Update the password via Supabase admin API (requires service role key)
+        admin_supabase.auth.admin.update_user_by_id(
+            user_id,
+            {"password": request.new_password}
+        )
+
+        return {"message": "Password has been reset successfully"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Failed to reset password. The link may have expired.")
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+@router.post("/change-password")
+async def change_password(
+    request: ChangePasswordRequest,
+    db: AsyncSession = Depends(get_db),
+    user=Depends(verify_jwt),
+):
+    """
+    Change password for an authenticated user.
+    Verifies the current password first, then updates to the new one.
+    """
+    try:
+        # Get the user's email from their profile
+        result = await db.execute(
+            select(Profile.email).where(Profile.id == user.id)
+        )
+        email = result.scalar_one_or_none()
+        if not email:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # Verify current password by attempting a sign-in
+        try:
+            supabase.auth.sign_in_with_password({
+                "email": email,
+                "password": request.current_password,
+            })
+        except Exception:
+            raise HTTPException(status_code=401, detail="Current password is incorrect")
+
+        # Update the password (requires service role key)
+        admin_supabase.auth.admin.update_user_by_id(
+            user.id,
+            {"password": request.new_password}
+        )
+
+        return {"message": "Password changed successfully"}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Failed to change password")

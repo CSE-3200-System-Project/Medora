@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -115,7 +115,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
       case "rejected":
         return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Rejected</Badge>;
       default:
-        return <Badge className="bg-slate-500/20 text-slate-400 border-slate-500/30">Unknown</Badge>;
+        return <Badge className="bg-muted/30 text-muted-foreground border-border/30">Unknown</Badge>;
     }
   };
 
@@ -155,23 +155,23 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Doctor Management</h1>
-          <p className="text-slate-400">Review and verify doctor registrations</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Doctor Management</h1>
+          <p className="text-muted-foreground">Review and verify doctor registrations</p>
         </div>
 
         <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
           <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -179,7 +179,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
             <Select
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
-              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              className="h-11 bg-card/80 border-border text-foreground"
               aria-label="Filter doctors by status"
             >
               {statusOptions.map((status) => {
@@ -208,8 +208,8 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
                 variant="outline"
                 size="sm"
                 onClick={() => setStatusFilter(status)}
-                className={`border-slate-600 ${
-                  statusFilter === status ? "bg-primary text-white border-primary" : "text-slate-300 hover:bg-slate-700/60"
+                className={`border-border ${
+                  statusFilter === status ? "bg-primary text-primary-foreground border-primary" : "text-muted-foreground hover:bg-card/60"
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)} ({
@@ -236,10 +236,10 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
         />
 
         <Dialog open={showVerifyDialog} onOpenChange={setShowVerifyDialog}>
-          <DialogContent className="bg-slate-800 border-slate-700 text-white max-w-[95vw] sm:max-w-106.25">
+          <DialogContent className="bg-card border-border text-foreground max-w-[95vw] sm:max-w-106.25">
             <DialogHeader>
               <DialogTitle>{isApproving ? "Approve" : "Reject"} Doctor Verification</DialogTitle>
-              <DialogDescription className="text-slate-400">
+              <DialogDescription className="text-muted-foreground">
                 {isApproving
                   ? "This will verify the doctor and allow them to access the platform."
                   : "This will reject the doctor's application."}
@@ -248,15 +248,15 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
 
             <div className="space-y-4 py-4">
               <div>
-                <Label className="text-slate-300">Doctor Name</Label>
-                <p className="text-white font-semibold">{selectedDoctor?.name}</p>
+                <Label className="text-muted-foreground">Doctor Name</Label>
+                <p className="text-foreground font-semibold">{selectedDoctor?.name}</p>
               </div>
               <div>
-                <Label className="text-slate-300">BMDC Number</Label>
-                <p className="text-white">{selectedDoctor?.bmdc_number || "N/A"}</p>
+                <Label className="text-muted-foreground">BMDC Number</Label>
+                <p className="text-foreground">{selectedDoctor?.bmdc_number || "N/A"}</p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="notes" className="text-slate-300">
+                <Label htmlFor="notes" className="text-muted-foreground">
                   Notes (Optional)
                 </Label>
                 <Textarea
@@ -264,7 +264,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
                   value={verificationNotes}
                   onChange={(e) => setVerificationNotes(e.target.value)}
                   placeholder="Add any notes about this verification..."
-                  className="bg-slate-900 border-slate-700 text-white"
+                  className="bg-background border-border text-foreground"
                 />
               </div>
             </div>
@@ -274,7 +274,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
                 variant="outline"
                 onClick={() => setShowVerifyDialog(false)}
                 disabled={processing}
-                className="border-slate-600 text-slate-300 hover:bg-slate-700/60"
+                className="border-border text-muted-foreground hover:bg-card/60"
               >
                 Cancel
               </Button>
@@ -320,9 +320,9 @@ function DoctorGrid({
 }) {
   if (doctors.length === 0) {
     return (
-      <Card className="bg-slate-700/60 border-slate-600/50">
+      <Card className="bg-card/60 border-border/50">
         <CardContent className="p-12 text-center">
-          <p className="text-slate-400">No doctors found in this category</p>
+          <p className="text-muted-foreground">No doctors found in this category</p>
         </CardContent>
       </Card>
     );
@@ -332,7 +332,7 @@ function DoctorGrid({
     <>
       <ResponsiveGrid pattern="thirds" gap="sm" className="lg:hidden">
         {doctors.map((doctor) => (
-          <Card key={doctor.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
+          <Card key={doctor.id} className="bg-card/60 border-border/50 hover:border-primary/50 transition-colors">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start justify-between mb-3 sm:mb-4">
                 <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -340,26 +340,26 @@ function DoctorGrid({
                     <User className="h-6 w-6 text-primary-light" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">{doctor.name}</h3>
-                    <p className="text-sm text-slate-400">{doctor.specialization || "No specialty"}</p>
+                    <h3 className="font-semibold text-foreground">{doctor.name}</h3>
+                    <p className="text-sm text-muted-foreground">{doctor.specialization || "No specialty"}</p>
                   </div>
                 </div>
                 {getVerificationBadge(doctor.verification_status)}
               </div>
 
               <div className="space-y-2 mb-4 text-xs sm:text-sm">
-                <div className="flex items-center gap-2 text-slate-400 min-w-0">
+                <div className="flex items-center gap-2 text-muted-foreground min-w-0">
                   <Mail className="h-4 w-4 shrink-0" />
                   <span className="truncate">{doctor.email}</span>
                 </div>
                 {doctor.phone && (
-                  <div className="flex items-center gap-2 text-slate-400">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <Phone className="h-4 w-4" />
                     <span>{doctor.phone}</span>
                   </div>
                 )}
                 {doctor.bmdc_number && (
-                  <div className="flex items-center gap-2 text-slate-400">
+                  <div className="flex items-center gap-2 text-muted-foreground">
                     <FileText className="h-4 w-4" />
                     <span>BMDC: {doctor.bmdc_number}</span>
                   </div>
@@ -396,7 +396,7 @@ function DoctorGrid({
                 </div>
               )}
 
-              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border/50 flex flex-wrap items-center gap-2 sm:justify-between">
                 {doctor.account_status === "banned" ? (
                   <>
                     <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
@@ -429,34 +429,34 @@ function DoctorGrid({
       </ResponsiveGrid>
 
       <div className="hidden lg:block">
-        <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+        <TableScrollContainer className="border-border/50 bg-card/40">
           <Table>
-            <TableHeader className="bg-slate-800/60 border-slate-600/50">
-              <TableRow className="border-slate-600/50 hover:bg-transparent">
-                <TableHead className="text-slate-300">Doctor</TableHead>
-                <TableHead className="text-slate-300">Contact</TableHead>
-                <TableHead className="text-slate-300">BMDC</TableHead>
-                <TableHead className="text-slate-300">Verification</TableHead>
-                <TableHead className="text-slate-300">Account</TableHead>
-                <TableHead className="text-right text-slate-300">Actions</TableHead>
+            <TableHeader className="bg-card/60 border-border/50">
+              <TableRow className="border-border/50 hover:bg-transparent">
+                <TableHead className="text-muted-foreground">Doctor</TableHead>
+                <TableHead className="text-muted-foreground">Contact</TableHead>
+                <TableHead className="text-muted-foreground">BMDC</TableHead>
+                <TableHead className="text-muted-foreground">Verification</TableHead>
+                <TableHead className="text-muted-foreground">Account</TableHead>
+                <TableHead className="text-right text-muted-foreground">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {doctors.map((doctor) => (
-                <TableRow key={doctor.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                <TableRow key={doctor.id} className="border-border/30 hover:bg-card/40">
                   <TableCell>
                     <div className="min-w-0">
-                      <p className="font-semibold text-white">{doctor.name}</p>
-                      <p className="text-xs text-slate-400">{doctor.specialization || "No specialty"}</p>
+                      <p className="font-semibold text-foreground">{doctor.name}</p>
+                      <p className="text-xs text-muted-foreground">{doctor.specialization || "No specialty"}</p>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p className="text-slate-200 wrap-break-word">{doctor.email}</p>
-                    {doctor.phone && <p className="text-xs text-slate-400">{doctor.phone}</p>}
+                    <p className="text-foreground wrap-break-word">{doctor.email}</p>
+                    {doctor.phone && <p className="text-xs text-muted-foreground">{doctor.phone}</p>}
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <p className="text-slate-200">{doctor.bmdc_number || "N/A"}</p>
+                      <p className="text-foreground">{doctor.bmdc_number || "N/A"}</p>
                       {doctor.bmdc_document_url && (
                         <a
                           href={doctor.bmdc_document_url}
@@ -539,4 +539,5 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
     </Suspense>
   );
 }
+
 

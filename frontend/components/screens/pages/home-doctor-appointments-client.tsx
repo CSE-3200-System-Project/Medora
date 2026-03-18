@@ -1,63 +1,64 @@
 "use client";
 
 import React from "react";
-import dynamic from "next/dynamic";
-import { Navbar } from "@/components/ui/navbar";
+import { Download, CalendarDays } from "lucide-react";
+
+import { AppointmentCalendar } from "@/components/doctor-appointments/AppointmentCalendar";
+import { AppointmentDensityChart } from "@/components/doctor-appointments/AppointmentDensityChart";
+import { AppointmentListPanel } from "@/components/doctor-appointments/AppointmentListPanel";
+import { AppointmentModal } from "@/components/doctor-appointments/AppointmentModal";
+import { DailyWorkloadChart } from "@/components/doctor-appointments/DailyWorkloadChart";
+import { ScheduleMetrics } from "@/components/doctor-appointments/ScheduleMetrics";
+import { DoctorAppointment, MetricCard } from "@/components/doctor-appointments/types";
 import { AppBackground } from "@/components/ui/app-background";
-import { getMyAppointments, getAppointmentsByDate, updateAppointment, syncAppointmentStatus, completeAppointment } from "@/lib/appointment-actions";
-import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Users, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, ExternalLink, Filter, ArrowLeft } from "lucide-react";
-import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-
-type TabMode = 'appointments' | 'patients';
-type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
-
-const AppointmentCalendar = dynamic(
-  () => import("@/components/ui/appointment-calendar").then((module) => module.AppointmentCalendar),
-  { loading: () => <div className="skeleton h-[360px] w-full rounded-2xl" /> },
-);
-
-const TimeSlotGrid = dynamic(
-  () => import("@/components/doctor/time-slot-grid").then((module) => module.TimeSlotGrid),
-  { loading: () => <div className="skeleton h-[220px] w-full rounded-2xl" /> },
-);
-
-const DoctorPatientList = dynamic(
-  () => import("@/components/doctor/doctor-patient-list").then((module) => module.DoctorPatientList),
-  { loading: () => <div className="skeleton h-[420px] w-full rounded-2xl" /> },
-);
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { Navbar } from "@/components/ui/navbar";
+import { getMyAppointments, syncAppointmentStatus, updateAppointment, requestRescheduleAppointment } from "@/lib/appointment-actions";
+import { fetchWithAuth } from "@/lib/auth-utils";
+import { localDateKey } from "@/lib/utils";
 
 export default function DoctorAppointmentsPage() {
-  const router = useRouter();
-  const [appointments, setAppointments] = React.useState<any[]>([]);
+  const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
+  const [doctorName, setDoctorName] = React.useState("Doctor");
   const [loading, setLoading] = React.useState(true);
-  const [tabMode, setTabMode] = React.useState<TabMode>('appointments');
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
-  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
-  const [daySlots, setDaySlots] = React.useState<any[]>([]);
-  const [showTimeSlots, setShowTimeSlots] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [selectedAppointment, setSelectedAppointment] = React.useState<DoctorAppointment | null>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [actionError, setActionError] = React.useState<string | null>(null);
-  const itemsPerPage = 10;
 
   React.useEffect(() => {
-    // Sync status first (auto-complete past appointments), then load
     const init = async () => {
-      await syncAppointmentStatus();
-      loadAppointments();
+      await Promise.all([syncAppointmentStatus(), loadDoctorProfile()]);
+      await loadAppointments();
     };
+
     init();
   }, []);
+
+  const loadDoctorProfile = async () => {
+    try {
+      const response = await fetchWithAuth("/api/auth/me");
+      if (!response?.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      const fullName = `${data?.first_name || ""} ${data?.last_name || ""}`.trim();
+      if (fullName) {
+        setDoctorName(fullName);
+      }
+    } catch {
+      // Keep fallback display name.
+    }
+  };
 
   const loadAppointments = async () => {
     try {
       setActionError(null);
       const data = await getMyAppointments();
-      setAppointments(data);
+      const normalized = (Array.isArray(data) ? data : []).map(normalizeAppointment).filter(Boolean) as DoctorAppointment[];
+      setAppointments(uniqueById(normalized));
     } catch {
       setActionError("Failed to load appointments. Please refresh and try again.");
     } finally {
@@ -65,358 +66,218 @@ export default function DoctorAppointmentsPage() {
     }
   };
 
-  const handleDateSelect = async (date: string | null) => {
-    setSelectedDate(date);
-    
-    if (date) {
-      setShowTimeSlots(true);
-      // Fetch time slots for this date
-      try {
-        setActionError(null);
-        const slots = await getAppointmentsByDate(date);
-        setDaySlots(slots);
-      } catch {
-        setActionError("Failed to fetch time slots for the selected day.");
-      }
-    } else {
-      setShowTimeSlots(false);
-      setDaySlots([]);
+  const panelAppointments = React.useMemo(() => {
+    if (selectedDate) {
+      return appointments
+        .filter((item) => localDateKey(item.appointment_date) === selectedDate)
+        .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime());
     }
-  };
 
-  const handleBackToCalendar = () => {
-    setSelectedDate(null);
-    setShowTimeSlots(false);
-    setDaySlots([]);
-  };
+    const now = Date.now();
+    const upcoming = appointments
+      .filter((item) => new Date(item.appointment_date).getTime() >= now)
+      .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime());
 
-  const handleSlotClick = (appointmentId: string) => {
-    void appointmentId;
-  };
+    return upcoming.slice(0, 8);
+  }, [appointments, selectedDate]);
 
-  const handleUpdateAppointment = async (appointmentId: string, status: string) => {
-    try {
-      setActionError(null);
-      await updateAppointment(appointmentId, { status });
-      loadAppointments();
-      // Refresh slots if viewing a date
-      if (selectedDate) {
-        const slots = await getAppointmentsByDate(selectedDate);
-        setDaySlots(slots);
-      }
-    } catch {
-      setActionError(`Failed to ${status.toLowerCase()} appointment. Please try again.`);
-    }
-  };
+  const metrics = React.useMemo<MetricCard[]>(() => {
+    const now = new Date();
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-  // Deduplicate appointments
-  const uniqueAppointments = React.useMemo(() => {
-    return appointments.filter(
-      (appt, index, self) => index === self.findIndex(a => a.id === appt.id)
-    );
+    const currentMonthAppointments = appointments.filter((item) => new Date(item.appointment_date) >= currentMonthStart);
+    const previousMonthAppointments = appointments.filter((item) => {
+      const date = new Date(item.appointment_date);
+      return date >= previousMonthStart && date < currentMonthStart;
+    });
+
+    const totalBookings = currentMonthAppointments.length;
+    const previousBookings = previousMonthAppointments.length;
+    const uniquePatients = new Set(currentMonthAppointments.map((item) => item.patient_id || item.patient_name)).size;
+    const previousUniquePatients = new Set(previousMonthAppointments.map((item) => item.patient_id || item.patient_name)).size;
+    const reschedules = currentMonthAppointments.filter((item) => (item.notes || "").toLowerCase().includes("rescheduled")).length;
+    const previousReschedules = previousMonthAppointments.filter((item) => (item.notes || "").toLowerCase().includes("rescheduled")).length;
+    const rescheduleRate = totalBookings > 0 ? (reschedules / totalBookings) * 100 : 0;
+    const previousRescheduleRate = previousBookings > 0 ? (previousReschedules / previousBookings) * 100 : 0;
+
+    const waitValues = currentMonthAppointments
+      .map((item) => extractWaitMinutes(item.notes))
+      .filter((value): value is number => value !== null);
+
+    const previousWaitValues = previousMonthAppointments
+      .map((item) => extractWaitMinutes(item.notes))
+      .filter((value): value is number => value !== null);
+
+    const avgWait = waitValues.length > 0 ? Math.round(waitValues.reduce((a, b) => a + b, 0) / waitValues.length) : null;
+    const previousAvgWait = previousWaitValues.length > 0 ? Math.round(previousWaitValues.reduce((a, b) => a + b, 0) / previousWaitValues.length) : null;
+
+    return [
+      {
+        title: "Total Bookings",
+        value: totalBookings.toLocaleString(),
+        trend: formatPercentDelta(totalBookings, previousBookings),
+        trendUp: totalBookings >= previousBookings,
+        accentClass: "bg-primary/10 text-primary",
+      },
+      {
+        title: "New Patients",
+        value: uniquePatients.toLocaleString(),
+        trend: formatPercentDelta(uniquePatients, previousUniquePatients),
+        trendUp: uniquePatients >= previousUniquePatients,
+        accentClass: "bg-primary-more-light text-primary",
+      },
+      {
+        title: "Avg Wait Time",
+        value: avgWait === null ? "N/A" : `${avgWait} min`,
+        trend: avgWait === null ? "0%" : formatPercentDelta(avgWait, previousAvgWait ?? avgWait),
+        trendUp: avgWait !== null && previousAvgWait !== null ? avgWait <= previousAvgWait : true,
+        accentClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+      },
+      {
+        title: "Reschedules",
+        value: `${rescheduleRate.toFixed(1)}%`,
+        trend: formatPercentDelta(rescheduleRate, previousRescheduleRate),
+        trendUp: rescheduleRate <= previousRescheduleRate,
+        accentClass: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+      },
+    ];
   }, [appointments]);
 
-  // Filter by date if selected
-  const dateFilteredAppointments = React.useMemo(() => {
-    if (!selectedDate) return uniqueAppointments;
-    return uniqueAppointments.filter(appt => {
-      const apptDate = localDateKey(appt.appointment_date);
-      return apptDate === selectedDate;
+  const workloadData = React.useMemo(() => {
+    const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const counts = [0, 0, 0, 0, 0, 0, 0];
+
+    appointments.forEach((item) => {
+      if (item.status === "CANCELLED") {
+        return;
+      }
+      const date = new Date(item.appointment_date);
+      const day = date.getDay();
+      const mondayBased = day === 0 ? 6 : day - 1;
+      counts[mondayBased] += 1;
     });
-  }, [uniqueAppointments, selectedDate]);
 
-  // Filter by status
-  const filteredAppointments = React.useMemo(() => {
-    if (statusFilter === 'all') return dateFilteredAppointments;
-    return dateFilteredAppointments.filter(
-      appt => appt.status.toUpperCase() === statusFilter.toUpperCase()
-    );
-  }, [dateFilteredAppointments, statusFilter]);
+    return labels.map((day, index) => ({ day, patients: counts[index] }));
+  }, [appointments]);
 
-  // Count appointments by status (for filter badges)
-  const statusCounts = React.useMemo(() => {
-    const base = selectedDate ? dateFilteredAppointments : uniqueAppointments;
-    return {
-      all: base.length,
-      pending: base.filter(a => a.status.toUpperCase() === 'PENDING').length,
-      confirmed: base.filter(a => a.status.toUpperCase() === 'CONFIRMED').length,
-      cancelled: base.filter(a => a.status.toUpperCase() === 'CANCELLED').length,
-      completed: base.filter(a => a.status.toUpperCase() === 'COMPLETED').length,
-    };
-  }, [selectedDate, dateFilteredAppointments, uniqueAppointments]);
+  const workloadAverageLabel = React.useMemo(() => {
+    const total = workloadData.reduce((sum, item) => sum + item.patients, 0);
+    return `Avg: ${(total / 7).toFixed(1)}/day`;
+  }, [workloadData]);
 
-  // Sort appointments: upcoming first, then past
-  const sortedAppointments = React.useMemo(() => {
+  const densityData = React.useMemo(() => {
+    const bucketMeta = [
+      { hour: 8, label: "08 AM" },
+      { hour: 10, label: "10 AM" },
+      { hour: 12, label: "12 PM" },
+      { hour: 14, label: "02 PM" },
+      { hour: 16, label: "04 PM" },
+      { hour: 18, label: "06 PM" },
+      { hour: 20, label: "08 PM" },
+    ];
+
+    const counts = bucketMeta.map(() => 0);
+
+    appointments.forEach((item) => {
+      if (item.status === "CANCELLED") {
+        return;
+      }
+
+      const hour = new Date(item.appointment_date).getHours();
+      const nearestIndex = bucketMeta.reduce((best, current, index) => {
+        const bestDistance = Math.abs(bucketMeta[best].hour - hour);
+        const currentDistance = Math.abs(current.hour - hour);
+        return currentDistance < bestDistance ? index : best;
+      }, 0);
+
+      counts[nearestIndex] += 1;
+    });
+
+    return bucketMeta.map((bucket, index) => ({ time: bucket.label, density: counts[index] }));
+  }, [appointments]);
+
+  const densityDeltaLabel = React.useMemo(() => {
     const now = new Date();
-    const upcoming = filteredAppointments.filter(
-      appt => new Date(appt.appointment_date) >= now
-    ).sort((a, b) => 
-      new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime()
-    );
-    
-    const past = filteredAppointments.filter(
-      appt => new Date(appt.appointment_date) < now
-    ).sort((a, b) => 
-      new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime()
-    );
-    
-    return { upcoming, past };
-  }, [filteredAppointments]);
+    const startOfWeek = new Date(now);
+    const day = startOfWeek.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    startOfWeek.setDate(startOfWeek.getDate() + diff);
+    startOfWeek.setHours(0, 0, 0, 0);
 
-  // Pagination for main appointments list (all filtered appointments)
-  const allFilteredAppointments = React.useMemo(() => {
-    return [...sortedAppointments.upcoming, ...sortedAppointments.past];
-  }, [sortedAppointments]);
+    const previousWeekStart = new Date(startOfWeek);
+    previousWeekStart.setDate(startOfWeek.getDate() - 7);
+    const previousWeekEnd = new Date(startOfWeek);
 
-  const totalPages = Math.ceil(allFilteredAppointments.length / itemsPerPage);
-  const paginatedAppointments = React.useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return allFilteredAppointments.slice(startIndex, startIndex + itemsPerPage);
-  }, [allFilteredAppointments, currentPage]);
+    const currentWeekCount = appointments.filter((item) => {
+      const date = new Date(item.appointment_date);
+      return date >= startOfWeek && date <= now;
+    }).length;
 
-  // Reset to page 1 when filters change
-  React.useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedDate, statusFilter]);
+    const previousWeekCount = appointments.filter((item) => {
+      const date = new Date(item.appointment_date);
+      return date >= previousWeekStart && date < previousWeekEnd;
+    }).length;
 
-  const formatDateTime = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    
-    const dateFormatted = `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-    const timeFormatted = date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: true 
-    });
+    return `${formatPercentDelta(currentWeekCount, previousWeekCount)} vs last week`;
+  }, [appointments]);
 
-    return { date: dateFormatted, time: timeFormatted };
-  };
+  const handleStatusUpdate = async (id: string, status: DoctorAppointment["status"]) => {
+    const previous = appointments;
+    setActionError(null);
+    setAppointments((current) => current.map((item) => (item.id === id ? { ...item, status } : item)));
 
-  const getStatusBadge = (status: string) => {
-    const statusUpper = status.toUpperCase();
-    
-    switch (statusUpper) {
-      case 'PENDING':
-        return (
-          <Badge variant="warning" className="flex items-center gap-1">
-            <AlertCircle className="w-3 h-3" />
-            Pending
-          </Badge>
-        );
-      case 'CONFIRMED':
-        return (
-          <Badge variant="default" className="flex items-center gap-1 bg-blue-500">
-            <CheckCircle2 className="w-3 h-3" />
-            Confirmed
-          </Badge>
-        );
-      case 'COMPLETED':
-        return (
-          <Badge variant="success" className="flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3" />
-            Completed
-          </Badge>
-        );
-      case 'CANCELLED':
-        return (
-          <Badge variant="destructive" className="flex items-center gap-1">
-            <XCircle className="w-3 h-3" />
-            Cancelled
-          </Badge>
-        );
-      default:
-        return <Badge>{status}</Badge>;
+    try {
+      await updateAppointment(id, { status });
+    } catch {
+      setAppointments(previous);
+      setActionError("Could not update appointment status. Please try again.");
     }
   };
 
-  // Extract slot time from notes
-  const extractSlotTime = (notes: string | null): string | null => {
-    if (!notes) return null;
-    const slotMatch = notes.match(/Slot:\s*(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
-    return slotMatch ? slotMatch[1] : null;
-  };
+  const handleReschedule = async (id: string, newTime: string) => {
+    const target = appointments.find((item) => item.id === id);
+    if (!target) {
+      return;
+    }
 
-  const AppointmentCard = ({ appointment, isPast = false }: { appointment: any; isPast?: boolean }) => {
-    const { date, time } = formatDateTime(appointment.appointment_date);
-    const slotTime = extractSlotTime(appointment.notes);
-    const displayTime = slotTime || time;
-    const isPending = appointment.status.toUpperCase() === 'PENDING';
-    const isConfirmed = appointment.status.toUpperCase() === 'CONFIRMED';
-    const appointmentPassed = new Date(appointment.appointment_date) <= new Date();
-    const canComplete = isConfirmed && appointmentPassed;
-    const [completing, setCompleting] = React.useState(false);
+    const currentDate = new Date(target.appointment_date);
+    const [hours, minutes] = newTime.split(":").map(Number);
+    const rescheduledDate = new Date(currentDate);
+    rescheduledDate.setHours(hours, minutes, 0, 0);
 
-    const handleComplete = async () => {
-      setCompleting(true);
-      try {
-        setActionError(null);
-        await completeAppointment(appointment.id);
-        loadAppointments();
-        if (selectedDate) {
-          const slots = await getAppointmentsByDate(selectedDate);
-          setDaySlots(slots);
-        }
-      } catch (error: any) {
-        setActionError(error?.message || "Failed to complete appointment");
-      } finally {
-        setCompleting(false);
-      }
-    };
-
-    return (
-      <div
-        className={cn(
-          "p-4 rounded-lg border-2 transition-all",
-          "hover:shadow-md",
-          "border-blue-200 bg-white dark:bg-card hover:bg-blue-50 dark:hover:bg-card/80",
-          isPast && "opacity-75"
-        )}
-      >
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <User className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              {appointment.patient_id ? (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push(`/doctor/patient/${appointment.patient_id}`);
-                  }}
-                  className="font-semibold text-primary hover:underline text-base flex items-center gap-1 text-left"
-                >
-                  {appointment.patient_name}
-                  <ExternalLink className="w-3 h-3" />
-                </button>
-              ) : (
-                <h4 className="font-semibold text-foreground text-base">{appointment.patient_name}</h4>
-              )}
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
-                {appointment.patient_age && (
-                  <span>{appointment.patient_age} yrs</span>
-                )}
-                {appointment.patient_gender && (
-                  <span>| {appointment.patient_gender}</span>
-                )}
-                {appointment.blood_group && (
-                  <span>| {appointment.blood_group}</span>
-                )}
-              </div>
-            </div>
-          </div>
-          {getStatusBadge(appointment.status)}
-        </div>
-
-        <div className="space-y-2.5 text-sm">
-          {/* Appointment Time */}
-          <div className="flex items-center gap-2 text-foreground bg-blue-50 dark:bg-primary/10 p-2 rounded">
-            <Clock className="w-4 h-4 text-primary flex-shrink-0" />
-            <div>
-              <div className="font-medium">{displayTime}</div>
-              <div className="text-xs text-muted-foreground">{date}</div>
-            </div>
-          </div>
-          
-          {/* Reason for visit */}
-          {appointment.reason && (
-            <div className="flex items-start gap-2 text-muted-foreground">
-              <FileText className="w-4 h-4 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-xs text-muted-foreground mb-0.5">Reason</p>
-                {(() => {
-                  const { consultationType, appointmentType } = parseCompositeReason(appointment.reason)
-                  const ct = humanizeConsultationType(consultationType)
-                  const at = humanizeAppointmentType(appointmentType)
-                  return (
-                    <>
-                      <p className="text-sm text-foreground">{ct}{at ? ` | ${at}` : ''}</p>
-                      {appointment.notes && <p className="text-xs text-muted-foreground mt-1">{appointment.notes}</p>}
-                    </>
-                  )
-                })()}
-              </div>
-            </div>
-          )}
-          
-          {/* Contact Info */}
-          {appointment.patient_phone && (
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="w-4 h-4 flex-shrink-0" />
-              <span>{appointment.patient_phone}</span>
-            </div>
-          )}
-          
-          {/* Chronic Conditions */}
-          {appointment.chronic_conditions && appointment.chronic_conditions.length > 0 && (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded p-2">
-              <p className="text-xs text-muted-foreground mb-1 font-medium">Chronic Conditions:</p>
-              <div className="flex flex-wrap gap-1">
-                {appointment.chronic_conditions.map((condition: string, idx: number) => (
-                  <Badge key={idx} variant="outline" className="text-xs bg-white dark:bg-background">
-                    {condition}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Action Buttons for Pending Appointments */}
-        {isPending && !isPast && (
-          <div className="flex gap-2 mt-4 pt-3 border-t border-border">
-            <Button
-              size="sm"
-              variant="default"
-              onClick={() => handleUpdateAppointment(appointment.id, 'CONFIRMED')}
-              className="flex-1 bg-green-600 hover:bg-green-700"
-            >
-              <CheckCircle2 className="w-4 h-4 mr-1" />
-              Approve
-            </Button>
-            <Button
-              size="sm"
-              variant="destructive"
-              onClick={() => handleUpdateAppointment(appointment.id, 'CANCELLED')}
-              className="flex-1"
-            >
-              <XCircle className="w-4 h-4 mr-1" />
-              Reject
-            </Button>
-          </div>
-        )}
-
-        {/* Complete Button for Confirmed + Past Appointments */}
-        {canComplete && (
-          <div className="mt-4 pt-3 border-t border-border">
-            <Button
-              size="sm"
-              variant="default"
-              onClick={handleComplete}
-              disabled={completing}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
-            >
-              {completing ? (
-                <><ButtonLoader className="mr-2" /> Completing...</>
-              ) : (
-                <><CheckCircle2 className="w-4 h-4 mr-2" /> Complete Appointment</>
-              )}
-            </Button>
-          </div>
-        )}
-      </div>
+    const previous = appointments;
+    setActionError(null);
+    setAppointments((current) =>
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              appointment_date: rescheduledDate.toISOString(),
+              status: "PENDING",
+              notes: `Rescheduled to ${newTime}`,
+            }
+          : item,
+      ),
     );
+
+    try {
+      // Request reschedule - sends notification to patient
+      await requestRescheduleAppointment(id, rescheduledDate.toISOString());
+    } catch (error) {
+      setAppointments(previous);
+      const errorMessage = error instanceof Error ? error.message : "Could not reschedule this appointment";
+      setActionError(errorMessage);
+    }
   };
 
   if (loading) {
     return (
-      <AppBackground className="container-padding">
+      <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
-          <div className="flex items-center justify-center py-20">
-            <MedoraLoader size="lg" label="Loading appointments..." />
+        <main className="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+          <div className="flex items-center justify-center py-24">
+            <MedoraLoader size="lg" label="Loading schedule dashboard..." />
           </div>
         </main>
       </AppBackground>
@@ -424,284 +285,130 @@ export default function DoctorAppointmentsPage() {
   }
 
   return (
-    <AppBackground className="container-padding animate-page-enter">
+    <AppBackground>
       <Navbar />
-
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-              Appointments Management
-            </h1>
-            <p className="text-muted-foreground mt-2 text-sm sm:text-base">
-              Manage your patient bookings and schedule
-            </p>
-          </div>
-          
-          {/* Tab Switcher */}
-          <div className="flex items-center gap-2 bg-card rounded-xl p-1 shadow-sm border border-border/50">
-            <Button
-              variant={tabMode === 'appointments' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setTabMode('appointments')}
-              className="touch-target"
-            >
-              <Calendar className="w-4 h-4 mr-2" />
-              Appointments
-            </Button>
-            <Button
-              variant={tabMode === 'patients' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setTabMode('patients')}
-              className="touch-target"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Patients
-            </Button>
-          </div>
-        </div>
-
-        {actionError ? (
-          <div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-            {actionError}
-          </div>
-        ) : null}
-
-        {tabMode === 'appointments' ? (
-          <div className="space-y-6">
-            {/* Top Section: Calendar (1 col) + Upcoming Appointments (1 col) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Calendar - 1 Column */}
-              <div>
-                <AppointmentCalendar
-                  appointments={uniqueAppointments}
-                  selectedDate={selectedDate}
-                  onDateSelect={handleDateSelect}
-                  title="Appointment Calendar"
-                />
-              </div>
-
-              {/* Upcoming Appointments - 1 Column */}
-              <div>
-                <Card className="rounded-2xl shadow-lg h-full">
-                  <CardHeader className="border-b border-border/50">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-primary" />
-                      Upcoming Appointments
-                    </CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Next {Math.min(5, sortedAppointments.upcoming.length)} appointments
-                    </p>
-                  </CardHeader>
-                  <CardContent className="p-4">
-                    {sortedAppointments.upcoming.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-8 text-center">
-                        <Calendar className="h-10 w-10 text-muted-foreground mb-3" />
-                        <p className="text-muted-foreground">No upcoming appointments</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        {sortedAppointments.upcoming.slice(0, 5).map((appt) => {
-                          const { date, time } = formatDateTime(appt.appointment_date);
-                          const slotTime = extractSlotTime(appt.notes);
-                          const displayTime = slotTime || time;
-
-                          return (
-                            <div
-                              key={appt.id}
-                              className="p-3 rounded-lg border border-blue-200 bg-white dark:bg-card hover:bg-blue-50 dark:hover:bg-card/80 transition-all"
-                            >
-                              <div className="flex items-start justify-between gap-2 mb-2">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                    <User className="w-4 h-4 text-primary" />
-                                  </div>
-                                  <div className="min-w-0">
-                                    <p className="font-semibold text-sm text-foreground truncate">
-                                      {appt.patient_name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {appt.patient_age && `${appt.patient_age} yrs`}
-                                      {appt.patient_gender && ` | ${appt.patient_gender}`}
-                                    </p>
-                                  </div>
-                                </div>
-                                {getStatusBadge(appt.status)}
-                              </div>
-                              <div className="flex items-center gap-2 text-xs bg-blue-50 dark:bg-primary/10 p-2 rounded">
-                                <Clock className="w-3 h-3 text-primary flex-shrink-0" />
-                                <span className="font-medium">{displayTime}</span>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <div className="space-y-6">
+          <section className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">Dashboard Overview</p>
+              <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Schedule Performance</h1>
+              <p className="mt-2 text-sm text-muted-foreground">Good morning, Dr. {doctorName}. Here&apos;s your clinic activity for today.</p>
             </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" className="h-11">
+                <CalendarDays className="h-4 w-4" />
+                This Week
+              </Button>
+              <Button className="h-11">
+                <Download className="h-4 w-4" />
+                Export Report
+              </Button>
+            </div>
+          </section>
 
-            {/* Time Slots View - Shows when date is selected */}
-            {showTimeSlots && selectedDate && (
-              <div className="w-full">
-                <TimeSlotGrid
-                  selectedDate={selectedDate}
-                  slots={daySlots}
-                  onSlotClick={handleSlotClick}
-                  onBack={handleBackToCalendar}
-                />
-              </div>
-            )}
+          {actionError ? (
+            <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {actionError}
+            </div>
+          ) : null}
 
-            {/* All Appointments List - Full Width with Pagination */}
-            <Card className="rounded-2xl shadow-lg">
-              <CardHeader className="border-b border-border/50 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-primary" />
-                    {selectedDate ? (
-                      <div className="flex items-center gap-2">
-                        <span>Appointments on Selected Date</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={handleBackToCalendar}
-                          className="ml-2"
-                        >
-                          <ArrowLeft className="w-4 h-4 mr-1" />
-                          Back to All
-                        </Button>
-                      </div>
-                    ) : (
-                      'All Appointments'
-                    )}
-                  </CardTitle>
-                  <div className="text-sm text-muted-foreground">
-                    Showing {paginatedAppointments.length} of {allFilteredAppointments.length}
-                  </div>
-                </div>
-                
-                {/* Status Filter Tabs */}
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    size="sm"
-                    variant={statusFilter === 'all' ? 'default' : 'outline'}
-                    onClick={() => setStatusFilter('all')}
-                    className="text-xs touch-target"
-                  >
-                    All ({statusCounts.all})
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={statusFilter === 'pending' ? 'default' : 'outline'}
-                    onClick={() => setStatusFilter('pending')}
-                    className={cn("text-xs touch-target", statusFilter === 'pending' && "bg-yellow-500 hover:bg-yellow-600")}
-                  >
-                    <AlertCircle className="w-3 h-3 mr-1" />
-                    Pending ({statusCounts.pending})
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={statusFilter === 'confirmed' ? 'default' : 'outline'}
-                    onClick={() => setStatusFilter('confirmed')}
-                    className={cn("text-xs touch-target", statusFilter === 'confirmed' && "bg-blue-500 hover:bg-blue-600")}
-                  >
-                    <CheckCircle2 className="w-3 h-3 mr-1" />
-                    Confirmed ({statusCounts.confirmed})
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={statusFilter === 'cancelled' ? 'default' : 'outline'}
-                    onClick={() => setStatusFilter('cancelled')}
-                    className={cn("text-xs touch-target", statusFilter === 'cancelled' && "bg-red-500 hover:bg-red-600")}
-                  >
-                    <XCircle className="w-3 h-3 mr-1" />
-                    Cancelled ({statusCounts.cancelled})
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={statusFilter === 'completed' ? 'default' : 'outline'}
-                    onClick={() => setStatusFilter('completed')}
-                    className={cn("text-xs touch-target", statusFilter === 'completed' && "bg-green-500 hover:bg-green-600")}
-                  >
-                    <CheckCircle2 className="w-3 h-3 mr-1" />
-                    Completed ({statusCounts.completed})
-                  </Button>
-                </div>
-              </CardHeader>
+          <ScheduleMetrics metrics={metrics} />
 
-              <CardContent className="p-6">
-                {filteredAppointments.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12">
-                    <Filter className="h-12 w-12 text-muted-foreground mb-4" />
-                    <p className="text-lg font-medium text-foreground">
-                      {selectedDate 
-                        ? 'No appointments on this date' 
-                        : statusFilter === 'all'
-                        ? 'No appointments found'
-                        : `No ${statusFilter} appointments`}
-                    </p>
-                    <p className="text-muted-foreground">
-                      {selectedDate || statusFilter !== 'all' ? 'Try adjusting your filters.' : 'New appointments will appear here.'}
-                    </p>
-                    {(selectedDate || statusFilter !== 'all') && (
-                      <Button 
-                        className="mt-4 touch-target" 
-                        variant="outline" 
-                        onClick={() => {
-                          setSelectedDate(null);
-                          setStatusFilter('all');
-                        }}
-                      >
-                        Clear Filters
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    {/* Appointments Grid */}
-                    <div className="space-y-3">
-                      {paginatedAppointments.map((appt) => (
-                        <AppointmentCard key={appt.id} appointment={appt} isPast={new Date(appt.appointment_date) < new Date()} />
-                      ))}
-                    </div>
+          <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+            <DailyWorkloadChart data={workloadData} averageLabel={workloadAverageLabel} />
+            <AppointmentDensityChart data={densityData} deltaLabel={densityDeltaLabel} />
+          </section>
 
-                    {/* Pagination Controls */}
-                    {totalPages > 1 && (
-                      <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-                        <div className="text-sm text-muted-foreground">
-                          Page {currentPage} of {totalPages}
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                            disabled={currentPage === 1}
-                          >
-                            Previous
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                            disabled={currentPage === totalPages}
-                          >
-                            Next
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          <DoctorPatientList />
-        )}
+          <section className="grid grid-cols-1 items-stretch gap-6 xl:grid-cols-3">
+            <div className="min-h-168 xl:col-span-2">
+              <AppointmentCalendar
+                appointments={appointments}
+                selectedDate={selectedDate}
+                onDateSelect={setSelectedDate}
+              />
+            </div>
+            <div className="min-h-168 xl:col-span-1">
+              <AppointmentListPanel
+                appointments={panelAppointments}
+                selectedDate={selectedDate}
+                onSelectAppointment={(appointment) => {
+                  setSelectedAppointment(appointment);
+                  setIsModalOpen(true);
+                }}
+              />
+            </div>
+          </section>
+        </div>
       </main>
+
+      <AppointmentModal
+        appointment={selectedAppointment}
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onApprove={(id) => handleStatusUpdate(id, "CONFIRMED")}
+        onCancel={(id) => handleStatusUpdate(id, "CANCELLED")}
+        onReschedule={handleReschedule}
+      />
     </AppBackground>
   );
+}
+
+function uniqueById(appointments: DoctorAppointment[]) {
+  return appointments.filter((item, index, all) => index === all.findIndex((entry) => entry.id === item.id));
+}
+
+function normalizeAppointment(raw: any): DoctorAppointment | null {
+  const idValue = raw?.id;
+  const dateValue = raw?.appointment_date;
+  const patientName = raw?.patient_name;
+
+  if (!idValue || !dateValue || !patientName) {
+    return null;
+  }
+
+  const statusValue = String(raw?.status || "PENDING").toUpperCase();
+  const status = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"].includes(statusValue)
+    ? (statusValue as DoctorAppointment["status"])
+    : "PENDING";
+
+  return {
+    id: String(idValue),
+    appointment_date: String(dateValue),
+    status,
+    patient_name: String(patientName),
+    patient_id: raw?.patient_id || null,
+    patient_age: raw?.patient_age ?? null,
+    patient_gender: raw?.patient_gender ?? null,
+    patient_phone: raw?.patient_phone ?? null,
+    reason: raw?.reason ?? null,
+    notes: raw?.notes ?? null,
+    blood_group: raw?.blood_group ?? null,
+    chronic_conditions: Array.isArray(raw?.chronic_conditions) ? raw.chronic_conditions : [],
+    location: raw?.location ?? null,
+  };
+}
+
+function formatPercentDelta(current: number, previous: number) {
+  if (!Number.isFinite(previous) || previous === 0) {
+    return current === 0 ? "0%" : "+100%";
+  }
+
+  const delta = ((current - previous) / Math.abs(previous)) * 100;
+  const rounded = Math.round(delta * 10) / 10;
+  return `${rounded >= 0 ? "+" : ""}${rounded}%`;
+}
+
+function extractWaitMinutes(notes: string | null | undefined) {
+  if (!notes) {
+    return null;
+  }
+
+  const match = notes.match(/wait\s*[:=-]?\s*(\d{1,3})\s*min/i);
+  if (!match?.[1]) {
+    return null;
+  }
+
+  const parsed = Number(match[1]);
+  return Number.isFinite(parsed) ? parsed : null;
 }

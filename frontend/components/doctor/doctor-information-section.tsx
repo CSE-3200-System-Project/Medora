@@ -99,7 +99,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 )}
                 
                 {doctor.bmdc_verified ? (
-                  <Badge variant="default" className="bg-success text-white font-semibold">
+                  <Badge variant="default" className="bg-success text-primary-foreground font-semibold">
                     <CheckCircle2 className="h-3 w-3 mr-1" />
                     BMDC Verified
                   </Badge>
@@ -150,7 +150,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 <div className="flex items-start gap-2 mb-2">
                   <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div className="flex-1">
-                    <span className="inline-block bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded mb-2">
+                    <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-2 py-0.5 rounded mb-2">
                       {index === 0 ? "Primary Hospital" : `Chamber ${index}`}
                     </span>
                     <h3 className="font-bold text-foreground text-lg mb-1">

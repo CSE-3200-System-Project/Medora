@@ -92,7 +92,7 @@ export default function DoctorProfilePage() {
         </div>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white p-4 shadow-lg dark:bg-card lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card p-4 shadow-lg dark:bg-card lg:hidden">
         <button className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary-muted">
           Book Appointment
         </button>
@@ -100,3 +100,4 @@ export default function DoctorProfilePage() {
     </AppBackground>
   );
 }
+

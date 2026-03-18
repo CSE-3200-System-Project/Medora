@@ -134,7 +134,7 @@ export default async function DoctorHomePage() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
             Welcome back, Dr. {doctor.last_name ?? "Doctor"}!
           </h1>
-          <p className="text-gray-600 text-lg">Here&apos;s what&apos;s happening with your practice today</p>
+          <p className="text-muted-foreground text-lg">Here&apos;s what&apos;s happening with your practice today</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -142,7 +142,7 @@ export default async function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">Today&apos;s Appointments</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Today&apos;s Appointments</p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
                     {stats.todays_appointments}
                   </p>
@@ -158,7 +158,7 @@ export default async function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">Total Patients</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Total Patients</p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
                     {stats.total_patients}
                   </p>
@@ -174,7 +174,7 @@ export default async function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">Pending Reviews</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Pending Reviews</p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
                     {stats.pending_reviews}
                   </p>
@@ -190,7 +190,7 @@ export default async function DoctorHomePage() {
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">Completion Rate</p>
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Completion Rate</p>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
                     {stats.completion_rate}%
                   </p>
@@ -332,3 +332,4 @@ export default async function DoctorHomePage() {
     </AppBackground>
   );
 }
+

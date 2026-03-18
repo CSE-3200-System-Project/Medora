@@ -184,7 +184,7 @@ export default function PatientPrivacyPage() {
               <Shield className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Privacy & Data Access</h1>
+              <h1 className="text-2xl font-bold text-foreground">Privacy & Data Access</h1>
               <p className="text-muted-foreground">Manage who can view your medical records</p>
             </div>
           </div>
@@ -390,3 +390,4 @@ export default function PatientPrivacyPage() {
     </AppBackground>
   )
 }
+

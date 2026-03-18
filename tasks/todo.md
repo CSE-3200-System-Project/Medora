@@ -1,3 +1,293 @@
+# Migration + Extraction Setup (2026-03-16)
+
+# Analytics Live Reminder Integration (2026-03-18)
+
+## Status: completed
+
+### Todo
+- [x] Audit analytics dashboard and confirm hardcoded reminder source
+- [x] Fetch medication reminders from backend for analytics initial render
+- [x] Replace static schedule with reminder-derived live schedule and due-alert logic
+- [x] Add client-side refresh for up-to-date reminder changes while page stays open
+- [x] Validate changed analytics files for TypeScript diagnostics
+
+### Review
+- Analytics now receives live medication reminders from backend via server-side fetch in `frontend/app/analytics/page.tsx`.
+- `AnalyticsDashboard` no longer uses seeded reminder constants; it derives today's schedule from real reminder times and weekday rules.
+- Added periodic client refresh (60s) and clock tick updates (30s) to keep due/upcoming/skipped states current.
+- Kept existing interaction buttons (`Take`, `Skip`, `Remind`, `Snooze`) as local UI state overlays on top of live reminder schedule.
+- Added graceful error messaging when reminder fetch refresh fails.
+
+# Reminder Timezone Runtime Fix (2026-03-18)
+
+## Status: completed
+
+### Todo
+- [x] Confirm root cause from backend logs and dispatcher code path
+- [x] Make reminder timezone handling resilient when tz database is missing
+- [x] Add missing timezone database dependency for Python on Windows
+- [x] Verify reminder API/dispatcher no longer fail with Asia/Dhaka on startup
+
+### Review
+- Added `tzdata>=2024.1` to backend dependencies so IANA zones (for example `Asia/Dhaka`) resolve correctly on Windows Python runtimes.
+- Hardened reminder dispatcher timezone fallback to avoid crash loops when the configured zone cannot be loaded; it now degrades to UTC with an explicit log message.
+- Updated reminder timezone validation to handle tz-database-unavailable environments more gracefully for default/UTC values, which prevents false-invalid rejections.
+- Verified in the backend venv that `ZoneInfo('Asia/Dhaka')` resolves successfully after installing `tzdata`.
+
+## Status: completed
+
+### Todo
+- [x] Apply and verify Alembic migration head for media storage schema
+- [x] Add explicit backend environment placeholders for extraction smoke testing
+- [x] Add executable local smoke test script for `/upload/prescription/extract`
+- [x] Document credential placement and run flow for user handoff
+
+### Review
+- Migration command executed and DB confirmed at `m3d1a_f1l35_001 (head)`.
+- Added optional local test placeholders in `backend/.env.example` for backend base URL, JWT token, test image path, and save-file flag.
+- Added `backend/scripts/test_prescription_extraction.ps1` to run authenticated multipart extraction tests in one command.
+- Kept production behavior unchanged; these additions are setup and validation tooling only.
+
+# Media Upload + Prescription Extraction (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add database support for media/file metadata and profile banner URL fields
+- [x] Implement robust backend storage API for upload/list/update/delete using Supabase Storage + DB metadata
+- [x] Keep backward compatibility with existing onboarding upload flow (`/upload/` response shape)
+- [x] Implement prescription image extraction endpoint with LLM-based OCR-style text extraction
+- [x] Add frontend integration helpers for authenticated file upload and prescription extraction
+- [x] Implement patient Find Medicine prescription upload demo UI with modern split layout, live preview, processing overlay, and extracted text panel
+- [x] Validate changed files for diagnostics/runtime issues and document review summary
+
+### Notes
+- Scope includes image + document upload lifecycle foundation and a production-ready demo integration at the patient find-medicine flow.
+- Medical safety constraint maintained: extraction returns transcribed text only, with no diagnosis/prescription decisions.
+
+### Review
+- Added backend persistence and schema support for uploaded file metadata via `media_files` and added `profile_banner_url` fields for patient and doctor profile models.
+- Built an end-to-end media lifecycle API on `/upload`: legacy upload, authenticated upload/list/replace/delete, and prescription text extraction endpoint.
+- Kept old onboarding upload compatibility while upgrading patient/doctor onboarding clients to use the new authenticated upload API with fallback to the legacy endpoint.
+- Added reusable frontend storage helpers in `frontend/lib/file-storage-actions.ts` so future profile/banner/document features can integrate consistently.
+- Implemented patient Find Medicine prescription upload demo UI with mobile-first responsive split layout, image preview, animated processing overlay, and extracted-text result panel.
+- Diagnostics: no current errors in changed backend and frontend files touched for this feature set.
+
+# Patient Medical History Responsive Adaptation (2026-03-16)
+
+## Doctor Schedule Performance Dashboard Refactor (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Refactor existing doctor appointments page shell to Schedule Performance dashboard layout
+- [x] Create reusable module under `frontend/components/doctor-appointments/` with requested component split
+- [x] Keep existing appointment calendar component and wrap it in the new dashboard area
+- [x] Replace old all-appointments section with calendar-driven right panel list behavior
+- [x] Implement appointment modal workflow (approve, cancel, reschedule with time selector)
+- [x] Ensure selected-date filtering, upcoming default sorting, and card status updates
+- [x] Align with current dark theme tokens and mobile responsive stacking
+- [x] Run targeted diagnostics for changed doctor appointment files
+- [x] Add review summary and residual frontend-only notes
+
+### Review
+- Refactored the existing doctor appointments screen (`home-doctor-appointments-client`) into a Schedule Performance dashboard layout with: header, KPI row, analytics charts row, and calendar/list management area.
+- Added requested reusable components in `frontend/components/doctor-appointments/`: `ScheduleMetrics`, `DailyWorkloadChart`, `AppointmentDensityChart`, `AppointmentCalendar`, `AppointmentListPanel`, `AppointmentCard`, and `AppointmentModal`.
+- Kept the existing calendar implementation by wrapping and reusing `frontend/components/ui/appointment-calendar.tsx` (no rewrite), preserving selected-day highlight and status indicators.
+- Removed the old full "All Appointments" section and replaced it with a calendar-driven right panel that defaults to upcoming appointments and switches to selected-date appointments on calendar click.
+- Implemented modal workflow: approve/cancel/reschedule actions with centered floating dialog, dimmed backdrop, and smooth dialog animation. Reschedule opens a time selector and commits updates.
+- Added optimistic local state updates for status and time changes, with server sync via existing appointment update action and rollback on failure.
+- Kept dark mode alignment through existing theme tokens (`bg-card`, `border-border`, `text-foreground`, muted surfaces) and made all layout sections mobile-first responsive.
+- Validation: targeted diagnostics report no TypeScript errors in all changed doctor appointment files.
+- Residual note: chart series are currently static demo analytics data (frontend-only) while appointment panel data is live from existing appointments action.
+
+## Medication Reminder & Analytics Dashboard (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add patient navigation link for Analytics and route it to `/analytics`
+- [x] Create new analytics page entry at `frontend/app/analytics/page.tsx`
+- [x] Build reusable dashboard components under `frontend/components/analytics/`
+- [x] Implement medication tick system (`Take`, `Skip`, `Snooze`) with local React state
+- [x] Recompute adherence metrics, heatmap, and missed-dose chart from local status data
+- [x] Add responsive two-column analytics layout and floating due-alert banner
+- [x] Run targeted diagnostics for all changed analytics files
+- [x] Add review summary with outcomes and residual frontend-only limitations
+
+### Review
+- Added the new analytics route at `frontend/app/analytics/page.tsx` and composed it with a dedicated client dashboard container.
+- Implemented modular analytics UI under `frontend/components/analytics/` with the requested component split: `AnalyticsDashboard`, `AdherenceStats`, `AdherenceHeatmap`, `MissedDoseChart`, `TodaySchedule`, `MedicationTimelineItem`, and `SmartInsight`.
+- Added live medication tick interactions (`Take`, `Skip`, `Remind`, `Snooze`) using local React state and immediate UI updates.
+- Wired derived analytics to local state changes so adherence score, perfect days, streak, heatmap colors, and missed-dose bar chart all recompute instantly.
+- Added a floating due alert panel with `Take` and `Snooze` actions when a medication is due.
+- Updated patient top navigation in `frontend/components/ui/navbar.tsx` (desktop and mobile) to include `Analytics` linking to `/analytics`.
+- Installed `recharts` dependency for chart rendering.
+- Validation: targeted diagnostics report no TypeScript errors in the changed analytics files.
+- Residual limitation: data is currently mock/local state only (frontend scope), with no backend persistence yet.
+
+# Patient Medical History Responsive Adaptation (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient medical history page and related timeline/manager components for responsive gaps
+- [x] Refactor top-level tab navigation and timeline layout for mobile, tablet, desktop, and touch ergonomics
+- [x] Fix timeline year-group rendering and node/card positioning so mobile and desktop patterns are both clean
+- [x] Improve manager/list/action layouts to avoid overflow and keep 44px touch targets
+- [x] Run targeted diagnostics for changed frontend files
+- [x] Add review summary with implemented changes and residual risks
+
+### Review
+- Updated patient medical history tabs to a horizontal, touch-friendly scroll pattern so all sections remain accessible on narrow devices without squeezed labels.
+- Improved timeline responsiveness with a mobile left-rail model and desktop centerline alternation while removing duplicate mobile card rendering in yearly groups.
+- Made timeline cards full-width on smaller screens, refined type badge/title wrapping, and preserved alternating desktop alignment for readability.
+- Improved filter controls and manager module action controls to maintain mobile touch target sizes and cleaner wrapping on phones and tablets.
+- Standardized a few problematic text/currency separators in medical history rendering to avoid mojibake artifacts and improve consistency.
+- Validation: targeted diagnostics report no TypeScript/TSX errors in all changed frontend medical-history files.
+
+---
+
+# Doctor Profile Appointment Booking Page (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Add new patient-facing dynamic route `/doctor/[doctorId]` and keep existing `/patient/doctor/[id]` wired to the same implementation
+- [x] Build modular doctor profile components matching Stitch reference layout and Medora design tokens
+- [x] Build modular booking components (`AppointmentBookingCard`, `AppointmentDateSelector`, `AppointmentSlotSelector`) with location/date/slot state
+- [x] Fetch real doctor and slot data from backend actions and normalize backend payloads for UI sections
+- [x] Integrate booking submit flow with existing appointment creation action and success redirect
+- [x] Ensure responsive behavior (desktop two-column + sticky booking card, mobile single-column flow)
+- [x] Validate changed frontend files for TypeScript/lint issues and add review summary
+
+### Review
+- Implemented a new reusable doctor booking page module under `frontend/components/doctor-profile/` with the requested component split: `DoctorProfileHeader`, `DoctorAboutCard`, `DoctorPracticeLocations`, `AppointmentBookingCard`, `AppointmentDateSelector`, and `AppointmentSlotSelector`.
+- Added the requested route `frontend/app/(home)/doctor/[doctorId]/page.tsx` and wired the existing `frontend/app/(home)/patient/doctor/[id]/page.tsx` to use the same shared implementation so existing patient flows remain functional.
+- Integrated live backend data using existing actions: doctor profile from `getPublicDoctorProfile`, slots from `getAvailableSlots`, and booking submit via `createAppointment` with redirect to the existing success page.
+- Implemented the specified layout behavior: `lg:grid-cols-12` with `lg:col-span-8` content area, `lg:col-span-4` booking panel, and sticky booking container (`top-24`) on large screens.
+- Implemented mobile-first behavior with single-column flow and horizontal date scrolling in the booking step.
+- Ran diagnostics on all changed files; no TypeScript/lint errors were reported for those files.
+
+# Patient Appointments Consistency Fixes (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and fix selected-date appointment visibility issue
+- [x] Rename appointments page header and breadcrumb copy to My Appointments
+- [x] Improve appointment dashboard dark-mode color consistency using theme tokens
+- [x] Adjust specialty distribution bubble sizing so larger labels render in larger circles
+- [x] Standardize appointment card surfaces/borders/colors for cross-component consistency
+- [x] Validate diagnostics for all changed appointment-related files
+
+### Review
+- Updated date filtering logic to use all selected-day appointments (not only upcoming), so selecting a date consistently shows that day’s appointments.
+- Updated header copy from patient-centric wording to patient-first wording: My Appointments.
+- Replaced hardcoded light/dark slate card backgrounds with theme tokens (`bg-card`, `border-border`, muted surfaces) across appointment dashboard components.
+- Improved ECharts dark-mode rendering by adapting tooltip, axis, and label colors based on the current theme class.
+- Updated specialty distribution bubble sizing formula to account for both visit count and specialty name length, so longer text naturally receives larger circle area.
+- Hardened local date key parsing for date-only strings (`YYYY-MM-DD`) to avoid timezone-induced day shifts.
+
+# Patient Appointments Dashboard Implementation (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Audit and reuse existing patient appointments data/action sources
+- [x] Build modular dashboard components under `frontend/components/appointments/`
+- [x] Implement patient summary card with profile + appointment metadata
+- [x] Implement appointment heatmap with month density + legend + tooltips
+- [x] Implement monthly trend and specialty distribution visualizations with SSR-safe dynamic ECharts
+- [x] Integrate existing calendar behavior into new dashboard section and remove bluish calendar shell
+- [x] Build upcoming appointments panel with date-based filtering and status badges
+- [x] Wire `Appointment History` and `New Appointment` actions to patient routes
+- [x] Update `/patient/appointments` screen composition to match Stitch light layout structure and keep patient navbar
+- [x] Validate diagnostics for changed files and add review summary
+
+### Review
+- Built a new modular patient appointments dashboard architecture under `frontend/components/appointments/` with dedicated components for summary, heatmap, calendar integration, upcoming list, and analytics charts.
+- Replaced the old page client implementation by wiring `home-patient-appointments-client.tsx` to the new `PatientAppointmentsPage` while preserving the existing patient navbar and route.
+- Implemented patient-facing header and segmented range toggle (`Month`, `Quarter`, `Year`) and removed doctor/admin-specific content from this route.
+- Added patient summary card with avatar, patient ID, next appointment, last visit, and a working `New Appointment` action routing to booking discovery.
+- Implemented appointment heatmap day-density visualization with legend (`Less` → `More`) and per-day hover tooltips.
+- Added monthly trend and specialty distribution ECharts panels using dynamic imports (`ssr: false`) for SSR-safe rendering.
+- Integrated existing calendar filtering behavior so selecting a date filters the upcoming list to that day; clearing selection shows all upcoming appointments.
+- Added `Appointment History` action routing to `/patient/medical-history?tab=visits`.
+- Updated shared `frontend/components/ui/appointment-calendar.tsx` styling to a neutral card shell (`bg-white`, dark slate, border, shadow-sm) to remove the prior blue-tinted container.
+- Verified diagnostics on all changed files; no remaining compile/lint issues were reported.
+
+# Patient Medical History Analytics Panel Fix (2026-03-16)
+
+## Status: completed
+
+### Todo
+- [x] Fix right-side analytics column to use vertical stacked layout
+- [x] Standardize analytics card shell styling for all three cards
+- [x] Ensure ECharts renders with explicit height wrappers and dynamic SSR-safe import
+- [x] Improve Condition Distribution card with donut center labels and legend list
+- [x] Improve Prescription History card with active month highlight and monthly badge
+- [x] Redesign Vitals Summary card with gradient metric layout
+
+### Review
+- Updated timeline-tab right column container to `flex flex-col gap-6`, ensuring all analytics cards stack consistently.
+- Standardized chart card shells with rounded, bordered, elevated styling and hover depth; removed fixed full-height behavior that could cause layout artifacts.
+- Ensured charts render reliably by keeping dynamic `echarts-for-react` imports and fixed-height chart wrappers.
+- Enhanced Condition Distribution with center metric text (`5` and `TOTAL ACTIVE`) and an explicit legend list matching design percentages.
+- Enhanced Prescription History with a header indicator dot, monthly badge, interactive tooltip, and active month (`Feb`) primary-color emphasis.
+- Reworked Vitals Summary into a gradient metric card with icon, primary vital value, and trend message.
+
+# Medical History Page Redesign (2026-03-16)
+
+## Status: planning
+
+### Phase 1: Component Architecture & Timeline Aggregator
+- [ ] Create TimelineAggregator component to merge all medical events
+- [ ] Build TimelineNode component for centered vertical timeline nodes
+- [ ] Create TimelineEventCard component with event-specific styling
+- [ ] Implement TimelineYearGroup component for year grouping
+- [ ] Build TimelineFilters component for event type filtering
+
+### Phase 2: Timeline & Two-Column Layout
+- [ ] Create new MedicalHistoryTimeline component (enhanced version)
+- [ ] Implement left column (8 cols) with centered vertical timeline
+- [ ] Add alternating left/right card positioning
+- [ ] Implement year grouping with collapsible sections
+- [ ] Add horizontal centerline visual element
+
+### Phase 3: Analytics Panel Components
+- [ ] Create ConditionDistributionChart component (donut/pie chart using ECharts)
+- [ ] Build PrescriptionHistoryChart component (bar chart with monthly data)
+- [ ] Create VitalsSummaryCard component with latest vitals display
+- [ ] Ensure all charts use theme colors
+
+### Phase 4: Timeline Filtering & Integration
+- [ ] Implement event type filter buttons (All, Consultations, Prescriptions, Labs, Imaging)
+- [ ] Create filter logic for timeline events
+- [ ] Integrate TimelineAggregator with existing data sources
+- [ ] Map event types to colors (Consultation→blue, Prescription→green, Lab→red, Imaging→purple, Follow-up→amber)
+
+### Phase 5: Layout & Styling
+- [ ] Implement two-column grid layout (grid-cols-12, gap-8)
+- [ ] Build header section with patient info and buttons
+- [ ] Make timeline the DEFAULT/FIRST tab
+- [ ] Ensure responsive behavior (stack on mobile, side-by-side on desktop)
+- [ ] Apply theme colors and styling from design
+
+### Phase 6: Integration & Testing
+- [ ] Update existing tabs to remain unchanged in functionality
+- [ ] Ensure Timeline tab is the initial active tab
+- [ ] Test event aggregation from all sources
+- [ ] Verify filtering works correctly
+- [ ] Test responsive breakpoints
+
+### Phase 7: Final Polish & Performance
+- [ ] Memoize timeline components for performance
+- [ ] Optimize chart rendering
+- [ ] Ensure no horizontal scrolling on mobile
+- [ ] Final styling refinement
+- [ ] Testing across devices
+
 # Admin Panel Responsive Pass (2026-03-13)
 
 ## Status: completed
@@ -218,6 +508,27 @@ Implement comprehensive mobile-first responsive design for the doctor interface 
 
 ## Phase 6: Auth Guard + Proxy Migration
 - [x] Migrated `middleware.ts` → `proxy.ts` (Next.js 16 convention)
+
+---
+
+# Patient Home Intelligence Dashboard (2026-03-14)
+
+## Status: completed
+
+### Todo
+- [x] Install Apache ECharts dependencies in frontend (`echarts`, `echarts-for-react`)
+- [x] Create reusable dashboard components in `frontend/components/dashboard/`
+- [x] Build dashboard page shell in `frontend/app/(patient)/dashboard/page.tsx` using existing layout only (no navbar)
+- [x] Ensure responsive 12-column grid structure with row-level composition from the provided design
+- [x] Add framer-motion entrance/hover transitions and dynamic chart imports
+- [x] Run diagnostics on changed frontend files and summarize results
+
+### Review
+- Added reusable dashboard UI modules in `frontend/components/dashboard/`: health gauge card, medication trend chart, appointment card, AI insight card, health stat card, and device connection card.
+- Implemented Apache ECharts via dynamic imports (`echarts-for-react`) and memoized chart options for both gauge and bar visualizations.
+- Added the requested page entry at `frontend/app/(patient)/dashboard/page.tsx` and routed existing `frontend/app/(home)/patient/home/page.tsx` to render the same shared dashboard component so `/patient/home` also reflects the new design.
+- Used neutral card surfaces and restrained blue accents according to design constraints, with responsive 12-column desktop layout and mobile fallbacks.
+- Applied framer-motion for card entrance and hover micro-transitions and verified changed files with diagnostics.
 - [x] Strengthened auth guards with clear flow: public → admin → auth → protected
 - [x] Root `/` redirects logged-in users at proxy level (no client-side flash)
 - [x] Created (onboarding) layout with server-side auth check

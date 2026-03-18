@@ -110,8 +110,20 @@ export function PatientAppointmentCalendar({
         return 'bg-green-500';
       case 'CANCELLED':
         return 'bg-red-500';
+      case 'PENDING_ADMIN_REVIEW':
+        return 'bg-orange-500';
+      case 'PENDING_DOCTOR_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'PENDING_PATIENT_CONFIRMATION':
+        return 'bg-amber-500';
+      case 'RESCHEDULE_REQUESTED':
+        return 'bg-purple-500';
+      case 'CANCEL_REQUESTED':
+        return 'bg-rose-400';
+      case 'NO_SHOW':
+        return 'bg-muted';
       default:
-        return 'bg-gray-500';
+        return 'bg-primary';
     }
   };
 
@@ -165,7 +177,7 @@ export function PatientAppointmentCalendar({
         onClick={() => handleDayClick(day)}
         className={cn(
           "aspect-square rounded-lg text-sm font-medium transition-all relative border p-1 min-h-[40px] md:min-h-[44px] touch-manipulation",
-          isSelected && "bg-primary text-white shadow-md scale-105 border-primary",
+          isSelected && "bg-primary text-primary-foreground shadow-md scale-105 border-primary",
           !isSelected && isCurrentDay && "bg-primary-light border-2 border-primary text-foreground",
           !isSelected && !isCurrentDay && dayIsPast && "bg-muted text-muted-foreground",
           !isSelected && !isCurrentDay && !dayIsPast && "bg-[var(--calendar-cell-bg)] text-foreground hover:text-primary active:bg-primary/10",
@@ -194,7 +206,7 @@ export function PatientAppointmentCalendar({
           </div>
         )}
         {dayAppts.length > 3 && !isSelected && (
-          <div className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 w-3 h-3 md:w-4 md:h-4 bg-primary text-white text-[8px] rounded-full flex items-center justify-center font-bold">
+          <div className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 w-3 h-3 md:w-4 md:h-4 bg-primary text-primary-foreground text-[8px] rounded-full flex items-center justify-center font-bold">
             {dayAppts.length}
           </div>
         )}
@@ -207,7 +219,7 @@ export function PatientAppointmentCalendar({
   return (
     <>
       <Card className="rounded-2xl bg-[var(--calendar-card-bg)] border-primary/20 p-3 md:p-6">
-        <div className="rounded-2xl bg-white shadow-md overflow-hidden">
+        <div className="rounded-2xl bg-card shadow-md overflow-hidden">
           <CardHeader className="border-b border-primary/10 bg-primary-more-light/50 p-3 md:p-6">
           <div className="flex items-center justify-between flex-wrap gap-2 md:gap-3">
             <CardTitle className="text-base md:text-lg flex items-center gap-2 text-foreground whitespace-nowrap">
@@ -414,3 +426,4 @@ export function PatientAppointmentCalendar({
     </>
   );
 }
+

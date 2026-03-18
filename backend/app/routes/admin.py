@@ -485,3 +485,273 @@ async def unban_user(
     except Exception as e:
         await db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to unban user: {str(e)}")
+
+
+# ========== APPOINTMENT MANAGEMENT ==========
+
+
+@router.get("/appointment-requests")
+async def get_pending_appointment_requests(
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+    limit: int = 50,
+    offset: int = 0,
+):
+    """Get all pending appointment requests for admin review."""
+    from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
+
+    result = await db.execute(
+        select(AppointmentRequest)
+        .where(AppointmentRequest.status == AppointmentRequestStatus.PENDING)
+        .order_by(AppointmentRequest.created_at.desc())
+        .limit(limit)
+        .offset(offset)
+    )
+    requests = result.scalars().all()
+
+    # Get names
+    profile_ids = set()
+    for req in requests:
+        profile_ids.add(req.doctor_id)
+        profile_ids.add(req.patient_id)
+
+    profiles_by_id = {}
+    if profile_ids:
+        profile_rows = await db.execute(
+            select(Profile).where(Profile.id.in_(profile_ids))
+        )
+        profiles_by_id = {p.id: p for p in profile_rows.scalars().all()}
+
+    count_result = await db.execute(
+        select(func.count(AppointmentRequest.id)).where(
+            AppointmentRequest.status == AppointmentRequestStatus.PENDING
+        )
+    )
+    total = count_result.scalar() or 0
+
+    return {
+        "requests": [
+            {
+                "id": r.id,
+                "doctor_id": r.doctor_id,
+                "patient_id": r.patient_id,
+                "doctor_name": f"{profiles_by_id[r.doctor_id].first_name} {profiles_by_id[r.doctor_id].last_name}"
+                if r.doctor_id in profiles_by_id else "Unknown",
+                "patient_name": f"{profiles_by_id[r.patient_id].first_name} {profiles_by_id[r.patient_id].last_name}"
+                if r.patient_id in profiles_by_id else "Unknown",
+                "requested_date": r.requested_date.isoformat(),
+                "requested_time": r.requested_time.isoformat(),
+                "requested_duration": r.requested_duration,
+                "status": r.status.value,
+                "admin_notes": r.admin_notes,
+                "created_at": r.created_at.isoformat() if r.created_at else None,
+            }
+            for r in requests
+        ],
+        "total": total,
+    }
+
+
+@router.post("/appointment-requests/{request_id}/approve")
+async def approve_appointment_request(
+    request_id: str,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin approves a booking request, creating the actual appointment."""
+    from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from app.db.models.appointment_audit import AppointmentAuditLog
+    from app.services import notification_service
+    import uuid as uuid_mod
+
+    result = await db.execute(
+        select(AppointmentRequest).where(AppointmentRequest.id == request_id)
+    )
+    request = result.scalar_one_or_none()
+    if not request:
+        raise HTTPException(status_code=404, detail="Request not found")
+    if request.status != AppointmentRequestStatus.PENDING:
+        raise HTTPException(status_code=400, detail="Request is no longer pending")
+
+    # Create the actual appointment
+    appointment_date = datetime(
+        request.requested_date.year,
+        request.requested_date.month,
+        request.requested_date.day,
+        request.requested_time.hour,
+        request.requested_time.minute,
+    )
+
+    appointment_id = str(uuid_mod.uuid4())
+    appointment = Appointment(
+        id=appointment_id,
+        doctor_id=request.doctor_id,
+        patient_id=request.patient_id,
+        appointment_date=appointment_date,
+        slot_time=request.requested_time,
+        duration_minutes=request.requested_duration,
+        reason="Approved by admin",
+        status=ApptStatus.CONFIRMED,
+    )
+    db.add(appointment)
+
+    # Update request status
+    request.status = AppointmentRequestStatus.APPROVED
+
+    # Audit log
+    audit = AppointmentAuditLog(
+        id=str(uuid_mod.uuid4()),
+        appointment_id=appointment_id,
+        action_type="admin_approved",
+        performed_by_id="admin",
+        performed_by_role="admin",
+        previous_status=None,
+        new_status=ApptStatus.CONFIRMED.value,
+        notes=f"Approved from request {request_id}",
+    )
+    db.add(audit)
+
+    # Notify both parties
+    patient_profile = await db.execute(
+        select(Profile).where(Profile.id == request.patient_id)
+    )
+    patient = patient_profile.scalar_one_or_none()
+    doctor_profile = await db.execute(
+        select(Profile).where(Profile.id == request.doctor_id)
+    )
+    doctor = doctor_profile.scalar_one_or_none()
+
+    if patient and doctor:
+        appt_date_str = appointment_date.strftime("%b %d, %Y at %I:%M %p")
+        doctor_name = f"Dr. {doctor.first_name} {doctor.last_name}"
+        patient_name = f"{patient.first_name} {patient.last_name}"
+
+        await notification_service.notify_appointment_confirmed(
+            db, request.patient_id, doctor_name, appointment_id,
+            request.doctor_id, appt_date_str,
+        )
+        await notification_service.notify_appointment_created(
+            db, request.doctor_id, patient_name, appointment_id,
+            request.patient_id, appt_date_str,
+        )
+
+    await db.commit()
+
+    return {"detail": "Appointment request approved", "appointment_id": appointment_id}
+
+
+class RejectRequest(BaseModel):
+    notes: str | None = None
+
+
+@router.post("/appointment-requests/{request_id}/reject")
+async def reject_appointment_request(
+    request_id: str,
+    data: RejectRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin rejects a booking request with optional notes."""
+    from app.db.models.appointment_request import AppointmentRequest, AppointmentRequestStatus
+
+    result = await db.execute(
+        select(AppointmentRequest).where(AppointmentRequest.id == request_id)
+    )
+    request = result.scalar_one_or_none()
+    if not request:
+        raise HTTPException(status_code=404, detail="Request not found")
+    if request.status != AppointmentRequestStatus.PENDING:
+        raise HTTPException(status_code=400, detail="Request is no longer pending")
+
+    request.status = AppointmentRequestStatus.REJECTED
+    request.admin_notes = data.notes
+
+    await db.commit()
+    return {"detail": "Appointment request rejected"}
+
+
+@router.get("/audit-logs")
+async def get_audit_logs(
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+    appointment_id: str | None = None,
+    limit: int = 50,
+    offset: int = 0,
+):
+    """Get appointment audit logs with optional filters."""
+    from app.services import appointment_service
+
+    logs, total = await appointment_service.get_audit_logs(
+        db, appointment_id=appointment_id, limit=limit, offset=offset
+    )
+
+    # Get performer names
+    performer_ids = {log.performed_by_id for log in logs}
+    performers_by_id = {}
+    if performer_ids:
+        performer_rows = await db.execute(
+            select(Profile).where(Profile.id.in_(performer_ids))
+        )
+        performers_by_id = {p.id: p for p in performer_rows.scalars().all()}
+
+    return {
+        "logs": [
+            {
+                "id": log.id,
+                "appointment_id": log.appointment_id,
+                "action_type": log.action_type,
+                "performed_by_id": log.performed_by_id,
+                "performed_by_role": log.performed_by_role,
+                "performed_by_name": f"{performers_by_id[log.performed_by_id].first_name} {performers_by_id[log.performed_by_id].last_name}"
+                if log.performed_by_id in performers_by_id else "System",
+                "previous_status": log.previous_status,
+                "new_status": log.new_status,
+                "notes": log.notes,
+                "timestamp": log.timestamp.isoformat() if log.timestamp else None,
+            }
+            for log in logs
+        ],
+        "total": total,
+    }
+
+
+class OverrideStatusRequest(BaseModel):
+    status: str
+    notes: str | None = None
+
+
+@router.post("/appointments/{appointment_id}/override-status")
+async def admin_override_appointment_status(
+    appointment_id: str,
+    data: OverrideStatusRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin force-sets an appointment status with audit trail."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from app.services import appointment_service
+
+    try:
+        new_status = ApptStatus(data.status)
+    except ValueError:
+        raise HTTPException(status_code=400, detail=f"Invalid status: {data.status}")
+
+    try:
+        appointment = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=new_status,
+            performed_by_id="admin",
+            performed_by_role="admin",
+            notes=data.notes or "Admin override",
+        )
+        await db.commit()
+        return {
+            "detail": "Status updated",
+            "appointment_id": appointment.id,
+            "new_status": appointment.status.value,
+        }
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))

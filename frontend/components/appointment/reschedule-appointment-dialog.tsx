@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
 import { getDoctorBookedSlots } from "@/lib/appointment-actions";
+import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 
 interface RescheduleAppointmentDialogProps {
   open: boolean;
@@ -91,6 +92,14 @@ export function RescheduleAppointmentDialog({
     }
   }, [selectedDate, appointment?.doctor_id, fetchSlots]);
 
+  // Realtime: auto-refresh slots when availability changes
+  const realtimeDateKey = selectedDate ? localDateKey(selectedDate) : null;
+  useRealtimeSlots(
+    appointment?.doctor_id,
+    realtimeDateKey,
+    () => { if (selectedDate) fetchSlots(selectedDate); },
+  );
+
   const handleConfirm = async () => {
     if (!appointment || !selectedDate || !selectedSlot) return;
 
@@ -166,7 +175,7 @@ export function RescheduleAppointmentDialog({
           className={`
             p-1 text-sm rounded-full w-8 h-8 flex items-center justify-center
             ${isPast ? 'text-muted-foreground/50 cursor-not-allowed' : 'hover:bg-primary/10 cursor-pointer'}
-            ${isSelected ? 'bg-primary text-white hover:bg-primary' : ''}
+            ${isSelected ? 'bg-primary text-primary-foreground hover:bg-primary' : ''}
           `}
         >
           {day}
@@ -267,9 +276,9 @@ export function RescheduleAppointmentDialog({
                           disabled={!isAvailable}
                           className={`
                             p-2 text-sm rounded-lg border transition-colors
-                            ${!isAvailable ? 'bg-gray-100 text-muted-foreground/50 cursor-not-allowed border-gray-200' : ''}
+                            ${!isAvailable ? 'bg-muted/50 text-muted-foreground/50 cursor-not-allowed border-border' : ''}
                             ${isAvailable && !isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
-                            ${isSelected ? 'bg-primary text-white border-primary' : ''}
+                            ${isSelected ? 'bg-primary text-primary-foreground border-primary' : ''}
                           `}
                         >
                           {slot.time}
@@ -320,3 +329,4 @@ export function RescheduleAppointmentDialog({
     </Dialog>
   );
 }
+

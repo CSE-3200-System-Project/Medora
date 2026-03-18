@@ -119,7 +119,7 @@ export default function PatientPrescriptionsPage() {
       case "surgery":
         return "bg-orange-100 text-orange-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-muted/50 text-foreground";
     }
   };
 
@@ -169,7 +169,7 @@ export default function PatientPrescriptionsPage() {
             >
               {f === "all" ? "All" : f}
               {f === "pending" && pendingCount > 0 && (
-                <span className="ml-1 bg-white/20 px-1.5 rounded text-xs">{pendingCount}</span>
+                <span className="ml-1 bg-card/20 px-1.5 rounded text-xs">{pendingCount}</span>
               )}
             </Button>
           ))}
@@ -276,3 +276,4 @@ export default function PatientPrescriptionsPage() {
     </AppBackground>
   );
 }
+
