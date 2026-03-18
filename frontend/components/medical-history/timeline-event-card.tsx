@@ -42,7 +42,7 @@ export const TimelineEventCard = React.memo(function TimelineEventCard({
   const desktopAlignment = isAlternate ? "lg:ml-auto" : "";
 
   return (
-    <Card className={`w-full max-w-none rounded-xl border border-slate-200 bg-white p-4 shadow-sm lg:max-w-sm ${desktopAlignment}`}>
+    <Card className={`w-full max-w-none rounded-xl border border-border bg-card p-4 shadow-sm lg:max-w-sm ${desktopAlignment}`}>
       <CardContent className="p-0">
         <div className={`rounded-lg p-3 ${accent.timelineStripeBg}`}>
           <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
@@ -91,3 +91,4 @@ export const TimelineEventCard = React.memo(function TimelineEventCard({
 
 
 TimelineEventCard.displayName = "TimelineEventCard";
+

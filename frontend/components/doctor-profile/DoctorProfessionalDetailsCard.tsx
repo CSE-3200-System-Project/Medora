@@ -25,7 +25,7 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
             {/* Specialization */}
             {doctor.speciality_name && (
-              <div className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800/30">
+              <div className="rounded-lg bg-muted/30 p-4 dark:bg-card/30">
                 <div className="flex items-start gap-3">
                   <Briefcase className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
@@ -38,7 +38,7 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
 
             {/* Consultation Fee */}
             {doctor.consultation_fee && (
-              <div className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800/30">
+              <div className="rounded-lg bg-muted/30 p-4 dark:bg-card/30">
                 <div className="flex items-start gap-3">
                   <DollarSign className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
@@ -53,7 +53,7 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
 
             {/* Appointment Duration */}
             {doctor.appointment_duration && (
-              <div className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800/30">
+              <div className="rounded-lg bg-muted/30 p-4 dark:bg-card/30">
                 <div className="flex items-start gap-3">
                   <Clock className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
@@ -68,7 +68,7 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
 
             {/* Years of Experience - if not already shown or want to show again */}
             {doctor.years_of_experience && typeof doctor.years_of_experience === "number" && (
-              <div className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800/30">
+              <div className="rounded-lg bg-muted/30 p-4 dark:bg-card/30">
                 <div className="flex items-start gap-3">
                   <Briefcase className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
@@ -86,3 +86,4 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
     </motion.section>
   );
 }
+

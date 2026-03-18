@@ -35,10 +35,10 @@ export const VitalsSummaryCard = React.memo(function VitalsSummaryCard({
   }, [medicalTests]);
 
   return (
-    <Card className="rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow bg-linear-to-br from-primary to-blue-700 text-white">
+    <Card className="rounded-2xl p-6 border border-border dark:border-border shadow-sm hover:shadow-md transition-shadow bg-linear-to-br from-primary to-blue-700 text-white">
       <CardHeader className="p-0 pb-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="h-10 w-10 rounded-xl bg-white/20 flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-card/20 flex items-center justify-center">
             <Heart className="h-5 w-5" />
           </div>
           <p className="text-[10px] uppercase tracking-[0.18em] text-blue-100">Last measured: today</p>
@@ -63,3 +63,4 @@ export const VitalsSummaryCard = React.memo(function VitalsSummaryCard({
 });
 
 VitalsSummaryCard.displayName = "VitalsSummaryCard";
+

@@ -31,7 +31,7 @@ export function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="rounded-lg bg-muted/50 px-3 py-1.5 text-sm font-semibold text-foreground dark:bg-card dark:text-foreground"
               >
                 {tag}
               </span>
@@ -42,3 +42,4 @@ export function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
     </motion.section>
   );
 }
+

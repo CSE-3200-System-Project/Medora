@@ -87,7 +87,7 @@ function getActionBadge(action: string) {
       );
     default:
       return (
-        <Badge className="bg-slate-500/20 text-slate-400 border-slate-500/30">
+        <Badge className="bg-muted/30 text-muted-foreground border-border/30">
           {action}
         </Badge>
       );
@@ -124,7 +124,7 @@ function getRoleBadge(role: string) {
       return (
         <Badge
           variant="outline"
-          className="border-slate-500/50 text-slate-400"
+          className="border-border/50 text-muted-foreground"
         >
           {role}
         </Badge>
@@ -172,23 +172,23 @@ export function AdminAuditLogClient({
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
             <ClipboardList className="h-6 w-6" />
             Audit Log
           </h1>
-          <p className="text-slate-400">
+          <p className="text-muted-foreground">
             Track all appointment status changes and actions
           </p>
         </div>
 
         <div className="mb-4 sm:mb-6">
           <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Filter by appointment ID..."
               value={appointmentFilter}
@@ -196,21 +196,21 @@ export function AdminAuditLogClient({
                 setAppointmentFilter(e.target.value);
                 setPage(0);
               }}
-              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
         {loading ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">Loading audit logs...</p>
+              <p className="text-muted-foreground">Loading audit logs...</p>
             </CardContent>
           </Card>
         ) : logs.length === 0 ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">No audit logs found</p>
+              <p className="text-muted-foreground">No audit logs found</p>
             </CardContent>
           </Card>
         ) : (
@@ -220,7 +220,7 @@ export function AdminAuditLogClient({
               {logs.map((log) => (
                 <Card
                   key={log.id}
-                  className="bg-slate-700/60 border-slate-600/50"
+                  className="bg-card/60 border-border/50"
                 >
                   <CardContent className="p-4 space-y-2">
                     <div className="flex items-center justify-between gap-2">
@@ -229,21 +229,21 @@ export function AdminAuditLogClient({
                     </div>
                     {log.previous_status && log.new_status && (
                       <div className="flex items-center gap-2 text-sm">
-                        <span className="text-slate-400">
+                        <span className="text-muted-foreground">
                           {log.previous_status}
                         </span>
-                        <ArrowRight className="h-3 w-3 text-slate-500" />
-                        <span className="text-white font-medium">
+                        <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-foreground font-medium">
                           {log.new_status}
                         </span>
                       </div>
                     )}
                     {log.notes && (
-                      <p className="text-xs text-slate-400 truncate">
+                      <p className="text-xs text-muted-foreground truncate">
                         {log.notes}
                       </p>
                     )}
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-muted-foreground">
                       {new Date(log.timestamp).toLocaleString()}
                     </p>
                   </CardContent>
@@ -253,34 +253,34 @@ export function AdminAuditLogClient({
 
             {/* Desktop table */}
             <div className="hidden lg:block mb-6">
-              <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+              <TableScrollContainer className="border-border/50 bg-card/40">
                 <Table>
-                  <TableHeader className="bg-slate-800/60 border-slate-600/50">
-                    <TableRow className="border-slate-600/50 hover:bg-transparent">
-                      <TableHead className="text-slate-300">
+                  <TableHeader className="bg-card/60 border-border/50">
+                    <TableRow className="border-border/50 hover:bg-transparent">
+                      <TableHead className="text-muted-foreground">
                         Timestamp
                       </TableHead>
-                      <TableHead className="text-slate-300">Action</TableHead>
-                      <TableHead className="text-slate-300">
+                      <TableHead className="text-muted-foreground">Action</TableHead>
+                      <TableHead className="text-muted-foreground">
                         Performed By
                       </TableHead>
-                      <TableHead className="text-slate-300">
+                      <TableHead className="text-muted-foreground">
                         Status Change
                       </TableHead>
-                      <TableHead className="text-slate-300">Notes</TableHead>
+                      <TableHead className="text-muted-foreground">Notes</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {logs.map((log) => (
                       <TableRow
                         key={log.id}
-                        className="border-slate-600/30 hover:bg-slate-700/40"
+                        className="border-border/30 hover:bg-card/40"
                       >
                         <TableCell>
-                          <p className="text-white text-sm">
+                          <p className="text-foreground text-sm">
                             {new Date(log.timestamp).toLocaleDateString()}
                           </p>
-                          <p className="text-xs text-slate-400">
+                          <p className="text-xs text-muted-foreground">
                             {new Date(log.timestamp).toLocaleTimeString()}
                           </p>
                         </TableCell>
@@ -291,19 +291,19 @@ export function AdminAuditLogClient({
                         <TableCell>
                           {log.previous_status && log.new_status ? (
                             <div className="flex items-center gap-1.5 text-sm">
-                              <span className="text-slate-400">
+                              <span className="text-muted-foreground">
                                 {log.previous_status}
                               </span>
-                              <ArrowRight className="h-3 w-3 text-slate-500" />
-                              <span className="text-white">
+                              <ArrowRight className="h-3 w-3 text-muted-foreground" />
+                              <span className="text-foreground">
                                 {log.new_status}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-slate-500">—</span>
+                            <span className="text-muted-foreground">—</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-slate-300 max-w-[200px] truncate">
+                        <TableCell className="text-muted-foreground max-w-[200px] truncate">
                           {log.notes || "—"}
                         </TableCell>
                       </TableRow>
@@ -320,12 +320,12 @@ export function AdminAuditLogClient({
                   size="sm"
                   onClick={() => setPage((p) => Math.max(0, p - 1))}
                   disabled={page === 0}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Previous
                 </Button>
-                <div className="text-slate-400 text-sm px-2">
+                <div className="text-muted-foreground text-sm px-2">
                   Page {page + 1} of {totalPages}
                 </div>
                 <Button
@@ -335,7 +335,7 @@ export function AdminAuditLogClient({
                     setPage((p) => Math.min(totalPages - 1, p + 1))
                   }
                   disabled={page >= totalPages - 1}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   Next
                   <ChevronRight className="h-4 w-4 ml-1" />
@@ -348,3 +348,4 @@ export function AdminAuditLogClient({
     </div>
   );
 }
+

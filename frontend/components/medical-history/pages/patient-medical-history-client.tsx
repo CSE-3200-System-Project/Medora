@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -679,14 +679,14 @@ function PatientMedicalHistoryPage() {
             )}
             
             <Card className="border-purple-200 dark:border-purple-800 shadow-sm">
-              <CardHeader className="bg-linear-to-r from-purple-50 to-white dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
+              <CardHeader className="bg-linear-to-r from-purple-50 to-card dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <CardTitle className="text-foreground flex items-center gap-2">
                       <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                       Lab Tests & Diagnostics
                     </CardTitle>
-                    <CardDescription className="text-gray-600 dark:text-muted-foreground">Track your medical tests and results</CardDescription>
+                    <CardDescription className="text-muted-foreground dark:text-muted-foreground">Track your medical tests and results</CardDescription>
                   </div>
                   <Button
                     type="button"
@@ -713,25 +713,25 @@ function PatientMedicalHistoryPage() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 sm:p-6 bg-white dark:bg-card">
+              <CardContent className="p-4 sm:p-6 bg-card dark:bg-card">
                 {medicalTests.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                       <FlaskConical className="h-8 w-8 text-purple-500 dark:text-purple-400" />
                     </div>
-                    <p className="text-gray-700 dark:text-foreground font-medium">No lab tests recorded yet</p>
-                    <p className="text-sm mt-2 text-gray-500 dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
+                    <p className="text-foreground dark:text-foreground font-medium">No lab tests recorded yet</p>
+                    <p className="text-sm mt-2 text-muted-foreground dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {medicalTests.map((test, index) => (
-                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-white dark:from-purple-950/20 dark:to-card shadow-sm">
+                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-card dark:from-purple-950/20 dark:to-card shadow-sm">
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
                             <span className="h-7 w-7 rounded-full bg-purple-600 text-white text-sm font-medium flex items-center justify-center">
                               {index + 1}
                             </span>
-                            <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
+                            <span className="text-sm font-semibold text-foreground dark:text-foreground">
                               Test Record
                             </span>
                           </div>
@@ -751,7 +751,7 @@ function PatientMedicalHistoryPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {/* Test Name with Search */}
                           <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Test Name <span className="text-red-500">*</span>
                             </Label>
                             <MedicalTestSearch
@@ -771,7 +771,7 @@ function PatientMedicalHistoryPage() {
 
                           {/* Test Date */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Test Date
                             </Label>
                             <div className="relative">
@@ -784,14 +784,14 @@ function PatientMedicalHistoryPage() {
                                   updated[index] = { ...updated[index], test_date: e.target.value };
                                   setMedicalTests(updated);
                                 }}
-                                className="pl-10 border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900"
+                                className="pl-10 border-border focus:border-purple-500 focus:ring-purple-500 text-foreground"
                               />
                             </div>
                           </div>
 
                           {/* Result */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Result
                             </Label>
                             <Input
@@ -803,13 +803,13 @@ function PatientMedicalHistoryPage() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="e.g., Normal, 120 mg/dL"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Status */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Status
                             </Label>
                             <select
@@ -819,7 +819,7 @@ function PatientMedicalHistoryPage() {
                                 updated[index] = { ...updated[index], status: e.target.value };
                                 setMedicalTests(updated);
                               }}
-                              className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-sm text-gray-900 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                              className="w-full h-10 px-3 rounded-md border border-border bg-card text-sm text-foreground focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
                             >
                               <option value="pending">Pending</option>
                               <option value="completed">Completed</option>
@@ -829,7 +829,7 @@ function PatientMedicalHistoryPage() {
 
                           {/* Prescribing Doctor */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Prescribed By
                             </Label>
                             <Input
@@ -841,13 +841,13 @@ function PatientMedicalHistoryPage() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Doctor's name"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Hospital/Lab */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Hospital/Lab
                             </Label>
                             <Input
@@ -859,13 +859,13 @@ function PatientMedicalHistoryPage() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Where test was conducted"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Notes */}
                           <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Notes
                             </Label>
                             <Input
@@ -877,7 +877,7 @@ function PatientMedicalHistoryPage() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Any additional notes..."
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
                         </div>
@@ -1177,4 +1177,5 @@ export default function MedicalHistoryPage() {
     </Suspense>
   );
 }
+
 

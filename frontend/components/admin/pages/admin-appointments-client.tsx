@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -99,9 +99,9 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
       case "cancel_requested":
         return <Badge className="bg-rose-500/20 text-rose-400 border-rose-500/30">Cancel Req</Badge>;
       case "no_show":
-        return <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/30">No Show</Badge>;
+        return <Badge className="bg-muted/30 text-muted-foreground border-border/40">No Show</Badge>;
       default:
-        return <Badge className="bg-slate-500/20 text-slate-400 border-slate-500/30">{status}</Badge>;
+        return <Badge className="bg-muted/30 text-muted-foreground border-border/30">{status}</Badge>;
     }
   };
 
@@ -123,23 +123,23 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">Appointment Management</h1>
-          <p className="text-slate-400">View and monitor all platform appointments</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Appointment Management</h1>
+          <p className="text-muted-foreground">View and monitor all platform appointments</p>
         </div>
 
         <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
           <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by doctor or patient name..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -147,7 +147,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
             <Select
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
-              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              className="h-11 bg-card/80 border-border text-foreground"
               aria-label="Filter appointments by status"
             >
               {statuses.map((status) => (
@@ -165,8 +165,8 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                 variant="outline"
                 size="sm"
                 onClick={() => setStatusFilter(status)}
-                className={`border-slate-600 ${
-                  statusFilter === status ? "bg-primary text-white border-primary" : "text-slate-300 hover:bg-slate-700/60"
+                className={`border-border ${
+                  statusFilter === status ? "bg-primary text-primary-foreground border-primary" : "text-muted-foreground hover:bg-card/60"
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)} ({statusCounts[status as keyof typeof statusCounts]})
@@ -176,22 +176,22 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
         </div>
 
         {loading ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">Loading appointments...</p>
+              <p className="text-muted-foreground">Loading appointments...</p>
             </CardContent>
           </Card>
         ) : filteredAppointments.length === 0 ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">No appointments found</p>
+              <p className="text-muted-foreground">No appointments found</p>
             </CardContent>
           </Card>
         ) : (
           <>
             <div className="space-y-3 sm:space-y-4 mb-6 lg:hidden">
               {filteredAppointments.map((appointment) => (
-                <Card key={appointment.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
+                <Card key={appointment.id} className="bg-card/60 border-border/50 hover:border-primary/50 transition-colors">
                   <CardContent className="p-4 sm:p-6">
                     <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                       <div className="flex items-center gap-2 sm:gap-3">
@@ -199,8 +199,8 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                           <Calendar className="h-6 w-6 text-orange-400" />
                         </div>
                         <div>
-                          <p className="text-white font-semibold">{new Date(appointment.appointment_date).toLocaleDateString()}</p>
-                          <p className="text-sm text-slate-400">
+                          <p className="text-foreground font-semibold">{new Date(appointment.appointment_date).toLocaleDateString()}</p>
+                          <p className="text-sm text-muted-foreground">
                             {new Date(appointment.appointment_date).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -212,16 +212,16 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                       <div className="flex items-center gap-2 min-w-0">
                         <User className="h-4 w-4 text-purple-400 shrink-0" />
                         <div className="min-w-0">
-                          <p className="text-xs text-slate-400">Patient</p>
-                          <p className="text-sm sm:text-base text-white font-medium truncate">{appointment.patient.name}</p>
+                          <p className="text-xs text-muted-foreground">Patient</p>
+                          <p className="text-sm sm:text-base text-foreground font-medium truncate">{appointment.patient.name}</p>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-2 min-w-0">
                         <User className="h-4 w-4 text-blue-400 shrink-0" />
                         <div className="min-w-0">
-                          <p className="text-xs text-slate-400">Doctor</p>
-                          <p className="text-sm sm:text-base text-white font-medium truncate">{appointment.doctor.name}</p>
+                          <p className="text-xs text-muted-foreground">Doctor</p>
+                          <p className="text-sm sm:text-base text-foreground font-medium truncate">{appointment.doctor.name}</p>
                         </div>
                       </div>
 
@@ -229,14 +229,14 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                     </div>
 
                     {appointment.reason && (
-                      <div className="mt-4 pt-4 border-t border-slate-700/50">
+                      <div className="mt-4 pt-4 border-t border-border/50">
                         {(() => {
                           const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
                           const ct = humanizeConsultationType(consultationType);
                           const at = humanizeAppointmentType(appointmentType);
 
                           return (
-                            <p className="text-sm text-slate-400">
+                            <p className="text-sm text-muted-foreground">
                               <span className="font-medium">Reason:</span> {ct || appointment.reason}
                               {at ? ` - ${at}` : ""}
                             </p>
@@ -246,17 +246,17 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                     )}
 
                     {!["completed", "cancelled", "no_show"].includes(appointment.status.toLowerCase()) && (
-                      <div className="mt-3 pt-3 border-t border-slate-700/50">
+                      <div className="mt-3 pt-3 border-t border-border/50">
                         <div className="flex items-center gap-2">
                           <Shield className="h-3.5 w-3.5 text-orange-400" />
-                          <span className="text-xs text-slate-400 font-medium">Override:</span>
+                          <span className="text-xs text-muted-foreground font-medium">Override:</span>
                           <Select
                             value=""
                             onChange={(e) => {
                               if (e.target.value) handleOverrideStatus(appointment.id, e.target.value);
                             }}
                             disabled={overridingId === appointment.id}
-                            className="h-7 text-xs bg-slate-800/60 border-slate-600 text-slate-300 flex-1"
+                            className="h-7 text-xs bg-card/60 border-border text-muted-foreground flex-1"
                             aria-label="Override status"
                           >
                             <option value="">
@@ -276,16 +276,16 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
             </div>
 
             <div className="hidden lg:block mb-6">
-              <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+              <TableScrollContainer className="border-border/50 bg-card/40">
                 <Table>
-                  <TableHeader className="bg-slate-800/60 border-slate-600/50">
-                    <TableRow className="border-slate-600/50 hover:bg-transparent">
-                      <TableHead className="text-slate-300">Date & Time</TableHead>
-                      <TableHead className="text-slate-300">Patient</TableHead>
-                      <TableHead className="text-slate-300">Doctor</TableHead>
-                      <TableHead className="text-slate-300">Reason</TableHead>
-                      <TableHead className="text-slate-300">Status</TableHead>
-                      <TableHead className="text-slate-300">Actions</TableHead>
+                  <TableHeader className="bg-card/60 border-border/50">
+                    <TableRow className="border-border/50 hover:bg-transparent">
+                      <TableHead className="text-muted-foreground">Date & Time</TableHead>
+                      <TableHead className="text-muted-foreground">Patient</TableHead>
+                      <TableHead className="text-muted-foreground">Doctor</TableHead>
+                      <TableHead className="text-muted-foreground">Reason</TableHead>
+                      <TableHead className="text-muted-foreground">Status</TableHead>
+                      <TableHead className="text-muted-foreground">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -297,23 +297,23 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                       const isTerminal = ["completed", "cancelled", "no_show"].includes(appointment.status.toLowerCase());
 
                       return (
-                        <TableRow key={appointment.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                        <TableRow key={appointment.id} className="border-border/30 hover:bg-card/40">
                           <TableCell>
-                            <p className="text-white font-medium">{new Date(appointment.appointment_date).toLocaleDateString()}</p>
-                            <p className="text-xs text-slate-400">
+                            <p className="text-foreground font-medium">{new Date(appointment.appointment_date).toLocaleDateString()}</p>
+                            <p className="text-xs text-muted-foreground">
                               {new Date(appointment.appointment_date).toLocaleTimeString([], {
                                 hour: "2-digit",
                                 minute: "2-digit",
                               })}
                             </p>
                           </TableCell>
-                          <TableCell className="text-slate-200">{appointment.patient.name}</TableCell>
-                          <TableCell className="text-slate-200">{appointment.doctor.name}</TableCell>
-                          <TableCell className="text-slate-300 wrap-break-word">{reasonLabel}</TableCell>
+                          <TableCell className="text-foreground">{appointment.patient.name}</TableCell>
+                          <TableCell className="text-foreground">{appointment.doctor.name}</TableCell>
+                          <TableCell className="text-muted-foreground wrap-break-word">{reasonLabel}</TableCell>
                           <TableCell>{getStatusBadge(appointment.status)}</TableCell>
                           <TableCell>
                             {isTerminal ? (
-                              <span className="text-xs text-slate-500">—</span>
+                              <span className="text-xs text-muted-foreground">�</span>
                             ) : (
                               <Select
                                 value=""
@@ -321,7 +321,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                                   if (e.target.value) handleOverrideStatus(appointment.id, e.target.value);
                                 }}
                                 disabled={overridingId === appointment.id}
-                                className="h-8 text-xs bg-slate-800/60 border-slate-600 text-slate-300 w-36"
+                                className="h-8 text-xs bg-card/60 border-border text-muted-foreground w-36"
                                 aria-label="Override status"
                               >
                                 <option value="">
@@ -349,12 +349,12 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                   size="sm"
                   onClick={() => setPage((p) => Math.max(0, p - 1))}
                   disabled={page === 0}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Previous
                 </Button>
-                <div className="text-slate-400 text-sm px-2">
+                <div className="text-muted-foreground text-sm px-2">
                   Page {page + 1} of {totalPages}
                 </div>
                 <Button
@@ -362,7 +362,7 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
                   size="sm"
                   onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                   disabled={page >= totalPages - 1}
-                  className="border-slate-700 text-slate-300 hover:bg-slate-800"
+                  className="border-border text-muted-foreground hover:bg-card"
                 >
                   Next
                   <ChevronRight className="h-4 w-4 ml-1" />
@@ -375,4 +375,5 @@ export function AdminAppointmentsClient({ initialAppointments, initialTotal, ini
     </div>
   );
 }
+
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -88,23 +88,23 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
   const bannedCount = allUsers.filter((u) => u.account_status === "banned").length;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
       <AdminNavbar />
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">User Account Management</h1>
-          <p className="text-slate-400">Ban or unban user accounts</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">User Account Management</h1>
+          <p className="text-muted-foreground">Ban or unban user accounts</p>
         </div>
 
         <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
           <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-slate-700/80 border-slate-600 text-white placeholder:text-slate-400"
+              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
             <Select
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
-              className="h-11 bg-slate-700/80 border-slate-600 text-white"
+              className="h-11 bg-card/80 border-border text-foreground"
               aria-label="Filter users by account status"
             >
               {[
@@ -134,8 +134,8 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => setStatusFilter(status)}
-                className={`border-slate-600 ${
-                  statusFilter === status ? "bg-primary text-white border-primary" : "text-slate-300 hover:bg-slate-700/60"
+                className={`border-border ${
+                  statusFilter === status ? "bg-primary text-primary-foreground border-primary" : "text-muted-foreground hover:bg-card/60"
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)} ({status === "all" ? allUsers.length : status === "active" ? activeCount : bannedCount})
@@ -145,16 +145,16 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
         </div>
 
         {filteredUsers.length === 0 ? (
-          <Card className="bg-slate-700/60 border-slate-600/50">
+          <Card className="bg-card/60 border-border/50">
             <CardContent className="p-12 text-center">
-              <p className="text-slate-400">No users found</p>
+              <p className="text-muted-foreground">No users found</p>
             </CardContent>
           </Card>
         ) : (
           <>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:hidden">
             {filteredUsers.map((user) => (
-              <Card key={user.id} className="bg-slate-700/60 border-slate-600/50 hover:border-primary/50 transition-colors">
+              <Card key={user.id} className="bg-card/60 border-border/50 hover:border-primary/50 transition-colors">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-start justify-between mb-3 sm:mb-4">
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -166,8 +166,8 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                         {user.role === "doctor" ? <UserCog className="h-6 w-6 text-blue-400" /> : <User className="h-6 w-6 text-purple-400" />}
                       </div>
                       <div>
-                        <h3 className="font-semibold text-white">{user.name}</h3>
-                        <p className="text-xs text-slate-400 capitalize">{user.role}</p>
+                        <h3 className="font-semibold text-foreground">{user.name}</h3>
+                        <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
                       </div>
                     </div>
                     <Badge
@@ -182,21 +182,21 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                   </div>
 
                   <div className="space-y-2 text-xs sm:text-sm mb-3 sm:mb-4">
-                    <div className="flex items-center gap-2 text-slate-400 min-w-0">
+                    <div className="flex items-center gap-2 text-muted-foreground min-w-0">
                       <Mail className="h-4 w-4 shrink-0" />
                       <span className="truncate">{user.email}</span>
                     </div>
                     {user.phone && (
-                      <div className="flex items-center gap-2 text-slate-400">
+                      <div className="flex items-center gap-2 text-muted-foreground">
                         <Phone className="h-4 w-4" />
                         <span>{user.phone}</span>
                       </div>
                     )}
-                    {user.specialization && <p className="text-slate-400">Specialization: {user.specialization}</p>}
-                    {user.blood_group && <p className="text-slate-400">Blood: {user.blood_group}</p>}
+                    {user.specialization && <p className="text-muted-foreground">Specialization: {user.specialization}</p>}
+                    {user.blood_group && <p className="text-muted-foreground">Blood: {user.blood_group}</p>}
                   </div>
 
-                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-600/50 flex flex-wrap items-center gap-2 sm:justify-between">
+                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border/50 flex flex-wrap items-center gap-2 sm:justify-between">
                     {user.account_status === "banned" ? (
                       <>
                         <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
@@ -229,23 +229,23 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
           </div>
 
           <div className="hidden lg:block">
-            <TableScrollContainer className="border-slate-600/50 bg-slate-700/40">
+            <TableScrollContainer className="border-border/50 bg-card/40">
               <Table>
-                <TableHeader className="bg-slate-800/60 border-slate-600/50">
-                  <TableRow className="border-slate-600/50 hover:bg-transparent">
-                    <TableHead className="text-slate-300">User</TableHead>
-                    <TableHead className="text-slate-300">Role</TableHead>
-                    <TableHead className="text-slate-300">Contact</TableHead>
-                    <TableHead className="text-slate-300">Details</TableHead>
-                    <TableHead className="text-slate-300">Status</TableHead>
-                    <TableHead className="text-right text-slate-300">Actions</TableHead>
+                <TableHeader className="bg-card/60 border-border/50">
+                  <TableRow className="border-border/50 hover:bg-transparent">
+                    <TableHead className="text-muted-foreground">User</TableHead>
+                    <TableHead className="text-muted-foreground">Role</TableHead>
+                    <TableHead className="text-muted-foreground">Contact</TableHead>
+                    <TableHead className="text-muted-foreground">Details</TableHead>
+                    <TableHead className="text-muted-foreground">Status</TableHead>
+                    <TableHead className="text-right text-muted-foreground">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredUsers.map((user) => (
-                    <TableRow key={user.id} className="border-slate-600/30 hover:bg-slate-700/40">
+                    <TableRow key={user.id} className="border-border/30 hover:bg-card/40">
                       <TableCell>
-                        <p className="text-white font-medium">{user.name}</p>
+                        <p className="text-foreground font-medium">{user.name}</p>
                       </TableCell>
                       <TableCell>
                         <Badge
@@ -259,10 +259,10 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <p className="text-slate-200 wrap-break-word">{user.email}</p>
-                        {user.phone && <p className="text-xs text-slate-400">{user.phone}</p>}
+                        <p className="text-foreground wrap-break-word">{user.email}</p>
+                        {user.phone && <p className="text-xs text-muted-foreground">{user.phone}</p>}
                       </TableCell>
-                      <TableCell className="text-slate-300">
+                      <TableCell className="text-muted-foreground">
                         {user.specialization && <p>Specialization: {user.specialization}</p>}
                         {user.blood_group && <p>Blood: {user.blood_group}</p>}
                         {!user.specialization && !user.blood_group && <p>N/A</p>}
@@ -314,4 +314,5 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
     </div>
   );
 }
+
 

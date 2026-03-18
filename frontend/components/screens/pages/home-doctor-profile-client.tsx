@@ -101,7 +101,7 @@ export default function DoctorProfilePage() {
 
         <div className="space-y-6">
           {/* Doctor Header Card */}
-          <Card className="rounded-2xl shadow-lg border-primary/20 bg-gradient-to-br from-white via-primary-more-light/60 to-accent/80">
+          <Card className="rounded-2xl shadow-lg border-primary/20 bg-gradient-to-br from-card via-primary-more-light/60 to-accent/80">
             <CardContent className="p-6 md:p-8">
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="shrink-0">
@@ -134,7 +134,7 @@ export default function DoctorProfilePage() {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex">
+                  <div className="flex items-center gap-2 bg-card/70 backdrop-blur-sm rounded-lg px-3 py-2 inline-flex">
                     <Award className="h-5 w-5 text-primary" />
                     <span className="text-lg font-semibold text-foreground">
                       {doctor.speciality_name || doctor.specialization || "General Physician"}
@@ -143,7 +143,7 @@ export default function DoctorProfilePage() {
 
                   <div className="flex flex-wrap gap-3 md:gap-4">
                     {doctor.years_of_experience && (
-                      <div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-lg px-3 py-1.5">
+                      <div className="flex items-center gap-2 bg-card/70 backdrop-blur-sm rounded-lg px-3 py-1.5">
                         <Briefcase className="h-4 w-4 text-primary" />
                         <span className="text-sm font-medium text-foreground">
                           {doctor.years_of_experience} Years Experience
@@ -152,7 +152,7 @@ export default function DoctorProfilePage() {
                     )}
 
                     {doctor.bmdc_verified ? (
-                      <Badge variant="default" className="bg-success text-white font-semibold">
+                      <Badge variant="default" className="bg-success text-primary-foreground font-semibold">
                         <CheckCircle2 className="h-3 w-3 mr-1" />
                         BMDC Verified
                       </Badge>
@@ -164,7 +164,7 @@ export default function DoctorProfilePage() {
                     )}
 
                     {doctor.bmdc_number && (
-                      <span className="text-sm font-semibold text-foreground bg-white/70 backdrop-blur-sm rounded-lg px-3 py-1.5">
+                      <span className="text-sm font-semibold text-foreground bg-card/70 backdrop-blur-sm rounded-lg px-3 py-1.5">
                         BMDC: {doctor.bmdc_number}
                       </span>
                     )}
@@ -175,7 +175,7 @@ export default function DoctorProfilePage() {
           </Card>
 
           {/* Contact Information */}
-          <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-primary-more-light/40">
+          <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-primary-more-light/40">
             <CardHeader className="border-b border-primary/10 bg-primary/5">
               <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
                 <User className="h-5 w-5 text-primary" />
@@ -184,7 +184,7 @@ export default function DoctorProfilePage() {
             </CardHeader>
             <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {doctor.email && (
-                <div className="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                <div className="flex items-center gap-3 bg-card/60 rounded-lg p-3">
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Email</p>
@@ -193,7 +193,7 @@ export default function DoctorProfilePage() {
                 </div>
               )}
               {doctor.phone && (
-                <div className="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                <div className="flex items-center gap-3 bg-card/60 rounded-lg p-3">
                   <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Phone</p>
@@ -202,7 +202,7 @@ export default function DoctorProfilePage() {
                 </div>
               )}
               {doctor.date_of_birth && (
-                <div className="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                <div className="flex items-center gap-3 bg-card/60 rounded-lg p-3">
                   <CalendarIcon className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Date of Birth</p>
@@ -211,7 +211,7 @@ export default function DoctorProfilePage() {
                 </div>
               )}
               {doctor.gender && (
-                <div className="flex items-center gap-3 bg-white/60 rounded-lg p-3">
+                <div className="flex items-center gap-3 bg-card/60 rounded-lg p-3">
                   <User className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Gender</p>
@@ -224,7 +224,7 @@ export default function DoctorProfilePage() {
 
           {/* About Section */}
           {doctor.about && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-accent/30">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-accent/30">
               <CardHeader className="border-b border-primary/10 bg-accent/20">
                 <CardTitle className="text-xl font-bold text-foreground">
                   About
@@ -240,7 +240,7 @@ export default function DoctorProfilePage() {
 
           {/* Practice Locations */}
           {doctor.locations && doctor.locations.length > 0 && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-primary-light/20">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-primary-light/20">
               <CardHeader className="border-b border-primary/10 bg-primary/5">
                 <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-primary" />
@@ -251,12 +251,12 @@ export default function DoctorProfilePage() {
                 {doctor.locations.map((location: any, index: number) => (
                   <div
                     key={index}
-                    className="pb-4 border-b border-primary/10 last:border-0 last:pb-0 bg-white/60 backdrop-blur-sm rounded-lg p-4"
+                    className="pb-4 border-b border-primary/10 last:border-0 last:pb-0 bg-card/60 backdrop-blur-sm rounded-lg p-4"
                   >
                     <div className="flex items-start gap-2 mb-2">
                       <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                       <div className="flex-1">
-                        <span className="inline-block bg-primary text-white text-xs font-semibold px-2 py-0.5 rounded mb-2">
+                        <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-2 py-0.5 rounded mb-2">
                           {index === 0 ? "Primary Hospital" : `Chamber ${index}`}
                         </span>
                         <h3 className="font-bold text-foreground text-lg mb-1">
@@ -281,7 +281,7 @@ export default function DoctorProfilePage() {
 
           {/* Services */}
           {doctor.services && doctor.services.length > 0 && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-accent/30">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-accent/30">
               <CardHeader className="border-b border-primary/10 bg-accent/20">
                 <CardTitle className="text-xl font-bold text-foreground">
                   Services Provided
@@ -314,7 +314,7 @@ export default function DoctorProfilePage() {
 
           {/* Sub-Specializations */}
           {doctor.sub_specializations && doctor.sub_specializations.length > 0 && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-primary-more-light/30">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-primary-more-light/30">
               <CardHeader className="border-b border-primary/10 bg-primary/5">
                 <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
                   <Award className="h-5 w-5 text-primary" />
@@ -324,7 +324,7 @@ export default function DoctorProfilePage() {
               <CardContent className="pt-6">
                 <ul className="space-y-2">
                   {doctor.sub_specializations.map((spec: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 bg-white/60 rounded-lg p-2">
+                    <li key={index} className="flex items-start gap-2 bg-card/60 rounded-lg p-2">
                       <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                       <span className="text-foreground font-medium">{spec}</span>
                     </li>
@@ -336,7 +336,7 @@ export default function DoctorProfilePage() {
 
           {/* Work Experience */}
           {doctor.work_experience && doctor.work_experience.length > 0 && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-primary-light/20">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-primary-light/20">
               <CardHeader className="border-b border-primary/10 bg-primary/5">
                 <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
                   <Briefcase className="h-5 w-5 text-primary" />
@@ -348,7 +348,7 @@ export default function DoctorProfilePage() {
                   {doctor.work_experience.map((exp: any, index: number) => (
                     <div
                       key={index}
-                      className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-white/60 rounded-lg p-3"
+                      className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-card/60 rounded-lg p-3"
                     >
                       <div className="h-2 w-2 bg-primary rounded-full mt-2 shrink-0"></div>
                       <div>
@@ -370,7 +370,7 @@ export default function DoctorProfilePage() {
 
           {/* Education */}
           {doctor.education && doctor.education.length > 0 && (
-            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-white to-accent/30">
+            <Card className="rounded-2xl shadow-md border-primary/20 bg-gradient-to-br from-card to-accent/30">
               <CardHeader className="border-b border-primary/10 bg-accent/20">
                 <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2">
                   <GraduationCap className="h-5 w-5 text-primary" />
@@ -382,7 +382,7 @@ export default function DoctorProfilePage() {
                   {doctor.education.map((edu: any, index: number) => (
                     <div
                       key={index}
-                      className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-white/60 rounded-lg p-3"
+                      className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-card/60 rounded-lg p-3"
                     >
                       <GraduationCap className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                       <div>
@@ -405,7 +405,7 @@ export default function DoctorProfilePage() {
             <Card className="rounded-2xl shadow-md bg-gradient-to-r from-primary-more-light/30 to-accent/30 border-primary/10">
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
-                  <div className="bg-white rounded-full p-3 shadow-md">
+                  <div className="bg-card rounded-full p-3 shadow-md">
                     <Globe className="h-5 w-5 text-primary" />
                   </div>
                   <div>
@@ -425,3 +425,4 @@ export default function DoctorProfilePage() {
     </AppBackground>
   );
 }
+

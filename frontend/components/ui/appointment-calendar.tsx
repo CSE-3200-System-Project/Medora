@@ -99,7 +99,7 @@ export function AppointmentCalendar({
       case 'CANCEL_REQUESTED':
         return 'bg-rose-400';
       case 'NO_SHOW':
-        return 'bg-gray-500';
+        return 'bg-muted';
       default:
         return 'bg-primary';
     }
@@ -143,7 +143,7 @@ export function AppointmentCalendar({
           "aspect-square rounded-lg text-sm font-medium transition-all relative border p-1",
           hasAppointments && "hover:scale-105 cursor-pointer",
           !hasAppointments && "cursor-default",
-          isSelected && "bg-primary text-white shadow-md scale-105 ring-2 ring-primary/50 border-primary",
+          isSelected && "bg-primary text-primary-foreground shadow-md scale-105 ring-2 ring-primary/50 border-primary",
           !isSelected && isCurrentDay && "bg-primary/10 border-2 border-primary text-foreground",
           !isSelected && !isCurrentDay && dayIsPast && "bg-muted text-muted-foreground",
           !isSelected && !isCurrentDay && !dayIsPast && "bg-background text-foreground",
@@ -173,7 +173,7 @@ export function AppointmentCalendar({
           </div>
         )}
         {dayAppts.length > 3 && !isSelected && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[8px] rounded-full flex items-center justify-center font-bold">
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground text-[8px] rounded-full flex items-center justify-center font-bold">
             {dayAppts.length}
           </div>
         )}
@@ -270,3 +270,4 @@ export function AppointmentCalendar({
     </Card>
   );
 }
+

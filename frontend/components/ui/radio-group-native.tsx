@@ -30,7 +30,7 @@ function RadioGroup({ className, name, options, value, onChange, ...props }: Rad
             value={option.value}
             checked={value === option.value}
             onChange={(e) => onChange?.(e.target.value)}
-            className="h-4 w-4 text-primary border-gray-300 focus:ring-primary"
+            className="h-4 w-4 text-primary border-border focus:ring-primary"
           />
           <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {option.label}
@@ -42,3 +42,4 @@ function RadioGroup({ className, name, options, value, onChange, ...props }: Rad
 }
 
 export { RadioGroup }
+

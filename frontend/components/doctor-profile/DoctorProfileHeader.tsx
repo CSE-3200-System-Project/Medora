@@ -89,15 +89,15 @@ export function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProp
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-border bg-slate-50 p-4 dark:bg-slate-800/50">
+            <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Experience</p>
               <p className="mt-1 text-xl font-semibold text-foreground">{experienceText}</p>
             </div>
-            <div className="rounded-xl border border-border bg-slate-50 p-4 dark:bg-slate-800/50">
+            <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Success Rate</p>
               <p className="mt-1 text-xl font-semibold text-foreground">{successRate}</p>
             </div>
-            <div className="rounded-xl border border-border bg-slate-50 p-4 dark:bg-slate-800/50">
+            <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Status</p>
               <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-success-muted">
                 <CheckCircle2 className="h-4 w-4" />
@@ -110,3 +110,4 @@ export function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProp
     </motion.section>
   );
 }
+
