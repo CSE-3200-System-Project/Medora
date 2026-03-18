@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import hashlib
+import logging
 import os
 import uuid
 from datetime import datetime
@@ -9,10 +10,11 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Upload
 from groq import Groq
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from supabase import Client, create_client
+from storage3.exceptions import StorageApiError
 
 from app.core.config import settings
 from app.core.dependencies import get_db
+from app.db.supabase import storage_key_role, storage_supabase
 from app.db.models.doctor import DoctorProfile
 from app.db.models.media_file import MediaFile
 from app.db.models.patient import PatientProfile
@@ -21,12 +23,13 @@ from app.routes.auth import get_current_user_token
 from app.schemas.upload import MediaFileResponse, MediaUploadResponse, PrescriptionExtractionResponse
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
-supabase: Client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+supabase = storage_supabase
 groq_client = Groq(api_key=settings.GROQ_API_KEY)
 
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024  # 15MB
-BUCKET_NAME = "medora-storage"
+BUCKET_NAME = settings.SUPABASE_STORAGE_BUCKET
 
 ALLOWED_CONTENT_TYPES = {
     "image/jpeg",
@@ -81,6 +84,13 @@ async def _upload_to_storage(storage_path: str, content: bytes, content_type: st
         )
 
     return await asyncio.to_thread(_call_upload)
+
+
+def _raise_storage_exception(exc: StorageApiError, operation: str) -> None:
+    status_code = int(exc.status) if str(exc.status).isdigit() else 400
+    detail = f"Storage {operation} failed ({exc.code}): {exc.message}"
+    logger.error("Supabase storage error during %s: %s", operation, exc.to_dict())
+    raise HTTPException(status_code=status_code, detail=detail)
 
 
 async def _remove_from_storage(storage_path: str):
@@ -222,6 +232,8 @@ async def upload_file(file: UploadFile = File(...)):
         return {"url": public_url}
     except HTTPException:
         raise
+    except StorageApiError as exc:
+        _raise_storage_exception(exc, "upload")
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(exc)}")
 
@@ -236,6 +248,12 @@ async def upload_media_file(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
+    if storage_key_role == "anon":
+        raise HTTPException(
+            status_code=500,
+            detail="Server storage client is using anon key. Set SUPABASE_SERVICE_ROLE_KEY in backend .env.",
+        )
+
     if not file.filename:
         raise HTTPException(status_code=400, detail="Invalid file name")
 
@@ -275,6 +293,9 @@ async def upload_media_file(
     except HTTPException:
         await db.rollback()
         raise
+    except StorageApiError as exc:
+        await db.rollback()
+        _raise_storage_exception(exc, "upload")
     except Exception as exc:
         await db.rollback()
         raise HTTPException(status_code=500, detail=f"Media upload failed: {str(exc)}")
@@ -355,6 +376,9 @@ async def replace_media_file(
     except HTTPException:
         await db.rollback()
         raise
+    except StorageApiError as exc:
+        await db.rollback()
+        _raise_storage_exception(exc, "replace")
     except Exception as exc:
         await db.rollback()
         raise HTTPException(status_code=500, detail=f"Media replace failed: {str(exc)}")
@@ -379,6 +403,9 @@ async def delete_media_file(
         media.updated_at = datetime.utcnow()
         await db.commit()
         return {"message": "File deleted successfully"}
+    except StorageApiError as exc:
+        await db.rollback()
+        _raise_storage_exception(exc, "delete")
     except Exception as exc:
         await db.rollback()
         raise HTTPException(status_code=500, detail=f"Media delete failed: {str(exc)}")
@@ -391,6 +418,12 @@ async def extract_prescription_text(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
+    if save_file and storage_key_role == "anon":
+        raise HTTPException(
+            status_code=500,
+            detail="Server storage client is using anon key. Set SUPABASE_SERVICE_ROLE_KEY in backend .env.",
+        )
+
     if not file.filename:
         raise HTTPException(status_code=400, detail="Invalid file name")
 
@@ -438,6 +471,9 @@ async def extract_prescription_text(
     except HTTPException:
         await db.rollback()
         raise
+    except StorageApiError as exc:
+        await db.rollback()
+        _raise_storage_exception(exc, "upload")
     except Exception as exc:
         await db.rollback()
         raise HTTPException(status_code=500, detail=f"Prescription extraction failed: {str(exc)}")
