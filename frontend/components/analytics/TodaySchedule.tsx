@@ -5,9 +5,9 @@ import { MedicationItem, MedicationTimelineItem } from "@/components/analytics/M
 
 type TodayScheduleProps = {
   medications: MedicationItem[];
-  onTake: (id: number) => void;
-  onSkip: (id: number) => void;
-  onRemind: (id: number) => void;
+  onTake: (id: string) => void;
+  onSkip: (id: string) => void;
+  onRemind: (id: string) => void;
 };
 
 export function TodaySchedule({ medications, onTake, onSkip, onRemind }: TodayScheduleProps) {

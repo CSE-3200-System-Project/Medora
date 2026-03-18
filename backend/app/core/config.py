@@ -8,6 +8,13 @@ class Settings(BaseSettings):
     SUPABASE_SERVICE_ROLE_KEY: str | None = None  # Required for server-side storage writes
     SUPABASE_STORAGE_BUCKET: str = "medora-storage"
     GROQ_API_KEY: str
+    DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
+    REMINDER_DISPATCH_ENABLED: bool = True
+    REMINDER_DISPATCH_INTERVAL_SECONDS: int = 30
+
+    WEB_PUSH_VAPID_PUBLIC_KEY: str | None = None
+    WEB_PUSH_VAPID_PRIVATE_KEY: str | None = None
+    WEB_PUSH_VAPID_SUBJECT: str = "mailto:support@medora.app"
 
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True

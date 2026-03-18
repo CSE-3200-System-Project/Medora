@@ -6,18 +6,18 @@ import { Card } from "@/components/ui/card";
 export type MedicationStatus = "taken" | "due" | "upcoming" | "skipped" | "snoozed";
 
 export type MedicationItem = {
-  id: number;
+  id: string;
   name: string;
-  dose: string;
+  dose?: string;
   time: string;
   status: MedicationStatus;
 };
 
 type MedicationTimelineItemProps = {
   medication: MedicationItem;
-  onTake: (id: number) => void;
-  onSkip: (id: number) => void;
-  onRemind: (id: number) => void;
+  onTake: (id: string) => void;
+  onSkip: (id: string) => void;
+  onRemind: (id: string) => void;
 };
 
 export function MedicationTimelineItem({
@@ -33,7 +33,8 @@ export function MedicationTimelineItem({
           <StatusIcon status={medication.status} />
           <div className="min-w-0">
             <p className="truncate font-semibold text-foreground">
-              {medication.name} {medication.dose}
+              {medication.name}
+              {medication.dose ? ` ${medication.dose}` : ""}
             </p>
             <p className="text-sm text-muted-foreground">{getStatusText(medication)}</p>
           </div>
