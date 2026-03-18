@@ -1,12 +1,22 @@
 from fastapi import Depends, Header, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, text
 from app.db.session import AsyncSessionLocal
 from app.db.models.profile import Profile
 from app.core.security import verify_jwt
 
-async def get_db():
+async def get_db(authorization: str | None = Header(None)):
+    """Get database session with JWT context for RLS policies."""
     async with AsyncSessionLocal() as session:
+        # Set JWT context for RLS from Authorization header
+        if authorization:
+            token = authorization.replace("Bearer ", "")
+            try:
+                # Set request.jwt for Supabase RLS policies
+                await session.execute(text(f"SELECT set_config('request.jwt', '{token}', true)"))
+            except Exception:
+                # RLS might not be configured, continue anyway
+                pass
         yield session
 
 async def get_current_user(

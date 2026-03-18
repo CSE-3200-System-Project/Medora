@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     - Startup: Preload Whisper model for voice transcription
     - Shutdown: Cleanup resources
     """
-    preload_whisper = os.getenv("PRELOAD_WHISPER_ON_STARTUP", "false").lower() == "true"
+    preload_whisper = os.getenv("PRELOAD_WHISPER_ON_STARTUP", "true").lower() == "true"
 
     # Startup: Preload the Whisper ASR model
     # This avoids slow first request when voice transcription is used
@@ -33,9 +33,9 @@ async def lifespan(app: FastAPI):
             logger.warning("Model will be loaded on first voice transcription request")
     else:
         logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
-    
+
     yield  # Application runs
-    
+
     # Shutdown: Cleanup (if needed)
     logger.info("Shutting down...")
 
@@ -54,7 +54,7 @@ if os.getenv("ALLOWED_ORIGINS"):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, # Allows specific origins
+    allow_origins=origins,  # Allows specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -76,6 +76,7 @@ async def add_performance_headers(request: Request, call_next):
         response.headers["Server-Timing"] = server_timing_value
 
     return response
+
 
 app.include_router(health.router)
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
