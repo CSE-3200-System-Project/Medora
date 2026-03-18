@@ -14,7 +14,7 @@ export default function SelectionPage() {
         
         {/* Floating Logo - Centered at top */}
         <div className="absolute top-4 left-0 right-0 flex justify-center z-20 lg:top-8">
-          <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white/95 backdrop-blur-md rounded-full p-3 shadow-xl border-4 border-white/30">
+          <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-card/95 backdrop-blur-md rounded-full p-3 shadow-xl border-4 border-white/30">
             <Image src={logo} alt="Medora" fill sizes="96px" className="object-contain p-1" />
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function SelectionPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/60 transition-colors duration-300" />
           
           <div className="absolute inset-0 flex flex-col items-center justify-end p-6 pb-8 lg:pb-16">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-white/30 transition-colors">
+            <div className="bg-card/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-card/30 transition-colors">
               <Stethoscope className="h-8 w-8 lg:h-10 lg:w-10 text-white" />
             </div>
             <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2 transform transition-transform duration-300 group-hover:-translate-y-1">
@@ -67,7 +67,7 @@ export default function SelectionPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/60 transition-colors duration-300" />
           
           <div className="absolute inset-0 flex flex-col items-center justify-end p-6 pb-8 lg:pb-16">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-white/30 transition-colors">
+            <div className="bg-card/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-card/30 transition-colors">
               <UserCircle className="h-8 w-8 lg:h-10 lg:w-10 text-white" />
             </div>
             <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2 transform transition-transform duration-300 group-hover:-translate-y-1">
@@ -86,7 +86,7 @@ export default function SelectionPage() {
 
       {/* Floating Sign In Link - Fixed at bottom */}
       <div className="fixed bottom-6 left-0 right-0 text-center z-10">
-        <div className="inline-block bg-white/95 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-border/50">
+        <div className="inline-block bg-card/95 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-border/50">
           <p className="text-foreground text-sm md:text-base">
             Already have an account?{' '}
             <Link href="/login" className="text-primary font-semibold hover:text-primary-muted underline underline-offset-2">
@@ -98,3 +98,4 @@ export default function SelectionPage() {
     </AppBackground>
   );
 }
+

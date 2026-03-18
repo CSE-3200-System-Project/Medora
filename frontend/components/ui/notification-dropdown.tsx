@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -34,6 +33,9 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   appointment_cancelled: X,
   appointment_completed: CheckCheck,
   appointment_reminder: AlertCircle,
+  appointment_reschedule_request: Calendar,
+  appointment_reschedule_accepted: CheckCheck,
+  appointment_reschedule_rejected: X,
   new_patient: UserPlus,
   patient_checkin: UserPlus,
   doctor_available: UserPlus,
@@ -62,25 +64,28 @@ const notificationColors: Record<NotificationType, string> = {
   appointment_confirmed: "text-success bg-success/10",
   appointment_cancelled: "text-destructive bg-destructive/10",
   appointment_completed: "text-success bg-success/10",
-  appointment_reminder: "text-yellow-600 bg-yellow-100",
+  appointment_reminder: "text-warning bg-warning/15",
+  appointment_reschedule_request: "text-warning bg-warning/15",
+  appointment_reschedule_accepted: "text-success bg-success/10",
+  appointment_reschedule_rejected: "text-destructive bg-destructive/10",
   new_patient: "text-primary bg-primary/10",
   patient_checkin: "text-primary bg-primary/10",
   doctor_available: "text-primary bg-primary/10",
-  access_requested: "text-yellow-600 bg-yellow-100",
+  access_requested: "text-warning bg-warning/15",
   access_granted: "text-success bg-success/10",
   access_revoked: "text-destructive bg-destructive/10",
-  verification_pending: "text-yellow-600 bg-yellow-100",
+  verification_pending: "text-warning bg-warning/15",
   verification_approved: "text-success bg-success/10",
   verification_rejected: "text-destructive bg-destructive/10",
   profile_update: "text-primary bg-primary/10",
-  onboarding_reminder: "text-yellow-600 bg-yellow-100",
+  onboarding_reminder: "text-warning bg-warning/15",
   system_announcement: "text-primary bg-primary/10",
   welcome: "text-primary bg-primary/10",
-  medication_reminder: "text-blue-600 bg-blue-100",
-  test_reminder: "text-purple-600 bg-purple-100",
+  medication_reminder: "text-primary bg-primary/10",
+  test_reminder: "text-primary-muted bg-primary-muted/15",
   consultation_started: "text-primary bg-primary/10",
   consultation_completed: "text-success bg-success/10",
-  prescription_created: "text-blue-600 bg-blue-100",
+  prescription_created: "text-primary bg-primary/10",
   prescription_accepted: "text-success bg-success/10",
   prescription_rejected: "text-destructive bg-destructive/10",
 };
@@ -215,7 +220,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-white">
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-primary-foreground">
               {unreadCount > 99 ? "99+" : unreadCount}
             </span>
           )}
@@ -265,7 +270,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
                     className={cn(
-                      "flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-accent/50",
+                      "group flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-accent/50",
                       !notification.is_read && "bg-primary/5"
                     )}
                   >

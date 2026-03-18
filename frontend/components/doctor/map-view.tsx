@@ -554,7 +554,7 @@ export function MapView({
                   {formatDistance(route.distance)}
                 </div>
                 {isFastest && (
-                  <Badge variant="default" className="text-[10px] px-1.5 py-0.5 ml-auto bg-success text-white">
+                  <Badge variant="default" className="text-[10px] px-1.5 py-0.5 ml-auto bg-success text-primary-foreground">
                     Fastest
                   </Badge>
                 )}

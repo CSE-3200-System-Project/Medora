@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { ScheduleSetter } from "@/components/doctor/schedule-setter"
 import { updateDoctorOnboarding, completeOnboarding, getDoctorOnboardingData } from "@/lib/auth-actions"
+import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
 import { useRouter } from "next/navigation"
 
 const STEPS = [
@@ -226,19 +227,40 @@ export function DoctorOnboarding() {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const file = e.target.files?.[0]
     if (file) {
-      const formDataUpload = new FormData()
-      formDataUpload.append("file", file)
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
-          method: 'POST',
-          body: formDataUpload,
-        })
-        if (res.ok) {
-          const data = await res.json()
-          handleInputChange(field, data.url)
+        const fieldToCategory: Record<string, MediaCategory> = {
+          profile_photo_url: "profile_photo",
+          bmdc_document_url: "doctor_document",
+          degree_certificates_url: "doctor_document",
+          affiliation_letter_url: "doctor_document",
+        }
+
+        const category = fieldToCategory[field] || "general"
+
+        try {
+          const result = await uploadMediaFile({
+            file,
+            category,
+            entityType: "doctor_onboarding",
+            visibility: "public",
+          })
+          handleInputChange(field, result.url || result.file.public_url || "")
           alert("File uploaded successfully!")
-        } else {
-          alert("Upload failed")
+        } catch {
+          // Fallback for compatibility with existing environments
+          const formDataUpload = new FormData()
+          formDataUpload.append("file", file)
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/upload/`, {
+            method: 'POST',
+            body: formDataUpload,
+          })
+          if (res.ok) {
+            const data = await res.json()
+            handleInputChange(field, data.url)
+            alert("File uploaded successfully!")
+          } else {
+            alert("Upload failed")
+          }
         }
       } catch (err) {
         console.error(err)
@@ -1086,15 +1108,15 @@ export function DoctorOnboarding() {
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="max-w-md w-full bg-white">
+            <Card className="max-w-md w-full bg-card">
               <CardHeader>
                 <CardTitle className="text-black">Skip Onboarding?</CardTitle>
-                <CardDescription className="text-gray-700">
+                <CardDescription className="text-foreground">
                   You can complete your profile information later from your dashboard settings.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Having a complete profile helps patients find and trust you. We recommend completing all sections.
                 </p>
               </CardContent>
@@ -1121,3 +1143,4 @@ export function DoctorOnboarding() {
     </div>
   )
 }
+

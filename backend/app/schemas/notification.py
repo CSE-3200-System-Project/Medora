@@ -11,6 +11,9 @@ class NotificationType(str, Enum):
     APPOINTMENT_CANCELLED = "appointment_cancelled"
     APPOINTMENT_COMPLETED = "appointment_completed"
     APPOINTMENT_REMINDER = "appointment_reminder"
+    APPOINTMENT_RESCHEDULE_REQUEST = "appointment_reschedule_request"
+    APPOINTMENT_RESCHEDULE_ACCEPTED = "appointment_reschedule_accepted"
+    APPOINTMENT_RESCHEDULE_REJECTED = "appointment_reschedule_rejected"
     
     # Patient related (for doctors)
     NEW_PATIENT = "new_patient"
@@ -107,3 +110,17 @@ class NotificationUpdate(BaseModel):
 class UnreadCountResponse(BaseModel):
     """Schema for unread count response"""
     unread_count: int
+
+
+class PushSubscriptionKeys(BaseModel):
+    p256dh: str
+    auth: str
+
+
+class PushSubscriptionRequest(BaseModel):
+    endpoint: str
+    keys: PushSubscriptionKeys
+
+
+class PushUnsubscribeRequest(BaseModel):
+    endpoint: str

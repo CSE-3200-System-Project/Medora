@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Pencil, Trash2, Shield, Calendar, Clock } from "lucide-react";
+import { Plus, Pencil, Trash2, Shield, Clock } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 
 export interface Vaccination {
   name: string;
@@ -103,12 +102,12 @@ export function VaccinationManager({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h3 className="text-lg font-semibold">{title}</h3>
           <p className="text-sm text-muted-foreground">{description}</p>
         </div>
-        <Button onClick={() => setDialogOpen(true)} size="sm" className="shrink-0">
+        <Button onClick={() => setDialogOpen(true)} size="sm" className="h-11 w-full shrink-0 sm:h-10 sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Add Vaccination
         </Button>
@@ -120,11 +119,11 @@ export function VaccinationManager({
           {vaccinations.map((vac, index) => (
             <Card key={index} className="bg-surface/30">
               <CardContent className="p-4">
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
                       <Shield className="h-4 w-4 text-blue-600" />
-                      <h4 className="font-semibold text-foreground">{vac.name}</h4>
+                      <h4 className="font-semibold text-foreground break-words">{vac.name}</h4>
                       <Badge variant="outline" className="text-xs">
                         {new Date(vac.date).toLocaleDateString()}
                       </Badge>
@@ -144,12 +143,12 @@ export function VaccinationManager({
                       <p className="text-sm text-muted-foreground">{vac.notes}</p>
                     )}
                   </div>
-                  <div className="flex items-center gap-1 ml-4">
+                  <div className="ml-0 flex items-center gap-2 self-start sm:ml-4">
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handleEdit(index)}
-                      className="h-8 w-8 p-0"
+                      className="h-11 w-11 p-0 sm:h-8 sm:w-8"
                     >
                       <Pencil className="h-3 w-3" />
                     </Button>
@@ -157,7 +156,7 @@ export function VaccinationManager({
                       variant="ghost"
                       size="sm"
                       onClick={() => handleRemove(index)}
-                      className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                      className="h-11 w-11 p-0 text-destructive hover:text-destructive sm:h-8 sm:w-8"
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>

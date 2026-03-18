@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
@@ -49,15 +49,15 @@ export function VerifyPendingClient() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl bg-slate-800/50 border-slate-700/50 backdrop-blur">
+    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-2xl bg-card/50 border-border/50 backdrop-blur">
         <CardHeader className="text-center pb-6">
           <div className="flex justify-center mb-6">
             <div className="relative h-20 w-20">
               <Image src={logo} alt="Medora" fill className="object-contain" />
             </div>
           </div>
-          <CardTitle className="text-2xl md:text-3xl font-bold text-white">
+          <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">
             {verificationStatus === "pending" && "Account Verification Pending"}
             {verificationStatus === "verified" && "Account Verified!"}
             {verificationStatus === "rejected" && "Verification Rejected"}
@@ -74,20 +74,20 @@ export function VerifyPendingClient() {
               </div>
 
               <div className="text-center space-y-4">
-                <h3 className="text-xl font-semibold text-white">Thank you for registering!</h3>
-                <p className="text-slate-300">Your account is currently under review by our admin team.</p>
-                <p className="text-slate-400 text-sm">
+                <h3 className="text-xl font-semibold text-foreground">Thank you for registering!</h3>
+                <p className="text-muted-foreground">Your account is currently under review by our admin team.</p>
+                <p className="text-muted-foreground text-sm">
                   We are verifying your BMDC registration and credentials. This process typically takes
                   <span className="font-semibold text-primary"> 24-48 hours</span>.
                 </p>
               </div>
 
-              <div className="bg-slate-700/50 rounded-lg p-6 space-y-4">
-                <h4 className="font-semibold text-white flex items-center gap-2">
+              <div className="bg-card/50 rounded-lg p-6 space-y-4">
+                <h4 className="font-semibold text-foreground flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary" />
                   What happens next?
                 </h4>
-                <ul className="space-y-3 text-slate-300 text-sm">
+                <ul className="space-y-3 text-muted-foreground text-sm">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
                     <span>Our admin team will verify your BMDC registration number</span>
@@ -110,7 +110,7 @@ export function VerifyPendingClient() {
               <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <Mail className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
-                  <div className="text-sm text-slate-300">
+                  <div className="text-sm text-muted-foreground">
                     <p className="font-semibold text-blue-400 mb-1">Check your email</p>
                     <p>We&apos;ll send you updates about your verification status. Make sure to check your spam folder.</p>
                   </div>
@@ -120,7 +120,7 @@ export function VerifyPendingClient() {
               <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <Phone className="h-5 w-5 text-orange-400 shrink-0 mt-0.5" />
-                  <div className="text-sm text-slate-300">
+                  <div className="text-sm text-muted-foreground">
                     <p className="font-semibold text-orange-400 mb-1">Need help?</p>
                     <p>If you haven&apos;t heard from us within 48 hours, please contact our support team.</p>
                   </div>
@@ -138,9 +138,9 @@ export function VerifyPendingClient() {
               </div>
 
               <div className="text-center space-y-4">
-                <h3 className="text-xl font-semibold text-white">Congratulations!</h3>
-                <p className="text-slate-300">Your account has been verified successfully.</p>
-                <p className="text-slate-400 text-sm">Redirecting you to your doctor portal...</p>
+                <h3 className="text-xl font-semibold text-foreground">Congratulations!</h3>
+                <p className="text-muted-foreground">Your account has been verified successfully.</p>
+                <p className="text-muted-foreground text-sm">Redirecting you to your doctor portal...</p>
               </div>
             </>
           )}
@@ -154,10 +154,10 @@ export function VerifyPendingClient() {
               </div>
 
               <div className="text-center space-y-4">
-                <h3 className="text-xl font-semibold text-white">Verification Rejected</h3>
-                <p className="text-slate-300">Unfortunately, we were unable to verify your credentials.</p>
+                <h3 className="text-xl font-semibold text-foreground">Verification Rejected</h3>
+                <p className="text-muted-foreground">Unfortunately, we were unable to verify your credentials.</p>
                 <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-                  <p className="text-sm text-slate-300">
+                  <p className="text-sm text-muted-foreground">
                     Please contact our support team for more information or to resubmit your application.
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export function VerifyPendingClient() {
           )}
 
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={handleLogout} className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700/60">
+            <Button variant="outline" onClick={handleLogout} className="flex-1 border-border text-muted-foreground hover:bg-card/60">
               Logout
             </Button>
             {verificationStatus === "pending" && (
@@ -180,4 +180,5 @@ export function VerifyPendingClient() {
     </div>
   );
 }
+
 

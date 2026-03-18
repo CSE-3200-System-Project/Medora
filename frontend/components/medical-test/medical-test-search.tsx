@@ -155,7 +155,6 @@ export function MedicalTestSearch({
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-500 pointer-events-none" />
         <Input
           ref={inputRef}
           type="text"
@@ -163,7 +162,7 @@ export function MedicalTestSearch({
           onChange={handleInputChange}
           onFocus={handleFocus}
           placeholder={placeholder}
-          className="pl-9 pr-16 border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+          className="pr-16 border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
@@ -188,16 +187,16 @@ export function MedicalTestSearch({
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-purple-200 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-purple-200 rounded-lg shadow-xl max-h-60 overflow-y-auto">
           {options.length === 0 && !loading ? (
-            <div className="p-4 text-sm text-gray-600 text-center">
+            <div className="p-4 text-sm text-muted-foreground text-center">
               {query.length > 0 ? (
                 <>
-                  <span className="text-gray-700">No matching tests found.</span> <br />
-                  <span className="text-xs text-gray-500">You can still type a custom test name.</span>
+                  <span className="text-foreground">No matching tests found.</span> <br />
+                  <span className="text-xs text-muted-foreground">You can still type a custom test name.</span>
                 </>
               ) : (
-                <span className="text-gray-600">Start typing to search tests...</span>
+                <span className="text-muted-foreground">Start typing to search tests...</span>
               )}
             </div>
           ) : (
@@ -207,7 +206,7 @@ export function MedicalTestSearch({
                   <button
                     type="button"
                     onClick={() => handleSelect(test)}
-                    className={`w-full px-4 py-2.5 text-left text-sm hover:bg-purple-50 transition-colors text-gray-900 ${
+                    className={`w-full px-4 py-2.5 text-left text-sm hover:bg-purple-50 transition-colors text-foreground ${
                       query.toLowerCase() === test.display_name.toLowerCase() 
                         ? "bg-purple-100 text-purple-700 font-medium" 
                         : ""
@@ -218,7 +217,7 @@ export function MedicalTestSearch({
                 </li>
               ))}
               {options.length >= 30 && (
-                <li className="px-3 py-2 text-xs text-gray-500 text-center border-t border-purple-100 bg-gray-50">
+                <li className="px-3 py-2 text-xs text-muted-foreground text-center border-t border-purple-100 bg-muted/30">
                   Type more to narrow results...
                 </li>
               )}
@@ -229,3 +228,4 @@ export function MedicalTestSearch({
     </div>
   );
 }
+

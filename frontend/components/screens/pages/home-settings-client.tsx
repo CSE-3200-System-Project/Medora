@@ -11,8 +11,14 @@ import {
   HeartPulse,
   Smartphone,
   CheckCircle2,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Loader2,
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { GoogleCalendarConnect } from "@/components/settings/google-calendar-connect";
+import { changePassword } from "@/lib/auth-actions";
 
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
@@ -194,6 +200,15 @@ export default function SettingsPage() {
   const [saveMessage, setSaveMessage] = React.useState<string>("");
   const [notificationPermission, setNotificationPermission] = React.useState<NotificationPermission | "unsupported">("unsupported");
 
+  // Change password state
+  const [currentPassword, setCurrentPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = React.useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(false);
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const [passwordLoading, setPasswordLoading] = React.useState(false);
+  const [passwordMessage, setPasswordMessage] = React.useState<{ type: "success" | "error"; text: string } | null>(null);
+
   React.useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -270,6 +285,38 @@ export default function SettingsPage() {
     setNestedSettings("notifications", { push: permission === "granted" });
     if (permission !== "granted") {
       setSaveMessage("Push permission is blocked. You can enable it from browser settings.");
+    }
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordMessage(null);
+
+    if (newPassword.length < 8) {
+      setPasswordMessage({ type: "error", text: "New password must be at least 8 characters" });
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      setPasswordMessage({ type: "error", text: "New passwords do not match" });
+      return;
+    }
+    if (currentPassword === newPassword) {
+      setPasswordMessage({ type: "error", text: "New password must be different from current password" });
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      await changePassword(currentPassword, newPassword);
+      setPasswordMessage({ type: "success", text: "Password changed successfully" });
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to change password";
+      setPasswordMessage({ type: "error", text: msg });
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -630,6 +677,109 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Change Password */}
+          <Card hoverable>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <KeyRound className="h-5 w-5 text-primary" />
+                Change Password
+              </CardTitle>
+              <CardDescription>
+                Update your account password. You&apos;ll need to enter your current password first.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleChangePassword} className="space-y-4">
+                {passwordMessage && (
+                  <div
+                    className={`rounded-lg border px-4 py-3 text-sm ${
+                      passwordMessage.type === "success"
+                        ? "border-success/30 bg-success/10 text-success-muted"
+                        : "border-destructive/20 bg-destructive/10 text-destructive"
+                    }`}
+                  >
+                    {passwordMessage.text}
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="current-password">Current Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="current-password"
+                      type={showCurrentPassword ? "text" : "password"}
+                      placeholder="Enter current password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      required
+                      className="pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="new-password">New Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="new-password"
+                      type={showNewPassword ? "text" : "password"}
+                      placeholder="Enter new password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                      minLength={8}
+                      className="pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirm-new-password">Confirm New Password</Label>
+                  <Input
+                    id="confirm-new-password"
+                    type="password"
+                    placeholder="Confirm new password"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    required
+                    minLength={8}
+                  />
+                  {confirmNewPassword && newPassword !== confirmNewPassword && (
+                    <p className="text-xs text-destructive">Passwords do not match</p>
+                  )}
+                </div>
+
+                <Button type="submit" className="w-full" disabled={passwordLoading}>
+                  {passwordLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Changing Password...
+                    </>
+                  ) : (
+                    "Change Password"
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Google Calendar Integration */}
+          <GoogleCalendarConnect />
         </div>
 
         {!isHydrated && (

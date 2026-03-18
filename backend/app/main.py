@@ -4,7 +4,8 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation, availability, reschedule, oauth
+from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -18,7 +19,7 @@ async def lifespan(app: FastAPI):
     - Startup: Preload Whisper model for voice transcription
     - Shutdown: Cleanup resources
     """
-    preload_whisper = os.getenv("PRELOAD_WHISPER_ON_STARTUP", "false").lower() == "true"
+    preload_whisper = os.getenv("PRELOAD_WHISPER_ON_STARTUP", "true").lower() == "true"
 
     # Startup: Preload the Whisper ASR model
     # This avoids slow first request when voice transcription is used
@@ -33,10 +34,17 @@ async def lifespan(app: FastAPI):
             logger.warning("Model will be loaded on first voice transcription request")
     else:
         logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
-    
+
+    # Startup: begin reminder dispatch loop
+    try:
+        await start_reminder_dispatcher()
+    except Exception as exc:
+        logger.warning("Failed to start reminder dispatcher: %s", exc)
+
     yield  # Application runs
-    
+
     # Shutdown: Cleanup (if needed)
+    await stop_reminder_dispatcher()
     logger.info("Shutting down...")
 
 
@@ -54,7 +62,7 @@ if os.getenv("ALLOWED_ORIGINS"):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, # Allows specific origins
+    allow_origins=origins,  # Allows specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -77,6 +85,7 @@ async def add_performance_headers(request: Request, call_next):
 
     return response
 
+
 app.include_router(health.router)
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(profile.router, prefix="/profile", tags=["Profile"])
@@ -92,3 +101,6 @@ app.include_router(notification.router, prefix="/notifications", tags=["Notifica
 app.include_router(patient_access.router, prefix="/patient-access", tags=["Patient Access"])
 app.include_router(reminder.router, prefix="/reminders", tags=["Reminders"])
 app.include_router(consultation.router, prefix="/consultation", tags=["Consultation"])
+app.include_router(availability.router, prefix="/availability", tags=["Availability"])
+app.include_router(reschedule.router, prefix="/reschedule", tags=["Reschedule"])
+app.include_router(oauth.router, prefix="/oauth", tags=["OAuth"])

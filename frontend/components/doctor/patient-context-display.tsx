@@ -37,7 +37,7 @@ const getCategoryIcon = (category: string) => {
     case "hospitalization":
       return <Hospital className="w-4 h-4 text-pink-500" />;
     default:
-      return <History className="w-4 h-4 text-gray-500" />;
+      return <History className="w-4 h-4 text-muted-foreground" />;
   }
 };
 
@@ -71,7 +71,7 @@ const getCategoryColor = (category: string) => {
     case "hospitalization":
       return "bg-pink-100 text-pink-800 border-pink-200";
     default:
-      return "bg-gray-100 text-gray-800 border-gray-200";
+      return "bg-muted/50 text-foreground border-border";
   }
 };
 
@@ -89,7 +89,7 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
         <CardContent>
           <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-200 rounded h-12 animate-pulse" />
+              <div key={i} className="bg-muted rounded h-12 animate-pulse" />
             ))}
           </div>
         </CardContent>
@@ -128,7 +128,7 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
               {categoryFactors.map((factor, idx) => (
                 <div 
                   key={`${category}-${idx}`} 
-                  className="flex items-start gap-3 p-3 rounded-lg bg-white border border-primary/10 hover:border-primary/30 transition-colors"
+                  className="flex items-start gap-3 p-3 rounded-lg bg-card border border-primary/10 hover:border-primary/30 transition-colors"
                 >
                   {/* Icon */}
                   <div className="pt-0.5">
@@ -171,3 +171,4 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
     </Card>
   );
 }
+

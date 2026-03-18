@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, String, ForeignKey, DateTime, Enum, Text, Boolean, JSON
+from sqlalchemy import Column, String, ForeignKey, DateTime, Enum, Text, Boolean, JSON, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
@@ -13,6 +13,9 @@ class NotificationType(str, enum.Enum):
     APPOINTMENT_CANCELLED = "appointment_cancelled"
     APPOINTMENT_COMPLETED = "appointment_completed"
     APPOINTMENT_REMINDER = "appointment_reminder"
+    APPOINTMENT_RESCHEDULE_REQUEST = "appointment_reschedule_request"
+    APPOINTMENT_RESCHEDULE_ACCEPTED = "appointment_reschedule_accepted"
+    APPOINTMENT_RESCHEDULE_REJECTED = "appointment_reschedule_rejected"
     
     # Patient related (for doctors)
     NEW_PATIENT = "new_patient"
@@ -90,3 +93,19 @@ class Notification(Base):
 
     # Relationship
     user = relationship("Profile", backref="notifications")
+
+
+class PushSubscription(Base):
+    __tablename__ = "push_subscriptions"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id: Mapped[str] = mapped_column(String, ForeignKey("profiles.id"), nullable=False)
+    endpoint: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    p256dh: Mapped[str] = mapped_column(Text, nullable=False)
+    auth: Mapped[str] = mapped_column(Text, nullable=False)
+    user_agent: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    failure_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_success_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())

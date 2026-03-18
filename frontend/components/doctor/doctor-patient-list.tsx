@@ -57,10 +57,10 @@ export function DoctorPatientList() {
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center gap-4 p-4 bg-accent/50 rounded-lg animate-pulse">
-                <div className="w-12 h-12 bg-gray-200 rounded-full" />
+                <div className="w-12 h-12 bg-muted rounded-full" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-32" />
-                  <div className="h-3 bg-gray-200 rounded w-24" />
+                  <div className="h-4 bg-muted rounded w-32" />
+                  <div className="h-3 bg-muted rounded w-24" />
                 </div>
               </div>
             ))}
@@ -175,3 +175,4 @@ export function DoctorPatientList() {
     </Card>
   );
 }
+

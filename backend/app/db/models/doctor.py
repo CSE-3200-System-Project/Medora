@@ -13,6 +13,7 @@ class DoctorProfile(Base):
     gender: Mapped[str | None]
     date_of_birth: Mapped[date | None]
     profile_photo_url: Mapped[str | None]
+    profile_banner_url: Mapped[str | None]
     nid_number: Mapped[str | None]  # National ID
 
     # === PROFESSIONAL CREDENTIALS (Step 2) ===

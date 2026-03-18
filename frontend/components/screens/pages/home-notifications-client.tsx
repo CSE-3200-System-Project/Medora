@@ -26,6 +26,7 @@ import {
   FlaskConical,
   Stethoscope,
   FileText,
+  RefreshCw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -65,36 +66,42 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   prescription_created: FileText,
   prescription_accepted: Check,
   prescription_rejected: X,
+  appointment_reschedule_request: RefreshCw,
+  appointment_reschedule_accepted: Check,
+  appointment_reschedule_rejected: X,
 };
 
 // Color mapping for notification types
 const notificationColors: Record<NotificationType, string> = {
   appointment_booked: "text-primary bg-primary/10",
-  appointment_confirmed: "text-green-600 bg-green-100",
-  appointment_cancelled: "text-red-600 bg-red-100",
-  appointment_completed: "text-green-600 bg-green-100",
-  appointment_reminder: "text-yellow-600 bg-yellow-100",
+  appointment_confirmed: "text-success bg-success/10",
+  appointment_cancelled: "text-destructive bg-destructive/10",
+  appointment_completed: "text-success bg-success/10",
+  appointment_reminder: "text-warning bg-warning/15",
   new_patient: "text-primary bg-primary/10",
   patient_checkin: "text-primary bg-primary/10",
   doctor_available: "text-primary bg-primary/10",
-  access_requested: "text-yellow-600 bg-yellow-100",
-  access_granted: "text-green-600 bg-green-100",
-  access_revoked: "text-red-600 bg-red-100",
-  verification_pending: "text-yellow-600 bg-yellow-100",
-  verification_approved: "text-green-600 bg-green-100",
-  verification_rejected: "text-red-600 bg-red-100",
+  access_requested: "text-warning bg-warning/15",
+  access_granted: "text-success bg-success/10",
+  access_revoked: "text-destructive bg-destructive/10",
+  verification_pending: "text-warning bg-warning/15",
+  verification_approved: "text-success bg-success/10",
+  verification_rejected: "text-destructive bg-destructive/10",
   profile_update: "text-primary bg-primary/10",
-  onboarding_reminder: "text-yellow-600 bg-yellow-100",
+  onboarding_reminder: "text-warning bg-warning/15",
   system_announcement: "text-primary bg-primary/10",
   welcome: "text-primary bg-primary/10",
-  medication_reminder: "text-blue-600 bg-blue-100",
-  test_reminder: "text-purple-600 bg-purple-100",
+  medication_reminder: "text-primary bg-primary/10",
+  test_reminder: "text-primary-muted bg-primary-muted/15",
   // Consultation & Prescription colors
   consultation_started: "text-primary bg-primary/10",
-  consultation_completed: "text-green-600 bg-green-100",
+  consultation_completed: "text-success bg-success/10",
   prescription_created: "text-primary bg-primary/10",
-  prescription_accepted: "text-green-600 bg-green-100",
-  prescription_rejected: "text-red-600 bg-red-100",
+  prescription_accepted: "text-success bg-success/10",
+  prescription_rejected: "text-destructive bg-destructive/10",
+  appointment_reschedule_request: "text-purple-600 bg-purple-500/10",
+  appointment_reschedule_accepted: "text-success bg-success/10",
+  appointment_reschedule_rejected: "text-destructive bg-destructive/10",
 };
 
 type FilterType = 'all' | 'unread' | 'read';

@@ -146,12 +146,12 @@ function PreviouslyVisitedDoctors({
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="shrink-0 w-48 bg-white dark:bg-card rounded-xl p-3 animate-pulse">
+              <div key={i} className="shrink-0 w-48 bg-card dark:bg-card rounded-xl p-3 animate-pulse">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-200 dark:bg-muted rounded-full" />
+                  <div className="w-10 h-10 bg-muted dark:bg-muted rounded-full" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-3 bg-gray-200 dark:bg-muted rounded w-20" />
-                    <div className="h-2 bg-gray-200 dark:bg-muted rounded w-16" />
+                    <div className="h-3 bg-muted dark:bg-muted rounded w-20" />
+                    <div className="h-2 bg-muted dark:bg-muted rounded w-16" />
                   </div>
                 </div>
               </div>
@@ -181,7 +181,7 @@ function PreviouslyVisitedDoctors({
             <button
               key={docId || `doctor-${index}`}
               onClick={() => docId && onDoctorClick?.(docId)}
-              className="shrink-0 w-52 bg-white dark:bg-card rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
+              className="shrink-0 w-52 bg-card dark:bg-card rounded-xl p-3 hover:shadow-md transition-shadow text-left group border border-transparent hover:border-primary/20"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
@@ -529,3 +529,4 @@ export default function FindDoctorPage() {
     </AppBackground>
   );
 }
+

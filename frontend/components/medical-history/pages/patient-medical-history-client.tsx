@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -15,10 +15,8 @@ import type { Surgery } from "@/components/medical-history/surgery-manager";
 import type { Hospitalization } from "@/components/medical-history/hospitalization-manager";
 import type { Vaccination } from "@/components/medical-history/vaccination-manager";
 import {
-  ArrowLeft,
   Calendar,
   Download,
-  Loader2,
   Pill,
   Syringe,
   Hospital,
@@ -39,6 +37,7 @@ import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-ac
 
 import { getMyAppointments } from "@/lib/appointment-actions";
 import { humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
+import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-tab-accents";
 
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
 import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
@@ -69,14 +68,29 @@ const VaccinationManager = dynamic(
   { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
 );
 
-const MedicalTimeline = dynamic(
-  () => import("@/components/medical-history/medical-timeline").then((module) => module.MedicalTimeline),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
-);
-
 const MedicalTestSearch = dynamic(
   () => import("@/components/medical-test").then((module) => module.MedicalTestSearch),
   { ssr: false, loading: () => <div className="skeleton h-10 w-full rounded-md" /> },
+);
+
+const EnhancedMedicalHistoryTimeline = dynamic(
+  () => import("@/components/medical-history/enhanced-medical-history-timeline").then((module) => module.EnhancedMedicalHistoryTimeline),
+  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+);
+
+const ConditionDistributionChart = dynamic(
+  () => import("@/components/medical-history/condition-distribution-chart").then((module) => module.ConditionDistributionChart),
+  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
+);
+
+const PrescriptionHistoryChart = dynamic(
+  () => import("@/components/medical-history/prescription-history-chart").then((module) => module.PrescriptionHistoryChart),
+  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
+);
+
+const VitalsSummaryCard = dynamic(
+  () => import("@/components/medical-history/vitals-summary-card").then((module) => module.VitalsSummaryCard),
+  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
 );
 
 // Interface for medical test records
@@ -96,16 +110,35 @@ interface MedicalTest {
  * Manages medications, tests, surgeries, hospitalizations, vaccinations
  */
 
-function MedicalHistoryContent() {
+function calculateAge(dob?: string) {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  if (Number.isNaN(birth.getTime())) return null;
+  const now = new Date();
+  let age = now.getFullYear() - birth.getFullYear();
+  const monthDiff = now.getMonth() - birth.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birth.getDate())) {
+    age -= 1;
+  }
+  return age;
+}
+
+function formatPatientId(rawId?: string) {
+  if (!rawId) return "N/A";
+  const cleaned = rawId.replace(/[^A-Za-z0-9]/g, "").slice(-4).toUpperCase();
+  return cleaned ? `MED-${cleaned}` : "N/A";
+}
+
+function PatientMedicalHistoryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "medications");
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "timeline");
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
-
+  const [patientData, setPatientData] = useState<any>(null);
 
   const [appointments, setAppointments] = useState<any[]>([]);
 
@@ -141,6 +174,9 @@ function MedicalHistoryContent() {
         const data = await getPatientOnboardingData();
         
         if (data) {
+          // Store full patient data for analytics
+          setPatientData(data);
+          
           // Load medications
           const meds = data.medications || [];
           const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
@@ -372,33 +408,34 @@ function MedicalHistoryContent() {
   const totalMeds = medications.length + doctorPrescriptions.reduce((acc, p) => acc + (p.medications?.length || 0), 0);
   const totalTests = medicalTests.length + doctorPrescriptions.reduce((acc, p) => acc + (p.tests?.length || 0), 0);
   const totalSurgeries = surgeries.length + doctorPrescriptions.reduce((acc, p) => acc + (p.surgeries?.length || 0), 0);
+  const firstName = patientData?.first_name || patientData?.firstName || "Patient";
+  const lastName = patientData?.last_name || patientData?.lastName || "";
+  const patientName = `${firstName} ${lastName}`.trim();
+  const age = calculateAge(patientData?.date_of_birth || patientData?.dob);
+  const patientId = formatPatientId(patientData?.id || patientData?.patient_id || patientData?.profile_id);
 
   return (
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
       <main className="container mx-auto py-6 sm:py-8 pt-16 md:pt-12.5 max-w-6xl">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => router.push("/patient/profile")}
-            className="mb-4 -ml-2 touch-target"
-            size="sm"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Profile
-          </Button>
-          
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div className="mb-6 sm:mb-8 space-y-4">
+          <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/20">
+            Active Patient Profile
+          </Badge>
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
-                Medical History
+                Patient Medical History
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">
-                Manage your complete medical records
+                {patientName}
+                {age !== null ? ` | ${age} Years` : ""}
+                {patientId !== "N/A" ? ` | ID: ${patientId}` : ""}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <Button
                 variant="outline"
                 onClick={handleExportAll}
@@ -406,156 +443,56 @@ function MedicalHistoryContent() {
                 className="w-full sm:w-auto touch-target"
               >
                 <Download className="h-4 w-4 mr-2" />
-                <span className="sm:inline">Export All</span>
+                <span className="sm:inline">Export Report</span>
               </Button>
               <Button
-                onClick={handleSave}
-                disabled={saving || !initialLoaded}
+                onClick={() => setActiveTab("medications")}
                 size="sm"
                 className="w-full sm:w-auto touch-target"
               >
-                {saving ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Changes"
-                )}
+                New Entry
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <Card hoverable className="bg-primary/5 dark:bg-primary/10 border-primary/20">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
-                  <Pill className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {totalMeds}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
-                    Medications
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card hoverable className="bg-purple-500/5 dark:bg-purple-500/10 border-purple-500/20">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center">
-                  <FlaskConical className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {totalTests}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
-                    Lab Tests
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card hoverable className="bg-success/5 dark:bg-success/10 border-success/20">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-success/10 dark:bg-success/20 flex items-center justify-center">
-                  <Syringe className="h-5 w-5 sm:h-6 sm:w-6 text-success" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {totalSurgeries}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
-                    Surgeries
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card hoverable className="bg-amber-500/5 dark:bg-amber-500/10 border-amber-500/20">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center">
-                  <Hospital className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {hospitalizations.length}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
-                    Hospitalizations
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card hoverable className="bg-blue-500/5 dark:bg-blue-500/10 border-blue-500/20">
-            <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center">
-                  <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl sm:text-2xl font-bold text-foreground">
-                    {vaccinations.length}
-                  </div>
-                  <div className="text-xs sm:text-sm text-muted-foreground truncate">
-                    Vaccinations
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full grid grid-cols-3 lg:grid-cols-6 h-auto gap-1 sm:gap-2 p-1 mb-6 bg-muted/30">
-            <TabsTrigger value="medications" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <Pill className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+          <TabsList className="mb-6 flex h-auto w-full gap-2 overflow-x-auto p-1 bg-muted/30 no-scrollbar">
+            <TabsTrigger value="timeline" className="h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm">
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Timeline</span>
+              <span className="sm:hidden">Timeline</span>
+            </TabsTrigger>
+            <TabsTrigger value="medications" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabActiveState}`}>
+              <Pill className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabIconText}`} />
               <span className="hidden sm:inline">Medications</span>
               <span className="sm:hidden">Meds</span>
             </TabsTrigger>
-            <TabsTrigger value="tests" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <FlaskConical className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <TabsTrigger value="tests" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabActiveState}`}>
+              <FlaskConical className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabIconText}`} />
               <span className="hidden sm:inline">Lab Tests</span>
               <span className="sm:hidden">Tests</span>
             </TabsTrigger>
-            <TabsTrigger value="surgeries" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <Syringe className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <TabsTrigger value="surgeries" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabActiveState}`}>
+              <Syringe className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabIconText}`} />
               <span className="hidden sm:inline">Surgeries</span>
               <span className="sm:hidden">Surgery</span>
             </TabsTrigger>
-            <TabsTrigger value="hospitalizations" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <Hospital className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <TabsTrigger value="hospitalizations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabActiveState}`}>
+              <Hospital className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabIconText}`} />
               <span className="hidden sm:inline">Hospitalizations</span>
               <span className="sm:hidden">Hospital</span>
             </TabsTrigger>
-            <TabsTrigger value="vaccinations" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <Shield className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <TabsTrigger value="vaccinations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabActiveState}`}>
+              <Shield className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabIconText}`} />
               <span className="hidden sm:inline">Vaccinations</span>
               <span className="sm:hidden">Vaccines</span>
             </TabsTrigger>
-            <TabsTrigger value="visits" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <TabsTrigger value="visits" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabActiveState}`}>
+              <CheckCircle2 className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabIconText}`} />
               <span className="hidden sm:inline">Visits</span>
               <span className="sm:hidden">Visits</span>
-            </TabsTrigger>
-            <TabsTrigger value="timeline" className="text-xs sm:text-sm py-2 sm:py-2.5 data-[state=active]:bg-background">
-              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              Timeline
             </TabsTrigger>
           </TabsList>
 
@@ -581,9 +518,9 @@ function MedicalHistoryContent() {
                       .filter(p => p.medications.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.medications.map((med: MedicationPrescription) => (
@@ -599,7 +536,7 @@ function MedicalHistoryContent() {
                                   {med.medicine_type}
                                 </Badge>
                               </div>
-                              <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                              <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
                                 {med.strength && (
                                   <div>
                                     <span className="text-muted-foreground">Strength:</span>
@@ -697,9 +634,9 @@ function MedicalHistoryContent() {
                       .filter(p => p.tests.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.tests.map((test: TestPrescription) => (
@@ -742,14 +679,14 @@ function MedicalHistoryContent() {
             )}
             
             <Card className="border-purple-200 dark:border-purple-800 shadow-sm">
-              <CardHeader className="bg-linear-to-r from-purple-50 to-white dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
+              <CardHeader className="bg-linear-to-r from-purple-50 to-card dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <CardTitle className="text-foreground flex items-center gap-2">
                       <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                       Lab Tests & Diagnostics
                     </CardTitle>
-                    <CardDescription className="text-gray-600 dark:text-muted-foreground">Track your medical tests and results</CardDescription>
+                    <CardDescription className="text-muted-foreground dark:text-muted-foreground">Track your medical tests and results</CardDescription>
                   </div>
                   <Button
                     type="button"
@@ -776,25 +713,25 @@ function MedicalHistoryContent() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 sm:p-6 bg-white dark:bg-card">
+              <CardContent className="p-4 sm:p-6 bg-card dark:bg-card">
                 {medicalTests.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                       <FlaskConical className="h-8 w-8 text-purple-500 dark:text-purple-400" />
                     </div>
-                    <p className="text-gray-700 dark:text-foreground font-medium">No lab tests recorded yet</p>
-                    <p className="text-sm mt-2 text-gray-500 dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
+                    <p className="text-foreground dark:text-foreground font-medium">No lab tests recorded yet</p>
+                    <p className="text-sm mt-2 text-muted-foreground dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     {medicalTests.map((test, index) => (
-                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-white dark:from-purple-950/20 dark:to-card shadow-sm">
+                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-card dark:from-purple-950/20 dark:to-card shadow-sm">
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
                             <span className="h-7 w-7 rounded-full bg-purple-600 text-white text-sm font-medium flex items-center justify-center">
                               {index + 1}
                             </span>
-                            <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
+                            <span className="text-sm font-semibold text-foreground dark:text-foreground">
                               Test Record
                             </span>
                           </div>
@@ -814,7 +751,7 @@ function MedicalHistoryContent() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {/* Test Name with Search */}
                           <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Test Name <span className="text-red-500">*</span>
                             </Label>
                             <MedicalTestSearch
@@ -834,7 +771,7 @@ function MedicalHistoryContent() {
 
                           {/* Test Date */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Test Date
                             </Label>
                             <div className="relative">
@@ -847,14 +784,14 @@ function MedicalHistoryContent() {
                                   updated[index] = { ...updated[index], test_date: e.target.value };
                                   setMedicalTests(updated);
                                 }}
-                                className="pl-10 border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900"
+                                className="pl-10 border-border focus:border-purple-500 focus:ring-purple-500 text-foreground"
                               />
                             </div>
                           </div>
 
                           {/* Result */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Result
                             </Label>
                             <Input
@@ -866,13 +803,13 @@ function MedicalHistoryContent() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="e.g., Normal, 120 mg/dL"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Status */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Status
                             </Label>
                             <select
@@ -882,7 +819,7 @@ function MedicalHistoryContent() {
                                 updated[index] = { ...updated[index], status: e.target.value };
                                 setMedicalTests(updated);
                               }}
-                              className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white text-sm text-gray-900 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
+                              className="w-full h-10 px-3 rounded-md border border-border bg-card text-sm text-foreground focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
                             >
                               <option value="pending">Pending</option>
                               <option value="completed">Completed</option>
@@ -892,7 +829,7 @@ function MedicalHistoryContent() {
 
                           {/* Prescribing Doctor */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Prescribed By
                             </Label>
                             <Input
@@ -904,13 +841,13 @@ function MedicalHistoryContent() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Doctor's name"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Hospital/Lab */}
                           <div>
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Hospital/Lab
                             </Label>
                             <Input
@@ -922,13 +859,13 @@ function MedicalHistoryContent() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Where test was conducted"
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
 
                           {/* Notes */}
                           <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-gray-800 mb-2 block">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
                               Notes
                             </Label>
                             <Input
@@ -940,7 +877,7 @@ function MedicalHistoryContent() {
                                 setMedicalTests(updated);
                               }}
                               placeholder="Any additional notes..."
-                              className="border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-gray-900 placeholder:text-gray-400"
+                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
                             />
                           </div>
                         </div>
@@ -976,9 +913,9 @@ function MedicalHistoryContent() {
                       .filter(p => p.surgeries.length > 0)
                       .map(prescription => (
                         <div key={prescription.id} className="space-y-3">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>â€¢</span>
+                            <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
                           {prescription.surgeries.map((surgery: SurgeryRecommendation) => (
@@ -1013,7 +950,7 @@ function MedicalHistoryContent() {
                                 {surgery.estimated_cost_min && surgery.estimated_cost_max && (
                                   <div>
                                     <span className="text-muted-foreground">Est. Cost:</span>
-                                    <span className="ml-1 font-medium text-foreground">à§³{surgery.estimated_cost_min.toLocaleString()} - à§³{surgery.estimated_cost_max.toLocaleString()}</span>
+                                    <span className="ml-1 font-medium text-foreground">BDT {surgery.estimated_cost_min.toLocaleString()} - BDT {surgery.estimated_cost_max.toLocaleString()}</span>
                                   </div>
                                 )}
                               </div>
@@ -1082,9 +1019,9 @@ function MedicalHistoryContent() {
                 {appointments.length > 0 ? (
                   <div className="space-y-4">
                     {appointments.map((app, i) => (
-                      <div key={i} className="flex flex-col md:flex-row md:items-center justify-between p-4 border rounded-lg gap-4 bg-surface/30">
+                      <div key={i} className="flex flex-col justify-between gap-4 rounded-lg border bg-surface/30 p-4 md:flex-row md:items-center">
                         <div>
-                          <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1 flex flex-wrap items-center gap-2">
                              <Calendar className="h-4 w-4 text-primary" />
                              <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
                              <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
@@ -1098,13 +1035,13 @@ function MedicalHistoryContent() {
                               const { consultationType, appointmentType } = parseCompositeReason(app.reason)
                               const ct = humanizeConsultationType(consultationType)
                               const at = humanizeAppointmentType(appointmentType)
-                              return <>{ct}{at ? ` â€¢ ${at}` : ''}</>
+                              return <>{ct}{at ? ` | ${at}` : ''}</>
                             })()}
                           </div>
 
-                          {app.notes && <div className="text-sm text-muted-foreground mt-2 max-w-xl">{app.notes}</div>}
+                          {app.notes && <div className="mt-2 max-w-xl text-sm text-muted-foreground break-words">{app.notes}</div>}
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 self-start md:self-center">
                            <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>
                              {app.status}
                            </Badge>
@@ -1127,19 +1064,40 @@ function MedicalHistoryContent() {
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="mt-0">
             {activeTab === "timeline" ? (
-              <>
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <MedicalTimeline
-                  surgeries={surgeries}
-                  hospitalizations={hospitalizations}
-                  vaccinations={vaccinations}
-                  medications={medications}
-                  appointments={appointments}
-                />
-              </CardContent>
-            </Card>
-              </>
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+                {/* Left Column - Timeline (8 cols) */}
+                <div className="col-span-12 lg:col-span-8">
+                  <EnhancedMedicalHistoryTimeline
+                    surgeries={surgeries}
+                    hospitalizations={hospitalizations}
+                    vaccinations={vaccinations}
+                    medications={medications}
+                    appointments={appointments}
+                    medicalTests={medicalTests}
+                    doctorPrescriptions={doctorPrescriptions}
+                    title="Medical Timeline"
+                    description="Your complete medical history in chronological order"
+                  />
+                </div>
+
+                {/* Right Column - Analytics (4 cols) */}
+                <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
+                  {/* Condition Distribution Chart */}
+                  <ConditionDistributionChart patientData={patientData} />
+
+                  {/* Prescription History Chart */}
+                  <PrescriptionHistoryChart
+                    medications={medications}
+                    doctorPrescriptions={doctorPrescriptions}
+                  />
+
+                  {/* Vitals Summary */}
+                  <VitalsSummaryCard
+                    patientData={patientData}
+                    medicalTests={medicalTests}
+                  />
+                </div>
+              </div>
             ) : null}
           </TabsContent>
         </Tabs>
@@ -1215,8 +1173,9 @@ export default function MedicalHistoryPage() {
         </div>
       </AppBackground>
     }>
-      <MedicalHistoryContent />
+      <PatientMedicalHistoryPage />
     </Suspense>
   );
 }
+
 

@@ -322,3 +322,55 @@ export async function completeAppointment(appointmentId: string) {
   revalidatePath("/doctor/appointments");
   return response.json();
 }
+
+// Respond to reschedule request (patient only)
+export async function respondToRescheduleRequest(appointmentId: string, accepted: boolean) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/reschedule-response`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ accepted }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || "Failed to respond to reschedule request");
+  }
+
+  revalidatePath("/patient/appointments");
+  revalidatePath("/doctor/appointments");
+  return response.json();
+}
+
+// Request reschedule (doctor only)
+export async function requestRescheduleAppointment(appointmentId: string, newAppointmentDate: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/request-reschedule`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ new_appointment_date: newAppointmentDate }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.detail || "Failed to request reschedule");
+  }
+
+  revalidatePath("/doctor/appointments");
+  revalidatePath("/patient/appointments");
+  return response.json();
+}
