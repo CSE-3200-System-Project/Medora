@@ -30,6 +30,7 @@ import logo from "@/assets/image/medora-logo.png";
 function LoginPageContent() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAdminDialog, setShowAdminDialog] = useState(false);
@@ -90,7 +91,6 @@ function LoginPageContent() {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const rememberMe = (e.currentTarget.querySelector('#remember') as HTMLInputElement)?.checked || false;
 
     try {
       await login(formData, rememberMe);
@@ -241,7 +241,7 @@ function LoginPageContent() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="remember" />
+                    <Checkbox id="remember" checked={rememberMe} onCheckedChange={(checked) => setRememberMe(Boolean(checked))} />
                     <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
                   </div>
                   <Link 
