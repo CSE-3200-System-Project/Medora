@@ -14,7 +14,7 @@ env:
   AI_APP: medora-ai-ocr
   IMAGE_NAME: medora-ai-ocr
   CONTAINER_APP_ENV: medora-env
-  AZURE_LOCATION: southeastasia
+  AZURE_LOCATION: westindia
 
 jobs:
   build-and-deploy:
