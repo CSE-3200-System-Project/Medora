@@ -10,6 +10,7 @@ import { localDateKey } from "@/lib/utils";
 import { createAppointment } from "@/lib/appointment-actions";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
+import { toast } from "@/lib/notify";
 import type { BackendDoctorProfile, DateOption, SlotGroup } from "@/components/doctor-profile/types";
 import { AppointmentDateSelector } from "@/components/doctor-profile/AppointmentDateSelector";
 import { AppointmentSlotSelector } from "@/components/doctor-profile/AppointmentSlotSelector";
@@ -179,7 +180,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
         return;
       }
       console.error("Appointment booking failed", error);
-      alert(error?.message || "Failed to create appointment");
+      toast.error(error?.message || "Failed to create appointment");
     } finally {
       setSubmitting(false);
     }

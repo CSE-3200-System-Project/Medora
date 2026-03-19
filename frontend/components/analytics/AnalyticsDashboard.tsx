@@ -250,7 +250,7 @@ export default function AnalyticsDashboard({
   return (
     <AppBackground>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-4 pb-24 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-24 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="space-y-8">
           <section className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">Patient / Reminders</p>

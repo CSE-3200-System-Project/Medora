@@ -80,7 +80,7 @@ export default async function DoctorHomePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
           <div className="text-center text-destructive">
             <p className="text-lg mb-4">Unable to load profile data</p>
             <Button asChild variant="medical" className="touch-target">
@@ -100,7 +100,7 @@ export default async function DoctorHomePage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         {showOnboardingBanner ? <OnboardingBanner role="doctor" /> : null}
 
         {doctorProfileNeedsScheduleReview ? (
@@ -332,4 +332,5 @@ export default async function DoctorHomePage() {
     </AppBackground>
   );
 }
+
 

@@ -282,7 +282,7 @@ export default function ConsultationPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
           <div className="flex items-center justify-center py-20">
             <MedoraLoader size="lg" label="Loading consultation..." />
           </div>
@@ -295,7 +295,7 @@ export default function ConsultationPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button
@@ -587,3 +587,4 @@ export default function ConsultationPage() {
     </AppBackground>
   );
 }
+
