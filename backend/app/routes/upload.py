@@ -1,13 +1,12 @@
 import asyncio
-import base64
 import hashlib
 import logging
 import os
 import uuid
 from datetime import datetime
 
+import httpx
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
-from groq import Groq
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from storage3.exceptions import StorageApiError
@@ -26,7 +25,6 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 supabase = storage_supabase
-groq_client = Groq(api_key=settings.GROQ_API_KEY)
 
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024  # 15MB
 BUCKET_NAME = settings.SUPABASE_STORAGE_BUCKET
@@ -41,12 +39,59 @@ ALLOWED_CONTENT_TYPES = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 }
 
-PRESCRIPTION_IMAGE_TYPES = {
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
+PRESCRIPTION_EXACT_INPUT_TYPES = {
+    "application/pdf",
 }
+
+
+def _infer_prescription_type_from_bytes(content: bytes) -> str | None:
+    if content.startswith(b"%PDF-"):
+        return "application/pdf"
+    if content.startswith(b"\xFF\xD8\xFF"):
+        return "image/jpeg"
+    if content.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "image/png"
+    if content.startswith((b"GIF87a", b"GIF89a")):
+        return "image/gif"
+    if content.startswith((b"II*\x00", b"MM\x00*")):
+        return "image/tiff"
+    if content.startswith(b"BM"):
+        return "image/bmp"
+    if content.startswith(b"RIFF") and content[8:12] == b"WEBP":
+        return "image/webp"
+    return None
+
+
+def _resolve_prescription_content_type(file: UploadFile, file_content: bytes) -> str:
+    normalized_type = (file.content_type or "").lower().strip()
+    if normalized_type in PRESCRIPTION_EXACT_INPUT_TYPES or normalized_type.startswith("image/"):
+        return normalized_type
+
+    file_name = (file.filename or "").lower()
+    if file_name.endswith(".pdf"):
+        return "application/pdf"
+    if file_name.endswith(".jpg") or file_name.endswith(".jpeg"):
+        return "image/jpeg"
+    if file_name.endswith(".png"):
+        return "image/png"
+    if file_name.endswith(".webp"):
+        return "image/webp"
+    if file_name.endswith(".gif"):
+        return "image/gif"
+    if file_name.endswith(".bmp"):
+        return "image/bmp"
+    if file_name.endswith(".tif") or file_name.endswith(".tiff"):
+        return "image/tiff"
+    if file_name.endswith(".heic"):
+        return "image/heic"
+    if file_name.endswith(".heif"):
+        return "image/heif"
+
+    inferred = _infer_prescription_type_from_bytes(file_content)
+    if inferred is not None:
+        return inferred
+
+    raise HTTPException(status_code=400, detail="Prescription extraction supports image files and PDFs.")
 
 
 def _sanitize_filename(name: str) -> str:
@@ -170,45 +215,85 @@ async def _sync_profile_media_field(db: AsyncSession, user_id: str, category: st
         )
 
 
-def _extract_prescription_text_with_llm(content: bytes, content_type: str) -> str:
-    data_url = f"data:{content_type};base64,{base64.b64encode(content).decode('utf-8')}"
-
-    response = groq_client.chat.completions.create(
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
-        temperature=0,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are an OCR extraction assistant for medical prescription images. "
-                    "Extract only visible text with best possible formatting. "
-                    "Do not add diagnosis, treatment advice, or missing content."
-                ),
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": (
-                            "Extract all readable text from this prescription image. "
-                            "Preserve line breaks. Include medicine names, dosage, frequency, "
-                            "dates, doctor details, and instructions if present."
-                        ),
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": data_url},
-                    },
-                ],
-            },
-        ],
+async def _extract_prescription_with_ai_service(
+    *,
+    file_name: str,
+    content: bytes,
+    content_type: str,
+) -> dict:
+    endpoint = settings.AI_OCR_SERVICE_URL.rstrip("/") + "/ocr/prescription"
+    timeout = httpx.Timeout(
+        connect=5.0,
+        read=settings.AI_OCR_TIMEOUT_SECONDS,
+        write=30.0,
+        pool=5.0,
+    )
+    logger.info(
+        "Calling AI OCR service endpoint=%s bytes=%d read_timeout_seconds=%s",
+        endpoint,
+        len(content),
+        settings.AI_OCR_TIMEOUT_SECONDS,
     )
 
-    extracted = (response.choices[0].message.content or "").strip()
-    if not extracted:
-        raise ValueError("No text extracted from image.")
-    return extracted
+    try:
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            response = await client.post(
+                endpoint,
+                files={"file": (file_name, content, content_type)},
+            )
+    except httpx.TimeoutException as exc:
+        logger.exception(
+            "AI OCR service timed out endpoint=%s read_timeout_seconds=%s",
+            endpoint,
+            settings.AI_OCR_TIMEOUT_SECONDS,
+        )
+        raise HTTPException(status_code=504, detail="AI OCR service timed out.") from exc
+    except httpx.HTTPError as exc:
+        logger.exception("AI OCR service call failed: %s", exc)
+        raise HTTPException(status_code=502, detail="AI OCR service is unavailable.") from exc
+
+    if response.status_code >= 400:
+        detail = f"AI OCR service failed with status {response.status_code}."
+        try:
+            payload = response.json()
+            if isinstance(payload, dict) and payload.get("detail"):
+                detail = f"AI OCR service error: {payload['detail']}"
+        except ValueError:
+            pass
+        raise HTTPException(status_code=502, detail=detail)
+
+    try:
+        data = response.json()
+        if not isinstance(data, dict):
+            raise ValueError("Invalid AI OCR response type.")
+    except ValueError as exc:
+        raise HTTPException(status_code=502, detail="AI OCR service returned invalid JSON.") from exc
+
+    logger.info(
+        "AI OCR service response ok status=%d meds=%d raw_chars=%d",
+        response.status_code,
+        len(data.get("medications") or []),
+        len(str(data.get("raw_text") or "")),
+    )
+
+    return data
+
+
+def _calculate_prescription_confidence(medications: list[dict]) -> float:
+    if not medications:
+        return 0.0
+
+    scores: list[float] = []
+    for medication in medications:
+        if not isinstance(medication, dict):
+            continue
+        value = medication.get("confidence")
+        if isinstance(value, (int, float)):
+            scores.append(float(value))
+
+    if not scores:
+        return 0.0
+    return round(sum(scores) / len(scores), 2)
 
 
 @router.post("/")
@@ -427,11 +512,8 @@ async def extract_prescription_text(
     if not file.filename:
         raise HTTPException(status_code=400, detail="Invalid file name")
 
-    normalized_type = (file.content_type or "").lower()
-    if normalized_type not in PRESCRIPTION_IMAGE_TYPES:
-        raise HTTPException(status_code=400, detail="Prescription extraction currently supports JPG, PNG, and WEBP images.")
-
     file_content = await _read_file_with_limit(file)
+    normalized_type = _resolve_prescription_content_type(file, file_content)
     file_record: MediaFile | None = None
 
     try:
@@ -440,14 +522,14 @@ async def extract_prescription_text(
             checksum = hashlib.sha256(file_content).hexdigest()
             storage_path = f"users/{user.id}/prescription_image/{uuid.uuid4()}_{safe_name}"
 
-            await _upload_to_storage(storage_path, file_content, file.content_type)
+            await _upload_to_storage(storage_path, file_content, normalized_type)
             file_record = await _save_media_record(
                 db=db,
                 user_id=user.id,
                 storage_path=storage_path,
                 file_name=safe_name,
                 original_file_name=file.filename,
-                content_type=file.content_type,
+                content_type=normalized_type,
                 file_size=len(file_content),
                 category="prescription_image",
                 visibility="private",
@@ -456,8 +538,18 @@ async def extract_prescription_text(
                 checksum_sha256=checksum,
             )
 
-        extracted_text = await asyncio.to_thread(_extract_prescription_text_with_llm, file_content, normalized_type)
-        confidence = min(0.99, max(0.55, len(extracted_text) / 2000.0))
+        ai_result = await _extract_prescription_with_ai_service(
+            file_name=file.filename,
+            content=file_content,
+            content_type=normalized_type,
+        )
+        medications = ai_result.get("medications") if isinstance(ai_result.get("medications"), list) else []
+        raw_text = str(ai_result.get("raw_text") or "").strip()
+        meta = ai_result.get("meta") if isinstance(ai_result.get("meta"), dict) else None
+        extracted_text = raw_text
+        confidence = _calculate_prescription_confidence(medications)
+        if confidence == 0.0 and raw_text:
+            confidence = round(min(0.95, max(0.4, len(raw_text) / 1500.0)), 2)
 
         await db.commit()
         if file_record is not None:
@@ -465,7 +557,10 @@ async def extract_prescription_text(
 
         return PrescriptionExtractionResponse(
             extracted_text=extracted_text,
-            confidence=round(confidence, 2),
+            confidence=confidence,
+            medications=medications,
+            raw_text=raw_text,
+            meta=meta,
             file=MediaFileResponse.model_validate(file_record) if file_record else None,
         )
     except HTTPException:

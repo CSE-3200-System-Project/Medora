@@ -6,6 +6,43 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
+const SHORT_SESSION_MAX_AGE_SECONDS = 60 * 60 * 12;
+const REMEMBER_ME_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+
+function getSessionCookieOptions(maxAgeSeconds?: number) {
+  const isProduction = process.env.NODE_ENV === "production";
+  const options: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: "lax";
+    path: string;
+    maxAge?: number;
+  } = {
+    // Kept false because some client-side fetch flows still read this token.
+    httpOnly: false,
+    secure: isProduction,
+    sameSite: "lax",
+    path: "/",
+  };
+
+  if (typeof maxAgeSeconds === "number") {
+    options.maxAge = maxAgeSeconds;
+  }
+
+  return options;
+}
+
+function getMetadataCookieOptions(maxAgeSeconds: number) {
+  const isProduction = process.env.NODE_ENV === "production";
+  return {
+    httpOnly: false,
+    secure: isProduction,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: maxAgeSeconds,
+  };
+}
+
 export async function login(formData: FormData, rememberMe: boolean = false) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -23,23 +60,12 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     }
 
     const data = await response.json();
-    
+
+    const sessionMaxAge = rememberMe ? REMEMBER_ME_MAX_AGE_SECONDS : SHORT_SESSION_MAX_AGE_SECONDS;
+
     // Store the access token
     if (data.session?.access_token) {
-      const cookieOptions: any = {
-        httpOnly: false,  // Changed to false for accessibility
-        secure: false,  // Changed to false for local development
-        sameSite: "lax",
-        path: "/",
-      };
-      
-      // If remember me is checked, set maxAge to 7 days
-      // Otherwise, cookie expires when browser closes (session cookie)
-      if (rememberMe) {
-        cookieOptions.maxAge = 60 * 60 * 24 * 7; // 7 days
-      }
-      
-      (await cookies()).set("session_token", data.session.access_token, cookieOptions);
+      (await cookies()).set("session_token", data.session.access_token, getSessionCookieOptions(sessionMaxAge));
     }
 
     // Get profile info from login response
@@ -49,9 +75,10 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     const cookieStore = await cookies();
     
     // Set role and onboarding status cookies for middleware
-    cookieStore.set("user_role", role, { path: "/" });
-    cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), { path: "/" });
-    cookieStore.set("verification_status", verificationStatus, { path: "/" });
+    const metadataCookieOptions = getMetadataCookieOptions(sessionMaxAge);
+    cookieStore.set("user_role", role, metadataCookieOptions);
+    cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), metadataCookieOptions);
+    cookieStore.set("verification_status", verificationStatus, metadataCookieOptions);
     
     // Check email verification FIRST
     if (!data.user.email_confirmed_at) {
@@ -314,15 +341,11 @@ export async function signupPatient(formData: FormData) {
     // Store session token
     if (data.session?.access_token) {
       const cookieStore = await cookies();
-      cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: false,  // Changed to false for accessibility
-        secure: false,  // Changed to false for local development  
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7,
-        path: "/",
-      });
-      cookieStore.set("onboarding_completed", "false", { path: "/" });
-      cookieStore.set("user_role", "patient", { path: "/" });
+      const signupMaxAge = REMEMBER_ME_MAX_AGE_SECONDS;
+      cookieStore.set("session_token", data.session.access_token, getSessionCookieOptions(signupMaxAge));
+      const metadataCookieOptions = getMetadataCookieOptions(signupMaxAge);
+      cookieStore.set("onboarding_completed", "false", metadataCookieOptions);
+      cookieStore.set("user_role", "patient", metadataCookieOptions);
     }
 
     return { success: true, userId: data.user_id };
@@ -361,15 +384,11 @@ export async function signupDoctor(formData: FormData) {
     // Store session token
     if (data.session?.access_token) {
       const cookieStore = await cookies();
-      cookieStore.set("session_token", data.session.access_token, {
-        httpOnly: false,  // Changed to false so client can access it
-        secure: false,  // Changed to false for local development
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7,
-        path: "/",
-      });
-      cookieStore.set("onboarding_completed", "false", { path: "/" });
-      cookieStore.set("user_role", "doctor", { path: "/" });
+      const signupMaxAge = REMEMBER_ME_MAX_AGE_SECONDS;
+      cookieStore.set("session_token", data.session.access_token, getSessionCookieOptions(signupMaxAge));
+      const metadataCookieOptions = getMetadataCookieOptions(signupMaxAge);
+      cookieStore.set("onboarding_completed", "false", metadataCookieOptions);
+      cookieStore.set("user_role", "doctor", metadataCookieOptions);
     }
 
     return { success: true, userId: data.user_id };

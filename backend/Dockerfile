@@ -43,10 +43,9 @@ RUN pip install --upgrade pip setuptools wheel && \
 # Copy entire backend directory
 COPY . .
 
-
-# Create non-root user for security (optional but recommended)
-# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
-# USER appuser
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
 
 # ============================================================================
 # STAGE 4: RUNTIME SETUP
