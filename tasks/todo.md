@@ -1,5 +1,111 @@
 # Migration + Extraction Setup (2026-03-16)
 
+# Extraction 400 + Remember Me + Deployment Automation (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Remove backend 400 failures caused by strict prescription MIME checks and browser-specific content-type inconsistencies
+- [x] Update frontend extraction call path to avoid unnecessary storage writes during demo extraction (`save_file=false`)
+- [x] Fix login Remember Me behavior using controlled checkbox state and explicit short/long session cookie TTL policy
+- [x] Improve Azure AI OCR deployment workflow to create missing Container Apps environment and app when absent
+- [x] Sanitize accidentally committed local AI service `.env` secrets and enforce local ignore file
+
+### Review
+- Broadened prescription extraction type acceptance to allow generic image MIME values plus PDF, with extension and magic-byte inference fallback to prevent false 400 responses.
+- Updated frontend extraction helper to support `saveFile` option and default demo extraction to non-persistent mode so extraction does not fail due to storage preconditions.
+- Reworked Remember Me handling in auth flow to use controlled UI state and standardized cookie max-age policy for both session token and role/onboarding metadata cookies.
+- Extended AI OCR GitHub workflow to ensure both Container Apps environment and target app can be auto-provisioned when missing.
+- Replaced plaintext secrets in `ai_service/.env` with blank placeholders and added `ai_service/.gitignore` to keep local `.env` out of version control going forward.
+
+# PDF Upload Parity + AI Service Production Hardening (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Enable prescription upload demo to accept and process PDF files consistently with backend/AI service capabilities
+- [x] Update backend prescription extraction endpoint validation to accept PDF and robustly infer missing content types
+- [x] Harden AI service runtime behavior (input size guardrails, reduced log overhead, robust error handling defaults)
+- [x] Improve AI service container build/runtime defaults for production deployment safety
+- [x] Add GitHub workflow to build and deploy AI OCR container to Azure Container Apps `medora-ai-ocr` with post-deploy health validation
+
+### Review
+- Updated the prescription upload demo to accept PDF alongside image formats, with robust MIME/extension validation and in-app PDF preview support.
+- Updated backend prescription extraction route validation to accept PDF inputs and infer content type from file extension when browser MIME metadata is missing.
+- Hardened AI service request handling with explicit upload-byte limit enforcement, reduced high-volume info logging to debug, and retained exception logging paths.
+- Improved AI service container runtime for production with a non-root user, quieter uvicorn defaults, and cleaner build context via stricter `.dockerignore` rules.
+- Added a dedicated GitHub Actions workflow at `.github/workflows/deploy-ai-ocr.yml` to build/push the AI service image, deploy to `medora-ai-ocr`, rotate app secrets, and run post-deploy health checks.
+
+# JPEG/PNG Consistency + PDF Input Support (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce likely root cause for `.jpeg` inconsistency in YOLO/OCR preprocessing path
+- [x] Normalize all incoming inputs to a canonical raster format before OCR pipeline execution
+- [x] Apply EXIF-aware orientation handling in detector and crop code paths
+- [x] Add first-page PDF rasterization support for OCR ingestion
+- [x] Validate changed AI service modules for syntax/runtime issues
+
+### Review
+- Implemented centralized input normalization in `ai_service/app/input_normalization.py` to convert image inputs to EXIF-corrected PNG and to rasterize first-page PDFs.
+- Updated OCR request handling in `ai_service/app/main.py` so upload/url/base64 payloads all go through the same normalization path, eliminating extension-driven behavior drift.
+- Added EXIF transpose in YOLO/pipeline image-opening paths to keep detection and OCR crop coordinates aligned for orientation-tagged JPEGs.
+- Added `pypdfium2` dependency to support robust PDF page rendering without external poppler/ghostscript tooling.
+- Kept output contract unchanged; only ingestion normalization and resilience paths were changed.
+
+# ONNX-Only Detector Optimization (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Remove all .pt detector usage and fallback paths from AI service
+- [x] Keep YOLO detection ONNX-only with no contrast-altering preprocessing path
+- [x] Improve ONNX accuracy using multi-size retry on original image pixels
+- [x] Add ONNX Runtime session performance tuning options
+- [x] Tune runtime env defaults to reduce OCR noise and latency overhead
+
+### Review
+- Deleted all PT/Ultralytics code paths in detector logic and enforced ONNX-only model loading.
+- Replaced preprocessing-heavy ONNX retry flow with original-image multi-size inference retries for better bounding-box stability.
+- Added ORT thread and optimization settings in app config for lower inference overhead.
+- Updated ai_service env knobs for practical detection confidence/input-size retry defaults and turned off full-text OCR logging.
+
+# OCR Single-Pass Grouping Hotfix (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Remove second YOLO pass on medication crops and use only one full-image YOLO pass
+- [x] OCR only full-image `Lines`/`Frequency`/`Quantity` boxes assigned under `Medication` parents
+- [x] Add medication-region fallback when child boxes are missing
+- [x] Add inferred medication fallback from child detections when medication class is absent
+- [x] Disable full-image OCR fallback by default to prevent unrelated text extraction
+
+### Review
+- Refactored the OCR read pipeline to single-pass detection and region assignment from full-image YOLO output.
+- OCR now receives only child-class crops (`Lines`, `Frequency`, `Quantity`) grouped within medication regions; when child crops are unavailable, it falls back to medication crop only.
+- Added a bounded inferred medication fallback based on union of child boxes when medication class is missing, preventing empty outputs while avoiding whole-page OCR.
+- Runtime defaults now disable full-image OCR fallback, and env/runtime values were aligned accordingly.
+
+# OCR Region Restriction + Medicine Review Row Delete (2026-03-19)
+
+## Status: completed
+
+### Todo
+- [x] Restrict OCR input to YOLO `Medication` regions only (no full-image OCR when detections exist)
+- [x] Within each medication region, OCR only nested `Lines`, `Frequency`, and `Quantity` boxes
+- [x] Add debug logging payload for YOLO findings (class, score, bbox) and cropped OCR stats
+- [x] Add delete-row action in Medicine Review section of prescription upload demo
+- [x] Validate AI service Python syntax and frontend TypeScript diagnostics for changed files
+
+### Review
+- Updated the read OCR pipeline to run class-filtered detection and send only YOLO `Medication` regions to OCR, then further refine OCR inputs using nested `Lines`, `Frequency`, and `Quantity` detections from each medication crop.
+- Added detector fallback control so nested and strict flows can disable full-image fallback and avoid noisy extraction from unrelated regions.
+- Added explicit YOLO findings logs for full-image detections and per-medication nested detections, including class labels, confidence, and bounding boxes.
+- Added delete-row support in the Medicine Review section so users can remove incorrect extracted rows in addition to manually adding rows.
+- Validation passed: no diagnostics reported in changed files and Python syntax compilation succeeded for updated AI service modules.
+
 # Analytics Live Reminder Integration (2026-03-18)
 
 ## Status: completed
