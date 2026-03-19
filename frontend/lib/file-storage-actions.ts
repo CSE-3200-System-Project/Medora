@@ -26,6 +26,14 @@ export type UploadMediaResponse = {
 export type PrescriptionExtractionResponse = {
   extracted_text: string;
   confidence: number;
+  raw_text?: string;
+  medications?: Array<{
+    name?: string | null;
+    dosage?: string | null;
+    frequency?: string | null;
+    quantity?: string | null;
+    confidence: number;
+  }>;
   file?: MediaFileRecord | null;
 };
 
@@ -129,10 +137,15 @@ export async function deleteMediaFile(fileId: string) {
   return data;
 }
 
-export async function extractPrescriptionFromImage(file: File) {
+export async function extractPrescriptionFromImage(
+  file: File,
+  options?: {
+    saveFile?: boolean;
+  }
+) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("save_file", "true");
+  formData.append("save_file", String(options?.saveFile ?? false));
 
   const response = await fetch(`${BACKEND_URL}/upload/prescription/extract`, {
     method: "POST",
@@ -140,7 +153,7 @@ export async function extractPrescriptionFromImage(file: File) {
     body: formData,
   });
 
-  const data = await response.json();
+  const data = await response.json().catch(() => null);
   if (!response.ok) {
     throw new Error(data?.detail || "Failed to extract prescription.");
   }
