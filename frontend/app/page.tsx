@@ -40,7 +40,7 @@ export default function Home() {
     <AppBackground className="min-h-dvh min-h-app">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl page-content pt-28 md:pt-32 pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
+      <main className="mx-auto max-w-7xl page-content pt-[var(--nav-content-offset)] pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
         <HeroCarousel />
 
         <section className="space-y-8">
@@ -75,7 +75,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-28 rounded-3xl border border-border/70 bg-card/90 shadow-sm">
+        <section id="how-it-works" className="scroll-offset-navbar rounded-3xl border border-border/70 bg-card/90 shadow-sm">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-10 p-6 md:p-10">
             <div className="space-y-6">
               <h2 className="text-2xl md:text-3xl font-bold">How it works</h2>
@@ -104,7 +104,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="for-patients" className="scroll-mt-28 grid gap-8 lg:grid-cols-2 items-center">
+        <section id="for-patients" className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center">
           <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={patientImg} alt="Patient experience" fill className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
@@ -132,7 +132,7 @@ export default function Home() {
 
         <section
           id="for-doctors"
-          className="scroll-mt-28 grid gap-8 lg:grid-cols-2 items-center rounded-3xl border border-border/70 bg-card/90 p-6 md:p-10"
+          className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center rounded-3xl border border-border/70 bg-card/90 p-6 md:p-10"
         >
           <div className="space-y-6">
             <span className="inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
@@ -159,7 +159,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="scroll-mt-28 max-w-4xl mx-auto space-y-10">
+        <section id="about" className="scroll-offset-navbar max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-4">
             <h2 className="text-3xl font-bold">Why this platform exists</h2>
             <p className="text-muted-foreground leading-relaxed">

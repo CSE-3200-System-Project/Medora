@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { MedicationManager, type Medication } from "@/components/medicine"
 import { MedicalTestSearch } from "@/components/medical-test"
+import { MedoraLoader } from "@/components/ui/medora-loader"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
 import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
 import { useRouter } from "next/navigation"
@@ -186,11 +187,8 @@ export function PatientOnboarding() {
   useEffect(() => {
     async function fetchExistingData() {
       try {
-        console.log("Fetching patient onboarding data...")
         const data = await getPatientOnboardingData()
-        console.log("Received data:", data)
         if (data) {
-          console.log("Setting form data with received data")
           setFormData(prev => ({
             ...prev,
             firstName: data.first_name || "",
@@ -671,7 +669,7 @@ export function PatientOnboarding() {
       case 1:
         return (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name *</Label>
                 <Input id="firstName" value={formData.firstName} onChange={(e) => handleInputChange("firstName", e.target.value)} placeholder="John" />
@@ -685,7 +683,7 @@ export function PatientOnboarding() {
               <Label htmlFor="dob">Date of Birth *</Label>
               <Input id="dob" type="date" value={formData.dob} onChange={(e) => handleInputChange("dob", e.target.value)} />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="gender">Gender *</Label>
                 <Select id="gender" value={formData.gender} onChange={(e) => handleInputChange("gender", e.target.value)}>
@@ -739,7 +737,7 @@ export function PatientOnboarding() {
       case 2:
         return (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="height">Height (cm)</Label>
                 <Input id="height" type="number" value={formData.height} onChange={(e) => handleInputChange("height", e.target.value)} placeholder="175" />
@@ -771,7 +769,7 @@ export function PatientOnboarding() {
               <Label htmlFor="address">Street Address</Label>
               <Input id="address" value={formData.address} onChange={(e) => handleInputChange("address", e.target.value)} placeholder="House/Road/Area" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="district">District</Label>
                 <Input id="district" value={formData.district} onChange={(e) => handleInputChange("district", e.target.value)} placeholder="Dhaka" />
@@ -781,7 +779,7 @@ export function PatientOnboarding() {
                 <Input id="postalCode" value={formData.postalCode} onChange={(e) => handleInputChange("postalCode", e.target.value)} placeholder="1205" />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="city">City</Label>
                 <Input id="city" value={formData.city} onChange={(e) => handleInputChange("city", e.target.value)} placeholder="Dhaka" />
@@ -818,7 +816,7 @@ export function PatientOnboarding() {
           <div className="space-y-6">
             <p className="text-sm text-muted-foreground">Select any chronic conditions you have been diagnosed with:</p>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { key: "hasDiabetes", label: "Diabetes" },
                 { key: "hasHypertension", label: "Hypertension (High BP)" },
@@ -1011,7 +1009,7 @@ export function PatientOnboarding() {
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="previousDoctors">Previous Doctors</Label>
                 <Input id="previousDoctors" value={formData.previousDoctors} onChange={(e) => handleInputChange("previousDoctors", e.target.value)} placeholder="Names of treating doctors" />
@@ -1136,7 +1134,7 @@ export function PatientOnboarding() {
           <div className="space-y-6">
             <p className="text-sm text-muted-foreground">Select conditions that run in your family (parents, siblings, grandparents):</p>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               {[
                 { key: "familyHasDiabetes", label: "Diabetes" },
                 { key: "familyHasHeartDisease", label: "Heart Disease" },
@@ -1171,7 +1169,7 @@ export function PatientOnboarding() {
         return (
           <div className="space-y-4">
             <h4 className="font-medium">Substance Use</h4>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="smoking">Smoking Status</Label>
                 <Select id="smoking" value={formData.smoking} onChange={(e) => handleInputChange("smoking", e.target.value)}>
@@ -1187,7 +1185,7 @@ export function PatientOnboarding() {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="alcohol">Alcohol Consumption</Label>
                 <Select id="alcohol" value={formData.alcohol} onChange={(e) => handleInputChange("alcohol", e.target.value)}>
@@ -1217,7 +1215,7 @@ export function PatientOnboarding() {
             <Separator />
             <h4 className="font-medium">Physical Activity & Sleep</h4>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="activityLevel">Activity Level</Label>
                 <Select id="activityLevel" value={formData.activityLevel} onChange={(e) => handleInputChange("activityLevel", e.target.value)}>
@@ -1233,7 +1231,7 @@ export function PatientOnboarding() {
                 <Input id="exerciseType" value={formData.exerciseType} onChange={(e) => handleInputChange("exerciseType", e.target.value)} placeholder="Walking, Gym, Swimming..." />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="sleepDuration">Sleep Duration (hours)</Label>
                 <Input id="sleepDuration" type="number" value={formData.sleepDuration} onChange={(e) => handleInputChange("sleepDuration", e.target.value)} placeholder="7" />
@@ -1253,7 +1251,7 @@ export function PatientOnboarding() {
             <Separator />
             <h4 className="font-medium">Diet</h4>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="diet">Diet Preference</Label>
                 <Select id="diet" value={formData.diet} onChange={(e) => handleInputChange("diet", e.target.value)}>
@@ -1301,7 +1299,7 @@ export function PatientOnboarding() {
       case 8:
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="language">Preferred Language</Label>
                 <Select id="language" value={formData.language} onChange={(e) => handleInputChange("language", e.target.value)}>
@@ -1357,7 +1355,7 @@ export function PatientOnboarding() {
                 <Label htmlFor="emergencyName">Name</Label>
                 <Input id="emergencyName" value={formData.emergencyName} onChange={(e) => handleInputChange("emergencyName", e.target.value)} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="emergencyRelation">Relation</Label>
                   <Input id="emergencyRelation" value={formData.emergencyRelation} onChange={(e) => handleInputChange("emergencyRelation", e.target.value)} placeholder="Spouse, Parent, Sibling..." />
@@ -1371,7 +1369,7 @@ export function PatientOnboarding() {
 
             <div className="space-y-4 rounded-lg border p-4">
               <h4 className="font-medium">Secondary Emergency Contact (Optional)</h4>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="secondaryEmergencyName">Name</Label>
                   <Input id="secondaryEmergencyName" value={formData.secondaryEmergencyName} onChange={(e) => handleInputChange("secondaryEmergencyName", e.target.value)} />
@@ -1421,14 +1419,14 @@ export function PatientOnboarding() {
 
   if (initialLoading) {
     return (
-      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-100">
-        <div className="text-muted-foreground">Loading your profile...</div>
+      <div className="flex min-h-[45vh] items-center justify-center">
+        <MedoraLoader size="md" label="Loading your profile..." />
       </div>
     )
   }
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="space-y-8">
+    <div className="mx-auto w-full max-w-5xl px-1 sm:px-2">
+      <div className="space-y-6">
         <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={(id) => setCurrentStep(id)} />
 
         <AnimatePresence mode="wait">
@@ -1449,12 +1447,13 @@ export function PatientOnboarding() {
               <CardContent>
                 {renderStepContent()}
               </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <div className="flex gap-2">
+              <CardFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
                   <Button
                     variant="outline"
                     onClick={prevStep}
                     disabled={currentStep === 1 || loading}
+                    className="w-full sm:w-auto"
                   >
                     <ChevronLeft className="mr-2 h-4 w-4" /> Back
                   </Button>
@@ -1462,12 +1461,12 @@ export function PatientOnboarding() {
                     variant="ghost" 
                     onClick={() => setShowSkipDialog(true)} 
                     disabled={loading}
-                    className="text-muted-foreground hover:text-foreground"
+                    className="w-full text-muted-foreground hover:text-foreground sm:w-auto"
                   >
                     Skip for Now
                   </Button>
                 </div>
-                <Button onClick={nextStep} disabled={loading}>
+                <Button onClick={nextStep} disabled={loading} className="w-full sm:w-auto">
                   {loading ? "Completing..." : (currentStep === STEPS.length ? "Finish Setup" : "Next")} 
                   {!loading && <ChevronRight className="ml-2 h-4 w-4" />}
                 </Button>
@@ -1478,8 +1477,8 @@ export function PatientOnboarding() {
 
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="max-w-md w-full">
+          <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-4 sm:items-center">
+            <Card className="max-h-[90dvh] w-full max-w-md overflow-y-auto">
               <CardHeader>
                 <CardTitle>Skip Onboarding?</CardTitle>
                 <CardDescription>
@@ -1514,3 +1513,4 @@ export function PatientOnboarding() {
     </div>
   )
 }
+

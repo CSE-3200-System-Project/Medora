@@ -223,7 +223,7 @@ export default function PatientAppointmentsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="mx-auto max-w-6xl py-8 pt-16 md:pt-12.5 space-y-6">
+      <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)] space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>          
             <h1 className="mt-1 text-3xl font-semibold text-foreground">My Appointments</h1>
@@ -314,3 +314,4 @@ export default function PatientAppointmentsPage() {
     </AppBackground>
   );
 }
+

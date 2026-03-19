@@ -21,6 +21,11 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     let disposed = false;
+    const smoothScrollEnabled = process.env.NEXT_PUBLIC_ENABLE_SMOOTH_SCROLL === "true";
+
+    if (!smoothScrollEnabled) {
+      return;
+    }
 
     const strictMobileAnim = process.env.NEXT_PUBLIC_PERF_STRICT_MOBILE_ANIM !== "false";
     const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;

@@ -79,6 +79,7 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     cookieStore.set("user_role", role, metadataCookieOptions);
     cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), metadataCookieOptions);
     cookieStore.set("verification_status", verificationStatus, metadataCookieOptions);
+    cookieStore.set("remember_me", rememberMe ? "true" : "false", metadataCookieOptions);
     
     // Check email verification FIRST
     if (!data.user.email_confirmed_at) {
@@ -90,14 +91,11 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
       redirect("/verify-pending");
     }
     
-    // Check onboarding
-    if (!profile?.onboarding_completed) {
-      redirect(`/onboarding/${role}`);
-    }
-    
-    // Redirect based on role
+    // Redirect based on role. Doctors always land on home after login.
     if (role === "doctor") {
       redirect("/doctor/home");
+    } else if (role === "patient" && !profile?.onboarding_completed) {
+      redirect(`/onboarding/${role}`);
     } else if (role === "patient") {
       redirect("/patient/home");
     } else if (role === "admin") {
@@ -133,7 +131,9 @@ export async function completeOnboarding() {
       throw new Error("Failed to complete onboarding");
     }
     
-    cookieStore.set("onboarding_completed", "true", { path: "/" });
+    const rememberMe = cookieStore.get("remember_me")?.value === "true";
+    const sessionMaxAge = rememberMe ? REMEMBER_ME_MAX_AGE_SECONDS : SHORT_SESSION_MAX_AGE_SECONDS;
+    cookieStore.set("onboarding_completed", "true", getMetadataCookieOptions(sessionMaxAge));
     // Remove the skip flag when onboarding is truly completed
     cookieStore.delete("onboarding_skipped");
     
@@ -346,6 +346,7 @@ export async function signupPatient(formData: FormData) {
       const metadataCookieOptions = getMetadataCookieOptions(signupMaxAge);
       cookieStore.set("onboarding_completed", "false", metadataCookieOptions);
       cookieStore.set("user_role", "patient", metadataCookieOptions);
+      cookieStore.set("remember_me", "true", metadataCookieOptions);
     }
 
     return { success: true, userId: data.user_id };
@@ -389,6 +390,7 @@ export async function signupDoctor(formData: FormData) {
       const metadataCookieOptions = getMetadataCookieOptions(signupMaxAge);
       cookieStore.set("onboarding_completed", "false", metadataCookieOptions);
       cookieStore.set("user_role", "doctor", metadataCookieOptions);
+      cookieStore.set("remember_me", "true", metadataCookieOptions);
     }
 
     return { success: true, userId: data.user_id };
@@ -409,6 +411,7 @@ export async function signout() {
     cookieStore.delete("user_role");
     cookieStore.delete("verification_status");
     cookieStore.delete("admin_access");
+    cookieStore.delete("remember_me");
   } catch (error) {
     console.error(error);
   }

@@ -77,10 +77,16 @@ export function HeroCarousel() {
   }, []);
 
   const handlePointerDown = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === "mouse") {
+      return;
+    }
     touchStartX.current = event.clientX;
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === "mouse") {
+      return;
+    }
     if (touchStartX.current === null) {
       return;
     }
@@ -101,9 +107,12 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong overflow-hidden touch-pan-y"
+      className="rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong overflow-hidden"
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
+      onPointerCancel={() => {
+        touchStartX.current = null;
+      }}
       aria-roledescription="carousel"
       aria-label="Medora platform highlights"
     >

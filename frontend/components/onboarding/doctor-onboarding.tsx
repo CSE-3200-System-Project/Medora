@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { ScheduleSetter } from "@/components/doctor/schedule-setter"
+import { MedoraLoader } from "@/components/ui/medora-loader"
 import { updateDoctorOnboarding, completeOnboarding, getDoctorOnboardingData } from "@/lib/auth-actions"
 import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
 import { useRouter } from "next/navigation"
@@ -458,7 +459,7 @@ export function DoctorOnboarding() {
               </Select>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name</Label>
                 <Input id="firstName" value={formData.firstName} onChange={(e) => handleInputChange("firstName", e.target.value)} placeholder="Shubharthi" />
@@ -744,7 +745,7 @@ export function DoctorOnboarding() {
                 <Label htmlFor="hospitalAddress">Address</Label>
                 <Input id="hospitalAddress" value={formData.hospitalAddress} onChange={(e) => handleInputChange("hospitalAddress", e.target.value)} placeholder="Nayasarak Road, Mirboxtula, Sylhet-3100" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="hospitalCity">City</Label>
                   <Input id="hospitalCity" value={formData.hospitalCity} onChange={(e) => handleInputChange("hospitalCity", e.target.value)} placeholder="Sylhet" />
@@ -806,7 +807,7 @@ export function DoctorOnboarding() {
       case 6:
         return (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="consultationFee">Consultation Fee (BDT)</Label>
                 <Input id="consultationFee" type="number" value={formData.consultationFee} onChange={(e) => handleInputChange("consultationFee", e.target.value)} placeholder="1000" />
@@ -1053,15 +1054,15 @@ export function DoctorOnboarding() {
 
   if (initialLoading) {
     return (
-      <div className="w-full max-w-4xl mx-auto flex items-center justify-center min-h-100">
-        <div className="text-muted-foreground">Loading your profile...</div>
+      <div className="flex min-h-[45vh] items-center justify-center">
+        <MedoraLoader size="md" label="Loading your profile..." />
       </div>
     )
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="space-y-8">
+    <div className="mx-auto w-full max-w-5xl px-1 sm:px-2">
+      <div className="space-y-6">
         <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={(id) => setCurrentStep(id)} />
 
         <AnimatePresence mode="wait">
@@ -1082,21 +1083,21 @@ export function DoctorOnboarding() {
               <CardContent>
                 {renderStepContent()}
               </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <div className="flex gap-2">
-                  <Button variant="outline" onClick={prevStep} disabled={currentStep === 1 || loading}>
+              <CardFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                  <Button variant="outline" onClick={prevStep} disabled={currentStep === 1 || loading} className="w-full sm:w-auto">
                     <ChevronLeft className="mr-2 h-4 w-4" /> Back
                   </Button>
                   <Button 
                     variant="ghost" 
                     onClick={() => setShowSkipDialog(true)} 
                     disabled={loading}
-                    className="text-muted-foreground hover:text-foreground"
+                    className="w-full text-muted-foreground hover:text-foreground sm:w-auto"
                   >
                     Skip for Now
                   </Button>
                 </div>
-                <Button onClick={nextStep} disabled={loading}>
+                <Button onClick={nextStep} disabled={loading} className="w-full sm:w-auto">
                   {loading ? "Completing..." : (currentStep === STEPS.length ? "Complete Onboarding" : "Next")} 
                   {!loading && <ChevronRight className="ml-2 h-4 w-4" />}
                 </Button>
@@ -1107,8 +1108,8 @@ export function DoctorOnboarding() {
 
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <Card className="max-w-md w-full bg-card">
+          <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-4 sm:items-center">
+            <Card className="max-h-[90dvh] w-full max-w-md overflow-y-auto bg-card">
               <CardHeader>
                 <CardTitle className="text-black">Skip Onboarding?</CardTitle>
                 <CardDescription className="text-foreground">
@@ -1143,4 +1144,5 @@ export function DoctorOnboarding() {
     </div>
   )
 }
+
 

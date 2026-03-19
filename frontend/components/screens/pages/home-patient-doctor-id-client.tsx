@@ -78,7 +78,7 @@ export default function DoctorProfilePage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="mx-auto max-w-6xl px-4 py-6 pt-20 sm:px-6 sm:pt-24 md:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
           <div className="lg:col-span-2">
             <DoctorInformationSection doctor={doctor} />

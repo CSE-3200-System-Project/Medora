@@ -21,6 +21,7 @@ import {
   type Notification,
   type NotificationType,
 } from "@/lib/notification-actions";
+import { toast } from "@/lib/notify";
 
 interface NotificationDropdownProps {
   className?: string;
@@ -164,6 +165,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
       setUnreadCount(data.unread_count);
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
+      toast.error("Failed to load notifications");
     } finally {
       setLoading(false);
     }
@@ -210,7 +212,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
   };
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -228,7 +230,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-80 md:w-96 max-h-[70vh] overflow-hidden flex flex-col"
+        className="w-[min(92vw,24rem)] sm:w-96 max-h-[min(70dvh,32rem)] overflow-hidden flex flex-col"
         sideOffset={8}
       >
         {/* Header */}
@@ -249,7 +251,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
         </div>
 
         {/* Notification List */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="no-scrollbar flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-8">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />

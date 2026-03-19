@@ -1,3 +1,23 @@
+# Profile Edit + Onboarding Routing Guard Fix (2026-03-20)
+
+## Status: completed
+
+### Todo
+- [x] Fix middleware redirect logic so completed users can still access onboarding when they explicitly click Edit Profile or Finish Onboarding
+- [x] Enforce post-login role landing for doctors at `/doctor/home` while preserving verification gate
+- [x] Ensure profile Edit buttons route with an explicit onboarding edit intent signal for both patient and doctor
+- [x] Prevent logged-in users from accessing root `/` until logout by adding server-side redirect in route guard
+- [x] Harden remember-me/session metadata consistency so auth/onboarding state remains stable across navigation and app switching
+- [x] Validate changed frontend auth/guard/profile files for diagnostics and behavior regressions
+
+### Review
+- Updated route guarding in `frontend/proxy.ts` so onboarding is accessible with explicit `?mode=edit` intent even when onboarding is marked complete.
+- Added root-page lock for authenticated users in `frontend/proxy.ts`, redirecting `/` to role home so logged-in users cannot remain on the public landing route.
+- Adjusted auth-route and login behavior so doctors consistently land on `/doctor/home` after login (while still respecting doctor verification checks).
+- Updated profile edit and onboarding banner actions to route to onboarding with edit intent (`/onboarding/patient?mode=edit`, `/onboarding/doctor?mode=edit`).
+- Strengthened remember-me consistency by persisting a dedicated `remember_me` cookie and reusing its TTL policy when updating onboarding completion metadata.
+- Ran diagnostics for all touched files; only pre-existing lint/style warnings were reported in profile components, with no new errors introduced by these changes.
+
 # Migration + Extraction Setup (2026-03-16)
 
 # Extraction 400 + Remember Me + Deployment Automation (2026-03-19)

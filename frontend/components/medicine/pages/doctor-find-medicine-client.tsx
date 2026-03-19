@@ -56,7 +56,7 @@ export function DoctorFindMedicineClient() {
     <AppBackground className="min-h-screen font-sans text-foreground animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
             Medicine Reference
@@ -142,4 +142,5 @@ export function DoctorFindMedicineClient() {
     </AppBackground>
   );
 }
+
 
