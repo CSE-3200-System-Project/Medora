@@ -1,0 +1,181 @@
+name: Deploy AI OCR to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ai_service/**
+      - .github/workflows/deploy-ai-ocr.yml
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: medora-rg
+  AI_APP: medora-ai-ocr
+  IMAGE_NAME: medora-ai-ocr
+  CONTAINER_APP_ENV: medora-env
+  AZURE_LOCATION: southeastasia
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Install Azure Container Apps extension
+        run: az extension add --name containerapp --upgrade
+
+      - name: Ensure resource group exists
+        run: az group create --name "$RESOURCE_GROUP" --location "$AZURE_LOCATION" >/dev/null
+
+      - name: Ensure container app environment exists
+        run: |
+          if az containerapp env show \
+              --name "$CONTAINER_APP_ENV" \
+              --resource-group "$RESOURCE_GROUP" \
+              --query "name" -o tsv >/dev/null 2>&1; then
+            echo "Container app environment already exists"
+            exit 0
+          fi
+
+          az containerapp env create \
+            --name "$CONTAINER_APP_ENV" \
+            --resource-group "$RESOURCE_GROUP" \
+            --location "$AZURE_LOCATION"
+
+      - name: Build and push AI OCR image
+        id: build-image
+        env:
+          REGISTRY: ${{ secrets.ACR_LOGIN_SERVER }}
+          TAG_SHA: ${{ github.sha }}
+        run: |
+          IMAGE_SHA="$REGISTRY/$IMAGE_NAME:$TAG_SHA"
+          IMAGE_LATEST="$REGISTRY/$IMAGE_NAME:latest"
+
+          docker build -t "$IMAGE_SHA" -t "$IMAGE_LATEST" ./ai_service
+          docker push "$IMAGE_SHA"
+          docker push "$IMAGE_LATEST"
+
+          echo "image=$IMAGE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure target container app exists
+        env:
+          ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
+          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+          AZURE_OCR_ENDPOINT: ${{ secrets.AZURE_OCR_ENDPOINT }}
+        run: |
+          if az containerapp show \
+              --name "$AI_APP" \
+              --resource-group "$RESOURCE_GROUP" \
+              --query "name" -o tsv >/dev/null 2>&1; then
+            echo "Container app already exists"
+            exit 0
+          fi
+
+          az containerapp create \
+            --name "$AI_APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --environment "$CONTAINER_APP_ENV" \
+            --image "${{ steps.build-image.outputs.image }}" \
+            --target-port 8001 \
+            --ingress external \
+            --registry-server "$ACR_LOGIN_SERVER" \
+            --registry-username "$ACR_USERNAME" \
+            --registry-password "$ACR_PASSWORD" \
+            --min-replicas 0 \
+            --max-replicas 3 \
+            --cpu 1.0 \
+            --memory 2.0Gi \
+            --env-vars \
+              MODEL_TYPE=read \
+              DISABLE_MEDICINE_MATCHING=true \
+              YOLO_MODEL_PATH=models/Yolo26s/Yolo26s-prescription-5.onnx \
+              OCR_USE_FULL_IMAGE_FALLBACK=false \
+              AZURE_OCR_ENDPOINT="$AZURE_OCR_ENDPOINT"
+
+      - name: Update AI OCR secrets
+        env:
+          AZURE_OCR_KEY: ${{ secrets.AZURE_OCR_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            az containerapp secret set \
+              --name "$AI_APP" \
+              --resource-group "$RESOURCE_GROUP" \
+              --secrets \
+                azure-ocr-key="$AZURE_OCR_KEY" \
+                supabase-service-role-key="$SUPABASE_SERVICE_ROLE_KEY"
+          else
+            az containerapp secret set \
+              --name "$AI_APP" \
+              --resource-group "$RESOURCE_GROUP" \
+              --secrets azure-ocr-key="$AZURE_OCR_KEY"
+          fi
+
+      - name: Deploy AI OCR to Azure Container Apps
+        env:
+          AZURE_OCR_ENDPOINT: ${{ secrets.AZURE_OCR_ENDPOINT }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        run: |
+          ENV_ARGS=(
+            "MODEL_TYPE=read"
+            "DISABLE_MEDICINE_MATCHING=true"
+            "YOLO_MODEL_PATH=models/Yolo26s/Yolo26s-prescription-5.onnx"
+            "OCR_USE_FULL_IMAGE_FALLBACK=false"
+            "AZURE_OCR_ENDPOINT=$AZURE_OCR_ENDPOINT"
+            "AZURE_OCR_KEY=secretref:azure-ocr-key"
+          )
+
+          if [ -n "$SUPABASE_URL" ]; then
+            ENV_ARGS+=("SUPABASE_URL=$SUPABASE_URL")
+          fi
+
+          if [ -n "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" ]; then
+            ENV_ARGS+=("SUPABASE_SERVICE_ROLE_KEY=secretref:supabase-service-role-key")
+          fi
+
+          az containerapp update \
+            --name "$AI_APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --image "${{ steps.build-image.outputs.image }}" \
+            --set-env-vars "${ENV_ARGS[@]}"
+
+      - name: Post-deploy health check
+        run: |
+          FQDN=$(az containerapp show \
+            --name "$AI_APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+
+          URL="https://$FQDN/health"
+          echo "Checking $URL"
+
+          for attempt in 1 2 3 4 5; do
+            if curl -fsS "$URL" >/dev/null; then
+              echo "Health check passed on attempt $attempt"
+              exit 0
+            fi
+            sleep 8
+          done
+
+          echo "Health check failed"
+          exit 1
