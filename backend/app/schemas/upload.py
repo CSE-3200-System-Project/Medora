@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MediaFileResponse(BaseModel):
@@ -31,7 +31,26 @@ class MediaUploadResponse(BaseModel):
     file: MediaFileResponse
 
 
+class MedicationOCRResult(BaseModel):
+    name: Optional[str] = None
+    dosage: Optional[str] = None
+    frequency: Optional[str] = None
+    quantity: Optional[str] = None
+    confidence: float
+
+
+class PrescriptionOCRMeta(BaseModel):
+    model: str
+    model_type: str
+    processing_time_ms: int
+    detected_regions: int
+    ocr_line_count: int
+
+
 class PrescriptionExtractionResponse(BaseModel):
     extracted_text: str
     confidence: float
+    medications: list[MedicationOCRResult] = Field(default_factory=list)
+    raw_text: str = ""
+    meta: PrescriptionOCRMeta | None = None
     file: Optional[MediaFileResponse] = None
