@@ -81,8 +81,7 @@ export async function proxy(request: NextRequest) {
 
     // Only patients are hard-gated to onboarding from auth routes.
     if (userRole === 'patient' && onboardingCompleted === 'false' && onboardingSkipped !== 'true') {
-      const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
-      return NextResponse.redirect(new URL(onboardingUrl, request.url))
+      return NextResponse.redirect(new URL('/onboarding/patient', request.url))
     }
 
     const home = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
@@ -129,8 +128,7 @@ export async function proxy(request: NextRequest) {
   if (userRole === 'patient' && onboardingCompleted === 'false' && onboardingSkipped !== 'true' && !isOnboardingRoute) {
     // Settings and notifications are accessible even without completed onboarding
     if (!isSettingsRoute && !isNotificationsRoute) {
-      const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
-      return NextResponse.redirect(new URL(onboardingUrl, request.url))
+      return NextResponse.redirect(new URL('/onboarding/patient', request.url))
     }
   }
 
