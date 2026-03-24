@@ -341,7 +341,7 @@ export default function SettingsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="mx-auto max-w-6xl py-8 pt-24 md:pt-28">
+      <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
         <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">Settings</h1>

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AppBackground } from "@/components/ui/app-background";
 
 export function VerificationSuccessClient() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export function VerificationSuccessClient() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-4">
+    <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 animate-page-enter">
       <Card className="max-w-md w-full shadow-lg">
         <CardHeader className="text-center pb-4">
           <div className="mx-auto mb-6 h-20 w-20 bg-success/10 rounded-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
@@ -65,6 +66,6 @@ export function VerificationSuccessClient() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </AppBackground>
   );
 }

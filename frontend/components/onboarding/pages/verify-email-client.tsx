@@ -8,6 +8,7 @@ import { Mail, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AppBackground } from "@/components/ui/app-background";
 import { getCurrentUser } from "@/lib/auth-actions";
 import doctorImg from "@/assets/image/doctors.jpg";
 import patientImg from "@/assets/image/patient.jpg";
@@ -77,7 +78,7 @@ export function VerifyEmailClient() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
+    <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 md:p-6 lg:p-8 animate-page-enter">
       <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-150">
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
@@ -159,7 +160,7 @@ export function VerifyEmailClient() {
           </div>
         </div>
       </Card>
-    </div>
+    </AppBackground>
   );
 }
 

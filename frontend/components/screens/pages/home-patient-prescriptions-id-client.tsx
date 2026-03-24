@@ -193,7 +193,7 @@ export default function PatientPrescriptionDetailPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
           <Card className="border-destructive">
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
@@ -215,7 +215,7 @@ export default function PatientPrescriptionDetailPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
       
-      <main className="container mx-auto container-padding py-6 pt-16 md:pt-[50px] max-w-4xl">
+      <main className="container mx-auto container-padding py-6 pt-[var(--nav-content-offset)] max-w-4xl">
         {/* Header */}
         <div className="mb-6">
           <Button
@@ -615,4 +615,5 @@ export default function PatientPrescriptionDetailPage() {
     </AppBackground>
   );
 }
+
 

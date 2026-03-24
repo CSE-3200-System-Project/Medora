@@ -1,0 +1,2 @@
+"""AI OCR service package."""
+

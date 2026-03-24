@@ -527,7 +527,7 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
       fallback={
         <div className="min-h-screen bg-surface">
           <AdminNavbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 md:pt-12.5">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-[var(--nav-content-offset)]">
             <div className="flex items-center justify-center min-h-[50vh]">
               <MedoraLoader size="lg" label="Loading doctors..." />
             </div>
@@ -539,5 +539,6 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
     </Suspense>
   );
 }
+
 
 

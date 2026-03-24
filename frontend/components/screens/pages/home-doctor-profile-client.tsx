@@ -78,7 +78,7 @@ export default function DoctorProfilePage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-[50px]">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div>
@@ -90,7 +90,7 @@ export default function DoctorProfilePage() {
             </p>
           </div>
           <Button
-            onClick={() => router.push("/onboarding/doctor")}
+            onClick={() => router.push("/onboarding/doctor?mode=edit")}
             variant="medical"
             size="lg"
           >
@@ -425,4 +425,5 @@ export default function DoctorProfilePage() {
     </AppBackground>
   );
 }
+
 

@@ -15,6 +15,7 @@ import { DoctorSpecializationsCard } from "@/components/doctor-profile/DoctorSpe
 import { DoctorProfessionalDetailsCard } from "@/components/doctor-profile/DoctorProfessionalDetailsCard";
 import { DoctorPracticeLocations } from "@/components/doctor-profile/DoctorPracticeLocations";
 import { AppointmentBookingCard } from "@/components/doctor-profile/AppointmentBookingCard";
+import { toast } from "@/lib/notify";
 
 interface DoctorProfileAppointmentPageProps {
   doctorId: string;
@@ -56,7 +57,7 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
         return;
       }
       await navigator.clipboard.writeText(shareUrl);
-      alert("Profile link copied to clipboard");
+      toast.success("Profile link copied to clipboard");
     } catch {
       // Ignore share cancellation and clipboard failures.
     }
@@ -74,7 +75,7 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
     return (
       <AppBackground>
         <Navbar />
-        <main className="mx-auto flex min-h-[60vh] max-w-7xl items-center justify-center px-4 pt-28 sm:px-6 lg:px-8">
+        <main className="mx-auto flex min-h-[60vh] w-full max-w-7xl items-center justify-center px-4 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
           <div className="space-y-2 text-center">
             <p className="text-base font-semibold text-destructive">{error || "Doctor not found"}</p>
             <Link href="/patient/find-doctor" className="text-sm font-semibold text-primary hover:underline">
@@ -92,7 +93,7 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="mb-5 hidden items-center gap-2 text-sm text-muted-foreground md:flex">
           <Link href="/patient/find-doctor" className="hover:text-primary">
             Home
@@ -116,7 +117,7 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
           </section>
 
           <aside className="lg:col-span-4">
-            <div className="lg:sticky lg:top-24">
+            <div className="lg:sticky lg:top-[calc(var(--nav-content-offset)-0.5rem)]">
               <AppointmentBookingCard doctor={doctor} />
             </div>
           </aside>

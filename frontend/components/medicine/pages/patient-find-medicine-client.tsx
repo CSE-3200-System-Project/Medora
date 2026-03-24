@@ -117,7 +117,7 @@ export function PatientFindMedicineClient() {
         </div>
       )}
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5 animate-page-enter">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
             Find Medicine
@@ -215,4 +215,5 @@ export function PatientFindMedicineClient() {
     </AppBackground>
   );
 }
+
 

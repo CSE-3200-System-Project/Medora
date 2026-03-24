@@ -124,7 +124,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center pt-16">
+        <div className="min-h-screen flex items-center justify-center pt-[var(--nav-content-offset)]">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-muted-foreground">Loading patient records...</p>
@@ -138,7 +138,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center p-4 pt-16">
+        <div className="min-h-screen flex items-center justify-center p-4 pt-[var(--nav-content-offset)]">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
@@ -165,7 +165,7 @@ export default function DoctorPatientViewPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="min-h-screen pt-16 pb-8">
+      <main className="min-h-screen pt-[var(--nav-content-offset)] pb-8">
         {/* Top Header Bar */}
         <div className="bg-background/80 backdrop-blur-md border-b border-border sticky top-16 z-10">
           <div className="max-w-6xl mx-auto container-padding py-3 flex items-center justify-between">

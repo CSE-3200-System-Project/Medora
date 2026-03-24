@@ -9,7 +9,6 @@ import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shie
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { NavigationMenuLink } from "@/components/ui/navigation-menu";
 import {
   Sheet,
   SheetContent,
@@ -49,6 +48,7 @@ export function Navbar() {
   const [user, setUser] = React.useState<UserData | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [loggingOut, setLoggingOut] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const hasSessionToken = document.cookie.includes("session_token=");
@@ -156,9 +156,13 @@ export function Navbar() {
 
   return (
     <header
-      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+      style={{
+        top: "calc(env(safe-area-inset-top, 0px) + var(--nav-top-offset))",
+        left: "max(0.5rem, env(safe-area-inset-left, 0px))",
+        right: "max(0.5rem, env(safe-area-inset-right, 0px))",
+      }}
       className={cn(
-        "fixed top-3 sm:top-4 inset-x-2 sm:inset-x-4 z-50 mx-auto max-w-7xl transition-all duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "fixed z-50 mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
         "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
         "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
         isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
@@ -232,7 +236,7 @@ export function Navbar() {
           ) : (
             <>
               <NotificationDropdown />
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2 h-10 rounded-xl pl-2 pr-3 hover:bg-accent hover:text-foreground">
                     <Avatar className="h-9 w-9 border border-primary/20">
@@ -284,21 +288,21 @@ export function Navbar() {
         </div>
 
         {/* MOBILE: Hamburger */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="md:hidden flex items-center gap-1.5">
           {/* Mobile notification icon */}
-          {user && <NotificationDropdown />}
+          {user && <NotificationDropdown className="h-10 w-10 rounded-xl" />}
           
-          <Sheet>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-muted-foreground touch-target">
+              <Button variant="ghost" size="icon" className="text-muted-foreground touch-target rounded-xl hover:bg-accent/80">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-sm">
-              <SheetHeader>
+            <SheetContent side="right" className="w-[min(88vw,22rem)] border-l border-border/70 px-0">
+              <SheetHeader className="border-b border-border/60 px-5 pb-4 pt-5">
                 <SheetTitle className="flex items-center gap-2">
-                  <Link href={homePath} className="flex items-center gap-2">
+                  <Link href={homePath} className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <div className="relative h-8 w-8">
                       <Image src={logo} alt="Medora" fill className="object-contain" />
                     </div>
@@ -306,9 +310,17 @@ export function Navbar() {
                   </Link>
                 </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col h-full py-4 px-2">
+              <div
+                className="no-scrollbar flex h-full flex-col overflow-y-auto px-3 pb-5 pt-4"
+                onClickCapture={(event) => {
+                  const target = event.target as HTMLElement;
+                  if (target.closest("a")) {
+                    setMobileMenuOpen(false);
+                  }
+                }}
+              >
                 {loading ? (
-                  <div className="space-y-4 px-4">
+                  <div className="space-y-3 px-2">
                     <div className="h-12 skeleton rounded" />
                     <div className="h-12 skeleton rounded" />
                     <div className="h-12 skeleton rounded" />
@@ -317,52 +329,52 @@ export function Navbar() {
                   <>
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="platform" className="border-b-0">
-                        <AccordionTrigger className="text-lg font-medium hover:text-primary hover:no-underline py-3">
+                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
                           <span className="flex items-center gap-2"><LayoutDashboard className="h-5 w-5 text-primary" /> Platform</span>
                         </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-3 pl-4 pb-4">
-                          <Link href="/overview" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
+                          <Link href="/overview" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <Activity className="h-4 w-4" /> Overview
                           </Link>
-                          <Link href="/how-it-works" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                          <Link href="/how-it-works" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <FileText className="h-4 w-4" /> How it works
                           </Link>
-                          <Link href="/privacy" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                          <Link href="/privacy" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <Shield className="h-4 w-4" /> Privacy & Control
                           </Link>
                         </AccordionContent>
                       </AccordionItem>
 
                       <AccordionItem value="patients" className="border-b-0">
-                        <AccordionTrigger className="text-lg font-medium hover:text-primary hover:no-underline py-3">
+                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
                           <span className="flex items-center gap-2"><Users className="h-5 w-5 text-primary" /> For Patients</span>
                         </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-3 pl-4 pb-4">
-                          <Link href="/patients/features" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
+                          <Link href="/patients/features" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <Calendar className="h-4 w-4" /> What you can do
                           </Link>
-                          <Link href="/patients/experience" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                          <Link href="/patients/experience" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <Activity className="h-4 w-4" /> Patient Experience
                           </Link>
                         </AccordionContent>
                       </AccordionItem>
 
                       <AccordionItem value="doctors" className="border-b-0">
-                        <AccordionTrigger className="text-lg font-medium hover:text-primary hover:no-underline py-3">
+                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
                           <span className="flex items-center gap-2"><Activity className="h-5 w-5 text-primary" /> For Doctors</span>
                         </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-3 pl-4 pb-4">
-                          <Link href="/doctors/features" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
+                          <Link href="/doctors/features" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <LayoutDashboard className="h-4 w-4" /> What you can do
                           </Link>
-                          <Link href="/doctors/experience" className="flex items-center gap-2 text-muted-foreground hover:text-primary py-1">
+                          <Link href="/doctors/experience" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
                             <Users className="h-4 w-4" /> Doctor Experience
                           </Link>
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
                     
-                    <Link href="/about" className="flex items-center gap-2 text-lg font-medium hover:text-primary py-3 border-b border-border/50">
+                    <Link href="/about" className="mt-1 flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium hover:bg-accent/60 hover:text-primary">
                       <span className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /> About</span>
                     </Link>
 
@@ -377,34 +389,34 @@ export function Navbar() {
                   </>
                 ) : (
                   <>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
                       {user?.role?.toLowerCase() === 'doctor' ? (
                         <>
-                          <Link href="/doctor/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/doctor/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Calendar className="h-5 w-5 text-primary" /> Appointments
                           </Link>
-                          <Link href="/doctor/patients" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/doctor/patients" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Users className="h-5 w-5 text-primary" /> Patients
                           </Link>
-                          <Link href="/doctor/analytics" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/doctor/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Activity className="h-5 w-5 text-primary" /> Analytics
                           </Link>
                         </>
                       ) : user?.role?.toLowerCase() === 'patient' ? (
                         <>
-                          <Link href="/patient/find-doctor" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/find-doctor" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Users className="h-5 w-5 text-primary" /> Find Doctor
                           </Link>
-                          <Link href="/analytics" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Activity className="h-5 w-5 text-primary" /> Analytics
                           </Link>
-                          <Link href="/patient/appointments" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Calendar className="h-5 w-5 text-primary" /> Appointments
                           </Link>
-                          <Link href="/patient/find-medicine" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/find-medicine" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Activity className="h-5 w-5 text-primary" /> Find Medicine
                           </Link>
-                          <Link href="/patient/medical-history" className="flex items-center gap-2 text-lg font-medium text-foreground hover:text-primary transition-colors py-2">
+                          <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
                         </>
@@ -454,28 +466,3 @@ export function Navbar() {
   );
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary-more-light hover:text-primary focus:bg-primary-more-light focus:text-primary",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
