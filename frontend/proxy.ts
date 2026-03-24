@@ -32,6 +32,7 @@ const fullyPublicPaths = [
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const onboardingMode = request.nextUrl.searchParams.get('mode')
 
   // Skip static/api assets
   if (fullyPublicPaths.some(p => pathname.startsWith(p))) {
@@ -58,6 +59,7 @@ export async function proxy(request: NextRequest) {
   const isRootPage = pathname === '/'
   const isSettingsRoute = pathname === '/settings'
   const isNotificationsRoute = pathname === '/notifications'
+  const isOnboardingEditMode = onboardingMode === 'edit'
 
   // ──────── Public routes — always accessible ────────
   if (isPublicRoute) {
@@ -77,10 +79,9 @@ export async function proxy(request: NextRequest) {
     // Logged in → redirect away from auth routes
     if (isAdmin) return NextResponse.redirect(new URL('/admin', request.url))
 
-    // Check onboarding
-    if (onboardingCompleted === 'false' && onboardingSkipped !== 'true') {
-      const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
-      return NextResponse.redirect(new URL(onboardingUrl, request.url))
+    // Only patients are hard-gated to onboarding from auth routes.
+    if (userRole === 'patient' && onboardingCompleted === 'false' && onboardingSkipped !== 'true') {
+      return NextResponse.redirect(new URL('/onboarding/patient', request.url))
     }
 
     const home = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
@@ -105,22 +106,29 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Logged-in users should never remain on the public landing page.
+  if (isRootPage) {
+    if (isAdmin) return NextResponse.redirect(new URL('/admin', request.url))
+
+    const home = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
+    return NextResponse.redirect(new URL(home, request.url))
+  }
+
   // ──────── ONBOARDING GATE ────────
   if (isOnboardingRoute) {
-    // Already completed onboarding → send to home
-    if (onboardingCompleted === 'true' || onboardingSkipped === 'true') {
+    // Already completed onboarding users can still open onboarding in explicit edit mode.
+    if (!isOnboardingEditMode && (onboardingCompleted === 'true' || onboardingSkipped === 'true')) {
       const home = userRole === 'doctor' ? '/doctor/home' : '/patient/home'
       return NextResponse.redirect(new URL(home, request.url))
     }
     return NextResponse.next()
   }
 
-  // If onboarding not completed and not on onboarding route → redirect there
-  if (onboardingCompleted === 'false' && onboardingSkipped !== 'true' && !isOnboardingRoute) {
+  // If patient onboarding not completed and not on onboarding route → redirect there
+  if (userRole === 'patient' && onboardingCompleted === 'false' && onboardingSkipped !== 'true' && !isOnboardingRoute) {
     // Settings and notifications are accessible even without completed onboarding
     if (!isSettingsRoute && !isNotificationsRoute) {
-      const onboardingUrl = userRole === 'doctor' ? '/onboarding/doctor' : '/onboarding/patient'
-      return NextResponse.redirect(new URL(onboardingUrl, request.url))
+      return NextResponse.redirect(new URL('/onboarding/patient', request.url))
     }
   }
 

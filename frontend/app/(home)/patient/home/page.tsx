@@ -6,7 +6,7 @@ export default function PatientHomePage() {
   return (
     <AppBackground>
       <Navbar />
-      <div className="mx-auto max-w-7xl page-content pt-24 md:pt-28">
+      <div className="mx-auto max-w-7xl page-content pt-[var(--nav-content-offset)]">
         <PatientHomeDashboard />
       </div>
     </AppBackground>

@@ -9,6 +9,11 @@
 :root {
   --app-vh: 1vh;
   --keyboard-inset-height: 0px;
+  --nav-top-offset: clamp(0.625rem, 1.8vw, 1rem);
+  --nav-height: clamp(4rem, 7vw, 4.5rem);
+  --nav-content-offset: calc(
+    env(safe-area-inset-top, 0px) + var(--nav-top-offset) + var(--nav-height) + clamp(0.75rem, 1.6vw, 1.25rem)
+  );
 
   /* Background System - Premium Medical Gradient */
   --bg-top: #E6F1F8; /* slightly more muted page background */
@@ -201,6 +206,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
   min-height: calc(var(--app-vh) * 100);
+  overflow-x: clip;
+}
+
+html {
+  scrollbar-gutter: stable both-edges;
 }
 
 /* ======================================
@@ -820,6 +830,34 @@ hr {
       padding-top: 2.5rem;
       padding-bottom: 2.5rem;
     }
+  }
+
+  .page-main {
+    width: min(100%, 72rem);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-top: var(--nav-content-offset);
+    padding-bottom: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  @media (min-width: 640px) {
+    .page-main {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-main {
+      padding-left: max(2rem, env(safe-area-inset-left));
+      padding-right: max(2rem, env(safe-area-inset-right));
+    }
+  }
+
+  .scroll-offset-navbar {
+    scroll-margin-top: calc(var(--nav-content-offset) + 0.5rem);
   }
   
   /* Header spacing */

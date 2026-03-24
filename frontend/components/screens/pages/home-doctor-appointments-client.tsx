@@ -275,7 +275,7 @@ export default function DoctorAppointmentsPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+        <main className="mx-auto max-w-7xl px-4 pb-10 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
           <div className="flex items-center justify-center py-24">
             <MedoraLoader size="lg" label="Loading schedule dashboard..." />
           </div>
@@ -287,7 +287,7 @@ export default function DoctorAppointmentsPage() {
   return (
     <AppBackground>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pt-28 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="space-y-6">
           <section className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>

@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     SUPABASE_SERVICE_ROLE_KEY: str | None = None  # Required for server-side storage writes
     SUPABASE_STORAGE_BUCKET: str = "medora-storage"
     GROQ_API_KEY: str
+    AI_OCR_SERVICE_URL: str = "http://localhost:8001"
+    AI_OCR_TIMEOUT_SECONDS: float = 180.0
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
     REMINDER_DISPATCH_ENABLED: bool = True
     REMINDER_DISPATCH_INTERVAL_SECONDS: int = 30

@@ -220,14 +220,14 @@ export default function PatientProfilePage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
       
-      <main className="max-w-6xl mx-auto py-8 pt-16 md:pt-[50px]">
+      <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">My Profile</h1>
             <p className="text-muted-foreground mt-1">Manage your personal and medical information</p>
           </div>
-          <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient')} className="touch-target">
+          <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient?mode=edit')} className="touch-target">
             <Edit className="h-4 w-4 mr-2" />
             Edit Profile
           </Button>
@@ -581,3 +581,4 @@ export default function PatientProfilePage() {
     </AppBackground>
   );
 }
+

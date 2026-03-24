@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { ToastProvider } from "@/components/ui/toast-provider";
 import { PWARegistration } from "@/components/pwa-registration";
 import { MobileViewportFix } from "@/components/ui/mobile-viewport-fix";
 
@@ -60,6 +61,7 @@ export default function RootLayout({
               {children}
             </div>
           </SmoothScrollProvider>
+          <ToastProvider />
         </ThemeProvider>
         <PWARegistration />
       </body>

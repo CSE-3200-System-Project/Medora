@@ -396,7 +396,7 @@ function PatientMedicalHistoryPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto py-8 pt-16 md:pt-12.5">
+        <main className="container mx-auto py-8 pt-[var(--nav-content-offset)]">
           <div className="flex items-center justify-center py-12">
             <div className="skeleton w-8 h-8 rounded-full"></div>
           </div>
@@ -417,7 +417,7 @@ function PatientMedicalHistoryPage() {
   return (
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
-      <main className="container mx-auto py-6 sm:py-8 pt-16 md:pt-12.5 max-w-6xl">
+      <main className="container mx-auto py-6 sm:py-8 pt-[var(--nav-content-offset)] max-w-6xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8 space-y-4">
           <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/20">
@@ -1177,5 +1177,6 @@ export default function MedicalHistoryPage() {
     </Suspense>
   );
 }
+
 
 

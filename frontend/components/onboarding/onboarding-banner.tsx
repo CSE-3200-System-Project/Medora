@@ -14,7 +14,7 @@ export function OnboardingBanner({ role }: OnboardingBannerProps) {
 
   const handleCompleteOnboarding = () => {
     // Route to the role-specific onboarding page
-    router.push(`/onboarding/${role}`)
+    router.push(`/onboarding/${role}?mode=edit`)
   }
 
   return (

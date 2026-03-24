@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
   cookieStore.delete("onboarding_skipped");
   cookieStore.delete("verification_status");
   cookieStore.delete("admin_access");
+  cookieStore.delete("remember_me");
 
   // Check for redirect parameter
   const { searchParams } = new URL(request.url);

@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { login, getCurrentUser } from "@/lib/auth-actions";
 import { setAdminAccess } from "@/lib/admin-actions";
+import { toast } from "@/lib/notify";
 import { AppBackground } from "@/components/ui/app-background";
 import { FormSkeleton } from "@/components/ui/skeleton-loaders";
 
@@ -30,6 +31,7 @@ import logo from "@/assets/image/medora-logo.png";
 function LoginPageContent() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAdminDialog, setShowAdminDialog] = useState(false);
@@ -57,6 +59,7 @@ function LoginPageContent() {
     const verified = searchParams.get('verified');
     if (verified === 'true') {
       setShowVerifiedMessage(true);
+      toast.success("Email verified successfully. You can now sign in.");
       // Hide message after 5 seconds
       setTimeout(() => {
         setShowVerifiedMessage(false);
@@ -70,11 +73,12 @@ function LoginPageContent() {
         const user = await getCurrentUser();
         if (user) {
           const role = user.role.toLowerCase();
-          // Check if onboarding is completed
-          if (user.onboarding_completed) {
-            router.push(role === 'doctor' ? '/doctor/home' : '/patient/home');
-          } else {
+          if (role === 'doctor') {
+            router.push('/doctor/home');
+          } else if (!user.onboarding_completed) {
             router.push(`/onboarding/${role}`);
+          } else {
+            router.push('/patient/home');
           }
         }
       } catch (e) {
@@ -90,7 +94,6 @@ function LoginPageContent() {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const rememberMe = (e.currentTarget.querySelector('#remember') as HTMLInputElement)?.checked || false;
 
     try {
       await login(formData, rememberMe);
@@ -101,7 +104,9 @@ function LoginPageContent() {
         // Redirect is happening, don't show error
         return;
       }
-      setError(err.message || "Login failed. Please check your credentials.");
+      const message = err.message || "Login failed. Please check your credentials.";
+      setError(message);
+      toast.error(message, { title: "Sign in failed" });
       setLoading(false);
     }
   };
@@ -115,10 +120,13 @@ function LoginPageContent() {
         setAdminPassword("");
         router.replace("/admin");
       } else {
-        setAdminError(result.error || "Incorrect admin password");
+        const message = result.error || "Incorrect admin password";
+        setAdminError(message);
+        toast.error(message);
       }
     } catch (err) {
       setAdminError("Failed to authenticate");
+      toast.error("Failed to authenticate");
     }
   };
 
@@ -241,7 +249,7 @@ function LoginPageContent() {
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="remember" />
+                    <Checkbox id="remember" checked={rememberMe} onCheckedChange={(checked) => setRememberMe(Boolean(checked))} />
                     <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
                   </div>
                   <Link 

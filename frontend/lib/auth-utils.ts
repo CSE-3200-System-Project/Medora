@@ -17,6 +17,7 @@ export function handleUnauthorized() {
   document.cookie = "verification_status=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
   document.cookie = "onboarding_skipped=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
   document.cookie = "admin_access=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+  document.cookie = "remember_me=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 
   // Notify app that we've logged out (components can listen and update UI)
   try {
