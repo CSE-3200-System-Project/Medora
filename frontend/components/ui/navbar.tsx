@@ -162,13 +162,13 @@ export function Navbar() {
         right: "max(0.5rem, env(safe-area-inset-right, 0px))",
       }}
       className={cn(
-        "fixed z-50 mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
+        "fixed z-50 mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
         "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
         "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
         isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
       )}
     >
-      <div className="flex h-16 md:h-[4.5rem] items-center justify-between px-3 sm:px-4 md:px-6">
+      <div className="flex h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
         <Link href={homePath} className="flex items-center gap-2 touch-target">
           <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
@@ -243,7 +243,7 @@ export function Navbar() {
                       <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
-                    <span className="max-w-[9.5rem] truncate text-sm font-semibold text-foreground">{getUserDisplayName()}</span>
+                    <span className="max-w-38 truncate text-sm font-semibold text-foreground">{getUserDisplayName()}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
