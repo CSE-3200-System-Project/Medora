@@ -104,6 +104,8 @@ class DoctorProfile(Base):
     telemedicine_available: Mapped[bool] = mapped_column(Boolean, default=False)
     telemedicine_platforms: Mapped[list | None] = mapped_column(JSON)
 
+    ai_interactions: Mapped[list["AIInteraction"]] = relationship("AIInteraction", back_populates="doctor")
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=datetime.utcnow
     )
