@@ -1,3 +1,165 @@
+# Assistant-Only Doctor/Patient Summarization (2026-03-25)
+
+## Status: completed
+
+### Todo
+- [x] Add strict-local doctor pre-consultation summary endpoint with authorization + audit logging
+- [x] Add strict-local patient prescription explanation endpoint scoped to prescription owner
+- [x] Add frontend server actions and response types for both summary flows
+- [x] Add AI summarizer button and summary panel to doctor patient-details page
+- [x] Add summarize button and explanation panel to patient prescription-details page
+- [x] Validate backend compile and frontend production build after integration
+
+### Review
+- Implemented doctor summary endpoint `GET /ai/doctor-patient-summary` in `backend/app/routes/ai_consultation.py` with strict-local enforcement, doctor-patient access checks, patient access audit logs, and assistant-only caution/boundary text.
+- Implemented patient explanation endpoint `GET /ai/patient-prescription-summary` in `backend/app/routes/ai_consultation.py` with patient-only ownership checks and strict-local enforcement.
+- Added new response schemas in `backend/app/schemas/ai_orchestrator.py`: `AIDoctorPatientSummaryResponse` and `AIPatientPrescriptionExplainerResponse`.
+- Added frontend action-layer integration in `frontend/lib/ai-consultation-actions.ts`.
+- Added doctor-side trigger + summary panel in `frontend/components/screens/pages/home-doctor-patient-id-client.tsx`.
+- Added patient-side trigger + summary panel in `frontend/components/screens/pages/home-patient-prescriptions-id-client.tsx`.
+- Validation passed: backend `py_compile` on touched files and frontend `npm run build` both succeeded.
+
+# Pre-Consultation AI Reliability + Strict-Local Privacy Hardening (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Fix pre-consultation AI trigger to use full clinical context instead of notes-only input
+- [x] Surface meaningful backend response content (`answer` and `cautions`) in AI assistant panel
+- [x] Add explicit empty-input guidance and clearer error rendering in pre-consultation assistant UI
+- [x] Enforce strict-local DB-grounded `/ai/clinical-info` path with no external provider calls in strict mode
+- [x] Add doctor AI-query access audit logging for clinical-info endpoint
+
+### Review
+- Updated `frontend/components/ai/AIAssistantPanel.tsx` so generation uses combined clinical context and displays a structured clinical summary plus safety cautions.
+- Updated `frontend/components/screens/pages/home-doctor-patient-id-consultation-ai-client.tsx` to pass combined `chiefComplaint + diagnosis + notes` context into the AI panel.
+- Updated `backend/app/routes/ai_consultation.py` to return deterministic strict-local clinical suggestions directly from authorized patient records and local heuristics when `CHORUI_PRIVACY_MODE=strict_local`.
+- Added patient-context AI access logging in `/ai/clinical-info` via `AccessType.VIEW_AI_QUERY` for transparency and auditability.
+
+# Consultation Flow Recovery + AI Pre-Step Handoff (2026-03-25)
+
+# Chorui Persistent Memory + Security Hardening (2026-03-25)
+
+## Status: completed
+
+### Todo
+
+- [x] Persist Chorui chat turns in backend DB for both patient and doctor contexts
+- [x] Add conversation continuity id in request/response contract and frontend hook flow
+- [x] Enforce conversation ownership and context-scope checks to prevent cross-thread leakage
+- [x] Add follow-up intent continuity using persisted prior user intents
+- [x] Update Chorui architecture documentation with persistent memory design and safeguards
+
+### Review
+
+- Added `backend/app/db/models/chorui_chat.py` with indexed `chorui_chat_messages` persistence model for user and assistant turns.
+- Added Alembic migration `backend/alembic/versions/d4c7b1a9e2f3_add_chorui_chat_messages_table.py` and registered model import in `backend/alembic/env.py`.
+- Updated `backend/app/routes/ai_consultation.py` to resolve/validate `conversation_id`, store user+assistant turns, infer follow-up intents from prior persisted context, and return `conversation_id` in responses.
+- Extended `backend/app/schemas/ai_orchestrator.py`, `frontend/types/ai.ts`, and `frontend/hooks/useChoruiChat.ts` to keep a server-backed conversation thread.
+- Expanded `docs/chorui-ai-pipeline.md` with full persistent memory architecture, lifecycle, and security model details.
+
+# Chorui Intelligence + Reliability Expansion (2026-03-25)
+
+## Status: completed
+
+### Todo
+- [x] Expand Chorui strict-local intent coverage for allergies, risk flags, history, summaries, and appointment/schedule queries
+- [x] Add safety gate for autonomous diagnosis/prescription/dosage style requests in assistant chat
+- [x] Improve structured extraction hints for symptoms, severity, and duration from user message
+- [x] Harden patient AI access history endpoint with bounded pagination and optimized doctor lookup queries
+- [x] Document complete Chorui pipeline architecture, controls, and status for showcase readiness
+
+### Review
+- Extended `backend/app/routes/ai_consultation.py` with broader record-aware intents and deterministic response handlers while preserving existing role-aware access checks.
+- Added explicit autonomous-medical-decision guardrails in assistant handling to keep Chorui assistive and clinically safe.
+- Improved returned `structured_data` quality with conservative symptom/severity/duration hints from user text.
+- Tightened `GET /patient-access/my-ai-access-history` in `backend/app/routes/patient_access.py` with `Query` bounds and bulk doctor/profile fetch to remove N+1 query overhead.
+- Added full system documentation at `docs/chorui-ai-pipeline.md` covering architecture, lifecycle, security controls, and rollout status.
+
+# Chorui Secure Local Retrieval Hardening (2026-03-25)
+
+## Status: in-progress
+
+### Todo
+- [x] Add strict-local Chorui backend configuration flags for privacy mode and active-patient window
+- [x] Replace Chorui chat path with local retrieval-first intent handling for core record questions
+- [x] Implement DB-grounded answers for patient medications/conditions and doctor active-patient list
+- [x] Add doctor patient-context query audit logging via patient access log pipeline
+- [x] Add patient-visible filtered AI access history endpoint/view for transparency
+- [ ] Add automated verification tests for strict-local no-provider behavior and auth matrix
+
+### Review (in-progress)
+- Implemented secure local response path in `backend/app/routes/ai_consultation.py` for key intents without sending Chorui context to external AI providers.
+- Added active-patient retrieval for doctor “who are my patients” questions, limited by configurable lookback window.
+- Added audit logging for doctor patient-context Chorui queries using existing patient access logging flow.
+- Added patient-facing `GET /patient-access/my-ai-access-history` endpoint for AI-specific doctor access visibility.
+
+# Chorui AI Unified Assistant Refactor (2026-03-25)
+
+## Status: in-progress
+
+### Todo
+- [x] Unify backend assistant routes for patient and doctor chat while preserving consultation-scoped workflows
+- [x] Implement stable non-consultation `POST /ai/intake-structure` compatibility endpoint to remove frontend 404
+- [x] Extend AI orchestration for generalized assistive chat context (patient learning + doctor workflow support)
+- [x] Refactor frontend Chorui hook/types to use unified backend contract and keep structured panel compatibility
+- [x] Add doctor Chorui page with light role-specific variation from patient UI
+- [x] Add reusable floating Chorui launcher with always-visible modern prompt using `logo.png`
+- [x] Enforce assistant safety UX copy: assistance-only, no autonomous diagnosis/prescription
+- [x] Validate backend routes, auth behavior, Groq error handling, and frontend TypeScript diagnostics
+
+### Notes
+- Scope is assistive only: Chorui helps with workflow and understanding, not medical consultation replacement.
+- Doctor experience is global across doctor-side screens, with patient context applied only when available/authorized.
+- Floating prompt must remain visible and attract user interaction with elegant motion and typography.
+
+### Review
+- Added and validated dedicated `POST /ai/intake/save` endpoint and rewired frontend Chorui save action from `/patient/intake/save` to `/ai/intake/save` to remove save-path runtime failures.
+- Route smoke checks confirm Chorui API surfaces now resolve without 404 (`/ai/assistant-chat`, `/ai/intake-structure`, `/ai/intake/save` all active).
+- Python syntax validation passed for touched backend files (`ai_consultation.py`, `ai_orchestrator.py` schema).
+- Frontend diagnostics passed for touched Chorui files (`useChoruiChat.ts`, `ChoruiChat.tsx`, `ChoruiSummaryPanel.tsx`, launcher, role pages).
+- Provider-failure simulation of Chorui assistant confirms graceful fallback response is returned with assistance-only language instead of crashing.
+- Limitation observed during true auth smoke: fresh Supabase signups return `session: null` and immediate `/auth/login` returns `401 Invalid credentials` (likely confirmation-gated), so fully authenticated click-path testing with temporary accounts was blocked in this environment.
+
+
+## Status: completed
+
+### Todo
+- [x] Restore original doctor consultation page workflow and design
+- [x] Keep AI consultation as a separate pre-step instead of replacing existing consultation page
+- [x] Add AI pre-step route under doctor patient consultation path
+- [x] Persist selected AI medications/tests and carry them into original consultation form
+- [x] Route doctor patient details CTA to AI pre-step first
+- [x] Validate changed consultation files for diagnostics
+
+### Review
+- Restored `frontend/components/screens/pages/home-doctor-patient-id-consultation-client.tsx` to the classic tabbed prescription workflow (`MedicationForm`, `TestForm`, `SurgeryForm`, `PrescriptionReview`) and original consultation notes/actions layout.
+- Added a lightweight AI handoff loader in the restored consultation page that reads pre-step suggestions from session storage, pre-populates medication/test rows, merges notes, and keeps all doctor fields editable before submission.
+- Added new AI pre-step client `frontend/components/screens/pages/home-doctor-patient-id-consultation-ai-client.tsx` that uses the existing backend-powered `AIAssistantPanel` and lets doctors select suggestions before continuing.
+- Added route entry `frontend/app/(home)/doctor/patient/[id]/consultation/ai/page.tsx` and updated patient details CTA to open this pre-step first.
+- Preserved medical safety model: AI output remains assistive, editable, and non-authoritative; final prescription actions remain in the original doctor consultation page.
+- Diagnostics: no new errors in updated consultation and AI pre-step files.
+
+# Chorui Patient AI Assistant Page (2026-03-25)
+
+## Status: completed
+
+### Todo
+- [x] Add typed AI domain models for chorui chat and structured intake payloads
+- [x] Implement `useChoruiChat` hook with optimistic message flow, debounced AI call, and save action
+- [x] Build `ChoruiSummaryPanel` with loading skeleton, editable extracted data, and confirmation actions
+- [x] Build `ChoruiChat` with chat bubbles, input/send UX, loading/error states, and disclaimer
+- [x] Add new route page `frontend/app/patient/chorui-ai/page.tsx` using Medora layout/theme classes
+- [x] Validate changed frontend files for TypeScript diagnostics
+
+### Review
+- Added new strongly typed intake models in `frontend/types/ai.ts` for message roles, structured data, intake request/response, save payload, and shared disclaimer constant.
+- Implemented `frontend/hooks/useChoruiChat.ts` to manage full conversational state, optimistic message append, debounced POST to `/ai/intake-structure`, structured panel updates, retry-safe fallback response, and explicit save flow via POST `/patient/intake/save`.
+- Added `frontend/components/ai/ChoruiSummaryPanel.tsx` with loading shimmer states, editable extracted fields (symptoms/conditions/duration/severity), severity meter, and confirm/save action while preserving user control over AI output.
+- Added `frontend/components/ai/ChoruiChat.tsx` with two-column intake layout, left/right message bubbles, controlled input, Enter-to-send, loading indicator, retry path, and persistent clinical safety disclaimer.
+- Added `frontend/app/patient/chorui-ai/page.tsx` route using existing `AppBackground` and `Navbar`, and applied scoped Manrope/Inter font variables for heading/body typography consistency.
+- Ran diagnostics on all changed files; no TypeScript errors remain in the Chorui implementation files.
+
 # Profile Edit + Onboarding Routing Guard Fix (2026-03-20)
 
 ## Status: completed
