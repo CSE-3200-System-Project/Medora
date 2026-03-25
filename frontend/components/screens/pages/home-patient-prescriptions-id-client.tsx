@@ -17,6 +17,10 @@ import {
   Prescription,
 } from "@/lib/prescription-actions";
 import {
+  getPatientPrescriptionAssistantSummary,
+  type PatientPrescriptionAssistantSummaryResponse,
+} from "@/lib/ai-consultation-actions";
+import {
   FileText,
   Pill,
   FlaskConical,
@@ -50,6 +54,9 @@ export default function PatientPrescriptionDetailPage() {
   const [actionLoading, setActionLoading] = React.useState(false);
   const [showRejectForm, setShowRejectForm] = React.useState(false);
   const [rejectReason, setRejectReason] = React.useState("");
+  const [assistantSummary, setAssistantSummary] = React.useState<PatientPrescriptionAssistantSummaryResponse | null>(null);
+  const [assistantLoading, setAssistantLoading] = React.useState(false);
+  const [assistantError, setAssistantError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     loadPrescription();
@@ -100,6 +107,19 @@ export default function PatientPrescriptionDetailPage() {
       setError(err.message || "Failed to reject prescription");
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const handleAssistantSummary = async () => {
+    try {
+      setAssistantLoading(true);
+      setAssistantError(null);
+      const response = await getPatientPrescriptionAssistantSummary(prescriptionId);
+      setAssistantSummary(response);
+    } catch (err: any) {
+      setAssistantError(err?.message || "Failed to load summary");
+    } finally {
+      setAssistantLoading(false);
     }
   };
 
@@ -193,7 +213,7 @@ export default function PatientPrescriptionDetailPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset)">
           <Card className="border-destructive">
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
@@ -215,7 +235,7 @@ export default function PatientPrescriptionDetailPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
       
-      <main className="container mx-auto container-padding py-6 pt-[var(--nav-content-offset)] max-w-4xl">
+      <main className="container mx-auto container-padding py-6 pt-(--nav-content-offset) max-w-4xl">
         {/* Header */}
         <div className="mb-6">
           <Button
@@ -238,9 +258,58 @@ export default function PatientPrescriptionDetailPage() {
                 Prescribed on {new Date(prescription.created_at).toLocaleDateString()}
               </p>
             </div>
-            {getStatusBadge(prescription.status)}
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={handleAssistantSummary} disabled={assistantLoading}>
+                {assistantLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <FileText className="h-4 w-4 mr-2" />}
+                Summarize This Prescription
+              </Button>
+              {getStatusBadge(prescription.status)}
+            </div>
           </div>
         </div>
+
+        {(assistantSummary || assistantError) && (
+          <Card className="mb-6 border-primary/20">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                Assistant Explanation
+              </CardTitle>
+              <CardDescription>
+                Plain-language support summary from your prescription records. This does not replace doctor advice.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {assistantError ? <p className="text-sm text-destructive">{assistantError}</p> : null}
+
+              {assistantSummary?.highlight_points?.length ? (
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">Key Points</h4>
+                  <ul className="space-y-1">
+                    {assistantSummary.highlight_points.map((point) => (
+                      <li key={point} className="text-sm text-foreground">- {point}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              {assistantSummary?.summary ? (
+                <pre className="text-xs whitespace-pre-wrap rounded-lg bg-muted/40 p-3 border border-border">{JSON.stringify(assistantSummary.summary, null, 2)}</pre>
+              ) : null}
+
+              {assistantSummary?.cautions?.length ? (
+                <div className="rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/20 p-3">
+                  <h4 className="text-sm font-semibold text-amber-700 dark:text-amber-300 mb-2">Important Notes</h4>
+                  <ul className="space-y-1">
+                    {assistantSummary.cautions.map((point) => (
+                      <li key={point} className="text-sm text-amber-700 dark:text-amber-300">- {point}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Error Alert */}
         {error && (
@@ -519,7 +588,7 @@ export default function PatientPrescriptionDetailPage() {
           <Card className="mb-6 border-red-200">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
-                <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                <XCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium text-red-700">Rejection Reason</p>
                   <p className="text-sm text-red-600 mt-1">{prescription.rejection_reason}</p>

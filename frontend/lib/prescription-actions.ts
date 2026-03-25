@@ -534,3 +534,138 @@ export async function getMedicalHistoryPrescriptions(
 
   return await response.json();
 }
+
+// ========== CONSULTATION AI ACTIONS ==========
+
+export interface AIInteractionResult {
+  interaction_id: string;
+  feature: string;
+  output: Record<string, unknown>;
+  validation_status: string;
+  provider: string;
+  latency_ms?: number;
+}
+
+export async function generateAIPatientSummary(
+  consultationId: string,
+  data: Record<string, unknown>,
+  promptVersion: string = "v1"
+): Promise<AIInteractionResult> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/patient-summary`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data, prompt_version: promptVersion }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to generate patient summary");
+  }
+
+  return await response.json();
+}
+
+export async function structureAIIntake(
+  consultationId: string,
+  data: Record<string, unknown>,
+  promptVersion: string = "v1"
+): Promise<AIInteractionResult> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/intake-structure`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data, prompt_version: promptVersion }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to structure intake");
+  }
+
+  return await response.json();
+}
+
+export async function generateAISoapNotes(
+  consultationId: string,
+  transcript: string,
+  promptVersion: string = "v1"
+): Promise<AIInteractionResult> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/soap-notes`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ transcript, prompt_version: promptVersion }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to generate SOAP notes");
+  }
+
+  return await response.json();
+}
+
+export async function askAIClinicalQuery(
+  consultationId: string,
+  query: string,
+  promptVersion: string = "v1"
+): Promise<AIInteractionResult> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/clinical-query`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ query, prompt_version: promptVersion }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to get clinical info");
+  }
+
+  return await response.json();
+}
+
+export async function generateAIPrescriptionSuggestions(
+  consultationId: string,
+  data: Record<string, unknown>,
+  promptVersion: string = "v1"
+): Promise<AIInteractionResult> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/prescription-suggestions`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data, prompt_version: promptVersion }),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to generate prescription suggestions");
+  }
+
+  return await response.json();
+}
+
+export async function submitAIInteractionFeedback(
+  consultationId: string,
+  payload: {
+    ai_interaction_id: string;
+    rating: number;
+    correction_text?: string;
+    doctor_action?: string;
+  }
+): Promise<{ message: string; ai_interaction_id: string }> {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/ai/feedback`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to submit AI feedback");
+  }
+
+  return await response.json();
+}
