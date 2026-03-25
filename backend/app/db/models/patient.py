@@ -1,5 +1,5 @@
 from sqlalchemy import String, Date, Float, Boolean, JSON, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date, datetime
 from app.db.base import Base
 
@@ -162,6 +162,8 @@ class PatientProfile(Base):
     consent_ai: Mapped[bool] = mapped_column(Boolean, default=False)
     consent_doctor: Mapped[bool] = mapped_column(Boolean, default=False)
     consent_research: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    ai_interactions: Mapped[list["AIInteraction"]] = relationship("AIInteraction", back_populates="patient")
     
     # Timestamps
     created_at: Mapped[datetime | None]

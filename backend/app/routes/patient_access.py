@@ -347,8 +347,8 @@ async def get_patient_for_doctor(
 
 @router.get("/my-access-history")
 async def get_my_access_history(
-    limit: int = 50,
-    offset: int = 0,
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
@@ -417,6 +417,82 @@ async def get_my_access_history(
     return {
         "access_history": access_history,
         "total": total
+    }
+
+
+@router.get("/my-ai-access-history")
+async def get_my_ai_access_history(
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    For patients: Get doctor AI access events only.
+    """
+    patient_id = user.id
+
+    patient_profile_result = await db.execute(select(Profile).where(Profile.id == patient_id))
+    patient_profile = patient_profile_result.scalar_one_or_none()
+
+    if not patient_profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    role_str = str(patient_profile.role).upper()
+    if "PATIENT" not in role_str:
+        raise HTTPException(status_code=403, detail="Only patients can view their access history")
+
+    logs_result = await db.execute(
+        select(PatientAccessLog)
+        .where(
+            PatientAccessLog.patient_id == patient_id,
+            PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value
+        )
+        .order_by(PatientAccessLog.accessed_at.desc())
+        .limit(limit)
+        .offset(offset)
+    )
+    logs = logs_result.scalars().all()
+
+    count_result = await db.execute(
+        select(func.count(PatientAccessLog.id)).where(
+            PatientAccessLog.patient_id == patient_id,
+            PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value
+        )
+    )
+    total_count = count_result.scalar() or 0
+
+    doctor_ids = {log.doctor_id for log in logs}
+    profiles_by_id = {}
+    doctor_profiles_by_id = {}
+    if doctor_ids:
+        doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
+        profiles_by_id = {row.id: row for row in doctor_rows.scalars().all()}
+        doctor_profile_rows = await db.execute(
+            select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
+        )
+        doctor_profiles_by_id = {row.profile_id: row for row in doctor_profile_rows.scalars().all()}
+
+    access_history = []
+    for log in logs:
+        doctor = profiles_by_id.get(log.doctor_id)
+        doctor_details = doctor_profiles_by_id.get(log.doctor_id)
+
+        access_history.append(
+            {
+                "id": log.id,
+                "doctor_id": log.doctor_id,
+                "doctor_name": f"{doctor_details.title or 'Dr.'} {doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
+                "accessed_at": log.accessed_at.isoformat(),
+                "access_type": log.access_type.value if hasattr(log.access_type, 'value') else str(log.access_type),
+            }
+        )
+
+    return {
+        "access_history": access_history,
+        "total": total_count,
+        "limit": limit,
+        "offset": offset,
     }
 
 

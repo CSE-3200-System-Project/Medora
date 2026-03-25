@@ -23,6 +23,7 @@ class AccessType(str, enum.Enum):
     VIEW_FAMILY_HISTORY = "view_family_history"
     VIEW_LIFESTYLE = "view_lifestyle"
     VIEW_FULL_RECORD = "view_full_record"
+    VIEW_AI_QUERY = "view_ai_query"
 
 
 class AccessStatus(str, enum.Enum):
