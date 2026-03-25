@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Navbar } from "@/components/ui/navbar";
+import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
@@ -148,13 +149,18 @@ export default async function DoctorHomePage() {
           </div>
         ) : null}
 
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-            Welcome back, Dr. {doctor.last_name ?? "Doctor"}!
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Here&apos;s what&apos;s happening with your practice today
-          </p>
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
+              Welcome back, Dr. {doctor.last_name ?? "Doctor"}!
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Here&apos;s what&apos;s happening with your practice today
+            </p>
+          </div>
+          <div className="lg:min-w-72">
+            <ChoruiLauncher role="doctor" placement="inline" />
+          </div>
         </div>
 
         <div className="rounded-2xl  p-4 sm:p-6">

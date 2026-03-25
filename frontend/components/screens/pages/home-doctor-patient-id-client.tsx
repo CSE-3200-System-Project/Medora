@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Navbar } from "@/components/ui/navbar"
 import { AppBackground } from "@/components/ui/app-background"
 import { getPatientForDoctor } from "@/lib/patient-access-actions"
+import { getDoctorPatientAssistantSummary, type DoctorPatientAssistantSummaryResponse } from "@/lib/ai-consultation-actions"
 import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
 
 interface PatientData {
@@ -104,6 +105,22 @@ export default function DoctorPatientViewPage() {
   const [patient, setPatient] = useState<PatientData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [assistantSummary, setAssistantSummary] = useState<DoctorPatientAssistantSummaryResponse | null>(null)
+  const [assistantLoading, setAssistantLoading] = useState(false)
+  const [assistantError, setAssistantError] = useState<string | null>(null)
+
+  const handleLoadAssistantSummary = async () => {
+    try {
+      setAssistantLoading(true)
+      setAssistantError(null)
+      const response = await getDoctorPatientAssistantSummary(patientId)
+      setAssistantSummary(response)
+    } catch (err: any) {
+      setAssistantError(err?.message || "Failed to generate assistant summary")
+    } finally {
+      setAssistantLoading(false)
+    }
+  }
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -124,7 +141,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center pt-[var(--nav-content-offset)]">
+        <div className="min-h-screen flex items-center justify-center pt-(--nav-content-offset)">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-muted-foreground">Loading patient records...</p>
@@ -138,7 +155,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center p-4 pt-[var(--nav-content-offset)]">
+        <div className="min-h-screen flex items-center justify-center p-4 pt-(--nav-content-offset)">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
@@ -165,10 +182,10 @@ export default function DoctorPatientViewPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="min-h-screen pt-[var(--nav-content-offset)] pb-8">
+      <main className="min-h-screen pt-(--nav-content-offset) pb-8">
         {/* Top Header Bar */}
         <div className="bg-background/80 backdrop-blur-md border-b border-border sticky top-16 z-10">
-          <div className="max-w-6xl mx-auto container-padding py-3 flex items-center justify-between">
+          <div className="max-w-6xl mx-auto container-padding py-3 flex items-center justify-between gap-3">
               <Button 
                 variant="outline" 
                 onClick={() => router.back()}
@@ -179,19 +196,91 @@ export default function DoctorPatientViewPage() {
                 <span className="sm:hidden">Back</span>
               </Button>
               
-              <Button
-                onClick={() => router.push(`/doctor/patient/${patientId}/consultation`)}
-                className="gap-2"
-              >
-                <MessageSquarePlus className="w-4 h-4" />
-                <span className="hidden sm:inline">Start Consultation</span>
-                <span className="sm:hidden">Consult</span>
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={handleLoadAssistantSummary}
+                  disabled={assistantLoading}
+                  className="gap-2"
+                >
+                  {assistantLoading ? <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" /> : <FileText className="w-4 h-4" />}
+                  <span className="hidden sm:inline">AI Summarizer</span>
+                  <span className="sm:hidden">Summary</span>
+                </Button>
+                <Button
+                  onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
+                  className="gap-2"
+                >
+                  <MessageSquarePlus className="w-4 h-4" />
+                  <span className="hidden sm:inline">Start Consultation</span>
+                  <span className="sm:hidden">Consult</span>
+                </Button>
+              </div>
             </div>
           </div>
 
 
         <div className="max-w-6xl mx-auto container-padding py-6">
+            {(assistantSummary || assistantError) && (
+              <Card className="mb-6 border-primary/20">
+                <CardHeader className="border-b border-border">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-primary" />
+                    AI Pre-Consultation Summary
+                  </CardTitle>
+                  <CardDescription>
+                    Assistant-only summary from authorized local records. Final clinical decisions remain with the doctor.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-5 space-y-4">
+                  {assistantError ? <p className="text-sm text-destructive">{assistantError}</p> : null}
+
+                  {assistantSummary?.highlight_points?.length ? (
+                    <div>
+                      <h4 className="text-sm font-semibold text-foreground mb-2">Priority Highlights</h4>
+                      <ul className="space-y-1">
+                        {assistantSummary.highlight_points.map((point) => (
+                          <li key={point} className="text-sm text-foreground">- {point}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {assistantSummary?.summary ? (
+                    <div className="space-y-3">
+                      <div>
+                        <h4 className="text-sm font-semibold text-foreground mb-2">Patient Snapshot</h4>
+                        <pre className="text-xs whitespace-pre-wrap rounded-lg bg-muted/40 p-3 border border-border">{JSON.stringify((assistantSummary.summary as any).patient_snapshot ?? {}, null, 2)}</pre>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-foreground mb-2">Clinical Context</h4>
+                        <pre className="text-xs whitespace-pre-wrap rounded-lg bg-muted/40 p-3 border border-border">{JSON.stringify((assistantSummary.summary as any).clinical_context ?? {}, null, 2)}</pre>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-foreground mb-2">Care Continuity</h4>
+                        <pre className="text-xs whitespace-pre-wrap rounded-lg bg-muted/40 p-3 border border-border">{JSON.stringify((assistantSummary.summary as any).care_continuity ?? {}, null, 2)}</pre>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-foreground mb-2">Pre-Consultation Checklist</h4>
+                        <pre className="text-xs whitespace-pre-wrap rounded-lg bg-muted/40 p-3 border border-border">{JSON.stringify((assistantSummary.summary as any).pre_consultation_checklist ?? [], null, 2)}</pre>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {assistantSummary?.cautions?.length ? (
+                    <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
+                      <h4 className="text-sm font-semibold text-destructive mb-2">Cautions</h4>
+                      <ul className="space-y-1">
+                        {assistantSummary.cautions.map((point) => (
+                          <li key={point} className="text-sm text-destructive-muted">- {point}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </CardContent>
+              </Card>
+            )}
+
             {/* Patient Header Card */}
             <Card hoverable className="mb-6">
               <CardContent className="pt-6">
