@@ -46,6 +46,7 @@ import {
   Send,
   Save,
   AlertCircle,
+  Sparkles,
 } from "lucide-react";
 
 interface PatientInfo {
@@ -58,6 +59,18 @@ interface PatientInfo {
   date_of_birth?: string;
   gender?: string;
   blood_group?: string;
+}
+
+interface AIConsultationPrefill {
+  chiefComplaint?: string;
+  diagnosis?: string;
+  notes?: string;
+  selectedMedications?: string[];
+  selectedTests?: string[];
+}
+
+function getPrefillStorageKey(patientId: string): string {
+  return `medora:consultation-ai-prefill:${patientId}`;
 }
 
 export default function ConsultationPage() {
@@ -74,31 +87,94 @@ export default function ConsultationPage() {
 
   const [patient, setPatient] = React.useState<PatientInfo | null>(null);
   const [consultation, setConsultation] = React.useState<Consultation | null>(null);
-  
-  // Consultation form
+
   const [chiefComplaint, setChiefComplaint] = React.useState("");
   const [diagnosis, setDiagnosis] = React.useState("");
   const [notes, setNotes] = React.useState("");
 
-  // Prescription type tab
   const [prescriptionType, setPrescriptionType] = React.useState<PrescriptionType>("medication");
-  
-  // Prescription items
+
   const [medications, setMedications] = React.useState<MedicationPrescriptionInput[]>([]);
   const [tests, setTests] = React.useState<TestPrescriptionInput[]>([]);
   const [surgeries, setSurgeries] = React.useState<SurgeryRecommendationInput[]>([]);
   const [prescriptionNotes, setPrescriptionNotes] = React.useState("");
 
   React.useEffect(() => {
-    loadData();
+    void loadData();
   }, [patientId]);
+
+  React.useEffect(() => {
+    if (!consultation || typeof window === "undefined") {
+      return;
+    }
+
+    const storageKey = getPrefillStorageKey(patientId);
+    const raw = window.sessionStorage.getItem(storageKey);
+    if (!raw) {
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(raw) as AIConsultationPrefill;
+
+      if (parsed.chiefComplaint && !chiefComplaint.trim()) {
+        setChiefComplaint(parsed.chiefComplaint);
+      }
+      if (parsed.diagnosis && !diagnosis.trim()) {
+        setDiagnosis(parsed.diagnosis);
+      }
+      if (parsed.notes) {
+        const mergedNotes = notes.trim() ? `${notes.trim()}\n\n${parsed.notes.trim()}` : parsed.notes.trim();
+        setNotes(mergedNotes);
+      }
+
+      const selectedMedications = parsed.selectedMedications ?? [];
+      if (selectedMedications.length) {
+        setMedications((prev) => {
+          const existingNames = new Set(prev.map((item) => item.medicine_name.trim().toLowerCase()));
+          const additions = selectedMedications
+            .map((name) => name.trim())
+            .filter((name) => name.length > 0 && !existingNames.has(name.toLowerCase()))
+            .map((name) => ({
+              medicine_name: name,
+              dose_morning: true,
+              duration_value: 7,
+              duration_unit: "days" as const,
+              meal_instruction: "after_meal" as const,
+            }));
+          return [...prev, ...additions];
+        });
+      }
+
+      const selectedTests = parsed.selectedTests ?? [];
+      if (selectedTests.length) {
+        setTests((prev) => {
+          const existingNames = new Set(prev.map((item) => item.test_name.trim().toLowerCase()));
+          const additions = selectedTests
+            .map((name) => name.trim())
+            .filter((name) => name.length > 0 && !existingNames.has(name.toLowerCase()))
+            .map((name) => ({
+              test_name: name,
+              urgency: "normal" as const,
+            }));
+          return [...prev, ...additions];
+        });
+      }
+
+      setSuccess("AI suggestions loaded. Please review and edit before sending.");
+      setTimeout(() => setSuccess(null), 3500);
+    } catch {
+      setError("Failed to load AI suggestions into consultation.");
+    } finally {
+      window.sessionStorage.removeItem(storageKey);
+    }
+  }, [consultation, patientId, chiefComplaint, diagnosis, notes]);
 
   const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // Load patient details
       const patientData = await getPatientForDoctor(patientId);
       setPatient({
         id: patientId,
@@ -112,7 +188,6 @@ export default function ConsultationPage() {
         blood_group: patientData.blood_group,
       });
 
-      // Try to start or get existing consultation
       try {
         const newConsultation = await startConsultation({ patient_id: patientId });
         setConsultation(newConsultation);
@@ -120,14 +195,10 @@ export default function ConsultationPage() {
         setDiagnosis(newConsultation.diagnosis || "");
         setNotes(newConsultation.notes || "");
       } catch (err: any) {
-        // If there's already an active consultation, load it
         if (err.message?.includes("Active consultation already exists")) {
-          // Fetch all active consultations and find the one for this patient
           const activeConsultations = await getDoctorActiveConsultations();
-          const existingConsultation = activeConsultations.consultations.find(
-            (c) => c.patient_id === patientId
-          );
-          
+          const existingConsultation = activeConsultations.consultations.find((c) => c.patient_id === patientId);
+
           if (existingConsultation) {
             setConsultation(existingConsultation);
             setChiefComplaint(existingConsultation.chief_complaint || "");
@@ -151,17 +222,17 @@ export default function ConsultationPage() {
 
   const handleSaveNotes = async () => {
     if (!consultation) return;
-    
+
     try {
       setSaving(true);
       setError(null);
-      
+
       const updated = await updateConsultation(consultation.id, {
         chief_complaint: chiefComplaint,
         diagnosis,
         notes,
       });
-      
+
       setConsultation(updated);
       setSuccess("Notes saved successfully");
       setTimeout(() => setSuccess(null), 3000);
@@ -175,7 +246,6 @@ export default function ConsultationPage() {
   const handleAddPrescription = async () => {
     if (!consultation) return;
 
-    // Validation - check if at least one item is added across all types
     const hasMedications = medications.length > 0;
     const hasTests = tests.length > 0;
     const hasSurgeries = surgeries.length > 0;
@@ -185,7 +255,6 @@ export default function ConsultationPage() {
       return;
     }
 
-    // Validate medication fields (if any)
     if (hasMedications) {
       for (const med of medications) {
         if (!med.medicine_name.trim()) {
@@ -199,7 +268,6 @@ export default function ConsultationPage() {
       }
     }
 
-    // Validate test fields (if any)
     if (hasTests) {
       for (const test of tests) {
         if (!test.test_name.trim()) {
@@ -209,7 +277,6 @@ export default function ConsultationPage() {
       }
     }
 
-    // Validate surgery fields (if any)
     if (hasSurgeries) {
       for (const surgery of surgeries) {
         if (!surgery.procedure_name.trim()) {
@@ -223,17 +290,14 @@ export default function ConsultationPage() {
       setSubmitting(true);
       setError(null);
 
-      // Send all types in a single prescription
-      // The backend will handle all types together
       await addPrescription(consultation.id, {
-        type: prescriptionType, // Keep for backward compatibility, but all types will be sent
+        type: prescriptionType,
         notes: prescriptionNotes,
         medications: hasMedications ? medications : undefined,
         tests: hasTests ? tests : undefined,
         surgeries: hasSurgeries ? surgeries : undefined,
       });
 
-      // Clear all forms after successful submission
       setMedications([]);
       setTests([]);
       setSurgeries([]);
@@ -256,7 +320,7 @@ export default function ConsultationPage() {
 
       await completeConsultation(consultation.id);
       setSuccess("Consultation completed successfully");
-      
+
       setTimeout(() => {
         router.push("/doctor/patients");
       }, 1500);
@@ -282,7 +346,7 @@ export default function ConsultationPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
           <div className="flex items-center justify-center py-20">
             <MedoraLoader size="lg" label="Loading consultation..." />
           </div>
@@ -295,29 +359,38 @@ export default function ConsultationPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => router.back()}
-            className="shrink-0"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
-              <Stethoscope className="w-7 h-7 text-primary" />
-              Consultation Session
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Prescribe medications, tests, or procedures for your patient
-            </p>
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.back()}
+              className="shrink-0"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
+                <Stethoscope className="w-7 h-7 text-primary" />
+                Consultation Session
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Prescribe medications, tests, or procedures for your patient
+              </p>
+            </div>
           </div>
+
+          <Button
+            variant="outline"
+            onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
+            className="gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            AI Pre-Step
+          </Button>
         </div>
 
-        {/* Error/Success Messages */}
         {error && (
           <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-destructive shrink-0" />
@@ -333,9 +406,7 @@ export default function ConsultationPage() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Patient Info & Notes */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Patient Card */}
             {patient && (
               <Card className="rounded-2xl">
                 <CardHeader className="pb-3">
@@ -346,8 +417,8 @@ export default function ConsultationPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                    {patient.profile_photo_url ? (
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+                      {patient.profile_photo_url ? (
                         <Image
                           src={patient.profile_photo_url}
                           alt={patient.first_name}
@@ -356,9 +427,9 @@ export default function ConsultationPage() {
                           className="w-full h-full object-cover"
                           unoptimized
                         />
-                    ) : (
-                      <User className="w-8 h-8 text-primary" />
-                    )}
+                      ) : (
+                        <User className="w-8 h-8 text-primary" />
+                      )}
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">
@@ -393,7 +464,6 @@ export default function ConsultationPage() {
               </Card>
             )}
 
-            {/* Consultation Notes */}
             <Card className="rounded-2xl">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
@@ -448,7 +518,6 @@ export default function ConsultationPage() {
               </CardContent>
             </Card>
 
-            {/* Complete Consultation */}
             <Button
               variant="transaction"
               className="w-full"
@@ -464,7 +533,6 @@ export default function ConsultationPage() {
             </Button>
           </div>
 
-          {/* Right Column - Prescription Forms */}
           <div className="lg:col-span-2 space-y-6">
             <Card className="rounded-2xl">
               <CardHeader>
@@ -515,7 +583,6 @@ export default function ConsultationPage() {
                   </TabsContent>
                 </Tabs>
 
-                {/* Prescription Notes */}
                 <div className="mt-6 space-y-2">
                   <Label>Prescription Notes (Optional)</Label>
                   <Textarea
@@ -527,7 +594,6 @@ export default function ConsultationPage() {
                   />
                 </div>
 
-                {/* Preview */}
                 <div className="mt-6">
                   <PrescriptionReview
                     type={prescriptionType}
@@ -538,17 +604,16 @@ export default function ConsultationPage() {
                   />
                 </div>
 
-                {/* Submit Button */}
                 <div className="mt-6 flex justify-end">
                   <Button
                     variant="medical"
                     size="lg"
                     onClick={handleAddPrescription}
                     disabled={submitting || !consultation}
-                    className="min-w-[200px]"
+                    className="min-w-50"
                   >
                     {submitting ? (
-                        <ButtonLoader className="mr-2" />
+                      <ButtonLoader className="mr-2" />
                     ) : (
                       <Send className="w-4 h-4 mr-2" />
                     )}
@@ -561,7 +626,6 @@ export default function ConsultationPage() {
         </div>
       </main>
 
-      {/* Success Dialog */}
       <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -577,7 +641,7 @@ export default function ConsultationPage() {
             <Button
               variant="medical"
               onClick={() => setShowSuccessDialog(false)}
-              className="min-w-[150px]"
+              className="min-w-37.5"
             >
               Continue
             </Button>
