@@ -7,7 +7,15 @@ class Settings(BaseSettings):
     SUPABASE_KEY: str           # Public/anon key for auth flows
     SUPABASE_SERVICE_ROLE_KEY: str | None = None  # Required for server-side storage writes
     SUPABASE_STORAGE_BUCKET: str = "medora-storage"
-    GROQ_API_KEY: str
+    GROQ_API_KEY: str | None = None
+    OPENAI_API_KEY: str | None = None
+    AI_PROVIDER: str = "groq"
+    AI_PROVIDER_TIMEOUT_SECONDS: float = 5.0
+    AI_PROVIDER_MAX_RETRIES: int = 1
+    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    OPENAI_MODEL: str = "gpt-4o-mini"
+    CHORUI_PRIVACY_MODE: str = "strict_local"
+    CHORUI_ACTIVE_PATIENT_LOOKBACK_DAYS: int = 180
     AI_OCR_SERVICE_URL: str = "http://localhost:8001"
     AI_OCR_TIMEOUT_SECONDS: float = 180.0
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
