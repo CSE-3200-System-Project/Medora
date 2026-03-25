@@ -4,7 +4,7 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, medicine, medical_test, notification, patient_access, reminder, consultation, availability, reschedule, oauth
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 
 # Configure logging
@@ -95,12 +95,14 @@ app.include_router(doctor.router, prefix="/doctor", tags=["Doctor"])
 app.include_router(speciality.router, prefix="/specialities", tags=["Specialities"])
 app.include_router(appointment.router, prefix="/appointment", tags=["Appointment"])
 app.include_router(ai_doctor.router, prefix="/ai", tags=["AI Doctor Search"])
+app.include_router(ai_consultation.router, prefix="/ai", tags=["AI Consultation"])
 app.include_router(medicine.router, prefix="/medicine", tags=["Medicine"])
 app.include_router(medical_test.router, prefix="/medical-test", tags=["Medical Test"])
 app.include_router(notification.router, prefix="/notifications", tags=["Notifications"])
 app.include_router(patient_access.router, prefix="/patient-access", tags=["Patient Access"])
 app.include_router(reminder.router, prefix="/reminders", tags=["Reminders"])
 app.include_router(consultation.router, prefix="/consultation", tags=["Consultation"])
+app.include_router(consultation_ai.router, prefix="/consultation", tags=["Consultation AI"])
 app.include_router(availability.router, prefix="/availability", tags=["Availability"])
 app.include_router(reschedule.router, prefix="/reschedule", tags=["Reschedule"])
 app.include_router(oauth.router, prefix="/oauth", tags=["OAuth"])

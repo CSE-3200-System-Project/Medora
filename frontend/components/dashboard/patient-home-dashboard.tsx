@@ -11,6 +11,7 @@ import {
   HealthStatCard,
   MedicationTrendChart,
 } from "@/components/dashboard"
+import { ChoruiLauncher } from "@/components/ai/chorui-launcher"
 
 const medicationTrend = {
   labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
@@ -105,6 +106,7 @@ export function PatientHomeDashboard() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          <ChoruiLauncher role="patient" placement="inline" />
           <Button variant="outline" className="min-w-37.5">
             <CalendarCheck className="h-4 w-4" />
             Schedule Visit
