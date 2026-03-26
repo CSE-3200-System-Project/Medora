@@ -10,8 +10,8 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AppBackground } from "@/components/ui/app-background";
 import { getCurrentUser } from "@/lib/auth-actions";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
 
 export function VerifyEmailClient() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
