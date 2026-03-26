@@ -1,12 +1,20 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Droplets, MoonStar, Pill, Activity } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
 import { Card, CardContent } from "@/components/ui/card"
 
+const ICON_MAP: Record<string, LucideIcon> = {
+  Pill,
+  MoonStar,
+  Droplets,
+  Activity,
+}
+
 type AIInsightCardProps = {
-  icon: LucideIcon
+  iconName: string
   title: string
   description: string
   tone?: "info" | "warning" | "success"
@@ -27,7 +35,8 @@ const toneStyles = {
   },
 }
 
-export function AIInsightCard({ icon: Icon, title, description, tone = "info" }: AIInsightCardProps) {
+export function AIInsightCard({ iconName, title, description, tone = "info" }: AIInsightCardProps) {
+  const Icon = ICON_MAP[iconName] ?? Activity
   const style = toneStyles[tone]
 
   return (

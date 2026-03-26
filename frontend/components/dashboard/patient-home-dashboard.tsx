@@ -1,6 +1,5 @@
-"use client"
-
-import { CalendarCheck, Droplets, Footprints, Heart, MoonStar, Pill, ShieldPlus, Waves } from "lucide-react"
+import Link from "next/link"
+import { CalendarCheck, ShieldPlus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,88 +10,93 @@ import {
   HealthStatCard,
   MedicationTrendChart,
 } from "@/components/dashboard"
-import { ChoruiLauncher } from "@/components/ai/chorui-launcher"
+import { getPatientDashboard } from "@/lib/patient-dashboard-actions"
 
-const medicationTrend = {
-  labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
-  values: [68, 80, 72, 89, 86, 94, 92],
-  adherenceRate: 92,
-  deltaPercent: 2.4,
+const iconNameByStatLabel: Record<string, string> = {
+  "Steps Today": "Footprints",
+  "Avg Sleep": "MoonStar",
+  "BPM (Resting)": "Heart",
+  "Blood Pressure": "Waves",
 }
 
-const appointments = [
-  {
-    doctorName: "Dr. Sarah Miller",
-    specialty: "Cardiology Specialist",
-    dateTime: "Oct 24, 10:30 AM",
-    location: "Virtual Clinic",
-    status: "ONLINE",
-    actionLabel: "Join Visit",
-    actionVariant: "default" as const,
-  },
-  {
-    doctorName: "Dr. James Wilson",
-    specialty: "Primary Care Physician",
-    dateTime: "Oct 28, 02:00 PM",
-    location: "Main St. Med Center",
-    actionLabel: "Reschedule",
-    actionVariant: "outline" as const,
-  },
-]
+const insightIconNameByTitle: Record<string, string> = {
+  "Medication Adherence": "Pill",
+  "Sleep Monitoring": "MoonStar",
+  "Blood Pressure Tracking": "Droplets",
+}
 
-const insights = [
-  {
-    icon: Pill,
-    title: "Medication Adherence",
-    description: "You've hit 100% adherence for 3 days. Your blood pressure stability is improving.",
-    tone: "success" as const,
-  },
-  {
-    icon: MoonStar,
-    title: "Sleep Quality Decline",
-    description: "Deep sleep fell by 15% this week. Reduce screen time 1 hour before bed.",
-    tone: "warning" as const,
-  },
-  {
-    icon: Droplets,
-    title: "Hydration Levels",
-    description: "Hydration goal met 5 days in a row. Recovery markers are trending positive.",
-    tone: "info" as const,
-  },
-]
+function formatAppointmentDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+  return date.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  })
+}
 
-const quickStats = [
-  {
-    icon: Footprints,
-    value: "8,432",
-    label: "Steps Today",
-    trend: "+12%",
-    trendType: "up" as const,
-  },
-  {
-    icon: MoonStar,
-    value: "7h 20m",
-    label: "Avg Sleep",
-    trend: "Stable",
-    trendType: "neutral" as const,
-  },
-  {
-    icon: Heart,
-    value: "72",
-    label: "BPM (Resting)",
-    trend: "-2%",
-    trendType: "down" as const,
-  },
-  {
-    icon: Waves,
-    value: "120/80",
-    label: "Blood Pressure",
-    trend: "Normal",
-    trendType: "up" as const,
-  },
-]
+function formatSyncLabel(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+  return date.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  })
+}
 
-export function PatientHomeDashboard() {
+export async function PatientHomeDashboard() {
+  let dashboard: Awaited<ReturnType<typeof getPatientDashboard>> | null = null
+
+  try {
+    dashboard = await getPatientDashboard()
+  } catch {
+    dashboard = null
+  }
+
+  const medicationTrend = dashboard?.medication_adherence_trend ?? {
+    labels: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+    values: [0, 0, 0, 0, 0, 0, 0],
+    adherence_rate: 0,
+    delta_percent: 0,
+  }
+
+  const appointments = (dashboard?.upcoming_appointments ?? []).map((item) => ({
+    doctorName: item.doctor_name,
+    specialty: item.specialty || "General Consultation",
+    dateTime: formatAppointmentDate(item.appointment_date),
+    location: "Medora Consultation",
+    status: item.status,
+    actionLabel: item.status.toUpperCase() === "CONFIRMED" ? "Join Visit" : "Manage",
+    actionVariant: item.status.toUpperCase() === "CONFIRMED" ? ("default" as const) : ("outline" as const),
+  }))
+
+  const insights = (dashboard?.ai_insights ?? []).map((item) => ({
+    iconName: insightIconNameByTitle[item.title] ?? "Pill",
+    title: item.title,
+    description: item.description,
+    tone: item.tone,
+  }))
+
+  const quickStats = (dashboard?.today_health_stats ?? []).map((item) => ({
+    iconName: iconNameByStatLabel[item.label] ?? "Heart",
+    value: item.value,
+    label: item.label,
+    trend: item.trend,
+    trendType: item.trend_type,
+  }))
+
+  const healthScore = dashboard?.health_score ?? 0
+  const scoreStatus = healthScore >= 80 ? "Excellent" : healthScore >= 60 ? "Improving" : "Needs Attention"
+  const activityLabel = healthScore >= 75 ? "High" : healthScore >= 50 ? "Moderate" : "Low"
+  const nutritionLabel = healthScore >= 70 ? "Balanced" : "Needs Review"
+
   return (
     <main className="mx-auto w-full max-w-360 px-4 pb-10 pt-6 sm:px-6 lg:px-8 lg:pt-8">
       <section className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-start lg:justify-between">
@@ -101,76 +105,121 @@ export function PatientHomeDashboard() {
             Patient Health Overview
           </h1>
           <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-            Good morning, Alex. Here&apos;s your health summary for today.
+            Good day, {dashboard?.user_name || "Patient"}. Here&apos;s your live summary for today.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <ChoruiLauncher role="patient" placement="inline" />
-          <Button variant="outline" className="min-w-37.5">
-            <CalendarCheck className="h-4 w-4" />
-            Schedule Visit
+          <Button variant="outline" className="min-w-37.5" asChild>
+            <Link href="/patient/find-doctor">
+              <CalendarCheck className="h-4 w-4" />
+              Schedule Visit
+            </Link>
           </Button>
-          <Button className="min-w-37.5">
-            <ShieldPlus className="h-4 w-4" />
-            Health Report
+          <Button className="min-w-37.5" asChild>
+            <Link href="/analytics">
+              <ShieldPlus className="h-4 w-4" />
+              Health Report
+            </Link>
           </Button>
         </div>
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="xl:col-span-7">
+        <Link href="/analytics" className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
           <HealthScoreCard
-            score={85}
+            score={healthScore}
             maxScore={100}
-            activityLabel="High"
-            nutritionLabel="Optimal"
-            statusLabel="Excellent"
+            activityLabel={activityLabel}
+            nutritionLabel={nutritionLabel}
+            statusLabel={scoreStatus}
           />
-        </div>
+        </Link>
 
-        <div className="xl:col-span-5">
+        <Link href="/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
           <MedicationTrendChart
             values={medicationTrend.values}
             labels={medicationTrend.labels}
-            adherenceRate={medicationTrend.adherenceRate}
-            deltaPercent={medicationTrend.deltaPercent}
+            adherenceRate={medicationTrend.adherence_rate}
+            deltaPercent={medicationTrend.delta_percent}
           />
-        </div>
+        </Link>
 
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">Upcoming Appointments</h2>
-            <button type="button" className="text-sm font-semibold text-primary hover:text-primary/80">
+            <Link href="/patient/appointments" className="text-sm font-semibold text-primary hover:text-primary/80">
               See all
-            </button>
+            </Link>
           </div>
           <div className="space-y-4">
-            {appointments.map((appointment) => (
+            {(appointments.length > 0 ? appointments : [
+              {
+                doctorName: "No upcoming appointments",
+                specialty: "Your schedule is clear",
+                dateTime: "-",
+                location: "-",
+                status: "",
+                actionLabel: "Book Now",
+                actionVariant: "outline" as const,
+              },
+            ]).map((appointment) => (
               <AppointmentCard key={appointment.doctorName} {...appointment} />
             ))}
           </div>
         </div>
 
         <div className="xl:col-span-4">
-          <h2 className="mb-4 text-2xl font-semibold text-foreground">AI Health Insights</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold text-foreground">AI Health Insights</h2>
+            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+              Full Analytics
+            </Link>
+          </div>
           <div className="space-y-4">
-            {insights.map((insight) => (
+            {(insights.length > 0 ? insights : [
+              {
+                iconName: "Pill",
+                title: "No insights yet",
+                description: "Start logging health metrics and reminders to unlock personalized insights.",
+                tone: "info" as const,
+              },
+            ]).map((insight) => (
               <AIInsightCard key={insight.title} {...insight} />
             ))}
           </div>
         </div>
 
         <div className="xl:col-span-4">
-          <h2 className="mb-4 text-2xl font-semibold text-foreground">Quick Health Stats</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold text-foreground">Quick Health Stats</h2>
+            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+              View Details
+            </Link>
+          </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {quickStats.map((stat) => (
+            {(quickStats.length > 0 ? quickStats : [
+              {
+                iconName: "Footprints",
+                value: "N/A",
+                label: "Steps Today",
+                trend: "-",
+                trendType: "neutral" as const,
+              },
+            ]).map((stat) => (
               <HealthStatCard key={stat.label} {...stat} />
             ))}
           </div>
 
           <div className="mt-4">
-            <DeviceConnectionCard title="Apple Health Connected" lastSynced="5 minutes ago" />
+            <DeviceConnectionCard
+              title={dashboard?.device_connection_status.title || "Health Device Sync"}
+              lastSynced={
+                dashboard?.device_connection_status.last_synced
+                  ? formatSyncLabel(dashboard.device_connection_status.last_synced)
+                  : "No sync yet"
+              }
+            />
           </div>
         </div>
       </section>
