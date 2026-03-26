@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Stethoscope, UserCircle, ArrowRight } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
-import logo from "@/assets/image/medora-logo.png";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
+import logo from "@/assets/images/medora-logo.png";
 
 export default function SelectionPage() {
   return (

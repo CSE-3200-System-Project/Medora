@@ -27,8 +27,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { NotificationDropdown } from "@/components/ui/notification-dropdown";
+import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
+import { resolveAvatarUrl } from "@/lib/avatar";
 
-import logo from "@/assets/image/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
+
 
 interface UserData {
   first_name: string;
@@ -149,38 +153,57 @@ export function Navbar() {
     return `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
   };
 
+  const resolvedAvatarUrl = user
+    ? resolveAvatarUrl(user.profile_photo_url, `${user.email || ""}${user.first_name || ""}${user.last_name || ""}`)
+    : "";
+
   // Compute role-aware home path
   const homePath = user
     ? (user.role?.toLowerCase() === 'admin' ? '/admin' : user.role?.toLowerCase() === 'doctor' ? '/doctor/home' : '/patient/home')
     : '/';
 
+  const showChoruiFab =
+    !!user &&
+    (user.role?.toLowerCase() === "patient" || user.role?.toLowerCase() === "doctor") &&
+    !pathname.includes("/chorui-ai");
+
   return (
-    <header
+    <>
+      <header
       style={{
         top: "calc(env(safe-area-inset-top, 0px) + var(--nav-top-offset))",
-        left: "max(0.5rem, env(safe-area-inset-left, 0px))",
-        right: "max(0.5rem, env(safe-area-inset-right, 0px))",
+        left: "0",
+        right: "0",
       }}
-      className={cn(
-        "fixed z-50 mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
-        "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
-        "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
-        isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
-      )}
+      className="fixed z-50 px-2 sm:px-3"
     >
+      <div
+        className={cn(
+          "mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
+          "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
+          "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
+          isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
+        )}
+      >
       <div className="flex h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
         <Link href={homePath} className="flex items-center gap-2 touch-target">
           <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
-            <Image 
-              src={logo} 
-              alt="Medora" 
-              fill 
+            <Image
+              src={medoraDarkLogo}
+              alt="Medora"
+              fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
-              className="object-contain" 
+              className="object-contain dark:hidden"
+            />
+            <Image
+              src={medoraLightLogo}
+              alt="Medora"
+              fill
+              sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
+              className="hidden object-contain dark:block"
             />
           </div>
-          <span className="text-lg sm:text-xl font-bold tracking-tight text-primary hidden sm:block">Medora</span>
         </Link>
 
         {/* CENTER: Desktop Menu */}
@@ -235,12 +258,15 @@ export function Navbar() {
             </>
           ) : (
             <>
+              {showChoruiFab && (
+                <ChoruiLauncher role={user.role?.toLowerCase() === "doctor" ? "doctor" : "patient"} />
+              )}
               <NotificationDropdown />
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2 h-10 rounded-xl pl-2 pr-3 hover:bg-accent hover:text-foreground">
                     <Avatar className="h-9 w-9 border border-primary/20">
-                      <AvatarImage src={user.profile_photo_url} alt={getUserDisplayName()} />
+                      <AvatarImage src={resolvedAvatarUrl} alt={getUserDisplayName()} />
                       <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">{getUserInitials()}</AvatarFallback>
                     </Avatar>
                     <span className="max-w-38 truncate text-sm font-semibold text-foreground">{getUserDisplayName()}</span>
@@ -304,7 +330,8 @@ export function Navbar() {
                 <SheetTitle className="flex items-center gap-2">
                   <Link href={homePath} className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <div className="relative h-8 w-8">
-                      <Image src={logo} alt="Medora" fill className="object-contain" />
+                      <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
+                      <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
                     </div>
                     <span>Medora</span>
                   </Link>
@@ -425,7 +452,7 @@ export function Navbar() {
                     <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
                       <div className="flex items-center gap-3 px-2">
                         <Avatar className="h-10 w-10 border-2 border-primary/10">
-                          <AvatarImage src={user.profile_photo_url} />
+                          <AvatarImage src={resolvedAvatarUrl} />
                           <AvatarFallback className="bg-primary/10 text-primary">{getUserInitials()}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col flex-1">
@@ -462,7 +489,9 @@ export function Navbar() {
           </Sheet>
         </div>
       </div>
-    </header>
+      </div>
+      </header>
+    </>
   );
 }
 

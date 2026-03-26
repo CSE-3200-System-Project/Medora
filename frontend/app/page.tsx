@@ -18,8 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
 
 const Navbar = dynamic(
   () => import("@/components/ui/navbar").then((mod) => mod.Navbar),
@@ -106,7 +106,7 @@ export default function Home() {
 
         <section id="for-patients" className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center">
           <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
-            <Image src={patientImg} alt="Patient experience" fill className="object-cover" />
+            <Image src={patientImg} alt="Patient experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I no longer need to repeat my full history every time.
@@ -150,7 +150,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
-            <Image src={doctorImg} alt="Doctor experience" fill className="object-cover" />
+            <Image src={doctorImg} alt="Doctor experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
                 I can focus on decisions, not searching for missing records.

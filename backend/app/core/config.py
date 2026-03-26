@@ -6,22 +6,26 @@ class Settings(BaseSettings):
     SUPABASE_URL: str           # For Supabase Auth API
     SUPABASE_KEY: str           # Public/anon key for auth flows
     SUPABASE_SERVICE_ROLE_KEY: str | None = None  # Required for server-side storage writes
-    SUPABASE_STORAGE_BUCKET: str = "medora-storage"
+    SUPABASE_STORAGE_BUCKET: str 
     GROQ_API_KEY: str | None = None
-    OPENAI_API_KEY: str | None = None
+    GEMINI_API_KEY: str | None = None
+    CEREBRAS_CLOUD_API_KEY: str | None = None
     AI_PROVIDER: str = "groq"
-    AI_PROVIDER_TIMEOUT_SECONDS: float = 5.0
-    AI_PROVIDER_MAX_RETRIES: int = 1
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
-    OPENAI_MODEL: str = "gpt-4o-mini"
-    CHORUI_PRIVACY_MODE: str = "strict_local"
+    AI_PROVIDER_TIMEOUT_SECONDS: float = 20.0
+    AI_PROVIDER_MAX_RETRIES: int = 2
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    CEREBRAS_CLOUD_MODEL: str = "gpt-oss-120b"
+    AI_ID_HASH_SECRET: str | None = None
+    PATIENT_REF_HASH_SECRET: str | None = None
+    CHORUI_PRIVACY_MODE: str = "record_augmented"
+    CHORUI_REQUIRE_PATIENT_ID_FOR_DOCTOR: bool = False
     CHORUI_ACTIVE_PATIENT_LOOKBACK_DAYS: int = 180
-    AI_OCR_SERVICE_URL: str = "http://localhost:8001"
+    AI_OCR_SERVICE_URL: str 
     AI_OCR_TIMEOUT_SECONDS: float = 180.0
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
     REMINDER_DISPATCH_ENABLED: bool = True
-    REMINDER_DISPATCH_INTERVAL_SECONDS: int = 30
-
+    REMINDER_DISPATCH_INTERVAL_SECONDS: int = 300
     WEB_PUSH_VAPID_PUBLIC_KEY: str | None = None
     WEB_PUSH_VAPID_PRIVATE_KEY: str | None = None
     WEB_PUSH_VAPID_SUBJECT: str = "mailto:support@medora.app"

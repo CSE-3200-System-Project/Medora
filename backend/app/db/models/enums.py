@@ -100,6 +100,45 @@ class DurationUnit(str, enum.Enum):
     AS_NEEDED = "as_needed"
 
 
+class HealthMetricType(str, enum.Enum):
+    STEPS = "steps"
+    SLEEP_HOURS = "sleep_hours"
+    SLEEP_MINUTES = "sleep_minutes"
+    HEART_RATE = "heart_rate"
+    BLOOD_PRESSURE_SYSTOLIC = "blood_pressure_systolic"
+    BLOOD_PRESSURE_DIASTOLIC = "blood_pressure_diastolic"
+    WEIGHT = "weight"
+    BLOOD_SUGAR = "blood_sugar"
+
+
+class HealthMetricSource(str, enum.Enum):
+    MANUAL = "manual"
+    DEVICE = "device"
+
+
+class DoctorActionType(str, enum.Enum):
+    APPOINTMENT_COMPLETED = "appointment_completed"
+    PRESCRIPTION_ISSUED = "prescription_issued"
+    CONSULTATION_COMPLETED = "consultation_completed"
+    LAB_REVIEW = "lab_review"
+    PATIENT_MESSAGE = "patient_message"
+    MANUAL_TASK = "manual_task"
+
+
+class DoctorActionPriority(str, enum.Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    URGENT = "urgent"
+
+
+class DoctorActionStatus(str, enum.Enum):
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+
+
 # ========== Appointment Scheduling Enums ==========
 
 class AppointmentRequestStatus(str, enum.Enum):

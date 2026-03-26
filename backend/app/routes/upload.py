@@ -11,6 +11,7 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from storage3.exceptions import StorageApiError
 
+from app.core.ai_privacy import stable_hash_token
 from app.core.config import settings
 from app.core.dependencies import get_db
 from app.db.supabase import storage_key_role, storage_supabase
@@ -220,6 +221,7 @@ async def _extract_prescription_with_ai_service(
     file_name: str,
     content: bytes,
     content_type: str,
+    subject_token: str | None = None,
 ) -> dict:
     endpoint = settings.AI_OCR_SERVICE_URL.rstrip("/") + "/ocr/prescription"
     timeout = httpx.Timeout(
@@ -240,6 +242,11 @@ async def _extract_prescription_with_ai_service(
             response = await client.post(
                 endpoint,
                 files={"file": (file_name, content, content_type)},
+                headers=(
+                    {"X-Medora-Subject-Token": str(subject_token).strip()[:80]}
+                    if subject_token
+                    else None
+                ),
             )
     except httpx.TimeoutException as exc:
         logger.exception(
@@ -542,6 +549,7 @@ async def extract_prescription_text(
             file_name=file.filename,
             content=file_content,
             content_type=normalized_type,
+            subject_token=stable_hash_token(str(user.id), namespace="ocr", length=22),
         )
         medications = ai_result.get("medications") if isinstance(ai_result.get("medications"), list) else []
         raw_text = str(ai_result.get("raw_text") or "").strip()

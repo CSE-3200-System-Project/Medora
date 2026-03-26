@@ -20,18 +20,30 @@ class OCRPipeline:
     def __init__(self) -> None:
         self._azure_client: AzureReadClient | None = None
 
-    def run(self, image_bytes: bytes, debug: bool = False) -> OCRResponse:
+    def run(self, image_bytes: bytes, debug: bool = False, subject_token: str | None = None) -> OCRResponse:
         started_at = time.perf_counter()
 
         model_type = settings.MODEL_TYPE.lower().strip()
         if model_type == "read":
-            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_read_pipeline(image_bytes)
+            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_read_pipeline(
+                image_bytes,
+                subject_token=subject_token,
+            )
         elif model_type == "custom":
-            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_custom_pipeline(image_bytes)
+            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_custom_pipeline(
+                image_bytes,
+                subject_token=subject_token,
+            )
         elif model_type == "llm":
-            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_llm_pipeline(image_bytes)
+            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_llm_pipeline(
+                image_bytes,
+                subject_token=subject_token,
+            )
         else:
-            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_read_pipeline(image_bytes)
+            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_read_pipeline(
+                image_bytes,
+                subject_token=subject_token,
+            )
 
         raw_text = "\n".join(line.text for line in all_lines)
         elapsed_ms = int((time.perf_counter() - started_at) * 1000)
@@ -71,7 +83,7 @@ class OCRPipeline:
             )
         return response
 
-    def _run_read_pipeline(self, image_bytes: bytes):
+    def _run_read_pipeline(self, image_bytes: bytes, *, subject_token: str | None = None):
         if self._azure_client is None:
             self._azure_client = AzureReadClient()
 
@@ -140,7 +152,7 @@ class OCRPipeline:
                     if child_crop is None:
                         continue
 
-                    child_lines = self._azure_client.read_lines(child_crop)
+                    child_lines = self._azure_client.read_lines(child_crop, subject_token=subject_token)
                     if not child_lines:
                         continue
 
@@ -157,7 +169,7 @@ class OCRPipeline:
                         padding_px=settings.YOLO_PADDING_PX,
                     )
                     if medication_crop is not None:
-                        medication_lines = self._azure_client.read_lines(medication_crop)
+                        medication_lines = self._azure_client.read_lines(medication_crop, subject_token=subject_token)
                         if medication_lines:
                             region_lines.extend(medication_lines)
                             all_lines.extend(medication_lines)
@@ -169,7 +181,7 @@ class OCRPipeline:
 
         # Optional full-image fallback remains disabled by default.
         if not all_lines and settings.OCR_USE_FULL_IMAGE_FALLBACK and not all_detections:
-            fallback_lines = self._azure_client.read_lines(image_bytes)
+            fallback_lines = self._azure_client.read_lines(image_bytes, subject_token=subject_token)
             all_lines = fallback_lines
             with Image.open(BytesIO(image_bytes)) as image:
                 image_width, image_height = image.size
@@ -206,14 +218,20 @@ class OCRPipeline:
             vocabulary_size,
         )
 
-    def _run_custom_pipeline(self, image_bytes: bytes):
+    def _run_custom_pipeline(self, image_bytes: bytes, *, subject_token: str | None = None):
         # Stub for future custom model replacement while keeping the same API contract.
-        medications, lines, _, region_count, crop_count, regions, vocabulary_size = self._run_read_pipeline(image_bytes)
+        medications, lines, _, region_count, crop_count, regions, vocabulary_size = self._run_read_pipeline(
+            image_bytes,
+            subject_token=subject_token,
+        )
         return medications, lines, "custom_stub_using_read", region_count, crop_count, regions, vocabulary_size
 
-    def _run_llm_pipeline(self, image_bytes: bytes):
+    def _run_llm_pipeline(self, image_bytes: bytes, *, subject_token: str | None = None):
         # Stub for future multimodal implementation while keeping the same API contract.
-        medications, lines, _, region_count, crop_count, regions, vocabulary_size = self._run_read_pipeline(image_bytes)
+        medications, lines, _, region_count, crop_count, regions, vocabulary_size = self._run_read_pipeline(
+            image_bytes,
+            subject_token=subject_token,
+        )
         return medications, lines, "llm_stub_using_read", region_count, crop_count, regions, vocabulary_size
 
 

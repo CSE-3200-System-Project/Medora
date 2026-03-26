@@ -9,10 +9,10 @@
 :root {
   --app-vh: 1vh;
   --keyboard-inset-height: 0px;
-  --nav-top-offset: clamp(0.625rem, 1.8vw, 1rem);
+  --nav-top-offset: clamp(0.375rem, 1vw, 0.5rem);
   --nav-height: clamp(4rem, 7vw, 4.5rem);
   --nav-content-offset: calc(
-    env(safe-area-inset-top, 0px) + var(--nav-top-offset) + var(--nav-height) + clamp(0.75rem, 1.6vw, 1.25rem)
+    env(safe-area-inset-top, 0px) + var(--nav-top-offset) + var(--nav-height) + 0.25rem
   );
 
   /* Background System - Premium Medical Gradient */
@@ -210,7 +210,7 @@ body {
 }
 
 html {
-  scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: stable;
 }
 
 /* ======================================

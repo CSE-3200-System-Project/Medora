@@ -23,6 +23,8 @@ import {
   Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
+import { resolveAvatarUrl } from "@/lib/avatar";
 
 interface DoctorNavbarProps {
   doctor?: {
@@ -45,9 +47,16 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
   ];
 
   const isActive = (href: string) => pathname === href;
+  const resolvedDoctorAvatar = doctor
+    ? resolveAvatarUrl(
+        doctor.profile_photo_url,
+        `${doctor.first_name || ""}${doctor.last_name || ""}${doctor.speciality_name || ""}`
+      )
+    : "";
 
   return (
-    <nav className="sticky top-0 z-50 w-full overflow-x-hidden bg-gradient-to-r from-primary via-primary-muted to-primary shadow-lg border-b border-primary-light/20">
+    <>
+      <nav className="sticky top-0 z-50 w-full overflow-x-hidden bg-linear-to-r from-primary via-primary-muted to-primary shadow-lg border-b border-primary-light/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
@@ -83,24 +92,21 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
 
           {/* User Profile & Logout */}
           <div className="hidden md:flex items-center gap-3">
+            {!pathname.includes("/chorui-ai") && (
+              <ChoruiLauncher role="doctor" />
+            )}
             {doctor && (
               <Link href="/doctor/profile">
                 <div className="flex items-center gap-3 bg-card/20 hover:bg-card/30 rounded-lg px-3 py-2 transition-all cursor-pointer">
                   <Avatar className="h-8 w-8 border-2 border-white">
-                    {doctor.profile_photo_url ? (
-                      <Image
-                        src={doctor.profile_photo_url}
-                        alt={`${doctor.first_name} ${doctor.last_name}`}
-                        width={32}
-                        height={32}
-                        className="h-full w-full object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-card flex items-center justify-center text-sm font-bold text-primary">
-                        {doctor.first_name?.[0]}{doctor.last_name?.[0]}
-                      </div>
-                    )}
+                    <Image
+                      src={resolvedDoctorAvatar}
+                      alt={`${doctor.first_name} ${doctor.last_name}`}
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-cover"
+                      unoptimized
+                    />
                   </Avatar>
                   <div className="text-left">
                     <p className="text-white font-semibold text-sm">
@@ -168,20 +174,14 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                     <div className="mt-auto border-t border-white/20 pt-4">
                       <div className="flex items-center gap-3 px-2 mb-4">
                         <Avatar className="h-10 w-10 border-2 border-white">
-                          {doctor.profile_photo_url ? (
-                            <Image
-                              src={doctor.profile_photo_url}
-                              alt={`${doctor.first_name} ${doctor.last_name}`}
-                              width={40}
-                              height={40}
-                              className="h-full w-full object-cover"
-                              unoptimized
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-card flex items-center justify-center text-sm font-bold text-primary">
-                              {doctor.first_name?.[0]}{doctor.last_name?.[0]}
-                            </div>
-                          )}
+                          <Image
+                            src={resolvedDoctorAvatar}
+                            alt={`${doctor.first_name} ${doctor.last_name}`}
+                            width={40}
+                            height={40}
+                            className="h-full w-full object-cover"
+                            unoptimized
+                          />
                         </Avatar>
                         <div className="flex-1">
                           <p className="text-white font-semibold text-sm">
@@ -209,7 +209,8 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
           </div>
         </div>
       </div>
-    </nav>
+      </nav>
+    </>
   );
 }
 

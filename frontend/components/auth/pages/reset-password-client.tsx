@@ -11,9 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@supabase/supabase-js";
 import { resetPassword } from "@/lib/auth-actions";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
-import logo from "@/assets/image/medora-logo.png";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
+import logo from "@/assets/images/medora-logo.png";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";

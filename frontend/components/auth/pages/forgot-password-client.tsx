@@ -9,9 +9,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { forgotPassword } from "@/lib/auth-actions";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
-import logo from "@/assets/image/medora-logo.png";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
+import logo from "@/assets/images/medora-logo.png";
 
 export function ForgotPasswordClient() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

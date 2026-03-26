@@ -16,7 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
-  Search,
   Pill,
   Clock,
   Calendar,
@@ -270,14 +269,12 @@ export function AddMedicationDialog({
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="search">Search Medicine</Label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <div>
                   <Input
                     id="search"
                     placeholder="Type medicine name or brand..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
                     autoFocus
                   />
                 </div>

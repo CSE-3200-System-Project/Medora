@@ -6,11 +6,8 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="admin-theme min-h-screen w-full overflow-x-hidden">
-      <div className="min-h-screen w-full pt-16 sm:pt-18 bg-gradient-to-br from-background via-surface to-background">
-        {children}
-      </div>
+    <div className="app-background min-h-dvh min-h-app w-full overflow-x-hidden">
+      {children}
     </div>
   )
 }
-

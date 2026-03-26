@@ -6,8 +6,8 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import doctorImg from "@/assets/image/doctors.jpg";
-import patientImg from "@/assets/image/patient.jpg";
+import doctorImg from "@/assets/images/doctors.jpg";
+import patientImg from "@/assets/images/patient.jpg";
 
 type Slide = {
   id: "patient" | "doctor";
@@ -175,7 +175,7 @@ export function HeroCarousel() {
         </div>
 
         <div className="lg:col-span-6 relative min-h-70 sm:min-h-85 lg:min-h-140 border-t lg:border-t-0 lg:border-l border-border/70">
-          <Image src={activeSlide.image} alt={activeSlide.imageAlt} fill className="object-cover" priority />
+          <Image src={activeSlide.image} alt={activeSlide.imageAlt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority />
           <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/15 to-transparent" />
         </div>
       </div>

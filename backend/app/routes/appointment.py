@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import distinct, func, select
 from app.core.dependencies import get_db
+from app.core.patient_reference import patient_ref_from_uuid
 from app.routes.auth import get_current_user_token
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.profile import Profile
@@ -11,6 +12,7 @@ from app.db.models.enums import UserRole
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
 from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentResponse
 from app.routes.notification import create_notification
+from app.services.doctor_action_service import create_appointment_completed_action
 from app.services import appointment_service, notification_service, slot_service
 import uuid
 from typing import List
@@ -262,6 +264,7 @@ async def get_my_appointments(
             "notes": appt.notes,
             "status": _status_value(appt.status),
             "patient_id": appt.patient_id,
+            "patient_ref": patient_ref_from_uuid(appt.patient_id),
             "doctor_id": appt.doctor_id,
             "patient_name": f"{patient.first_name} {patient.last_name}" if patient else None,
             "doctor_name": f"{doctor.first_name} {doctor.last_name}" if doctor else None,
@@ -407,6 +410,7 @@ async def get_appointments_by_date(
                 "time": slot_time,
                 "appointmentId": matching_appointment.id,
                 "patientName": f"{patient.first_name} {patient.last_name}" if patient else "Unknown",
+                "patientRef": patient_ref_from_uuid(matching_appointment.patient_id),
                 "patientPhone": patient.phone if patient else None,
                 "patientAge": _calculate_age(patient_profile.date_of_birth) if patient_profile else None,
                 "patientGender": patient_profile.gender if patient_profile else None,
@@ -530,6 +534,7 @@ async def update_appointment_status(
                 cancelled_by_role=performed_by_role,
             )
         elif new_status == AppointmentStatus.COMPLETED:
+            await create_appointment_completed_action(db, appointment=appointment)
             await notification_service.notify_appointment_completed(
                 db,
                 patient_id=appointment.patient_id,
@@ -956,6 +961,7 @@ async def get_doctor_patients(
 
         patients.append({
             "patient_id": patient_id,
+            "patient_ref": patient_ref_from_uuid(patient_id),
             "first_name": patient.first_name,
             "last_name": patient.last_name,
             "phone": patient.phone,
@@ -1105,19 +1111,6 @@ async def complete_appointment(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    # Notify patient
-    doctor_name = f"Dr. {profile.first_name} {profile.last_name}"
-    await notification_service.notify_appointment_completed(
-        db,
-        patient_id=appointment.patient_id,
-        doctor_name=doctor_name,
-        appointment_id=appointment.id,
-        doctor_id=appointment.doctor_id,
-    )
-
-    await db.commit()
-    await db.refresh(appointment)
-
     return {
         "message": "Appointment marked as completed",
         "appointment": {
@@ -1135,83 +1128,101 @@ async def request_appointment_reschedule(
     db: AsyncSession = Depends(get_db)
 ):
     """
-    Doctor requests to reschedule an appointment.
-    Sends notification to patient with the proposed new time.
-    Patient can accept or reject via the reschedule-response endpoint.
+    Doctor or patient requests to reschedule an appointment.
+    The appointment stays at RESCHEDULE_REQUESTED; the proposed date is
+    stored in a reschedule-request record, NOT on the appointment itself.
+    The other party accepts or rejects via the reschedule-response endpoint.
     """
     user_id = user.id
-    
-    # Get user profile
+
     result = await db.execute(select(Profile).where(Profile.id == user_id))
     profile = result.scalar_one_or_none()
-    
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
-    # Verify user is a doctor
+
     role_str = str(profile.role).upper()
-    if "DOCTOR" not in role_str:
-        raise HTTPException(status_code=403, detail="Only doctors can request rescheduling")
-    
-    # Get appointment
+    if "DOCTOR" not in role_str and "PATIENT" not in role_str:
+        raise HTTPException(status_code=403, detail="Only doctors or patients can request rescheduling")
+
     result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
     appointment = result.scalar_one_or_none()
-    
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
-    
-    # Verify doctor owns this appointment
-    if appointment.doctor_id != user_id:
+
+    is_doctor = appointment.doctor_id == user_id
+    is_patient = appointment.patient_id == user_id
+    if not (is_doctor or is_patient):
         raise HTTPException(status_code=403, detail="You can only reschedule your own appointments")
-    
-    # Parse new appointment date
+
+    if appointment.status not in (AppointmentStatus.CONFIRMED, AppointmentStatus.PENDING):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot reschedule appointment with status {appointment.status.value}",
+        )
+
+    # Parse proposed date
     try:
         new_appointment_date = datetime.fromisoformat(
             reschedule_data.get("new_appointment_date", "").replace("Z", "+00:00")
         )
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid new_appointment_date format")
-    
-    # Get doctor and patient profiles for notification
-    doctor_name = f"Dr. {profile.first_name} {profile.last_name}"
-    
-    patient_result = await db.execute(select(Profile).where(Profile.id == appointment.patient_id))
-    patient_profile = patient_result.scalar_one_or_none()
-    patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
-    
-    # Still keep appointment in current state, patient accepts/rejects
-    appointment.status = AppointmentStatus.PENDING
-    appointment.appointment_date = new_appointment_date
-    appointment.updated_at = datetime.now(timezone.utc)
-    
+
+    # Validate new slot is available
+    from datetime import time as time_type
+    proposed_slot_time = time_type(new_appointment_date.hour, new_appointment_date.minute)
+    proposed_date = new_appointment_date.date()
+
+    is_available = await slot_service.is_slot_available(
+        db, appointment.doctor_id, proposed_date, proposed_slot_time
+    )
+    if not is_available:
+        raise HTTPException(status_code=409, detail="The proposed time slot is not available")
+
+    performed_by_role = "doctor" if is_doctor else "patient"
+
+    # Use service to create reschedule request + transition status
+    try:
+        await appointment_service.request_reschedule(
+            db,
+            appointment_id=appointment_id,
+            requested_by_id=user_id,
+            requested_by_role=performed_by_role,
+            proposed_date=proposed_date,
+            proposed_time=proposed_slot_time,
+            reason=reschedule_data.get("reason"),
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     await db.commit()
-    await db.refresh(appointment)
-    
-    # Send reschedule request notification to patient
-    appt_date = new_appointment_date.strftime("%b %d, %Y at %I:%M %p")
-    
+
+    # Notify the other party
+    requester_name = f"{'Dr. ' if is_doctor else ''}{profile.first_name} {profile.last_name}"
+    notify_user_id = appointment.patient_id if is_doctor else appointment.doctor_id
+    appt_date_str = new_appointment_date.strftime("%b %d, %Y at %I:%M %p")
+
     await create_notification(
         db=db,
-        user_id=appointment.patient_id,
+        user_id=notify_user_id,
         notification_type=NotificationType.APPOINTMENT_RESCHEDULE_REQUEST,
         title="Appointment Reschedule Request",
-        message=f"{doctor_name} has proposed rescheduling your appointment to {appt_date}",
-        action_url="/patient/appointments",
+        message=f"{requester_name} has proposed rescheduling your appointment to {appt_date_str}",
+        action_url="/patient/appointments" if is_doctor else "/doctor/appointments",
         metadata={
             "appointment_id": appointment.id,
-            "doctor_id": appointment.doctor_id,
-            "doctor_name": doctor_name,
-            "new_appointment_date": new_appointment_date.isoformat(),
+            "proposed_date": new_appointment_date.isoformat(),
+            "requester_role": performed_by_role,
         },
         priority=NotificationPriority.HIGH,
     )
-    
+
     return {
-        "message": "Reschedule request sent to patient",
+        "message": "Reschedule request sent",
         "appointment": {
             "id": appointment.id,
-            "status": appointment.status.value,
-            "appointment_date": appointment.appointment_date.isoformat(),
+            "status": AppointmentStatus.RESCHEDULE_REQUESTED.value,
+            "proposed_date": new_appointment_date.isoformat(),
         }
     }
 
@@ -1224,73 +1235,77 @@ async def respond_to_reschedule_request(
     db: AsyncSession = Depends(get_db)
 ):
     """
-    Patient responds to a reschedule request from the doctor.
-    - accepted: True -> confirms the new appointment time
-    - accepted: False -> rejects the reschedule request
-    
-    Sends notification back to doctor with the patient's decision.
+    Respond to a reschedule request.
+    - accepted: True  -> moves appointment to the proposed date/time, CONFIRMED
+    - accepted: False -> reverts appointment to CONFIRMED at the ORIGINAL date/time
     """
     user_id = user.id
-    
-    # Get user profile
+
     result = await db.execute(select(Profile).where(Profile.id == user_id))
     profile = result.scalar_one_or_none()
-    
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
-    # Verify user is a patient
-    role_str = str(profile.role).upper()
-    if "PATIENT" not in role_str:
-        raise HTTPException(status_code=403, detail="Only patients can respond to reschedule requests")
-    
-    # Get appointment
+
     result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
     appointment = result.scalar_one_or_none()
-    
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
-    
-    # Verify patient owns this appointment
-    if appointment.patient_id != user_id:
-        raise HTTPException(status_code=403, detail="You can only respond to your own appointment reschedule requests")
-    
+
+    is_doctor = appointment.doctor_id == user_id
+    is_patient = appointment.patient_id == user_id
+    if not (is_doctor or is_patient):
+        raise HTTPException(status_code=403, detail="Not authorized for this appointment")
+
+    # Find the pending reschedule request
+    from app.db.models.appointment_request import AppointmentRescheduleRequest, RescheduleRequestStatus
+    rr_result = await db.execute(
+        select(AppointmentRescheduleRequest)
+        .where(
+            AppointmentRescheduleRequest.appointment_id == appointment_id,
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        )
+        .order_by(AppointmentRescheduleRequest.created_at.desc())
+        .limit(1)
+    )
+    reschedule_request = rr_result.scalar_one_or_none()
+    if not reschedule_request:
+        raise HTTPException(status_code=404, detail="No pending reschedule request found")
+
     accepted = response_data.get("accepted", False)
-    
-    # Get doctor and patient profiles for notification
-    doctor_result = await db.execute(select(Profile).where(Profile.id == appointment.doctor_id))
-    doctor_profile = doctor_result.scalar_one_or_none()
-    
-    patient_name = f"{profile.first_name} {profile.last_name}"
-    doctor_name = f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
-    appt_date = appointment.appointment_date.strftime("%b %d, %Y at %I:%M %p")
-    
+    role_str = str(profile.role).upper()
+    performed_by_role = "patient" if "PATIENT" in role_str else "doctor"
+
+    try:
+        await appointment_service.respond_to_reschedule(
+            db,
+            reschedule_request_id=reschedule_request.id,
+            accept=accepted,
+            responded_by_id=user_id,
+            responded_by_role=performed_by_role,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    await db.commit()
+    await db.refresh(appointment)
+
+    # Notify the other party
+    responder_name = f"{'Dr. ' if is_doctor else ''}{profile.first_name} {profile.last_name}"
+    notify_user_id = appointment.patient_id if is_doctor else appointment.doctor_id
+
     if accepted:
-        # Patient accepted the reschedule - update status to CONFIRMED
-        appointment.status = AppointmentStatus.CONFIRMED
-        appointment.updated_at = datetime.now(timezone.utc)
-        
-        await db.commit()
-        await db.refresh(appointment)
-        
-        # Notify doctor that patient accepted the reschedule
         await create_notification(
             db=db,
-            user_id=appointment.doctor_id,
+            user_id=notify_user_id,
             notification_type=NotificationType.APPOINTMENT_RESCHEDULE_ACCEPTED,
             title="Reschedule Request Accepted",
-            message=f"{patient_name} has accepted the rescheduled appointment for {appt_date}",
-            action_url="/doctor/appointments",
-            metadata={
-                "appointment_id": appointment.id,
-                "patient_id": appointment.patient_id,
-                "patient_name": patient_name,
-            },
+            message=f"{responder_name} has accepted the rescheduled appointment",
+            action_url="/doctor/appointments" if is_patient else "/patient/appointments",
+            metadata={"appointment_id": appointment.id},
             priority=NotificationPriority.HIGH,
         )
-        
         return {
-            "message": "Reschedule request accepted",
+            "message": "Reschedule accepted",
             "appointment": {
                 "id": appointment.id,
                 "status": appointment.status.value,
@@ -1298,31 +1313,18 @@ async def respond_to_reschedule_request(
             }
         }
     else:
-        # Patient rejected the reschedule - revert to CANCELLED
-        appointment.status = AppointmentStatus.CANCELLED
-        appointment.updated_at = datetime.now(timezone.utc)
-        
-        await db.commit()
-        await db.refresh(appointment)
-        
-        # Notify doctor that patient rejected the reschedule
         await create_notification(
             db=db,
-            user_id=appointment.doctor_id,
+            user_id=notify_user_id,
             notification_type=NotificationType.APPOINTMENT_RESCHEDULE_REJECTED,
             title="Reschedule Request Rejected",
-            message=f"{patient_name} has rejected the rescheduled appointment request",
-            action_url="/doctor/appointments",
-            metadata={
-                "appointment_id": appointment.id,
-                "patient_id": appointment.patient_id,
-                "patient_name": patient_name,
-            },
+            message=f"{responder_name} has rejected the reschedule request",
+            action_url="/doctor/appointments" if is_patient else "/patient/appointments",
+            metadata={"appointment_id": appointment.id},
             priority=NotificationPriority.MEDIUM,
         )
-        
         return {
-            "message": "Reschedule request rejected",
+            "message": "Reschedule rejected — appointment reverted to confirmed",
             "appointment": {
                 "id": appointment.id,
                 "status": appointment.status.value,

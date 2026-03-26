@@ -8,6 +8,7 @@ from app.db.models.doctor import DoctorProfile
 from app.db.models.speciality import Speciality
 from app.db.models.profile import Profile
 from app.db.models.enums import VerificationStatus, UserRole
+from app.core.avatar_defaults import generate_default_avatar_url
 from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
 from app.services.geocoding import geocode_and_save_doctor_locations
 from typing import Optional, List, Dict, Any
@@ -16,6 +17,38 @@ import traceback
 import re
 
 router = APIRouter()
+
+
+async def _ensure_patient_avatar(db: AsyncSession, user_id: str, patient: PatientProfile | None) -> str:
+    fallback_url = generate_default_avatar_url(user_id)
+    if not patient:
+        return fallback_url
+    if patient.profile_photo_url and str(patient.profile_photo_url).strip():
+        return str(patient.profile_photo_url)
+
+    await db.execute(
+        update(PatientProfile)
+        .where(PatientProfile.profile_id == user_id)
+        .values(profile_photo_url=fallback_url)
+    )
+    await db.commit()
+    return fallback_url
+
+
+async def _ensure_doctor_avatar(db: AsyncSession, user_id: str, doctor: DoctorProfile | None) -> str:
+    fallback_url = generate_default_avatar_url(user_id)
+    if not doctor:
+        return fallback_url
+    if doctor.profile_photo_url and str(doctor.profile_photo_url).strip():
+        return str(doctor.profile_photo_url)
+
+    await db.execute(
+        update(DoctorProfile)
+        .where(DoctorProfile.profile_id == user_id)
+        .values(profile_photo_url=fallback_url)
+    )
+    await db.commit()
+    return fallback_url
 
 @router.get("/verification-status")
 async def get_verification_status(
@@ -464,6 +497,7 @@ async def get_patient_onboarding_data(
         select(PatientProfile).where(PatientProfile.profile_id == user_id)
     )
     patient = patient_result.scalar()
+    avatar_url = await _ensure_patient_avatar(db, user_id, patient)
     
     # Build response with all fields for pre-fill
     response = {
@@ -480,7 +514,7 @@ async def get_patient_onboarding_data(
             # Basic Identity
             "dob": str(patient.date_of_birth) if patient.date_of_birth else None,
             "gender": patient.gender,
-            "profile_photo_url": patient.profile_photo_url,
+            "profile_photo_url": avatar_url,
             "profile_banner_url": getattr(patient, "profile_banner_url", None),
             "nid_number": patient.nid_number,
             
@@ -632,6 +666,7 @@ async def get_doctor_onboarding_data(
         select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
     )
     doctor = doctor_result.scalar()
+    avatar_url = await _ensure_doctor_avatar(db, user_id, doctor)
     
     # Build response with all fields for pre-fill
     response = {
@@ -657,7 +692,7 @@ async def get_doctor_onboarding_data(
             "title": doctor.title,
             "gender": doctor.gender,
             "dob": str(doctor.date_of_birth) if doctor.date_of_birth else None,
-            "profile_photo_url": doctor.profile_photo_url,
+            "profile_photo_url": avatar_url,
             "profile_banner_url": getattr(doctor, "profile_banner_url", None),
             "nid_number": doctor.nid_number,
             
@@ -787,6 +822,7 @@ async def get_doctor_profile(
         select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
     )
     doctor = doctor_result.scalar()
+    avatar_url = await _ensure_doctor_avatar(db, user_id, doctor)
     
     # Build flattened response
     response = {
@@ -815,7 +851,7 @@ async def get_doctor_profile(
             "title": doctor.title,
             "gender": doctor.gender,
             "date_of_birth": str(doctor.date_of_birth) if doctor.date_of_birth else None,
-            "profile_photo_url": doctor.profile_photo_url,
+            "profile_photo_url": avatar_url,
             "profile_banner_url": getattr(doctor, "profile_banner_url", None),
             "nid_number": doctor.nid_number,
             
