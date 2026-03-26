@@ -8,7 +8,6 @@ from PIL import Image, ImageOps
 
 from app.azure_ocr import AzureReadClient
 from app.config import settings
-from app.db import medicine_vocabulary
 from app.parser import parse_prescription
 from app.schemas import BBox, DetectedRegion, OCRDebug, OCRLine, OCRMeta, OCRResponse
 from app.yolo import detect_regions
@@ -197,8 +196,8 @@ class OCRPipeline:
         ordered_lines = _sort_lines(all_lines)
         logger.debug("azure_ocr_complete total_lines=%d", len(ordered_lines))
 
-        medicine_names = [] if settings.DISABLE_MEDICINE_MATCHING else medicine_vocabulary.get_names()
-        vocabulary_size = len(medicine_names)
+        medicine_names: list[str] = []
+        vocabulary_size = 0
         if settings.GROUP_BY_YOLO_FOR_PARSING and region_line_groups:
             medications = _extract_medications_in_region_order(
                 region_line_groups=region_line_groups,

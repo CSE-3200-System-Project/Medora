@@ -48,10 +48,19 @@ class Settings(BaseSettings):
     SUPABASE_URL: str | None = None
     SUPABASE_KEY: str | None = None
     SUPABASE_SERVICE_ROLE_KEY: str | None = None
+    SUPABASE_DATABASE_URL: str | None = None
     MEDICINE_DB_TABLE: str = "medicine_search_index"
     MEDICINE_DB_COLUMN: str = "term"
     MEDICINE_DB_MAX_ROWS: int = 5000
     MEDICINE_DB_CACHE_SECONDS: int = 900
+    MEDICINE_DB_POOL_MIN_SIZE: int = 1
+    MEDICINE_DB_POOL_MAX_SIZE: int = 6
+    MEDICINE_DB_POOL_TIMEOUT_SECONDS: float = 3.0
+    MEDICINE_MATCH_TOP_K: int = 3
+    MEDICINE_MATCH_TRIGRAM_LIMIT: int = 5
+    MEDICINE_MATCH_FALLBACK_LIMIT: int = 20
+    MEDICINE_MATCH_MIN_CONFIDENCE: float = 0.5
+    MEDICINE_MATCH_ENABLE_FALLBACK: bool = True
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { forgotPassword } from "@/lib/auth-actions";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
-import logo from "@/assets/images/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function ForgotPasswordClient() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -92,7 +93,8 @@ export function ForgotPasswordClient() {
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
-                  <Image src={logo} alt="Medora Logo" fill className="object-contain" />
+                  <Image src={medoraDarkLogo} alt="Medora Logo" fill className="object-contain dark:hidden" />
+                  <Image src={medoraLightLogo} alt="Medora Logo" fill className="hidden object-contain dark:block" />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">Forgot Password?</h2>
                 <p className="text-muted-foreground">Enter your email address and we&apos;ll send you a link to reset your password.</p>

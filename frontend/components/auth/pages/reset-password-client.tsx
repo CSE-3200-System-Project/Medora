@@ -13,7 +13,8 @@ import { createClient } from "@supabase/supabase-js";
 import { resetPassword } from "@/lib/auth-actions";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
-import logo from "@/assets/images/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -213,7 +214,8 @@ export function ResetPasswordClient() {
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
-                  <Image src={logo} alt="Medora Logo" fill className="object-contain" />
+                  <Image src={medoraDarkLogo} alt="Medora Logo" fill className="object-contain dark:hidden" />
+                  <Image src={medoraLightLogo} alt="Medora Logo" fill className="hidden object-contain dark:block" />
                 </div>
 
                 {pageState === "loading" && (
