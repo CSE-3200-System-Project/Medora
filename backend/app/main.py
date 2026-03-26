@@ -4,7 +4,7 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 
 # Configure logging
@@ -106,3 +106,7 @@ app.include_router(consultation_ai.router, prefix="/consultation", tags=["Consul
 app.include_router(availability.router, prefix="/availability", tags=["Availability"])
 app.include_router(reschedule.router, prefix="/reschedule", tags=["Reschedule"])
 app.include_router(oauth.router, prefix="/oauth", tags=["OAuth"])
+app.include_router(health_metrics.router, prefix="/health-metrics", tags=["Health Metrics"])
+app.include_router(doctor_actions.router, prefix="/doctor/actions", tags=["Doctor Actions"])
+app.include_router(patient_dashboard.router, prefix="/patient", tags=["Patient Dashboard"])
+app.include_router(health_data_consent.router, prefix="/health-data", tags=["Health Data Consent"])

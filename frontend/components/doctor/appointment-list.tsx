@@ -14,6 +14,7 @@ type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 interface Appointment {
   id: string;
   patient_id?: string;
+  patient_ref?: string;
   patient_name: string;
   appointment_date: string;
   reason: string;
@@ -212,7 +213,7 @@ export function AppointmentList({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/doctor/patient/${appointment.patient_id}`);
+                    router.push(`/doctor/patient/${appointment.patient_ref || appointment.patient_id}`);
                   }}
                   className="font-semibold text-primary hover:underline text-base flex items-center gap-1 text-left"
                 >

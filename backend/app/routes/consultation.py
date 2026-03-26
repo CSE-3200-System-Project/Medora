@@ -11,6 +11,10 @@ from datetime import datetime, timezone
 import uuid
 
 from app.core.dependencies import get_db
+from app.core.patient_reference import (
+    patient_ref_from_uuid,
+    resolve_doctor_patient_identifier,
+)
 from app.routes.auth import get_current_user_token
 from app.db.models.consultation import (
     Consultation,
@@ -45,6 +49,10 @@ from app.schemas.consultation import (
     SurgeryRecommendationCreate,
     SurgeryRecommendationResponse,
     PrescriptionReject,
+)
+from app.services.doctor_action_service import (
+    create_consultation_completed_action,
+    create_prescription_issued_action,
 )
 
 router = APIRouter()
@@ -129,6 +137,7 @@ def build_consultation_response(
         "id": consultation.id,
         "doctor_id": consultation.doctor_id,
         "patient_id": consultation.patient_id,
+        "patient_ref": patient_ref_from_uuid(consultation.patient_id),
         "appointment_id": consultation.appointment_id,
         "chief_complaint": consultation.chief_complaint,
         "diagnosis": consultation.diagnosis,
@@ -158,6 +167,7 @@ def build_prescription_response(prescription: Prescription, doctor_profile: Opti
         "consultation_id": prescription.consultation_id,
         "doctor_id": prescription.doctor_id,
         "patient_id": prescription.patient_id,
+        "patient_ref": patient_ref_from_uuid(prescription.patient_id),
         "type": prescription.type.value if prescription.type else "medication",
         "status": prescription.status.value if prescription.status else "pending",
         "rejection_reason": prescription.rejection_reason,
@@ -259,9 +269,17 @@ async def start_consultation(
     try:
         doctor = await get_doctor_profile(db, user.id)
         
+        resolved_patient_id = await resolve_doctor_patient_identifier(
+            db,
+            doctor_id=user.id,
+            patient_identifier=str(data.patient_id).strip(),
+        )
+        if not resolved_patient_id:
+            raise HTTPException(status_code=404, detail="Patient not found for this doctor")
+
         # Verify patient exists
         result = await db.execute(
-            select(PatientProfile).where(PatientProfile.profile_id == data.patient_id)
+            select(PatientProfile).where(PatientProfile.profile_id == resolved_patient_id)
         )
         patient = result.scalar_one_or_none()
         if not patient:
@@ -272,7 +290,7 @@ async def start_consultation(
             select(Consultation).where(
                 and_(
                     Consultation.doctor_id == user.id,
-                    Consultation.patient_id == data.patient_id,
+                    Consultation.patient_id == resolved_patient_id,
                     Consultation.status == ConsultationStatus.OPEN
                 )
             )
@@ -285,7 +303,7 @@ async def start_consultation(
         consultation = Consultation(
             id=str(uuid.uuid4()),
             doctor_id=user.id,
-            patient_id=data.patient_id,
+            patient_id=resolved_patient_id,
             appointment_id=data.appointment_id,
             chief_complaint=data.chief_complaint,
             notes=data.notes,
@@ -303,7 +321,7 @@ async def start_consultation(
         # Create notification for patient
         await create_notification(
             db=db,
-            user_id=data.patient_id,
+            user_id=resolved_patient_id,
             notification_type=NotificationType.CONSULTATION_STARTED,
             title="Consultation Started",
             message=f"{doctor_name} has started a consultation session with you.",
@@ -511,6 +529,7 @@ async def complete_consultation(
     
     consultation.status = ConsultationStatus.COMPLETED
     consultation.completed_at = datetime.now(timezone.utc)
+    await create_consultation_completed_action(db, consultation=consultation)
     
     # Get doctor profile info
     result = await db.execute(
@@ -711,6 +730,7 @@ async def add_prescription(
         print(f"Notification created with ID: {notification.id}")
         print(f"Notification user_id: {notification.user_id}")
         print(f"Notification type: {notification.type}")
+        await create_prescription_issued_action(db, prescription=prescription)
         
         await db.commit()
         print(f"Notification committed to database\n")

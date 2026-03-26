@@ -80,7 +80,7 @@ async def search_doctors(
 
     # Filter by gender
     if gender:
-        stmt = stmt.where(Profile.gender.ilike(f"%{gender}%"))
+        stmt = stmt.where(DoctorProfile.gender.ilike(f"%{gender}%"))
 
     # Filter by consultation mode
     if consultation_mode:

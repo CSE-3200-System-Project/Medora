@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 class OCRRequest(BaseModel):
     image_url: str | None = None
     image_file: str | None = None
+    subject_token: str | None = None
 
 
 class BBox(BaseModel):

@@ -27,6 +27,9 @@ interface NotificationDropdownProps {
   className?: string;
 }
 
+const NOTIFICATION_POLL_VISIBLE_MS = 600_000;
+const NOTIFICATION_POLL_HIDDEN_MS = 3_600_000;
+
 // Icon mapping for notification types
 const notificationIcons: Record<NotificationType, React.ElementType> = {
   appointment_booked: Calendar,
@@ -135,7 +138,10 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
         await fetchUnreadCount();
       }
 
-      const nextIntervalMs = document.visibilityState === "visible" ? 30_000 : 120_000;
+      const nextIntervalMs =
+        document.visibilityState === "visible"
+          ? NOTIFICATION_POLL_VISIBLE_MS
+          : NOTIFICATION_POLL_HIDDEN_MS;
       timeoutId = window.setTimeout(poll, nextIntervalMs);
     };
 

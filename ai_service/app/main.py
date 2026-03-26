@@ -8,7 +8,7 @@ import uuid
 from typing import Annotated
 
 import httpx
-from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
+from fastapi import FastAPI, File, Form, Header, HTTPException, Query, Request, UploadFile
 
 from app.config import settings
 from app.input_normalization import normalize_input_to_image_bytes
@@ -43,17 +43,28 @@ async def process_prescription(
     file: Annotated[UploadFile | None, File()] = None,
     image_url: Annotated[str | None, Form()] = None,
     debug: Annotated[bool, Query(description="Return detector + OCR internals for debugging.")] = False,
+    subject_token_header: Annotated[str | None, Header(alias="X-Medora-Subject-Token")] = None,
 ) -> OCRResponse:
     request_id = uuid.uuid4().hex[:10]
     started = time.perf_counter()
     logger.debug("ocr_request_start request_id=%s debug=%s", request_id, debug)
 
     payload = await _extract_json_payload(request)
+    subject_token = (
+        (subject_token_header or "").strip()
+        or str(getattr(payload, "subject_token", "") or "").strip()
+        or "anonymous_subject"
+    )[:80]
     image_bytes = await _resolve_image_bytes(file=file, image_url=image_url, payload=payload)
-    logger.debug("ocr_request_input request_id=%s bytes=%d", request_id, len(image_bytes))
+    logger.debug(
+        "ocr_request_input request_id=%s bytes=%d subject_token=%s",
+        request_id,
+        len(image_bytes),
+        subject_token,
+    )
 
     try:
-        response = await asyncio.to_thread(pipeline.run, image_bytes, debug)
+        response = await asyncio.to_thread(pipeline.run, image_bytes, debug, subject_token)
     except Exception:
         logger.exception("ocr_request_error request_id=%s", request_id)
         raise

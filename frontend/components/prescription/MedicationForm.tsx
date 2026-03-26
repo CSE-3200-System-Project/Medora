@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Pill, Sun, Cloud, Moon, Star, Search, X, Loader2 } from "lucide-react";
+import { Plus, Trash2, Pill, Sun, Cloud, Moon, Star, X, Loader2 } from "lucide-react";
 import { MedicationPrescriptionInput, MedicineType, MealInstruction, DurationUnit } from "@/lib/prescription-actions";
 
 interface MedicationFormProps {
@@ -148,14 +148,13 @@ function MedicineSearchInput({
   return (
     <div ref={containerRef} className="relative">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary pointer-events-none" />
         <Input
           type="text"
           value={query}
           onChange={handleInputChange}
           onFocus={() => query.length >= 2 && setIsOpen(true)}
           placeholder="Search medicine name..."
-          className="pl-9 pr-10 rounded-lg"
+          className="pr-10 rounded-lg"
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}

@@ -9,12 +9,32 @@ from app.db.models.profile import Profile
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile 
 from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
+from app.core.avatar_defaults import generate_default_avatar_url, backfill_missing_avatar_urls
 from sqlalchemy import select
 import os
 from types import SimpleNamespace
 from app.core.security import verify_jwt
 
 router = APIRouter()
+_avatar_backfill_completed = False
+
+
+async def _resolve_user_avatar_url(db: AsyncSession, user_id: str, role: UserRole | None) -> str:
+    if role == UserRole.PATIENT:
+        result = await db.execute(
+            select(PatientProfile.profile_photo_url).where(PatientProfile.profile_id == user_id)
+        )
+        photo_url = result.scalar_one_or_none()
+        return photo_url or generate_default_avatar_url(user_id)
+
+    if role == UserRole.DOCTOR:
+        result = await db.execute(
+            select(DoctorProfile.profile_photo_url).where(DoctorProfile.profile_id == user_id)
+        )
+        photo_url = result.scalar_one_or_none()
+        return photo_url or generate_default_avatar_url(user_id)
+
+    return generate_default_avatar_url(user_id)
 
 class AuthCode(BaseModel):
     code: str
@@ -59,7 +79,8 @@ async def signup_patient(user_data: PatientSignup, db: AsyncSession = Depends(ge
             date_of_birth=user_data.date_of_birth,
             gender=user_data.gender,
             blood_group=user_data.blood_group,
-            allergies=user_data.allergies
+            allergies=user_data.allergies,
+            profile_photo_url=generate_default_avatar_url(user_id),
         )
         db.add(new_patient)
 
@@ -115,7 +136,8 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
             bmdc_number=user_data.bmdc_number,
             bmdc_document_url=user_data.bmdc_document,
             bmdc_verified=False,  # Will be verified by admin
-            specialization=None  # Will be filled during onboarding
+            specialization=None,  # Will be filled during onboarding
+            profile_photo_url=generate_default_avatar_url(user_id),
         )
         db.add(new_doctor)
 
@@ -133,7 +155,13 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
 
 @router.post("/login")
 async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
+    global _avatar_backfill_completed
     try:
+        if not _avatar_backfill_completed:
+            await backfill_missing_avatar_urls(db)
+            await db.commit()
+            _avatar_backfill_completed = True
+
         auth_response = supabase.auth.sign_in_with_password({
             "email": user_data.email,
             "password": user_data.password,
@@ -147,6 +175,7 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
             select(Profile).where(Profile.id == auth_response.user.id)
         )
         profile = result.scalar_one_or_none()
+        avatar_url = await _resolve_user_avatar_url(db, auth_response.user.id, profile.role if profile else None)
         
         if profile and profile.status == AccountStatus.banned:
             # Sign out the user immediately
@@ -164,6 +193,7 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
                 "role": profile.role.value if profile else None,
                 "verification_status": profile.verification_status.value if profile else None,
                 "onboarding_completed": profile.onboarding_completed if profile else False,
+                "profile_photo_url": avatar_url,
             }
         }
     except HTTPException:
@@ -259,6 +289,8 @@ async def get_my_profile(
         )
         profile = result.fetchone()
 
+    avatar_url = await _resolve_user_avatar_url(db, user_id, profile.role if profile else None)
+
     return {
         "id": profile.id,
         "role": profile.role,
@@ -268,6 +300,7 @@ async def get_my_profile(
         "phone": profile.phone,
         "verification_status": profile.verification_status,
         "onboarding_completed": profile.onboarding_completed,
+        "profile_photo_url": avatar_url,
         "email_verified": email_verified
     }
 

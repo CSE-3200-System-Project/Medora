@@ -43,6 +43,9 @@ export default async function DoctorChoruiAIPage() {
           <p className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Doctor Workflow Assistant
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Use a patient ID from your list in your prompt for secure patient-linked AI context.
+          </p>
         </div>
         <ChoruiChat roleContext="doctor" />
       </main>

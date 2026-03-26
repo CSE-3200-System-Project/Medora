@@ -84,6 +84,7 @@ class ConsultationResponse(BaseModel):
     id: str
     doctor_id: str
     patient_id: str
+    patient_ref: Optional[str] = None
     appointment_id: Optional[str] = None
     chief_complaint: Optional[str] = None
     diagnosis: Optional[str] = None
@@ -259,6 +260,7 @@ class PrescriptionResponse(BaseModel):
     consultation_id: str
     doctor_id: str
     patient_id: str
+    patient_ref: Optional[str] = None
     type: PrescriptionType
     status: PrescriptionStatus
     rejection_reason: Optional[str] = None

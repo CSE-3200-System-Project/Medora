@@ -53,16 +53,25 @@ async def stop_reminder_dispatcher() -> None:
 
 
 async def _run_dispatcher_loop() -> None:
-    interval_seconds = max(15, settings.REMINDER_DISPATCH_INTERVAL_SECONDS)
-    lookback = timedelta(seconds=max(interval_seconds * 2, 120))
+    base_interval_seconds = max(300, settings.REMINDER_DISPATCH_INTERVAL_SECONDS)
+    max_interval_seconds = max(base_interval_seconds * 12, 30 * 60)
+    interval_seconds = base_interval_seconds
+    lookback = timedelta(seconds=max(interval_seconds * 2, 180))
     last_scan_utc = datetime.now(timezone.utc) - lookback
 
     while _dispatcher_stop_event and not _dispatcher_stop_event.is_set():
         now_utc = datetime.now(timezone.utc)
         try:
-            await _dispatch_due_reminders(last_scan_utc, now_utc)
+            active_count, delivered_count = await _dispatch_due_reminders(last_scan_utc, now_utc)
+            if delivered_count > 0:
+                interval_seconds = base_interval_seconds
+            elif active_count == 0:
+                interval_seconds = min(max_interval_seconds, max(interval_seconds * 2, base_interval_seconds * 2))
+            else:
+                interval_seconds = min(max_interval_seconds, max(base_interval_seconds, interval_seconds))
         except Exception:
             logger.exception("Reminder dispatch cycle failed.")
+            interval_seconds = min(max_interval_seconds, max(interval_seconds * 2, base_interval_seconds))
 
         last_scan_utc = now_utc
         try:
@@ -71,9 +80,9 @@ async def _run_dispatcher_loop() -> None:
             continue
 
 
-async def _dispatch_due_reminders(start_utc: datetime, end_utc: datetime) -> None:
+async def _dispatch_due_reminders(start_utc: datetime, end_utc: datetime) -> tuple[int, int]:
     if end_utc <= start_utc:
-        return
+        return 0, 0
 
     async with AsyncSessionLocal() as db:
         result = await db.execute(
@@ -83,8 +92,9 @@ async def _dispatch_due_reminders(start_utc: datetime, end_utc: datetime) -> Non
         )
         reminders = result.scalars().all()
         if not reminders:
-            return
+            return 0, 0
 
+        delivered_count = 0
         for reminder in reminders:
             reminder_tz = _safe_timezone(reminder.timezone or settings.DEFAULT_REMINDER_TIMEZONE)
             due_slots_utc = _compute_due_slots_utc(reminder, reminder_tz, start_utc, end_utc)
@@ -93,12 +103,14 @@ async def _dispatch_due_reminders(start_utc: datetime, end_utc: datetime) -> Non
                 try:
                     await _create_reminder_notification(db, reminder, slot_utc, reminder_tz)
                     await db.commit()
+                    delivered_count += 1
                 except IntegrityError:
                     await db.rollback()
                     continue
                 except Exception:
                     await db.rollback()
                     logger.exception("Failed creating reminder notification reminder_id=%s", reminder.id)
+        return len(reminders), delivered_count
 
 
 async def _create_reminder_notification(

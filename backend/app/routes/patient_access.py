@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, or_, func
 from app.core.dependencies import get_db
+from app.core.patient_reference import patient_ref_from_uuid, resolve_doctor_patient_identifier
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
@@ -35,11 +36,22 @@ async def check_doctor_patient_access(
     Check if a doctor has valid access to a patient's data.
     Returns dict with access status and reason.
     """
+    resolved_patient_id = await resolve_doctor_patient_identifier(
+        db,
+        doctor_id=doctor_id,
+        patient_identifier=patient_id,
+    )
+    if not resolved_patient_id:
+        return {
+            "allowed": False,
+            "reason": "Invalid patient reference. Use a valid patient ID from your list.",
+        }
+
     # Check if access has been explicitly revoked by patient
     access_control = await db.execute(
         select(PatientDoctorAccess).where(
             and_(
-                PatientDoctorAccess.patient_id == patient_id,
+                PatientDoctorAccess.patient_id == resolved_patient_id,
                 PatientDoctorAccess.doctor_id == doctor_id
             )
         )
@@ -50,12 +62,14 @@ async def check_doctor_patient_access(
         if access_record.status == AccessStatus.REVOKED:
             return {
                 "allowed": False,
-                "reason": "Patient has revoked your access to their medical records"
+                "reason": "Patient has revoked your access to their medical records",
+                "patient_id": resolved_patient_id,
             }
         if access_record.expires_at and access_record.expires_at < datetime.utcnow():
             return {
                 "allowed": False,
-                "reason": "Your access to this patient's records has expired"
+                "reason": "Your access to this patient's records has expired",
+                "patient_id": resolved_patient_id,
             }
     
     # Check if doctor has any appointment with this patient
@@ -63,7 +77,7 @@ async def check_doctor_patient_access(
         select(Appointment).where(
             and_(
                 Appointment.doctor_id == doctor_id,
-                Appointment.patient_id == patient_id,
+                Appointment.patient_id == resolved_patient_id,
                 Appointment.status.in_([
                     AppointmentStatus.PENDING,
                     AppointmentStatus.CONFIRMED,
@@ -77,10 +91,16 @@ async def check_doctor_patient_access(
     if not appointments:
         return {
             "allowed": False,
-            "reason": "You don't have any appointment relationship with this patient"
+            "reason": "You don't have any appointment relationship with this patient",
+            "patient_id": resolved_patient_id,
         }
     
-    return {"allowed": True, "appointments": len(appointments)}
+    return {
+        "allowed": True,
+        "appointments": len(appointments),
+        "patient_id": resolved_patient_id,
+        "patient_ref": patient_ref_from_uuid(resolved_patient_id),
+    }
 
 
 async def log_patient_access(
@@ -156,7 +176,7 @@ async def get_patient_for_doctor(
             detail="Only verified doctors can access patient records"
         )
     
-    # Check access permission
+    # Check access permission (supports short patient reference ID)
     access_check = await check_doctor_patient_access(db, doctor_id, patient_id)
     
     if not access_check["allowed"]:
@@ -164,10 +184,13 @@ async def get_patient_for_doctor(
             status_code=403,
             detail=access_check["reason"]
         )
+    resolved_patient_id = str(access_check.get("patient_id") or "")
+    if not resolved_patient_id:
+        raise HTTPException(status_code=404, detail="Patient not found")
     
     # Get patient basic profile
     patient_profile_result = await db.execute(
-        select(Profile).where(Profile.id == patient_id)
+        select(Profile).where(Profile.id == resolved_patient_id)
     )
     patient_profile = patient_profile_result.scalar_one_or_none()
     
@@ -176,7 +199,7 @@ async def get_patient_for_doctor(
     
     # Get patient medical profile
     patient_details_result = await db.execute(
-        select(PatientProfile).where(PatientProfile.profile_id == patient_id)
+        select(PatientProfile).where(PatientProfile.profile_id == resolved_patient_id)
     )
     patient_details = patient_details_result.scalar_one_or_none()
     
@@ -184,14 +207,14 @@ async def get_patient_for_doctor(
         raise HTTPException(status_code=404, detail="Patient medical profile not found")
     
     # Log the access
-    await log_patient_access(db, patient_id, doctor_id, AccessType.VIEW_FULL_RECORD, request)
+    await log_patient_access(db, resolved_patient_id, doctor_id, AccessType.VIEW_FULL_RECORD, request)
     
     # Send notification to patient
     doctor_name = f"{doctor_details.title or 'Dr.'} {doctor_profile.first_name} {doctor_profile.last_name}"
     
     await create_notification(
         db=db,
-        user_id=patient_id,
+        user_id=resolved_patient_id,
         notification_type=NotificationType.PROFILE_UPDATE,
         title="Your Medical Records Were Viewed",
         message=f"{doctor_name} accessed your medical records",
@@ -200,7 +223,8 @@ async def get_patient_for_doctor(
             "doctor_id": doctor_id,
             "doctor_name": doctor_name,
             "access_type": "view_full_record",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
+            "patient_ref": patient_ref_from_uuid(resolved_patient_id),
         },
         priority=NotificationPriority.LOW,
     )
@@ -234,7 +258,7 @@ async def get_patient_for_doctor(
         select(Appointment).where(
             and_(
                 Appointment.doctor_id == doctor_id,
-                Appointment.patient_id == patient_id
+                Appointment.patient_id == resolved_patient_id
             )
         ).order_by(Appointment.appointment_date.desc())
     )
@@ -253,7 +277,8 @@ async def get_patient_for_doctor(
     
     return {
         # Basic Info
-        "id": patient_id,
+        "id": patient_ref_from_uuid(resolved_patient_id),
+        "patient_ref": patient_ref_from_uuid(resolved_patient_id),
         "first_name": patient_profile.first_name,
         "last_name": patient_profile.last_name,
         "email": patient_profile.email,

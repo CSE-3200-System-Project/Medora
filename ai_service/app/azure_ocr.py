@@ -26,17 +26,18 @@ class AzureReadClient:
         )
         self._model_id = settings.AZURE_OCR_MODEL_ID
 
-    def read_lines(self, image_bytes: bytes) -> list[OCRLine]:
+    def read_lines(self, image_bytes: bytes, *, subject_token: str | None = None) -> list[OCRLine]:
         prepared = _prepare_image_for_ocr(image_bytes)
         logger.debug(
-            "azure_read_start original_bytes=%d prepared_bytes=%d model=%s",
+            "azure_read_start original_bytes=%d prepared_bytes=%d model=%s subject_token=%s",
             len(image_bytes),
             len(prepared),
             self._model_id,
+            _safe_request_id(subject_token),
         )
 
         try:
-            poller = self._begin_analyze(prepared)
+            poller = self._begin_analyze(prepared, subject_token=subject_token)
             result = poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
         except HttpResponseError as exc:
             if _is_invalid_content_length(exc):
@@ -47,7 +48,7 @@ class AzureReadClient:
                     max_bytes=max(700_000, settings.OCR_MAX_IMAGE_BYTES // 2),
                     start_quality=max(60, settings.OCR_JPEG_QUALITY - 20),
                 )
-                poller = self._begin_analyze(smaller)
+                poller = self._begin_analyze(smaller, subject_token=subject_token)
                 result = poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
             else:
                 raise
@@ -70,20 +71,37 @@ class AzureReadClient:
         logger.debug("azure_read_done lines=%d", len(lines))
         return lines
 
-    def _begin_analyze(self, image_bytes: bytes):
+    def _begin_analyze(self, image_bytes: bytes, *, subject_token: str | None = None):
+        request_headers = {"x-ms-client-request-id": _safe_request_id(subject_token)}
         # Different SDK versions accept either `body` or `analyze_request`.
         try:
             return self._client.begin_analyze_document(
                 model_id=self._model_id,
                 body=image_bytes,
                 content_type="application/octet-stream",
+                headers=request_headers,
             )
         except TypeError:
-            return self._client.begin_analyze_document(
-                model_id=self._model_id,
-                analyze_request=image_bytes,
-                content_type="application/octet-stream",
-            )
+            try:
+                return self._client.begin_analyze_document(
+                    model_id=self._model_id,
+                    analyze_request=image_bytes,
+                    content_type="application/octet-stream",
+                    headers=request_headers,
+                )
+            except TypeError:
+                try:
+                    return self._client.begin_analyze_document(
+                        model_id=self._model_id,
+                        body=image_bytes,
+                        content_type="application/octet-stream",
+                    )
+                except TypeError:
+                    return self._client.begin_analyze_document(
+                        model_id=self._model_id,
+                        analyze_request=image_bytes,
+                        content_type="application/octet-stream",
+                    )
 
 
 def _polygon_to_bbox(polygon: Any) -> BBox | None:
@@ -117,6 +135,17 @@ def _is_invalid_content_length(exc: HttpResponseError) -> bool:
         pass
     message = str(exc)
     return "InvalidContentLength" in message
+
+
+def _safe_request_id(subject_token: str | None) -> str:
+    token = str(subject_token or "").strip().lower()
+    if not token:
+        return "medora-anonymous"
+    token = "".join(ch for ch in token if ch.isalnum() or ch in {"-", "_"})
+    token = token[:52]
+    if not token:
+        return "medora-anonymous"
+    return f"medora-{token}"
 
 
 def _prepare_image_for_ocr(
