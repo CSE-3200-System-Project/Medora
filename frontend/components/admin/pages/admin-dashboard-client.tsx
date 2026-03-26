@@ -39,11 +39,11 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
   const stats = initialStats;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
+    <>
       <AdminNavbar />
 
       <main>
-        <ResponsiveContainer className="py-4 sm:py-6">
+        <ResponsiveContainer className="py-4 sm:py-6 pt-(--nav-content-offset)">
           <div className="mb-6 sm:mb-8">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
             <p className="text-muted-foreground">Platform overview and statistics</p>
@@ -181,7 +181,7 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
           </Card>
         </ResponsiveContainer>
       </main>
-    </div>
+    </>
   );
 }
 

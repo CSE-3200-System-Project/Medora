@@ -170,11 +170,32 @@ export async function getAllPatients(limit = 50, offset = 0) {
 }
 
 // Appointments Management
-export async function getAllAppointments(limit = 50, offset = 0) {
+export async function getAllAppointments(
+  limit = 50,
+  offset = 0,
+  filters?: {
+    status?: string;
+    search?: string;
+    date_from?: string;
+    date_to?: string;
+    sort?: "asc" | "desc";
+  }
+) {
   try {
     const headers = await getAdminHeaders();
+    const params = new URLSearchParams({
+      limit: String(limit),
+      offset: String(offset),
+    });
+    if (filters?.status && filters.status !== "all")
+      params.set("status", filters.status);
+    if (filters?.search) params.set("search", filters.search);
+    if (filters?.date_from) params.set("date_from", filters.date_from);
+    if (filters?.date_to) params.set("date_to", filters.date_to);
+    if (filters?.sort) params.set("sort", filters.sort);
+
     const response = await fetch(
-      `${BACKEND_URL}/admin/appointments?limit=${limit}&offset=${offset}`,
+      `${BACKEND_URL}/admin/appointments?${params.toString()}`,
       {
         headers,
         cache: "no-store",
@@ -191,6 +212,23 @@ export async function getAllAppointments(limit = 50, offset = 0) {
   } catch (error) {
     console.error("Error fetching appointments:", error);
     throw error;
+  }
+}
+
+// Appointment Summary Stats
+export async function getAppointmentSummary() {
+  try {
+    const headers = await getAdminHeaders();
+    const response = await fetch(
+      `${BACKEND_URL}/admin/appointments/summary`,
+      { headers, cache: "no-store" }
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch appointment summary");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching appointment summary:", error);
+    return null;
   }
 }
 // Audit Logs
