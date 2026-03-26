@@ -296,22 +296,74 @@ async def get_all_appointments(
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
     limit: int = 50,
-    offset: int = 0
+    offset: int = 0,
+    status: str | None = None,
+    search: str | None = None,
+    date_from: str | None = None,
+    date_to: str | None = None,
+    sort: str = "desc",
 ):
-    """Get all appointments with doctor and patient info"""
-    from app.db.models.appointment import Appointment
+    """Get all appointments with doctor/patient info, server-side filtering & sorting."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
     doctor_alias = aliased(Profile)
     patient_alias = aliased(Profile)
-    
-    result = await db.execute(
+
+    base = (
         select(Appointment, doctor_alias, patient_alias)
         .join(doctor_alias, doctor_alias.id == Appointment.doctor_id, isouter=True)
         .join(patient_alias, patient_alias.id == Appointment.patient_id, isouter=True)
-        .limit(limit)
-        .offset(offset)
-        .order_by(Appointment.appointment_date.desc())
     )
-    
+
+    # --- filters ---
+    if status and status != "all":
+        # Support comma-separated multi-status (e.g. "pending_admin_review,reschedule_requested")
+        statuses = [s.strip().upper() for s in status.split(",") if s.strip()]
+        valid = []
+        for s in statuses:
+            try:
+                valid.append(ApptStatus(s))
+            except ValueError:
+                pass
+        if valid:
+            base = base.where(Appointment.status.in_(valid))
+
+    if date_from:
+        try:
+            dt_from = datetime.fromisoformat(date_from)
+            base = base.where(Appointment.appointment_date >= dt_from)
+        except ValueError:
+            pass
+    if date_to:
+        try:
+            dt_to = datetime.fromisoformat(date_to)
+            # Include the full day
+            dt_to = dt_to.replace(hour=23, minute=59, second=59)
+            base = base.where(Appointment.appointment_date <= dt_to)
+        except ValueError:
+            pass
+
+    if search:
+        term = f"%{search.strip().lower()}%"
+        base = base.where(
+            func.lower(
+                func.concat(
+                    func.coalesce(doctor_alias.first_name, ""), " ",
+                    func.coalesce(doctor_alias.last_name, ""), " ",
+                    func.coalesce(patient_alias.first_name, ""), " ",
+                    func.coalesce(patient_alias.last_name, ""),
+                )
+            ).like(term)
+        )
+
+    # --- count (with same filters, before pagination) ---
+    count_base = base.with_only_columns(func.count()).order_by(None)
+    count_result = await db.execute(count_base)
+    total = count_result.scalar() or 0
+
+    # --- sort & paginate ---
+    order = Appointment.appointment_date.asc() if sort == "asc" else Appointment.appointment_date.desc()
+    result = await db.execute(base.order_by(order).limit(limit).offset(offset))
+
     appointments = []
     for appointment, doctor, patient in result.all():
         status_value = appointment.status.value if hasattr(appointment.status, "value") else str(appointment.status)
@@ -320,6 +372,8 @@ async def get_all_appointments(
             "appointment_date": appointment.appointment_date.isoformat(),
             "status": status_value.lower(),
             "reason": appointment.reason,
+            "notes": appointment.notes,
+            "duration_minutes": appointment.duration_minutes,
             "doctor": {
                 "id": doctor.id if doctor else None,
                 "name": f"{doctor.first_name} {doctor.last_name}" if doctor else "Unknown"
@@ -329,16 +383,68 @@ async def get_all_appointments(
                 "name": f"{patient.first_name} {patient.last_name}" if patient else "Unknown"
             }
         })
-    
-    # Get total count
-    count_result = await db.execute(select(func.count(Appointment.id)))
-    total = count_result.scalar() or 0
-    
+
     return {
         "appointments": appointments,
         "total": total,
         "limit": limit,
-        "offset": offset
+        "offset": offset,
+    }
+
+
+@router.get("/appointments/summary")
+async def get_appointment_summary(
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    """Aggregated appointment stats for the admin dashboard header cards."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from datetime import timedelta
+
+    now = datetime.utcnow()
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timedelta(days=1)
+    week_end = today_start + timedelta(days=7)
+
+    result = await db.execute(
+        select(
+            func.count(Appointment.id).label("total"),
+            func.count(Appointment.id).filter(
+                Appointment.status.in_([
+                    ApptStatus.PENDING_ADMIN_REVIEW,
+                    ApptStatus.RESCHEDULE_REQUESTED,
+                    ApptStatus.CANCEL_REQUESTED,
+                ])
+            ).label("needs_attention"),
+            func.count(Appointment.id).filter(
+                Appointment.appointment_date >= today_start,
+                Appointment.appointment_date < today_end,
+                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+            ).label("today"),
+            func.count(Appointment.id).filter(
+                Appointment.appointment_date >= today_start,
+                Appointment.appointment_date < week_end,
+                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+            ).label("this_week"),
+            func.count(Appointment.id).filter(Appointment.status == ApptStatus.CONFIRMED).label("confirmed"),
+            func.count(Appointment.id).filter(Appointment.status == ApptStatus.PENDING).label("pending"),
+            func.count(Appointment.id).filter(Appointment.status == ApptStatus.COMPLETED).label("completed"),
+            func.count(Appointment.id).filter(Appointment.status == ApptStatus.CANCELLED).label("cancelled"),
+            func.count(Appointment.id).filter(Appointment.status == ApptStatus.NO_SHOW).label("no_show"),
+        )
+    )
+    row = result.one()
+
+    return {
+        "total": row.total or 0,
+        "needs_attention": row.needs_attention or 0,
+        "today": row.today or 0,
+        "this_week": row.this_week or 0,
+        "confirmed": row.confirmed or 0,
+        "pending": row.pending or 0,
+        "completed": row.completed or 0,
+        "cancelled": row.cancelled or 0,
+        "no_show": row.no_show or 0,
     }
 
 

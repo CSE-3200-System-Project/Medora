@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-native";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableScrollContainer } from "@/components/ui/table";
-import { User, Mail, Phone, Search, Ban, Unlock, UserCog } from "lucide-react";
+import { User, Mail, Phone, Ban, Unlock, UserCog } from "lucide-react";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
 import { banUser, unbanUser } from "@/lib/admin-actions";
 
@@ -88,23 +88,22 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
   const bannedCount = allUsers.filter((u) => u.account_status === "banned").length;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
+    <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">User Account Management</h1>
           <p className="text-muted-foreground">Ban or unban user accounts</p>
         </div>
 
         <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
-          <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="w-full sm:w-96">
             <Input
               placeholder="Search by name or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
+              className="bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -311,8 +310,6 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
           variant="danger"
         />
       </main>
-    </div>
+    </>
   );
 }
-
-

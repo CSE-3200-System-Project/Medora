@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 import {
   ClipboardList,
-  Search,
   ChevronLeft,
   ChevronRight,
   ArrowRight,
@@ -172,10 +171,10 @@ export function AdminAuditLogClient({
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background">
+    <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
             <ClipboardList className="h-6 w-6" />
@@ -187,8 +186,7 @@ export function AdminAuditLogClient({
         </div>
 
         <div className="mb-4 sm:mb-6">
-          <div className="relative w-full sm:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="w-full sm:w-96">
             <Input
               placeholder="Filter by appointment ID..."
               value={appointmentFilter}
@@ -196,7 +194,7 @@ export function AdminAuditLogClient({
                 setAppointmentFilter(e.target.value);
                 setPage(0);
               }}
-              className="pl-10 bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
+              className="bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </div>
@@ -345,7 +343,6 @@ export function AdminAuditLogClient({
           </>
         )}
       </main>
-    </div>
+    </>
   );
 }
-

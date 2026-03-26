@@ -7,7 +7,7 @@ import { Clock, CheckCircle, XCircle, Mail, Phone, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { signout } from "@/lib/auth-actions";
-import logo from "@/assets/image/medora-logo.png";
+import logo from "@/assets/images/medora-logo.png";
 
 export function VerifyPendingClient() {
   const router = useRouter();

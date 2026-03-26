@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { getReminders } from "@/lib/reminder-actions";
+import { getReminders, type Reminder } from "@/lib/reminder-actions";
+
+const CLIENT_TICK_MS = 60_000;
+const REMINDER_FETCH_BASE_MS = 20 * 60_000;
+const REMINDER_FETCH_MAX_MS = 60 * 60_000;
 
 /**
  * Client-side reminder notification service.
@@ -11,7 +15,9 @@ import { getReminders } from "@/lib/reminder-actions";
 export function ReminderNotificationService() {
   const firedRef = useRef<Set<string>>(new Set());
   const permissionRef = useRef<NotificationPermission>("default");
-  const pollDelayRef = useRef(60_000);
+  const remindersRef = useRef<Reminder[]>([]);
+  const lastReminderFetchAtRef = useRef(0);
+  const reminderFetchDelayRef = useRef(REMINDER_FETCH_BASE_MS);
 
   useEffect(() => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
@@ -24,63 +30,79 @@ export function ReminderNotificationService() {
     }
   }, []);
 
+  const refreshReminders = useCallback(async (force = false) => {
+    if (document.visibilityState !== "visible") return;
+    if (permissionRef.current !== "granted") return;
+    const nowMs = Date.now();
+
+    if (!force && nowMs - lastReminderFetchAtRef.current < reminderFetchDelayRef.current) {
+      return;
+    }
+
+    try {
+      const { reminders } = await getReminders({ active_only: true });
+      remindersRef.current = reminders || [];
+      lastReminderFetchAtRef.current = nowMs;
+      reminderFetchDelayRef.current = REMINDER_FETCH_BASE_MS;
+    } catch {
+      // Back off reminder-list refresh retries while still doing local tick checks.
+      lastReminderFetchAtRef.current = nowMs;
+      reminderFetchDelayRef.current = Math.min(reminderFetchDelayRef.current * 2, REMINDER_FETCH_MAX_MS);
+    }
+  }, []);
+
   const checkReminders = useCallback(async () => {
     if (document.visibilityState !== "visible") return;
     if (permissionRef.current !== "granted") return;
 
-    try {
-      const { reminders } = await getReminders({ active_only: true });
-      if (!reminders || reminders.length === 0) return;
+    await refreshReminders();
 
-      const now = new Date();
-      const currentHHMM = `${String(now.getHours()).padStart(2, "0")}:${String(
-        now.getMinutes(),
-      ).padStart(2, "0")}`;
-      const currentDay = now.getDay() === 0 ? 6 : now.getDay() - 1; // 0=Mon..6=Sun
-      const todayKey = now.toISOString().split("T")[0];
+    const reminders = remindersRef.current;
+    if (!reminders || reminders.length === 0) return;
 
-      for (const reminder of reminders) {
-        if (!reminder.is_active) continue;
+    const now = new Date();
+    const currentHHMM = `${String(now.getHours()).padStart(2, "0")}:${String(
+      now.getMinutes(),
+    ).padStart(2, "0")}`;
+    const currentDay = now.getDay() === 0 ? 6 : now.getDay() - 1; // 0=Mon..6=Sun
+    const todayKey = now.toISOString().split("T")[0];
 
-        if (
-          reminder.days_of_week &&
-          reminder.days_of_week.length > 0 &&
-          !reminder.days_of_week.includes(currentDay)
-        ) {
-          continue;
-        }
+    for (const reminder of reminders) {
+      if (!reminder.is_active) continue;
 
-        for (const time of reminder.reminder_times) {
-          if (time !== currentHHMM) continue;
-
-          const firedKey = `${reminder.id}-${todayKey}-${time}`;
-          if (firedRef.current.has(firedKey)) continue;
-
-          firedRef.current.add(firedKey);
-          const typeLabel = reminder.type === "medication" ? "Medicine" : "Test";
-
-          new Notification(`${typeLabel} Reminder`, {
-            body: `Time to take: ${reminder.item_name}${
-              reminder.notes ? ` - ${reminder.notes}` : ""
-            }`,
-            icon: "/favicon.ico",
-            tag: firedKey,
-          });
-        }
+      if (
+        reminder.days_of_week &&
+        reminder.days_of_week.length > 0 &&
+        !reminder.days_of_week.includes(currentDay)
+      ) {
+        continue;
       }
 
-      for (const key of firedRef.current) {
-        if (!key.includes(todayKey)) {
-          firedRef.current.delete(key);
-        }
-      }
+      for (const time of reminder.reminder_times) {
+        if (time !== currentHHMM) continue;
 
-      pollDelayRef.current = 60_000;
-    } catch {
-      // Backoff on failures to reduce client retry pressure.
-      pollDelayRef.current = Math.min(pollDelayRef.current * 2, 5 * 60_000);
+        const firedKey = `${reminder.id}-${todayKey}-${time}`;
+        if (firedRef.current.has(firedKey)) continue;
+
+        firedRef.current.add(firedKey);
+        const typeLabel = reminder.type === "medication" ? "Medicine" : "Test";
+
+        new Notification(`${typeLabel} Reminder`, {
+          body: `Time to take: ${reminder.item_name}${
+            reminder.notes ? ` - ${reminder.notes}` : ""
+          }`,
+          icon: "/favicon.ico",
+          tag: firedKey,
+        });
+      }
     }
-  }, []);
+
+    for (const key of firedRef.current) {
+      if (!key.includes(todayKey)) {
+        firedRef.current.delete(key);
+      }
+    }
+  }, [refreshReminders]);
 
   useEffect(() => {
     let timeoutId: number | null = null;
@@ -89,13 +111,13 @@ export function ReminderNotificationService() {
     const schedule = async () => {
       if (disposed) return;
       await checkReminders();
-      timeoutId = window.setTimeout(schedule, pollDelayRef.current);
+      timeoutId = window.setTimeout(schedule, CLIENT_TICK_MS);
     };
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        pollDelayRef.current = 60_000;
-        checkReminders();
+        void refreshReminders(true);
+        void checkReminders();
       }
     };
 
@@ -109,7 +131,7 @@ export function ReminderNotificationService() {
       }
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [checkReminders]);
+  }, [checkReminders, refreshReminders]);
 
   return null;
 }

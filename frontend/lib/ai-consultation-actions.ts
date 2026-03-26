@@ -33,7 +33,8 @@ export interface PatientSummaryResponse {
   interaction_id: string | null;
   summary: Record<string, unknown> | null;
   raw_data: {
-    patient_id: string;
+    patient_id?: string;
+    patient_ref?: string;
     gender?: string | null;
     conditions: string[];
     medications: string[];
