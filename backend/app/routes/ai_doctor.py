@@ -10,6 +10,7 @@ from typing import List, Optional, Tuple
 from datetime import date
 from types import SimpleNamespace
 
+from app.core.ai_privacy import anonymize_identifier_text, stable_hash_token
 from app.core.config import settings
 from app.core.security import verify_jwt
 from app.core.dependencies import get_db
@@ -287,10 +288,12 @@ async def ai_doctor_search(
     # Get patient context if logged in
     patient_context_text = ""
     patient_context_factors: List[PatientContextFactor] = []
+    actor_id: str | None = None
     
     if authorization:
         user = await get_optional_user(authorization)
         if user:
+            actor_id = str(user.id)
             patient_context_text, patient_context_factors = await get_patient_history_context(db, user.id)
 
     # 1. Get available specialties for LLM context
@@ -334,7 +337,18 @@ RULES:
 - If you cannot extract intent, return {{"error": "unable_to_extract", "ambiguity": "high"}}
 """
 
-    user_prompt = f"Patient description: {request.user_text}"
+    subject_token = stable_hash_token(
+        actor_id or "anonymous",
+        request.consultation_mode or "",
+        request.location or "",
+        namespace="doctorsearch",
+        length=22,
+    )
+    sanitized_user_text = anonymize_identifier_text(request.user_text or "", token_namespace="subject")
+    user_prompt = (
+        f"Anonymous subject token: {subject_token}\n"
+        f"Patient description: {sanitized_user_text}"
+    )
 
     llm_response = {}
 

@@ -118,9 +118,9 @@ export function AIAssistantPanel({ patientId, notes, clinicalContext, onInsertSu
 
             {data?.cautions?.length ? (
               <section className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Safety Cautions</p>
-                <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-3">
-                  <ul className="space-y-1 text-sm text-destructive-muted">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Helpful Notes</p>
+                <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
+                  <ul className="space-y-1 text-sm text-foreground">
                     {data.cautions.map((caution) => (
                       <li key={caution}>- {caution}</li>
                     ))}

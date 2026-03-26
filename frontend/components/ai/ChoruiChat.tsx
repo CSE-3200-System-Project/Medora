@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AlertTriangle, Brain, SendHorizontal, UserRound } from "lucide-react";
+import { AlertTriangle, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,11 +36,17 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     submitMessage,
     retryLastMessage,
     confirmAndSave,
+    conversations,
+    conversationsLoading,
+    openConversation,
+    deleteConversation,
+    deletingConversationId,
+    startNewConversation,
     contextMode,
-    disclaimer,
   } = useChoruiChat({ roleContext, defaultPatientId });
 
   const isDoctorMode = roleContext === "doctor";
+  const [historyOpen, setHistoryOpen] = React.useState(false);
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -61,17 +67,119 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
       <div className="relative grid grid-cols-1 gap-4 lg:grid-cols-12">
         <div className="lg:col-span-7 rounded-3xl border border-border/60 bg-background/35 p-3 md:p-5">
-          <div className="mb-4">
-            <h1 className="text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-tight text-foreground" style={{ fontFamily: "var(--font-manrope)" }}>
-              {isDoctorMode ? "Chorui AI for Clinical Workflow" : "Tell us about your health"}
-            </h1>
-            <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-inter)" }}>
-              {isDoctorMode
-                ? "Summaries, context insights, and evidence-aware assistance for faster care coordination."
-                : "We will organize it for your doctor."}
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground/90">Mode: {contextMode}</p>
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-tight text-foreground" style={{ fontFamily: "var(--font-manrope)" }}>
+                {isDoctorMode ? "Chorui AI for Clinical Workflow" : "Tell us about your health"}
+              </h1>
+              <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-inter)" }}>
+                {isDoctorMode
+                  ? "Summaries, context insights, and evidence-aware assistance for faster care coordination."
+                  : "We will organize it for your doctor."}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground/90">Mode: {contextMode}</p>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="h-9 w-9 shrink-0 rounded-xl"
+              onClick={() => setHistoryOpen(true)}
+              aria-label="Open conversation history"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
           </div>
+
+          {historyOpen ? (
+            <div className="absolute inset-0 z-20 rounded-3xl border border-border/70 bg-background/95 p-3 backdrop-blur-sm md:p-4">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h2 className="text-sm font-semibold text-foreground">Conversation History</h2>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-lg"
+                  onClick={() => setHistoryOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close history</span>
+                </Button>
+              </div>
+
+              <div className="mb-3">
+                <Button
+                  type="button"
+                  variant="medical"
+                  size="sm"
+                  onClick={() => {
+                    startNewConversation();
+                    setHistoryOpen(false);
+                  }}
+                >
+                  New Conversation
+                </Button>
+              </div>
+
+              <div className="no-scrollbar max-h-[70vh] space-y-2 overflow-y-auto pr-1">
+                {conversationsLoading ? (
+                  <p className="text-sm text-muted-foreground">Loading conversations...</p>
+                ) : conversations.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No saved conversations yet.</p>
+                ) : (
+                  conversations.map((conversation) => (
+                    <div
+                      key={conversation.conversation_id}
+                      className="w-full rounded-xl border border-border/60 bg-card/70 p-3 hover:border-primary/50"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <button
+                          type="button"
+                          className="flex-1 text-left"
+                          onClick={() => {
+                            void openConversation(conversation.conversation_id);
+                            setHistoryOpen(false);
+                          }}
+                        >
+                          <p className="mb-1 text-xs text-muted-foreground">
+                            {new Date(conversation.updated_at).toLocaleString([], {
+                              year: "numeric",
+                              month: "short",
+                              day: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                          <p className="line-clamp-2 text-sm text-foreground">
+                            {conversation.last_message || "No preview available"}
+                          </p>
+                          {conversation.patient_ref ? (
+                            <p className="mt-1 text-xs text-primary">Patient ID: {conversation.patient_ref}</p>
+                          ) : null}
+                        </button>
+
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 shrink-0 rounded-lg text-destructive hover:bg-destructive/10 hover:text-destructive"
+                          disabled={deletingConversationId === conversation.conversation_id}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void deleteConversation(conversation.conversation_id);
+                          }}
+                          aria-label="Delete conversation"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          ) : null}
 
           <div
             ref={scrollRef}
@@ -178,10 +286,6 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
             onDataChange={updateStructuredData}
             onConfirmSave={confirmAndSave}
           />
-
-          <div className="mt-4 rounded-2xl border border-border/60 bg-card/65 p-4 text-xs leading-relaxed text-muted-foreground">
-            <p>{disclaimer}</p>
-          </div>
         </div>
       </div>
     </section>

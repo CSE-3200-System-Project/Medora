@@ -5,7 +5,10 @@ import * as React from "react";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import {
   CHORUI_DISCLAIMER,
+  type ChoruiConversationDeleteResponse,
   DEFAULT_CHORUI_STRUCTURED_DATA,
+  type ChoruiConversationHistoryResponse,
+  type ChoruiConversationSummary,
   type ChoruiIntakeResponse,
   type ChoruiMessage,
   type ChoruiRoleContext,
@@ -16,13 +19,13 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:800
 const AI_DEBOUNCE_MS = 380;
 
 const FALLBACK_AI_REPLY =
-  "I could not reach Medora AI at the moment. Please try again, or continue by describing symptom intensity, timing, and related factors.";
+  "I could not reach Medora AI right now. Please try again and I will continue from your context.";
 
 const MODE_WELCOME_MESSAGE: Record<ChoruiRoleContext, string> = {
   patient:
     "Hello. I am Chorui, Medora's AI assistant. I can help you understand your health records and prepare useful details for your doctor.",
   doctor:
-    "Hello Doctor. I am Chorui, your workflow assistant. I can help with patient summaries, visit context, and educational guidance.",
+    "Hello Doctor. I am Chorui, your workflow assistant. Ask general workflow questions anytime, and include a patient ID when you want record-linked intelligence.",
 };
 
 type AuthMeResponse = {
@@ -116,12 +119,54 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
   const [saveState, setSaveState] = React.useState<string | null>(null);
   const [patientId, setPatientId] = React.useState<string>(defaultPatientId ?? "");
   const [conversationId, setConversationId] = React.useState<string>("");
+  const [conversations, setConversations] = React.useState<ChoruiConversationSummary[]>([]);
+  const [conversationsLoading, setConversationsLoading] = React.useState(false);
+  const [deletingConversationId, setDeletingConversationId] = React.useState<string>("");
   const [structuredData, setStructuredData] = React.useState<ChoruiStructuredData>(DEFAULT_CHORUI_STRUCTURED_DATA);
   const [contextMode, setContextMode] = React.useState<string>(
     roleContext === "doctor" ? "doctor-general" : "patient-self"
   );
 
   const latestUserInputRef = React.useRef<string>("");
+
+  const resetToWelcome = React.useCallback(() => {
+    setConversationId("");
+    setContextMode(roleContext === "doctor" ? "doctor-general" : "patient-self");
+    setStructuredData(DEFAULT_CHORUI_STRUCTURED_DATA);
+    setMessages([createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
+  }, [roleContext]);
+
+  const fetchConversationList = React.useCallback(async () => {
+    const token = getCookieValue("session_token");
+    const headers: HeadersInit = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    const query = new URLSearchParams({ role_context: roleContext, limit: "30" });
+    if (roleContext === "doctor" && patientId) {
+      query.set("patient_id", patientId);
+    }
+
+    setConversationsLoading(true);
+    try {
+      const response = await fetch(`${BACKEND_URL}/ai/assistant/conversations?${query.toString()}`, {
+        method: "GET",
+        headers,
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = (await response.json()) as { conversations?: ChoruiConversationSummary[] };
+      setConversations(Array.isArray(data.conversations) ? data.conversations : []);
+    } catch {
+      // Keep the current conversation usable even if history fetch fails.
+    } finally {
+      setConversationsLoading(false);
+    }
+  }, [patientId, roleContext]);
 
   React.useEffect(() => {
     if (roleContext !== "patient" || defaultPatientId) {
@@ -168,6 +213,111 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       setPatientId(defaultPatientId);
     }
   }, [defaultPatientId, roleContext]);
+
+  React.useEffect(() => {
+    void fetchConversationList();
+  }, [fetchConversationList]);
+
+  const openConversation = React.useCallback(
+    async (targetConversationId: string) => {
+      const normalizedId = targetConversationId.trim();
+      if (!normalizedId || loading) {
+        return;
+      }
+
+      const token = getCookieValue("session_token");
+      const headers: HeadersInit = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      try {
+        setError(null);
+        const response = await fetch(
+          `${BACKEND_URL}/ai/assistant/conversations/${encodeURIComponent(normalizedId)}?limit=200`,
+          {
+            method: "GET",
+            headers,
+          }
+        );
+
+        if (!response.ok) {
+          const message = await parseError(response);
+          throw new Error(message);
+        }
+
+        const data = (await response.json()) as ChoruiConversationHistoryResponse;
+        const loadedMessages: ChoruiMessage[] = Array.isArray(data.messages)
+          ? data.messages.map((item) => ({
+              id: item.id,
+              role: item.role === "ai" ? "ai" : "user",
+              content: item.content,
+              timestamp: item.timestamp,
+            }))
+          : [];
+
+        setConversationId(data.conversation_id || normalizedId);
+        setContextMode(data.context_mode ?? (roleContext === "doctor" ? "doctor-general" : "patient-self"));
+        setMessages(loadedMessages.length > 0 ? loadedMessages : [createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
+      } catch (loadError) {
+        const message = loadError instanceof Error ? loadError.message : "Failed to load conversation";
+        setError(message);
+      }
+    },
+    [loading, roleContext]
+  );
+
+  const startNewConversation = React.useCallback(() => {
+    resetToWelcome();
+    setError(null);
+    setSaveState(null);
+  }, [resetToWelcome]);
+
+  const deleteConversation = React.useCallback(
+    async (targetConversationId: string) => {
+      const normalizedId = targetConversationId.trim();
+      if (!normalizedId || deletingConversationId || loading) {
+        return;
+      }
+
+      const token = getCookieValue("session_token");
+      const headers: HeadersInit = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      setDeletingConversationId(normalizedId);
+      setError(null);
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/ai/assistant/conversations/${encodeURIComponent(normalizedId)}`,
+          {
+            method: "DELETE",
+            headers,
+          }
+        );
+
+        if (!response.ok) {
+          const message = await parseError(response);
+          throw new Error(message);
+        }
+
+        const data = (await response.json()) as ChoruiConversationDeleteResponse;
+        if (data.deleted) {
+          setConversations((prev) => prev.filter((item) => item.conversation_id !== normalizedId));
+          if (conversationId === normalizedId) {
+            resetToWelcome();
+          }
+        }
+      } catch (deleteError) {
+        const message = deleteError instanceof Error ? deleteError.message : "Failed to delete conversation";
+        setError(message);
+      } finally {
+        setDeletingConversationId("");
+      }
+    },
+    [conversationId, deletingConversationId, loading, resetToWelcome]
+  );
 
   const submitMessage = React.useCallback(async () => {
     const trimmed = input.trim();
@@ -232,6 +382,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       }
       setStructuredData((prev) => mergeStructuredData(prev, data.structured_data));
       setContextMode(data.context_mode ?? contextMode);
+      void fetchConversationList();
     } catch (requestError) {
       const message = requestError instanceof Error ? requestError.message : "Unable to process intake message";
       setError(message);
@@ -239,7 +390,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     } finally {
       setLoading(false);
     }
-  }, [contextMode, conversationId, input, loading, messages, patientId, roleContext]);
+  }, [contextMode, conversationId, fetchConversationList, input, loading, messages, patientId, roleContext]);
 
   const retryLastMessage = React.useCallback(async () => {
     if (!latestUserInputRef.current || loading) {
@@ -317,6 +468,13 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     submitMessage,
     retryLastMessage,
     confirmAndSave,
+    conversations,
+    conversationsLoading,
+    openConversation,
+    deleteConversation,
+    deletingConversationId,
+    startNewConversation,
+    refreshConversations: fetchConversationList,
     roleContext,
     contextMode,
     disclaimer: CHORUI_DISCLAIMER,
