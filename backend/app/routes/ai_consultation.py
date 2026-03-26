@@ -1,14 +1,22 @@
 import uuid
+import json
 from typing import Any
 from datetime import datetime, timedelta
 import re
+import logging
+from time import perf_counter
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
-from sqlalchemy import func, select
+from sqlalchemy import func, select, or_
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.ai_privacy import anonymize_identifier_text, stable_hash_token
 from app.core.config import settings
+from app.core.patient_reference import (
+    patient_ref_from_uuid,
+    resolve_doctor_patient_identifier,
+)
 from app.core.dependencies import get_db
 from app.db.models.ai_interaction import AIInteraction
 from app.db.models.chorui_chat import ChoruiChatMessage
@@ -16,7 +24,9 @@ from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.patient_access import AccessType
 from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
-from app.db.models.consultation import Consultation, Prescription
+from app.db.models.consultation import Consultation, Prescription, MedicationPrescription
+from app.db.models.medicine import Drug, Brand, MedicineSearchIndex
+from app.db.models.medical_test import MedicalTest
 from app.db.models.enums import UserRole
 from app.routes.auth import get_current_user_token
 from app.routes.patient_access import check_doctor_patient_access, log_patient_access
@@ -30,12 +40,18 @@ from app.schemas.ai_orchestrator import (
     AIVoiceToNotesResponse,
     ChoruiAssistantRequest,
     ChoruiAssistantResponse,
+    ChoruiConversationDeleteResponse,
+    ChoruiConversationHistoryResponse,
+    ChoruiConversationListResponse,
+    ChoruiConversationMessage,
+    ChoruiConversationSummary,
     ChoruiIntakeSaveRequest,
     ChoruiIntakeSaveResponse,
 )
 from app.services.ai_orchestrator import AIExecutionResult, AIOrchestratorError, ai_orchestrator
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 CHORUI_ACTIVE_APPOINTMENT_STATUSES = [
@@ -65,6 +81,11 @@ CHORUI_FOLLOWUP_HINTS = (
     "same",
     "again",
 )
+CHORUI_UUID_PATTERN = re.compile(
+    r"\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b",
+    flags=re.IGNORECASE,
+)
+CHORUI_PATIENT_REF_PATTERN = re.compile(r"\bPT[-_]?[A-Z2-7]{10}\b", flags=re.IGNORECASE)
 
 
 async def _require_doctor(db: AsyncSession, user_id: str) -> None:
@@ -86,6 +107,29 @@ async def _get_patient_context(db: AsyncSession, patient_id: str) -> tuple[Profi
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient medical profile not found")
 
     return profile, patient
+
+
+async def _resolve_patient_identifier_for_doctor(
+    db: AsyncSession,
+    *,
+    doctor_id: str,
+    patient_identifier: str,
+) -> str:
+    raw_identifier = str(patient_identifier or "").strip()
+    if not raw_identifier:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="patient_id is required")
+
+    resolved = await resolve_doctor_patient_identifier(
+        db,
+        doctor_id=doctor_id,
+        patient_identifier=raw_identifier,
+    )
+    if not resolved:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Patient not found for this doctor. Use a valid patient ID from your list.",
+        )
+    return resolved
 
 
 def _extract_conditions(patient: PatientProfile) -> list[str]:
@@ -149,6 +193,27 @@ def _extract_medications(patient: PatientProfile) -> list[str]:
     return list(dict.fromkeys(medications))
 
 
+def _extract_family_history(patient: PatientProfile) -> list[str]:
+    flags = [
+        ("Family history of diabetes", patient.family_has_diabetes),
+        ("Family history of hypertension", patient.family_has_hypertension),
+        ("Family history of heart disease", patient.family_has_heart_disease),
+        ("Family history of cancer", patient.family_has_cancer),
+        ("Family history of stroke", patient.family_has_stroke),
+        ("Family history of asthma", patient.family_has_asthma),
+        ("Family history of thalassemia", patient.family_has_thalassemia),
+        ("Family history of blood disorders", patient.family_has_blood_disorders),
+        ("Family history of mental health conditions", patient.family_has_mental_health),
+        ("Family history of kidney disease", patient.family_has_kidney_disease),
+        ("Family history of thyroid disease", patient.family_has_thyroid),
+    ]
+    output = [label for label, enabled in flags if enabled]
+    notes = str(patient.family_history_notes or "").strip()
+    if notes:
+        output.append(f"Family history notes: {notes[:220]}")
+    return list(dict.fromkeys(output))
+
+
 def _build_risk_flags(patient: PatientProfile, conditions: list[str]) -> list[str]:
     risks: list[str] = []
     high_risk_terms = {"Heart Disease", "Stroke History", "Kidney Disease", "Type 2 Diabetes"}
@@ -164,16 +229,20 @@ def _build_raw_summary(profile: Profile, patient: PatientProfile) -> dict[str, A
     medications = _extract_medications(patient)
     allergies = _extract_allergies(patient)
     risk_flags = _build_risk_flags(patient, conditions)
+    family_history = _extract_family_history(patient)
 
     return {
+        "patient_ref": patient_ref_from_uuid(profile.id),
         "conditions": conditions,
         "medications": medications,
         "allergies": allergies,
         "risk_flags": risk_flags,
+        "family_history": family_history,
         "history": {
             "surgeries": patient.surgeries if isinstance(patient.surgeries, list) else [],
             "hospitalizations": patient.hospitalizations if isinstance(patient.hospitalizations, list) else [],
             "drug_allergies": patient.drug_allergies if isinstance(patient.drug_allergies, list) else [],
+            "family_history_notes": str(patient.family_history_notes or "").strip(),
         },
     }
 
@@ -399,7 +468,39 @@ async def _finalize_chorui_response(
     context_mode: str,
     intent: str,
     request: Request | None,
+    user_message: str | None = None,
 ) -> ChoruiAssistantResponse:
+    synthesized_reply = str(reply or "").strip()
+    should_synthesize = str(structured_data.get("llm_source") or "") != "clinical_info_query"
+    if should_synthesize:
+        synthesis_started = perf_counter()
+        try:
+            synthesized = await _synthesize_chorui_reply_with_llm(
+                message=user_message or str(structured_data.get("user_query") or ""),
+                intent=intent,
+                role_context=role_context,
+                context_mode=context_mode,
+                structured_data=structured_data,
+                draft_reply=reply,
+            )
+            if synthesized:
+                synthesized_reply = synthesized
+        except Exception as exc:
+            duration_ms = int((perf_counter() - synthesis_started) * 1000)
+            logger.warning(
+                "Chorui synthesis fallback | intent=%s context_mode=%s duration_ms=%s error=%s",
+                intent,
+                context_mode,
+                duration_ms,
+                str(exc),
+            )
+            synthesized_reply = _build_chorui_local_fallback_reply(
+                intent=intent,
+                context_mode=context_mode,
+                structured_data=structured_data,
+            )
+
+    reply = _soften_assistant_tone(synthesized_reply)
     await _persist_chorui_chat_message(
         db,
         conversation_id=conversation_id,
@@ -421,25 +522,71 @@ async def _finalize_chorui_response(
     )
 
 
+def _soften_assistant_tone(reply: str) -> str:
+    text = str(reply or "").strip()
+    if not text:
+        return "I am here with you. Tell me what you need and I will help with your Medora context."
+
+    replacements = {
+        "Please verify this list with your doctor before making any treatment decision.": "If you want, I can help you prepare a quick list of questions for your doctor.",
+        "Please validate against the latest consultation before prescribing.": "You can cross-check this with the latest consultation notes before finalizing.",
+        "Use this as background context and confirm diagnosis clinically.": "Use this as background context while continuing your clinical assessment.",
+        "Please cross-check before finalizing orders.": "A quick cross-check with recent records can help before finalizing orders.",
+        "Use this as support context only.": "Use this as support context.",
+        "Assistive summary only. Verify clinically before decisions.": "If you want, I can help convert this into a concise consultation checklist.",
+    }
+    for source, target in replacements.items():
+        text = text.replace(source, target)
+    return text
+
+
 def _message_has_any(normalized: str, keys: tuple[str, ...]) -> bool:
     return any(key in normalized for key in keys)
 
 
 def _is_medical_decision_request(normalized: str) -> bool:
+    record_lookup_terms = (
+        "who prescribed",
+        "which doctor",
+        "who are my doctors",
+        "my doctors",
+        "doctor list",
+        "previous doctor",
+        "past doctor",
+    )
+    if _message_has_any(normalized, record_lookup_terms):
+        return False
+
     restricted_terms = (
-        "prescribe",
-        "prescription",
+        "prescribe me",
         "dosage",
         "dose",
-        "diagnose",
-        "diagnosis",
+        "diagnose me",
+        "diagnosis for me",
         "confirm diagnosis",
         "treatment plan",
         "what should i take",
         "which medicine should",
+        "should i take",
+        "can i take",
+        "recommend medicine",
         "emergency treatment",
     )
     return _message_has_any(normalized, restricted_terms)
+
+
+def _looks_like_privacy_refusal(text: str) -> bool:
+    normalized = _normalize_message(text or "")
+    markers = (
+        "privacy restrictions",
+        "cannot access patient",
+        "can't access patient",
+        "local mode",
+        "local-only mode",
+        "not available due to privacy",
+        "patient profile is not available",
+    )
+    return _message_has_any(normalized, markers)
 
 
 def _extract_symptom_hints(message: str) -> list[str]:
@@ -495,22 +642,91 @@ def _extract_duration_hint(message: str) -> str:
 def _classify_chorui_intent(message: str, role: UserRole, has_target_patient: bool) -> str:
     normalized = _normalize_message(message)
     medication_keys = ("medication", "medications", "medicine", "medicines", "drug", "drugs")
+    patient_doctors_keys = (
+        "who are my doctors",
+        "my doctors",
+        "which doctor",
+        "who prescribed",
+        "prescribed me",
+        "doctor prescribed",
+        "who gave me",
+    )
     patient_list_keys = (
         "who are my patients",
         "my patients",
         "patient list",
         "active patients",
+        "patient id",
+        "patient ids",
+        "profile id",
+        "profile ids",
     )
     condition_keys = ("condition", "conditions", "disease", "diagnosis")
     allergy_keys = ("allergy", "allergies", "allergic")
     risk_keys = ("risk", "risk flags", "high risk")
     history_keys = ("history", "surgeries", "surgery", "hospitalization", "hospitalizations")
+    family_history_keys = ("family history", "family", "genetic", "hereditary")
     summary_keys = ("summary", "summarize", "overview", "snapshot")
     appointment_keys = ("appointment", "appointments", "next visit", "upcoming")
     schedule_keys = ("schedule", "today", "this week")
+    doctor_today_keys = (
+        "appointments today",
+        "today appointments",
+        "today's appointments",
+        "my appointments today",
+        "today schedule",
+        "schedule today",
+    )
+    patient_search_keys = (
+        "patient with",
+        "patients with",
+        "who is my patient",
+        "which patient",
+        "find patient",
+    )
+    health_query_keys = (
+        "what is",
+        "why does",
+        "how does",
+        "symptom",
+        "prevention",
+        "causes of",
+        "is it dangerous",
+        "how to reduce",
+    )
+    service_keys = (
+        "how do i",
+        "where can i",
+        "how can i",
+        "book",
+        "upload",
+        "medical history",
+        "profile",
+        "avatar",
+        "find doctor",
+        "find medicine",
+        "privacy",
+        "security",
+        "data",
+    )
 
     if role == UserRole.DOCTOR and any(key in normalized for key in patient_list_keys):
         return "doctor_active_patients"
+
+    if role == UserRole.DOCTOR and _message_has_any(normalized, doctor_today_keys):
+        return "doctor_today_appointments"
+
+    if role == UserRole.DOCTOR and not has_target_patient and _message_has_any(normalized, patient_search_keys):
+        return "doctor_search_patient_by_condition"
+
+    if role == UserRole.PATIENT and _message_has_any(normalized, patient_doctors_keys):
+        return "patient_self_doctors"
+
+    if _message_has_any(normalized, service_keys):
+        return "service_information"
+
+    if role == UserRole.PATIENT and _message_has_any(normalized, health_query_keys):
+        return "patient_health_query"
 
     if _message_has_any(normalized, summary_keys):
         if role == UserRole.DOCTOR and has_target_patient:
@@ -529,6 +745,12 @@ def _classify_chorui_intent(message: str, role: UserRole, has_target_patient: bo
             return "doctor_patient_risks"
         if role == UserRole.PATIENT:
             return "patient_self_risks"
+
+    if _message_has_any(normalized, family_history_keys):
+        if role == UserRole.DOCTOR and has_target_patient:
+            return "doctor_patient_family_history"
+        if role == UserRole.PATIENT:
+            return "patient_self_family_history"
 
     if _message_has_any(normalized, history_keys):
         if role == UserRole.DOCTOR and has_target_patient:
@@ -573,30 +795,400 @@ def _format_datetime_label(value: datetime | None) -> str:
         return "unknown"
 
 
+def _format_datetime_iso(value: datetime | None) -> str:
+    if value is None:
+        return datetime.utcnow().isoformat()
+    try:
+        return value.isoformat()
+    except Exception:
+        return datetime.utcnow().isoformat()
+
+
 def _format_status_label(status_value: Any) -> str:
     if hasattr(status_value, "value"):
         return str(status_value.value)
     return str(status_value)
 
 
-def _build_patient_summary_text(*, conditions: list[str], medications: list[str], allergies: list[str], risk_flags: list[str]) -> str:
-    sections: list[str] = ["Here is a structured summary from authorized Medora records:"]
+def _calculate_age_years(date_of_birth: Any) -> int | None:
+    if not date_of_birth:
+        return None
+    try:
+        today = datetime.utcnow().date()
+        return today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+    except Exception:
+        return None
+
+
+def _build_chorui_local_fallback_reply(
+    *,
+    intent: str,
+    context_mode: str,
+    structured_data: dict[str, Any],
+) -> str:
+    sections: list[str] = [
+        "I could not reach advanced AI generation right now, but here is the verified context I found:",
+        f"- Context mode: {context_mode}",
+        f"- Intent: {intent}",
+    ]
+
+    list_fields = {
+        "conditions": "Conditions",
+        "medications": "Medications",
+        "allergies": "Allergies",
+        "risk_flags": "Risk Flags",
+        "family_history": "Family History",
+        "matching_patients": "Matching Patients",
+        "today_appointments": "Today's Appointments",
+    }
+    for key, label in list_fields.items():
+        value = structured_data.get(key)
+        if isinstance(value, list) and value:
+            if key in {"matching_patients", "today_appointments"}:
+                summary = []
+                for item in value[:6]:
+                    if isinstance(item, dict):
+                        summary.append(
+                            str(
+                                item.get("patient_ref")
+                                or item.get("display_name")
+                                or item.get("appointment_date")
+                                or item
+                            )
+                        )
+                    else:
+                        summary.append(str(item))
+                sections.append(f"- {label}: {', '.join(summary)}")
+            else:
+                sections.append(f"- {label}: {', '.join([str(item) for item in value[:8]])}")
+
+    demographics = structured_data.get("demographics")
+    if isinstance(demographics, dict) and demographics:
+        compact = []
+        for field in ("age", "gender", "blood_group", "height_cm", "weight_kg"):
+            val = demographics.get(field)
+            if val not in (None, "", []):
+                compact.append(f"{field}: {val}")
+        if compact:
+            sections.append(f"- Demographics: {'; '.join(compact)}")
+
+    sections.append("If you want, I can try again or focus on one specific part (for example medications or appointments).")
+    return "\n".join(sections)
+
+
+async def _synthesize_chorui_reply_with_llm(
+    *,
+    message: str,
+    intent: str,
+    role_context: str,
+    context_mode: str,
+    structured_data: dict[str, Any],
+    draft_reply: str,
+    prompt_version: str = "v2-chorui-synthesis",
+) -> str | None:
+    synthesis_payload = {
+        "role_context": role_context,
+        "context_mode": context_mode,
+        "intent": intent,
+        "user_question": str(message or "").strip()[:2000],
+        "verified_context": structured_data,
+        "draft_reply": str(draft_reply or "").strip()[:4000],
+    }
+
+    # Build explicit patient health context so the LLM always acknowledges it
+    health_context_parts: list[str] = []
+    conditions = structured_data.get("conditions")
+    if isinstance(conditions, list) and conditions:
+        health_context_parts.append(f"Patient conditions: {', '.join(str(c) for c in conditions[:10])}")
+    medications = structured_data.get("medications")
+    if isinstance(medications, list) and medications:
+        health_context_parts.append(f"Current medications: {', '.join(str(m) for m in medications[:8])}")
+    allergies = structured_data.get("allergies")
+    if isinstance(allergies, list) and allergies:
+        health_context_parts.append(f"Allergies: {', '.join(str(a) for a in allergies[:6])}")
+    risk_flags = structured_data.get("risk_flags")
+    if isinstance(risk_flags, list) and risk_flags:
+        health_context_parts.append(f"Risk flags: {', '.join(str(r) for r in risk_flags[:4])}")
+    health_context_line = ". ".join(health_context_parts) + "." if health_context_parts else ""
+
+    query = (
+        "Synthesize a natural language response for Medora Chorui. "
+        "Use verified_context as source-of-truth and do not invent records. "
+        "Be concise, clear, and medically safe. "
+        "If uncertainty exists, state it. "
+        + (f"IMPORTANT — the patient's known health profile: {health_context_line} Always acknowledge and integrate this information when relevant to the question. " if health_context_line else "")
+        + "\n"
+        + json.dumps(synthesis_payload, ensure_ascii=False)
+    )
+    result = await ai_orchestrator.clinical_info_query(
+        query,
+        include_meta=False,
+        prompt_version=prompt_version,
+    )
+    answer = str((result or {}).get("answer", "")).strip()
+    if not answer:
+        return None
+    cautions = [str(item).strip() for item in (result or {}).get("cautions", []) if str(item).strip()]
+    if cautions:
+        answer = f"{answer}\n\nCautions:\n{_render_bullet_list(cautions[:4])}"
+    return answer
+
+
+async def _search_doctor_patients_by_criteria(
+    db: AsyncSession,
+    *,
+    doctor_id: str,
+    criteria_text: str,
+    limit: int = 10,
+) -> list[dict[str, Any]]:
+    normalized = _normalize_message(criteria_text)
+    rows = (
+        await db.execute(
+            select(Appointment.patient_id)
+            .where(
+                Appointment.doctor_id == doctor_id,
+                Appointment.status.in_(CHORUI_ACTIVE_APPOINTMENT_STATUSES),
+            )
+            .group_by(Appointment.patient_id)
+        )
+    ).all()
+    patient_ids = [row[0] for row in rows if row and row[0]]
+    if not patient_ids:
+        return []
+
+    profile_rows = (await db.execute(select(Profile).where(Profile.id.in_(patient_ids)))).scalars().all()
+    patient_profile_rows = (
+        await db.execute(select(PatientProfile).where(PatientProfile.profile_id.in_(patient_ids)))
+    ).scalars().all()
+    profile_map = {item.id: item for item in profile_rows}
+    patient_map = {item.profile_id: item for item in patient_profile_rows}
+
+    matches: list[dict[str, Any]] = []
+    for patient_id in patient_ids:
+        profile = profile_map.get(patient_id)
+        patient = patient_map.get(patient_id)
+        if not profile:
+            continue
+
+        name_tokens = " ".join(
+            [str(profile.first_name or "").lower(), str(profile.last_name or "").lower()]
+        ).strip()
+        condition_tokens = " ".join([item.lower() for item in _extract_conditions(patient) if item]).strip() if patient else ""
+
+        score = 0
+        for token in normalized.split():
+            if len(token) < 3:
+                continue
+            if token in name_tokens:
+                score += 2
+            if token in condition_tokens:
+                score += 3
+
+        if score <= 0:
+            continue
+        matches.append(
+            {
+                "patient_id": patient_id,
+                "patient_ref": patient_ref_from_uuid(patient_id),
+                "display_name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient",
+                "conditions": _extract_conditions(patient)[:8] if patient else [],
+                "score": score,
+            }
+        )
+
+    matches.sort(key=lambda item: int(item.get("score", 0)), reverse=True)
+    return matches[:limit]
+
+
+async def _build_patient_extended_context(
+    db: AsyncSession,
+    *,
+    patient_id: str,
+    doctor_id: str | None,
+) -> dict[str, Any]:
+    profile = (
+        await db.execute(select(Profile).where(Profile.id == patient_id).limit(1))
+    ).scalar_one_or_none()
+    patient = (
+        await db.execute(select(PatientProfile).where(PatientProfile.profile_id == patient_id).limit(1))
+    ).scalar_one_or_none()
+
+    demographics = {
+        "age": _calculate_age_years(getattr(patient, "date_of_birth", None)),
+        "gender": str(getattr(patient, "gender", "") or "") or None,
+        "blood_group": str(getattr(patient, "blood_group", "") or "") or None,
+        "height_cm": getattr(patient, "height", None),
+        "weight_kg": getattr(patient, "weight", None),
+        "patient_ref": patient_ref_from_uuid(patient_id),
+        "display_name": f"{getattr(profile, 'first_name', '') or ''} {getattr(profile, 'last_name', '') or ''}".strip() or "Patient",
+    }
+
+    consultations = (
+        await db.execute(
+            select(Consultation)
+            .where(Consultation.patient_id == patient_id)
+            .order_by(Consultation.consultation_date.desc())
+            .limit(3)
+        )
+    ).scalars().all()
+    recent_consultations = [
+        {
+            "consultation_date": _format_datetime_iso(item.consultation_date),
+            "chief_complaint": str(item.chief_complaint or "")[:300],
+            "diagnosis": str(item.diagnosis or "")[:300],
+            "notes": str(item.notes or "")[:400],
+            "status": _format_status_label(item.status),
+        }
+        for item in consultations
+    ]
+
+    prescriptions = (
+        await db.execute(
+            select(Prescription)
+            .options(selectinload(Prescription.medications))
+            .where(Prescription.patient_id == patient_id)
+            .order_by(Prescription.created_at.desc())
+            .limit(5)
+        )
+    ).scalars().all()
+    recent_prescriptions: list[dict[str, Any]] = []
+    for item in prescriptions:
+        dosage_items: list[str] = []
+        for med in item.medications[:8]:
+            dosage_items.append(
+                f"{med.medicine_name}: {_medication_schedule_line(med)}"
+            )
+        recent_prescriptions.append(
+            {
+                "prescription_id": item.id,
+                "created_at": _format_datetime_iso(item.created_at),
+                "status": _format_status_label(item.status),
+                "dosages": dosage_items,
+            }
+        )
+
+    appointment_query = (
+        select(Appointment)
+        .where(Appointment.patient_id == patient_id)
+        .order_by(Appointment.appointment_date.desc())
+        .limit(6)
+    )
+    if doctor_id:
+        appointment_query = appointment_query.where(Appointment.doctor_id == doctor_id)
+    appointments = (await db.execute(appointment_query)).scalars().all()
+    appointment_history = [
+        {
+            "appointment_date": _format_datetime_iso(item.appointment_date),
+            "status": _format_status_label(item.status),
+            "reason": str(item.reason or "")[:240],
+            "notes": str(item.notes or "")[:280],
+        }
+        for item in appointments
+    ]
+
+    lifestyle = {
+        "smoking": str(getattr(patient, "smoking", "") or "") or None,
+        "alcohol": str(getattr(patient, "alcohol", "") or "") or None,
+        "activity_level": str(getattr(patient, "activity_level", "") or "") or None,
+        "sleep_duration": str(getattr(patient, "sleep_duration", "") or "") or None,
+    }
+
+    return {
+        "demographics": demographics,
+        "recent_consultations": recent_consultations,
+        "recent_prescriptions": recent_prescriptions,
+        "appointment_history": appointment_history,
+        "lifestyle": lifestyle,
+    }
+
+
+def _build_patient_summary_text(
+    *,
+    conditions: list[str],
+    medications: list[str],
+    allergies: list[str],
+    risk_flags: list[str],
+    family_history: list[str] | None = None,
+) -> str:
+    sections: list[str] = ["Quick patient brief from authorized Medora records:"]
 
     sections.append("\nConditions:")
-    sections.append(_render_bullet_list(conditions[:10]) if conditions else "- No condition entries found")
+    sections.append(_render_bullet_list(conditions[:5]) if conditions else "- No condition entries found")
 
     sections.append("\nMedications:")
-    sections.append(_render_bullet_list(medications[:10]) if medications else "- No medication entries found")
+    sections.append(_render_bullet_list(medications[:5]) if medications else "- No medication entries found")
 
     sections.append("\nAllergies:")
-    sections.append(_render_bullet_list(allergies[:10]) if allergies else "- No allergy entries found")
+    sections.append(_render_bullet_list(allergies[:5]) if allergies else "- No allergy entries found")
 
     if risk_flags:
         sections.append("\nRisk Flags:")
-        sections.append(_render_bullet_list(risk_flags[:10]))
+        sections.append(_render_bullet_list(risk_flags[:4]))
 
-    sections.append("\nThis summary is assistive and should be clinically verified before decisions.")
+    if family_history:
+        sections.append("\nFamily History:")
+        sections.append(_render_bullet_list(family_history[:5]))
+
+    sections.append("\nIf you want, I can turn this into a short checklist for your next consultation.")
     return "\n".join(sections)
+
+
+def _build_service_information_reply(*, role: UserRole, message: str) -> str:
+    normalized = _normalize_message(message)
+
+    if _message_has_any(normalized, ("book", "appointment", "schedule")):
+        if role == UserRole.DOCTOR:
+            return (
+                "You can manage appointments from the Appointments section. "
+                "Open a patient from your list to continue your workflow quickly."
+            )
+        return (
+            "You can book appointments from Find Doctor or your Appointments page. "
+            "Pick a doctor, select a slot, and confirm."
+        )
+
+    if _message_has_any(normalized, ("find doctor", "doctor search")) and role == UserRole.PATIENT:
+        return "Use Find Doctor to filter by specialty, location, and availability, then book from the doctor profile page."
+
+    if _message_has_any(normalized, ("upload", "report", "medical history", "prescription")):
+        return (
+            "You can upload and manage records from Medical History and consultation-related forms. "
+            "After upload, I can summarize what is currently captured in your account records."
+        )
+
+    if _message_has_any(normalized, ("avatar", "profile photo", "profile")):
+        return "Default avatars are assigned automatically. You can change your avatar anytime from your profile page."
+
+    if _message_has_any(normalized, ("privacy", "security", "data")):
+        return (
+            "Medora enforces role-based access checks and patient scoping. "
+            "Sensitive references are anonymized in assistant processing paths."
+        )
+
+    return (
+        "I can help with Medora workflows like appointments, profile updates, records, and navigation. "
+        "Tell me what you want to do and I will guide you step by step."
+    )
+
+
+def _build_patient_contextual_general_reply(
+    *,
+    conditions: list[str],
+    medications: list[str],
+    allergies: list[str],
+    risk_flags: list[str],
+) -> str:
+    lines: list[str] = [
+        "I hear you. Here is a quick view from your current Medora record context:",
+        f"- Conditions tracked: {len(conditions)}",
+        f"- Medications tracked: {len(medications)}",
+        f"- Allergy entries: {len(allergies)}",
+    ]
+    if risk_flags:
+        lines.append(f"- Risk indicators noted: {len(risk_flags)}")
+    lines.append("")
+    lines.append("Tell me which area you want next: medications, conditions, allergies, history, appointments, or doctors.")
+    return "\n".join(lines)
 
 
 def _build_local_condition_suggestions(conditions: list[str], query_text: str) -> list[dict[str, Any]]:
@@ -665,6 +1257,226 @@ def _build_local_cautions(allergies: list[str], risk_flags: list[str]) -> list[s
     return cautions
 
 
+def _normalize_catalog_term(value: str) -> str:
+    normalized = re.sub(r"[^a-z0-9\s]+", " ", str(value or "").lower())
+    return " ".join(normalized.split())[:120]
+
+
+def _anonymize_named_entities(text: str, raw_names: list[str | None], alias: str = "[patient]") -> str:
+    sanitized = str(text or "")
+    names = [str(item).strip() for item in raw_names if str(item or "").strip()]
+    # Replace longer phrases first to avoid partial replacement artifacts.
+    names = sorted(set(names), key=len, reverse=True)
+    for name in names:
+        escaped = re.escape(name)
+        sanitized = re.sub(escaped, alias, sanitized, flags=re.IGNORECASE)
+    return anonymize_identifier_text(sanitized, token_namespace="subject")
+
+
+def _build_subject_tokens(
+    *,
+    doctor_id: str | None = None,
+    patient_id: str | None = None,
+    conversation_id: str | None = None,
+    feature: str = "ai",
+) -> dict[str, str]:
+    parts = [feature, doctor_id or "", patient_id or "", conversation_id or ""]
+    return {
+        "subject_token": stable_hash_token(*parts, namespace="subject", length=24),
+        "doctor_token": stable_hash_token(doctor_id or "unknown", namespace="doctor", length=20),
+        "patient_token": stable_hash_token(patient_id or "unknown", namespace="patient", length=20),
+        "conversation_token": stable_hash_token(conversation_id or "unknown", namespace="conversation", length=20),
+    }
+
+
+async def _match_medicine_from_catalog(db: AsyncSession, candidate: str) -> str | None:
+    search_term = _normalize_catalog_term(candidate)
+    if len(search_term) < 2:
+        return None
+
+    result = await db.execute(
+        select(
+            Brand.brand_name,
+            Drug.generic_name,
+            Drug.strength,
+            Drug.dosage_form,
+            MedicineSearchIndex.term,
+        )
+        .join(Drug, MedicineSearchIndex.drug_id == Drug.id)
+        .outerjoin(Brand, MedicineSearchIndex.brand_id == Brand.id)
+        .where(
+            or_(
+                MedicineSearchIndex.term.ilike(f"%{search_term}%"),
+                Drug.generic_name.ilike(f"%{search_term}%"),
+                Brand.brand_name.ilike(f"%{search_term}%"),
+            )
+        )
+        .order_by(
+            (func.lower(MedicineSearchIndex.term) == search_term).desc(),
+            MedicineSearchIndex.term.ilike(f"{search_term}%").desc(),
+            Brand.brand_name.asc().nulls_last(),
+            Drug.generic_name.asc(),
+        )
+        .limit(1)
+    )
+    row = result.first()
+    if not row:
+        return None
+
+    if row.brand_name:
+        return str(row.brand_name).strip()
+    generic = str(row.generic_name or "").strip()
+    strength = str(row.strength or "").strip()
+    dosage_form = str(row.dosage_form or "").strip()
+    suffix = " ".join([item for item in [strength, dosage_form] if item])
+    if generic and suffix:
+        return f"{generic} {suffix}".strip()
+    return generic or None
+
+
+async def _match_test_from_catalog(db: AsyncSession, candidate: str) -> str | None:
+    search_term = _normalize_catalog_term(candidate)
+    if len(search_term) < 2:
+        return None
+
+    result = await db.execute(
+        select(MedicalTest.display_name, MedicalTest.normalized_name)
+        .where(
+            MedicalTest.is_active == True,  # noqa: E712
+            MedicalTest.normalized_name.ilike(f"%{search_term}%"),
+        )
+        .order_by(
+            (func.lower(MedicalTest.normalized_name) == search_term).desc(),
+            MedicalTest.normalized_name.ilike(f"{search_term}%").desc(),
+            MedicalTest.display_name.asc(),
+        )
+        .limit(1)
+    )
+    row = result.first()
+    if not row:
+        return None
+    return str(row.display_name).strip() or None
+
+
+async def _ground_suggestions_to_catalog(
+    db: AsyncSession,
+    *,
+    suggestions: list[dict[str, Any]],
+    kind: str,
+    limit: int = 6,
+) -> list[dict[str, Any]]:
+    grounded: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    for item in suggestions:
+        raw_name = str(item.get("name", "")).strip()
+        if not raw_name:
+            continue
+        confidence = float(item.get("confidence") or 0.0)
+        if kind == "medication":
+            matched = await _match_medicine_from_catalog(db, raw_name)
+        else:
+            matched = await _match_test_from_catalog(db, raw_name)
+        if not matched:
+            continue
+        key = matched.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        grounded.append({"name": matched, "confidence": confidence})
+        if len(grounded) >= limit:
+            break
+
+    return grounded
+
+
+async def _build_secure_rag_context(
+    db: AsyncSession,
+    *,
+    query: str,
+    conditions: list[str] | None = None,
+    medications: list[str] | None = None,
+) -> dict[str, Any]:
+    medicine_candidates = [query, *(medications or [])][:6]
+    test_candidates = [query, *(conditions or [])][:6]
+
+    rag_medicines: list[str] = []
+    rag_tests: list[str] = []
+    seen_meds: set[str] = set()
+    seen_tests: set[str] = set()
+
+    for candidate in medicine_candidates:
+        matched = await _match_medicine_from_catalog(db, candidate)
+        if matched and matched.lower() not in seen_meds:
+            seen_meds.add(matched.lower())
+            rag_medicines.append(matched)
+        if len(rag_medicines) >= 6:
+            break
+
+    for candidate in test_candidates:
+        matched = await _match_test_from_catalog(db, candidate)
+        if matched and matched.lower() not in seen_tests:
+            seen_tests.add(matched.lower())
+            rag_tests.append(matched)
+        if len(rag_tests) >= 6:
+            break
+
+    return {
+        "medicine_catalog_matches": rag_medicines,
+        "test_catalog_matches": rag_tests,
+    }
+
+
+def _build_compact_doctor_brief(
+    *,
+    ai_summary: dict[str, Any] | None,
+    conditions: list[str],
+    medications: list[str],
+    allergies: list[str],
+    risk_flags: list[str],
+) -> dict[str, Any]:
+    ai_summary = ai_summary or {}
+    one_liner = str(ai_summary.get("summary", "")).strip()
+    if not one_liner:
+        one_liner = "Patient record snapshot prepared for fast pre-consultation review."
+    one_liner = one_liner[:260]
+
+    key_findings = _safe_list(ai_summary.get("key_findings"))[:4]
+    if not key_findings:
+        key_findings = _build_preconsultation_highlights(
+            conditions=conditions,
+            allergies=allergies,
+            risk_flags=risk_flags,
+            medications=medications,
+            surgeries=[],
+            hospitalizations=[],
+        )[:4]
+
+    recommended_actions = _safe_list(ai_summary.get("recommended_actions"))[:4]
+    if not recommended_actions:
+        recommended_actions = _build_missing_info_checklist(
+            conditions=conditions,
+            medications=medications,
+            allergies=allergies,
+            surgeries=[],
+        )[:4]
+
+    compressed_points = [*key_findings[:2], *risk_flags[:2]]
+    compressed_points = [item for item in compressed_points if item][:3]
+    quick_text = one_liner
+    if compressed_points:
+        quick_text = f"{one_liner} Key points: {'; '.join(compressed_points)}."
+    quick_text = quick_text[:420]
+
+    return {
+        "one_liner": one_liner,
+        "quick_text": quick_text,
+        "key_findings": key_findings,
+        "risk_flags": risk_flags[:4],
+        "recommended_actions": recommended_actions,
+    }
+
+
 def _build_local_clinical_answer(
     *,
     query: str,
@@ -672,9 +1484,10 @@ def _build_local_clinical_answer(
     medications: list[str],
     allergies: list[str],
     risk_flags: list[str],
+    family_history: list[str] | None = None,
 ) -> str:
     sections: list[str] = [
-        "Record-grounded pre-consultation snapshot (strict local mode):",
+        "Record-grounded pre-consultation snapshot:",
         f"Doctor query: {query.strip()[:500]}",
         "",
         "Conditions:",
@@ -688,6 +1501,8 @@ def _build_local_clinical_answer(
     ]
     if risk_flags:
         sections.extend(["", "Risk flags:", _render_bullet_list(risk_flags[:8])])
+    if family_history:
+        sections.extend(["", "Family history:", _render_bullet_list(family_history[:8])])
     sections.append("")
     sections.append("Use this as context support only and verify clinically before acting.")
     return "\n".join(sections)
@@ -775,6 +1590,96 @@ async def _get_patient_prior_doctors(
     return output
 
 
+async def _get_patient_care_team(
+    db: AsyncSession,
+    *,
+    patient_id: str,
+    limit: int = 10,
+) -> list[dict[str, Any]]:
+    appointment_rows = (
+        await db.execute(
+            select(
+                Appointment.doctor_id,
+                func.max(Appointment.appointment_date).label("last_appointment"),
+                func.count(Appointment.id).label("appointment_count"),
+            )
+            .where(
+                Appointment.patient_id == patient_id,
+                Appointment.status.in_(CHORUI_ACTIVE_APPOINTMENT_STATUSES),
+            )
+            .group_by(Appointment.doctor_id)
+        )
+    ).all()
+
+    prescription_rows = (
+        await db.execute(
+            select(
+                Prescription.doctor_id,
+                func.max(Prescription.created_at).label("last_prescribed_at"),
+                func.count(Prescription.id).label("prescription_count"),
+            )
+            .where(Prescription.patient_id == patient_id)
+            .group_by(Prescription.doctor_id)
+        )
+    ).all()
+
+    doctor_index: dict[str, dict[str, Any]] = {}
+    for row in appointment_rows:
+        doctor_index[row.doctor_id] = {
+            "doctor_id": row.doctor_id,
+            "last_activity": row.last_appointment,
+            "appointment_count": int(row.appointment_count or 0),
+            "prescription_count": 0,
+            "last_prescribed_at": None,
+        }
+
+    for row in prescription_rows:
+        entry = doctor_index.setdefault(
+            row.doctor_id,
+            {
+                "doctor_id": row.doctor_id,
+                "last_activity": row.last_prescribed_at,
+                "appointment_count": 0,
+                "prescription_count": 0,
+                "last_prescribed_at": None,
+            },
+        )
+        entry["prescription_count"] = int(row.prescription_count or 0)
+        entry["last_prescribed_at"] = row.last_prescribed_at
+        if row.last_prescribed_at and (
+            entry["last_activity"] is None or row.last_prescribed_at > entry["last_activity"]
+        ):
+            entry["last_activity"] = row.last_prescribed_at
+
+    if not doctor_index:
+        return []
+
+    doctor_ids = list(doctor_index.keys())
+    profile_rows = (await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))).scalars().all()
+    profiles = {item.id: item for item in profile_rows}
+
+    output: list[dict[str, Any]] = []
+    for doctor_id, entry in doctor_index.items():
+        profile = profiles.get(doctor_id)
+        if not profile:
+            continue
+        display_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Doctor"
+        output.append(
+            {
+                "doctor_name": display_name,
+                "last_activity": _format_datetime_label(entry.get("last_activity")),
+                "_sort_ts": _format_datetime_iso(entry.get("last_activity")),
+                "appointment_count": entry.get("appointment_count", 0),
+                "prescription_count": entry.get("prescription_count", 0),
+            }
+        )
+
+    output.sort(key=lambda item: item.get("_sort_ts") or "", reverse=True)
+    for item in output:
+        item.pop("_sort_ts", None)
+    return output[:limit]
+
+
 def _build_preconsultation_highlights(
     *,
     conditions: list[str],
@@ -829,27 +1734,32 @@ async def get_doctor_patient_assistant_summary(
     db: AsyncSession = Depends(get_db),
 ):
     await _require_doctor(db, user.id)
-    access = await check_doctor_patient_access(db, user.id, patient_id)
+    resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+        db,
+        doctor_id=user.id,
+        patient_identifier=patient_id,
+    )
+    access = await check_doctor_patient_access(db, user.id, resolved_patient_id)
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
-
-    if settings.CHORUI_PRIVACY_MODE.strip().lower() != "strict_local":
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Assistant summary is restricted to strict local privacy mode")
+    privacy_mode = settings.CHORUI_PRIVACY_MODE.strip().lower()
+    effective_privacy_mode = "record_augmented" if privacy_mode == "strict_local" else privacy_mode
 
     await log_patient_access(
         db,
-        patient_id=patient_id,
+        patient_id=resolved_patient_id,
         doctor_id=user.id,
         access_type=AccessType.VIEW_AI_QUERY,
         request=request,
     )
 
-    profile, patient = await _get_patient_context(db, patient_id)
+    profile, patient = await _get_patient_context(db, resolved_patient_id)
     raw_summary = _build_raw_summary(profile, patient)
     conditions = _safe_list(raw_summary.get("conditions"))
     medications = _safe_list(raw_summary.get("medications"))
     allergies = _safe_list(raw_summary.get("allergies"))
     risk_flags = _safe_list(raw_summary.get("risk_flags"))
+    family_history = _safe_list(raw_summary.get("family_history"))
     history_data = raw_summary.get("history") if isinstance(raw_summary, dict) else {}
     surgeries = _safe_list((history_data or {}).get("surgeries"))
     hospitalizations = _safe_list((history_data or {}).get("hospitalizations"))
@@ -857,14 +1767,23 @@ async def get_doctor_patient_assistant_summary(
     appointments_result = await db.execute(
         select(Appointment)
         .where(
-            Appointment.patient_id == patient_id,
+            Appointment.patient_id == resolved_patient_id,
             Appointment.status.in_(CHORUI_ACTIVE_APPOINTMENT_STATUSES),
         )
         .order_by(Appointment.appointment_date.desc())
         .limit(8)
     )
     appointments = appointments_result.scalars().all()
-    prior_doctors = await _get_patient_prior_doctors(db, patient_id=patient_id, current_doctor_id=user.id)
+    prior_doctors = await _get_patient_prior_doctors(
+        db,
+        patient_id=resolved_patient_id,
+        current_doctor_id=user.id,
+    )
+    subject_tokens = _build_subject_tokens(
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        feature="doctor_patient_summary",
+    )
 
     timeline = [
         {
@@ -876,23 +1795,54 @@ async def get_doctor_patient_assistant_summary(
         for item in appointments
     ]
 
+    ai_brief: dict[str, Any] | None = None
+    rag_context = await _build_secure_rag_context(
+        db,
+        query="pre consultation summary",
+        conditions=conditions,
+        medications=medications,
+    )
+    try:
+        ai_brief = await ai_orchestrator.generate_patient_summary(
+            {
+                **subject_tokens,
+                "patient_record": raw_summary,
+                "recent_appointments": timeline[:6],
+                "retrieved_knowledge": rag_context,
+            },
+            include_meta=False,
+            prompt_version="v2-doctor-brief",
+        )
+    except AIOrchestratorError:
+        ai_brief = None
+
+    compact_brief = _build_compact_doctor_brief(
+        ai_summary=ai_brief,
+        conditions=conditions,
+        medications=medications,
+        allergies=allergies,
+        risk_flags=risk_flags,
+    )
+
     summary = {
+        "doctor_brief": compact_brief,
         "patient_snapshot": {
-            "name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient",
-            "gender": profile.gender,
+            "patient_id": patient_ref_from_uuid(resolved_patient_id),
+            "gender": patient.gender,
             "blood_group": patient.blood_group,
         },
         "clinical_context": {
-            "conditions": conditions,
-            "medications": medications,
-            "allergies": allergies,
-            "risk_flags": risk_flags,
-            "surgeries": surgeries,
-            "hospitalizations": hospitalizations,
+            "conditions": conditions[:8],
+            "medications": medications[:8],
+            "allergies": allergies[:8],
+            "risk_flags": risk_flags[:6],
+            "family_history": family_history[:6],
+            "surgeries": surgeries[:6],
+            "hospitalizations": hospitalizations[:6],
         },
         "care_continuity": {
-            "recent_appointments": timeline,
-            "prior_doctors": prior_doctors,
+            "recent_appointments": timeline[:5],
+            "prior_doctors": prior_doctors[:5],
         },
         "pre_consultation_checklist": _build_missing_info_checklist(
             conditions=conditions,
@@ -917,7 +1867,7 @@ async def get_doctor_patient_assistant_summary(
             "Assistant summary only: this does not issue diagnosis or treatment decisions.",
             "Validate all critical findings against patient interview and examination.",
         ],
-        privacy_mode="strict_local",
+        privacy_mode=effective_privacy_mode,
     )
 
 
@@ -930,9 +1880,7 @@ async def get_patient_prescription_assistant_summary(
     role = await _get_user_role(db, user.id)
     if role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can access this resource")
-
-    if settings.CHORUI_PRIVACY_MODE.strip().lower() != "strict_local":
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Assistant summary is restricted to strict local privacy mode")
+    privacy_mode = settings.CHORUI_PRIVACY_MODE.strip().lower()
 
     result = await db.execute(
         select(Prescription)
@@ -1017,7 +1965,7 @@ async def get_patient_prescription_assistant_summary(
         summary=summary,
         highlight_points=highlights,
         cautions=cautions,
-        privacy_mode="strict_local",
+        privacy_mode=privacy_mode,
     )
 
 
@@ -1097,6 +2045,7 @@ async def _get_doctor_active_patients(db: AsyncSession, doctor_id: str) -> list[
         patients.append(
             {
                 "patient_id": row.patient_id,
+                "patient_ref": patient_ref_from_uuid(row.patient_id),
                 "display_name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient",
                 "last_seen": row.last_seen.isoformat() if row.last_seen else None,
             }
@@ -1117,19 +2066,183 @@ async def _resolve_assistant_context(
 
     if role == UserRole.DOCTOR:
         if payload_patient_id:
-            access = await check_doctor_patient_access(db, user_id, payload_patient_id)
+            resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+                db,
+                doctor_id=user_id,
+                patient_identifier=payload_patient_id,
+            )
+            access = await check_doctor_patient_access(db, user_id, resolved_patient_id)
             if not access.get("allowed"):
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=access.get("reason", "Access denied"),
                 )
-            profile, patient = await _get_patient_context(db, payload_patient_id)
-            return payload_patient_id, _build_raw_summary(profile, patient), "doctor-patient"
+            profile, patient = await _get_patient_context(db, resolved_patient_id)
+            return resolved_patient_id, _build_raw_summary(profile, patient), "doctor-patient"
         return None, None, "doctor-general"
 
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Chorui assistant is available for patient and doctor accounts only",
+    )
+
+
+def _extract_patient_id_candidate(message: str) -> str | None:
+    raw_message = message or ""
+    ref_match = CHORUI_PATIENT_REF_PATTERN.search(raw_message)
+    if ref_match:
+        return ref_match.group(0).strip()
+    uuid_match = CHORUI_UUID_PATTERN.search(raw_message)
+    if not uuid_match:
+        return None
+    return uuid_match.group(0).strip()
+
+
+async def _try_resolve_doctor_patient_context_from_message(
+    *,
+    db: AsyncSession,
+    doctor_id: str,
+    message: str,
+) -> tuple[str | None, dict[str, Any] | None]:
+    candidate_patient_id = _extract_patient_id_candidate(message)
+    if not candidate_patient_id:
+        return None, None
+
+    resolved_patient_id = await resolve_doctor_patient_identifier(
+        db,
+        doctor_id=doctor_id,
+        patient_identifier=candidate_patient_id,
+    )
+    if not resolved_patient_id:
+        return None, None
+
+    access = await check_doctor_patient_access(db, doctor_id, resolved_patient_id)
+    if not access.get("allowed"):
+        return None, None
+
+    profile, patient = await _get_patient_context(db, resolved_patient_id)
+    return resolved_patient_id, _build_raw_summary(profile, patient)
+
+
+def _merge_named_confidence_lists(
+    primary: list[dict[str, Any]],
+    fallback: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    merged: dict[str, float] = {}
+    for collection in (primary, fallback):
+        for item in collection:
+            name = str(item.get("name", "")).strip()
+            if not name:
+                continue
+            confidence = float(item.get("confidence") or 0.0)
+            previous = merged.get(name)
+            if previous is None or confidence > previous:
+                merged[name] = confidence
+    return [{"name": name, "confidence": confidence} for name, confidence in merged.items()]
+
+
+def _build_doctor_patient_id_required_reply(active_patients: list[dict[str, Any]]) -> str:
+    if not active_patients:
+        return (
+            "Patient context was not selected. Please include a valid patient ID in your message "
+            "or open a patient from your list first."
+        )
+
+    lines = [
+        (
+            f"- patient id: {item['patient_ref']} | {item.get('display_name') or 'Patient'} "
+            f"(last activity: {item['last_seen'][:10] if item.get('last_seen') else 'unknown'})"
+        )
+        for item in active_patients[:20]
+    ]
+    return (
+        "Please provide a patient ID to run patient-specific intelligence.\n"
+        f"{'\n'.join(lines)}\n\n"
+        "Use the exact `patient id` value from your patient list for record-linked AI support."
+    )
+
+
+DOCTOR_PATIENT_SCOPED_INTENTS = {
+    "doctor_patient_medications",
+    "doctor_patient_conditions",
+    "doctor_patient_allergies",
+    "doctor_patient_risks",
+    "doctor_patient_history",
+    "doctor_patient_family_history",
+    "doctor_patient_upcoming_appointments",
+    "doctor_patient_summary",
+}
+
+
+def _build_chorui_model_query(
+    *,
+    role: UserRole,
+    message: str,
+    context_mode: str,
+    target_patient_id: str | None,
+    conditions: list[str],
+    medications: list[str],
+    allergies: list[str],
+    risk_flags: list[str],
+    family_history: list[str],
+    surgeries: list[str],
+    hospitalizations: list[str],
+    active_patients: list[dict[str, Any]],
+    history_text: str,
+    demographics: dict[str, Any] | None = None,
+    recent_consultations: list[dict[str, Any]] | None = None,
+    recent_prescriptions: list[dict[str, Any]] | None = None,
+    appointment_history: list[dict[str, Any]] | None = None,
+    lifestyle: dict[str, Any] | None = None,
+    subject_tokens: dict[str, str] | None = None,
+    rag_context: dict[str, Any] | None = None,
+) -> str:
+    payload: dict[str, Any] = {
+        "role": str(getattr(role, "value", role)).lower(),
+        "context_mode": context_mode,
+        "query": message.strip()[:2000],
+    }
+    if subject_tokens:
+        payload["subject_tokens"] = subject_tokens
+    if target_patient_id:
+        payload["record_context"] = {
+            "conditions": conditions[:30],
+            "medications": medications[:30],
+            "allergies": allergies[:30],
+            "risk_flags": risk_flags[:30],
+            "family_history": family_history[:30],
+            "surgeries": surgeries[:8],
+            "hospitalizations": hospitalizations[:8],
+            "demographics": demographics or {},
+            "recent_consultations": (recent_consultations or [])[:3],
+            "recent_prescriptions": (recent_prescriptions or [])[:5],
+            "appointment_history": (appointment_history or [])[:6],
+            "lifestyle": lifestyle or {},
+        }
+    elif active_patients:
+        payload["doctor_patient_directory"] = [
+            {
+                "patient_ref": str(item.get("patient_ref") or patient_ref_from_uuid(item.get("patient_id", ""))),
+                "last_seen": str(item.get("last_seen", "")),
+            }
+            for item in active_patients[:25]
+        ]
+    if demographics and not target_patient_id:
+        payload["self_demographics"] = demographics
+    if lifestyle and not target_patient_id:
+        payload["self_lifestyle"] = lifestyle
+
+    if history_text:
+        payload["recent_chat_history"] = history_text[:2500]
+    if rag_context:
+        payload["retrieved_knowledge"] = rag_context
+
+    return (
+        "Use only authorized Medora context below. "
+        "Authorized access has already been verified server-side. "
+        "Do not refuse due to privacy/local-mode concerns when record context is provided. "
+        "Give practical, concise workflow support with clear uncertainty and safety cautions.\n"
+        + json.dumps(payload, ensure_ascii=False)
     )
 
 
@@ -1149,6 +2262,16 @@ async def _run_chorui_assistant(
         role=role,
         payload_patient_id=payload.patient_id,
     )
+    if role == UserRole.DOCTOR and not target_patient_id:
+        inferred_patient_id, inferred_patient_context = await _try_resolve_doctor_patient_context_from_message(
+            db=db,
+            doctor_id=user.id,
+            message=payload.message,
+        )
+        if inferred_patient_id and inferred_patient_context:
+            target_patient_id = inferred_patient_id
+            patient_context = inferred_patient_context
+            context_mode = "doctor-patient"
 
     role_context = _default_role_context(role, payload.role_context)
     conversation_id = await _resolve_conversation_id(
@@ -1157,6 +2280,12 @@ async def _run_chorui_assistant(
         requested_conversation_id=payload.conversation_id,
         role_context=role_context,
         patient_id=target_patient_id,
+    )
+    subject_tokens = _build_subject_tokens(
+        doctor_id=user.id if role == UserRole.DOCTOR else None,
+        patient_id=target_patient_id if role == UserRole.DOCTOR else user.id,
+        conversation_id=conversation_id,
+        feature="chorui",
     )
 
     if role == UserRole.DOCTOR and target_patient_id:
@@ -1182,18 +2311,51 @@ async def _run_chorui_assistant(
     conditions = _safe_list((patient_context or {}).get("conditions"))
     allergies = _safe_list((patient_context or {}).get("allergies"))
     risk_flags = _safe_list((patient_context or {}).get("risk_flags"))
+    family_history = _safe_list((patient_context or {}).get("family_history"))
     history_data = (patient_context or {}).get("history") if isinstance(patient_context, dict) else {}
     surgeries = _safe_list((history_data or {}).get("surgeries"))
     hospitalizations = _safe_list((history_data or {}).get("hospitalizations"))
     symptom_hints = _extract_symptom_hints(payload.message)
     severity_hint = _extract_severity_hint(payload.message)
     duration_hint = _extract_duration_hint(payload.message)
+
+    demographics: dict[str, Any] = {}
+    recent_consultations: list[dict[str, Any]] = []
+    recent_prescriptions: list[dict[str, Any]] = []
+    appointment_history: list[dict[str, Any]] = []
+    lifestyle: dict[str, Any] = {}
+    if target_patient_id:
+        extended_context = await _build_patient_extended_context(
+            db,
+            patient_id=target_patient_id,
+            doctor_id=user.id if role == UserRole.DOCTOR else None,
+        )
+        demographics = extended_context.get("demographics") if isinstance(extended_context.get("demographics"), dict) else {}
+        recent_consultations = extended_context.get("recent_consultations") if isinstance(extended_context.get("recent_consultations"), list) else []
+        recent_prescriptions = extended_context.get("recent_prescriptions") if isinstance(extended_context.get("recent_prescriptions"), list) else []
+        appointment_history = extended_context.get("appointment_history") if isinstance(extended_context.get("appointment_history"), list) else []
+        lifestyle = extended_context.get("lifestyle") if isinstance(extended_context.get("lifestyle"), dict) else {}
+
     structured_data: dict[str, Any] = {
+        "user_query": payload.message.strip()[:2000],
         "symptoms": symptom_hints,
         "conditions": conditions,
+        "medications": medications,
+        "allergies": allergies,
+        "risk_flags": risk_flags,
+        "family_history": family_history,
+        "surgeries": surgeries,
+        "hospitalizations": hospitalizations,
         "duration": duration_hint,
         "severity": severity_hint,
+        "demographics": demographics,
+        "recent_consultations": recent_consultations,
+        "recent_prescriptions": recent_prescriptions,
+        "appointment_history": appointment_history,
+        "lifestyle": lifestyle,
     }
+    if target_patient_id:
+        structured_data["patient_profile_id"] = patient_ref_from_uuid(target_patient_id)
 
     await _persist_chorui_chat_message(
         db,
@@ -1207,11 +2369,129 @@ async def _run_chorui_assistant(
         request=request,
     )
 
+    if (
+        role == UserRole.DOCTOR
+        and settings.CHORUI_REQUIRE_PATIENT_ID_FOR_DOCTOR
+        and not target_patient_id
+        and intent in DOCTOR_PATIENT_SCOPED_INTENTS
+    ):
+        active_patients = await _get_doctor_active_patients(db, user.id)
+        reply = _build_doctor_patient_id_required_reply(active_patients)
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
     if _is_medical_decision_request(normalized_message):
         reply = (
             "I can help summarize records and provide educational workflow support, but I cannot provide diagnosis, "
             "prescription, or dosage decisions. Please consult a licensed doctor for treatment decisions. "
             "If this is urgent, seek emergency care immediately."
+        )
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
+    if role == UserRole.DOCTOR and intent == "doctor_search_patient_by_condition" and not target_patient_id:
+        matches = await _search_doctor_patients_by_criteria(
+            db,
+            doctor_id=user.id,
+            criteria_text=payload.message,
+            limit=10,
+        )
+        structured_data["matching_patients"] = matches
+        if matches:
+            lines = [
+                f"- {item.get('patient_ref')} | {item.get('display_name')} | conditions: {', '.join(item.get('conditions', [])[:3]) or 'not specified'}"
+                for item in matches
+            ]
+            reply = (
+                "I found patients matching your query from your authorized appointment network:\n"
+                + "\n".join(lines)
+                + "\n\nReply with one patient id to continue with patient-specific context."
+            )
+        else:
+            reply = "I could not find matching patients for that criteria in your currently linked records."
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
+    if role == UserRole.DOCTOR and intent == "doctor_today_appointments":
+        upcoming_today = await _get_upcoming_doctor_schedule(db, doctor_id=user.id, window_days=1, limit=20)
+        today_rows = [
+            {
+                "appointment_date": _format_datetime_label(item.appointment_date),
+                "patient_ref": patient_ref_from_uuid(item.patient_id),
+                "status": _format_status_label(item.status),
+                "reason": str(item.reason or "")[:160],
+            }
+            for item in upcoming_today
+        ]
+        structured_data["today_appointments"] = today_rows
+        if today_rows:
+            reply = "Here are your appointments for today:\n" + "\n".join(
+                [
+                    f"- {item['appointment_date']} | {item['patient_ref']} | {item['status']}"
+                    for item in today_rows
+                ]
+            )
+        else:
+            reply = "No appointments are currently scheduled for today in your active timeline."
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
+    if role == UserRole.PATIENT and intent == "patient_health_query":
+        context_parts: list[str] = []
+        if conditions:
+            context_parts.append(f"Patient has these recorded conditions: {', '.join(conditions)}.")
+        if medications:
+            context_parts.append(f"Current medications: {', '.join(medications[:8])}.")
+        if allergies:
+            context_parts.append(f"Known allergies: {', '.join(allergies[:6])}.")
+        if risk_flags:
+            context_parts.append(f"Risk flags: {', '.join(risk_flags[:4])}.")
+
+        patient_context_text = " ".join(context_parts) if context_parts else "No specific health records found for this patient yet."
+
+        reply = (
+            f"Based on your Medora health records: {patient_context_text} "
+            "Using this context and general clinical guidance, here is an educational, non-prescriptive response to your question."
         )
         return await _finalize_chorui_response(
             db=db,
@@ -1340,6 +2620,24 @@ async def _run_chorui_assistant(
             request=request,
         )
 
+    if role == UserRole.PATIENT and intent == "patient_self_family_history":
+        if family_history:
+            reply = "Here is your recorded family history:\n\n" + _render_bullet_list(family_history[:10])
+        else:
+            reply = "I could not find family history entries in your records yet."
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
     if role == UserRole.PATIENT and intent == "patient_self_upcoming_appointments" and target_patient_id:
         upcoming = await _get_upcoming_patient_appointments(db, patient_id=target_patient_id, limit=5)
         if upcoming:
@@ -1363,12 +2661,57 @@ async def _run_chorui_assistant(
             request=request,
         )
 
+    if role == UserRole.PATIENT and intent == "patient_self_doctors":
+        care_team = await _get_patient_care_team(db, patient_id=user.id, limit=10)
+        structured_data["care_team"] = care_team
+        if care_team:
+            lines = [
+                (
+                    f"- {item['doctor_name']} "
+                    f"(appointments: {item.get('appointment_count', 0)}, "
+                    f"prescriptions: {item.get('prescription_count', 0)}, "
+                    f"last activity: {item.get('last_activity', 'unknown')})"
+                )
+                for item in care_team
+            ]
+            reply = "Here are the doctors involved in your Medora care records:\n" + "\n".join(lines)
+        else:
+            reply = "I could not find linked doctor records for your account yet."
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
+    if intent == "service_information":
+        reply = _build_service_information_reply(role=role, message=payload.message)
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=reply,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+
     if role == UserRole.PATIENT and intent == "patient_self_summary":
         reply = _build_patient_summary_text(
             conditions=conditions,
             medications=medications,
             allergies=allergies,
             risk_flags=risk_flags,
+            family_history=family_history,
         )
         return await _finalize_chorui_response(
             db=db,
@@ -1387,13 +2730,16 @@ async def _run_chorui_assistant(
         active_patients = await _get_doctor_active_patients(db, user.id)
         if active_patients:
             preview_lines = [
-                f"- {item['display_name']} (last activity: {item['last_seen'][:10] if item.get('last_seen') else 'unknown'})"
+                (
+                    f"- patient id: {item.get('patient_ref') or patient_ref_from_uuid(item['patient_id'])} "
+                    f"(last activity: {item['last_seen'][:10] if item.get('last_seen') else 'unknown'})"
+                )
                 for item in active_patients[:20]
             ]
             reply = (
                 "Here are your active patients from recent appointment relationships:\n"
                 f"{'\n'.join(preview_lines)}\n\n"
-                "This list is access-controlled and limited to active patient relationships."
+                "Use a `patient id` in your next message for patient-linked intelligence."
             )
         else:
             reply = "I could not find active patients in your current access window."
@@ -1553,7 +2899,7 @@ async def _run_chorui_assistant(
         upcoming = await _get_upcoming_doctor_schedule(db, doctor_id=user.id, window_days=7, limit=12)
         if upcoming:
             schedule_lines = [
-                f"- {_format_datetime_label(item.appointment_date)} with patient {item.patient_id} ({_format_status_label(item.status)})"
+                f"- {_format_datetime_label(item.appointment_date)} with patient {patient_ref_from_uuid(item.patient_id)} ({_format_status_label(item.status)})"
                 for item in upcoming
             ]
             reply = (
@@ -1581,6 +2927,7 @@ async def _run_chorui_assistant(
             medications=medications,
             allergies=allergies,
             risk_flags=risk_flags,
+            family_history=family_history,
         )
         return await _finalize_chorui_response(
             db=db,
@@ -1596,20 +2943,47 @@ async def _run_chorui_assistant(
         )
 
     privacy_mode = settings.CHORUI_PRIVACY_MODE.strip().lower()
+    history_text = _history_to_text(payload.history)
     if privacy_mode == "strict_local":
-        reply = (
-            "I am running in secure local retrieval mode. I can answer from authorized Medora records "
-            "for medications, conditions, allergies, history, risk flags, appointments, and active patient lists. "
-            "Please ask a direct records question like 'what are my allergies', 'summarize this patient', or 'who are my patients'."
-        )
-        recent_topics = await _get_recent_intent_topics(
-            db,
-            user_id=user.id,
-            conversation_id=conversation_id,
-        )
-        if recent_topics:
-            hint = ", ".join(recent_topics[:3])
-            reply = f"{reply} Recent conversation topics: {hint}."
+        if role == UserRole.DOCTOR and target_patient_id:
+            # Keep doctor flow record-augmented when authorized patient context exists.
+            privacy_mode = "record_augmented"
+        elif role == UserRole.DOCTOR:
+            active_patients = await _get_doctor_active_patients(db, user.id)
+            reply = _build_doctor_patient_id_required_reply(active_patients)
+        else:
+            reply = _build_patient_contextual_general_reply(
+                conditions=conditions,
+                medications=medications,
+                allergies=allergies,
+                risk_flags=risk_flags,
+            )
+            recent_topics = await _get_recent_intent_topics(
+                db,
+                user_id=user.id,
+                conversation_id=conversation_id,
+            )
+            if recent_topics:
+                hint = ", ".join(recent_topics[:3])
+                reply = f"{reply}\n\nRecent conversation topics: {hint}."
+            return await _finalize_chorui_response(
+                db=db,
+                conversation_id=conversation_id,
+                user_id=user.id,
+                patient_id=target_patient_id,
+                role_context=role_context,
+                reply=reply,
+                structured_data=structured_data,
+                context_mode=context_mode,
+                intent=intent,
+                request=request,
+            )
+
+    if role == UserRole.DOCTOR and intent == "doctor_patient_family_history" and target_patient_id:
+        if family_history:
+            reply = "Recorded family history for selected patient:\n\n" + _render_bullet_list(family_history[:10])
+        else:
+            reply = "No family history entries were found for this patient."
         return await _finalize_chorui_response(
             db=db,
             conversation_id=conversation_id,
@@ -1623,10 +2997,139 @@ async def _run_chorui_assistant(
             request=request,
         )
 
-    reply = (
-        "I can assist with medical learning and workflow guidance. "
-        "Please ask a direct records question, and always confirm clinical decisions with your doctor."
+    active_patients: list[dict[str, Any]] = []
+    if role == UserRole.DOCTOR and not target_patient_id:
+        active_patients = await _get_doctor_active_patients(db, user.id)
+    anonymized_message = anonymize_identifier_text(payload.message, token_namespace="subject")
+    anonymized_history_text = anonymize_identifier_text(history_text, token_namespace="subject")
+    if target_patient_id:
+        patient_name_row = (
+            await db.execute(
+                select(Profile.first_name, Profile.last_name).where(Profile.id == target_patient_id).limit(1)
+            )
+        ).first()
+        if patient_name_row:
+            first_name = str(patient_name_row[0] or "").strip()
+            last_name = str(patient_name_row[1] or "").strip()
+            full_name = f"{first_name} {last_name}".strip()
+            anonymized_message = _anonymize_named_entities(
+                payload.message,
+                [full_name, first_name, last_name],
+                alias="[patient]",
+            )
+            anonymized_history_text = _anonymize_named_entities(
+                history_text,
+                [full_name, first_name, last_name],
+                alias="[patient]",
+            )
+    rag_context = await _build_secure_rag_context(
+        db,
+        query=anonymized_message,
+        conditions=conditions,
+        medications=medications,
     )
+
+    chorui_query = _build_chorui_model_query(
+        role=role,
+        message=anonymized_message,
+        context_mode=context_mode,
+        target_patient_id=target_patient_id,
+        conditions=conditions,
+        medications=medications,
+        allergies=allergies,
+        risk_flags=risk_flags,
+        family_history=family_history,
+        surgeries=surgeries,
+        hospitalizations=hospitalizations,
+        active_patients=active_patients,
+        history_text=anonymized_history_text,
+        demographics=demographics,
+        recent_consultations=recent_consultations,
+        recent_prescriptions=recent_prescriptions,
+        appointment_history=appointment_history,
+        lifestyle=lifestyle,
+        subject_tokens=subject_tokens,
+        rag_context=rag_context,
+    )
+    llm_started = perf_counter()
+    try:
+        model_result = await ai_orchestrator.clinical_info_query(
+            chorui_query,
+            include_meta=True,
+            prompt_version=payload.prompt_version,
+        )
+        answer = str(model_result.validated_output.get("answer", "")).strip()
+        if not answer:
+            answer = "I could not generate a complete response from AI right now."
+        cautions = [str(item).strip() for item in model_result.validated_output.get("cautions", []) if str(item).strip()]
+        condition_hints = [
+            str(item.get("name", "")).strip()
+            for item in model_result.validated_output.get("suggested_conditions", [])
+            if isinstance(item, dict) and str(item.get("name", "")).strip()
+        ]
+        if condition_hints:
+            structured_data["conditions"] = list(dict.fromkeys([*structured_data.get("conditions", []), *condition_hints]))[:30]
+        structured_data["llm_source"] = "clinical_info_query"
+        if cautions:
+            answer = f"{answer}\n\nCautions:\n{_render_bullet_list(cautions[:4])}"
+        if target_patient_id and _looks_like_privacy_refusal(answer):
+            answer = _build_local_clinical_answer(
+                query=payload.message,
+                conditions=conditions,
+                medications=medications,
+                allergies=allergies,
+                risk_flags=risk_flags,
+                family_history=family_history,
+            )
+
+        return await _finalize_chorui_response(
+            db=db,
+            conversation_id=conversation_id,
+            user_id=user.id,
+            patient_id=target_patient_id,
+            role_context=role_context,
+            reply=answer,
+            structured_data=structured_data,
+            context_mode=context_mode,
+            intent=intent,
+            request=request,
+        )
+    except AIOrchestratorError as exc:
+        logger.warning(
+            "Chorui LLM query failed | intent=%s context_mode=%s duration_ms=%s error=%s",
+            intent,
+            context_mode,
+            int((perf_counter() - llm_started) * 1000),
+            str(exc),
+        )
+
+    if role == UserRole.DOCTOR and target_patient_id:
+        reply = _build_local_clinical_answer(
+            query=payload.message,
+            conditions=conditions,
+            medications=medications,
+            allergies=allergies,
+            risk_flags=risk_flags,
+            family_history=family_history,
+        )
+    elif role == UserRole.DOCTOR and active_patients:
+        lines = [
+            (
+                f"- patient id: {item.get('patient_ref') or patient_ref_from_uuid(item['patient_id'])} "
+                f"(last activity: {item['last_seen'][:10] if item.get('last_seen') else 'unknown'})"
+            )
+            for item in active_patients[:15]
+        ]
+        reply = (
+            "I could not reach advanced AI right now, so here are your active patient references:\n"
+            f"{'\n'.join(lines)}\n\n"
+            "Share a patient id plus your clinical question for patient-specific support."
+        )
+    else:
+        reply = (
+            "I am here to help with Medora workflows and your record-linked health context. "
+            "Tell me what you are trying to do, and I will guide you with what is available in your account data."
+        )
     return await _finalize_chorui_response(
         db=db,
         conversation_id=conversation_id,
@@ -1640,7 +3143,6 @@ async def _run_chorui_assistant(
         request=request,
     )
 
-
 @router.post("/assistant-chat", response_model=ChoruiAssistantResponse)
 async def chorui_assistant_chat(
     payload: ChoruiAssistantRequest,
@@ -1649,6 +3151,175 @@ async def chorui_assistant_chat(
     db: AsyncSession = Depends(get_db),
 ):
     return await _run_chorui_assistant(payload, user, db, request)
+
+
+@router.get("/assistant/conversations", response_model=ChoruiConversationListResponse)
+async def list_chorui_conversations(
+    limit: int = Query(25, ge=1, le=50),
+    role_context: str | None = Query(default=None),
+    patient_id: str | None = Query(default=None),
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    role = await _get_user_role(db, user.id)
+    if role is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
+
+    resolved_role_context = _default_role_context(role, role_context)
+    resolved_patient_id: str | None = None
+
+    if role == UserRole.PATIENT:
+        resolved_patient_id = user.id
+    elif role == UserRole.DOCTOR and patient_id:
+        resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+            db,
+            doctor_id=user.id,
+            patient_identifier=patient_id,
+        )
+
+    filters = [
+        ChoruiChatMessage.user_id == user.id,
+        ChoruiChatMessage.role_context == resolved_role_context,
+    ]
+    if resolved_patient_id:
+        filters.append(ChoruiChatMessage.patient_id == resolved_patient_id)
+
+    grouped_result = await db.execute(
+        select(
+            ChoruiChatMessage.conversation_id,
+            func.max(ChoruiChatMessage.created_at).label("updated_at"),
+        )
+        .where(*filters)
+        .group_by(ChoruiChatMessage.conversation_id)
+        .order_by(func.max(ChoruiChatMessage.created_at).desc())
+        .limit(limit)
+    )
+    grouped_rows = grouped_result.all()
+
+    conversations: list[ChoruiConversationSummary] = []
+    for row in grouped_rows:
+        latest_result = await db.execute(
+            select(ChoruiChatMessage)
+            .where(
+                ChoruiChatMessage.user_id == user.id,
+                ChoruiChatMessage.conversation_id == row.conversation_id,
+            )
+            .order_by(ChoruiChatMessage.created_at.desc())
+            .limit(1)
+        )
+        latest = latest_result.scalar_one_or_none()
+        if not latest:
+            continue
+
+        last_message = str(latest.message_text or "").strip()
+        if len(last_message) > 180:
+            last_message = f"{last_message[:177]}..."
+
+        conversations.append(
+            ChoruiConversationSummary(
+                conversation_id=latest.conversation_id,
+                role_context=str(latest.role_context or resolved_role_context),
+                context_mode=str(latest.context_mode or "general"),
+                patient_id=latest.patient_id,
+                patient_ref=patient_ref_from_uuid(latest.patient_id) if latest.patient_id else None,
+                last_sender=str(latest.sender or "assistant"),
+                last_message=last_message,
+                updated_at=_format_datetime_iso(row.updated_at),
+            )
+        )
+
+    return ChoruiConversationListResponse(conversations=conversations)
+
+
+@router.get("/assistant/conversations/{conversation_id}", response_model=ChoruiConversationHistoryResponse)
+async def get_chorui_conversation_messages(
+    conversation_id: str,
+    limit: int = Query(120, ge=1, le=300),
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    target_id = (conversation_id or "").strip()[:64]
+    if not target_id:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="conversation_id is required")
+
+    first_result = await db.execute(
+        select(ChoruiChatMessage)
+        .where(
+            ChoruiChatMessage.user_id == user.id,
+            ChoruiChatMessage.conversation_id == target_id,
+        )
+        .order_by(ChoruiChatMessage.created_at.asc())
+        .limit(1)
+    )
+    first_message = first_result.scalar_one_or_none()
+    if not first_message:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Conversation not found")
+
+    messages_result = await db.execute(
+        select(ChoruiChatMessage)
+        .where(
+            ChoruiChatMessage.user_id == user.id,
+            ChoruiChatMessage.conversation_id == target_id,
+        )
+        .order_by(ChoruiChatMessage.created_at.asc())
+        .limit(limit)
+    )
+    rows = messages_result.scalars().all()
+
+    messages = [
+        ChoruiConversationMessage(
+            id=str(item.id),
+            role="ai" if str(item.sender or "").lower() == "assistant" else "user",
+            content=str(item.message_text or ""),
+            timestamp=_format_datetime_iso(item.created_at),
+        )
+        for item in rows
+    ]
+
+    context_mode = "general"
+    if rows:
+        context_mode = str(rows[-1].context_mode or context_mode)
+
+    return ChoruiConversationHistoryResponse(
+        conversation_id=target_id,
+        context_mode=context_mode,
+        messages=messages,
+    )
+
+
+@router.delete("/assistant/conversations/{conversation_id}", response_model=ChoruiConversationDeleteResponse)
+async def delete_chorui_conversation(
+    conversation_id: str,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    target_id = (conversation_id or "").strip()[:64]
+    if not target_id:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="conversation_id is required")
+
+    existing = await db.execute(
+        select(ChoruiChatMessage.id)
+        .where(
+            ChoruiChatMessage.user_id == user.id,
+            ChoruiChatMessage.conversation_id == target_id,
+        )
+        .limit(1)
+    )
+    if not existing.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Conversation not found")
+
+    rows = await db.execute(
+        select(ChoruiChatMessage)
+        .where(
+            ChoruiChatMessage.user_id == user.id,
+            ChoruiChatMessage.conversation_id == target_id,
+        )
+    )
+    for item in rows.scalars().all():
+        await db.delete(item)
+
+    await db.commit()
+    return ChoruiConversationDeleteResponse(conversation_id=target_id, deleted=True)
 
 
 @router.post("/intake-structure", response_model=ChoruiAssistantResponse)
@@ -1732,20 +3403,38 @@ async def get_ai_patient_summary(
     db: AsyncSession = Depends(get_db),
 ):
     await _require_doctor(db, user.id)
-    access = await check_doctor_patient_access(db, user.id, patient_id)
+    resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+        db,
+        doctor_id=user.id,
+        patient_identifier=patient_id,
+    )
+    access = await check_doctor_patient_access(db, user.id, resolved_patient_id)
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
 
-    profile, patient = await _get_patient_context(db, patient_id)
+    profile, patient = await _get_patient_context(db, resolved_patient_id)
     raw_data = _build_raw_summary(profile, patient)
+    subject_tokens = _build_subject_tokens(
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        feature="patient_summary",
+    )
 
     try:
         result = await ai_orchestrator.generate_patient_summary(
-            raw_data,
+            {
+                **subject_tokens,
+                "record_context": raw_data,
+            },
             include_meta=True,
             prompt_version="v1",
         )
-        interaction_id = await _persist_ai_interaction(db, result=result, doctor_id=user.id, patient_id=patient_id)
+        interaction_id = await _persist_ai_interaction(
+            db,
+            result=result,
+            doctor_id=user.id,
+            patient_id=resolved_patient_id,
+        )
         return AIPatientSummaryViewResponse(
             ai_generated=True,
             interaction_id=interaction_id,
@@ -1772,46 +3461,74 @@ async def get_ai_clinical_info(
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="patient_id is required")
 
     await _require_doctor(db, user.id)
-    access = await check_doctor_patient_access(db, user.id, payload.patient_id)
+    resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+        db,
+        doctor_id=user.id,
+        patient_identifier=payload.patient_id,
+    )
+    access = await check_doctor_patient_access(db, user.id, resolved_patient_id)
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
 
     await log_patient_access(
         db,
-        patient_id=payload.patient_id,
+        patient_id=resolved_patient_id,
         doctor_id=user.id,
         access_type=AccessType.VIEW_AI_QUERY,
         request=request,
     )
 
-    profile, patient = await _get_patient_context(db, payload.patient_id)
+    profile, patient = await _get_patient_context(db, resolved_patient_id)
     raw_summary = _build_raw_summary(profile, patient)
     summary_conditions = _safe_list(raw_summary.get("conditions"))
     summary_medications = _safe_list(raw_summary.get("medications"))
     summary_allergies = _safe_list(raw_summary.get("allergies"))
     summary_risk_flags = _safe_list(raw_summary.get("risk_flags"))
+    summary_family_history = _safe_list(raw_summary.get("family_history"))
+    subject_tokens = _build_subject_tokens(
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        feature="clinical_info",
+    )
 
     query_input = payload.query
     if payload.notes:
         query_input = f"{payload.query}\n\nClinical notes:\n{payload.notes}"
+    full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip()
+    anonymized_query_input = _anonymize_named_entities(
+        query_input,
+        [full_name, profile.first_name, profile.last_name],
+        alias="[patient]",
+    )
+    contextual_query_input = (
+        f"Doctor question:\n{anonymized_query_input}\n\n"
+        "Authorized patient record context:\n"
+        + json.dumps(
+            {
+                **subject_tokens,
+                "conditions": summary_conditions[:12],
+                "medications": summary_medications[:12],
+                "allergies": summary_allergies[:12],
+                "risk_flags": summary_risk_flags[:12],
+                "family_history": summary_family_history[:12],
+            },
+            ensure_ascii=False,
+        )
+    )
+    rag_context = await _build_secure_rag_context(
+        db,
+        query=anonymized_query_input,
+        conditions=summary_conditions,
+        medications=summary_medications,
+    )
+    contextual_query_input = (
+        f"{contextual_query_input}\n\nRetrieved knowledge context:\n"
+        + json.dumps(rag_context, ensure_ascii=False)
+    )
 
     privacy_mode = settings.CHORUI_PRIVACY_MODE.strip().lower()
     if privacy_mode == "strict_local":
-        return AIClinicalInfoResponse(
-            ai_generated=True,
-            interaction_ids=[],
-            answer=_build_local_clinical_answer(
-                query=payload.query,
-                conditions=summary_conditions,
-                medications=summary_medications,
-                allergies=summary_allergies,
-                risk_flags=summary_risk_flags,
-            ),
-            suggested_conditions=_build_local_condition_suggestions(summary_conditions, query_input),
-            suggested_tests=_build_local_test_suggestions(query_input, summary_conditions, summary_risk_flags),
-            suggested_medications=_build_local_medication_suggestions(summary_medications, query_input),
-            cautions=_build_local_cautions(summary_allergies, summary_risk_flags),
-        )
+        privacy_mode = "record_augmented"
 
     interaction_ids: list[str] = []
     answer = "No clinical insights available right now."
@@ -1823,7 +3540,7 @@ async def get_ai_clinical_info(
 
     try:
         info_result = await ai_orchestrator.clinical_info_query(
-            query_input,
+            contextual_query_input,
             include_meta=True,
             prompt_version=payload.prompt_version,
         )
@@ -1840,7 +3557,7 @@ async def get_ai_clinical_info(
                 db,
                 result=info_result,
                 doctor_id=user.id,
-                patient_id=payload.patient_id,
+                patient_id=resolved_patient_id,
             )
         )
     except AIOrchestratorError:
@@ -1849,8 +3566,21 @@ async def get_ai_clinical_info(
     try:
         rx_result = await ai_orchestrator.prescription_suggestions(
             {
-                "query": payload.query,
-                "notes": payload.notes or "",
+                **subject_tokens,
+                "query": anonymized_query_input,
+                "notes": _anonymize_named_entities(
+                    payload.notes or "",
+                    [full_name, profile.first_name, profile.last_name],
+                    alias="[patient]",
+                ),
+                "record_context": {
+                    "conditions": summary_conditions[:12],
+                    "medications": summary_medications[:12],
+                    "allergies": summary_allergies[:12],
+                    "risk_flags": summary_risk_flags[:12],
+                    "family_history": summary_family_history[:12],
+                },
+                "retrieved_knowledge": rag_context,
             },
             include_meta=True,
             prompt_version=payload.prompt_version,
@@ -1881,11 +3611,61 @@ async def get_ai_clinical_info(
                 db,
                 result=rx_result,
                 doctor_id=user.id,
-                patient_id=payload.patient_id,
+                patient_id=resolved_patient_id,
             )
         )
     except AIOrchestratorError:
         pass
+
+    local_conditions = _build_local_condition_suggestions(summary_conditions, contextual_query_input)
+    local_tests = _build_local_test_suggestions(contextual_query_input, summary_conditions, summary_risk_flags)
+    local_medications = _build_local_medication_suggestions(summary_medications, contextual_query_input)
+    local_cautions = _build_local_cautions(summary_allergies, summary_risk_flags)
+
+    conditions = _merge_named_confidence_lists(conditions, local_conditions)
+    tests = _merge_named_confidence_lists(tests, local_tests)
+    medications = _merge_named_confidence_lists(medications, local_medications)
+    tests = await _ground_suggestions_to_catalog(
+        db,
+        suggestions=tests,
+        kind="test",
+        limit=8,
+    )
+    medications = await _ground_suggestions_to_catalog(
+        db,
+        suggestions=medications,
+        kind="medication",
+        limit=8,
+    )
+    if not tests:
+        tests = [{"name": name, "confidence": 0.62} for name in rag_context.get("test_catalog_matches", [])[:6]]
+    if not medications:
+        medications = [{"name": name, "confidence": 0.62} for name in rag_context.get("medicine_catalog_matches", [])[:6]
+        ]
+
+    if answer.strip() == "No clinical insights available right now.":
+        answer = _build_local_clinical_answer(
+            query=payload.query,
+            conditions=summary_conditions,
+            medications=summary_medications,
+            allergies=summary_allergies,
+            risk_flags=summary_risk_flags,
+            family_history=summary_family_history,
+        )
+        ai_generated = True
+    elif _looks_like_privacy_refusal(answer):
+        answer = _build_local_clinical_answer(
+            query=payload.query,
+            conditions=summary_conditions,
+            medications=summary_medications,
+            allergies=summary_allergies,
+            risk_flags=summary_risk_flags,
+            family_history=summary_family_history,
+        )
+        ai_generated = True
+
+    if not cautions:
+        cautions = local_cautions
 
     return AIClinicalInfoResponse(
         ai_generated=ai_generated,
@@ -1905,7 +3685,12 @@ async def voice_to_notes(
     db: AsyncSession = Depends(get_db),
 ):
     await _require_doctor(db, user.id)
-    access = await check_doctor_patient_access(db, user.id, payload.patient_id)
+    resolved_patient_id = await _resolve_patient_identifier_for_doctor(
+        db,
+        doctor_id=user.id,
+        patient_identifier=payload.patient_id,
+    )
+    access = await check_doctor_patient_access(db, user.id, resolved_patient_id)
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
 
@@ -1919,7 +3704,7 @@ async def voice_to_notes(
             db,
             result=result,
             doctor_id=user.id,
-            patient_id=payload.patient_id,
+            patient_id=resolved_patient_id,
         )
         soap = result.validated_output
     except AIOrchestratorError:

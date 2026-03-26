@@ -25,6 +25,39 @@ class ChoruiAssistantResponse(BaseModel):
     context_mode: str = "general"
 
 
+class ChoruiConversationSummary(BaseModel):
+    conversation_id: str
+    role_context: str
+    context_mode: str
+    patient_id: str | None = None
+    patient_ref: str | None = None
+    last_sender: str
+    last_message: str
+    updated_at: str
+
+
+class ChoruiConversationListResponse(BaseModel):
+    conversations: list[ChoruiConversationSummary] = Field(default_factory=list)
+
+
+class ChoruiConversationMessage(BaseModel):
+    id: str
+    role: str
+    content: str
+    timestamp: str
+
+
+class ChoruiConversationHistoryResponse(BaseModel):
+    conversation_id: str
+    context_mode: str = "general"
+    messages: list[ChoruiConversationMessage] = Field(default_factory=list)
+
+
+class ChoruiConversationDeleteResponse(BaseModel):
+    conversation_id: str
+    deleted: bool = True
+
+
 class ChoruiIntakeSaveRequest(BaseModel):
     patient_id: str
     structured_data: dict[str, Any] = Field(default_factory=dict)
@@ -127,7 +160,7 @@ class AIDoctorPatientSummaryResponse(BaseModel):
     highlight_points: list[str] = Field(default_factory=list)
     cautions: list[str] = Field(default_factory=list)
     assistant_boundary: str = "AI assistant only. Final diagnosis and treatment decisions remain with the doctor."
-    privacy_mode: str = "strict_local"
+    privacy_mode: str = "record_augmented"
 
 
 class AIPatientPrescriptionExplainerResponse(BaseModel):
@@ -136,4 +169,4 @@ class AIPatientPrescriptionExplainerResponse(BaseModel):
     highlight_points: list[str] = Field(default_factory=list)
     cautions: list[str] = Field(default_factory=list)
     assistant_boundary: str = "This is a support explanation, not a replacement for your doctor advice."
-    privacy_mode: str = "strict_local"
+    privacy_mode: str = "record_augmented"

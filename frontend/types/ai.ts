@@ -31,6 +31,35 @@ export interface ChoruiIntakeResponse {
   context_mode?: string;
 }
 
+export interface ChoruiConversationSummary {
+  conversation_id: string;
+  role_context: string;
+  context_mode: string;
+  patient_id?: string | null;
+  patient_ref?: string | null;
+  last_sender: string;
+  last_message: string;
+  updated_at: string;
+}
+
+export interface ChoruiConversationMessage {
+  id: string;
+  role: ChoruiMessageRole;
+  content: string;
+  timestamp: string;
+}
+
+export interface ChoruiConversationHistoryResponse {
+  conversation_id: string;
+  context_mode?: string;
+  messages: ChoruiConversationMessage[];
+}
+
+export interface ChoruiConversationDeleteResponse {
+  conversation_id: string;
+  deleted: boolean;
+}
+
 export interface ChoruiSaveRequest {
   patient_id: string;
   structured_data: ChoruiStructuredData;

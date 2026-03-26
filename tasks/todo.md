@@ -1,3 +1,179 @@
+# Frontend Path Recovery + Navbar Theme Logo + Verification (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Fix all stale frontend image import paths (`@/assets/image/*` -> `@/assets/images/*`) after refactor
+- [x] Update shared navbar logos to render light logo in dark mode and dark logo in light mode
+- [x] Prevent generated service worker artifacts from breaking lint checks
+- [x] Re-run frontend lint, type-check, and build; fix any introduced issues
+- [x] Run backend import/compile verification and quick startup connectivity check
+
+### Review
+- Repaired stale frontend asset aliases across auth/landing/admin/app pages by switching imports from `@/assets/image/*` to `@/assets/images/*`.
+- Updated shared navbar logo rendering in `frontend/components/ui/navbar.tsx` to use `Medora-Logo-Dark.png` in light mode and `Medora-Logo-Light.png` in dark mode for desktop and mobile headers.
+- Fixed a latent navbar TypeScript issue where mobile logo referenced an undefined `logo` variable.
+- Added generated service-worker ignores in `frontend/eslint.config.mjs` for `public/sw.js` and `public/workbox-*.js` to avoid lint breaks from bundled artifacts.
+- Validation: frontend build passes (`next build --webpack`), frontend type-check passes (`npx tsc --noEmit`), targeted lint for edited files has no errors, backend compile passes and `/health` returns 200 with database connected.
+
+# Doctor Analytics System-Alignment Fix (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Remove custom analytics-only navbar/shell and switch to existing doctor page shell
+- [x] Replace isolated analytics color language with existing Medora theme tokens
+- [x] Normalize analytics cards/tables/controls to match current system component patterns
+- [x] Keep analytics data/charts while discarding separate visual design system
+- [x] Re-run diagnostics and lint for touched analytics files
+
+### Review
+- Replaced custom fixed analytics navigation with the shared shell (`AppBackground` + `Navbar`) in `frontend/components/doctor/analytics/DoctorAnalyticsDashboard.tsx`.
+- Removed route-level custom font/theming injection in `frontend/app/doctor/analytics/page.tsx`.
+- Reworked analytics shared styling helpers to use system token classes in `frontend/components/doctor/analytics/shared.tsx`.
+- Updated analytics sections/cards (`AnalyticsHeader`, `MetricsGrid`, `WorkloadAnalyticsSection`, `DemographicsSection`, `RevenueChartCard`, `AIInsightCard`, `ClinicalConditionsCard`, `PrescriptionSafetyCard`, `AIPerformanceCard`, `PatientOutcomesCard`, `ActionableInsightsSection`, `DataTableSection`) to match existing Medora card/table/control styling language.
+- Verified with focused lint run: `npm run lint -- app/doctor/analytics/page.tsx components/doctor/analytics`.
+
+# Doctor Analytics Page 1:1 Recreation (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Confirm and lock the exact source HTML/CSS reference (required for strict 1:1 parity)
+- [x] Create route page at `frontend/app/doctor/analytics/page.tsx` and wire to reusable doctor analytics module
+- [x] Create reusable analytics components for all 13 required sections under `frontend/components/doctor/analytics/`
+- [x] Implement shared typed data contracts and mock-safe adapters so all sections are prop-driven (no hardcoded UI literals)
+- [x] Implement dark/light parity with required base background (`dark: #091327`, `light: #ffffff`) and glass-card treatment
+- [x] Implement chart sections with Recharts (sparklines, workload bars, donut, radial, revenue line, progress/heat maps)
+- [x] Implement tabs + searchable/filterable/paginated data table section (patients/consultations/prescriptions)
+- [x] Add loading skeletons, empty states, and per-section error fallbacks
+- [x] Add light Framer Motion entrance/hover transitions without layout-shift regressions
+- [x] Lazy-load heavier chart blocks and memoize chart rendering paths
+- [x] Validate route behavior against existing doctor navigation and dynamic `/doctor/[doctorId]` route precedence
+- [x] Run frontend diagnostics (lint/type checks for touched files) and fix all introduced issues
+
+### Review
+- Added new doctor analytics route at `frontend/app/doctor/analytics/page.tsx` and wired server-side data fetch from doctor stats/actions into a typed dashboard payload.
+- Implemented 13 reusable section components under `frontend/components/doctor/analytics/` matching the provided structure: header, metrics, workload, AI insight, heatmap, demographics, clinical conditions, prescription safety, revenue, AI performance, patient outcomes, actionable insights, and tabular data.
+- Added shared typed contracts in `frontend/components/doctor/analytics/types.ts` and data mapper in `frontend/components/doctor/analytics/build-analytics-data.ts` so UI remains prop-driven.
+- Implemented light/dark parity with required background behavior (`white` light and `#091327` dark), glass-card treatment, and Manrope/Inter usage via Next font loading.
+- Replaced all visual mock charts with real Recharts implementations (sparklines, bar workload, donut demographics, circular safety chart, and revenue area chart with tooltip).
+- Added dynamic import based lazy loading for heavier chart sections and memoized card/chart components.
+- Implemented table tabs with search, filter button shell, and client pagination in `DataTableSection`.
+- Added section-level loading skeletons, empty-state handling, and route-level error fallback messaging.
+- Validation passed with focused frontend lint check: `npm run lint -- app/doctor/analytics/page.tsx components/doctor/analytics`.
+
+# Medora System Overhaul Implementation (2026-03-26)
+
+## Status: in-progress
+
+### Todo
+- [x] Phase 1A: Upgrade Chorui provider config defaults (timeout, retries, model) in backend settings
+- [x] Phase 1A: Rewrite Chorui orchestrator system prompt for clinical-grade, role-aware synthesis
+- [x] Phase 1B: Enrich Chorui model query context (demographics, expanded limits, consultations, prescriptions, appointments, lifestyle)
+- [x] Phase 1C: Expand intent classification with doctor patient-search, doctor today appointments, and patient health query intents
+- [x] Phase 1C: Implement doctor patient semantic lookup helper by condition/name for non-explicit patient queries
+- [x] Phase 1D: Route all resolved intents through LLM synthesis while preserving DB truth as source context
+- [x] Phase 1E: Improve LLM failure fallback response quality and structured timing/error logging
+- [x] Phase 2A: Refactor Chorui launcher to support non-floating banner placement with role-aware copy and theme parity
+- [x] Phase 2B: Integrate Chorui banner in shared and doctor navbars with normal layout flow and no overlap
+- [x] Phase 3A: Add HealthMetric model + enums + relationships with indexed persistence fields
+- [x] Phase 3B: Add Alembic migration for health_metrics table and indexes
+- [x] Phase 3C: Add health metrics CRUD/trends/today backend routes with auth + validation
+- [x] Phase 3D: Add frontend health-metrics action layer for CRUD and analytics fetch
+- [x] Phase 3E: Replace hardcoded patient home dashboard quick stats with live health metrics + upcoming appointments + adherence + health score
+- [x] Phase 3F: Add analytics health tracking UI inputs and trends powered by backend data
+- [x] Phase 4A: Add DoctorAction model + enums + relationships for action/revenue/workload tracking
+- [x] Phase 4B: Add Alembic migration for doctor_actions table and indexes
+- [x] Phase 4C: Add auto-tracking hooks from appointment/consultation completion and prescription issuance
+- [x] Phase 4D: Add doctor actions CRUD/pending/stats backend routes with filter support
+- [x] Phase 4E: Implement doctor stats aggregation (monthly revenue, weekly WSI, pending, completion rate, trend, demographic breakdown)
+- [x] Phase 4F: Replace hardcoded doctor home dashboard sections with live doctor action stats + pending items + trends
+- [x] Phase 4G: Add frontend doctor-actions action layer and shared dashboard types
+- [x] Phase 5A: Add patient dashboard aggregate endpoint for appointments, score, adherence, health stats, insights, device status
+- [x] Phase 5B: Wire patient dashboard frontend to fully dynamic API response and user-aware greeting/insights
+- [x] Validation: Run backend/ frontend diagnostics and focused smoke checks for Chorui + dashboard + CRUD paths
+
+### Review
+- Updated Chorui backend defaults and orchestration behavior (`config.py`, `ai_orchestrator.py`, `ai_consultation.py`) to improve context depth, intent coverage, role-aware synthesis, and fallback robustness with timing/error logging.
+- Refactored launcher/nav integration to banner mode in normal document flow (`chorui-launcher.tsx`, shared/doctor navbars, global CSS offset variable) to remove overlap and preserve responsive layouts.
+- Added full health metrics foundation: enum/model/migration, CRUD+today+trend routes, schema contracts, router registration, and frontend action layer.
+- Added full doctor actions foundation: enum/model/migration, creation service, workflow auto-tracking hooks from appointment/consultation/prescription events, CRUD+pending+stats routes, schema contracts, and frontend action layer.
+- Added patient dashboard aggregation API and frontend integration to replace hardcoded patient home values with backend-driven score, appointments, trends, insights, and device status.
+- Reworked doctor home dashboard sections to consume live doctor action stats and pending items (WSI, demographics, revenue trend, pending workload) rather than static fixtures.
+- Removed duplicate side effects in appointment completion flow by relying on the central `transition_status` completion branch for doctor-action creation and notification dispatch (`backend/app/routes/appointment.py`).
+- Replaced remaining hardcoded doctor demographic/revenue indicators with fully data-driven values including dynamic conic gradient segments, total patient count center label, and weekly revenue delta badge (`frontend/app/(home)/doctor/home/page.tsx`).
+- Added analytics-side health metric capture cards and live today/trend syncing via new health metric APIs.
+- Ran diagnostics on touched frontend files (`patient-home-dashboard.tsx`, `AnalyticsDashboard.tsx`, `doctor/home/page.tsx`) and resolved reported issues in those files.
+- Re-validated this hardening pass with backend `py_compile` on Phase 3-5 routes/services and frontend ESLint on the touched doctor dashboard page.
+- Fixed Alembic enum migration robustness for `health_metrics` and `doctor_actions` by switching migration enum declarations to PostgreSQL-native `ENUM(..., create_type=False)` while retaining explicit `checkfirst` create/drop calls.
+- Successfully applied all pending backend migrations and verified DB revision/head alignment at `d0a1c2t3i4o5`.
+- Completed live backend route smoke checks: `/health` returned `200`, and protected Phase 3-5 routes returned expected auth-gated `401` with invalid bearer tokens.
+- Ran end-to-end Phase 3-5 route-logic smoke execution directly against the DB session (create/list/update/delete health metric, patient dashboard aggregate fetch, create/update/delete doctor action, doctor stats/pending fetch), returning `{"ok": true, ...}`.
+- Completed full frontend production build (`next build --webpack`) successfully after fixing two TypeScript regressions in avatar seed usage (`home-doctor-patient-id-client.tsx`) and `AvatarImage` src typing (`components/ui/avatar.tsx`).
+
+# Chorui UX + Intelligence + Global Launcher + Avatar Consistency (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Add conversation deletion from Chorui hamburger history with backend DB deletion
+- [x] Reduce unsettling caution-heavy phrasing and present more natural empathetic assistant tone
+- [x] Add service/workflow-aware intent handling so Chorui can guide users across Medora features
+- [x] Make Chorui floating launcher globally available for authenticated doctor/patient screens
+- [x] Increase bird-logo visibility in floating launcher without increasing avatar span size
+- [x] Ensure avatar image renders in profile/name avatar circles with deterministic colorful defaults
+
+### Review
+- Added backend `DELETE /ai/assistant/conversations/{conversation_id}` in `backend/app/routes/ai_consultation.py` with strict ownership checks and DB deletion of conversation messages.
+- Added frontend delete flow in `frontend/hooks/useChoruiChat.ts` and red trash icon action in `frontend/components/ai/ChoruiChat.tsx`.
+- Added service-intent support and natural workflow guidance replies in `backend/app/routes/ai_consultation.py` for role-aware platform questions.
+- Added response tone softening centrally in `backend/app/routes/ai_consultation.py` to avoid repetitive unsettling caution text while preserving safety constraints.
+- Global launcher now mounts from shared navbars: `frontend/components/ui/navbar.tsx` and `frontend/components/doctor/doctor-navbar.tsx`.
+- Updated launcher logo rendering in `frontend/components/ai/chorui-launcher.tsx` to fill and scale inside the same circular span.
+- Added deterministic avatar helper `frontend/lib/avatar.ts` and applied consistent avatar fallback rendering in `frontend/components/ui/navbar.tsx`, `frontend/components/doctor/doctor-navbar.tsx`, `frontend/components/admin/admin-navbar.tsx`, and `frontend/components/screens/pages/home-doctor-patients-client.tsx`.
+
+# Chorui Intelligence Upgrade + Colorful Default Avatars (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Fix over-restrictive Chorui safety trigger so informational doctor-history questions are not blocked as treatment advice
+- [x] Add patient doctor-history intent and DB-backed response for questions like "who are my doctors" and "who prescribed"
+- [x] Add deterministic internet avatar default generation for new patient and doctor signups
+- [x] Backfill missing patient/doctor avatar URLs in database and ensure profile reads auto-heal missing avatar URLs
+- [x] Validate diagnostics for touched backend files
+
+### Review
+- Updated `backend/app/routes/ai_consultation.py` to classify doctor-history patient questions into a new `patient_self_doctors` intent and answer from appointment/prescription records instead of fallback output.
+- Refined `_is_medical_decision_request` safety checks so record-lookup questions (for example, doctor identification) are not incorrectly blocked.
+- Added `backend/app/core/avatar_defaults.py` to generate deterministic DiceBear avatar URLs and backfill missing avatar URLs in patient/doctor profile tables.
+- Updated `backend/app/routes/auth.py` to assign default avatar URLs on signup and perform one-time database backfill at login startup.
+- Updated `backend/app/routes/profile.py` to auto-assign and return default avatar URLs when missing, while preserving user ability to replace avatar from profile/onboarding update flows.
+- Diagnostics report no new errors in touched files.
+
+# Chorui General Intelligence + Chat History + Search Input Standardization (2026-03-25)
+
+## Status: completed
+
+### Todo
+- [x] Allow doctor general AI questions without forcing patient ID while keeping patient-specific access checks and safety guardrails
+- [x] Add backend conversation listing/history endpoints for persisted Chorui chats
+- [x] Add frontend hamburger menu + conversation list loader for chat history access
+- [x] Prioritize patient ID as primary label/search key on doctor patient listing views
+- [x] Show uploaded prescription attachment preview side-by-side with OCR inferred medicines in doctor consultation flow
+- [x] Remove magnifying-glass icons from all search text inputs and normalize spacing to text-only search fields
+- [x] Run targeted diagnostics for touched backend/frontend files
+
+### Review
+- Relaxed doctor chat gating in `backend/app/routes/ai_consultation.py` so patient ID is required only for patient-scoped intents, while general workflow questions are supported without a selected patient.
+- Added conversation history APIs in `backend/app/routes/ai_consultation.py` and response schemas in `backend/app/schemas/ai_orchestrator.py` for listing and loading persisted threads.
+- Extended the chat hook (`frontend/hooks/useChoruiChat.ts`) and UI (`frontend/components/ai/ChoruiChat.tsx`) with a hamburger-accessible conversation list, message history loading, and new-conversation reset.
+- Updated doctor patient identification UX in `frontend/components/screens/pages/home-doctor-patients-client.tsx` and consultation context card so patient ID is visually primary and searchable.
+- Added side-by-side uploaded attachment preview and OCR inferred medicine verification panel in `frontend/components/screens/pages/home-doctor-patient-id-consultation-client.tsx`.
+- Removed magnifying-glass icons and left-padding dependencies from search inputs in admin pages and medicine/prescription search fields to standardize text-only search boxes.
+- Diagnostics check completed on all touched backend/frontend files; no new compile/type errors were introduced in edited lines.
+
 # Assistant-Only Doctor/Patient Summarization (2026-03-25)
 
 ## Status: completed
