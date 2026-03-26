@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
+import { PrescriptionUploadDemo } from "@/components/medicine/prescription-upload-demo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Pill, Search, Info } from "lucide-react";
@@ -122,6 +123,10 @@ export function DoctorFindMedicineClient() {
               />
             ))
           )}
+        </div>
+
+        <div className="mt-8">
+          <PrescriptionUploadDemo />
         </div>
       </main>
 
