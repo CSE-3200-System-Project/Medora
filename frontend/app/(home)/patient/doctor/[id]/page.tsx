@@ -1,4 +1,4 @@
-﻿import { DoctorProfileAppointmentPage } from "@/components/doctor-profile/DoctorProfileAppointmentPage";
+﻿import { DoctorProfileAppointmentPage } from "@/components/doctor/doctor-profile/DoctorProfileAppointmentPage";
 
 interface PageProps {
   params: Promise<{ id: string }>;

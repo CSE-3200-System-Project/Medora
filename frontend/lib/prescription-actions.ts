@@ -123,6 +123,7 @@ export interface Consultation {
   id: string;
   doctor_id: string;
   patient_id: string;
+  patient_ref?: string;
   appointment_id?: string;
   chief_complaint?: string;
   diagnosis?: string;
