@@ -2155,9 +2155,10 @@ def _build_doctor_patient_id_required_reply(active_patients: list[dict[str, Any]
         )
         for item in active_patients[:20]
     ]
+    joined_lines = "\n".join(lines)
     return (
         "Please provide a patient ID to run patient-specific intelligence.\n"
-        f"{'\n'.join(lines)}\n\n"
+        f"{joined_lines}\n\n"
         "Use the exact `patient id` value from your patient list for record-linked AI support."
     )
 
@@ -2736,9 +2737,10 @@ async def _run_chorui_assistant(
                 )
                 for item in active_patients[:20]
             ]
+            joined_preview_lines = "\n".join(preview_lines)
             reply = (
                 "Here are your active patients from recent appointment relationships:\n"
-                f"{'\n'.join(preview_lines)}\n\n"
+                f"{joined_preview_lines}\n\n"
                 "Use a `patient id` in your next message for patient-linked intelligence."
             )
         else:
@@ -2902,9 +2904,10 @@ async def _run_chorui_assistant(
                 f"- {_format_datetime_label(item.appointment_date)} with patient {patient_ref_from_uuid(item.patient_id)} ({_format_status_label(item.status)})"
                 for item in upcoming
             ]
+            joined_schedule_lines = "\n".join(schedule_lines)
             reply = (
                 "Here is your upcoming 7-day schedule from authorized appointment records:\n"
-                f"{'\n'.join(schedule_lines)}"
+                f"{joined_schedule_lines}"
             )
         else:
             reply = "No upcoming appointments were found in your next 7-day window."
@@ -3120,9 +3123,10 @@ async def _run_chorui_assistant(
             )
             for item in active_patients[:15]
         ]
+        joined_lines = "\n".join(lines)
         reply = (
             "I could not reach advanced AI right now, so here are your active patient references:\n"
-            f"{'\n'.join(lines)}\n\n"
+            f"{joined_lines}\n\n"
             "Share a patient id plus your clinical question for patient-specific support."
         )
     else:
