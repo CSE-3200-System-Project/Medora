@@ -36,22 +36,7 @@ class AzureReadClient:
             _safe_request_id(subject_token),
         )
 
-        try:
-            poller = self._begin_analyze(prepared, subject_token=subject_token)
-            result = poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
-        except HttpResponseError as exc:
-            if _is_invalid_content_length(exc):
-                logger.warning("azure_read_invalid_content_length_retry smaller_preprocess")
-                smaller = _prepare_image_for_ocr(
-                    image_bytes,
-                    max_dimension=max(1400, settings.OCR_MAX_IMAGE_DIMENSION // 2),
-                    max_bytes=max(700_000, settings.OCR_MAX_IMAGE_BYTES // 2),
-                    start_quality=max(60, settings.OCR_JPEG_QUALITY - 20),
-                )
-                poller = self._begin_analyze(smaller, subject_token=subject_token)
-                result = poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
-            else:
-                raise
+        result = self._run_analysis(prepared, image_bytes, subject_token)
 
         lines: list[OCRLine] = []
         for page_idx, page in enumerate(getattr(result, "pages", []) or [], start=1):
@@ -71,12 +56,97 @@ class AzureReadClient:
         logger.debug("azure_read_done lines=%d", len(lines))
         return lines
 
-    def _begin_analyze(self, image_bytes: bytes, *, subject_token: str | None = None):
+    def read_lines_and_tables(
+        self, image_bytes: bytes, *, subject_token: str | None = None
+    ) -> tuple[list[OCRLine], list[list[list[str]]]]:
+        """Return (ocr_lines, tables) where each table is a list of rows,
+        each row a list of cell texts.  This gives the report parser
+        structured table data instead of relying solely on line-based OCR.
+
+        Uses ``prebuilt-layout`` model which supports table extraction,
+        unlike ``prebuilt-read`` which only returns text lines.
+        """
+        prepared = _prepare_image_for_ocr(image_bytes)
+        result = self._run_analysis(
+            prepared, image_bytes, subject_token,
+            model_override="prebuilt-layout",
+        )
+
+        # --- lines (same as read_lines) ---
+        lines: list[OCRLine] = []
+        for page_idx, page in enumerate(getattr(result, "pages", []) or [], start=1):
+            page_confidence = _page_word_confidence(page)
+            for line in getattr(page, "lines", []) or []:
+                line_text = (getattr(line, "content", "") or "").strip()
+                if not line_text:
+                    continue
+                lines.append(
+                    OCRLine(
+                        text=line_text,
+                        bbox=_polygon_to_bbox(getattr(line, "polygon", None)),
+                        page=page_idx,
+                        confidence=page_confidence,
+                    )
+                )
+
+        # --- tables ---
+        tables: list[list[list[str]]] = []
+        for table in getattr(result, "tables", []) or []:
+            row_count = getattr(table, "row_count", 0) or 0
+            col_count = getattr(table, "column_count", 0) or 0
+            if row_count < 1 or col_count < 1:
+                continue
+            grid: list[list[str]] = [[""] * col_count for _ in range(row_count)]
+            for cell in getattr(table, "cells", []) or []:
+                r = getattr(cell, "row_index", 0) or 0
+                c = getattr(cell, "column_index", 0) or 0
+                content = (getattr(cell, "content", "") or "").strip()
+                if 0 <= r < row_count and 0 <= c < col_count:
+                    grid[r][c] = content
+            tables.append(grid)
+
+        logger.debug("azure_read_done lines=%d tables=%d", len(lines), len(tables))
+        return lines, tables
+
+    def _run_analysis(
+        self,
+        prepared: bytes,
+        original: bytes,
+        subject_token: str | None,
+        *,
+        model_override: str | None = None,
+    ):
+        """Run Azure analysis with retry on content-length error."""
+        try:
+            poller = self._begin_analyze(prepared, subject_token=subject_token, model_override=model_override)
+            return poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
+        except HttpResponseError as exc:
+            if _is_invalid_content_length(exc):
+                logger.warning("azure_read_invalid_content_length_retry smaller_preprocess")
+                smaller = _prepare_image_for_ocr(
+                    original,
+                    max_dimension=max(1400, settings.OCR_MAX_IMAGE_DIMENSION // 2),
+                    max_bytes=max(700_000, settings.OCR_MAX_IMAGE_BYTES // 2),
+                    start_quality=max(60, settings.OCR_JPEG_QUALITY - 20),
+                )
+                poller = self._begin_analyze(smaller, subject_token=subject_token, model_override=model_override)
+                return poller.result(timeout=settings.AZURE_OCR_TIMEOUT_SECONDS)
+            else:
+                raise
+
+    def _begin_analyze(
+        self,
+        image_bytes: bytes,
+        *,
+        subject_token: str | None = None,
+        model_override: str | None = None,
+    ):
+        model_id = model_override or self._model_id
         request_headers = {"x-ms-client-request-id": _safe_request_id(subject_token)}
         # Different SDK versions accept either `body` or `analyze_request`.
         try:
             return self._client.begin_analyze_document(
-                model_id=self._model_id,
+                model_id=model_id,
                 body=image_bytes,
                 content_type="application/octet-stream",
                 headers=request_headers,
@@ -84,7 +154,7 @@ class AzureReadClient:
         except TypeError:
             try:
                 return self._client.begin_analyze_document(
-                    model_id=self._model_id,
+                    model_id=model_id,
                     analyze_request=image_bytes,
                     content_type="application/octet-stream",
                     headers=request_headers,
@@ -92,13 +162,13 @@ class AzureReadClient:
             except TypeError:
                 try:
                     return self._client.begin_analyze_document(
-                        model_id=self._model_id,
+                        model_id=model_id,
                         body=image_bytes,
                         content_type="application/octet-stream",
                     )
                 except TypeError:
                     return self._client.begin_analyze_document(
-                        model_id=self._model_id,
+                        model_id=model_id,
                         analyze_request=image_bytes,
                         content_type="application/octet-stream",
                     )
@@ -160,7 +230,11 @@ def _prepare_image_for_ocr(
     start_quality = start_quality or settings.OCR_JPEG_QUALITY
 
     with Image.open(BytesIO(image_bytes)) as image:
-        image = ImageOps.exif_transpose(image).convert("RGB")
+        # Do NOT call exif_transpose here — the input has already been
+        # transposed by normalize_input_to_image_bytes() and saved as PNG
+        # (which strips EXIF).  A second transpose on certain images
+        # caused an unwanted 90° rotation.
+        image = image.convert("RGB")
         width, height = image.size
 
         # Downscale if very large.
