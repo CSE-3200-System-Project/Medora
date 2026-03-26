@@ -1,12 +1,21 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Footprints, Heart, MoonStar, Waves, Activity } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
 import { Card, CardContent } from "@/components/ui/card"
 
+const ICON_MAP: Record<string, LucideIcon> = {
+  Footprints,
+  Heart,
+  MoonStar,
+  Waves,
+  Activity,
+}
+
 type HealthStatCardProps = {
-  icon: LucideIcon
+  iconName: string
   value: string
   label: string
   trend: string
@@ -20,12 +29,14 @@ const trendClasses = {
 }
 
 export function HealthStatCard({
-  icon: Icon,
+  iconName,
   value,
   label,
   trend,
   trendType = "neutral",
 }: HealthStatCardProps) {
+  const Icon = ICON_MAP[iconName] ?? Activity
+
   return (
     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
       <Card className="border-border/70 bg-card/95 shadow-sm">
