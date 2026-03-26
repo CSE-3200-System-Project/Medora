@@ -7,7 +7,8 @@ import { Clock, CheckCircle, XCircle, Mail, Phone, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { signout } from "@/lib/auth-actions";
-import logo from "@/assets/images/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function VerifyPendingClient() {
   const router = useRouter();
@@ -54,7 +55,8 @@ export function VerifyPendingClient() {
         <CardHeader className="text-center pb-6">
           <div className="flex justify-center mb-6">
             <div className="relative h-20 w-20">
-              <Image src={logo} alt="Medora" fill className="object-contain" />
+              <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
+              <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
             </div>
           </div>
           <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">

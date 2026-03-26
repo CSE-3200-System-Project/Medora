@@ -13,7 +13,6 @@ import {
   ClipboardList,
   Settings,
   LogOut,
-  Shield,
   Ban,
 } from "lucide-react";
 
@@ -31,7 +30,8 @@ import { generateDefaultAvatarUrl } from "@/lib/avatar";
 import { clearAdminAccess } from "@/lib/admin-actions";
 import { AdminNotifications } from "@/components/admin/admin-notifications";
 
-import logo from "@/assets/images/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function AdminNavbar() {
   const pathname = usePathname();
@@ -103,11 +103,18 @@ export function AdminNavbar() {
           <Link href="/admin" className="flex items-center gap-2 sm:gap-3 touch-target">
             <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
               <Image
-                src={logo}
+                src={medoraDarkLogo}
                 alt="Medora"
                 fill
                 sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
-                className="object-contain"
+                className="object-contain dark:hidden"
+              />
+              <Image
+                src={medoraLightLogo}
+                alt="Medora"
+                fill
+                sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
+                className="hidden object-contain dark:block"
               />
             </div>
             <div className="hidden sm:block">
@@ -200,7 +207,8 @@ export function AdminNavbar() {
                 <SheetTitle className="flex items-center gap-2">
                   <Link href="/admin" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <div className="relative h-8 w-8">
-                      <Image src={logo} alt="Medora" fill className="object-contain" />
+                      <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
+                      <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
                     </div>
                     <span>Medora</span>
                   </Link>

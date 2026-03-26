@@ -31,6 +31,9 @@ class OCRLine(BaseModel):
 
 class MedicationResult(BaseModel):
     name: str | None = None
+    matched_term: str | None = None
+    drug_id: str | None = None
+    brand_id: str | None = None
     dosage: str | None = None
     frequency: str | None = None
     quantity: str | None = None

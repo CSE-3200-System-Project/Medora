@@ -4,7 +4,8 @@ import { Stethoscope, UserCircle, ArrowRight } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
-import logo from "@/assets/images/medora-logo.png";
+import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export default function SelectionPage() {
   return (
@@ -15,7 +16,8 @@ export default function SelectionPage() {
         {/* Floating Logo - Centered at top */}
         <div className="absolute top-4 left-0 right-0 flex justify-center z-20 lg:top-8">
           <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-card/95 backdrop-blur-md rounded-full p-3 shadow-xl border-4 border-white/30">
-            <Image src={logo} alt="Medora" fill sizes="96px" className="object-contain p-1" />
+            <Image src={medoraDarkLogo} alt="Medora" fill sizes="96px" className="object-contain p-1 dark:hidden" />
+            <Image src={medoraLightLogo} alt="Medora" fill sizes="96px" className="hidden object-contain p-1 dark:block" />
           </div>
         </div>
 

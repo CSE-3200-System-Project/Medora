@@ -5,19 +5,29 @@ import re
 from rapidfuzz import fuzz, process
 
 from app.config import settings
+from app.matcher import MedicineMatch, medicine_matcher
+from app.normalize import normalize_medicine_text, normalize_prescription_text
 from app.schemas import MedicationResult, OCRLine
 
 DOSAGE_PATTERN = re.compile(r"\b\d+(?:\.\d+)?\s?(?:mg|ml|g|mcg|iu)\b", re.IGNORECASE)
 FREQUENCY_PATTERN = re.compile(
-    r"\b(?:OD|BD|TDS|QID|HS|\d\s*[+\-xX]\s*\d\s*[+\-xX]\s*\d(?:\s*[+\-xX]\s*\d)?)\b",
+    r"\b(?:od|bd|tds|qid|hs|\d\s*[+\-xX]\s*\d\s*[+\-xX]\s*\d(?:\s*[+\-xX]\s*\d)?)\b",
     re.IGNORECASE,
 )
 QUANTITY_PATTERN = re.compile(
-    r"(?:\(\s*\d+\s?(?:day|days|week|weeks|month|months)\s*\)|\b\d+\s?(?:day|days|week|weeks|month|months)\b)",
+    r"(?:\b\d+\s?(?:day|days|week|weeks|month|months|দিন|সপ্তাহ|মাস)\b|\b(?:continue|continued|চলবে|চালু|চলমান)\b)",
     re.IGNORECASE,
 )
 MEDICINE_PREFIX_PATTERN = re.compile(r"\b(?:tab|tablet|cap|capsule|inj|injection|syp|syrup|drop|drops)\b", re.IGNORECASE)
-PURE_FREQUENCY_LINE_PATTERN = re.compile(r"^\s*[\d+\-xX/ ]{3,}\s*$")
+PURE_FREQUENCY_LINE_PATTERN = re.compile(r"^\s*[\d০-৯+\-xX×*/ ]{3,}\s*$")
+FREQUENCY_SPLIT_PATTERN = re.compile(r"\d\s*(?:\+|x|-)\s*\d\s*(?:\+|x|-)\s*\d(?:\s*(?:\+|x|-)\s*\d)?")
+FREQUENCY_DIGIT_PATTERN = re.compile(r"(?<!\d)\d(?!\d)")
+FREQUENCY_CODE_PATTERN = re.compile(r"\b(od|bd|tds|qid|hs)\b", re.IGNORECASE)
+QUANTITY_DURATION_PATTERN = re.compile(
+    r"\b(\d+)\s*(day|days|week|weeks|month|months|দিন|সপ্তাহ|মাস)\b",
+    re.IGNORECASE,
+)
+QUANTITY_CONTINUE_PATTERN = re.compile(r"\b(?:continue|continued|চলবে|চালু|চলমান)\b", re.IGNORECASE)
 
 
 def parse_prescription(
@@ -46,9 +56,9 @@ def parse_prescription(
             continue
 
         dosage = _first_match(DOSAGE_PATTERN, group_text)
-        frequency = _first_match(FREQUENCY_PATTERN, group_text)
-        quantity = _first_match(QUANTITY_PATTERN, group_text)
-        med_name, med_score = _match_medicine_name(group_text, medicine_names, threshold)
+        frequency = _extract_frequency(group_text)
+        quantity = _extract_quantity(group_text)
+        med_name, med_score, match_meta = _match_medicine_name(group_text, medicine_names, threshold)
         if not med_name:
             med_name = _extract_medicine_candidate(group_text)
 
@@ -66,6 +76,9 @@ def parse_prescription(
         medications.append(
             MedicationResult(
                 name=med_name,
+                matched_term=match_meta.matched_term if match_meta else med_name,
+                drug_id=match_meta.drug_id if match_meta else None,
+                brand_id=match_meta.brand_id if match_meta else None,
                 dosage=dosage,
                 frequency=frequency,
                 quantity=quantity,
@@ -79,9 +92,9 @@ def parse_prescription(
     # Fallback: if no line groups matched anything, still return broad text parse.
     full_text = " ".join(line.text for line in ordered_lines)
     dosage = _first_match(DOSAGE_PATTERN, full_text)
-    frequency = _first_match(FREQUENCY_PATTERN, full_text)
-    quantity = _first_match(QUANTITY_PATTERN, full_text)
-    med_name, med_score = _match_medicine_name(full_text, medicine_names, threshold)
+    frequency = _extract_frequency(full_text)
+    quantity = _extract_quantity(full_text)
+    med_name, med_score, match_meta = _match_medicine_name(full_text, medicine_names, threshold)
     if not med_name:
         med_name = _extract_medicine_candidate(full_text)
 
@@ -91,6 +104,9 @@ def parse_prescription(
     return [
         MedicationResult(
             name=med_name,
+            matched_term=match_meta.matched_term if match_meta else med_name,
+            drug_id=match_meta.drug_id if match_meta else None,
+            brand_id=match_meta.brand_id if match_meta else None,
             dosage=dosage,
             frequency=frequency,
             quantity=quantity,
@@ -119,17 +135,20 @@ def _parse_by_line_blocks(
             continue
 
         dosage = _first_match(DOSAGE_PATTERN, text)
-        frequency = _first_match(FREQUENCY_PATTERN, text)
-        quantity = _first_match(QUANTITY_PATTERN, text)
+        frequency = _extract_frequency(text)
+        quantity = _extract_quantity(text)
 
         if _looks_like_medicine_line(text, dosage):
             if current is not None:
                 medications.append(
                     _finalize_medication(current, current_lines, current_match_score, medicine_names, threshold)
                 )
-            name, score = _extract_name_with_score(text, medicine_names, threshold)
+            name, score, match_meta = _extract_name_with_score(text, medicine_names, threshold)
             current = MedicationResult(
                 name=name,
+                matched_term=match_meta.matched_term if match_meta else name,
+                drug_id=match_meta.drug_id if match_meta else None,
+                brand_id=match_meta.brand_id if match_meta else None,
                 dosage=dosage,
                 frequency=frequency,
                 quantity=quantity,
@@ -153,11 +172,15 @@ def _parse_by_line_blocks(
             current.dosage = dosage
             continue
 
-        if _looks_like_name_continuation(text):
-            continuation, continuation_score = _extract_name_with_score(text, medicine_names, threshold)
+        if _looks_like_name_continuation(text) and not (current.drug_id or current.brand_id):
+            continuation, continuation_score, continuation_match = _extract_name_with_score(text, medicine_names, threshold)
             if continuation:
                 merged = f"{current.name or ''} {continuation}".strip()
                 current.name = re.sub(r"\s+", " ", merged)[:80]
+                current.matched_term = current.name
+                if continuation_match:
+                    current.drug_id = continuation_match.drug_id
+                    current.brand_id = continuation_match.brand_id
                 current_match_score = max(current_match_score, continuation_score)
 
     if current is not None:
@@ -174,8 +197,16 @@ def _finalize_medication(
     threshold: int,
 ) -> MedicationResult:
     fuzzy_score = match_score_hint
-    if medicine_names and medication.name:
-        _, fuzzy_score = _match_medicine_name(medication.name, medicine_names, threshold)
+    if medication.name:
+        resolved_name, fuzzy_score, match_meta = _match_medicine_name(medication.name, medicine_names, threshold)
+        if resolved_name:
+            medication.name = resolved_name
+        if match_meta:
+            medication.matched_term = match_meta.matched_term
+            medication.drug_id = match_meta.drug_id
+            medication.brand_id = match_meta.brand_id
+        elif not medication.matched_term:
+            medication.matched_term = medication.name
 
     medication.confidence = _combined_confidence(
         ocr_confidence=_avg_confidence(lines),
@@ -185,12 +216,16 @@ def _finalize_medication(
     return medication
 
 
-def _extract_name_with_score(text: str, medicine_names: list[str], threshold: int) -> tuple[str | None, float]:
-    med_name, med_score = _match_medicine_name(text, medicine_names, threshold)
+def _extract_name_with_score(
+    text: str,
+    medicine_names: list[str],
+    threshold: int,
+) -> tuple[str | None, float, MedicineMatch | None]:
+    med_name, med_score, match_meta = _match_medicine_name(text, medicine_names, threshold)
     if med_name:
-        return med_name, med_score
+        return med_name, med_score, match_meta
     candidate = _extract_medicine_candidate(text)
-    return candidate, med_score
+    return candidate, med_score, match_meta
 
 
 def _looks_like_medicine_line(text: str, dosage: str | None) -> bool:
@@ -200,15 +235,15 @@ def _looks_like_medicine_line(text: str, dosage: str | None) -> bool:
         return True
     if dosage and re.search(r"[a-zA-Z]", text):
         return True
-    if re.search(r"\b[A-Za-z]{3,}\b", text) and not _first_match(FREQUENCY_PATTERN, text):
+    if re.search(r"\b[A-Za-z]{3,}\b", text) and not _extract_frequency(text):
         return True
     return False
 
 
 def _looks_like_name_continuation(text: str) -> bool:
-    if _first_match(FREQUENCY_PATTERN, text):
+    if _extract_frequency(text):
         return False
-    if _first_match(QUANTITY_PATTERN, text):
+    if _extract_quantity(text):
         return False
     return bool(re.search(r"[A-Za-z]{2,}", text))
 
@@ -263,32 +298,28 @@ def _same_group(previous: OCRLine, current: OCRLine, merge_y_px: int) -> bool:
     return abs(prev_y - curr_y) <= merge_y_px
 
 
-def _normalize_ocr_text(text: str) -> str:
-    normalized = re.sub(r"[^a-zA-Z0-9+\- ]+", " ", text.lower())
-    replacements = {
-        "0": "o",
-        "1": "l",
-        "|": "l",
-    }
-    for source, target in replacements.items():
-        normalized = normalized.replace(source, target)
+def _match_medicine_name(
+    text: str,
+    medicine_names: list[str],
+    threshold: int,
+) -> tuple[str | None, float, MedicineMatch | None]:
+    if not settings.DISABLE_MEDICINE_MATCHING:
+        db_match = medicine_matcher.match_best(text)
+        if db_match:
+            return db_match.matched_term, db_match.confidence * 100.0, db_match
 
-    return re.sub(r"\s+", " ", normalized).strip()
-
-
-def _match_medicine_name(text: str, medicine_names: list[str], threshold: int) -> tuple[str | None, float]:
     if not medicine_names:
-        return None, 0.0
+        return None, 0.0, None
 
-    normalized_text = _normalize_ocr_text(text)
+    normalized_text = normalize_medicine_text(text)
     match = process.extractOne(normalized_text, medicine_names, scorer=fuzz.WRatio)
     if not match:
-        return None, 0.0
+        return None, 0.0, None
 
     matched_name, score, _ = match
     if score < threshold:
-        return None, float(score)
-    return str(matched_name), float(score)
+        return None, float(score), None
+    return str(matched_name), float(score), None
 
 
 def _first_match(pattern: re.Pattern[str], text: str) -> str | None:
@@ -297,6 +328,67 @@ def _first_match(pattern: re.Pattern[str], text: str) -> str | None:
         return None
     value = match.group(0).strip()
     return value.strip("() ").strip()
+
+
+def _extract_frequency(text: str) -> str | None:
+    normalized = normalize_prescription_text(text)
+    if not normalized:
+        return None
+
+    code_match = FREQUENCY_CODE_PATTERN.search(normalized)
+    if code_match:
+        return code_match.group(1).upper()
+
+    combo_match = FREQUENCY_SPLIT_PATTERN.search(normalized)
+    if combo_match:
+        digits = FREQUENCY_DIGIT_PATTERN.findall(combo_match.group(0))
+        if 3 <= len(digits) <= 4:
+            return "+".join(digits)
+
+    # Handles noisy patterns like "1 x4 1 x0" by extracting 3-4 single-dose digits.
+    if "x" in normalized or "+" in normalized or "-" in normalized:
+        digits = FREQUENCY_DIGIT_PATTERN.findall(normalized)
+        if 3 <= len(digits) <= 4:
+            return "+".join(digits[:4])
+
+    return None
+
+
+def _extract_quantity(text: str) -> str | None:
+    normalized = normalize_prescription_text(text)
+    if not normalized:
+        return None
+
+    if QUANTITY_CONTINUE_PATTERN.search(normalized):
+        return "continue"
+
+    duration_match = QUANTITY_DURATION_PATTERN.search(normalized)
+    if not duration_match:
+        return None
+
+    amount = duration_match.group(1)
+    raw_unit = duration_match.group(2).lower()
+    unit = _normalize_duration_unit(raw_unit, amount)
+    return f"{amount} {unit}"
+
+
+def _normalize_duration_unit(raw_unit: str, amount: str) -> str:
+    if raw_unit in {"দিন"}:
+        return "day" if amount == "1" else "days"
+    if raw_unit in {"সপ্তাহ"}:
+        return "week" if amount == "1" else "weeks"
+    if raw_unit in {"মাস"}:
+        return "month" if amount == "1" else "months"
+
+    if raw_unit.endswith("s"):
+        singular = raw_unit[:-1]
+        if amount == "1":
+            return singular
+        return raw_unit
+
+    if amount == "1":
+        return raw_unit
+    return f"{raw_unit}s"
 
 
 def _extract_medicine_candidate(text: str) -> str | None:

@@ -1,3 +1,41 @@
+# Bangladesh Frequency/Quantity Normalization (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Add Bangla-digit-aware prescription normalization helper
+- [x] Normalize frequency extraction for forms like `1+0+1`, `1+1+1`, `1+0+0+0`, and `x`-separated variants
+- [x] Normalize quantity extraction for `চলবে`/`continue` and day/week/month durations in Bangla or English
+- [x] Integrate new extraction helpers across all parser paths (group, block, fallback)
+- [x] Validate parser module diagnostics and compile checks
+
+### Review
+- Added `normalize_prescription_text` to `ai_service/app/normalize.py` with Bangla digit conversion and separator normalization.
+- Updated `ai_service/app/parser.py` to use `_extract_frequency` and `_extract_quantity` instead of raw regex-only first-match extraction.
+- Frequency normalization now canonicalizes noisy variants into consistent forms like `1+0+1` and `1+0+0+0`, including Bangla digits and `x/×/*` separators.
+- Quantity normalization now returns canonical `continue` for `চলবে`/`continue` and normalized durations like `10 days`, `2 weeks`, `1 month` from Bangla or English input.
+- Validation passed: py_compile for updated parser/normalizer and diagnostics show no errors in touched files.
+
+# Frontend Logo Resolution + DB Medicine Matcher (2026-03-26)
+
+## Status: completed
+
+### Todo
+- [x] Replace broken auth/admin logo imports with existing Medora dark/light assets
+- [x] Render dark logo in light mode and light logo in dark mode across impacted screens
+- [x] Build a DB-grounded medicine matcher using normalization + PostgreSQL trigram search
+- [x] Integrate matcher into OCR parser output with confidence + drug/brand references
+- [x] Validate frontend production build and Python module compilation
+
+### Review
+- Updated logo imports and theme-aware rendering in `frontend/components/admin/admin-navbar.tsx`, `frontend/components/admin/pages/verify-pending-client.tsx`, `frontend/components/auth/pages/forgot-password-client.tsx`, `frontend/components/auth/pages/reset-password-client.tsx`, `frontend/components/screens/pages/auth/auth-login-client.tsx`, and `frontend/app/(auth)/selection/page.tsx`.
+- Added `ai_service/app/normalize.py` for OCR-aware normalization and candidate extraction.
+- Replaced in-memory medicine vocabulary loading with pooled PostgreSQL search repository in `ai_service/app/db.py` using exact + trigram + constrained fallback DB queries.
+- Added production matcher in `ai_service/app/matcher.py` with staged matching, confidence scoring, thresholding, and `match_medicine(ocr_text: str) -> dict`.
+- Integrated matcher into `ai_service/app/parser.py` and extended response payload in `ai_service/app/schemas.py` to include `matched_term`, `drug_id`, and `brand_id`.
+- Updated settings and dependencies in `ai_service/app/config.py` and `ai_service/requirements.txt`; updated pipeline wiring in `ai_service/app/pipeline.py`.
+- Validation: `frontend` build passes (`npm run build`); Python syntax compile passes for updated ai_service modules.
+
 # Frontend Path Recovery + Navbar Theme Logo + Verification (2026-03-26)
 
 ## Status: completed

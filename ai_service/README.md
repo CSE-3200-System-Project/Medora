@@ -103,5 +103,8 @@ cd ai_service
 - `MODEL_TYPE=read|custom|llm`
 - `YOLO_MODEL_PATH=models/Yolo26s/Yolo26s-prescription-5.onnx`
 - `DISABLE_MEDICINE_MATCHING=true|false`
+- `SUPABASE_DATABASE_URL` (required for DB-level trigram matching)
 - `MEDICINE_DB_TABLE` (default `medicine_search_index`)
 - `MEDICINE_DB_COLUMN` (default `term`)
+- `MEDICINE_MATCH_TOP_K` (default `3`)
+- `MEDICINE_MATCH_MIN_CONFIDENCE` (default `0.5`)
