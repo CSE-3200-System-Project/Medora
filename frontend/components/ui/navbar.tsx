@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
+import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2, FlaskConical } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -239,6 +239,7 @@ export function Navbar() {
               <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary font-semibold")}>
                 Medical History
               </Link>
+              
             </nav>
           ) : null}
         </div>
@@ -446,6 +447,7 @@ export function Navbar() {
                           <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
+                          
                         </>
                       ) : null}
                     </div>
