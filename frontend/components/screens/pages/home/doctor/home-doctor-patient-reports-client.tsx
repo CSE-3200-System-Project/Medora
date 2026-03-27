@@ -25,6 +25,7 @@ import {
   Clock,
   MessageSquare,
   AlertTriangle,
+  ShieldOff,
 } from "lucide-react";
 
 export default function DoctorPatientReportsPage() {
@@ -100,9 +101,12 @@ export default function DoctorPatientReportsPage() {
         {reports.length === 0 ? (
           <Card className="text-center py-12">
             <CardContent>
-              <FlaskConical className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p className="text-muted-foreground">
-                This patient has no uploaded lab reports.
+              <ShieldOff className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p className="text-muted-foreground font-medium">
+                No reports available
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                This patient has not shared any lab reports with you, or has no uploaded reports yet.
               </p>
             </CardContent>
           </Card>

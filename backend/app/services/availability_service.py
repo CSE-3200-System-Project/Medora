@@ -45,6 +45,7 @@ async def get_doctor_schedule(
         days.append({
             "id": avail.id,
             "day_of_week": avail.day_of_week,
+            "doctor_location_id": avail.doctor_location_id,
             "is_active": avail.is_active,
             "time_blocks": [
                 {
@@ -80,6 +81,7 @@ async def get_doctor_schedule(
             {
                 "id": e.id,
                 "doctor_id": e.doctor_id,
+                "doctor_location_id": e.doctor_location_id,
                 "exception_date": e.exception_date.isoformat(),
                 "is_available": e.is_available,
                 "reason": e.reason,
@@ -91,6 +93,7 @@ async def get_doctor_schedule(
             {
                 "id": o.id,
                 "doctor_id": o.doctor_id,
+                "doctor_location_id": o.doctor_location_id,
                 "override_date": o.override_date.isoformat(),
                 "start_time": o.start_time.isoformat(),
                 "end_time": o.end_time.isoformat(),
@@ -138,6 +141,7 @@ async def set_weekly_availability(
 
     for day_data in days:
         day_of_week = day_data["day_of_week"]
+        doctor_location_id = day_data.get("doctor_location_id")
         is_active = day_data.get("is_active", True)
         time_blocks = day_data.get("time_blocks", [])
 
@@ -145,6 +149,7 @@ async def set_weekly_availability(
         avail = DoctorAvailability(
             id=avail_id,
             doctor_id=doctor_id,
+            doctor_location_id=doctor_location_id,
             day_of_week=day_of_week,
             is_active=is_active,
         )
@@ -201,6 +206,7 @@ async def add_exception(
     db: AsyncSession,
     doctor_id: str,
     exception_date: date,
+    doctor_location_id: Optional[str] = None,
     is_available: bool = False,
     reason: Optional[str] = None,
 ) -> DoctorException:
@@ -208,6 +214,7 @@ async def add_exception(
     exception = DoctorException(
         id=str(uuid.uuid4()),
         doctor_id=doctor_id,
+        doctor_location_id=doctor_location_id,
         exception_date=exception_date,
         is_available=is_available,
         reason=reason,
@@ -241,6 +248,7 @@ async def add_schedule_override(
     db: AsyncSession,
     doctor_id: str,
     override_date: date,
+    doctor_location_id: Optional[str],
     start_time: time,
     end_time: time,
     slot_duration_minutes: int = 30,
@@ -249,6 +257,7 @@ async def add_schedule_override(
     override = DoctorScheduleOverride(
         id=str(uuid.uuid4()),
         doctor_id=doctor_id,
+        doctor_location_id=doctor_location_id,
         override_date=override_date,
         start_time=start_time,
         end_time=end_time,

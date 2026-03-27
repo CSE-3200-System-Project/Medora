@@ -33,72 +33,51 @@ interface LocationPickerProps {
 // Default center (Dhaka, Bangladesh)
 const DEFAULT_CENTER: [number, number] = [90.4125, 23.8103];
 
-// Geocode a location text using Nominatim
+function getSessionTokenFromCookie(): string | null {
+  if (typeof document === "undefined") return null;
+  const parts = document.cookie.split(";").map((item) => item.trim());
+  const tokenPair = parts.find((item) => item.startsWith("session_token="));
+  return tokenPair ? decodeURIComponent(tokenPair.split("=").slice(1).join("=")) : null;
+}
+
+// Geocode a location text via backend API (cache-first Nominatim lookup)
 async function geocodeLocation(locationText: string): Promise<{
   lat: number;
   lng: number;
   displayName: string;
 } | null> {
   try {
-    const query = encodeURIComponent(`${locationText}, Bangladesh`);
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+    const token = getSessionTokenFromCookie();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&addressdetails=1`,
+      `${backendUrl}/doctor/geocode`,
       {
-        headers: {
-          'User-Agent': 'Medora Healthcare Platform',
-        },
-      }
+        method: "POST",
+        headers,
+        body: JSON.stringify({ location_text: locationText }),
+      },
     );
     
     if (!response.ok) return null;
     
     const data = await response.json();
-    if (data && data.length > 0) {
+    if (data && typeof data.latitude === "number" && typeof data.longitude === "number") {
       return {
-        lat: parseFloat(data[0].lat),
-        lng: parseFloat(data[0].lon),
-        displayName: data[0].display_name,
+        lat: data.latitude,
+        lng: data.longitude,
+        displayName: data.display_name || locationText,
       };
     }
     return null;
   } catch (error) {
     console.warn('Geocoding failed:', error);
-    return null;
-  }
-}
-
-// Reverse geocode coordinates to address
-async function reverseGeocode(lat: number, lng: number): Promise<{
-  address: string;
-  city: string;
-} | null> {
-  try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`,
-      {
-        headers: {
-          'User-Agent': 'Medora Healthcare Platform',
-        },
-      }
-    );
-    
-    if (!response.ok) return null;
-    
-    const data = await response.json();
-    if (data && data.address) {
-      const address = [
-        data.address.road,
-        data.address.suburb,
-        data.address.neighbourhood
-      ].filter(Boolean).join(', ');
-      
-      const city = data.address.city || data.address.town || data.address.district || '';
-      
-      return { address, city };
-    }
-    return null;
-  } catch (error) {
-    console.warn('Reverse geocoding failed:', error);
     return null;
   }
 }
@@ -109,7 +88,7 @@ function LocationMarker() {
       <div className="w-10 h-10 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center">
         <MapPin className="w-5 h-5 text-white" />
       </div>
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-primary" />
+      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-8 border-t-primary" />
     </div>
   );
 }
@@ -145,13 +124,10 @@ export function LocationPicker({
     if (result) {
       setMarkerPosition({ lat: result.lat, lng: result.lng });
       setMapCenter([result.lng, result.lat]);
-      
-      // Reverse geocode to get structured address
-      const addressInfo = await reverseGeocode(result.lat, result.lng);
-      
+
       onChange({
-        address: addressInfo?.address || searchText,
-        city: addressInfo?.city || value?.city || "",
+        address: searchText,
+        city: value?.city || "",
         latitude: result.lat,
         longitude: result.lng,
       });
@@ -161,27 +137,13 @@ export function LocationPicker({
   // Handle drag end
   const handleDragEnd = useCallback(async (lngLat: { lng: number; lat: number }) => {
     setMarkerPosition({ lat: lngLat.lat, lng: lngLat.lng });
-    
-    // Reverse geocode to get address
-    const addressInfo = await reverseGeocode(lngLat.lat, lngLat.lng);
-    
-    if (addressInfo) {
-      setSearchText(addressInfo.address);
-      onChange({
-        address: addressInfo.address,
-        city: addressInfo.city,
-        latitude: lngLat.lat,
-        longitude: lngLat.lng,
-      });
-    } else {
-      onChange({
-        address: value?.address || "",
-        city: value?.city || "",
-        latitude: lngLat.lat,
-        longitude: lngLat.lng,
-      });
-    }
-  }, [onChange, value?.address, value?.city]);
+    onChange({
+      address: value?.address || searchText || "",
+      city: value?.city || "",
+      latitude: lngLat.lat,
+      longitude: lngLat.lng,
+    });
+  }, [onChange, searchText, value?.address, value?.city]);
 
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -227,7 +189,7 @@ export function LocationPicker({
       </div>
       
       {/* Map */}
-      <div className="h-[250px] rounded-lg border border-border overflow-hidden">
+      <div className="h-64 rounded-lg border border-border overflow-hidden">
         <Map center={mapCenter} zoom={markerPosition ? 15 : 11}>
           <MapControls
             position="bottom-right"
@@ -236,18 +198,11 @@ export function LocationPicker({
             onLocate={(coords) => {
               setMarkerPosition({ lat: coords.latitude, lng: coords.longitude });
               setMapCenter([coords.longitude, coords.latitude]);
-              
-              // Reverse geocode
-              reverseGeocode(coords.latitude, coords.longitude).then(addressInfo => {
-                if (addressInfo) {
-                  setSearchText(addressInfo.address);
-                  onChange({
-                    address: addressInfo.address,
-                    city: addressInfo.city,
-                    latitude: coords.latitude,
-                    longitude: coords.longitude,
-                  });
-                }
+              onChange({
+                address: searchText || value?.address || "",
+                city: value?.city || "",
+                latitude: coords.latitude,
+                longitude: coords.longitude,
               });
             }}
           />

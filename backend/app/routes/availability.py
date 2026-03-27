@@ -70,6 +70,7 @@ async def update_weekly_schedule(
     days_data = [
         {
             "day_of_week": d.day_of_week,
+            "doctor_location_id": d.doctor_location_id,
             "is_active": d.is_active,
             "time_blocks": [
                 {
@@ -109,12 +110,18 @@ async def add_exception(
 
     try:
         exception = await availability_service.add_exception(
-            db, doctor_id, data.exception_date, data.is_available, data.reason
+            db,
+            doctor_id,
+            data.exception_date,
+            data.doctor_location_id,
+            data.is_available,
+            data.reason,
         )
         await db.commit()
         return {
             "id": exception.id,
             "doctor_id": exception.doctor_id,
+            "doctor_location_id": exception.doctor_location_id,
             "exception_date": exception.exception_date.isoformat(),
             "is_available": exception.is_available,
             "reason": exception.reason,
@@ -167,6 +174,7 @@ async def add_schedule_override(
         db,
         doctor_id,
         data.override_date,
+        data.doctor_location_id,
         data.start_time,
         data.end_time,
         data.slot_duration_minutes,
@@ -175,6 +183,7 @@ async def add_schedule_override(
     return {
         "id": override.id,
         "doctor_id": override.doctor_id,
+        "doctor_location_id": override.doctor_location_id,
         "override_date": override.override_date.isoformat(),
         "start_time": override.start_time.isoformat(),
         "end_time": override.end_time.isoformat(),

@@ -1,7 +1,8 @@
 """
 Medical Report endpoints.
 
-Upload medical test reports, OCR-extract lab data, view results, and doctor comments.
+Upload medical test reports, OCR-extract lab data, view results, doctor comments,
+patient-side inline editing of results, and per-report / per-doctor visibility.
 """
 
 import asyncio
@@ -23,9 +24,11 @@ from app.core.dependencies import get_db, require_doctor
 from app.db.models.medical_report import (
     DoctorReportComment,
     MedicalReport,
+    MedicalReportDoctorAccess,
     MedicalReportResult,
 )
 from app.db.models.medical_test import MedicalTest
+from app.db.models.patient_data_sharing import PatientDataSharingPreference
 from app.db.models.profile import Profile
 from app.db.supabase import storage_key_role, storage_supabase
 from app.routes.auth import get_current_user_token
@@ -35,7 +38,13 @@ from app.schemas.medical_report import (
     MedicalReportListItem,
     MedicalReportResponse,
     MedicalReportUploadResponse,
+    ReportDoctorAccessItem,
+    ReportDoctorAccessUpdate,
+    ReportResultCreate,
+    ReportResultUpdate,
     ReportTestResultResponse,
+    ReportVisibilityResponse,
+    ReportVisibilityUpdate,
 )
 
 router = APIRouter()
@@ -48,6 +57,9 @@ MAX_UPLOAD_BYTES = 15 * 1024 * 1024
 ALLOWED_REPORT_TYPES = {
     "image/jpeg", "image/jpg", "image/png", "image/webp", "application/pdf",
 }
+
+
+# ── helpers ──────────────────────────────────────────────────────────────────
 
 
 def _sanitize_filename(name: str) -> str:
@@ -156,6 +168,52 @@ async def _match_test_ids(db: AsyncSession, test_names: list[str]) -> dict[str, 
     return {t.normalized_name.lower(): t.id for t in tests}
 
 
+async def _require_report_owner(report: MedicalReport, user_id: str):
+    """Raise 403 if the current user is not the report's patient."""
+    if report.patient_id != user_id:
+        raise HTTPException(status_code=403, detail="Only the patient who owns this report can perform this action")
+
+
+async def _can_doctor_see_report(db: AsyncSession, report: MedicalReport, doctor_id: str) -> bool:
+    """Check if a doctor is allowed to see this specific report.
+
+    Logic:
+    1. If a per-report doctor-access override exists → use it.
+    2. If the report-level can_view_reports sharing pref is True → check report.shared_with_doctors.
+    3. Otherwise → denied.
+    """
+    # Per-report override takes highest priority
+    override = (
+        await db.execute(
+            select(MedicalReportDoctorAccess).where(
+                MedicalReportDoctorAccess.report_id == report.id,
+                MedicalReportDoctorAccess.doctor_id == doctor_id,
+            )
+        )
+    ).scalar_one_or_none()
+    if override:
+        return override.can_view
+
+    # Check category-level sharing preference (can_view_reports)
+    pref = (
+        await db.execute(
+            select(PatientDataSharingPreference).where(
+                PatientDataSharingPreference.patient_id == report.patient_id,
+                PatientDataSharingPreference.doctor_id == doctor_id,
+            )
+        )
+    ).scalar_one_or_none()
+
+    if not pref or not pref.can_view_reports:
+        return False
+
+    # Category access is granted — now check the report-level flag
+    return report.shared_with_doctors
+
+
+# ── Upload ───────────────────────────────────────────────────────────────────
+
+
 @router.post("/upload", response_model=MedicalReportUploadResponse)
 async def upload_medical_report(
     file: UploadFile = File(...),
@@ -243,6 +301,7 @@ async def upload_medical_report(
                 reference_range_max=t.get("reference_range_max"),
                 reference_range_text=t.get("reference_range_text"),
                 confidence=t.get("confidence"),
+                is_manually_edited=False,
             )
             db.add(result_record)
 
@@ -281,6 +340,9 @@ async def upload_medical_report(
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(exc)}")
 
 
+# ── List reports ─────────────────────────────────────────────────────────────
+
+
 @router.get("", response_model=list[MedicalReportListItem])
 async def list_medical_reports(
     patient_id: str | None = Query(None),
@@ -289,12 +351,13 @@ async def list_medical_reports(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    """List medical reports. Patients see their own; doctors can query by patient_id."""
+    """List medical reports. Patients see their own; doctors see only shared ones."""
     # Determine target patient
     target_patient = patient_id or user.id
+    is_doctor_query = target_patient != user.id
 
     # Check permission: if querying another patient, must be a doctor
-    if target_patient != user.id:
+    if is_doctor_query:
         profile_result = await db.execute(select(Profile).where(Profile.id == user.id))
         profile = profile_result.scalar_one_or_none()
         if not profile or str(profile.role.value) != "doctor":
@@ -312,6 +375,14 @@ async def list_medical_reports(
     result = await db.execute(stmt)
     reports = result.scalars().all()
 
+    # If doctor is querying, filter to only reports they're allowed to see
+    if is_doctor_query:
+        visible_reports = []
+        for r in reports:
+            if await _can_doctor_see_report(db, r, user.id):
+                visible_reports.append(r)
+        reports = visible_reports
+
     items = []
     for r in reports:
         # Build summary from first few test results
@@ -328,6 +399,7 @@ async def list_medical_reports(
             file_name=r.file_name,
             report_date=r.report_date,
             parsed=r.parsed,
+            shared_with_doctors=r.shared_with_doctors,
             created_at=r.created_at,
             result_count=len(r.results or []),
             comment_count=len(r.comments or []),
@@ -335,6 +407,9 @@ async def list_medical_reports(
         ))
 
     return items
+
+
+# ── Get single report ────────────────────────────────────────────────────────
 
 
 @router.get("/{report_id}", response_model=MedicalReportResponse)
@@ -361,6 +436,12 @@ async def get_medical_report(
         profile = profile_result.scalar_one_or_none()
         if not profile or str(profile.role.value) != "doctor":
             raise HTTPException(status_code=403, detail="Access denied")
+        # Doctor: check sharing preferences
+        if not await _can_doctor_see_report(db, report, user.id):
+            raise HTTPException(
+                status_code=403,
+                detail="This patient has not shared this report with you",
+            )
 
     # Enrich comments with doctor names
     response = MedicalReportResponse.model_validate(report)
@@ -394,6 +475,9 @@ async def get_medical_report(
     return response
 
 
+# ── Doctor comment ───────────────────────────────────────────────────────────
+
+
 @router.post("/{report_id}/comment", response_model=DoctorCommentResponse)
 async def add_report_comment(
     report_id: str,
@@ -409,6 +493,10 @@ async def add_report_comment(
     report = report_result.scalar_one_or_none()
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
+
+    # Doctor must have access to this report
+    if not await _can_doctor_see_report(db, report, user.id):
+        raise HTTPException(status_code=403, detail="This patient has not shared this report with you")
 
     comment = DoctorReportComment(
         id=str(uuid.uuid4()),
@@ -437,4 +525,243 @@ async def add_report_comment(
         comment=comment.comment,
         created_at=comment.created_at,
         updated_at=comment.updated_at,
+    )
+
+
+# ── Patient: edit a test result ──────────────────────────────────────────────
+
+
+@router.patch("/{report_id}/results/{result_id}", response_model=ReportTestResultResponse)
+async def update_report_result(
+    report_id: str,
+    result_id: str,
+    body: ReportResultUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Patient manually edits an OCR-extracted (or manually-added) test result."""
+    report = (
+        await db.execute(select(MedicalReport).where(MedicalReport.id == report_id))
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    result_row = (
+        await db.execute(
+            select(MedicalReportResult).where(
+                MedicalReportResult.id == result_id,
+                MedicalReportResult.report_id == report_id,
+            )
+        )
+    ).scalar_one_or_none()
+    if not result_row:
+        raise HTTPException(status_code=404, detail="Result not found")
+
+    updates = body.model_dump(exclude_unset=True)
+    for field, value in updates.items():
+        setattr(result_row, field, value)
+    result_row.is_manually_edited = True
+
+    await db.commit()
+    await db.refresh(result_row)
+    return ReportTestResultResponse.model_validate(result_row)
+
+
+# ── Patient: add a new test result row manually ──────────────────────────────
+
+
+@router.post("/{report_id}/results", response_model=ReportTestResultResponse)
+async def add_report_result(
+    report_id: str,
+    body: ReportResultCreate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Patient manually adds a test result row to a report."""
+    report = (
+        await db.execute(select(MedicalReport).where(MedicalReport.id == report_id))
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    # Try to match the test name
+    name_to_id = await _match_test_ids(db, [body.test_name])
+    matched_id = name_to_id.get(body.test_name.lower().strip())
+
+    new_result = MedicalReportResult(
+        id=str(uuid.uuid4()),
+        report_id=report_id,
+        test_id=matched_id,
+        test_name=body.test_name,
+        value=body.value,
+        value_text=body.value_text,
+        unit=body.unit,
+        status=body.status,
+        reference_range_min=body.reference_range_min,
+        reference_range_max=body.reference_range_max,
+        reference_range_text=body.reference_range_text,
+        confidence=None,
+        is_manually_edited=True,
+    )
+    db.add(new_result)
+    await db.commit()
+    await db.refresh(new_result)
+    return ReportTestResultResponse.model_validate(new_result)
+
+
+# ── Patient: delete a test result row ────────────────────────────────────────
+
+
+@router.delete("/{report_id}/results/{result_id}", status_code=204)
+async def delete_report_result(
+    report_id: str,
+    result_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Patient deletes a test result row from a report."""
+    report = (
+        await db.execute(select(MedicalReport).where(MedicalReport.id == report_id))
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    result_row = (
+        await db.execute(
+            select(MedicalReportResult).where(
+                MedicalReportResult.id == result_id,
+                MedicalReportResult.report_id == report_id,
+            )
+        )
+    ).scalar_one_or_none()
+    if not result_row:
+        raise HTTPException(status_code=404, detail="Result not found")
+
+    await db.delete(result_row)
+    await db.commit()
+
+
+# ── Report visibility ────────────────────────────────────────────────────────
+
+
+@router.get("/{report_id}/visibility", response_model=ReportVisibilityResponse)
+async def get_report_visibility(
+    report_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get visibility settings for a report (patient only)."""
+    report = (
+        await db.execute(
+            select(MedicalReport)
+            .options(selectinload(MedicalReport.doctor_access))
+            .where(MedicalReport.id == report_id)
+        )
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    overrides = [
+        ReportDoctorAccessItem(doctor_id=a.doctor_id, can_view=a.can_view)
+        for a in (report.doctor_access or [])
+    ]
+    return ReportVisibilityResponse(
+        report_id=report.id,
+        shared_with_doctors=report.shared_with_doctors,
+        doctor_overrides=overrides,
+    )
+
+
+@router.patch("/{report_id}/visibility", response_model=ReportVisibilityResponse)
+async def update_report_visibility(
+    report_id: str,
+    body: ReportVisibilityUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Toggle the shared_with_doctors flag on a report (patient only)."""
+    report = (
+        await db.execute(
+            select(MedicalReport)
+            .options(selectinload(MedicalReport.doctor_access))
+            .where(MedicalReport.id == report_id)
+        )
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    report.shared_with_doctors = body.shared_with_doctors
+    await db.commit()
+    await db.refresh(report)
+
+    overrides = [
+        ReportDoctorAccessItem(doctor_id=a.doctor_id, can_view=a.can_view)
+        for a in (report.doctor_access or [])
+    ]
+    return ReportVisibilityResponse(
+        report_id=report.id,
+        shared_with_doctors=report.shared_with_doctors,
+        doctor_overrides=overrides,
+    )
+
+
+@router.put("/{report_id}/visibility/doctors", response_model=ReportVisibilityResponse)
+async def set_report_doctor_overrides(
+    report_id: str,
+    body: ReportDoctorAccessUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Set per-doctor visibility overrides for a report (patient only).
+    Replaces all existing overrides with the provided list."""
+    report = (
+        await db.execute(
+            select(MedicalReport)
+            .options(selectinload(MedicalReport.doctor_access))
+            .where(MedicalReport.id == report_id)
+        )
+    ).scalar_one_or_none()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    await _require_report_owner(report, user.id)
+
+    # Delete existing overrides
+    for existing in list(report.doctor_access or []):
+        await db.delete(existing)
+    await db.flush()
+
+    # Insert new overrides
+    for item in body.overrides:
+        access = MedicalReportDoctorAccess(
+            id=str(uuid.uuid4()),
+            report_id=report_id,
+            doctor_id=item.doctor_id,
+            can_view=item.can_view,
+        )
+        db.add(access)
+
+    await db.commit()
+
+    # Reload
+    report = (
+        await db.execute(
+            select(MedicalReport)
+            .options(selectinload(MedicalReport.doctor_access))
+            .where(MedicalReport.id == report_id)
+        )
+    ).scalar_one()
+
+    overrides = [
+        ReportDoctorAccessItem(doctor_id=a.doctor_id, can_view=a.can_view)
+        for a in (report.doctor_access or [])
+    ]
+    return ReportVisibilityResponse(
+        report_id=report.id,
+        shared_with_doctors=report.shared_with_doctors,
+        doctor_overrides=overrides,
     )

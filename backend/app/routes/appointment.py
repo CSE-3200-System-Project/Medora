@@ -7,6 +7,7 @@ from app.routes.auth import get_current_user_token
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 from app.db.models.patient import PatientProfile
 from app.db.models.enums import UserRole
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
@@ -152,6 +153,20 @@ async def create_appointment(
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
 
+    selected_location_name = appointment_data.location_name
+    if appointment_data.doctor_location_id:
+        location_result = await db.execute(
+            select(DoctorLocation).where(
+                DoctorLocation.id == appointment_data.doctor_location_id,
+                DoctorLocation.doctor_id == appointment_data.doctor_id,
+            )
+        )
+        location = location_result.scalar_one_or_none()
+        if not location:
+            raise HTTPException(status_code=400, detail="Invalid doctor location selected")
+        if not selected_location_name:
+            selected_location_name = location.location_name
+
     # Extract slot_time from appointment_date or notes
     slot_time_val = None
     appt_dt = appointment_data.appointment_date
@@ -170,6 +185,8 @@ async def create_appointment(
             db,
             patient_id=user_id,
             doctor_id=appointment_data.doctor_id,
+            doctor_location_id=appointment_data.doctor_location_id,
+            location_name=selected_location_name,
             appointment_date=appt_dt,
             slot_time_val=slot_time_val,
             reason=appointment_data.reason,

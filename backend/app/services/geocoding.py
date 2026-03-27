@@ -4,18 +4,24 @@ Uses OpenStreetMap Nominatim API and caches results in database.
 """
 
 import httpx
+from datetime import datetime
 from typing import Optional, Dict
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import logging
 
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 
 logger = logging.getLogger(__name__)
 
 # Nominatim API configuration
 NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org"
 USER_AGENT = "Medora Healthcare Platform (Bangladesh Medical Service)"
+
+
+def normalize_location_text(location_text: str) -> str:
+    return " ".join((location_text or "").strip().lower().split())
 
 
 async def geocode_address(address: str, timeout: int = 10) -> Optional[Dict[str, float]]:
@@ -58,7 +64,8 @@ async def geocode_address(address: str, timeout: int = 10) -> Optional[Dict[str,
             if data and len(data) > 0:
                 result = {
                     "lat": float(data[0]["lat"]),
-                    "lng": float(data[0]["lon"])
+                    "lng": float(data[0]["lon"]),
+                    "display_name": data[0].get("display_name"),
                 }
                 logger.info(f"Geocoded: '{address}' → {result['lat']}, {result['lng']}")
                 return result
@@ -72,6 +79,48 @@ async def geocode_address(address: str, timeout: int = 10) -> Optional[Dict[str,
     except Exception as e:
         logger.error(f"Geocoding error for '{address}': {str(e)}")
         return None
+
+
+async def geocode_location_text_with_cache(
+    db: AsyncSession,
+    location_text: str,
+    timeout: int = 10,
+) -> Optional[Dict[str, float | str]]:
+    """Geocode location text with DB cache lookup before Nominatim requests."""
+    if not location_text or len(location_text.strip()) < 5:
+        return None
+
+    normalized = normalize_location_text(location_text)
+
+    cached_stmt = (
+        select(DoctorLocation)
+        .where(
+            DoctorLocation.normalized_location_text == normalized,
+            DoctorLocation.latitude.is_not(None),
+            DoctorLocation.longitude.is_not(None),
+        )
+        .order_by(DoctorLocation.geocoded_at.desc(), DoctorLocation.created_at.desc())
+        .limit(1)
+    )
+    cached_row = (await db.execute(cached_stmt)).scalar_one_or_none()
+    if cached_row:
+        return {
+            "lat": float(cached_row.latitude),
+            "lng": float(cached_row.longitude),
+            "display_name": cached_row.display_name or cached_row.location_text,
+            "source": "cache",
+            "normalized_location_text": normalized,
+        }
+
+    result = await geocode_address(location_text, timeout=timeout)
+    if not result:
+        return None
+
+    result["source"] = "nominatim"
+    result["normalized_location_text"] = normalized
+    result.setdefault("display_name", location_text)
+    result.setdefault("geocoded_at", datetime.utcnow())
+    return result
 
 
 async def geocode_and_save_doctor_locations(

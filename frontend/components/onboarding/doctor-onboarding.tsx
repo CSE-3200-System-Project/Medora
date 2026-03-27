@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronRight, ChevronLeft, Upload, Plus, Trash2 } from "lucide-react"
+import { ChevronRight, ChevronLeft, Upload, Plus, Trash2, MapPin } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,8 +13,10 @@ import { Select } from "@/components/ui/select-native"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { StepIndicator } from "@/components/onboarding/step-indicator"
 import { ScheduleSetter } from "@/components/doctor/schedule-setter"
+import { LocationPicker } from "@/components/ui/location-picker"
 import { MedoraLoader } from "@/components/ui/medora-loader"
 import { updateDoctorOnboarding, completeOnboarding, getDoctorOnboardingData } from "@/lib/auth-actions"
 import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
@@ -46,9 +48,43 @@ interface WorkExperience {
   current: boolean
 }
 
+interface PracticeLocation {
+  id: string
+  locationName: string
+  locationType: string
+  locationText: string
+  displayName: string
+  address: string
+  city: string
+  country: string
+  latitude?: number
+  longitude?: number
+  availableDays: string[]
+  dayTimeSlots: Record<string, string[]>
+  appointmentDuration?: number
+  isPrimary: boolean
+}
+
 type Speciality = {
   id: number
   name: string
+}
+
+function createPracticeLocation(isPrimary: boolean): PracticeLocation {
+  return {
+    id: typeof crypto !== "undefined" ? crypto.randomUUID() : Math.random().toString(36).slice(2, 10),
+    locationName: "",
+    locationType: isPrimary ? "HOSPITAL" : "CHAMBER",
+    locationText: "",
+    displayName: "",
+    address: "",
+    city: "",
+    country: "Bangladesh",
+    availableDays: [],
+    dayTimeSlots: {},
+    appointmentDuration: undefined,
+    isPrimary,
+  }
 }
 
 export function DoctorOnboarding() {
@@ -57,6 +93,8 @@ export function DoctorOnboarding() {
   const [initialLoading, setInitialLoading] = useState(true)
   const [showSkipDialog, setShowSkipDialog] = useState(false)
   const [specialities, setSpecialities] = useState<Speciality[]>([])
+  const [mapPickerLocationId, setMapPickerLocationId] = useState<string | null>(null)
+  const [scheduleLocationId, setScheduleLocationId] = useState<string | null>(null)
   const router = useRouter()
   
   const [formData, setFormData] = useState({
@@ -98,6 +136,7 @@ export function DoctorOnboarding() {
     chamberName: "",
     chamberAddress: "",
     chamberCity: "",
+    practiceLocations: [] as PracticeLocation[],
     practiceLocation: "",
     consultationMode: "both",
     affiliation_letter_url: "",
@@ -133,6 +172,69 @@ export function DoctorOnboarding() {
       try {
         const data = await getDoctorOnboardingData()
         if (data) {
+          const fromBackendLocations: PracticeLocation[] = Array.isArray(data.practice_locations)
+            ? data.practice_locations.map((location: Record<string, unknown>, index: number) => ({
+                id: (location.id as string | undefined) || (typeof crypto !== "undefined" ? crypto.randomUUID() : `${Date.now()}-${index}`),
+                locationName: (location.location_name as string | undefined) || "",
+                locationType: (location.location_type as string | undefined) || (index === 0 ? "HOSPITAL" : "CHAMBER"),
+                locationText: (location.location_text as string | undefined) || "",
+                displayName: (location.display_name as string | undefined) || "",
+                address: (location.address as string | undefined) || "",
+                city: (location.city as string | undefined) || "",
+                country: (location.country as string | undefined) || "Bangladesh",
+                latitude: typeof location.latitude === "number" ? location.latitude : undefined,
+                longitude: typeof location.longitude === "number" ? location.longitude : undefined,
+                availableDays: Array.isArray(location.available_days) ? (location.available_days as string[]) : [],
+                dayTimeSlots:
+                  location.day_time_slots && typeof location.day_time_slots === "object"
+                    ? (location.day_time_slots as Record<string, string[]>)
+                    : {},
+                appointmentDuration: typeof location.appointment_duration === "number" ? location.appointment_duration : undefined,
+                isPrimary: Boolean(location.is_primary) || index === 0,
+              }))
+            : []
+
+          const legacyLocations: PracticeLocation[] = []
+          if (fromBackendLocations.length === 0 && (data.hospital_name || data.hospital_address || data.hospital_city)) {
+            legacyLocations.push({
+              id: typeof crypto !== "undefined" ? crypto.randomUUID() : Math.random().toString(36).slice(2, 10),
+              locationName: data.hospital_name || "Primary Location",
+              locationType: "HOSPITAL",
+              locationText: [data.hospital_name, data.hospital_address, data.hospital_city, data.hospital_country || "Bangladesh"].filter(Boolean).join(", "),
+              displayName: "",
+              address: data.hospital_address || "",
+              city: data.hospital_city || "",
+              country: data.hospital_country || "Bangladesh",
+              latitude: undefined,
+              longitude: undefined,
+              availableDays: data.available_days || [],
+              dayTimeSlots: data.day_time_slots || {},
+              appointmentDuration: data.appointment_duration || undefined,
+              isPrimary: true,
+            })
+          }
+
+          if (fromBackendLocations.length === 0 && (data.chamber_name || data.chamber_address || data.chamber_city)) {
+            legacyLocations.push({
+              id: typeof crypto !== "undefined" ? crypto.randomUUID() : Math.random().toString(36).slice(2, 10),
+              locationName: data.chamber_name || "Chamber",
+              locationType: "CHAMBER",
+              locationText: [data.chamber_name, data.chamber_address, data.chamber_city, "Bangladesh"].filter(Boolean).join(", "),
+              displayName: "",
+              address: data.chamber_address || "",
+              city: data.chamber_city || "",
+              country: "Bangladesh",
+              latitude: undefined,
+              longitude: undefined,
+              availableDays: data.available_days || [],
+              dayTimeSlots: data.day_time_slots || {},
+              appointmentDuration: data.appointment_duration || undefined,
+              isPrimary: legacyLocations.length === 0,
+            })
+          }
+
+          const hydratedLocations = fromBackendLocations.length > 0 ? fromBackendLocations : legacyLocations
+
           setFormData(prev => ({
             ...prev,
             firstName: data.first_name || "",
@@ -167,6 +269,7 @@ export function DoctorOnboarding() {
             chamberName: data.chamber_name || "",
             chamberAddress: data.chamber_address || "",
             chamberCity: data.chamber_city || "",
+            practiceLocations: hydratedLocations,
             practiceLocation: data.practice_location || "",
             consultationMode: data.consultation_mode || "both",
             affiliation_letter_url: data.affiliation_letter_url || "",
@@ -221,11 +324,11 @@ export function DoctorOnboarding() {
     fetchSpecialities();
   }, []);
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = <K extends keyof typeof formData>(field: K, value: (typeof formData)[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: keyof typeof formData) => {
     const file = e.target.files?.[0]
     if (file) {
       try {
@@ -278,9 +381,8 @@ export function DoctorOnboarding() {
     }))
   }
 
-  const updateEducation = (index: number, field: string, value: string) => {
+  const updateEducation = (index: number, field: keyof Education, value: string) => {
     const newEducation = [...formData.education]
-    // @ts-ignore
     newEducation[index][field] = value
     setFormData(prev => ({ ...prev, education: newEducation }))
   }
@@ -300,9 +402,12 @@ export function DoctorOnboarding() {
     }))
   }
 
-  const updateWorkExperience = (index: number, field: string, value: any) => {
+  const updateWorkExperience = <K extends keyof WorkExperience>(
+    index: number,
+    field: K,
+    value: WorkExperience[K]
+  ) => {
     const newExp = [...formData.workExperience]
-    // @ts-ignore
     newExp[index][field] = value
     setFormData(prev => ({ ...prev, workExperience: newExp }))
   }
@@ -332,7 +437,96 @@ export function DoctorOnboarding() {
     }))
   }
 
+  useEffect(() => {
+    if (!initialLoading && formData.practiceLocations.length === 0) {
+      setFormData(prev => ({
+        ...prev,
+        practiceLocations: [createPracticeLocation(true)],
+      }))
+    }
+  }, [initialLoading, formData.practiceLocations.length])
+
+  const updatePracticeLocation = (locationId: string, updates: Partial<PracticeLocation>) => {
+    setFormData(prev => ({
+      ...prev,
+      practiceLocations: prev.practiceLocations.map(location =>
+        location.id === locationId ? { ...location, ...updates } : location
+      )
+    }))
+  }
+
+  const addPracticeLocation = () => {
+    setFormData(prev => ({
+      ...prev,
+      practiceLocations: [...prev.practiceLocations, createPracticeLocation(false)],
+    }))
+  }
+
+  const removePracticeLocation = (locationId: string) => {
+    setFormData(prev => {
+      const filtered = prev.practiceLocations.filter(location => location.id !== locationId)
+      if (filtered.length > 0 && !filtered.some(location => location.isPrimary)) {
+        filtered[0] = { ...filtered[0], isPrimary: true, locationType: "HOSPITAL" }
+      }
+
+      return {
+        ...prev,
+        practiceLocations: filtered,
+      }
+    })
+  }
+
+  const setPrimaryLocation = (locationId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      practiceLocations: prev.practiceLocations.map(location => {
+        const isPrimary = location.id === locationId
+        return {
+          ...location,
+          isPrimary,
+          locationType: isPrimary ? "HOSPITAL" : location.locationType,
+        }
+      }),
+    }))
+  }
+
+  const selectedMapLocation = formData.practiceLocations.find(location => location.id === mapPickerLocationId)
+  const selectedScheduleLocation = formData.practiceLocations.find(location => location.id === scheduleLocationId)
+
   const preparePayload = () => {
+    const normalizedPracticeLocations = formData.practiceLocations
+      .filter(location => location.locationName.trim() || location.locationText.trim() || location.address.trim())
+      .map((location, index) => {
+        const fallbackDaySlots = location.dayTimeSlots && Object.keys(location.dayTimeSlots).length > 0
+          ? location.dayTimeSlots
+          : formData.dayTimeSlots
+
+        return {
+          id: location.id,
+          location_name: location.locationName.trim(),
+          location_type: location.locationType,
+          location_text: location.locationText.trim() || [
+            location.locationName,
+            location.address,
+            location.city,
+            location.country || "Bangladesh",
+          ].filter(Boolean).join(", "),
+          display_name: location.displayName,
+          address: location.address,
+          city: location.city,
+          country: location.country || "Bangladesh",
+          latitude: location.latitude,
+          longitude: location.longitude,
+          available_days: location.availableDays.length > 0 ? location.availableDays : Object.keys(fallbackDaySlots || {}),
+          day_time_slots: fallbackDaySlots,
+          appointment_duration: location.appointmentDuration || (formData.appointmentDuration ? parseInt(formData.appointmentDuration) : undefined),
+          is_primary: location.isPrimary || index === 0,
+        }
+      })
+
+    const primaryLocation = normalizedPracticeLocations.find(location => location.is_primary) || normalizedPracticeLocations[0]
+    const secondaryLocation = normalizedPracticeLocations.find(location => location !== primaryLocation)
+
     return {
       first_name: formData.firstName,
       last_name: formData.lastName,
@@ -359,13 +553,14 @@ export function DoctorOnboarding() {
       experience: formData.experience,
       work_experience: formData.workExperience,
       
-      hospital_name: formData.hospitalName,
-      hospital_address: formData.hospitalAddress,
-      hospital_city: formData.hospitalCity,
-      hospital_country: formData.hospitalCountry,
-      chamber_name: formData.chamberName,
-      chamber_address: formData.chamberAddress,
-      chamber_city: formData.chamberCity,
+      hospital_name: primaryLocation?.location_name || formData.hospitalName,
+      hospital_address: primaryLocation?.address || formData.hospitalAddress,
+      hospital_city: primaryLocation?.city || formData.hospitalCity,
+      hospital_country: primaryLocation?.country || formData.hospitalCountry,
+      chamber_name: secondaryLocation?.location_name || formData.chamberName,
+      chamber_address: secondaryLocation?.address || formData.chamberAddress,
+      chamber_city: secondaryLocation?.city || formData.chamberCity,
+      practice_locations: normalizedPracticeLocations,
       practice_location: formData.practiceLocation,
       consultation_mode: formData.consultationMode,
       affiliation_letter_url: formData.affiliation_letter_url,
@@ -395,6 +590,29 @@ export function DoctorOnboarding() {
 
   const nextStep = async () => {
     if (currentStep < STEPS.length) {
+      if (currentStep === 5) {
+        const validLocations = formData.practiceLocations.filter(location =>
+          location.locationName.trim() || location.locationText.trim() || location.address.trim()
+        )
+
+        if (validLocations.length === 0) {
+          alert("Add at least one practice location to continue.")
+          return
+        }
+
+        const invalidLocation = validLocations.find(location => {
+          const hasAddress = Boolean(location.address.trim() || location.locationText.trim())
+          const hasCity = Boolean(location.city.trim())
+          const hasCoords = Number.isFinite(location.latitude) && Number.isFinite(location.longitude)
+          return !location.locationName.trim() || !hasAddress || !hasCity || !hasCoords
+        })
+
+        if (invalidLocation) {
+          alert("Each location must include name, address/city, and a map pin before continuing.")
+          return
+        }
+      }
+
       try {
         await updateDoctorOnboarding(preparePayload())
         setCurrentStep((prev) => prev + 1)
@@ -723,7 +941,7 @@ export function DoctorOnboarding() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id={`current-${index}`} checked={exp.current} onCheckedChange={(checked) => updateWorkExperience(index, "current", checked)} />
+                    <Checkbox id={`current-${index}`} checked={exp.current} onCheckedChange={(checked) => updateWorkExperience(index, "current", checked === true)} />
                     <Label htmlFor={`current-${index}`}>Currently working here</Label>
                   </div>
                 </div>
@@ -735,46 +953,107 @@ export function DoctorOnboarding() {
       case 5:
         return (
           <div className="space-y-4">
-            <h4 className="font-medium">Primary Hospital/Clinic</h4>
-            <div className="space-y-4 rounded-lg border p-4">
-              <div className="space-y-2">
-                <Label htmlFor="hospitalName">Hospital/Clinic Name</Label>
-                <Input id="hospitalName" value={formData.hospitalName} onChange={(e) => handleInputChange("hospitalName", e.target.value)} placeholder="Mount Adora Hospital" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="hospitalAddress">Address</Label>
-                <Input id="hospitalAddress" value={formData.hospitalAddress} onChange={(e) => handleInputChange("hospitalAddress", e.target.value)} placeholder="Nayasarak Road, Mirboxtula, Sylhet-3100" />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="hospitalCity">City</Label>
-                  <Input id="hospitalCity" value={formData.hospitalCity} onChange={(e) => handleInputChange("hospitalCity", e.target.value)} placeholder="Sylhet" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="hospitalCountry">Country</Label>
-                  <Input id="hospitalCountry" value={formData.hospitalCountry} onChange={(e) => handleInputChange("hospitalCountry", e.target.value)} placeholder="Bangladesh" />
-                </div>
-              </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Practice Locations</h4>
+              <p className="text-xs text-muted-foreground">
+                Add every chamber/clinic where you consult. Pin each one on the map so patients can discover you accurately.
+              </p>
             </div>
-            
-            <Separator className="my-4" />
-            
-            <h4 className="font-medium">Chamber Details (if different)</h4>
-            <div className="space-y-4 rounded-lg border p-4">
-              <div className="space-y-2">
-                <Label htmlFor="chamberName">Chamber Name</Label>
-                <Input id="chamberName" value={formData.chamberName} onChange={(e) => handleInputChange("chamberName", e.target.value)} placeholder="Private Chamber Name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="chamberAddress">Chamber Address</Label>
-                <Input id="chamberAddress" value={formData.chamberAddress} onChange={(e) => handleInputChange("chamberAddress", e.target.value)} placeholder="Full address" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="chamberCity">Chamber City</Label>
-                <Input id="chamberCity" value={formData.chamberCity} onChange={(e) => handleInputChange("chamberCity", e.target.value)} placeholder="City" />
-              </div>
+
+            <div className="space-y-4">
+              {formData.practiceLocations.map((location, index) => (
+                <div key={location.id} className="space-y-4 rounded-lg border p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="text-sm font-semibold text-foreground">
+                      {location.isPrimary ? "Primary Practice" : `Practice Location ${index + 1}`}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {!location.isPrimary && (
+                        <Button type="button" variant="outline" size="sm" onClick={() => setPrimaryLocation(location.id)}>
+                          Make Primary
+                        </Button>
+                      )}
+                      {formData.practiceLocations.length > 1 && (
+                        <Button type="button" variant="destructive" size="sm" onClick={() => removePracticeLocation(location.id)}>
+                          <Trash2 className="mr-1 h-4 w-4" /> Remove
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label>Location Name</Label>
+                      <Input
+                        value={location.locationName}
+                        onChange={(e) => updatePracticeLocation(location.id, { locationName: e.target.value })}
+                        placeholder="Apollo Hospital, Dhanmondi"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Location Type</Label>
+                      <Select
+                        value={location.locationType}
+                        onChange={(e) => updatePracticeLocation(location.id, { locationType: e.target.value })}
+                      >
+                        <option value="HOSPITAL">Hospital</option>
+                        <option value="CLINIC">Clinic</option>
+                        <option value="CHAMBER">Chamber</option>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Manual Address</Label>
+                    <Input
+                      value={location.address}
+                      onChange={(e) => updatePracticeLocation(location.id, { address: e.target.value })}
+                      placeholder="Road, Area, Landmark"
+                    />
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label>City</Label>
+                      <Input
+                        value={location.city}
+                        onChange={(e) => updatePracticeLocation(location.id, { city: e.target.value })}
+                        placeholder="Dhaka"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Country</Label>
+                      <Input
+                        value={location.country}
+                        onChange={(e) => updatePracticeLocation(location.id, { country: e.target.value })}
+                        placeholder="Bangladesh"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 rounded-md bg-accent/40 px-3 py-2 text-xs">
+                    <MapPin className="h-3.5 w-3.5 text-primary" />
+                    {Number.isFinite(location.latitude) && Number.isFinite(location.longitude)
+                      ? `Pinned: ${location.latitude?.toFixed(6)}, ${location.longitude?.toFixed(6)}`
+                      : "No map pin selected yet"}
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" variant="outline" size="sm" onClick={() => setMapPickerLocationId(location.id)}>
+                      <MapPin className="mr-1 h-4 w-4" /> Pick on Map
+                    </Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => setScheduleLocationId(location.id)}>
+                      Set Availability
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
-            
+
+            <Button type="button" variant="outline" onClick={addPracticeLocation} className="w-full sm:w-auto">
+              <Plus className="mr-2 h-4 w-4" /> Add Another Chamber
+            </Button>
+
             <Separator className="my-4" />
             
             <div className="space-y-2">
@@ -921,7 +1200,7 @@ export function DoctorOnboarding() {
             <Separator className="my-4" />
 
             <div className="flex items-center space-x-2">
-              <Checkbox id="emergencyAvailability" checked={formData.emergencyAvailability} onCheckedChange={(checked) => handleInputChange("emergencyAvailability", checked)} />
+              <Checkbox id="emergencyAvailability" checked={formData.emergencyAvailability} onCheckedChange={(checked) => handleInputChange("emergencyAvailability", checked === true)} />
               <Label htmlFor="emergencyAvailability">Available for Emergencies</Label>
             </div>
 
@@ -998,7 +1277,7 @@ export function DoctorOnboarding() {
             <div className="space-y-4">
               <h4 className="font-medium">Telemedicine</h4>
               <div className="flex items-center space-x-2">
-                <Checkbox id="telemedicineAvailable" checked={formData.telemedicineAvailable} onCheckedChange={(checked) => handleInputChange("telemedicineAvailable", checked)} />
+                <Checkbox id="telemedicineAvailable" checked={formData.telemedicineAvailable} onCheckedChange={(checked) => handleInputChange("telemedicineAvailable", checked === true)} />
                 <Label htmlFor="telemedicineAvailable">I offer telemedicine consultations</Label>
               </div>
               
@@ -1032,13 +1311,13 @@ export function DoctorOnboarding() {
             <div className="space-y-4 rounded-lg border p-4">
               <h4 className="font-medium">Consent & Terms</h4>
               <div className="flex items-start space-x-2">
-                <Checkbox id="aiAssistance" checked={formData.aiAssistance} onCheckedChange={(checked) => handleInputChange("aiAssistance", checked)} />
+                <Checkbox id="aiAssistance" checked={formData.aiAssistance} onCheckedChange={(checked) => handleInputChange("aiAssistance", checked === true)} />
                 <Label htmlFor="aiAssistance" className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   I agree to use AI assistance for preliminary diagnosis support. I understand that AI suggestions are advisory only.
                 </Label>
               </div>
               <div className="flex items-start space-x-2">
-                <Checkbox id="termsAccepted" checked={formData.termsAccepted} onCheckedChange={(checked) => handleInputChange("termsAccepted", checked)} />
+                <Checkbox id="termsAccepted" checked={formData.termsAccepted} onCheckedChange={(checked) => handleInputChange("termsAccepted", checked === true)} />
                 <Label htmlFor="termsAccepted" className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   I accept the Terms of Service and Professional Responsibilities. I confirm that all information provided is accurate.
                 </Label>
@@ -1106,9 +1385,80 @@ export function DoctorOnboarding() {
           </motion.div>
         </AnimatePresence>
 
+        <Dialog open={Boolean(mapPickerLocationId)} onOpenChange={(open) => !open && setMapPickerLocationId(null)}>
+          <DialogContent fullScreenOnMobile className="sm:max-w-3xl">
+            <DialogHeader>
+              <DialogTitle>Pick Practice Location on Map</DialogTitle>
+              <DialogDescription>
+                Search by address if possible, then drag the pin if needed. Coordinates are required for discoverability.
+              </DialogDescription>
+            </DialogHeader>
+
+            {selectedMapLocation && (
+              <div className="space-y-4">
+                <LocationPicker
+                  label={selectedMapLocation.locationName || "Practice location"}
+                  value={{
+                    address: selectedMapLocation.address,
+                    city: selectedMapLocation.city,
+                    latitude: selectedMapLocation.latitude,
+                    longitude: selectedMapLocation.longitude,
+                  }}
+                  onChange={(picked) => {
+                    updatePracticeLocation(selectedMapLocation.id, {
+                      address: picked.address,
+                      city: picked.city,
+                      latitude: picked.latitude,
+                      longitude: picked.longitude,
+                      locationText: [
+                        selectedMapLocation.locationName,
+                        picked.address,
+                        picked.city,
+                        selectedMapLocation.country || "Bangladesh",
+                      ].filter(Boolean).join(", "),
+                    })
+                  }}
+                />
+
+                <div className="flex justify-end">
+                  <Button type="button" onClick={() => setMapPickerLocationId(null)}>Done</Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={Boolean(scheduleLocationId)} onOpenChange={(open) => !open && setScheduleLocationId(null)}>
+          <DialogContent fullScreenOnMobile className="sm:max-w-4xl">
+            <DialogHeader>
+              <DialogTitle>Set Location Availability</DialogTitle>
+              <DialogDescription>
+                Define weekly availability for this specific chamber/clinic.
+              </DialogDescription>
+            </DialogHeader>
+
+            {selectedScheduleLocation && (
+              <ScheduleSetter
+                initialDayTimeSlots={selectedScheduleLocation.dayTimeSlots}
+                initialAvailableDays={selectedScheduleLocation.availableDays}
+                initialTimeSlots={formData.timeSlots}
+                appointmentDuration={selectedScheduleLocation.appointmentDuration || parseInt(formData.appointmentDuration || "30")}
+                onSave={async (dayTimeSlots, duration) => {
+                  updatePracticeLocation(selectedScheduleLocation.id, {
+                    dayTimeSlots,
+                    availableDays: Object.keys(dayTimeSlots),
+                    appointmentDuration: duration,
+                  })
+                  setScheduleLocationId(null)
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
-          <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-4 sm:items-center">
+          <div className="fixed inset-0 z-60 flex items-end justify-center bg-black/50 p-4 sm:items-center">
             <Card className="max-h-[90dvh] w-full max-w-md overflow-y-auto bg-card">
               <CardHeader>
                 <CardTitle className="text-black">Skip Onboarding?</CardTitle>
