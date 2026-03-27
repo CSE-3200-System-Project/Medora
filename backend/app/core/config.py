@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     CHORUI_PRIVACY_MODE: str = "record_augmented"
     CHORUI_REQUIRE_PATIENT_ID_FOR_DOCTOR: bool = False
     CHORUI_ACTIVE_PATIENT_LOOKBACK_DAYS: int = 180
-    AI_OCR_SERVICE_URL: str 
+    AI_OCR_SERVICE_URL: str = "http://localhost:8001"
     AI_OCR_TIMEOUT_SECONDS: float = 180.0
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
     REMINDER_DISPATCH_ENABLED: bool = True

@@ -160,6 +160,8 @@ class PatientProfile(Base):
     # Consent flags
     consent_storage: Mapped[bool] = mapped_column(Boolean, default=False)
     consent_ai: Mapped[bool] = mapped_column(Boolean, default=False)
+    ai_personal_context_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    ai_general_chat_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
     consent_doctor: Mapped[bool] = mapped_column(Boolean, default=False)
     consent_research: Mapped[bool] = mapped_column(Boolean, default=False)
 

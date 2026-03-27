@@ -1,5 +1,8 @@
 export interface BackendDoctorLocation {
+  id?: string;
   name: string;
+  location_type?: string;
+  display_name?: string;
   address: string;
   city: string;
   country?: string;

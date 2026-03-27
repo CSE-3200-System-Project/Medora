@@ -24,6 +24,8 @@ class AppointmentStatus(str, Enum):
 
 class AppointmentBase(BaseModel):
     doctor_id: str
+    doctor_location_id: Optional[str] = None
+    location_name: Optional[str] = None
     appointment_date: datetime
     reason: str
     notes: Optional[str] = None
@@ -44,6 +46,8 @@ class AppointmentUpdate(BaseModel):
 class AppointmentCreateV2(BaseModel):
     """Enhanced appointment creation with separate date and time fields."""
     doctor_id: str
+    doctor_location_id: Optional[str] = None
+    location_name: Optional[str] = None
     requested_date: date
     requested_time: time
     duration_minutes: Optional[int] = 30

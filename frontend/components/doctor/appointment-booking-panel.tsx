@@ -3,16 +3,16 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { createAppointment, getDoctorBookedSlots } from "@/lib/appointment-actions";
 import { useRouter, usePathname } from "next/navigation";
-import { MapPin, Video, Calendar, Clock, CheckCircle2, XCircle, Navigation, ExternalLink } from "lucide-react";
+import { MapPin, XCircle, Navigation, ExternalLink } from "lucide-react";
 import { cn, localDateKey } from "@/lib/utils";
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map-lazy";
+import type { BackendDoctorLocation, BackendDoctorProfile, SlotGroup } from "@/components/doctor/doctor-profile/types";
 
 interface AppointmentBookingPanelProps {
-  doctor: any;
+  doctor: BackendDoctorProfile & { telemedicine_available?: boolean };
 }
 
 interface BookingState {
@@ -21,6 +21,21 @@ interface BookingState {
   appointmentType: 'new' | 'follow-up' | 'report' | null;
   selectedDate: string | null;
   selectedSlot: string | null;
+}
+
+type AppointmentType = Exclude<BookingState["appointmentType"], null>;
+
+interface SlotResponse {
+  date: string;
+  location: string;
+  slots: SlotGroup[];
+}
+
+interface BookedSlot {
+  time: string;
+  is_booked: boolean;
+  is_past: boolean;
+  patient_name?: string | null;
 }
 
 export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps) {
@@ -32,9 +47,19 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     selectedSlot: null,
   });
 
-  const [slots, setSlots] = React.useState<any>(null);
-  const [bookedSlots, setBookedSlots] = React.useState<any[]>([]);
+  const [slots, setSlots] = React.useState<SlotResponse | null>(null);
+  const [bookedSlots, setBookedSlots] = React.useState<BookedSlot[]>([]);
   const [loadingSlots, setLoadingSlots] = React.useState(false);
+
+  const getLocationKey = (location: BackendDoctorLocation, index: number) => location.id || index.toString();
+
+  const resolveSelectedLocation = React.useCallback((): BackendDoctorLocation | null => {
+    if (!bookingState.locationId || !doctor.locations) return null;
+    const index = doctor.locations.findIndex(
+      (location, idx) => getLocationKey(location, idx) === bookingState.locationId
+    );
+    return index >= 0 ? doctor.locations[index] : null;
+  }, [bookingState.locationId, doctor.locations]);
 
   // Generate next 7 days for date selection
   const getUpcomingDates = () => {
@@ -64,35 +89,35 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
   const upcomingDates = getUpcomingDates();
 
   // Fetch slots when date and location are selected
-  React.useEffect(() => {
-    if (bookingState.selectedDate && bookingState.locationId) {
-      fetchSlots();
-    }
-  }, [bookingState.selectedDate, bookingState.locationId]);
-
-  const fetchSlots = async () => {
+  const fetchSlots = React.useCallback(async () => {
     if (!bookingState.selectedDate) return;
     
     setLoadingSlots(true);
     try {
-      const location = doctor.locations?.find((loc: any, idx: number) => idx.toString() === bookingState.locationId);
+      const location = resolveSelectedLocation();
       
       // Fetch both available slots and booked slots in parallel
       const [slotsData, bookedData] = await Promise.all([
-        getAvailableSlots(doctor.profile_id, bookingState.selectedDate, location?.name),
+        getAvailableSlots(doctor.profile_id, bookingState.selectedDate, location?.id),
         getDoctorBookedSlots(doctor.profile_id, bookingState.selectedDate)
       ]);
       
-      setSlots(slotsData);
-      setBookedSlots(bookedData.slots || []);
+      setSlots((slotsData ?? null) as SlotResponse | null);
+      setBookedSlots((bookedData?.slots ?? []) as BookedSlot[]);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
     } finally {
       setLoadingSlots(false);
     }
-  };
+  }, [bookingState.selectedDate, doctor.profile_id, resolveSelectedLocation]);
 
-  const updateBookingState = (key: keyof BookingState, value: any) => {
+  React.useEffect(() => {
+    if (bookingState.selectedDate && bookingState.locationId) {
+      fetchSlots();
+    }
+  }, [bookingState.selectedDate, bookingState.locationId, fetchSlots]);
+
+  const updateBookingState = <K extends keyof BookingState>(key: K, value: BookingState[K]) => {
     setBookingState(prev => ({ ...prev, [key]: value }));
   };
 
@@ -121,9 +146,9 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
 
   const router = useRouter();
   const pathname = usePathname();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [, setIsSubmitting] = React.useState(false);
 
-  const hasValidCoords = (location: any) => {
+  const hasValidCoords = (location: BackendDoctorLocation | null) => {
     const latitude = Number(location?.latitude);
     const longitude = Number(location?.longitude);
     return Number.isFinite(latitude) && Number.isFinite(longitude);
@@ -136,13 +161,15 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     try {
       await createAppointment({
         doctor_id: doctor.profile_id,
+        doctor_location_id: resolveSelectedLocation()?.id,
         appointment_date: new Date(bookingState.selectedDate!).toISOString(),
         reason: `${bookingState.consultationType} - ${bookingState.appointmentType}`,
-        notes: `Slot: ${bookingState.selectedSlot} | Location: ${doctor.locations?.[parseInt(bookingState.locationId!)]?.name}`
+        location_name: resolveSelectedLocation()?.name,
+        notes: `Slot: ${bookingState.selectedSlot} | Location: ${resolveSelectedLocation()?.name}`
       });
       
       // Get appointment details for success page
-      const location = doctor.locations?.[parseInt(bookingState.locationId!)];
+      const location = resolveSelectedLocation();
       const doctorName = `Dr. ${doctor.first_name} ${doctor.last_name}`;
       const appointmentDate = bookingState.selectedDate!;
       const appointmentTime = bookingState.selectedSlot!;
@@ -157,11 +184,12 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       });
       
       router.push(`/patient/appointment-success?${params.toString()}`);
-    } catch (err: any) {
-      if (err.message === "Not authenticated" || err.message.includes("Not authenticated")) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Booking failed";
+      if (errorMessage === "Not authenticated" || errorMessage.includes("Not authenticated")) {
         router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
       } else {
-        alert("Booking failed: " + err.message);
+        alert("Booking failed: " + errorMessage);
       }
     } finally {
       setIsSubmitting(false);
@@ -181,19 +209,21 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         <div>
           <h3 className="font-semibold text-foreground mb-3">Select a Location</h3>
           <div className="space-y-2">
-            {doctor.locations?.map((location: any, index: number) => (
+            {doctor.locations?.map((location, index: number) => {
+              const locationKey = getLocationKey(location, index);
+              return (
               <label 
-                key={index}
+                key={locationKey}
                 className={cn(
                   "flex items-start gap-3 p-4 border border-border rounded-lg cursor-pointer transition-colors",
-                  bookingState.locationId === index.toString() ? "bg-primary/10 border-primary/50" : "hover:bg-accent/50"
+                  bookingState.locationId === locationKey ? "bg-primary/10 border-primary/50" : "hover:bg-accent/50"
                 )}
               >
                 <input
                   type="radio"
                   name="location"
-                  value={index.toString()}
-                  checked={bookingState.locationId === index.toString()}
+                  value={locationKey}
+                  checked={bookingState.locationId === locationKey}
                   onChange={(e) => updateBookingState('locationId', e.target.value)}
                   className="mt-1"
                 />
@@ -209,54 +239,55 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                   )}
                 </div>
               </label>
-            ))}
+              )
+            })}
           </div>
         </div>
 
         {/* Location Map - Shows when a location is selected */}
         {bookingState.locationId && (() => {
-          const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId)];
+          const selectedLocation = resolveSelectedLocation();
+          if (!selectedLocation || !hasValidCoords(selectedLocation)) {
+            return null;
+          }
+
           const lat = Number(selectedLocation?.latitude);
           const lng = Number(selectedLocation?.longitude);
-          
-          if (hasValidCoords(selectedLocation)) {
-            return (
-              <div className="rounded-xl overflow-hidden border border-border">
-                <div className="h-48 md:h-56 relative w-full">
-                  <Map
-                    center={[lng, lat]}
-                    zoom={15}
-                  >
-                    <MapControls position="top-right" showZoom showCompass={false} />
-                    <MapMarker longitude={lng} latitude={lat}>
-                      <MarkerContent>
-                        <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                          <MapPin className="w-5 h-5 text-white" />
-                        </div>
-                      </MarkerContent>
-                    </MapMarker>
-                  </Map>
-                </div>
-                <div className="p-3 bg-accent/30 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm text-foreground">
-                    <MapPin className="w-4 h-4 text-primary" />
-                    <span className="font-medium">{selectedLocation.name}</span>
-                  </div>
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-primary hover:underline"
-                  >
-                    <Navigation className="w-3 h-3" />
-                    Get Directions
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
+          return (
+            <div className="rounded-xl overflow-hidden border border-border">
+              <div className="h-48 md:h-56 relative w-full">
+                <Map
+                  center={[lng, lat]}
+                  zoom={15}
+                >
+                  <MapControls position="top-right" showZoom showCompass={false} />
+                  <MapMarker longitude={lng} latitude={lat}>
+                    <MarkerContent>
+                      <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                        <MapPin className="w-5 h-5 text-white" />
+                      </div>
+                    </MarkerContent>
+                  </MapMarker>
+                </Map>
               </div>
-            );
-          }
-          return null;
+              <div className="p-3 bg-accent/30 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-sm text-foreground">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span className="font-medium">{selectedLocation.name}</span>
+                </div>
+                <a
+                  href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-xs text-primary hover:underline"
+                >
+                  <Navigation className="w-3 h-3" />
+                  Open Map
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          );
         })()}
 
         {/* Step 2: Consultation Type */}
@@ -294,10 +325,10 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         <div>
           <h3 className="font-semibold text-foreground mb-3">Appointment Type</h3>
           <div className="grid grid-cols-3 gap-2">
-            {['new', 'follow-up', 'report'].map((type) => (
+            {(['new', 'follow-up', 'report'] as AppointmentType[]).map((type) => (
               <button
                 key={type}
-                onClick={() => updateBookingState('appointmentType', type as any)}
+                onClick={() => updateBookingState('appointmentType', type)}
                 className={cn(
                   "py-2 px-3 rounded-lg border text-sm font-medium transition-colors",
                   bookingState.appointmentType === type
@@ -316,7 +347,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
           <h3 className="font-semibold text-foreground mb-3">Select an Available Time</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 overflow-hidden">
             {upcomingDates.map((dateObj) => {
-              const selectedLocation = doctor.locations?.[parseInt(bookingState.locationId || "-1")];
+              const selectedLocation = resolveSelectedLocation();
 
               // If per-day schedules exist on the doctor or location, use them as authoritative
               const locationDaySlots = selectedLocation?.day_time_slots;
@@ -331,7 +362,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                 const slotsForDay = doctorDaySlots[dateObj.dayFullName];
                 isDateAvailable = Array.isArray(slotsForDay) && slotsForDay.length > 0;
               } else {
-                const availableDays: string[] | undefined = selectedLocation?.available_days || doctor.available_days;
+                const availableDays: string[] = selectedLocation?.available_days ?? doctor.available_days ?? [];
                 isDateAvailable = !availableDays || availableDays.length === 0
                   ? true
                   : availableDays.some(day => day.trim().slice(0,3).toUpperCase() === dateObj.dayName.toUpperCase());
@@ -372,11 +403,11 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
               </div>
             ) : slots ? (
               <div className="space-y-4">
-                {slots.slots?.map((group: any, groupIndex: number) => (
+                {slots.slots?.map((group, groupIndex: number) => (
                   <div key={groupIndex}>
                     <h4 className="text-sm font-semibold text-foreground mb-2">{group.period}</h4>
                     <div className="grid grid-cols-4 gap-2">
-                      {group.slots?.map((slot: any, slotIndex: number) => {
+                      {group.slots?.map((slot, slotIndex: number) => {
                         const { isBooked, isPast } = getSlotStatus(slot.time);
                         const isUnavailable = !slot.available || isBooked || isPast;
                         const isSelected = bookingState.selectedSlot === slot.time;

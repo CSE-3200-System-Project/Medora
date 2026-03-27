@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2 } from "lucide-react";
+import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2, FlaskConical } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -227,7 +227,7 @@ export function Navbar() {
               <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary font-semibold")}>
                 Find Doctor
               </Link>
-              <Link href="/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/analytics" && "text-primary font-semibold")}>
+              <Link href="/patient/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/analytics" && "text-primary font-semibold")}>
                 Analytics
               </Link>
               <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary font-semibold")}>
@@ -239,6 +239,7 @@ export function Navbar() {
               <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary font-semibold")}>
                 Medical History
               </Link>
+              
             </nav>
           ) : null}
         </div>
@@ -294,6 +295,14 @@ export function Navbar() {
                       <span>Settings</span>
                     </Link>
                   </DropdownMenuItem>
+                  {user.role?.toLowerCase() === 'patient' && (
+                    <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
+                      <Link href="/patient/privacy">
+                        <Shield className="mr-2 h-4 w-4" />
+                        <span>Privacy & Data Sharing</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={handleLogout}
@@ -354,57 +363,6 @@ export function Navbar() {
                   </div>
                 ) : !user ? (
                   <>
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="platform" className="border-b-0">
-                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
-                          <span className="flex items-center gap-2"><LayoutDashboard className="h-5 w-5 text-primary" /> Platform</span>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
-                          <Link href="/overview" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <Activity className="h-4 w-4" /> Overview
-                          </Link>
-                          <Link href="/how-it-works" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <FileText className="h-4 w-4" /> How it works
-                          </Link>
-                          <Link href="/privacy" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <Shield className="h-4 w-4" /> Privacy & Control
-                          </Link>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem value="patients" className="border-b-0">
-                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
-                          <span className="flex items-center gap-2"><Users className="h-5 w-5 text-primary" /> For Patients</span>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
-                          <Link href="/patients/features" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <Calendar className="h-4 w-4" /> What you can do
-                          </Link>
-                          <Link href="/patients/experience" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <Activity className="h-4 w-4" /> Patient Experience
-                          </Link>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem value="doctors" className="border-b-0">
-                        <AccordionTrigger className="rounded-xl px-3 py-3 text-base font-medium hover:text-primary hover:no-underline">
-                          <span className="flex items-center gap-2"><Activity className="h-5 w-5 text-primary" /> For Doctors</span>
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-1.5 pb-3 pl-0">
-                          <Link href="/doctors/features" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <LayoutDashboard className="h-4 w-4" /> What you can do
-                          </Link>
-                          <Link href="/doctors/experience" className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent/60 hover:text-primary">
-                            <Users className="h-4 w-4" /> Doctor Experience
-                          </Link>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                    
-                    <Link href="/about" className="mt-1 flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium hover:bg-accent/60 hover:text-primary">
-                      <span className="flex items-center gap-2"><FileText className="h-5 w-5 text-primary" /> About</span>
-                    </Link>
-
                     <div className="mt-auto flex flex-col gap-3 pt-6">
                       <Button variant="outline" asChild className="w-full justify-center h-12 text-base border-primary/20 hover:bg-primary-more-light hover:text-primary">
                         <Link href="/login">Log in</Link>
@@ -434,7 +392,7 @@ export function Navbar() {
                           <Link href="/patient/find-doctor" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Users className="h-5 w-5 text-primary" /> Find Doctor
                           </Link>
-                          <Link href="/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                          <Link href="/patient/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Activity className="h-5 w-5 text-primary" /> Analytics
                           </Link>
                           <Link href="/patient/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
@@ -446,6 +404,13 @@ export function Navbar() {
                           <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
+                          <Link href="/patient/medical-reports" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <FlaskConical className="h-5 w-5 text-primary" /> Lab Reports
+                          </Link>
+                          <Link href="/patient/privacy" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Shield className="h-5 w-5 text-primary" /> Privacy & Data Sharing
+                          </Link>
+
                         </>
                       ) : null}
                     </div>

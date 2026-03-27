@@ -15,6 +15,7 @@ from app.core.config import settings
 from app.core.security import verify_jwt
 from app.core.dependencies import get_db
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 from app.db.models.profile import Profile
 from app.db.models.speciality import Speciality
 from app.db.models.patient import PatientProfile
@@ -436,11 +437,23 @@ RULES:
 
     # Location text filter (optional)
     if request.location:
+        location_search_term = f"%{request.location}%"
         stmt = stmt.where(
             or_(
-                DoctorProfile.hospital_city.ilike(f"%{request.location}%"),
-                DoctorProfile.hospital_address.ilike(f"%{request.location}%"),
-                DoctorProfile.chamber_city.ilike(f"%{request.location}%")
+                DoctorProfile.hospital_city.ilike(location_search_term),
+                DoctorProfile.hospital_address.ilike(location_search_term),
+                DoctorProfile.chamber_city.ilike(location_search_term),
+                select(DoctorLocation.id)
+                .where(
+                    DoctorLocation.doctor_id == DoctorProfile.profile_id,
+                    or_(
+                        DoctorLocation.location_name.ilike(location_search_term),
+                        DoctorLocation.address.ilike(location_search_term),
+                        DoctorLocation.city.ilike(location_search_term),
+                        DoctorLocation.display_name.ilike(location_search_term),
+                    ),
+                )
+                .exists(),
             )
         )
         

@@ -29,6 +29,18 @@ import {
   Trash2,
   CalendarIcon,
   Bell,
+  FileText,
+  Upload,
+  AlertTriangle,
+  ArrowRight,
+  Loader2,
+  MessageSquare,
+  X,
+  ImageIcon,
+  ArrowLeft,
+  ArrowDown,
+  ArrowUp,
+  ExternalLink,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -41,6 +53,14 @@ import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-
 
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
 import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
+
+import {
+  listMedicalReports,
+  getMedicalReport,
+  type MedicalReportListItem,
+  type MedicalReport,
+} from "@/lib/medical-report-actions";
+import { uploadMedicalReport } from "@/lib/medical-report-upload";
 
 const MedicationManager = dynamic(
   () => import("@/components/medicine").then((module) => module.MedicationManager),
@@ -165,6 +185,25 @@ function PatientMedicalHistoryPage() {
   } | null>(null);
   
   const [initialLoaded, setInitialLoaded] = useState(false);
+
+  // Medical reports state
+  const [reports, setReports] = useState<MedicalReportListItem[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+  const [reportsLoaded, setReportsLoaded] = useState(false);
+  const [reportsError, setReportsError] = useState<string | null>(null);
+  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
+  const [selectedReport, setSelectedReport] = useState<MedicalReport | null>(null);
+  const [reportDetailLoading, setReportDetailLoading] = useState(false);
+  const [reportDetailError, setReportDetailError] = useState<string | null>(null);
+
+  // Upload state
+  const [showUpload, setShowUpload] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [reportDate, setReportDate] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Load all medical history data
   useEffect(() => {
@@ -392,6 +431,140 @@ function PatientMedicalHistoryPage() {
     URL.revokeObjectURL(url);
   };
 
+  // Load reports when the reports tab is activated
+  const loadReports = React.useCallback(async () => {
+    try {
+      setReportsLoading(true);
+      setReportsError(null);
+      const data = await listMedicalReports(undefined, 50, 0);
+      setReports(data);
+    } catch (err: any) {
+      console.error("Failed to load reports:", err);
+      setReportsError(err.message || "Failed to load reports");
+    } finally {
+      setReportsLoading(false);
+      setReportsLoaded(true);
+    }
+  }, []);
+
+  const loadReportDetail = React.useCallback(async (id: string) => {
+    try {
+      setReportDetailLoading(true);
+      setReportDetailError(null);
+      const data = await getMedicalReport(id);
+      setSelectedReport(data);
+    } catch (err: any) {
+      console.error("Failed to load report:", err);
+      setReportDetailError(err.message || "Failed to load report");
+    } finally {
+      setReportDetailLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activeTab === "reports" && !reportsLoaded && !reportsLoading) {
+      loadReports();
+    }
+  }, [activeTab, reportsLoaded, reportsLoading, loadReports]);
+
+  useEffect(() => {
+    if (selectedReportId) {
+      loadReportDetail(selectedReportId);
+    } else {
+      setSelectedReport(null);
+    }
+  }, [selectedReportId, loadReportDetail]);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSelectedFile(file);
+    setUploadError(null);
+    if (file.type.startsWith("image/")) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    const validTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+    if (!validTypes.includes(file.type)) {
+      setUploadError("Please upload an image (JPG, PNG, WebP) or PDF.");
+      return;
+    }
+    setSelectedFile(file);
+    setUploadError(null);
+    if (file.type.startsWith("image/")) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
+    }
+  };
+
+  const handleReportUpload = async () => {
+    if (!selectedFile) return;
+    try {
+      setUploading(true);
+      setUploadError(null);
+      const result = await uploadMedicalReport(selectedFile, {
+        reportDate: reportDate || undefined,
+      });
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      setReportDate("");
+      setShowUpload(false);
+      // Navigate to the new report detail within the tab
+      setSelectedReportId(result.report.id);
+      // Refresh reports list
+      loadReports();
+    } catch (err: any) {
+      console.error("Upload failed:", err);
+      setUploadError(err.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const clearFile = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setUploadError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const getStatusBadge = (status: string | null) => {
+    switch (status) {
+      case "normal":
+        return (
+          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+            <CheckCircle2 className="h-3 w-3 mr-1" />Normal
+          </Badge>
+        );
+      case "high":
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
+            <ArrowUp className="h-3 w-3 mr-1" />High
+          </Badge>
+        );
+      case "low":
+        return (
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
+            <ArrowDown className="h-3 w-3 mr-1" />Low
+          </Badge>
+        );
+      default:
+        return (
+          <Badge variant="outline" className="text-muted-foreground">--</Badge>
+        );
+    }
+  };
+
   if (loading) {
     return (
       <AppBackground className="container-padding">
@@ -493,6 +666,11 @@ function PatientMedicalHistoryPage() {
               <CheckCircle2 className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabIconText}`} />
               <span className="hidden sm:inline">Visits</span>
               <span className="sm:hidden">Visits</span>
+            </TabsTrigger>
+            <TabsTrigger value="reports" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.reports.tabActiveState}`}>
+              <FileText className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.reports.tabIconText}`} />
+              <span className="hidden sm:inline">Lab Reports</span>
+              <span className="sm:hidden">Reports</span>
             </TabsTrigger>
           </TabsList>
 
@@ -1058,6 +1236,322 @@ function PatientMedicalHistoryPage() {
               </CardContent>
             </Card>
               </>
+            ) : null}
+          </TabsContent>
+
+          {/* Reports Tab */}
+          <TabsContent value="reports" className="mt-0 space-y-6">
+            {activeTab === "reports" ? (
+              selectedReportId && selectedReport ? (
+                /* ── Report Detail View ── */
+                <div className="space-y-6">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="mb-2 gap-1"
+                    onClick={() => setSelectedReportId(null)}
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Reports
+                  </Button>
+
+                  {reportDetailLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : reportDetailError ? (
+                    <Card className="border-destructive/50 bg-destructive/10">
+                      <CardContent className="p-6 text-center text-destructive">
+                        {reportDetailError}
+                        <Button variant="outline" size="sm" className="ml-4" onClick={() => loadReportDetail(selectedReportId)}>
+                          Retry
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <>
+                      <div className="flex items-start justify-between flex-wrap gap-4">
+                        <div>
+                          <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+                            {selectedReport.file_name || "Lab Report"}
+                          </h2>
+                          <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                            <span>Uploaded {new Date(selectedReport.created_at).toLocaleDateString()}</span>
+                            {selectedReport.report_date && (
+                              <span>Report date: {new Date(selectedReport.report_date).toLocaleDateString()}</span>
+                            )}
+                            {selectedReport.ocr_engine && (
+                              <span className="capitalize">Engine: {selectedReport.ocr_engine}</span>
+                            )}
+                          </div>
+                        </div>
+                        {selectedReport.file_url && (
+                          <Button variant="outline" size="sm" className="gap-1" onClick={() => window.open(selectedReport.file_url!, "_blank")}>
+                            <ExternalLink className="h-4 w-4" />
+                            View Original
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Summary cards */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <Card className="rounded-xl">
+                          <CardContent className="p-4 text-center">
+                            <FlaskConical className="h-6 w-6 mx-auto mb-1 text-primary" />
+                            <p className="text-2xl font-bold">{selectedReport.results.length}</p>
+                            <p className="text-xs text-muted-foreground">Tests Found</p>
+                          </CardContent>
+                        </Card>
+                        <Card className="rounded-xl">
+                          <CardContent className="p-4 text-center">
+                            <CheckCircle2 className="h-6 w-6 mx-auto mb-1 text-green-600" />
+                            <p className="text-2xl font-bold">{selectedReport.results.filter((r) => r.status === "normal").length}</p>
+                            <p className="text-xs text-muted-foreground">Normal</p>
+                          </CardContent>
+                        </Card>
+                        <Card className="rounded-xl">
+                          <CardContent className="p-4 text-center">
+                            <AlertTriangle className="h-6 w-6 mx-auto mb-1 text-red-500" />
+                            <p className="text-2xl font-bold">{selectedReport.results.filter((r) => r.status === "high" || r.status === "low").length}</p>
+                            <p className="text-xs text-muted-foreground">Abnormal</p>
+                          </CardContent>
+                        </Card>
+                        <Card className="rounded-xl">
+                          <CardContent className="p-4 text-center">
+                            <MessageSquare className="h-6 w-6 mx-auto mb-1 text-blue-500" />
+                            <p className="text-2xl font-bold">{selectedReport.comments.length}</p>
+                            <p className="text-xs text-muted-foreground">Comments</p>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Test Results Table */}
+                      <Card className="rounded-xl">
+                        <CardHeader>
+                          <CardTitle className="text-lg flex items-center gap-2">
+                            <FlaskConical className="h-5 w-5 text-primary" />
+                            Test Results
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          {selectedReport.results.length === 0 ? (
+                            <div className="text-center py-8 text-muted-foreground">
+                              <FileText className="h-10 w-10 mx-auto mb-2 opacity-40" />
+                              <p>No test results were extracted from this report.</p>
+                            </div>
+                          ) : (
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-sm">
+                                <thead>
+                                  <tr className="border-b text-left text-muted-foreground">
+                                    <th className="pb-3 pr-4 font-medium">Test Name</th>
+                                    <th className="pb-3 pr-4 font-medium">Value</th>
+                                    <th className="pb-3 pr-4 font-medium">Unit</th>
+                                    <th className="pb-3 pr-4 font-medium">Reference Range</th>
+                                    <th className="pb-3 font-medium">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {selectedReport.results.map((result) => (
+                                    <tr
+                                      key={result.id}
+                                      className={`border-b last:border-0 ${result.status === "high" || result.status === "low" ? "bg-red-50/50 dark:bg-red-900/10" : ""}`}
+                                    >
+                                      <td className="py-3 pr-4 font-medium">{result.test_name}</td>
+                                      <td className="py-3 pr-4">{result.value !== null ? result.value : result.value_text || "--"}</td>
+                                      <td className="py-3 pr-4 text-muted-foreground">{result.unit || "--"}</td>
+                                      <td className="py-3 pr-4 text-muted-foreground">
+                                        {result.reference_range_min !== null && result.reference_range_max !== null
+                                          ? `${result.reference_range_min} - ${result.reference_range_max}`
+                                          : result.reference_range_text || "--"}
+                                      </td>
+                                      <td className="py-3">{getStatusBadge(result.status)}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+
+                      {/* Doctor Comments */}
+                      {selectedReport.comments.length > 0 && (
+                        <Card className="rounded-xl">
+                          <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                              <MessageSquare className="h-5 w-5 text-primary" />
+                              Doctor Notes
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                            {selectedReport.comments.map((comment) => (
+                              <div key={comment.id} className="p-4 rounded-lg bg-muted/50 border">
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="font-medium text-sm">{comment.doctor_name || "Doctor"}</span>
+                                  <span className="text-xs text-muted-foreground">{new Date(comment.created_at).toLocaleDateString()}</span>
+                                </div>
+                                <p className="text-sm text-foreground whitespace-pre-wrap">{comment.comment}</p>
+                              </div>
+                            ))}
+                          </CardContent>
+                        </Card>
+                      )}
+                    </>
+                  )}
+                </div>
+              ) : (
+                /* ── Reports List View ── */
+                <div className="space-y-6">
+                  {/* Header with upload button */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-lg sm:text-xl font-semibold text-foreground">Upload and view your lab test reports</h2>
+                    </div>
+                    <Button onClick={() => setShowUpload(!showUpload)} className="gap-2" size="sm">
+                      <Upload className="h-4 w-4" />
+                      Upload Report
+                    </Button>
+                  </div>
+
+                  {/* Upload Section */}
+                  {showUpload && (
+                    <Card className="rounded-xl border-primary/20">
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          <Upload className="h-5 w-5 text-primary" />
+                          Upload Lab Report
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div
+                          onDragOver={(e) => e.preventDefault()}
+                          onDrop={handleDrop}
+                          className="border-2 border-dashed border-muted-foreground/30 rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          {selectedFile ? (
+                            <div className="space-y-3">
+                              {previewUrl ? (
+                                <img src={previewUrl} alt="Preview" className="max-h-48 mx-auto rounded-lg object-contain" />
+                              ) : (
+                                <FileText className="h-12 w-12 mx-auto text-primary opacity-70" />
+                              )}
+                              <div className="flex items-center justify-center gap-2">
+                                <p className="text-sm font-medium">{selectedFile.name}</p>
+                                <Button type="button" variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); clearFile(); }} className="h-6 w-6 p-0">
+                                  <X className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              <p className="text-xs text-muted-foreground">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <ImageIcon className="h-12 w-12 mx-auto opacity-40" />
+                              <p className="text-muted-foreground">Drag & drop your report here, or click to browse</p>
+                              <p className="text-xs text-muted-foreground">Supports JPG, PNG, WebP, PDF (max 15MB)</p>
+                            </div>
+                          )}
+                        </div>
+                        <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp,application/pdf" className="hidden" onChange={handleFileSelect} />
+
+                        <div className="space-y-2">
+                          <Label>Report Date (optional)</Label>
+                          <Input type="date" value={reportDate} onChange={(e) => setReportDate(e.target.value)} className="max-w-xs rounded-lg" />
+                        </div>
+
+                        {uploadError && (
+                          <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg">{uploadError}</div>
+                        )}
+
+                        <div className="flex gap-3">
+                          <Button onClick={handleReportUpload} disabled={!selectedFile || uploading} className="gap-2">
+                            {uploading && <Loader2 className="h-4 w-4 animate-spin" />}
+                            {uploading ? "Processing..." : "Upload & Extract"}
+                          </Button>
+                          <Button variant="outline" onClick={() => { setShowUpload(false); clearFile(); }}>Cancel</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Error */}
+                  {reportsError && (
+                    <Card className="border-destructive/50 bg-destructive/10">
+                      <CardContent className="p-6 text-center text-destructive">
+                        {reportsError}
+                        <Button variant="outline" size="sm" className="ml-4" onClick={loadReports}>Retry</Button>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Loading */}
+                  {reportsLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : reports.length === 0 ? (
+                    <Card className="text-center py-12">
+                      <CardContent>
+                        <FlaskConical className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p className="text-muted-foreground mb-2">No medical reports yet</p>
+                        <p className="text-sm text-muted-foreground">Upload your first lab report to get started</p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="grid gap-4">
+                      {reports.map((report) => (
+                        <Card
+                          key={report.id}
+                          className="rounded-xl hover:shadow-md transition-shadow cursor-pointer"
+                          onClick={() => setSelectedReportId(report.id)}
+                        >
+                          <CardContent className="p-4 sm:p-6">
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-start gap-3 flex-1 min-w-0">
+                                <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+                                  <FlaskConical className="h-5 w-5 text-primary" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <h3 className="font-medium text-foreground truncate">{report.file_name || "Lab Report"}</h3>
+                                    {report.parsed ? (
+                                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+                                        <CheckCircle2 className="h-3 w-3 mr-1" />Processed
+                                      </Badge>
+                                    ) : (
+                                      <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
+                                        <Clock className="h-3 w-3 mr-1" />Pending
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  {report.summary && (
+                                    <p className="text-sm text-muted-foreground mt-1 truncate">{report.summary}</p>
+                                  )}
+                                  <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                                    <span>{new Date(report.created_at).toLocaleDateString()}</span>
+                                    {report.result_count > 0 && (
+                                      <span className="flex items-center gap-1">
+                                        <FlaskConical className="h-3 w-3" />{report.result_count} tests
+                                      </span>
+                                    )}
+                                    {report.comment_count > 0 && (
+                                      <span className="flex items-center gap-1">
+                                        <MessageSquare className="h-3 w-3" />{report.comment_count} comments
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0 ml-2" />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
             ) : null}
           </TabsContent>
 

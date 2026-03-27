@@ -236,6 +236,15 @@ export default function DoctorPatientViewPage() {
                   <span className="sm:hidden">Summary</span>
                 </Button>
                 <Button
+                  variant="outline"
+                  onClick={() => router.push(`/doctor/patient/${patientId}/reports`)}
+                  className="gap-2"
+                >
+                  <Activity className="w-4 h-4" />
+                  <span className="hidden sm:inline">Lab Reports</span>
+                  <span className="sm:hidden">Reports</span>
+                </Button>
+                <Button
                   onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
                   className="gap-2"
                 >

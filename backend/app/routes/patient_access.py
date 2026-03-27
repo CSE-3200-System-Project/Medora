@@ -19,6 +19,10 @@ from app.db.models.patient import PatientProfile
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.patient_access import PatientAccessLog, PatientDoctorAccess, AccessType, AccessStatus
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
+from app.core.data_sharing_guard import (
+    get_sharing_permissions,
+    filter_doctor_patient_response,
+)
 from app.routes.notification import create_notification
 from datetime import datetime, date as date_type
 from typing import Optional
@@ -206,9 +210,14 @@ async def get_patient_for_doctor(
     if not patient_details:
         raise HTTPException(status_code=404, detail="Patient medical profile not found")
     
+    # Fetch sharing preferences for this doctor-patient pair
+    sharing_perms = await get_sharing_permissions(
+        db, patient_id=resolved_patient_id, doctor_id=doctor_id
+    )
+
     # Log the access
     await log_patient_access(db, resolved_patient_id, doctor_id, AccessType.VIEW_FULL_RECORD, request)
-    
+
     # Send notification to patient
     doctor_name = f"{doctor_details.title or 'Dr.'} {doctor_profile.first_name} {doctor_profile.last_name}"
     
@@ -275,7 +284,8 @@ async def get_patient_for_doctor(
         for appt in appointments
     ]
     
-    return {
+    # Build the full response, then filter based on sharing preferences
+    full_response = {
         # Basic Info
         "id": patient_ref_from_uuid(resolved_patient_id),
         "patient_ref": patient_ref_from_uuid(resolved_patient_id),
@@ -288,7 +298,7 @@ async def get_patient_for_doctor(
         "gender": patient_details.gender,
         "marital_status": patient_details.marital_status,
         "profile_photo_url": patient_details.profile_photo_url,
-        
+
         # Address
         "address": patient_details.address,
         "city": patient_details.city,
@@ -296,12 +306,12 @@ async def get_patient_for_doctor(
         "postal_code": patient_details.postal_code,
         "country": patient_details.country,
         "occupation": patient_details.occupation,
-        
+
         # Physical
         "height": patient_details.height,
         "weight": patient_details.weight,
         "blood_group": patient_details.blood_group,
-        
+
         # Chronic Conditions
         "chronic_conditions": chronic_conditions,
         "has_diabetes": patient_details.has_diabetes,
@@ -317,14 +327,14 @@ async def get_patient_for_doctor(
         "has_epilepsy": patient_details.has_epilepsy,
         "has_mental_health": patient_details.has_mental_health,
         "other_conditions": patient_details.other_conditions,
-        
+
         # Medications & Allergies
         "taking_medications": patient_details.taking_meds,
         "medications": patient_details.medications,
         "drug_allergies": patient_details.drug_allergies,
         "food_allergies": patient_details.food_allergies,
         "environmental_allergies": patient_details.environmental_allergies,
-        
+
         # Medical History
         "surgeries": patient_details.surgeries,
         "hospitalizations": patient_details.hospitalizations,
@@ -332,7 +342,7 @@ async def get_patient_for_doctor(
         "medical_tests": getattr(patient_details, 'medical_tests', None) or [],
         "vaccinations": patient_details.vaccinations,
         "last_checkup_date": patient_details.last_checkup_date if patient_details.last_checkup_date else None,
-        
+
         # Family History
         "family_has_diabetes": patient_details.family_has_diabetes,
         "family_has_heart_disease": patient_details.family_has_heart_disease,
@@ -345,7 +355,7 @@ async def get_patient_for_doctor(
         "family_has_asthma": patient_details.family_has_asthma,
         "family_has_blood_disorders": patient_details.family_has_blood_disorders,
         "family_history_notes": patient_details.family_history_notes,
-        
+
         # Lifestyle
         "smoking_status": patient_details.smoking,
         "alcohol_consumption": patient_details.alcohol,
@@ -354,18 +364,21 @@ async def get_patient_for_doctor(
         "stress_level": patient_details.stress_level,
         "diet_type": patient_details.diet,
         "mental_health_concerns": patient_details.mental_health_concerns,
-        
+
         # Emergency Contact
         "emergency_contact_name": patient_details.emergency_name,
         "emergency_contact_phone": patient_details.emergency_phone,
         "emergency_contact_relationship": patient_details.emergency_relation,
-        
+
         # Appointment History (with this doctor only)
         "appointment_history": appointment_history,
-        
+
         # Meta
         "access_timestamp": datetime.utcnow().isoformat()
     }
+
+    # Apply privacy filter — strips fields the patient has not shared
+    return filter_doctor_patient_response(full_response, sharing_perms)
 
 
 # ============ PATIENT ACCESS MANAGEMENT ENDPOINTS ============

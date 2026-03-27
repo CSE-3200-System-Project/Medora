@@ -11,12 +11,12 @@ interface DoctorPracticeLocationsProps {
 
 function createMapUrl(location: BackendDoctorLocation) {
   if (typeof location.latitude === "number" && typeof location.longitude === "number") {
-    return `https://www.google.com/maps/dir/?api=1&destination=${location.latitude},${location.longitude}`;
+    return `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=16/${location.latitude}/${location.longitude}`;
   }
   const query = [location.name, location.address, location.city, location.country]
     .filter(Boolean)
     .join(", ");
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  return `https://www.openstreetmap.org/search?query=${encodeURIComponent(query)}`;
 }
 
 function getTimeBlock(availability?: string | null) {

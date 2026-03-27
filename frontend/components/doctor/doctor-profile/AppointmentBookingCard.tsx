@@ -11,7 +11,7 @@ import { createAppointment } from "@/lib/appointment-actions";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 import { toast } from "@/lib/notify";
-import type { BackendDoctorProfile, DateOption, SlotGroup } from "@/components/doctor/doctor-profile/types";
+import type { BackendDoctorLocation, BackendDoctorProfile, DateOption, SlotGroup } from "@/components/doctor/doctor-profile/types";
 import { AppointmentDateSelector } from "@/components/doctor/doctor-profile/AppointmentDateSelector";
 import { AppointmentSlotSelector } from "@/components/doctor/doctor-profile/AppointmentSlotSelector";
 
@@ -32,8 +32,11 @@ function parseDaysFromAvailability(availability?: string[] | null) {
   );
 }
 
-function buildDateOptions(doctor: BackendDoctorProfile, selectedLocationIndex: number): DateOption[] {
-  const location = doctor.locations?.[selectedLocationIndex];
+function getLocationKey(location: BackendDoctorLocation, index: number) {
+  return location.id || `legacy-${index}`;
+}
+
+function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctorLocation): DateOption[] {
   const locationDays = parseDaysFromAvailability(location?.available_days ?? null);
   const doctorDays = parseDaysFromAvailability(doctor.available_days ?? null);
   const hasPerDaySchedule = Boolean(location?.day_time_slots && Object.keys(location.day_time_slots).length > 0);
@@ -92,7 +95,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
   const router = useRouter();
   const pathname = usePathname();
 
-  const [selectedLocationIndex, setSelectedLocationIndex] = React.useState(0);
+  const [selectedLocationId, setSelectedLocationId] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = React.useState<string | null>(null);
   const [slotGroups, setSlotGroups] = React.useState<SlotGroup[]>([]);
@@ -100,9 +103,33 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
   const [submitting, setSubmitting] = React.useState(false);
   const [visitReason, setVisitReason] = React.useState("");
 
+  const selectedLocation = React.useMemo(() => {
+    if (!doctor.locations?.length) return undefined;
+    if (!selectedLocationId) return doctor.locations[0];
+    const index = doctor.locations.findIndex(
+      (location, idx) => getLocationKey(location, idx) === selectedLocationId
+    );
+    return index >= 0 ? doctor.locations[index] : doctor.locations[0];
+  }, [doctor.locations, selectedLocationId]);
+
+  React.useEffect(() => {
+    if (!doctor.locations?.length) {
+      setSelectedLocationId(null);
+      return;
+    }
+
+    const hasSelection = doctor.locations.some(
+      (location, idx) => getLocationKey(location, idx) === selectedLocationId
+    );
+
+    if (!selectedLocationId || !hasSelection) {
+      setSelectedLocationId(getLocationKey(doctor.locations[0], 0));
+    }
+  }, [doctor.locations, selectedLocationId]);
+
   const dateOptions = React.useMemo(
-    () => buildDateOptions(doctor, selectedLocationIndex),
-    [doctor, selectedLocationIndex]
+    () => buildDateOptions(doctor, selectedLocation),
+    [doctor, selectedLocation]
   );
 
   React.useEffect(() => {
@@ -117,13 +144,12 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
       return;
     }
 
-    const selectedLocation = doctor.locations?.[selectedLocationIndex];
     setLoadingSlots(true);
     try {
       const response = await getAvailableSlots(
         doctor.profile_id,
         selectedDate,
-        selectedLocation?.name
+        selectedLocation?.id
       );
       setSlotGroups(response?.slots || []);
     } catch (error) {
@@ -132,7 +158,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
     } finally {
       setLoadingSlots(false);
     }
-  }, [doctor.profile_id, doctor.locations, selectedDate, selectedLocationIndex]);
+  }, [doctor.profile_id, selectedDate, selectedLocation?.id]);
 
   React.useEffect(() => {
     loadSlots();
@@ -141,7 +167,6 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
   // Realtime: auto-refresh slots when another user books/cancels
   useRealtimeSlots(doctor.profile_id, selectedDate, loadSlots);
 
-  const selectedLocation = doctor.locations?.[selectedLocationIndex];
   const consultationFee = selectedLocation?.appointment_duration
     ? doctor.consultation_fee ?? 20
     : selectedLocation?.name
@@ -162,6 +187,8 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
     try {
       await createAppointment({
         doctor_id: doctor.profile_id,
+        doctor_location_id: selectedLocation?.id,
+        location_name: selectedLocation?.name,
         appointment_date: parseDateTimeToIso(selectedDate, selectedSlot),
         reason: visitReason.trim() || "New consultation",
         notes: `Slot: ${selectedSlot} | Location: ${selectedLocation?.name}`,
@@ -174,13 +201,14 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
         location: selectedLocation?.name || "Not specified",
       });
       router.push(`/patient/appointment-success?${params.toString()}`);
-    } catch (error: any) {
-      if (error?.message?.includes("Not authenticated")) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to create appointment";
+      if (errorMessage.includes("Not authenticated")) {
         router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
         return;
       }
       console.error("Appointment booking failed", error);
-      toast.error(error?.message || "Failed to create appointment");
+      toast.error(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -204,13 +232,14 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
               <h3 className="text-sm font-semibold text-foreground">1. Select Practice Location</h3>
               <div className="space-y-2">
                 {(doctor.locations || []).map((location, index) => {
-                  const isSelected = selectedLocationIndex === index;
+                  const locationKey = getLocationKey(location, index);
+                  const isSelected = selectedLocationId === locationKey;
                   return (
                     <button
                       type="button"
-                      key={`${location.name}-${index}`}
+                      key={locationKey}
                       onClick={() => {
-                        setSelectedLocationIndex(index);
+                        setSelectedLocationId(locationKey);
                         setSelectedSlot(null);
                       }}
                       className={`w-full rounded-xl border p-3 text-left transition-colors ${

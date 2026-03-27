@@ -15,11 +15,12 @@ from datetime import date, time, datetime, timedelta, timezone
 from typing import Optional
 import re
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 from app.db.models.doctor_availability import (
     DoctorAvailability,
     DoctorTimeBlock,
@@ -115,6 +116,7 @@ async def get_available_slots(
     db: AsyncSession,
     doctor_id: str,
     target_date: date,
+    doctor_location_id: Optional[str] = None,
 ) -> dict:
     """
     Get available time slots for a doctor on a specific date.
@@ -131,6 +133,10 @@ async def get_available_slots(
         select(DoctorException).where(
             DoctorException.doctor_id == doctor_id,
             DoctorException.exception_date == target_date,
+            or_(
+                DoctorException.doctor_location_id == doctor_location_id,
+                DoctorException.doctor_location_id.is_(None),
+            ) if doctor_location_id else True,
         )
     )
     exception = exception_result.scalar_one_or_none()
@@ -142,6 +148,10 @@ async def get_available_slots(
         select(DoctorScheduleOverride).where(
             DoctorScheduleOverride.doctor_id == doctor_id,
             DoctorScheduleOverride.override_date == target_date,
+            or_(
+                DoctorScheduleOverride.doctor_location_id == doctor_location_id,
+                DoctorScheduleOverride.doctor_location_id.is_(None),
+            ) if doctor_location_id else True,
         )
     )
     overrides = override_result.scalars().all()
@@ -162,14 +172,27 @@ async def get_available_slots(
     else:
         # 3. Check structured availability
         day_of_week = target_date.weekday()  # 0=Monday
-        avail_result = await db.execute(
-            select(DoctorAvailability).where(
-                DoctorAvailability.doctor_id == doctor_id,
-                DoctorAvailability.day_of_week == day_of_week,
-                DoctorAvailability.is_active == True,
-            )
-        )
+        availability_predicates = [
+            DoctorAvailability.doctor_id == doctor_id,
+            DoctorAvailability.day_of_week == day_of_week,
+            DoctorAvailability.is_active == True,
+        ]
+        if doctor_location_id:
+            availability_predicates.append(DoctorAvailability.doctor_location_id == doctor_location_id)
+
+        avail_result = await db.execute(select(DoctorAvailability).where(*availability_predicates))
         availability = avail_result.scalar_one_or_none()
+
+        if doctor_location_id and not availability:
+            avail_result = await db.execute(
+                select(DoctorAvailability).where(
+                    DoctorAvailability.doctor_id == doctor_id,
+                    DoctorAvailability.day_of_week == day_of_week,
+                    DoctorAvailability.is_active == True,
+                    DoctorAvailability.doctor_location_id.is_(None),
+                )
+            )
+            availability = avail_result.scalar_one_or_none()
 
         if availability:
             # Load time blocks
@@ -197,10 +220,36 @@ async def get_available_slots(
             if not doctor:
                 return _empty_response(doctor_id, target_date)
 
-            appointment_duration = doctor.appointment_duration or 30
+            location = None
+            if doctor_location_id:
+                location_result = await db.execute(
+                    select(DoctorLocation).where(
+                        DoctorLocation.id == doctor_location_id,
+                        DoctorLocation.doctor_id == doctor_id,
+                    )
+                )
+                location = location_result.scalar_one_or_none()
+
+            appointment_duration = (
+                (location.appointment_duration if location else None)
+                or doctor.appointment_duration
+                or 30
+            )
             day_name = DAY_NAMES[day_of_week]
 
-            if (
+            location_day_slots = (
+                location.day_time_slots
+                if location and isinstance(location.day_time_slots, dict)
+                else None
+            )
+
+            if location_day_slots and location_day_slots.get(day_name):
+                ranges = location_day_slots[day_name]
+                if isinstance(ranges, list) and ranges:
+                    all_slots = generate_slots_from_legacy_ranges(
+                        ranges, appointment_duration
+                    )
+            elif (
                 doctor.day_time_slots
                 and isinstance(doctor.day_time_slots, dict)
                 and doctor.day_time_slots.get(day_name)

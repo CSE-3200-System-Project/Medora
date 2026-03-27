@@ -30,7 +30,8 @@ from app.db.models import (
     profile, doctor, patient, speciality, appointment,
     doctor_availability, appointment_request, appointment_audit,
     consultation, notification, reminder, patient_access, medicine, medical_test, media_file,
-    oauth_token, ai_interaction, chorui_chat, health_metric, doctor_action,
+    oauth_token, ai_interaction, chorui_chat, health_metric, doctor_action, medical_report,
+    doctor_location,
 )
 target_metadata = Base.metadata
 

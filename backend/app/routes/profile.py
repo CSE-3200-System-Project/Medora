@@ -1,16 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 from app.db.models.speciality import Speciality
 from app.db.models.profile import Profile
 from app.db.models.enums import VerificationStatus, UserRole
 from app.core.avatar_defaults import generate_default_avatar_url
-from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
-from app.services.geocoding import geocode_and_save_doctor_locations
+from app.schemas.onboarding import (
+    PatientAIAccessResponse,
+    PatientAIAccessUpdate,
+    PatientOnboardingUpdate,
+    DoctorOnboardingUpdate,
+)
+from app.services.geocoding import geocode_and_save_doctor_locations, geocode_location_text_with_cache
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 import traceback
@@ -49,6 +55,45 @@ async def _ensure_doctor_avatar(db: AsyncSession, user_id: str, doctor: DoctorPr
     )
     await db.commit()
     return fallback_url
+
+
+def _normalize_slot_text(value: str) -> str:
+    value = (value or "").strip()
+    value = re.sub(r"\s*,\s*", ", ", value)
+    value = re.sub(r"(\d)(AM|PM|am|pm|Am|aM|Pm|pM)", r"\1 \2", value)
+    value = re.sub(r"(?i)\bam\b", "AM", value)
+    value = re.sub(r"(?i)\bpm\b", "PM", value)
+    return value.strip()
+
+
+def _normalize_day_slots(day_slots: Dict[str, List[str]] | None) -> Dict[str, List[str]]:
+    if not day_slots:
+        return {}
+
+    normalized: Dict[str, List[str]] = {}
+    for day, slots in day_slots.items():
+        normalized[day] = [_normalize_slot_text(slot) for slot in slots if slot]
+    return normalized
+
+
+def _compose_location_text(
+    location_name: str | None,
+    address: str | None,
+    city: str | None,
+    country: str | None,
+    location_text: str | None,
+) -> str:
+    explicit = (location_text or "").strip()
+    if explicit:
+        return explicit
+
+    parts = [
+        (location_name or "").strip(),
+        (address or "").strip(),
+        (city or "").strip(),
+        (country or "").strip() or "Bangladesh",
+    ]
+    return ", ".join([part for part in parts if part])
 
 @router.get("/verification-status")
 async def get_verification_status(
@@ -234,7 +279,35 @@ async def update_patient_onboarding(
         if data.secondary_emergency_name: patient_data['secondary_emergency_name'] = data.secondary_emergency_name
         if data.secondary_emergency_phone: patient_data['secondary_emergency_phone'] = data.secondary_emergency_phone
         if data.consent_storage is not None: patient_data['consent_storage'] = data.consent_storage
-        if data.consent_ai is not None: patient_data['consent_ai'] = data.consent_ai
+        if data.consent_ai is not None:
+            patient_data['consent_ai'] = data.consent_ai
+            # Backward compatibility: onboarding's legacy consent_ai now seeds both AI access modes.
+            if data.ai_personal_context_enabled is None:
+                patient_data['ai_personal_context_enabled'] = data.consent_ai
+            if data.ai_general_chat_enabled is None:
+                patient_data['ai_general_chat_enabled'] = data.consent_ai
+        if data.ai_personal_context_enabled is not None:
+            patient_data['ai_personal_context_enabled'] = data.ai_personal_context_enabled
+        if data.ai_general_chat_enabled is not None:
+            patient_data['ai_general_chat_enabled'] = data.ai_general_chat_enabled
+        if (
+            data.consent_ai is None
+            and (
+                data.ai_personal_context_enabled is not None
+                or data.ai_general_chat_enabled is not None
+            )
+        ):
+            personal_enabled = (
+                data.ai_personal_context_enabled
+                if data.ai_personal_context_enabled is not None
+                else False
+            )
+            general_enabled = (
+                data.ai_general_chat_enabled
+                if data.ai_general_chat_enabled is not None
+                else False
+            )
+            patient_data['consent_ai'] = bool(personal_enabled or general_enabled)
         if data.consent_doctor is not None: patient_data['consent_doctor'] = data.consent_doctor
         if data.consent_research is not None: patient_data['consent_research'] = data.consent_research
 
@@ -295,6 +368,7 @@ async def update_doctor_onboarding(
 
         # 2. Update DoctorProfile table
         doctor_data = {}
+        normalized_locations_payload: list[dict[str, Any]] = []
         
         # Helper to convert list of pydantic models to dicts
         def to_dict_list(items):
@@ -353,6 +427,95 @@ async def update_doctor_onboarding(
         if data.consultation_mode: doctor_data['consultation_mode'] = data.consultation_mode
         if data.affiliation_letter_url: doctor_data['affiliation_letter_url'] = data.affiliation_letter_url
         if data.institution: doctor_data['institution'] = data.institution
+
+        if data.practice_locations is not None:
+            for idx, location in enumerate(data.practice_locations):
+                location_name = (location.location_name or "").strip()
+                address = (location.address or "").strip()
+                city = (location.city or "").strip()
+                country = (location.country or "Bangladesh").strip() or "Bangladesh"
+                location_type = (location.location_type or "CHAMBER").strip().upper()
+                composed_location_text = _compose_location_text(
+                    location_name,
+                    address,
+                    city,
+                    country,
+                    location.location_text,
+                )
+
+                if not location_name and not composed_location_text:
+                    continue
+
+                if len(composed_location_text) < 5:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Location text for chamber #{idx + 1} must be at least 5 characters",
+                    )
+
+                latitude = location.latitude
+                longitude = location.longitude
+                display_name = (location.display_name or "").strip() or None
+                geocode_source = "manual"
+
+                if latitude is None or longitude is None:
+                    geocode_result = await geocode_location_text_with_cache(db, composed_location_text)
+                    if geocode_result:
+                        latitude = float(geocode_result["lat"])
+                        longitude = float(geocode_result["lng"])
+                        display_name = str(geocode_result.get("display_name") or composed_location_text)
+                        geocode_source = str(geocode_result.get("source") or "nominatim")
+
+                if latitude is None or longitude is None:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"Coordinates are required for '{location_name or composed_location_text}'",
+                    )
+
+                normalized_day_slots = _normalize_day_slots(location.day_time_slots)
+                available_days = location.available_days or list(normalized_day_slots.keys())
+
+                normalized_locations_payload.append(
+                    {
+                        "location_name": location_name or composed_location_text,
+                        "location_type": location_type,
+                        "location_text": composed_location_text,
+                        "display_name": display_name,
+                        "address": address,
+                        "city": city,
+                        "country": country,
+                        "latitude": float(latitude),
+                        "longitude": float(longitude),
+                        "geocode_source": geocode_source,
+                        "available_days": available_days,
+                        "day_time_slots": normalized_day_slots,
+                        "appointment_duration": location.appointment_duration,
+                        "is_primary": bool(location.is_primary) if location.is_primary is not None else idx == 0,
+                    }
+                )
+
+            if normalized_locations_payload:
+                primary = next((loc for loc in normalized_locations_payload if loc["is_primary"]), normalized_locations_payload[0])
+                secondary = next((loc for loc in normalized_locations_payload if loc is not primary), None)
+
+                doctor_data["hospital_name"] = primary["location_name"]
+                doctor_data["hospital_address"] = primary["address"]
+                doctor_data["hospital_city"] = primary["city"]
+                doctor_data["hospital_country"] = primary["country"]
+                doctor_data["hospital_latitude"] = primary["latitude"]
+                doctor_data["hospital_longitude"] = primary["longitude"]
+                doctor_data["latitude"] = primary["latitude"]
+                doctor_data["longitude"] = primary["longitude"]
+                doctor_data["available_days"] = primary["available_days"]
+                doctor_data["day_time_slots"] = primary["day_time_slots"]
+                if primary.get("appointment_duration"):
+                    doctor_data["appointment_duration"] = primary["appointment_duration"]
+
+                if secondary:
+                    doctor_data["chamber_name"] = secondary["location_name"]
+                    doctor_data["chamber_address"] = secondary["address"]
+                    doctor_data["chamber_city"] = secondary["city"]
+                    doctor_data["chamber_latitude"] = secondary["latitude"]
+                    doctor_data["chamber_longitude"] = secondary["longitude"]
         
         # Consultation Setup
         if data.consultation_fee: 
@@ -370,18 +533,7 @@ async def update_doctor_onboarding(
 
         # Handle per-day time slots (new structure)
         if data.day_time_slots:
-            def _normalize(s: str) -> str:
-                s = (s or "").strip()
-                s = re.sub(r"\s*,\s*", ", ", s)
-                s = re.sub(r"(\d)(AM|PM|am|pm|Am|aM|Pm|pM)", r"\1 \2", s)
-                s = re.sub(r"(?i)\bam\b", "AM", s)
-                s = re.sub(r"(?i)\bpm\b", "PM", s)
-                return s.strip()
-            
-            normalized_day_slots = {}
-            for day, slots in data.day_time_slots.items():
-                normalized_day_slots[day] = [_normalize(slot) for slot in slots if slot]
-            
+            normalized_day_slots = _normalize_day_slots(data.day_time_slots)
             doctor_data['day_time_slots'] = normalized_day_slots
             
             # Also set legacy fields for backwards compatibility
@@ -389,16 +541,7 @@ async def update_doctor_onboarding(
                 legacy_time_slots = ", ".join(normalized_day_slots[data.available_days[0]])
                 doctor_data['time_slots'] = legacy_time_slots
         elif data.time_slots:
-            # Legacy single time_slots field support
-            def _normalize(s: str) -> str:
-                s = (s or "").strip()
-                s = re.sub(r"\s*,\s*", ", ", s)
-                s = re.sub(r"(\d)(AM|PM|am|pm|Am|aM|Pm|pM)", r"\1 \2", s)
-                s = re.sub(r"(?i)\bam\b", "AM", s)
-                s = re.sub(r"(?i)\bpm\b", "PM", s)
-                return s.strip()
-
-            normalized = _normalize(data.time_slots)
+            normalized = _normalize_slot_text(data.time_slots)
             doctor_data['time_slots'] = normalized
 
         if data.appointment_duration is not None: doctor_data['appointment_duration'] = data.appointment_duration
@@ -413,6 +556,7 @@ async def update_doctor_onboarding(
         if data.languages_spoken is not None: doctor_data['languages_spoken'] = data.languages_spoken
         if data.case_types: doctor_data['case_types'] = data.case_types
         if data.ai_assistance is not None: doctor_data['ai_assistance'] = data.ai_assistance
+        if data.allow_patient_ai_visibility is not None: doctor_data['allow_patient_ai_visibility'] = data.allow_patient_ai_visibility
         if data.terms_accepted is not None: doctor_data['terms_accepted'] = data.terms_accepted
         if data.telemedicine_available is not None: doctor_data['telemedicine_available'] = data.telemedicine_available
         if data.telemedicine_platforms is not None: doctor_data['telemedicine_platforms'] = data.telemedicine_platforms
@@ -428,9 +572,37 @@ async def update_doctor_onboarding(
                     .where(DoctorProfile.profile_id == user_id)
                     .values(**doctor_data)
                 )
+
+        if data.practice_locations is not None:
+            await db.execute(
+                delete(DoctorLocation).where(DoctorLocation.doctor_id == user_id)
+            )
+
+            for location_payload in normalized_locations_payload:
+                db.add(
+                    DoctorLocation(
+                        doctor_id=user_id,
+                        location_name=location_payload["location_name"],
+                        location_type=location_payload["location_type"],
+                        location_text=location_payload["location_text"],
+                        normalized_location_text=" ".join(location_payload["location_text"].strip().lower().split()),
+                        display_name=location_payload["display_name"],
+                        address=location_payload["address"],
+                        city=location_payload["city"],
+                        country=location_payload["country"],
+                        latitude=location_payload["latitude"],
+                        longitude=location_payload["longitude"],
+                        geocoded_at=datetime.utcnow(),
+                        geocode_source=location_payload["geocode_source"],
+                        is_primary=location_payload["is_primary"],
+                        available_days=location_payload["available_days"],
+                        day_time_slots=location_payload["day_time_slots"],
+                        appointment_duration=location_payload.get("appointment_duration"),
+                    )
+                )
         
         # Geocode addresses if they were provided in the update
-        address_fields_updated = any([
+        address_fields_updated = data.practice_locations is None and any([
             data.hospital_address is not None,
             data.hospital_city is not None, 
             data.hospital_name is not None,
@@ -474,6 +646,71 @@ async def complete_onboarding(
     )
     await db.commit()
     return {"message": "Onboarding completed"}
+
+
+def _resolve_ai_preferences(patient: PatientProfile) -> tuple[bool, bool, bool]:
+    personal_enabled = bool(getattr(patient, "ai_personal_context_enabled", patient.consent_ai))
+    general_enabled = bool(getattr(patient, "ai_general_chat_enabled", patient.consent_ai))
+    legacy_consent = bool(personal_enabled or general_enabled)
+    return personal_enabled, general_enabled, legacy_consent
+
+
+@router.get("/patient/ai-access", response_model=PatientAIAccessResponse)
+async def get_patient_ai_access(
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    user_id = user.id
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = patient_result.scalar_one_or_none()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient medical profile not found")
+
+    personal_enabled, general_enabled, legacy_consent = _resolve_ai_preferences(patient)
+    return PatientAIAccessResponse(
+        ai_personal_context_enabled=personal_enabled,
+        ai_general_chat_enabled=general_enabled,
+        consent_ai=legacy_consent,
+    )
+
+
+@router.patch("/patient/ai-access", response_model=PatientAIAccessResponse)
+async def update_patient_ai_access(
+    data: PatientAIAccessUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    user_id = user.id
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = patient_result.scalar_one_or_none()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient medical profile not found")
+
+    current_personal, current_general, _ = _resolve_ai_preferences(patient)
+    next_personal = current_personal if data.ai_personal_context_enabled is None else bool(data.ai_personal_context_enabled)
+    next_general = current_general if data.ai_general_chat_enabled is None else bool(data.ai_general_chat_enabled)
+
+    await db.execute(
+        update(PatientProfile)
+        .where(PatientProfile.profile_id == user_id)
+        .values(
+            ai_personal_context_enabled=next_personal,
+            ai_general_chat_enabled=next_general,
+            # Keep legacy field consistent for older clients/routes.
+            consent_ai=bool(next_personal or next_general),
+        )
+    )
+    await db.commit()
+
+    return PatientAIAccessResponse(
+        ai_personal_context_enabled=next_personal,
+        ai_general_chat_enabled=next_general,
+        consent_ai=bool(next_personal or next_general),
+    )
 
 @router.get("/patient/onboarding")
 async def get_patient_onboarding_data(
@@ -638,6 +875,8 @@ async def get_patient_onboarding_data(
             "secondary_emergency_phone": getattr(patient, 'secondary_emergency_phone', None),
             "consent_storage": patient.consent_storage,
             "consent_ai": patient.consent_ai,
+            "ai_personal_context_enabled": getattr(patient, 'ai_personal_context_enabled', patient.consent_ai),
+            "ai_general_chat_enabled": getattr(patient, 'ai_general_chat_enabled', patient.consent_ai),
             "consent_doctor": patient.consent_doctor,
             "consent_research": patient.consent_research,
         })
@@ -679,6 +918,37 @@ async def get_doctor_onboarding_data(
     }
     
     if doctor:
+        location_rows = (
+            (
+                await db.execute(
+                    select(DoctorLocation)
+                    .where(DoctorLocation.doctor_id == user_id)
+                    .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
+                )
+            )
+            .scalars()
+            .all()
+        )
+        practice_locations = [
+            {
+                "id": location.id,
+                "location_name": location.location_name,
+                "location_type": location.location_type,
+                "location_text": location.location_text,
+                "display_name": location.display_name,
+                "address": location.address,
+                "city": location.city,
+                "country": location.country,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "available_days": location.available_days or [],
+                "day_time_slots": location.day_time_slots or {},
+                "appointment_duration": location.appointment_duration,
+                "is_primary": location.is_primary,
+            }
+            for location in location_rows
+        ]
+
         # Resolve speciality name if a speciality_id is set
         speciality_name = None
         if getattr(doctor, 'speciality_id', None):
@@ -727,6 +997,7 @@ async def get_doctor_onboarding_data(
             "consultation_mode": doctor.consultation_mode,
             "affiliation_letter_url": doctor.affiliation_letter_url,
             "institution": doctor.institution,
+            "practice_locations": practice_locations,
             
             # Consultation Setup
             "consultation_fee": str(doctor.consultation_fee) if doctor.consultation_fee else "",
@@ -747,6 +1018,7 @@ async def get_doctor_onboarding_data(
             "languages_spoken": doctor.languages_spoken or [],
             "case_types": doctor.case_types,
             "ai_assistance": doctor.ai_assistance,
+            "allow_patient_ai_visibility": getattr(doctor, "allow_patient_ai_visibility", True),
             "terms_accepted": doctor.terms_accepted,
             "telemedicine_available": doctor.telemedicine_available,
             "telemedicine_platforms": doctor.telemedicine_platforms or [],
@@ -838,6 +1110,37 @@ async def get_doctor_profile(
     }
     
     if doctor:
+        location_rows = (
+            (
+                await db.execute(
+                    select(DoctorLocation)
+                    .where(DoctorLocation.doctor_id == user_id)
+                    .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
+                )
+            )
+            .scalars()
+            .all()
+        )
+        practice_locations = [
+            {
+                "id": location.id,
+                "location_name": location.location_name,
+                "location_type": location.location_type,
+                "location_text": location.location_text,
+                "display_name": location.display_name,
+                "address": location.address,
+                "city": location.city,
+                "country": location.country,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "available_days": location.available_days or [],
+                "day_time_slots": location.day_time_slots or {},
+                "appointment_duration": location.appointment_duration,
+                "is_primary": location.is_primary,
+            }
+            for location in location_rows
+        ]
+
         # Resolve speciality name if `speciality_id` is present
         speciality_name = None
         if getattr(doctor, 'speciality_id', None):
@@ -887,6 +1190,7 @@ async def get_doctor_profile(
             "consultation_mode": doctor.consultation_mode,
             "affiliation_letter_url": doctor.affiliation_letter_url,
             "institution": doctor.institution,
+            "practice_locations": practice_locations,
             
             # Consultation Setup
             "consultation_fee": doctor.consultation_fee,
@@ -987,7 +1291,6 @@ async def update_doctor_profile(
         if data.work_experience is not None: doctor_data['work_experience'] = to_dict_list(data.work_experience)
         
         # Practice Details
-        if data.locations is not None: doctor_data['locations'] = to_dict_list(data.locations)
         if data.hospital_name: doctor_data['hospital_name'] = data.hospital_name
         if data.hospital_address: doctor_data['hospital_address'] = data.hospital_address
         if data.hospital_city: doctor_data['hospital_city'] = data.hospital_city
@@ -1018,6 +1321,7 @@ async def update_doctor_profile(
         if data.languages_spoken is not None: doctor_data['languages_spoken'] = data.languages_spoken
         if data.case_types: doctor_data['case_types'] = data.case_types
         if data.ai_assistance is not None: doctor_data['ai_assistance'] = data.ai_assistance
+        if data.allow_patient_ai_visibility is not None: doctor_data['allow_patient_ai_visibility'] = data.allow_patient_ai_visibility
         if data.terms_accepted is not None: doctor_data['terms_accepted'] = data.terms_accepted
         if data.telemedicine_available is not None: doctor_data['telemedicine_available'] = data.telemedicine_available
         if data.telemedicine_platforms is not None: doctor_data['telemedicine_platforms'] = data.telemedicine_platforms
@@ -1130,7 +1434,7 @@ async def update_doctor_schedule(
             "available_days": available_days,
             "day_time_slots": normalized_day_slots,
             "appointment_duration": appointment_duration,
-            "needs_review": needs_review
+            "needs_review": False
         }
         
     except HTTPException:

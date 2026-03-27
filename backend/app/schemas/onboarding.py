@@ -70,6 +70,23 @@ class WorkExperience(BaseModel):
     to_year: Optional[str] = None
     current: Optional[bool] = False
 
+
+class PracticeLocationInput(BaseModel):
+    id: Optional[str] = None
+    location_name: Optional[str] = None
+    location_type: Optional[str] = None
+    location_text: Optional[str] = None
+    display_name: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    available_days: Optional[List[str]] = None
+    day_time_slots: Optional[Dict[str, List[str]]] = None
+    appointment_duration: Optional[int] = None
+    is_primary: Optional[bool] = None
+
 # === Patient Onboarding Schema ===
 
 class PatientOnboardingUpdate(BaseModel):
@@ -203,10 +220,23 @@ class PatientOnboardingUpdate(BaseModel):
     secondary_emergency_phone: Optional[str] = None
     consent_storage: Optional[bool] = None
     consent_ai: Optional[bool] = None
+    ai_personal_context_enabled: Optional[bool] = None
+    ai_general_chat_enabled: Optional[bool] = None
     consent_doctor: Optional[bool] = None
     consent_research: Optional[bool] = None
     
     onboarding_completed: Optional[bool] = None
+
+
+class PatientAIAccessUpdate(BaseModel):
+    ai_personal_context_enabled: Optional[bool] = None
+    ai_general_chat_enabled: Optional[bool] = None
+
+
+class PatientAIAccessResponse(BaseModel):
+    ai_personal_context_enabled: bool
+    ai_general_chat_enabled: bool
+    consent_ai: bool
 
 # === Doctor Onboarding Schema ===
 
@@ -253,6 +283,7 @@ class DoctorOnboardingUpdate(BaseModel):
     consultation_mode: Optional[str] = None  # online, in-person, both
     affiliation_letter_url: Optional[str] = None
     institution: Optional[str] = None
+    practice_locations: Optional[List[PracticeLocationInput]] = None
     
     # Step 6 - Consultation Setup
     consultation_fee: Optional[str] = None  # Frontend sends string
@@ -273,6 +304,7 @@ class DoctorOnboardingUpdate(BaseModel):
     languages_spoken: Optional[List[str]] = None
     case_types: Optional[str] = None
     ai_assistance: Optional[bool] = None
+    allow_patient_ai_visibility: Optional[bool] = None
     terms_accepted: Optional[bool] = None
     telemedicine_available: Optional[bool] = None
     telemedicine_platforms: Optional[List[str]] = None
