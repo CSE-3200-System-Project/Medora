@@ -1,3 +1,26 @@
+# Split Chorui AI Access Controls (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Add dedicated patient AI access flags in database/model for personal-context sharing and general chat access
+- [x] Expose backend endpoints to read/update patient AI access preferences for privacy settings
+- [x] Update Chorui backend enforcement to remove hard block for patient general chat when personal-context sharing is disabled
+- [x] Enforce doctor Chorui context access through patient personal-context consent + category sharing filters
+- [x] Keep legacy onboarding consent compatibility by syncing old `consent_ai` with new split fields
+- [x] Add frontend server actions for AI access preferences
+- [x] Add privacy page UI with two separate AI switches and integrate with backend
+- [x] Align related AI/OCR permission checks with personal-context consent semantics
+
+### Review
+- Added `ai_personal_context_enabled` and `ai_general_chat_enabled` to `patient_profiles` plus migration `z9c4a1d7e2f3` with backfill from legacy `consent_ai`.
+- Added `GET/PATCH /profile/patient/ai-access` for privacy-page-managed AI access settings.
+- Updated Chorui assistant logic (`ai_consultation.py`) so patient chat now requires general chat enabled, while patient record-context loading requires personal-context sharing enabled.
+- Removed doctor AI dependence on per-doctor `can_use_ai` hard gate; doctor AI now requires patient personal-context sharing enabled and at least one category shared, with category-based filtering still enforced.
+- Updated AI-adjacent consent checks in `consultation_ai.py`, `medical_report.py`, and `upload.py` to honor personal-context sharing (with legacy fallback).
+- Added frontend action layer `frontend/lib/patient-ai-access-actions.ts` and integrated two new AI access controls in privacy screen `home-patient-privacy-client.tsx`.
+- Updated frontend category typing to treat personal-data category sharing separately from AI-mode toggles.
+
 # Doctor Multi-Location Map Onboarding (2026-03-27)
 
 ## Status: completed
@@ -1508,6 +1531,35 @@ Create a calm, premium, high-performance medical web app UI that feels intention
 - [x] Verify build succeeds
 - [ ] Test light/dark mode parity
 - [ ] Verify performance (no layout shift, smooth scrolling)
+
+---
+
+# Bidirectional Chorui AI Permissions (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Add per-doctor Chorui AI permission field (`can_use_ai`) to patient data sharing model/schemas
+- [x] Add doctor patient-facing Chorui visibility consent field (`allow_patient_ai_visibility`) to doctor model/onboarding schema
+- [x] Add DB migration for both consent fields
+- [x] Enforce patient and doctor AI consent gates in Chorui assistant + doctor AI endpoints
+- [x] Enforce the same consent gates in consultation-scoped AI endpoints
+- [x] Enforce OCR AI consent gates for prescription/report extraction endpoints
+- [x] Integrate frontend patient sharing types and doctor onboarding UI/payload updates for new consent fields
+- [x] Validate changed backend/frontend files with focused diagnostics
+
+### Review
+- Added `can_use_ai` to `patient_data_sharing_preferences` and surfaced it through sharing APIs and frontend sharing types.
+- Added `allow_patient_ai_visibility` to `doctor_profiles` and integrated it into doctor onboarding read/write paths and UI.
+- Added migration `ai_perm_001_add_chorui_permission_fields.py` and rebased it to `sh4r1ng_001` to avoid Alembic multi-head.
+- Added fail-closed consent enforcement in `ai_consultation.py` for:
+   - patient self Chorui access (requires `consent_ai`),
+   - doctor Chorui usage (requires doctor `ai_assistance`),
+   - doctor-patient Chorui context (requires both patient `consent_ai` and per-doctor `can_use_ai`).
+- Added doctor identity redaction in patient-facing Chorui care-team responses when doctor visibility consent is disabled.
+- Added equivalent consent checks in `consultation_ai.py` so consultation-scoped AI routes cannot bypass policy.
+- Added OCR consent gates in `upload.py` and `medical_report.py` before calls to AI OCR services.
+- Validation completed: `py_compile` for touched backend files, targeted frontend lint for changed files, and `alembic upgrade head`/`alembic current` confirming `ai_perm_001 (head)`.
 - [ ] Review spacing consistency across pages
 
 ---

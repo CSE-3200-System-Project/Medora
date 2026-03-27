@@ -10,7 +10,12 @@ from app.db.models.speciality import Speciality
 from app.db.models.profile import Profile
 from app.db.models.enums import VerificationStatus, UserRole
 from app.core.avatar_defaults import generate_default_avatar_url
-from app.schemas.onboarding import PatientOnboardingUpdate, DoctorOnboardingUpdate
+from app.schemas.onboarding import (
+    PatientAIAccessResponse,
+    PatientAIAccessUpdate,
+    PatientOnboardingUpdate,
+    DoctorOnboardingUpdate,
+)
 from app.services.geocoding import geocode_and_save_doctor_locations, geocode_location_text_with_cache
 from typing import Optional, List, Dict, Any
 from datetime import datetime
@@ -274,7 +279,35 @@ async def update_patient_onboarding(
         if data.secondary_emergency_name: patient_data['secondary_emergency_name'] = data.secondary_emergency_name
         if data.secondary_emergency_phone: patient_data['secondary_emergency_phone'] = data.secondary_emergency_phone
         if data.consent_storage is not None: patient_data['consent_storage'] = data.consent_storage
-        if data.consent_ai is not None: patient_data['consent_ai'] = data.consent_ai
+        if data.consent_ai is not None:
+            patient_data['consent_ai'] = data.consent_ai
+            # Backward compatibility: onboarding's legacy consent_ai now seeds both AI access modes.
+            if data.ai_personal_context_enabled is None:
+                patient_data['ai_personal_context_enabled'] = data.consent_ai
+            if data.ai_general_chat_enabled is None:
+                patient_data['ai_general_chat_enabled'] = data.consent_ai
+        if data.ai_personal_context_enabled is not None:
+            patient_data['ai_personal_context_enabled'] = data.ai_personal_context_enabled
+        if data.ai_general_chat_enabled is not None:
+            patient_data['ai_general_chat_enabled'] = data.ai_general_chat_enabled
+        if (
+            data.consent_ai is None
+            and (
+                data.ai_personal_context_enabled is not None
+                or data.ai_general_chat_enabled is not None
+            )
+        ):
+            personal_enabled = (
+                data.ai_personal_context_enabled
+                if data.ai_personal_context_enabled is not None
+                else False
+            )
+            general_enabled = (
+                data.ai_general_chat_enabled
+                if data.ai_general_chat_enabled is not None
+                else False
+            )
+            patient_data['consent_ai'] = bool(personal_enabled or general_enabled)
         if data.consent_doctor is not None: patient_data['consent_doctor'] = data.consent_doctor
         if data.consent_research is not None: patient_data['consent_research'] = data.consent_research
 
@@ -523,6 +556,7 @@ async def update_doctor_onboarding(
         if data.languages_spoken is not None: doctor_data['languages_spoken'] = data.languages_spoken
         if data.case_types: doctor_data['case_types'] = data.case_types
         if data.ai_assistance is not None: doctor_data['ai_assistance'] = data.ai_assistance
+        if data.allow_patient_ai_visibility is not None: doctor_data['allow_patient_ai_visibility'] = data.allow_patient_ai_visibility
         if data.terms_accepted is not None: doctor_data['terms_accepted'] = data.terms_accepted
         if data.telemedicine_available is not None: doctor_data['telemedicine_available'] = data.telemedicine_available
         if data.telemedicine_platforms is not None: doctor_data['telemedicine_platforms'] = data.telemedicine_platforms
@@ -612,6 +646,71 @@ async def complete_onboarding(
     )
     await db.commit()
     return {"message": "Onboarding completed"}
+
+
+def _resolve_ai_preferences(patient: PatientProfile) -> tuple[bool, bool, bool]:
+    personal_enabled = bool(getattr(patient, "ai_personal_context_enabled", patient.consent_ai))
+    general_enabled = bool(getattr(patient, "ai_general_chat_enabled", patient.consent_ai))
+    legacy_consent = bool(personal_enabled or general_enabled)
+    return personal_enabled, general_enabled, legacy_consent
+
+
+@router.get("/patient/ai-access", response_model=PatientAIAccessResponse)
+async def get_patient_ai_access(
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    user_id = user.id
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = patient_result.scalar_one_or_none()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient medical profile not found")
+
+    personal_enabled, general_enabled, legacy_consent = _resolve_ai_preferences(patient)
+    return PatientAIAccessResponse(
+        ai_personal_context_enabled=personal_enabled,
+        ai_general_chat_enabled=general_enabled,
+        consent_ai=legacy_consent,
+    )
+
+
+@router.patch("/patient/ai-access", response_model=PatientAIAccessResponse)
+async def update_patient_ai_access(
+    data: PatientAIAccessUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db)
+):
+    user_id = user.id
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = patient_result.scalar_one_or_none()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient medical profile not found")
+
+    current_personal, current_general, _ = _resolve_ai_preferences(patient)
+    next_personal = current_personal if data.ai_personal_context_enabled is None else bool(data.ai_personal_context_enabled)
+    next_general = current_general if data.ai_general_chat_enabled is None else bool(data.ai_general_chat_enabled)
+
+    await db.execute(
+        update(PatientProfile)
+        .where(PatientProfile.profile_id == user_id)
+        .values(
+            ai_personal_context_enabled=next_personal,
+            ai_general_chat_enabled=next_general,
+            # Keep legacy field consistent for older clients/routes.
+            consent_ai=bool(next_personal or next_general),
+        )
+    )
+    await db.commit()
+
+    return PatientAIAccessResponse(
+        ai_personal_context_enabled=next_personal,
+        ai_general_chat_enabled=next_general,
+        consent_ai=bool(next_personal or next_general),
+    )
 
 @router.get("/patient/onboarding")
 async def get_patient_onboarding_data(
@@ -776,6 +875,8 @@ async def get_patient_onboarding_data(
             "secondary_emergency_phone": getattr(patient, 'secondary_emergency_phone', None),
             "consent_storage": patient.consent_storage,
             "consent_ai": patient.consent_ai,
+            "ai_personal_context_enabled": getattr(patient, 'ai_personal_context_enabled', patient.consent_ai),
+            "ai_general_chat_enabled": getattr(patient, 'ai_general_chat_enabled', patient.consent_ai),
             "consent_doctor": patient.consent_doctor,
             "consent_research": patient.consent_research,
         })
@@ -917,6 +1018,7 @@ async def get_doctor_onboarding_data(
             "languages_spoken": doctor.languages_spoken or [],
             "case_types": doctor.case_types,
             "ai_assistance": doctor.ai_assistance,
+            "allow_patient_ai_visibility": getattr(doctor, "allow_patient_ai_visibility", True),
             "terms_accepted": doctor.terms_accepted,
             "telemedicine_available": doctor.telemedicine_available,
             "telemedicine_platforms": doctor.telemedicine_platforms or [],
@@ -1219,6 +1321,7 @@ async def update_doctor_profile(
         if data.languages_spoken is not None: doctor_data['languages_spoken'] = data.languages_spoken
         if data.case_types: doctor_data['case_types'] = data.case_types
         if data.ai_assistance is not None: doctor_data['ai_assistance'] = data.ai_assistance
+        if data.allow_patient_ai_visibility is not None: doctor_data['allow_patient_ai_visibility'] = data.allow_patient_ai_visibility
         if data.terms_accepted is not None: doctor_data['terms_accepted'] = data.terms_accepted
         if data.telemedicine_available is not None: doctor_data['telemedicine_available'] = data.telemedicine_available
         if data.telemedicine_platforms is not None: doctor_data['telemedicine_platforms'] = data.telemedicine_platforms

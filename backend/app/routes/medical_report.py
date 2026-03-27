@@ -21,6 +21,8 @@ from storage3.exceptions import StorageApiError
 from app.core.ai_privacy import stable_hash_token
 from app.core.config import settings
 from app.core.dependencies import get_db, require_doctor
+from app.db.models.doctor import DoctorProfile
+from app.db.models.enums import UserRole
 from app.db.models.medical_report import (
     DoctorReportComment,
     MedicalReport,
@@ -29,6 +31,7 @@ from app.db.models.medical_report import (
 )
 from app.db.models.medical_test import MedicalTest
 from app.db.models.patient_data_sharing import PatientDataSharingPreference
+from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
 from app.db.supabase import storage_key_role, storage_supabase
 from app.routes.auth import get_current_user_token
@@ -211,6 +214,48 @@ async def _can_doctor_see_report(db: AsyncSession, report: MedicalReport, doctor
     return report.shared_with_doctors
 
 
+async def _require_user_ai_consent_for_report_ocr(db: AsyncSession, user_id: str) -> None:
+    role_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
+    role = role_result.scalar_one_or_none()
+    if role is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    if role == UserRole.PATIENT:
+        consent_result = await db.execute(
+            select(
+                PatientProfile.consent_ai,
+                PatientProfile.ai_personal_context_enabled,
+            ).where(PatientProfile.profile_id == user_id)
+        )
+        consent_row = consent_result.first()
+        if consent_row is None:
+            raise HTTPException(status_code=404, detail="Patient medical profile not found")
+        legacy_consent = bool(consent_row[0]) if consent_row[0] is not None else False
+        personal_context_enabled = legacy_consent if consent_row[1] is None else bool(consent_row[1])
+        if not personal_context_enabled:
+            raise HTTPException(
+                status_code=403,
+                detail="Medical report OCR requires patient AI personal-context sharing.",
+            )
+        return
+
+    if role == UserRole.DOCTOR:
+        ai_result = await db.execute(
+            select(DoctorProfile.ai_assistance).where(DoctorProfile.profile_id == user_id)
+        )
+        ai_assistance = ai_result.scalar_one_or_none()
+        if ai_assistance is None:
+            raise HTTPException(status_code=404, detail="Doctor profile not found")
+        if not ai_assistance:
+            raise HTTPException(
+                status_code=403,
+                detail="Doctor has disabled Chorui AI assistance.",
+            )
+        return
+
+    raise HTTPException(status_code=403, detail="Chorui AI extraction is not available for this account role")
+
+
 # ── Upload ───────────────────────────────────────────────────────────────────
 
 
@@ -231,6 +276,7 @@ async def upload_medical_report(
     normalized_type = (file.content_type or "").lower()
     if normalized_type and normalized_type not in ALLOWED_REPORT_TYPES:
         raise HTTPException(status_code=400, detail=f"Unsupported file type: {file.content_type}")
+    await _require_user_ai_consent_for_report_ocr(db, user.id)
 
     file_content = await _read_file_with_limit(file)
     safe_name = _sanitize_filename(file.filename)

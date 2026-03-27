@@ -16,6 +16,7 @@ from app.core.config import settings
 from app.core.dependencies import get_db
 from app.db.supabase import storage_key_role, storage_supabase
 from app.db.models.doctor import DoctorProfile
+from app.db.models.enums import UserRole
 from app.db.models.media_file import MediaFile
 from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
@@ -214,6 +215,48 @@ async def _sync_profile_media_field(db: AsyncSession, user_id: str, category: st
             .where(PatientProfile.profile_id == user_id)
             .values(**{field_name: url})
         )
+
+
+async def _require_user_ai_consent_for_ocr(db: AsyncSession, user_id: str) -> None:
+    role_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
+    role = role_result.scalar_one_or_none()
+    if role is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    if role == UserRole.PATIENT:
+        consent_result = await db.execute(
+            select(
+                PatientProfile.consent_ai,
+                PatientProfile.ai_personal_context_enabled,
+            ).where(PatientProfile.profile_id == user_id)
+        )
+        consent_row = consent_result.first()
+        if consent_row is None:
+            raise HTTPException(status_code=404, detail="Patient medical profile not found")
+        legacy_consent = bool(consent_row[0]) if consent_row[0] is not None else False
+        personal_context_enabled = legacy_consent if consent_row[1] is None else bool(consent_row[1])
+        if not personal_context_enabled:
+            raise HTTPException(
+                status_code=403,
+                detail="Document analysis requires patient AI personal-context sharing.",
+            )
+        return
+
+    if role == UserRole.DOCTOR:
+        ai_result = await db.execute(
+            select(DoctorProfile.ai_assistance).where(DoctorProfile.profile_id == user_id)
+        )
+        ai_assistance = ai_result.scalar_one_or_none()
+        if ai_assistance is None:
+            raise HTTPException(status_code=404, detail="Doctor profile not found")
+        if not ai_assistance:
+            raise HTTPException(
+                status_code=403,
+                detail="Doctor has disabled Chorui AI assistance.",
+            )
+        return
+
+    raise HTTPException(status_code=403, detail="Chorui AI extraction is not available for this account role")
 
 
 async def _extract_prescription_with_ai_service(
@@ -522,6 +565,7 @@ async def extract_prescription_text(
     file_content = await _read_file_with_limit(file)
     normalized_type = _resolve_prescription_content_type(file, file_content)
     file_record: MediaFile | None = None
+    await _require_user_ai_consent_for_ocr(db, user.id)
 
     try:
         if save_file:

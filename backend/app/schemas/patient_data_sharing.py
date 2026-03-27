@@ -21,6 +21,7 @@ class SharingCategoryUpdate(BaseModel):
     can_view_reports: Optional[bool] = None
     can_view_health_metrics: Optional[bool] = None
     can_view_prescriptions: Optional[bool] = None
+    can_use_ai: Optional[bool] = None
 
 
 class SharingBulkUpdate(BaseModel):
@@ -42,6 +43,7 @@ class SharingCategoryResponse(BaseModel):
     can_view_reports: bool
     can_view_health_metrics: bool
     can_view_prescriptions: bool
+    can_use_ai: bool
 
     class Config:
         from_attributes = True

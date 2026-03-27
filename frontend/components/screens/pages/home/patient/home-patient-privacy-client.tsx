@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import {
   Shield, Eye, Clock, User, AlertCircle,
   CheckCircle, XCircle, RefreshCw, History,
-  Building, ArrowLeft, Stethoscope, Settings2,
+  Building, Stethoscope, Settings2,
   ChevronDown, ChevronUp, ToggleLeft, ToggleRight,
   Loader2
 } from "lucide-react"
@@ -27,12 +26,19 @@ import {
   getSharingForDoctor,
   updateSharingForDoctor,
   bulkUpdateSharing,
+} from "@/lib/patient-data-sharing-actions"
+import {
+  getPatientAIAccess,
+  updatePatientAIAccess,
+  type PatientAIAccessResponse,
+} from "@/lib/patient-ai-access-actions"
+import {
   type PatientDoctorListItem,
   type DoctorSharingSummary,
   type SharingCategories,
   CATEGORY_LABELS,
   CATEGORY_DESCRIPTIONS,
-} from "@/lib/patient-data-sharing-actions"
+} from "@/lib/patient-data-sharing-types"
 
 interface AccessHistoryItem {
   id: string
@@ -56,13 +62,14 @@ interface DoctorAccess {
   revoked_at: string | null
 }
 
-export default function PatientPrivacyPage() {
-  const router = useRouter()
+function getErrorMessage(err: unknown): string {
+  return err instanceof Error ? err.message : "Operation failed"
+}
 
+export default function PatientPrivacyPage() {
   const [accessHistory, setAccessHistory] = useState<AccessHistoryItem[]>([])
   const [doctorAccess, setDoctorAccess] = useState<DoctorAccess[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'sharing' | 'doctors' | 'history'>('sharing')
 
   // Data sharing state
@@ -71,6 +78,9 @@ export default function PatientPrivacyPage() {
   const [expandedDoctor, setExpandedDoctor] = useState<string | null>(null)
   const [sharingLoading, setSharingLoading] = useState<Record<string, boolean>>({})
   const [loadingSharingList, setLoadingSharingList] = useState(true)
+  const [aiAccess, setAiAccess] = useState<PatientAIAccessResponse | null>(null)
+  const [aiAccessLoading, setAiAccessLoading] = useState(true)
+  const [aiAccessSaving, setAiAccessSaving] = useState<Record<string, boolean>>({})
 
   // Confirmation dialog state
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -95,8 +105,8 @@ export default function PatientPrivacyPage() {
 
       setAccessHistory(historyData.access_history || [])
       setDoctorAccess(accessData.doctors || [])
-    } catch (err: any) {
-      setError(err.message || "Failed to load data")
+    } catch (err) {
+      console.error("Failed to load privacy data:", err)
     } finally {
       setLoading(false)
     }
@@ -121,17 +131,45 @@ export default function PatientPrivacyPage() {
         })
       )
       setSharingData(sharingMap)
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to load sharing data:", err)
     } finally {
       setLoadingSharingList(false)
     }
   }
 
+  const fetchAIAccess = async () => {
+    setAiAccessLoading(true)
+    try {
+      const data = await getPatientAIAccess()
+      setAiAccess(data)
+    } catch (err) {
+      console.error("Failed to load AI access settings:", err)
+    } finally {
+      setAiAccessLoading(false)
+    }
+  }
+
   useEffect(() => {
     fetchData()
     fetchSharingData()
+    fetchAIAccess()
   }, [])
+
+  const handleToggleAIAccess = async (
+    key: "ai_personal_context_enabled" | "ai_general_chat_enabled",
+    value: boolean
+  ) => {
+    setAiAccessSaving(prev => ({ ...prev, [key]: true }))
+    try {
+      const updated = await updatePatientAIAccess({ [key]: value })
+      setAiAccess(updated)
+    } catch (err) {
+      alert(getErrorMessage(err) || "Failed to update AI access settings")
+    } finally {
+      setAiAccessSaving(prev => ({ ...prev, [key]: false }))
+    }
+  }
 
   const handleRevokeAccess = async () => {
     try {
@@ -143,8 +181,8 @@ export default function PatientPrivacyPage() {
             : d
         )
       )
-    } catch (err: any) {
-      alert(err.message || "Failed to revoke access")
+    } catch (err) {
+      alert(getErrorMessage(err) || "Failed to revoke access")
     } finally {
       setConfirmDialog(prev => ({ ...prev, isOpen: false }))
     }
@@ -160,8 +198,8 @@ export default function PatientPrivacyPage() {
             : d
         )
       )
-    } catch (err: any) {
-      alert(err.message || "Failed to restore access")
+    } catch (err) {
+      alert(getErrorMessage(err) || "Failed to restore access")
     } finally {
       setConfirmDialog(prev => ({ ...prev, isOpen: false }))
     }
@@ -188,7 +226,7 @@ export default function PatientPrivacyPage() {
           sharing: updated,
         }
       }))
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to toggle:", err)
     } finally {
       setSharingLoading(prev => ({ ...prev, [key]: false }))
@@ -208,7 +246,7 @@ export default function PatientPrivacyPage() {
           sharing: updated,
         }
       }))
-    } catch (err: any) {
+    } catch (err) {
       console.error("Failed to bulk toggle:", err)
     } finally {
       setSharingLoading(prev => ({ ...prev, [key]: false }))
@@ -218,7 +256,8 @@ export default function PatientPrivacyPage() {
   const getSharedCount = (doctorId: string): number => {
     const data = sharingData[doctorId]
     if (!data) return 0
-    return Object.values(data.sharing).filter(Boolean).length
+    const categoryKeys = Object.keys(CATEGORY_LABELS) as (keyof SharingCategories)[]
+    return categoryKeys.filter((key) => Boolean(data.sharing?.[key])).length
   }
 
   const formatAccessType = (type: string) => {
@@ -267,17 +306,9 @@ export default function PatientPrivacyPage() {
         variant={confirmDialog.type === 'revoke' ? 'danger' : 'info'}
       />
 
-      <div className="container mx-auto px-4 py-6 max-w-4xl pt-[var(--nav-content-offset)]">
+      <div className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
         {/* Header */}
         <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={() => router.back()}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
 
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -341,6 +372,54 @@ export default function PatientPrivacyPage() {
                 Refresh
               </Button>
             </div>
+
+            <Card className="rounded-xl border-primary/25 bg-primary/5">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Chorui AI Access Controls</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Manage AI access separately for personal-data context and general-purpose chat.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-lg border bg-background/70 p-3">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">1. Sharing personal informations</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Category-wise sharing for Chorui AI with doctor-specific controls below.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={!!aiAccess?.ai_personal_context_enabled}
+                      onCheckedChange={(val) => handleToggleAIAccess("ai_personal_context_enabled", val)}
+                      disabled={aiAccessLoading || !!aiAccessSaving["ai_personal_context_enabled"]}
+                    />
+                  </div>
+                </div>
+
+                <div className="rounded-lg border bg-background/70 p-3">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">2. General purpose chatting with AI context sharing</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Allow patient-only general Chorui chat even when personal information sharing is disabled.
+                      </p>
+                    </div>
+                    <Switch
+                      checked={!!aiAccess?.ai_general_chat_enabled}
+                      onCheckedChange={(val) => handleToggleAIAccess("ai_general_chat_enabled", val)}
+                      disabled={aiAccessLoading || !!aiAccessSaving["ai_general_chat_enabled"]}
+                    />
+                  </div>
+                </div>
+
+                {!aiAccessLoading && !aiAccess?.ai_personal_context_enabled && (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-300">
+                    Personal information sharing for AI is disabled. Doctors cannot retrieve your personal record context through Chorui AI.
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {loadingSharingList ? (
               <Card>
@@ -432,7 +511,10 @@ export default function PatientPrivacyPage() {
                                 variant="outline"
                                 className="text-xs h-7 gap-1 text-green-700 border-green-300 hover:bg-green-50 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/20"
                                 onClick={() => handleBulkToggle(doc.doctor_id, true)}
-                                disabled={!!sharingLoading[`${doc.doctor_id}_bulk`]}
+                                disabled={
+                                  !!sharingLoading[`${doc.doctor_id}_bulk`] ||
+                                  !aiAccess?.ai_personal_context_enabled
+                                }
                               >
                                 {sharingLoading[`${doc.doctor_id}_bulk`] ? (
                                   <Loader2 className="w-3 h-3 animate-spin" />
@@ -446,7 +528,10 @@ export default function PatientPrivacyPage() {
                                 variant="outline"
                                 className="text-xs h-7 gap-1 text-red-700 border-red-300 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                                 onClick={() => handleBulkToggle(doc.doctor_id, false)}
-                                disabled={!!sharingLoading[`${doc.doctor_id}_bulk`]}
+                                disabled={
+                                  !!sharingLoading[`${doc.doctor_id}_bulk`] ||
+                                  !aiAccess?.ai_personal_context_enabled
+                                }
                               >
                                 {sharingLoading[`${doc.doctor_id}_bulk`] ? (
                                   <Loader2 className="w-3 h-3 animate-spin" />
@@ -488,7 +573,7 @@ export default function PatientPrivacyPage() {
                                         onCheckedChange={(val) =>
                                           handleToggleCategory(doc.doctor_id, category, val)
                                         }
-                                        disabled={isToggling}
+                                        disabled={isToggling || !aiAccess?.ai_personal_context_enabled}
                                       />
                                     </div>
                                   </div>
