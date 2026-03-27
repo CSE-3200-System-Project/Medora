@@ -1,3 +1,55 @@
+# Split Chorui AI Access Controls (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Add dedicated patient AI access flags in database/model for personal-context sharing and general chat access
+- [x] Expose backend endpoints to read/update patient AI access preferences for privacy settings
+- [x] Update Chorui backend enforcement to remove hard block for patient general chat when personal-context sharing is disabled
+- [x] Enforce doctor Chorui context access through patient personal-context consent + category sharing filters
+- [x] Keep legacy onboarding consent compatibility by syncing old `consent_ai` with new split fields
+- [x] Add frontend server actions for AI access preferences
+- [x] Add privacy page UI with two separate AI switches and integrate with backend
+- [x] Align related AI/OCR permission checks with personal-context consent semantics
+
+### Review
+- Added `ai_personal_context_enabled` and `ai_general_chat_enabled` to `patient_profiles` plus migration `z9c4a1d7e2f3` with backfill from legacy `consent_ai`.
+- Added `GET/PATCH /profile/patient/ai-access` for privacy-page-managed AI access settings.
+- Updated Chorui assistant logic (`ai_consultation.py`) so patient chat now requires general chat enabled, while patient record-context loading requires personal-context sharing enabled.
+- Removed doctor AI dependence on per-doctor `can_use_ai` hard gate; doctor AI now requires patient personal-context sharing enabled and at least one category shared, with category-based filtering still enforced.
+- Updated AI-adjacent consent checks in `consultation_ai.py`, `medical_report.py`, and `upload.py` to honor personal-context sharing (with legacy fallback).
+- Added frontend action layer `frontend/lib/patient-ai-access-actions.ts` and integrated two new AI access controls in privacy screen `home-patient-privacy-client.tsx`.
+- Updated frontend category typing to treat personal-data category sharing separately from AI-mode toggles.
+
+# Doctor Multi-Location Map Onboarding (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Create new doctor locations data model for unlimited chambers/clinics with coordinates and geocoding metadata
+- [x] Add migration/backfill path for location table and location-aware schedule/appointment linkage
+- [x] Extend backend onboarding schemas/routes for unified `practice_locations` payload and persistence
+- [x] Add backend geocode contract with normalized text caching and manual-pin fallback support
+- [x] Refactor doctor profile/search/AI-search location reads to unified location source
+- [x] Build frontend onboarding Step 5 repeatable location manager with add/edit/remove chamber support
+- [x] Add map popup picker for marker selection and manual address fallback per location
+- [x] Make location availability day/time editable per chamber and saved in backend
+- [x] Update slot/booking flow to use stable location IDs instead of array indexes
+- [x] Validate backend/frontend build paths and add implementation review notes
+
+### Review
+- Added a new `doctor_locations` source-of-truth model and migration with legacy backfill from `doctor_profiles` hospital/chamber fields.
+- Linked location IDs into `doctor_availability`, `doctor_exceptions`, `doctor_schedule_overrides`, and `appointments` for location-aware scheduling/booking.
+- Implemented onboarding `practice_locations` payload support (schema + persistence + read hydration), including strict coordinate requirement and geocode fallback.
+- Added backend geocode endpoint and cache-first location-text lookup via normalized `doctor_locations` text before external Nominatim calls.
+- Refactored doctor profile and city search reads to prefer the unified location table with legacy fallback.
+- Updated AI doctor-search location filtering to include unified `doctor_locations` fields alongside legacy fallback.
+- Rebuilt onboarding Step 5 as a multi-location manager with add/remove/primary actions, per-location map picker popup, and per-location schedule modal.
+- Updated booking/slots flows to pass `location_id` and persist `doctor_location_id` + `location_name` during appointment creation.
+- Validation run: diagnostics report no errors on touched backend/frontend files; focused lint passes on targeted onboarding/booking/auth files.
+- Migration validation: resolved Alembic multi-head by chaining `sh4r1ng_001` after `l0c4t10n_001`, then upgraded DB successfully to latest head.
+- Smoke checks: backend app imports successfully, core route smoke requests return expected statuses, and frontend production build completes successfully.
+
 # Bangladesh Frequency/Quantity Normalization (2026-03-26)
 
 ## Status: completed
@@ -1479,6 +1531,35 @@ Create a calm, premium, high-performance medical web app UI that feels intention
 - [x] Verify build succeeds
 - [ ] Test light/dark mode parity
 - [ ] Verify performance (no layout shift, smooth scrolling)
+
+---
+
+# Bidirectional Chorui AI Permissions (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Add per-doctor Chorui AI permission field (`can_use_ai`) to patient data sharing model/schemas
+- [x] Add doctor patient-facing Chorui visibility consent field (`allow_patient_ai_visibility`) to doctor model/onboarding schema
+- [x] Add DB migration for both consent fields
+- [x] Enforce patient and doctor AI consent gates in Chorui assistant + doctor AI endpoints
+- [x] Enforce the same consent gates in consultation-scoped AI endpoints
+- [x] Enforce OCR AI consent gates for prescription/report extraction endpoints
+- [x] Integrate frontend patient sharing types and doctor onboarding UI/payload updates for new consent fields
+- [x] Validate changed backend/frontend files with focused diagnostics
+
+### Review
+- Added `can_use_ai` to `patient_data_sharing_preferences` and surfaced it through sharing APIs and frontend sharing types.
+- Added `allow_patient_ai_visibility` to `doctor_profiles` and integrated it into doctor onboarding read/write paths and UI.
+- Added migration `ai_perm_001_add_chorui_permission_fields.py` and rebased it to `sh4r1ng_001` to avoid Alembic multi-head.
+- Added fail-closed consent enforcement in `ai_consultation.py` for:
+   - patient self Chorui access (requires `consent_ai`),
+   - doctor Chorui usage (requires doctor `ai_assistance`),
+   - doctor-patient Chorui context (requires both patient `consent_ai` and per-doctor `can_use_ai`).
+- Added doctor identity redaction in patient-facing Chorui care-team responses when doctor visibility consent is disabled.
+- Added equivalent consent checks in `consultation_ai.py` so consultation-scoped AI routes cannot bypass policy.
+- Added OCR consent gates in `upload.py` and `medical_report.py` before calls to AI OCR services.
+- Validation completed: `py_compile` for touched backend files, targeted frontend lint for changed files, and `alembic upgrade head`/`alembic current` confirming `ai_perm_001 (head)`.
 - [ ] Review spacing consistency across pages
 
 ---

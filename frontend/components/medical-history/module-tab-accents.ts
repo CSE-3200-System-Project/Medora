@@ -4,7 +4,8 @@ export type MedicalModuleTab =
   | "surgeries"
   | "hospitalizations"
   | "vaccinations"
-  | "visits";
+  | "visits"
+  | "reports";
 
 interface ModuleAccentStyles {
   tabIconText: string;
@@ -56,6 +57,13 @@ export const MEDICAL_MODULE_TAB_ACCENTS: Record<MedicalModuleTab, ModuleAccentSt
     timelineStripeBg: "bg-blue-50 dark:bg-blue-900/25",
     timelineBadge: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
     timelineToggle: "text-blue-600 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200",
+  },
+  reports: {
+    tabIconText: "text-emerald-600 dark:text-emerald-400",
+    tabActiveState: "data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-700 dark:data-[state=active]:bg-emerald-900/40 dark:data-[state=active]:text-emerald-300",
+    timelineStripeBg: "bg-emerald-50 dark:bg-emerald-900/25",
+    timelineBadge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    timelineToggle: "text-emerald-600 hover:text-emerald-700 dark:text-emerald-300 dark:hover:text-emerald-200",
   },
 };
 

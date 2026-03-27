@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import re
 import logging
 from time import perf_counter
+from dataclasses import dataclass
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy import func, select, or_
@@ -23,6 +24,7 @@ from app.db.models.chorui_chat import ChoruiChatMessage
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.patient_access import AccessType
 from app.db.models.patient import PatientProfile
+from app.db.models.doctor import DoctorProfile
 from app.db.models.profile import Profile
 from app.db.models.consultation import Consultation, Prescription, MedicationPrescription
 from app.db.models.medicine import Drug, Brand, MedicineSearchIndex
@@ -30,6 +32,13 @@ from app.db.models.medical_test import MedicalTest
 from app.db.models.enums import UserRole
 from app.routes.auth import get_current_user_token
 from app.routes.patient_access import check_doctor_patient_access, log_patient_access
+from app.core.data_sharing_guard import (
+    get_sharing_permissions,
+    filter_raw_summary,
+    filter_extended_context,
+    build_ai_restriction_notice,
+    SharingPermissions,
+)
 from app.schemas.ai_orchestrator import (
     AIClinicalInfoResponse,
     AIClinicalQueryRequest,
@@ -93,6 +102,90 @@ async def _require_doctor(db: AsyncSession, user_id: str) -> None:
     profile = result.scalar_one_or_none()
     if not profile or profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this resource")
+
+
+async def _require_doctor_ai_assistance_enabled(db: AsyncSession, doctor_id: str) -> None:
+    result = await db.execute(
+        select(DoctorProfile.ai_assistance).where(DoctorProfile.profile_id == doctor_id)
+    )
+    ai_assistance = result.scalar_one_or_none()
+    if ai_assistance is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Doctor profile not found")
+    if not ai_assistance:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Doctor has disabled Chorui AI assistance.",
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class PatientAIAccessPreferences:
+    personal_context_enabled: bool
+    general_chat_enabled: bool
+
+
+async def _get_patient_ai_access_preferences(db: AsyncSession, patient_id: str) -> PatientAIAccessPreferences:
+    result = await db.execute(
+        select(
+            PatientProfile.consent_ai,
+            PatientProfile.ai_personal_context_enabled,
+            PatientProfile.ai_general_chat_enabled,
+        ).where(PatientProfile.profile_id == patient_id)
+    )
+    row = result.first()
+    if row is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient medical profile not found")
+
+    legacy = bool(row[0]) if row[0] is not None else False
+    personal = legacy if row[1] is None else bool(row[1])
+    general = legacy if row[2] is None else bool(row[2])
+    return PatientAIAccessPreferences(
+        personal_context_enabled=personal,
+        general_chat_enabled=general,
+    )
+
+
+async def _require_patient_general_ai_chat_enabled(db: AsyncSession, patient_id: str) -> PatientAIAccessPreferences:
+    prefs = await _get_patient_ai_access_preferences(db, patient_id)
+    if not prefs.general_chat_enabled:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Patient has not enabled general Chorui AI chat.",
+        )
+    return prefs
+
+
+async def _require_patient_personal_ai_context_enabled(db: AsyncSession, patient_id: str) -> PatientAIAccessPreferences:
+    prefs = await _get_patient_ai_access_preferences(db, patient_id)
+    if not prefs.personal_context_enabled:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Patient has disabled Chorui AI personal-context sharing.",
+        )
+    return prefs
+
+
+async def _require_doctor_patient_ai_permissions(
+    db: AsyncSession,
+    *,
+    doctor_id: str,
+    patient_id: str,
+    sharing_perms: SharingPermissions | None = None,
+) -> SharingPermissions:
+    await _require_doctor_ai_assistance_enabled(db, doctor_id)
+    await _require_patient_personal_ai_context_enabled(db, patient_id)
+
+    effective_perms = sharing_perms or await get_sharing_permissions(
+        db,
+        patient_id=patient_id,
+        doctor_id=doctor_id,
+    )
+    if effective_perms.nothing_shared:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Patient has not shared any personal information categories for Chorui AI.",
+        )
+    return effective_perms
 
 
 async def _get_patient_context(db: AsyncSession, patient_id: str) -> tuple[Profile, PatientProfile]:
@@ -963,6 +1056,18 @@ async def _search_doctor_patients_by_criteria(
     profile_map = {item.id: item for item in profile_rows}
     patient_map = {item.profile_id: item for item in patient_profile_rows}
 
+    # Batch-load sharing preferences so we don't leak restricted conditions
+    from app.db.models.patient_data_sharing import PatientDataSharingPreference
+    sharing_rows = (
+        await db.execute(
+            select(PatientDataSharingPreference).where(
+                PatientDataSharingPreference.doctor_id == doctor_id,
+                PatientDataSharingPreference.patient_id.in_(patient_ids),
+            )
+        )
+    ).scalars().all()
+    sharing_map = {row.patient_id: row for row in sharing_rows}
+
     matches: list[dict[str, Any]] = []
     for patient_id in patient_ids:
         profile = profile_map.get(patient_id)
@@ -970,18 +1075,26 @@ async def _search_doctor_patients_by_criteria(
         if not profile:
             continue
 
-        name_tokens = " ".join(
-            [str(profile.first_name or "").lower(), str(profile.last_name or "").lower()]
-        ).strip()
-        condition_tokens = " ".join([item.lower() for item in _extract_conditions(patient) if item]).strip() if patient else ""
+        sharing_pref = sharing_map.get(patient_id)
+        can_see_profile = sharing_pref.can_view_profile if sharing_pref else False
+        can_see_conditions = sharing_pref.can_view_conditions if sharing_pref else False
+
+        name_tokens = ""
+        if can_see_profile:
+            name_tokens = " ".join(
+                [str(profile.first_name or "").lower(), str(profile.last_name or "").lower()]
+            ).strip()
+        condition_tokens = ""
+        if can_see_conditions and patient:
+            condition_tokens = " ".join([item.lower() for item in _extract_conditions(patient) if item]).strip()
 
         score = 0
         for token in normalized.split():
             if len(token) < 3:
                 continue
-            if token in name_tokens:
+            if name_tokens and token in name_tokens:
                 score += 2
-            if token in condition_tokens:
+            if condition_tokens and token in condition_tokens:
                 score += 3
 
         if score <= 0:
@@ -990,8 +1103,10 @@ async def _search_doctor_patients_by_criteria(
             {
                 "patient_id": patient_id,
                 "patient_ref": patient_ref_from_uuid(patient_id),
-                "display_name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient",
-                "conditions": _extract_conditions(patient)[:8] if patient else [],
+                "display_name": (
+                    f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
+                ) if can_see_profile else "Patient",
+                "conditions": (_extract_conditions(patient)[:8] if patient else []) if can_see_conditions else [],
                 "score": score,
             }
         )
@@ -1657,13 +1772,29 @@ async def _get_patient_care_team(
     doctor_ids = list(doctor_index.keys())
     profile_rows = (await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))).scalars().all()
     profiles = {item.id: item for item in profile_rows}
+    doctor_visibility_rows = (
+        await db.execute(
+            select(DoctorProfile.profile_id, DoctorProfile.allow_patient_ai_visibility).where(
+                DoctorProfile.profile_id.in_(doctor_ids)
+            )
+        )
+    ).all()
+    doctor_visibility_map = {
+        row.profile_id: bool(row.allow_patient_ai_visibility) for row in doctor_visibility_rows
+    }
 
     output: list[dict[str, Any]] = []
+    hidden_doctor_counter = 0
     for doctor_id, entry in doctor_index.items():
         profile = profiles.get(doctor_id)
         if not profile:
             continue
-        display_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Doctor"
+        can_show_identity = doctor_visibility_map.get(doctor_id, True)
+        if can_show_identity:
+            display_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Doctor"
+        else:
+            hidden_doctor_counter += 1
+            display_name = f"Doctor #{hidden_doctor_counter}"
         output.append(
             {
                 "doctor_name": display_name,
@@ -1753,8 +1884,20 @@ async def get_doctor_patient_assistant_summary(
         request=request,
     )
 
+    # Fetch sharing preferences and filter patient data
+    sharing_perms = await get_sharing_permissions(
+        db, patient_id=resolved_patient_id, doctor_id=user.id
+    )
+    sharing_perms = await _require_doctor_patient_ai_permissions(
+        db,
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        sharing_perms=sharing_perms,
+    )
     profile, patient = await _get_patient_context(db, resolved_patient_id)
-    raw_summary = _build_raw_summary(profile, patient)
+    raw_summary = filter_raw_summary(
+        _build_raw_summary(profile, patient), sharing_perms
+    )
     conditions = _safe_list(raw_summary.get("conditions"))
     medications = _safe_list(raw_summary.get("medications"))
     allergies = _safe_list(raw_summary.get("allergies"))
@@ -1796,20 +1939,25 @@ async def get_doctor_patient_assistant_summary(
     ]
 
     ai_brief: dict[str, Any] | None = None
+    ai_payload: dict[str, Any] = {
+        **subject_tokens,
+        "patient_record": raw_summary,
+        "recent_appointments": timeline[:6],
+    }
+    # Inject privacy restriction into AI prompt payload
+    restriction_notice = build_ai_restriction_notice(sharing_perms)
+    if restriction_notice:
+        ai_payload["privacy_restriction"] = restriction_notice
     rag_context = await _build_secure_rag_context(
         db,
         query="pre consultation summary",
         conditions=conditions,
         medications=medications,
     )
+    ai_payload["retrieved_knowledge"] = rag_context
     try:
         ai_brief = await ai_orchestrator.generate_patient_summary(
-            {
-                **subject_tokens,
-                "patient_record": raw_summary,
-                "recent_appointments": timeline[:6],
-                "retrieved_knowledge": rag_context,
-            },
+            ai_payload,
             include_meta=False,
             prompt_version="v2-doctor-brief",
         )
@@ -1824,13 +1972,15 @@ async def get_doctor_patient_assistant_summary(
         risk_flags=risk_flags,
     )
 
+    patient_snapshot: dict[str, Any] = {
+        "patient_id": patient_ref_from_uuid(resolved_patient_id),
+        "gender": patient.gender if sharing_perms.can_view_profile else None,
+        "blood_group": patient.blood_group if sharing_perms.can_view_profile else None,
+    }
+
     summary = {
         "doctor_brief": compact_brief,
-        "patient_snapshot": {
-            "patient_id": patient_ref_from_uuid(resolved_patient_id),
-            "gender": patient.gender,
-            "blood_group": patient.blood_group,
-        },
+        "patient_snapshot": patient_snapshot,
         "clinical_context": {
             "conditions": conditions[:8],
             "medications": medications[:8],
@@ -1850,6 +2000,10 @@ async def get_doctor_patient_assistant_summary(
             allergies=allergies,
             surgeries=surgeries,
         ),
+        "data_sharing_restrictions": {
+            "any_restricted": not sharing_perms.everything_shared,
+            "restricted_categories": sharing_perms.restricted_categories(),
+        },
     }
 
     return AIDoctorPatientSummaryResponse(
@@ -1880,6 +2034,7 @@ async def get_patient_prescription_assistant_summary(
     role = await _get_user_role(db, user.id)
     if role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can access this resource")
+    await _require_patient_personal_ai_context_enabled(db, user.id)
     privacy_mode = settings.CHORUI_PRIVACY_MODE.strip().lower()
 
     result = await db.execute(
@@ -2059,10 +2214,18 @@ async def _resolve_assistant_context(
     user_id: str,
     role: UserRole,
     payload_patient_id: str | None,
-) -> tuple[str | None, dict[str, Any] | None, str]:
+) -> tuple[str | None, dict[str, Any] | None, str, SharingPermissions | None]:
+    """
+    Returns (patient_id, raw_summary, context_mode, sharing_permissions).
+    sharing_permissions is None for patient-self and doctor-general modes.
+    For doctor-patient mode, the raw_summary is filtered by sharing preferences.
+    """
     if role == UserRole.PATIENT:
-        profile, patient = await _get_patient_context(db, user_id)
-        return user_id, _build_raw_summary(profile, patient), "patient-self"
+        ai_prefs = await _require_patient_general_ai_chat_enabled(db, user_id)
+        if ai_prefs.personal_context_enabled:
+            profile, patient = await _get_patient_context(db, user_id)
+            return user_id, _build_raw_summary(profile, patient), "patient-self", None
+        return None, None, "patient-general", None
 
     if role == UserRole.DOCTOR:
         if payload_patient_id:
@@ -2077,9 +2240,22 @@ async def _resolve_assistant_context(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=access.get("reason", "Access denied"),
                 )
+            # Fetch sharing permissions and filter the raw summary
+            sharing_perms = await get_sharing_permissions(
+                db, patient_id=resolved_patient_id, doctor_id=user_id
+            )
+            sharing_perms = await _require_doctor_patient_ai_permissions(
+                db,
+                doctor_id=user_id,
+                patient_id=resolved_patient_id,
+                sharing_perms=sharing_perms,
+            )
             profile, patient = await _get_patient_context(db, resolved_patient_id)
-            return resolved_patient_id, _build_raw_summary(profile, patient), "doctor-patient"
-        return None, None, "doctor-general"
+            raw_summary = filter_raw_summary(
+                _build_raw_summary(profile, patient), sharing_perms
+            )
+            return resolved_patient_id, raw_summary, "doctor-patient", sharing_perms
+        return None, None, "doctor-general", None
 
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
@@ -2103,10 +2279,14 @@ async def _try_resolve_doctor_patient_context_from_message(
     db: AsyncSession,
     doctor_id: str,
     message: str,
-) -> tuple[str | None, dict[str, Any] | None]:
+) -> tuple[str | None, dict[str, Any] | None, SharingPermissions | None]:
+    """
+    Attempt to resolve a patient ID from the doctor's message text.
+    Returns (patient_id, filtered_raw_summary, sharing_permissions).
+    """
     candidate_patient_id = _extract_patient_id_candidate(message)
     if not candidate_patient_id:
-        return None, None
+        return None, None, None
 
     resolved_patient_id = await resolve_doctor_patient_identifier(
         db,
@@ -2114,14 +2294,26 @@ async def _try_resolve_doctor_patient_context_from_message(
         patient_identifier=candidate_patient_id,
     )
     if not resolved_patient_id:
-        return None, None
+        return None, None, None
 
     access = await check_doctor_patient_access(db, doctor_id, resolved_patient_id)
     if not access.get("allowed"):
-        return None, None
+        return None, None, None
 
+    sharing_perms = await get_sharing_permissions(
+        db, patient_id=resolved_patient_id, doctor_id=doctor_id
+    )
+    sharing_perms = await _require_doctor_patient_ai_permissions(
+        db,
+        doctor_id=doctor_id,
+        patient_id=resolved_patient_id,
+        sharing_perms=sharing_perms,
+    )
     profile, patient = await _get_patient_context(db, resolved_patient_id)
-    return resolved_patient_id, _build_raw_summary(profile, patient)
+    raw_summary = filter_raw_summary(
+        _build_raw_summary(profile, patient), sharing_perms
+    )
+    return resolved_patient_id, raw_summary, sharing_perms
 
 
 def _merge_named_confidence_lists(
@@ -2256,15 +2448,17 @@ async def _run_chorui_assistant(
     role = await _get_user_role(db, user.id)
     if role is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
+    if role == UserRole.DOCTOR:
+        await _require_doctor_ai_assistance_enabled(db, user.id)
 
-    target_patient_id, patient_context, context_mode = await _resolve_assistant_context(
+    target_patient_id, patient_context, context_mode, sharing_perms = await _resolve_assistant_context(
         db=db,
         user_id=user.id,
         role=role,
         payload_patient_id=payload.patient_id,
     )
     if role == UserRole.DOCTOR and not target_patient_id:
-        inferred_patient_id, inferred_patient_context = await _try_resolve_doctor_patient_context_from_message(
+        inferred_patient_id, inferred_patient_context, inferred_sharing_perms = await _try_resolve_doctor_patient_context_from_message(
             db=db,
             doctor_id=user.id,
             message=payload.message,
@@ -2273,6 +2467,7 @@ async def _run_chorui_assistant(
             target_patient_id = inferred_patient_id
             patient_context = inferred_patient_context
             context_mode = "doctor-patient"
+            sharing_perms = inferred_sharing_perms
 
     role_context = _default_role_context(role, payload.role_context)
     conversation_id = await _resolve_conversation_id(
@@ -2331,6 +2526,9 @@ async def _run_chorui_assistant(
             patient_id=target_patient_id,
             doctor_id=user.id if role == UserRole.DOCTOR else None,
         )
+        # Apply sharing filter for doctor-patient context
+        if role == UserRole.DOCTOR and sharing_perms is not None:
+            extended_context = filter_extended_context(extended_context, sharing_perms)
         demographics = extended_context.get("demographics") if isinstance(extended_context.get("demographics"), dict) else {}
         recent_consultations = extended_context.get("recent_consultations") if isinstance(extended_context.get("recent_consultations"), list) else []
         recent_prescriptions = extended_context.get("recent_prescriptions") if isinstance(extended_context.get("recent_prescriptions"), list) else []
@@ -2357,6 +2555,13 @@ async def _run_chorui_assistant(
     }
     if target_patient_id:
         structured_data["patient_profile_id"] = patient_ref_from_uuid(target_patient_id)
+
+    # Inject privacy restriction notice so the AI never fabricates restricted data
+    if role == UserRole.DOCTOR and sharing_perms is not None:
+        restriction_notice = build_ai_restriction_notice(sharing_perms)
+        if restriction_notice:
+            structured_data["privacy_restriction"] = restriction_notice
+            structured_data["restricted_categories"] = sharing_perms.restricted_categories()
 
     await _persist_chorui_chat_message(
         db,
@@ -3173,7 +3378,7 @@ async def list_chorui_conversations(
     resolved_patient_id: str | None = None
 
     if role == UserRole.PATIENT:
-        resolved_patient_id = user.id
+        resolved_patient_id = None
     elif role == UserRole.DOCTOR and patient_id:
         resolved_patient_id = await _resolve_patient_identifier_for_doctor(
             db,
@@ -3416,20 +3621,37 @@ async def get_ai_patient_summary(
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
 
+    # Fetch sharing preferences and filter patient data
+    sharing_perms = await get_sharing_permissions(
+        db, patient_id=resolved_patient_id, doctor_id=user.id
+    )
+    sharing_perms = await _require_doctor_patient_ai_permissions(
+        db,
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        sharing_perms=sharing_perms,
+    )
     profile, patient = await _get_patient_context(db, resolved_patient_id)
-    raw_data = _build_raw_summary(profile, patient)
+    raw_data = filter_raw_summary(
+        _build_raw_summary(profile, patient), sharing_perms
+    )
     subject_tokens = _build_subject_tokens(
         doctor_id=user.id,
         patient_id=resolved_patient_id,
         feature="patient_summary",
     )
 
+    ai_payload: dict[str, Any] = {
+        **subject_tokens,
+        "record_context": raw_data,
+    }
+    restriction_notice = build_ai_restriction_notice(sharing_perms)
+    if restriction_notice:
+        ai_payload["privacy_restriction"] = restriction_notice
+
     try:
         result = await ai_orchestrator.generate_patient_summary(
-            {
-                **subject_tokens,
-                "record_context": raw_data,
-            },
+            ai_payload,
             include_meta=True,
             prompt_version="v1",
         )
@@ -3482,8 +3704,20 @@ async def get_ai_clinical_info(
         request=request,
     )
 
+    # Fetch sharing preferences and filter patient data
+    sharing_perms = await get_sharing_permissions(
+        db, patient_id=resolved_patient_id, doctor_id=user.id
+    )
+    sharing_perms = await _require_doctor_patient_ai_permissions(
+        db,
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+        sharing_perms=sharing_perms,
+    )
     profile, patient = await _get_patient_context(db, resolved_patient_id)
-    raw_summary = _build_raw_summary(profile, patient)
+    raw_summary = filter_raw_summary(
+        _build_raw_summary(profile, patient), sharing_perms
+    )
     summary_conditions = _safe_list(raw_summary.get("conditions"))
     summary_medications = _safe_list(raw_summary.get("medications"))
     summary_allergies = _safe_list(raw_summary.get("allergies"))
@@ -3504,7 +3738,10 @@ async def get_ai_clinical_info(
         [full_name, profile.first_name, profile.last_name],
         alias="[patient]",
     )
+    restriction_notice = build_ai_restriction_notice(sharing_perms)
+    restriction_prefix = f"{restriction_notice}\n\n" if restriction_notice else ""
     contextual_query_input = (
+        f"{restriction_prefix}"
         f"Doctor question:\n{anonymized_query_input}\n\n"
         "Authorized patient record context:\n"
         + json.dumps(
@@ -3697,6 +3934,11 @@ async def voice_to_notes(
     access = await check_doctor_patient_access(db, user.id, resolved_patient_id)
     if not access.get("allowed"):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=access.get("reason", "Access denied"))
+    await _require_doctor_patient_ai_permissions(
+        db,
+        doctor_id=user.id,
+        patient_id=resolved_patient_id,
+    )
 
     try:
         result = await ai_orchestrator.generate_soap_notes(

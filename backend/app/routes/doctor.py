@@ -6,6 +6,7 @@ import logging
 
 from app.core.dependencies import get_db
 from app.db.models.doctor import DoctorProfile
+from app.db.models.doctor_location import DoctorLocation
 from app.db.models.profile import Profile
 from app.db.models.speciality import Speciality
 from app.schemas.doctor import (
@@ -17,14 +18,104 @@ from app.schemas.doctor import (
     WorkExperienceItem,
     AppointmentSlotsResponse,
     TimeSlot,
-    TimeSlotGroup
+    TimeSlotGroup,
+    GeocodeLocationRequest,
+    GeocodeLocationResponse,
 )
-from app.services.geocoding import geocode_and_save_doctor_locations, geocode_all_doctors_missing_coordinates
+from app.services.geocoding import (
+    geocode_and_save_doctor_locations,
+    geocode_all_doctors_missing_coordinates,
+    geocode_location_text_with_cache,
+)
 from app.routes.auth import get_current_user_token
 from app.core.http_cache import build_etag, is_not_modified, not_modified_response, set_cache_headers
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
+
+async def _build_location_payload(
+    db: AsyncSession,
+    doctor: DoctorProfile,
+) -> list[LocationInfo]:
+    location_rows = (
+        (
+            await db.execute(
+                select(DoctorLocation)
+                .where(DoctorLocation.doctor_id == doctor.profile_id)
+                .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
+            )
+        )
+        .scalars()
+        .all()
+    )
+
+    if location_rows:
+        payload = []
+        for row in location_rows:
+            payload.append(
+                LocationInfo(
+                    id=row.id,
+                    name=row.location_name,
+                    location_type=row.location_type,
+                    display_name=row.display_name,
+                    address=row.address or "",
+                    city=row.city or "",
+                    country=row.country or "Bangladesh",
+                    latitude=row.latitude,
+                    longitude=row.longitude,
+                    availability=doctor.time_slots or "",
+                    available_days=row.available_days or [],
+                    appointment_duration=row.appointment_duration or doctor.appointment_duration,
+                    time_slots=doctor.time_slots,
+                    normalized_time_slots=getattr(doctor, 'normalized_time_slots', None),
+                    time_slots_needs_review=getattr(doctor, 'time_slots_needs_review', False),
+                    day_time_slots=row.day_time_slots or getattr(doctor, 'day_time_slots', None),
+                )
+            )
+        return payload
+
+    # Legacy fallback for doctors not yet migrated to the new table.
+    payload: list[LocationInfo] = []
+    if doctor.hospital_name:
+        payload.append(
+            LocationInfo(
+                name=doctor.hospital_name,
+                location_type="HOSPITAL",
+                address=doctor.hospital_address or "",
+                city=doctor.hospital_city or "",
+                country=doctor.hospital_country or "Bangladesh",
+                latitude=doctor.hospital_latitude,
+                longitude=doctor.hospital_longitude,
+                availability=doctor.time_slots or "",
+                available_days=doctor.available_days or [],
+                appointment_duration=doctor.appointment_duration,
+                time_slots=doctor.time_slots,
+                normalized_time_slots=getattr(doctor, 'normalized_time_slots', None),
+                time_slots_needs_review=getattr(doctor, 'time_slots_needs_review', False),
+                day_time_slots=getattr(doctor, 'day_time_slots', None),
+            )
+        )
+    if doctor.chamber_name and doctor.chamber_name != doctor.hospital_name:
+        payload.append(
+            LocationInfo(
+                name=doctor.chamber_name,
+                location_type="CHAMBER",
+                address=doctor.chamber_address or "",
+                city=doctor.chamber_city or "",
+                country="Bangladesh",
+                latitude=doctor.chamber_latitude,
+                longitude=doctor.chamber_longitude,
+                availability=doctor.time_slots or "",
+                available_days=doctor.available_days or [],
+                appointment_duration=doctor.appointment_duration,
+                time_slots=doctor.time_slots,
+                normalized_time_slots=getattr(doctor, 'normalized_time_slots', None),
+                time_slots_needs_review=getattr(doctor, 'time_slots_needs_review', False),
+                day_time_slots=getattr(doctor, 'day_time_slots', None),
+            )
+        )
+    return payload
 
 @router.get("/testxyz")
 async def test_route():
@@ -74,7 +165,13 @@ async def search_doctors(
         stmt = stmt.where(
             or_(
                 DoctorProfile.hospital_city.ilike(f"%{city}%"),
-                DoctorProfile.chamber_city.ilike(f"%{city}%")
+                DoctorProfile.chamber_city.ilike(f"%{city}%"),
+                select(DoctorLocation.id)
+                .where(
+                    DoctorLocation.doctor_id == DoctorProfile.profile_id,
+                    DoctorLocation.city.ilike(f"%{city}%"),
+                )
+                .exists(),
             )
         )
 
@@ -98,6 +195,17 @@ async def search_doctors(
                 DoctorProfile.about.ilike(search_term),
                 DoctorProfile.hospital_name.ilike(search_term),
                 DoctorProfile.hospital_city.ilike(search_term),
+                select(DoctorLocation.id)
+                .where(
+                    DoctorLocation.doctor_id == DoctorProfile.profile_id,
+                    or_(
+                        DoctorLocation.location_name.ilike(search_term),
+                        DoctorLocation.address.ilike(search_term),
+                        DoctorLocation.city.ilike(search_term),
+                        DoctorLocation.display_name.ilike(search_term),
+                    ),
+                )
+                .exists(),
             )
         )
 
@@ -174,43 +282,7 @@ async def get_doctor_profile(
     doc, prof, spec = row
 
     # Build locations list
-    locations = []
-    
-    # Add hospital location if available
-    if doc.hospital_name:
-        locations.append(LocationInfo(
-            name=doc.hospital_name,
-            address=doc.hospital_address or "",
-            city=doc.hospital_city or "",
-            country=doc.hospital_country or "Bangladesh",
-            latitude=doc.hospital_latitude,
-            longitude=doc.hospital_longitude,
-            availability=doc.time_slots or "",
-            available_days=doc.available_days or [],
-            appointment_duration=doc.appointment_duration,
-            time_slots=doc.time_slots,
-            normalized_time_slots=getattr(doc, 'normalized_time_slots', None),
-            time_slots_needs_review=getattr(doc, 'time_slots_needs_review', False),
-            day_time_slots=getattr(doc, 'day_time_slots', None)
-        ))
-    
-    # Add chamber location if different from hospital
-    if doc.chamber_name and doc.chamber_name != doc.hospital_name:
-        locations.append(LocationInfo(
-            name=doc.chamber_name,
-            address=doc.chamber_address or "",
-            city=doc.chamber_city or "",
-            country="Bangladesh",
-            latitude=doc.chamber_latitude,
-            longitude=doc.chamber_longitude,
-            availability=doc.time_slots or "",
-            available_days=doc.available_days or [],
-            appointment_duration=doc.appointment_duration,
-            time_slots=doc.time_slots,
-            normalized_time_slots=getattr(doc, 'normalized_time_slots', None),
-            time_slots_needs_review=getattr(doc, 'time_slots_needs_review', False),
-            day_time_slots=getattr(doc, 'day_time_slots', None)
-        ))
+    locations = await _build_location_payload(db, doc)
 
     # Parse education from JSON
     education = None
@@ -286,7 +358,7 @@ async def get_doctor_profile(
 async def get_appointment_slots(
     profile_id: str,
     date: str = Query(..., description="Date in YYYY-MM-DD format"),
-    location: Optional[str] = Query(None, description="Location/hospital name"),
+    location_id: Optional[str] = Query(None, description="Doctor location ID"),
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -311,7 +383,7 @@ async def get_appointment_slots(
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
 
-    slot_result = await slot_service.get_available_slots(db, profile_id, target_date)
+    slot_result = await slot_service.get_available_slots(db, profile_id, target_date, location_id)
 
     # Map slot_service output to the existing AppointmentSlotsResponse format
     slot_groups = []
@@ -323,10 +395,45 @@ async def get_appointment_slots(
         if slots:
             slot_groups.append(TimeSlotGroup(period=group["label"], slots=slots))
 
+    location_label = doctor.hospital_name or "Not specified"
+    if location_id:
+        location_row = (
+            await db.execute(
+                select(DoctorLocation).where(
+                    DoctorLocation.id == location_id,
+                    DoctorLocation.doctor_id == profile_id,
+                )
+            )
+        ).scalar_one_or_none()
+        location_label = location_row.location_name if location_row else location_id
+
     return AppointmentSlotsResponse(
         date=date,
-        location=location or doctor.hospital_name or "Not specified",
+        location=location_label,
         slots=slot_groups,
+    )
+
+
+@router.post("/geocode", response_model=GeocodeLocationResponse)
+async def geocode_location_text(
+    payload: GeocodeLocationRequest,
+    db: AsyncSession = Depends(get_db),
+    _: any = Depends(get_current_user_token),
+):
+    """Geocode a free-text location using cache-first Nominatim lookup."""
+    location_text = (payload.location_text or "").strip()
+    if len(location_text) < 5:
+        raise HTTPException(status_code=400, detail="Location text must be at least 5 characters")
+
+    geocoded = await geocode_location_text_with_cache(db, location_text)
+    if not geocoded:
+        raise HTTPException(status_code=404, detail="Location not found")
+
+    return GeocodeLocationResponse(
+        latitude=float(geocoded["lat"]),
+        longitude=float(geocoded["lng"]),
+        display_name=str(geocoded.get("display_name") or location_text),
+        source=str(geocoded.get("source") or "nominatim"),
     )
 
 
