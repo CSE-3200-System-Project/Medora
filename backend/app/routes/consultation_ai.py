@@ -8,7 +8,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.dependencies import get_db
 from app.db.models.ai_interaction import AIFeedback, AIInteraction
 from app.db.models.consultation import Consultation
+from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import UserRole
+from app.db.models.patient import PatientProfile
+from app.db.models.patient_data_sharing import PatientDataSharingPreference, SHARING_CATEGORY_FIELDS
 from app.db.models.profile import Profile
 from app.routes.auth import get_current_user_token
 from app.schemas.ai_orchestrator import (
@@ -49,6 +52,54 @@ async def _get_doctor_consultation(db: AsyncSession, consultation_id: str, docto
     if not consultation:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Consultation not found")
     return consultation
+
+
+async def _require_consultation_ai_permissions(db: AsyncSession, consultation: Consultation) -> None:
+    doctor_ai_result = await db.execute(
+        select(DoctorProfile.ai_assistance).where(DoctorProfile.profile_id == consultation.doctor_id)
+    )
+    doctor_ai_assistance = doctor_ai_result.scalar_one_or_none()
+    if doctor_ai_assistance is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Doctor profile not found")
+    if not doctor_ai_assistance:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Doctor has disabled Chorui AI assistance.",
+        )
+
+    patient_ai_result = await db.execute(
+        select(
+            PatientProfile.consent_ai,
+            PatientProfile.ai_personal_context_enabled,
+        ).where(PatientProfile.profile_id == consultation.patient_id)
+    )
+    patient_ai_row = patient_ai_result.first()
+    if patient_ai_row is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient medical profile not found")
+    legacy_consent = bool(patient_ai_row[0]) if patient_ai_row[0] is not None else False
+    personal_context_enabled = legacy_consent if patient_ai_row[1] is None else bool(patient_ai_row[1])
+    if not personal_context_enabled:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Patient has disabled Chorui AI personal-context sharing.",
+        )
+
+    sharing_result = await db.execute(
+        select(PatientDataSharingPreference).where(
+            PatientDataSharingPreference.patient_id == consultation.patient_id,
+            PatientDataSharingPreference.doctor_id == consultation.doctor_id,
+        )
+    )
+    sharing_pref = sharing_result.scalar_one_or_none()
+    view_fields = [field for field in SHARING_CATEGORY_FIELDS if field != "can_use_ai"]
+    has_any_shared_category = bool(
+        sharing_pref and any(bool(getattr(sharing_pref, field, False)) for field in view_fields)
+    )
+    if not has_any_shared_category:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Patient has not shared any personal information categories for Chorui AI.",
+        )
 
 
 def _build_interaction_response(interaction: AIInteraction) -> AIInteractionResponse:
@@ -139,6 +190,7 @@ async def ai_patient_summary(
 ):
     await _require_doctor(db, user.id)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     try:
         result = await ai_orchestrator.generate_patient_summary(
@@ -169,6 +221,7 @@ async def ai_structure_intake(
 ):
     await _require_doctor(db, user.id)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     try:
         result = await ai_orchestrator.structure_intake(
@@ -199,6 +252,7 @@ async def ai_generate_soap_notes(
 ):
     await _require_doctor(db, user.id)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     try:
         result = await ai_orchestrator.generate_soap_notes(
@@ -229,6 +283,7 @@ async def ai_clinical_query(
 ):
     await _require_doctor(db, user.id)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     try:
         result = await ai_orchestrator.clinical_info_query(
@@ -259,6 +314,7 @@ async def ai_prescription_suggestions(
 ):
     await _require_doctor(db, user.id)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     try:
         result = await ai_orchestrator.prescription_suggestions(
@@ -325,7 +381,8 @@ async def consultation_safety_check(
     db: AsyncSession = Depends(get_db),
 ):
     await _require_doctor(db, user.id)
-    await _get_doctor_consultation(db, consultation_id, user.id)
+    consultation = await _get_doctor_consultation(db, consultation_id, user.id)
+    await _require_consultation_ai_permissions(db, consultation)
 
     issues: list[str] = []
     status_label = "safe"

@@ -161,6 +161,7 @@ export function DoctorOnboarding() {
     languagesSpoken: [] as string[],
     caseTypes: "",
     aiAssistance: true,
+    allowPatientAIVisibility: true,
     termsAccepted: false,
     telemedicineAvailable: false,
     telemedicinePlatforms: [] as string[],
@@ -292,6 +293,7 @@ export function DoctorOnboarding() {
             languagesSpoken: data.languages_spoken || [],
             caseTypes: data.case_types || "",
             aiAssistance: data.ai_assistance ?? true,
+            allowPatientAIVisibility: data.allow_patient_ai_visibility ?? true,
             termsAccepted: data.terms_accepted || false,
             telemedicineAvailable: data.telemedicine_available || false,
             telemedicinePlatforms: data.telemedicine_platforms || [],
@@ -582,6 +584,7 @@ export function DoctorOnboarding() {
       languages_spoken: formData.languagesSpoken,
       case_types: formData.caseTypes,
       ai_assistance: formData.aiAssistance,
+      allow_patient_ai_visibility: formData.allowPatientAIVisibility,
       terms_accepted: formData.termsAccepted,
       telemedicine_available: formData.telemedicineAvailable,
       telemedicine_platforms: formData.telemedicinePlatforms,
@@ -1181,6 +1184,7 @@ export function DoctorOnboarding() {
                       languages_spoken: updatedFormData.languagesSpoken,
                       case_types: updatedFormData.caseTypes,
                       ai_assistance: updatedFormData.aiAssistance,
+                      allow_patient_ai_visibility: updatedFormData.allowPatientAIVisibility,
                       terms_accepted: updatedFormData.termsAccepted,
                       telemedicine_available: updatedFormData.telemedicineAvailable,
                       telemedicine_platforms: updatedFormData.telemedicinePlatforms,
@@ -1314,6 +1318,12 @@ export function DoctorOnboarding() {
                 <Checkbox id="aiAssistance" checked={formData.aiAssistance} onCheckedChange={(checked) => handleInputChange("aiAssistance", checked === true)} />
                 <Label htmlFor="aiAssistance" className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   I agree to use AI assistance for preliminary diagnosis support. I understand that AI suggestions are advisory only.
+                </Label>
+              </div>
+              <div className="flex items-start space-x-2">
+                <Checkbox id="allowPatientAIVisibility" checked={formData.allowPatientAIVisibility} onCheckedChange={(checked) => handleInputChange("allowPatientAIVisibility", checked === true)} />
+                <Label htmlFor="allowPatientAIVisibility" className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  I allow patients to view my identity in patient-facing Chorui AI care-team responses.
                 </Label>
               </div>
               <div className="flex items-start space-x-2">

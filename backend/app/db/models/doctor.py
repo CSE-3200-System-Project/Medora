@@ -98,6 +98,7 @@ class DoctorProfile(Base):
     languages_spoken: Mapped[list | None] = mapped_column(JSON)  # Multiple languages
     case_types: Mapped[str | None]  # Types of cases handled
     ai_assistance: Mapped[bool] = mapped_column(Boolean, default=True)
+    allow_patient_ai_visibility: Mapped[bool] = mapped_column(Boolean, default=True, server_default='true')
     terms_accepted: Mapped[bool] = mapped_column(Boolean, default=False)
     
     # Telemedicine preferences
