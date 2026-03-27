@@ -26,6 +26,7 @@ class TimeBlockResponse(BaseModel):
 
 class DayAvailabilityCreate(BaseModel):
     day_of_week: int = Field(ge=0, le=6, description="0=Monday..6=Sunday")
+    doctor_location_id: Optional[str] = None
     is_active: bool = True
     time_blocks: list[TimeBlockCreate]
 
@@ -33,6 +34,7 @@ class DayAvailabilityCreate(BaseModel):
 class DayAvailabilityResponse(BaseModel):
     id: str
     day_of_week: int
+    doctor_location_id: Optional[str] = None
     is_active: bool
     time_blocks: list[TimeBlockResponse]
 
@@ -59,6 +61,7 @@ class WeeklyScheduleResponse(BaseModel):
 
 class ExceptionCreate(BaseModel):
     exception_date: date
+    doctor_location_id: Optional[str] = None
     is_available: bool = False
     reason: Optional[str] = None
 
@@ -66,6 +69,7 @@ class ExceptionCreate(BaseModel):
 class ExceptionResponse(BaseModel):
     id: str
     doctor_id: str
+    doctor_location_id: Optional[str] = None
     exception_date: date
     is_available: bool
     reason: Optional[str] = None
@@ -79,6 +83,7 @@ class ExceptionResponse(BaseModel):
 
 class ScheduleOverrideCreate(BaseModel):
     override_date: date
+    doctor_location_id: Optional[str] = None
     start_time: time
     end_time: time
     slot_duration_minutes: int = 30
@@ -87,6 +92,7 @@ class ScheduleOverrideCreate(BaseModel):
 class ScheduleOverrideResponse(BaseModel):
     id: str
     doctor_id: str
+    doctor_location_id: Optional[str] = None
     override_date: date
     start_time: time
     end_time: time

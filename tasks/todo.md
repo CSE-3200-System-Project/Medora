@@ -1,3 +1,32 @@
+# Doctor Multi-Location Map Onboarding (2026-03-27)
+
+## Status: completed
+
+### Todo
+- [x] Create new doctor locations data model for unlimited chambers/clinics with coordinates and geocoding metadata
+- [x] Add migration/backfill path for location table and location-aware schedule/appointment linkage
+- [x] Extend backend onboarding schemas/routes for unified `practice_locations` payload and persistence
+- [x] Add backend geocode contract with normalized text caching and manual-pin fallback support
+- [x] Refactor doctor profile/search/AI-search location reads to unified location source
+- [x] Build frontend onboarding Step 5 repeatable location manager with add/edit/remove chamber support
+- [x] Add map popup picker for marker selection and manual address fallback per location
+- [x] Make location availability day/time editable per chamber and saved in backend
+- [x] Update slot/booking flow to use stable location IDs instead of array indexes
+- [x] Validate backend/frontend build paths and add implementation review notes
+
+### Review
+- Added a new `doctor_locations` source-of-truth model and migration with legacy backfill from `doctor_profiles` hospital/chamber fields.
+- Linked location IDs into `doctor_availability`, `doctor_exceptions`, `doctor_schedule_overrides`, and `appointments` for location-aware scheduling/booking.
+- Implemented onboarding `practice_locations` payload support (schema + persistence + read hydration), including strict coordinate requirement and geocode fallback.
+- Added backend geocode endpoint and cache-first location-text lookup via normalized `doctor_locations` text before external Nominatim calls.
+- Refactored doctor profile and city search reads to prefer the unified location table with legacy fallback.
+- Updated AI doctor-search location filtering to include unified `doctor_locations` fields alongside legacy fallback.
+- Rebuilt onboarding Step 5 as a multi-location manager with add/remove/primary actions, per-location map picker popup, and per-location schedule modal.
+- Updated booking/slots flows to pass `location_id` and persist `doctor_location_id` + `location_name` during appointment creation.
+- Validation run: diagnostics report no errors on touched backend/frontend files; focused lint passes on targeted onboarding/booking/auth files.
+- Migration validation: resolved Alembic multi-head by chaining `sh4r1ng_001` after `l0c4t10n_001`, then upgraded DB successfully to latest head.
+- Smoke checks: backend app imports successfully, core route smoke requests return expected statuses, and frontend production build completes successfully.
+
 # Bangladesh Frequency/Quantity Normalization (2026-03-26)
 
 ## Status: completed

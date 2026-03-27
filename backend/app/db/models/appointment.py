@@ -62,6 +62,10 @@ class Appointment(Base):
         Integer, nullable=True, default=30
     )
     google_event_id: Mapped[str | None] = mapped_column(String, nullable=True)
+    doctor_location_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("doctor_locations.id"), nullable=True, index=True
+    )
+    location_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

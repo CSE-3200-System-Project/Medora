@@ -48,7 +48,10 @@ class WorkExperienceItem(BaseModel):
     current: bool = False
 
 class LocationInfo(BaseModel):
+    id: Optional[str] = None
     name: str
+    location_type: Optional[str] = None
+    display_name: Optional[str] = None
     address: str
     city: str
     country: Optional[str] = "Bangladesh"
@@ -124,3 +127,14 @@ class AppointmentSlotsResponse(BaseModel):
     date: str
     location: str
     slots: List[TimeSlotGroup]
+
+
+class GeocodeLocationRequest(BaseModel):
+    location_text: str
+
+
+class GeocodeLocationResponse(BaseModel):
+    latitude: float
+    longitude: float
+    display_name: Optional[str] = None
+    source: str

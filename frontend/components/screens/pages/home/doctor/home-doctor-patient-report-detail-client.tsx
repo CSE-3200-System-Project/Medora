@@ -32,6 +32,7 @@ import {
   Send,
   AlertTriangle,
   FileText,
+  ShieldOff,
 } from "lucide-react";
 
 export default function DoctorPatientReportDetailPage() {
@@ -144,14 +145,19 @@ export default function DoctorPatientReportDetailPage() {
   }
 
   if (error || !report) {
+    const isAccessDenied = error?.toLowerCase().includes("not shared") || error?.toLowerCase().includes("access denied");
     return (
       <AppBackground>
         <Navbar />
         <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)] px-4">
-          <Card className="border-destructive/50 bg-destructive/10">
-            <CardContent className="p-6 text-center text-destructive">
-              {error || "Report not found"}
-              <div className="mt-4">
+          {isAccessDenied ? (
+            <Card className="border-amber-200 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-900/10">
+              <CardContent className="p-8 text-center">
+                <ShieldOff className="h-12 w-12 mx-auto mb-4 text-amber-500 opacity-70" />
+                <p className="font-medium text-foreground mb-1">Report not shared with you</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The patient has not granted you access to this report. They can share it from their Privacy settings.
+                </p>
                 <Button
                   variant="outline"
                   onClick={() =>
@@ -160,9 +166,25 @@ export default function DoctorPatientReportDetailPage() {
                 >
                   Back to Reports
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="border-destructive/50 bg-destructive/10">
+              <CardContent className="p-6 text-center text-destructive">
+                {error || "Report not found"}
+                <div className="mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      router.push(`/doctor/patient/${patientId}/reports`)
+                    }
+                  >
+                    Back to Reports
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </main>
       </AppBackground>
     );

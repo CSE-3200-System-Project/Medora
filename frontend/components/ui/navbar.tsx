@@ -295,6 +295,14 @@ export function Navbar() {
                       <span>Settings</span>
                     </Link>
                   </DropdownMenuItem>
+                  {user.role?.toLowerCase() === 'patient' && (
+                    <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
+                      <Link href="/patient/privacy">
+                        <Shield className="mr-2 h-4 w-4" />
+                        <span>Privacy & Data Sharing</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={handleLogout}
@@ -447,7 +455,13 @@ export function Navbar() {
                           <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <FileText className="h-5 w-5 text-primary" /> Medical History
                           </Link>
-                          
+                          <Link href="/patient/medical-reports" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <FlaskConical className="h-5 w-5 text-primary" /> Lab Reports
+                          </Link>
+                          <Link href="/patient/privacy" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Shield className="h-5 w-5 text-primary" /> Privacy & Data Sharing
+                          </Link>
+
                         </>
                       ) : null}
                     </div>

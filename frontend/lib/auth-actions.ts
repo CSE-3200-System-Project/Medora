@@ -43,6 +43,15 @@ function getMetadataCookieOptions(maxAgeSeconds: number) {
   };
 }
 
+function isNextRedirectError(error: unknown): boolean {
+  if (typeof error !== "object" || error === null) return false;
+  const maybeRedirect = error as { message?: string; digest?: string };
+  return (
+    maybeRedirect.message === "NEXT_REDIRECT" ||
+    (typeof maybeRedirect.digest === "string" && maybeRedirect.digest.startsWith("NEXT_REDIRECT"))
+  );
+}
+
 export async function login(formData: FormData, rememberMe: boolean = false) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -104,8 +113,8 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
       redirect("/");
     }
     
-  } catch (error: any) {
-    if (error.message === "NEXT_REDIRECT" || error.digest?.startsWith("NEXT_REDIRECT")) {
+  } catch (error: unknown) {
+    if (isNextRedirectError(error)) {
         throw error;
     }
     console.error(error);
@@ -158,7 +167,7 @@ async function getAuthHeaders() {
   };
 }
 
-export async function updatePatientOnboarding(data: any) {
+export async function updatePatientOnboarding(data: Record<string, unknown>) {
   try {
     const headers = await getAuthHeaders();
     
@@ -183,7 +192,7 @@ export async function updatePatientOnboarding(data: any) {
   }
 }
 
-export async function updateDoctorOnboarding(data: any) {
+export async function updateDoctorOnboarding(data: Record<string, unknown>) {
   try {
     const headers = await getAuthHeaders();
 
@@ -272,7 +281,7 @@ export async function getPublicDoctorProfile(profileId: string) {
           const textError = await response.text();
           errorMessage = textError || errorMessage;
         }
-      } catch (parseError) {
+      } catch {
         // If parsing fails, use default message
       }
       throw new Error(errorMessage);
@@ -285,12 +294,12 @@ export async function getPublicDoctorProfile(profileId: string) {
   }
 }
 
-export async function getAvailableSlots(profileId: string, date: string, location?: string) {
+export async function getAvailableSlots(profileId: string, date: string, locationId?: string) {
   try {
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
     
     const params = new URLSearchParams({ date });
-    if (location) params.append('location', location);
+    if (locationId) params.append('location_id', locationId);
     
     const response = await fetch(`${backendUrl}/doctor/${profileId}/slots?${params.toString()}`, {
       method: "GET",
@@ -477,7 +486,7 @@ export async function getDoctorProfile() {
 }
 
 // Update current doctor's profile
-export async function updateDoctorProfile(data: any) {
+export async function updateDoctorProfile(data: Record<string, unknown>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
@@ -526,7 +535,7 @@ export async function forgotPassword(email: string) {
     }
 
     return { success: true, message: "Password reset link sent to your email" };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Forgot password error:", error);
     throw error;
   }
@@ -549,7 +558,7 @@ export async function resetPassword(accessToken: string, newPassword: string) {
     }
 
     return { success: true, message: "Password has been reset successfully" };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Reset password error:", error);
     throw error;
   }
@@ -582,7 +591,7 @@ export async function changePassword(currentPassword: string, newPassword: strin
     }
 
     return { success: true, message: "Password changed successfully" };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Change password error:", error);
     throw error;
   }

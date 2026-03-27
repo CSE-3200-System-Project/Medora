@@ -22,6 +22,9 @@ class DoctorAvailability(Base):
     doctor_id: Mapped[str] = mapped_column(
         String, ForeignKey("doctor_profiles.profile_id"), nullable=False, index=True
     )
+    doctor_location_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("doctor_locations.id"), nullable=True, index=True
+    )
     day_of_week: Mapped[int] = mapped_column(
         Integer, nullable=False
     )  # 0=Monday .. 6=Sunday
@@ -75,6 +78,9 @@ class DoctorException(Base):
     doctor_id: Mapped[str] = mapped_column(
         String, ForeignKey("doctor_profiles.profile_id"), nullable=False, index=True
     )
+    doctor_location_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("doctor_locations.id"), nullable=True, index=True
+    )
     exception_date: Mapped[Date] = mapped_column(Date, nullable=False)
     is_available: Mapped[bool] = mapped_column(
         Boolean, default=False, server_default="false"
@@ -96,6 +102,9 @@ class DoctorScheduleOverride(Base):
     )
     doctor_id: Mapped[str] = mapped_column(
         String, ForeignKey("doctor_profiles.profile_id"), nullable=False, index=True
+    )
+    doctor_location_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("doctor_locations.id"), nullable=True, index=True
     )
     override_date: Mapped[Date] = mapped_column(Date, nullable=False)
     start_time: Mapped[Time] = mapped_column(Time, nullable=False)

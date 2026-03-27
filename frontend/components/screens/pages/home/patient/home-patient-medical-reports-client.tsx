@@ -32,6 +32,8 @@ import {
   MessageSquare,
   X,
   ImageIcon,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 export default function PatientMedicalReportsPage() {
@@ -380,6 +382,23 @@ export default function PatientMedicalReportsPage() {
                               {report.comment_count} comments
                             </span>
                           )}
+                          <span className={`flex items-center gap-1 ${
+                            report.shared_with_doctors
+                              ? "text-green-600 dark:text-green-400"
+                              : ""
+                          }`}>
+                            {report.shared_with_doctors ? (
+                              <>
+                                <Eye className="h-3 w-3" />
+                                Shared
+                              </>
+                            ) : (
+                              <>
+                                <EyeOff className="h-3 w-3" />
+                                Private
+                              </>
+                            )}
+                          </span>
                         </div>
                       </div>
                     </div>
