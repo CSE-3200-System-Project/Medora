@@ -22,7 +22,7 @@ export function handleUnauthorized() {
   // Notify app that we've logged out (components can listen and update UI)
   try {
     window.dispatchEvent(new Event("medora:logged_out"));
-  } catch (e) {
+  } catch {
     // ignore in non-browser environments
   }
 
@@ -60,7 +60,15 @@ export async function fetchWithAuth(url: string, options?: RequestInit): Promise
     
     return response;
   } catch (error) {
-    console.error("Fetch error:", error);
+    // AbortController cancellations are expected during route transitions/unmount.
+    const isAbort =
+      error instanceof DOMException
+        ? error.name === "AbortError"
+        : typeof error === "object" && error !== null && "name" in error && (error as { name?: string }).name === "AbortError";
+
+    if (!isAbort) {
+      console.error("Fetch error:", error);
+    }
     throw error;
   }
 }

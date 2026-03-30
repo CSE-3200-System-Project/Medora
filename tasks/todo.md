@@ -1,3 +1,89 @@
+# Admin Patients UX + Actions Completion (2026-03-30)
+
+## Status: completed
+
+### Todo
+- [x] Fix admin profile dropdown layering/clipping with explicit stacking and overflow visibility
+- [x] Fix patients page navbar overlap by applying reliable navbar offset spacing in main content
+- [x] Implement debounced search + status filter + Add Patient control bar above table
+- [x] Implement Add Patient modal and connect to `POST /api/admin/patients`
+- [x] Implement patient detail endpoint + proxy and wire View Profile / View Reports dialogs
+- [x] Implement Edit Patient modal and connect to `PATCH /api/admin/patients/{id}`
+- [x] Implement account status + ban + delete confirmation dialogs with blurred overlays
+- [x] Implement optimistic mutation behavior and refetch for patient mutations/bulk actions
+- [x] Ensure table container is responsive and horizontally safe (`overflow-x-auto`, `max-w-7xl`)
+- [x] Add EN/BN i18n coverage for new dialog/modal/action/form texts
+
+### Review
+- Added backend admin patient APIs in `backend/app/routes/admin.py`:
+   - `POST /admin/patients` (create)
+   - `GET /admin/patients/{patient_id}` (detail for profile/reports)
+   - Extended search to include phone in `GET /admin/patients`.
+- Added frontend API proxy support:
+   - `POST /api/admin/patients` in `frontend/app/api/admin/patients/route.ts`
+   - `GET /api/admin/patients/[id]` in `frontend/app/api/admin/patients/[id]/route.ts`.
+- Rebuilt admin patients page orchestration in `frontend/components/admin/pages/admin-patients-client.tsx` with:
+   - Debounced search, filter, add/edit/profile/reports modals,
+   - Confirmation dialogs for activate/deactivate, ban, delete, and bulk actions,
+   - React Query optimistic updates + invalidation.
+- Fixed dropdown layering and clipping risk in `frontend/components/common/ProfileDropdown.tsx` and `frontend/components/admin/admin-navbar.tsx`.
+- Updated action dropdown wording behavior in `frontend/components/admin/patients/PatientActionsDropdown.tsx`.
+- Added all new EN/BN i18n keys under `admin.patientsPage` in `frontend/messages/en.json` and `frontend/messages/bn.json`.
+- Validation:
+   - Focused frontend lint on all touched files: `EXIT:0`
+   - Backend compile check for `app/routes/admin.py`: `EXIT:0`
+   - Frontend production build completed successfully after the changes.
+
+# Admin Patient Dashboard Overhaul (2026-03-30)
+
+## Status: completed
+
+### Todo
+- [x] Add backend admin patient list filters (search/status/page/pageSize) and include dashboard-safe fields
+- [x] Add backend analytics endpoints for patient stats, chart datasets, and insights
+- [x] Add backend mutation endpoints for per-patient PATCH/DELETE and bulk actions
+- [x] Wire frontend `/api/admin/patients*` routes to backend endpoints
+- [x] Replace old admin patients monolith with modular dashboard sections (header/stats/charts/table/bulk/insights)
+- [x] Integrate React Query for list/filter/pagination plus action mutations and cache refresh
+- [x] Add full EN/BN translations for `admin.patientsPage` and remove hardcoded user-facing page copy
+- [x] Keep admin navbar/layout unchanged while upgrading page functionality
+
+### Review
+- Extended `backend/app/routes/admin.py` with richer patient APIs: filtered list payload, `GET /admin/patients/stats`, `GET /admin/patients/charts`, `GET /admin/patients/insights`, `PATCH /admin/patients/{patient_id}`, `DELETE /admin/patients/{patient_id}`, and `POST /admin/patients/bulk-action`.
+- Preserved existing admin access dependency checks and added safe soft-delete style anonymization to avoid historical data breakage.
+- Rebuilt `frontend/components/admin/pages/admin-patients-client.tsx` around React Query with debounced search, status filters, pagination, row actions, bulk actions, and confirmation dialogs.
+- Connected the modular patient UI components created under `frontend/components/admin/patients/` into the new client orchestration.
+- Added/used frontend proxy endpoints under `frontend/app/api/admin/patients/` for list/stats/charts/insights/single/bulk contracts.
+- Added complete EN/BN translation coverage for `admin.patientsPage` in `frontend/messages/en.json` and `frontend/messages/bn.json`.
+- Verified diagnostics for all touched backend/frontend files report no errors.
+
+# Static i18n Residual Sweep - Registers, Notifications, Admin Doctors (2026-03-29)
+
+## Status: in-progress
+
+### Todo
+- [x] Localize patient registration screen copy and locale-aware auth links
+- [x] Localize doctor registration screen copy and verification success states
+- [x] Localize notifications page headings/filters/empty states/pagination and relative-time labels
+- [x] Add EN/BN message keys for `auth.patientRegister`, `auth.doctorRegister`, and `notificationsPage`
+- [x] Localize admin doctor management page (`admin-doctors-client`) including filters, statuses, dialogs, table headers, actions, and loader labels
+- [x] Add EN/BN message keys for `admin.doctorsPage`
+- [x] Localize patient nav destination pages: find medicine, appointments dashboard, medical reports list, and profile summary
+- [x] Add EN/BN message keys for `patientFindMedicinePage`, `patientAppointmentsPage`, `patientMedicalReportsPage`, and `patientProfilePage`
+- [x] Localize doctor appointments dashboard copy and metrics labels
+- [x] Add EN/BN message keys for `doctorAppointmentsPage`
+- [ ] Continue residual hardcoded-string sweep for remaining doctor/settings/patient destination pages (find doctor, medical history, doctor patients, doctor profile, settings)
+
+### Review
+- Replaced hardcoded registration-page literals in patient and doctor auth screens with `useTranslations` namespaces and locale-safe links.
+- Localized notifications page UI and relative-time wording (`just now`, `minutes/hours/days ago`) with locale-aware date fallback formatting.
+- Added complete EN/BN key coverage for the new namespaces: `auth.patientRegister`, `auth.doctorRegister`, and `notificationsPage`.
+- Localized the entire admin doctor management page including status badges, dialog content, ban/unban flows, table labels, empty states, and loading labels using `admin.doctorsPage`.
+- Added matching EN/BN translations for `admin.doctorsPage` and validated diagnostics on all touched i18n files.
+- Localized key patient nav destination screens (`patient-find-medicine-client`, `PatientAppointmentsPage`, `home-patient-medical-reports-client`, `home-patient-profile-client`) with `next-intl` keys and locale-aware path/date behavior.
+- Added and validated EN/BN namespaces for those patient destination screens; diagnostics are clean for all newly touched files.
+- Localized doctor appointments dashboard text (overview, actions, metrics, weekday labels, average/delta labels, and load/error states) via `doctorAppointmentsPage`.
+
 # Split Chorui AI Access Controls (2026-03-27)
 
 ## Status: completed
@@ -155,7 +241,7 @@
 
 # Medora System Overhaul Implementation (2026-03-26)
 
-## Status: in-progress
+## Status: completed
 
 ### Todo
 - [x] Phase 1A: Upgrade Chorui provider config defaults (timeout, retries, model) in backend settings
@@ -201,6 +287,89 @@
 - Completed live backend route smoke checks: `/health` returned `200`, and protected Phase 3-5 routes returned expected auth-gated `401` with invalid bearer tokens.
 - Ran end-to-end Phase 3-5 route-logic smoke execution directly against the DB session (create/list/update/delete health metric, patient dashboard aggregate fetch, create/update/delete doctor action, doctor stats/pending fetch), returning `{"ok": true, ...}`.
 - Completed full frontend production build (`next build --webpack`) successfully after fixing two TypeScript regressions in avatar seed usage (`home-doctor-patient-id-client.tsx`) and `AvatarImage` src typing (`components/ui/avatar.tsx`).
+
+# Static i18n System-Wide Integration (2026-03-29)
+
+## Status: in-progress
+
+### Todo
+- [x] Install and configure `next-intl` with locale routing (`/en`, `/bn`) and default locale `en`
+- [x] Restructure App Router to run all UI routes under `app/[locale]` while preserving existing behavior
+- [x] Add locale-aware middleware with `Accept-Language` detection and fallback to `en`
+- [x] Add `messages/en.json` and `messages/bn.json` with scalable feature namespaces
+- [x] Add `app/[locale]/layout.tsx` with `NextIntlClientProvider` and dynamic message loading
+- [x] Add global locale/font integration for Bangla (`Noto Sans Bengali`) and locale-specific `<html lang>`
+- [x] Create reusable `LanguageSwitcher` and integrate into shared navbar
+- [x] Replace shared hardcoded UI strings with translation keys in global navigation/shell components
+- [x] Add fallback-to-English message strategy and typed translation helper utilities
+- [x] Run lint/type-check/build verification and fix any regressions introduced by i18n changes
+
+### Review
+- Installed `next-intl` and wired the plugin via `frontend/next.config.ts` with request config at `frontend/i18n/request.ts`.
+- Added locale routing model in `frontend/i18n/routing.ts` with supported locales `en` and `bn`, default locale `en`, and always-prefixed routes.
+- Moved all UI route groups and landing page under `frontend/app/[locale]/` so app pages are served at `/en/*` and `/bn/*`.
+- Added `frontend/app/[locale]/layout.tsx` using `NextIntlClientProvider`, `setRequestLocale`, and dynamic message loading.
+- Updated `frontend/proxy.ts` to enforce locale prefixes, detect browser language (`Accept-Language`), and preserve all existing auth/role gating with locale-aware redirects.
+- Added Bangla font support with `Noto Sans Bengali` in `frontend/app/layout.tsx` and locale-driven font variable switching in `frontend/app/globals.css`.
+- Added translations in `frontend/messages/en.json` and `frontend/messages/bn.json`, organized by feature namespaces (`common`, `navbar`, `admin`, `doctorNav`, `landing`, etc.).
+- Added reusable `frontend/components/ui/language-switcher.tsx` and integrated it into shared/admin/doctor navbars.
+- Replaced shared shell/static labels with translation keys in `frontend/components/ui/navbar.tsx`, `frontend/components/admin/admin-navbar.tsx`, `frontend/components/doctor/doctor-navbar.tsx`, and `frontend/components/admin/admin-notifications.tsx`.
+- Added fallback-to-English behavior by deep-merging locale messages over English base in `frontend/i18n/request.ts` via `frontend/lib/i18n-utils.ts`.
+- Added typed translation-key utility (`tKey`) in `frontend/lib/i18n-utils.ts` and locale path helpers in `frontend/lib/locale-path.ts`.
+- Verification passed: focused lint checks and full frontend production build succeeded, including generated route output under `/[locale]/*`.
+
+# Static i18n Exhaustive Sweep (2026-03-29)
+
+## Status: completed
+
+### Todo
+- [x] Audit all remaining `frontend/app/[locale]` routes and high-traffic feature components for hardcoded user-facing strings
+- [x] Expand `frontend/messages/en.json` and `frontend/messages/bn.json` with missing namespaces/keys for untouched pages
+- [x] Replace remaining hardcoded UI copy with `getTranslations` (server) and `useTranslations` (client) in audited files
+- [x] Translate loading labels, empty/error states, CTA labels, and section headings introduced in route pages
+- [x] Run targeted lint and full frontend production build; fix regressions introduced by this sweep
+
+### Review
+- Added and wired new EN/BN translation namespaces/keys for landing copy, role selection, Chorui wrapper labels, doctor home dashboard copy, route-level fallback errors, appointment-success location fallback, and shared loading labels.
+- Replaced remaining hardcoded route-level user-facing strings in `app/[locale]/page.tsx`, `app/[locale]/(auth)/selection/page.tsx`, `app/[locale]/(home)/doctor/home/page.tsx`, and localized fallback/helper labels in doctor/patient analytics, doctor/patient Chorui, and patient appointment-success routes.
+- Updated locale-aware navigation/redirect behavior in touched route pages to preserve current locale via existing locale path helper.
+- Localized route loading states under `app/[locale]/(admin)/loading.tsx`, `app/[locale]/(auth)/loading.tsx`, `app/[locale]/(home)/loading.tsx`, and `app/[locale]/(onboarding)/loading.tsx` using `common.loading`.
+- Validation passed: targeted lint on all touched TSX files completed with no errors; full frontend production build (`next build --webpack`) completed successfully.
+- Residual hardcoded-string check passed for key audited files using regex scan over updated route pages with no remaining English user-facing literals detected.
+
+# Static i18n Enforcement Continuation (2026-03-29)
+
+## Status: in-progress
+
+### Todo
+- [x] Fix locale-provider runtime crash for `ToastProvider` by moving it under `NextIntlClientProvider`
+- [x] Fix language switcher interaction to reliably apply locale changes immediately
+- [x] Suppress expected `AbortError` noise in navbar/auth fetch path during navigation/unmount
+- [x] Localize `verify-pending-client`, `admin-dashboard-client`, `forgot-password-client`, and `reset-password-client`
+- [x] Localize high-traffic auth login page (`auth-login-client`) and make auth/admin links locale-aware
+- [x] Add required EN/BN message keys for new namespaces (`admin.verifyPending`, `admin.dashboardPage`, `auth.login`, `auth.forgot`, `auth.reset`)
+- [x] Validate touched files with lint and run full frontend production build
+- [x] Reinstate English fallback message merge for non-English locale requests in `frontend/i18n/request.ts`
+- [x] Enforce namespace-scoped `useTranslations("...")` in shared shell components (`navbar`, `admin-navbar`, `doctor-navbar`, `toast-provider`)
+- [x] Replace remaining shared-shell hardcoded user-facing literals (`Medora`, `Admin`, `Dr.`, fallback `User`) with translation-backed values
+- [x] Add required EN/BN keys for `common.user` and `doctorNav.doctorPrefix`
+- [x] Run focused diagnostics/lint validation for all touched shared-shell and i18n infrastructure files
+- [ ] Continue app-wide residual sweep for remaining hardcoded user-facing strings in patient/admin/doctor feature pages
+
+### Review
+- Moved toast context wiring to locale layout so `useTranslations` has provider context at runtime.
+- Updated language switcher behavior to use locale cookie persistence plus route replace/refresh, resolving non-switching UI reports.
+- Added abort-safe fetch handling and mounted-state guards to stop expected abort logs without masking real errors.
+- Replaced hardcoded user-facing strings in key auth/admin pages with `next-intl` keys and locale-aware path handling via `withLocale`.
+- Added comprehensive translation entries in both `frontend/messages/en.json` and `frontend/messages/bn.json` for newly introduced namespaces.
+- Validation passed on all touched files and full frontend build (`next build --webpack`) after each major batch.
+- Restored required fallback behavior by merging locale messages over English defaults in `frontend/i18n/request.ts`, so missing Bangla keys resolve to English.
+- Normalized shared-shell translation usage to namespace-scoped hooks only (`useTranslations("common")`, `useTranslations("navbar")`, `useTranslations("admin")`, `useTranslations("doctorNav")`, `useTranslations("common.notifications")`).
+- Replaced shared-shell hardcoded literals with localized values in main/admin/doctor navbars and toast provider, including doctor name prefix and fallback user label.
+- Added `common.user` and `doctorNav.doctorPrefix` keys to both EN/BN catalogs and revalidated touched files with diagnostics + focused lint.
+- Continued residual sweep with `frontend/components/patient/patient-appointment-calendar.tsx`: localized headings, legend/status labels, dialog copy, fallback labels, and weekday headers under new `patientAppointmentCalendar` namespace.
+- Added matching EN/BN message keys for `patientAppointmentCalendar`, and switched calendar date rendering to locale-aware formatters (`bn-BD`/`en-US`).
+- Validation: diagnostics for touched files are clean; focused lint on the updated calendar component completes without new rule errors.
 
 # Chorui UX + Intelligence + Global Launcher + Avatar Consistency (2026-03-26)
 

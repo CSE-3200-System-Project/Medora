@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Menu,
   LayoutDashboard,
@@ -11,8 +12,6 @@ import {
   UserCheck,
   Calendar,
   ClipboardList,
-  Settings,
-  LogOut,
   Ban,
 } from "lucide-react";
 
@@ -25,20 +24,30 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { generateDefaultAvatarUrl } from "@/lib/avatar";
 import { clearAdminAccess } from "@/lib/admin-actions";
 import { AdminNotifications } from "@/components/admin/admin-notifications";
+import { ProfileDropdown } from "@/components/common/ProfileDropdown";
+import { stripLocaleFromPathname, withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function AdminNavbar() {
   const pathname = usePathname();
+  const currentPath = stripLocaleFromPathname(pathname || "/");
+  const locale = useLocale() as AppLocale;
+  const tAdmin = useTranslations("admin");
+  const tCommon = useTranslations("common");
+  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
   const adminAvatarUrl = generateDefaultAvatarUrl("medora-admin");
+  const appName = tCommon("appName");
+  const adminLabel = tAdmin("administrator");
+  const adminEmail = "admin@medora.com";
 
   React.useEffect(() => {
     let frameId = 0;
@@ -65,7 +74,7 @@ export function AdminNavbar() {
       // Clear admin access cookies using server action
       await clearAdminAccess();
       // Redirect to login
-      window.location.href = '/login';
+      window.location.href = localeHref('/login');
     } catch (error) {
       console.error('Logout failed:', error);
       setLoggingOut(false);
@@ -73,13 +82,19 @@ export function AdminNavbar() {
   };
 
   const navigation = [
-    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { name: "Doctors", href: "/admin/doctors", icon: UserCheck },
-    { name: "Patients", href: "/admin/patients", icon: Users },
-    { name: "Appointments", href: "/admin/appointments", icon: Calendar },
-    { name: "Audit Log", href: "/admin/audit-log", icon: ClipboardList },
-    { name: "User Management", href: "/admin/users", icon: Ban },
+    { name: tAdmin("dashboard"), href: "/admin", icon: LayoutDashboard },
+    { name: tAdmin("doctors"), href: "/admin/doctors", icon: UserCheck },
+    { name: tAdmin("patients"), href: "/admin/patients", icon: Users },
+    { name: tAdmin("appointments"), href: "/admin/appointments", icon: Calendar },
+    { name: tAdmin("auditLog"), href: "/admin/audit-log", icon: ClipboardList },
+    { name: tAdmin("userManagement"), href: "/admin/users", icon: Ban },
   ];
+
+  const profileMenuItems = {
+    profileHref: localeHref("/admin"),
+    settingsHref: localeHref("/admin/settings"),
+    privacyHref: localeHref("/admin/settings"),
+  };
 
   return (
     <header
@@ -88,11 +103,11 @@ export function AdminNavbar() {
         left: "0",
         right: "0",
       }}
-      className="fixed z-50 px-2 sm:px-3"
+      className="fixed z-[80] overflow-visible px-2 sm:px-3"
     >
       <div
         className={cn(
-          "mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
+          "mx-auto max-w-7xl overflow-visible transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
           "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
           "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
           isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
@@ -100,18 +115,18 @@ export function AdminNavbar() {
       >
         <div className="flex h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6">
           {/* LEFT: Logo & Title */}
-          <Link href="/admin" className="flex items-center gap-2 sm:gap-3 touch-target">
+          <Link href={localeHref("/admin")} className="flex items-center gap-2 sm:gap-3 touch-target">
             <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
               <Image
                 src={medoraDarkLogo}
-                alt="Medora"
+                alt={appName}
                 fill
                 sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
                 className="object-contain dark:hidden"
               />
               <Image
                 src={medoraLightLogo}
-                alt="Medora"
+                alt={appName}
                 fill
                 sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
                 className="hidden object-contain dark:block"
@@ -119,9 +134,9 @@ export function AdminNavbar() {
             </div>
             <div className="hidden sm:block">
               <div className="flex items-center gap-2">
-                <span className="text-lg sm:text-xl font-bold tracking-tight text-primary">Medora</span>
+                <span className="text-lg sm:text-xl font-bold tracking-tight text-primary">{appName}</span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-warning text-warning-foreground font-semibold">
-                  ADMIN
+                  {tAdmin("tag")}
                 </span>
               </div>
             </div>
@@ -132,12 +147,12 @@ export function AdminNavbar() {
             {navigation.map((item) => {
               const Icon = item.icon;
               const isActive = item.href === "/admin"
-                ? pathname === "/admin"
-                : pathname === item.href || pathname.startsWith(item.href + "/");
+                ? currentPath === "/admin"
+                : currentPath === item.href || currentPath.startsWith(item.href + "/");
               return (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  href={localeHref(item.href)}
                   className={cn(
                     "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
                     isActive
@@ -156,34 +171,18 @@ export function AdminNavbar() {
           <div className="hidden lg:flex items-center gap-2 md:gap-3">
             {/* Notifications */}
             <AdminNotifications />
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl"
-            >
-              <Settings className="h-5 w-5" />
-            </Button>
-
-            <div className="flex items-center gap-3 px-3 py-2 rounded-xl border border-border/60">
-              <Avatar className="h-8 w-8 border border-primary/20">
-                <AvatarImage src={adminAvatarUrl} alt="Admin" />
-                <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
-                  AD
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-sm font-semibold text-foreground">Admin</span>
-            </div>
-
-            <Button
-              variant="ghost"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              {loggingOut ? "Logging out..." : "Logout"}
-            </Button>
+            <ProfileDropdown
+              name={adminLabel}
+              email={adminEmail}
+              avatarUrl={adminAvatarUrl}
+              initials={adminLabel.slice(0, 2)}
+              profileHref={profileMenuItems.profileHref}
+              settingsHref={profileMenuItems.settingsHref}
+              privacyHref={profileMenuItems.privacyHref}
+              logoutLabel={tAdmin("logout")}
+              onLogout={handleLogout}
+              isLoggingOut={loggingOut}
+            />
           </div>
 
           {/* MOBILE: Hamburger */}
@@ -205,15 +204,15 @@ export function AdminNavbar() {
             >
               <SheetHeader className="border-b border-border/60 px-5 pb-4 pt-5">
                 <SheetTitle className="flex items-center gap-2">
-                  <Link href="/admin" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href={localeHref("/admin")} className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <div className="relative h-8 w-8">
-                      <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
-                      <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
+                      <Image src={medoraDarkLogo} alt={appName} fill className="object-contain dark:hidden" />
+                      <Image src={medoraLightLogo} alt={appName} fill className="hidden object-contain dark:block" />
                     </div>
-                    <span>Medora</span>
+                    <span>{appName}</span>
                   </Link>
                   <span className="text-xs px-2 py-0.5 rounded-full bg-warning text-warning-foreground font-semibold">
-                    ADMIN
+                    {tAdmin("tag")}
                   </span>
                 </SheetTitle>
               </SheetHeader>
@@ -231,12 +230,12 @@ export function AdminNavbar() {
                   {navigation.map((item) => {
                     const Icon = item.icon;
                     const isActive = item.href === "/admin"
-                      ? pathname === "/admin"
-                      : pathname === item.href || pathname.startsWith(item.href + "/");
+                      ? currentPath === "/admin"
+                      : currentPath === item.href || currentPath.startsWith(item.href + "/");
                     return (
                       <Link
                         key={item.name}
-                        href={item.href}
+                        href={localeHref(item.href)}
                         className={cn(
                           "flex items-center gap-3 rounded-xl border border-border/60 px-3 py-3 text-base font-medium transition-colors",
                           isActive
@@ -252,28 +251,20 @@ export function AdminNavbar() {
                 </div>
 
                 <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
-                  <div className="flex items-center gap-3 px-2">
-                    <Avatar className="h-10 w-10 border-2 border-primary/10">
-                      <AvatarImage src={adminAvatarUrl} alt="Admin" />
-                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                        AD
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col flex-1">
-                      <span className="font-semibold text-foreground">Admin</span>
-                      <span className="text-xs text-muted-foreground">Administrator</span>
-                    </div>
+                  <div className="flex justify-end px-2">
+                    <ProfileDropdown
+                      name={adminLabel}
+                      email={adminEmail}
+                      avatarUrl={adminAvatarUrl}
+                      initials={adminLabel.slice(0, 2)}
+                      profileHref={profileMenuItems.profileHref}
+                      settingsHref={profileMenuItems.settingsHref}
+                      privacyHref={profileMenuItems.privacyHref}
+                      logoutLabel={tAdmin("logout")}
+                      onLogout={handleLogout}
+                      isLoggingOut={loggingOut}
+                    />
                   </div>
-
-                  <Button
-                    variant="ghost"
-                    onClick={handleLogout}
-                    disabled={loggingOut}
-                    className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    {loggingOut ? "Logging out..." : "Logout"}
-                  </Button>
                 </div>
               </div>
             </SheetContent>

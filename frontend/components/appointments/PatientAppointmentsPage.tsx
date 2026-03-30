@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { fetchWithAuth } from "@/lib/auth-utils";
@@ -17,8 +18,9 @@ import type { PatientAppointment, PatientSummary } from "@/components/appointmen
 import { Button } from "@/components/ui/button";
 import { cn, localDateKey } from "@/lib/utils";
 import { requestReschedule } from "@/lib/availability-actions";
+import { withLocale, type AppLocale } from "@/lib/locale-path";
 
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
+const MONTH_KEYS = ["may", "jun", "jul", "aug", "sep", "oct"] as const;
 
 type RangeKey = "month" | "quarter" | "year";
 
@@ -36,11 +38,11 @@ function toPatientId(raw?: string) {
   return `MED-${compact.slice(0, 4).padEnd(4, "0")}`;
 }
 
-function formatSummaryDate(date?: string) {
-  if (!date) return "Not available";
+function formatSummaryDate(date: string | undefined, locale: string, notAvailableLabel: string) {
+  if (!date) return notAvailableLabel;
   const value = new Date(date);
-  if (Number.isNaN(value.getTime())) return "Not available";
-  return value.toLocaleDateString("en-US", {
+  if (Number.isNaN(value.getTime())) return notAvailableLabel;
+  return value.toLocaleDateString(locale === "bn" ? "bn-BD" : "en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -72,12 +74,12 @@ function normalizeAppointments(raw: any[]): PatientAppointment[] {
     }));
 }
 
-function buildMonthlyStats(appointments: PatientAppointment[]) {
+function buildMonthlyStats(appointments: PatientAppointment[], labels: string[]) {
   const now = new Date();
   const currentMonthIndex = now.getMonth();
   const currentYear = now.getFullYear();
 
-  const stats = MONTH_LABELS.map((label, index) => {
+  const stats = labels.map((label, index) => {
     const monthIndex = 4 + index;
     const value = appointments.filter((appointment) => {
       const date = new Date(appointment.appointment_date);
@@ -128,10 +130,12 @@ function sortByDateAsc(items: PatientAppointment[]) {
 }
 
 export default function PatientAppointmentsPage() {
+  const t = useTranslations("patientAppointmentsPage");
+  const locale = useLocale();
   const router = useRouter();
   const [appointments, setAppointments] = React.useState<PatientAppointment[]>([]);
   const [patient, setPatient] = React.useState<PatientSummary>({
-    fullName: "Patient",
+    fullName: t("fallback.patientName"),
     patientId: "MED-0000",
     avatarUrl: null,
   });
@@ -145,7 +149,7 @@ export default function PatientAppointmentsPage() {
       appointment_id: appointmentId,
       proposed_date: newDate,
       proposed_time: slotTime,
-      reason: notes || "Patient requested reschedule",
+      reason: notes || t("fallback.rescheduleReason"),
     });
     // Reload appointments
     try {
@@ -171,7 +175,7 @@ export default function PatientAppointmentsPage() {
 
         if (profileResponse?.ok) {
           const profileData = (await profileResponse.json()) as ProfileResponse;
-          const fullName = `${profileData.first_name || "Patient"} ${profileData.last_name || ""}`.trim();
+          const fullName = `${profileData.first_name || t("fallback.patientName")} ${profileData.last_name || ""}`.trim();
 
           setPatient({
             fullName,
@@ -209,7 +213,12 @@ export default function PatientAppointmentsPage() {
     .filter((appointment) => new Date(appointment.appointment_date).getTime() < Date.now())
     .sort((a, b) => new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime())[0];
 
-  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments), [appointments]);
+  const monthlyLabels = React.useMemo(
+    () => MONTH_KEYS.map((monthKey) => t(`months.${monthKey}`)),
+    [t],
+  );
+
+  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments, monthlyLabels), [appointments, monthlyLabels]);
   const specialtyStats = React.useMemo(() => buildSpecialtyStats(appointments), [appointments]);
 
   const monthDate = React.useMemo(() => {
@@ -223,12 +232,12 @@ export default function PatientAppointmentsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)] space-y-6">
+      <main className="mx-auto max-w-6xl py-8 pt-(--nav-content-offset) space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>          
-            <h1 className="mt-1 text-3xl font-semibold text-foreground">My Appointments</h1>
+            <h1 className="mt-1 text-3xl font-semibold text-foreground">{t("title")}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Comprehensive overview of your clinic visits and appointment history.
+              {t("subtitle")}
             </p>
           </div>
 
@@ -243,7 +252,7 @@ export default function PatientAppointmentsPage() {
                   range === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {key}
+                {t(`ranges.${key}`)}
               </button>
             ))}
           </div>
@@ -259,9 +268,9 @@ export default function PatientAppointmentsPage() {
           <>
             <PatientAppointmentSummary
               patient={patient}
-              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date)}
-              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date)}
-              onNewAppointment={() => router.push("/patient/find-doctor")}
+              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date, locale, t("fallback.notAvailable"))}
+              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date, locale, t("fallback.notAvailable"))}
+              onNewAppointment={() => router.push(withLocale("/patient/find-doctor", locale as AppLocale))}
             />
 
             <AppointmentHeatmap appointments={appointments} monthDate={monthDate} />
@@ -281,7 +290,7 @@ export default function PatientAppointmentsPage() {
               <UpcomingAppointmentsList
                 appointments={filteredUpcomingAppointments}
                 selectedDate={selectedDate}
-                onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
+                onViewHistory={() => router.push(withLocale("/patient/medical-history?tab=visits", locale as AppLocale))}
                 onRequestReschedule={setRescheduleTarget}
               />
             </section>
@@ -289,7 +298,7 @@ export default function PatientAppointmentsPage() {
             {!selectedDate && filteredUpcomingAppointments.length > 0 ? null : (
               <div className="flex justify-end">
                 <Button variant="outline" onClick={() => setSelectedDate(null)}>
-                  Show All Upcoming
+                  {t("actions.showAllUpcoming")}
                 </Button>
               </div>
             )}

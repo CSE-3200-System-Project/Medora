@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import {
@@ -25,6 +26,8 @@ import {
 import { cn } from "@/lib/utils";
 import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { resolveAvatarUrl } from "@/lib/avatar";
+import { stripLocaleFromPathname, withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 
 interface DoctorNavbarProps {
   doctor?: {
@@ -37,16 +40,23 @@ interface DoctorNavbarProps {
 
 export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
   const pathname = usePathname();
+  const currentPath = stripLocaleFromPathname(pathname || "/");
+  const locale = useLocale() as AppLocale;
+  const tDoctorNav = useTranslations("doctorNav");
+  const tCommon = useTranslations("common");
+  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
+  const appName = tCommon("appName");
+  const doctorPrefix = tDoctorNav("doctorPrefix");
 
   const navItems = [
-    { href: "/doctor/home", label: "Home", icon: Home },
-    { href: "/doctor/profile", label: "My Profile", icon: User },
-    { href: "/doctor/appointments", label: "Appointments", icon: Calendar },
-    { href: "/doctor/patients", label: "Patients", icon: Users },
-    { href: "/doctor/settings", label: "Settings", icon: Settings },
+    { href: "/doctor/home", label: tDoctorNav("home"), icon: Home },
+    { href: "/doctor/profile", label: tDoctorNav("myProfile"), icon: User },
+    { href: "/doctor/appointments", label: tDoctorNav("appointments"), icon: Calendar },
+    { href: "/doctor/patients", label: tDoctorNav("patients"), icon: Users },
+    { href: "/doctor/settings", label: tDoctorNav("settings"), icon: Settings },
   ];
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => currentPath === href;
   const resolvedDoctorAvatar = doctor
     ? resolveAvatarUrl(
         doctor.profile_photo_url,
@@ -60,12 +70,12 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <Link href="/doctor/home" className="flex items-center gap-2 touch-target">
+          <Link href={localeHref("/doctor/home")} className="flex items-center gap-2 touch-target">
             <div className="bg-card rounded-lg p-1 sm:p-2">
               <span className="text-xl sm:text-2xl font-bold text-primary">M</span>
             </div>
             <span className="text-lg sm:text-xl font-bold text-white hidden sm:block">
-              Medora
+              {appName}
             </span>
           </Link>
 
@@ -74,7 +84,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
-                <Link key={item.href} href={item.href}>
+                <Link key={item.href} href={localeHref(item.href)}>
                   <Button
                     variant="ghost"
                     className={cn(
@@ -96,7 +106,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
               <ChoruiLauncher role="doctor" />
             )}
             {doctor && (
-              <Link href="/doctor/profile">
+              <Link href={localeHref("/doctor/profile")}>
                 <div className="flex items-center gap-3 bg-card/20 hover:bg-card/30 rounded-lg px-3 py-2 transition-all cursor-pointer">
                   <Avatar className="h-8 w-8 border-2 border-white">
                     <Image
@@ -110,7 +120,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                   </Avatar>
                   <div className="text-left">
                     <p className="text-white font-semibold text-sm">
-                      Dr. {doctor.first_name} {doctor.last_name}
+                      {doctorPrefix} {doctor.first_name} {doctor.last_name}
                     </p>
                     {doctor.speciality_name && (
                       <p className="text-primary-light text-xs">
@@ -121,13 +131,13 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                 </div>
               </Link>
             )}
-            <Link href="/logout">
+            <Link href={localeHref("/logout")}>
               <Button
                 variant="ghost"
                 className="text-white hover:bg-card/20"
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Logout
+                {tDoctorNav("logout")}
               </Button>
             </Link>
           </div>
@@ -138,7 +148,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-white hover:bg-card/20 touch-target">
                   <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle menu</span>
+                  <span className="sr-only">{tDoctorNav("menuToggle")}</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[85vw] max-w-sm bg-primary border-l border-primary-light/20">
@@ -147,7 +157,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                     <div className="bg-card rounded-lg p-1">
                       <span className="text-lg font-bold text-primary">M</span>
                     </div>
-                    Medora Doctor
+                    {tDoctorNav("title")}
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col h-full py-4">
@@ -157,7 +167,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                       return (
                         <Link
                           key={item.href}
-                          href={item.href}
+                          href={localeHref(item.href)}
                           className={cn(
                             "flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-card/20 transition-all",
                             isActive(item.href) && "bg-card/30 font-semibold"
@@ -185,7 +195,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                         </Avatar>
                         <div className="flex-1">
                           <p className="text-white font-semibold text-sm">
-                            Dr. {doctor.first_name} {doctor.last_name}
+                            {doctorPrefix} {doctor.first_name} {doctor.last_name}
                           </p>
                           {doctor.speciality_name && (
                             <p className="text-primary-light text-xs">
@@ -195,11 +205,11 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
                         </div>
                       </div>
                       <Link 
-                        href="/logout" 
+                        href={localeHref("/logout")} 
                         className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-card/20 transition-all"
                       >
                         <LogOut className="h-5 w-5" />
-                        <span>Logout</span>
+                        <span>{tDoctorNav("logout")}</span>
                       </Link>
                     </div>
                   )}

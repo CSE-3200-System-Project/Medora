@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import withSerwistInit from "@serwist/next";
+import createNextIntlPlugin from "next-intl/plugin";
 
 const withSerwist = withSerwistInit({
   swSrc: "app/sw.ts",
@@ -7,8 +8,10 @@ const withSerwist = withSerwistInit({
   disable: process.env.NODE_ENV === "development",
 });
 
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+
 const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default withSerwist(nextConfig);
+export default withSerwist(withNextIntl(nextConfig));

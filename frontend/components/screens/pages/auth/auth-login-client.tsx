@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,8 @@ import { setAdminAccess } from "@/lib/admin-actions";
 import { toast } from "@/lib/notify";
 import { AppBackground } from "@/components/ui/app-background";
 import { FormSkeleton } from "@/components/ui/skeleton-loaders";
+import { withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
@@ -32,6 +35,9 @@ import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 function LoginPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const t = useTranslations("auth.login");
+  const locale = useLocale() as AppLocale;
+  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -43,8 +49,8 @@ function LoginPageContent() {
   const [showVerifiedMessage, setShowVerifiedMessage] = useState(searchParams.get("verified") === "true");
   
   const images = [
-    { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
-    { src: patientImg, alt: "Patient Care", text: "Your Health, Our Priority" }
+    { src: doctorImg, alt: t("carousel.altDoctor"), text: t("carousel.textWelcome") },
+    { src: patientImg, alt: t("carousel.altPatient"), text: t("carousel.textPriority") }
   ];
 
   useEffect(() => {
@@ -58,14 +64,14 @@ function LoginPageContent() {
   useEffect(() => {
     const verified = searchParams.get("verified") === "true";
     if (verified) {
-      toast.success("Email verified successfully. You can now sign in.");
+      toast.success(t("toasts.emailVerified"));
       const hideTimer = setTimeout(() => {
         setShowVerifiedMessage(false);
       }, 5000);
 
       return () => clearTimeout(hideTimer);
     }
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -74,11 +80,11 @@ function LoginPageContent() {
         if (user) {
           const role = user.role.toLowerCase();
           if (role === 'doctor') {
-            router.push('/doctor/home');
+            router.push(localeHref('/doctor/home'));
           } else if (!user.onboarding_completed) {
-            router.push(`/onboarding/${role}`);
+            router.push(localeHref(`/onboarding/${role}`));
           } else {
-            router.push('/patient/home');
+            router.push(localeHref('/patient/home'));
           }
         }
       } catch {
@@ -86,7 +92,7 @@ function LoginPageContent() {
       }
     };
     checkSession();
-  }, [router]);
+  }, [localeHref, router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -109,9 +115,9 @@ function LoginPageContent() {
         // Redirect is happening, don't show error
         return;
       }
-      const message = err instanceof Error ? err.message : "Login failed. Please check your credentials.";
+      const message = err instanceof Error ? err.message : t("errors.loginFailed");
       setError(message);
-      toast.error(message, { title: "Sign in failed" });
+      toast.error(message, { title: t("toasts.signInFailedTitle") });
       setLoading(false);
     }
   };
@@ -123,15 +129,15 @@ function LoginPageContent() {
       if (result.success) {
         setShowAdminDialog(false);
         setAdminPassword("");
-        router.replace("/admin");
+        router.replace(localeHref("/admin"));
       } else {
-        const message = result.error || "Incorrect admin password";
+        const message = result.error || t("adminDialog.errors.incorrectPasskey");
         setAdminError(message);
         toast.error(message);
       }
     } catch {
-      setAdminError("Failed to authenticate");
-      toast.error("Failed to authenticate");
+      setAdminError(t("adminDialog.errors.failedAuth"));
+      toast.error(t("adminDialog.errors.failedAuth"));
     }
   };
 
@@ -141,7 +147,7 @@ function LoginPageContent() {
       <button
         onClick={() => setShowAdminDialog(true)}
         className="fixed top-4 right-4 p-3 bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
-        aria-label="Admin Access"
+        aria-label={t("adminAccessButton")}
       >
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
       </button>
@@ -177,7 +183,7 @@ function LoginPageContent() {
                   {images[currentImageIndex].text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden sm:block">
-                  Access your dashboard, manage appointments, and stay connected with your healthcare journey.
+                  {t("heroDescription")}
                 </p>
               </div>
               
@@ -189,7 +195,7 @@ function LoginPageContent() {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"
                     }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    aria-label={t("goToSlide", { number: index + 1 })}
                   />
                 ))}
               </div>
@@ -201,12 +207,12 @@ function LoginPageContent() {
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
-                   <Image src={medoraDarkLogo} alt="Medora Logo" fill sizes="128px" className="object-contain dark:hidden" />
-                   <Image src={medoraLightLogo} alt="Medora Logo" fill sizes="128px" className="hidden object-contain dark:block" />
+                   <Image src={medoraDarkLogo} alt={t("logoAlt")} fill sizes="128px" className="object-contain dark:hidden" />
+                   <Image src={medoraLightLogo} alt={t("logoAlt")} fill sizes="128px" className="hidden object-contain dark:block" />
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight">Sign in to your account</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{t("title")}</h2>
                 <p className="text-muted-foreground">
-                  Enter your email and password to access your account
+                  {t("subtitle")}
                 </p>
               </div>
 
@@ -220,21 +226,21 @@ function LoginPageContent() {
                 <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
                   <CheckCircle2 className="h-5 w-5 shrink-0" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Email Verified Successfully!</p>
-                    <p className="text-xs text-success-muted/80 mt-1">You can now login to your account</p>
+                    <p className="text-sm font-medium">{t("verifiedBanner.title")}</p>
+                    <p className="text-xs text-success-muted/80 mt-1">{t("verifiedBanner.description")}</p>
                   </div>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input name="email" id="email" type="email" placeholder="name@example.com" required className="w-full" />
+                  <Label htmlFor="email">{t("form.emailLabel")}</Label>
+                  <Input name="email" id="email" type="email" placeholder={t("form.emailPlaceholder")} required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t("form.passwordLabel")}</Label>
                   </div>
                   <div className="relative">
                     <Input 
@@ -258,25 +264,25 @@ function LoginPageContent() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Checkbox id="remember" checked={rememberMe} onCheckedChange={(checked) => setRememberMe(Boolean(checked))} />
-                    <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
+                    <Label htmlFor="remember" className="text-sm font-normal">{t("form.rememberMe")}</Label>
                   </div>
                   <Link 
-                    href="/forgot-password" 
+                    href={localeHref("/forgot-password")} 
                     className="text-sm font-medium text-primary hover:underline"
                   >
-                    Forgot password?
+                    {t("form.forgotPassword")}
                   </Link>
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Signing in..." : "Sign In"}
+                  {loading ? t("form.signingIn") : t("form.signIn")}
                 </Button>
               </form>
 
               <div className="text-center text-sm text-foreground">
-                New to Medora?{' '}
-                <Link href="/selection" className="font-medium text-primary hover:underline">
-                  Sign up here
+                {t("newToMedora")} {" "}
+                <Link href={localeHref("/selection")} className="font-medium text-primary hover:underline">
+                  {t("signUpHere")}
                 </Link>
               </div>
             </div>
@@ -292,17 +298,17 @@ function LoginPageContent() {
               <div className="p-2 bg-primary/20 rounded-lg">
                 <Shield className="h-6 w-6 text-primary-light" />
               </div>
-              Access Verification
+              {t("adminDialog.title")}
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              To access the admin panel, please enter the passkey.
+              {t("adminDialog.description")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="admin-password" className="text-muted-foreground">
-                Admin Passkey
+                {t("adminDialog.passkeyLabel")}
               </Label>
               <Input
                 id="admin-password"
@@ -317,7 +323,7 @@ function LoginPageContent() {
                     handleAdminAccess();
                   }
                 }}
-                placeholder="Enter admin passkey"
+                placeholder={t("adminDialog.passkeyPlaceholder")}
                 className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
                 autoFocus
               />
@@ -340,13 +346,13 @@ function LoginPageContent() {
               }}
               className="border-border text-muted-foreground hover:bg-card hover:text-foreground"
             >
-              Cancel
+              {t("adminDialog.cancel")}
             </Button>
             <Button
               onClick={handleAdminAccess}
               className="bg-linear-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
             >
-              Enter admin panel
+              {t("adminDialog.enterPanel")}
             </Button>
           </DialogFooter>
         </DialogContent>

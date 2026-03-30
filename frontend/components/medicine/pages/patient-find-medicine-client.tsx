@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
@@ -19,6 +20,7 @@ import {
 } from "@/lib/medicine-actions";
 
 export function PatientFindMedicineClient() {
+  const t = useTranslations("patientFindMedicinePage");
   const [results, setResults] = useState<MedicineResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -98,7 +100,7 @@ export function PatientFindMedicineClient() {
       setTimeout(() => setShowSuccess(false), 3000);
     } catch (error) {
       console.error("Error saving medication:", error);
-      alert("Failed to save medication. Please try again.");
+      alert(t("alerts.saveMedicationFailed"));
     }
   };
 
@@ -111,26 +113,26 @@ export function PatientFindMedicineClient() {
           <Alert className="bg-success/10 border-success shadow-lg min-w-75">
             <CheckCircle2 className="h-4 w-4 text-success" />
             <AlertDescription className="text-success font-medium">
-              Redirecting to Medical History...
+              {t("alerts.redirectingMedicalHistory")}
             </AlertDescription>
           </Alert>
         </div>
       )}
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset) animate-page-enter">
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Find Medicine
+            {t("title")}
           </h1>
           <p className="text-sm md:text-base text-muted-foreground">
-            Search medicines by brand or generic name
+            {t("subtitle")}
           </p>
         </div>
 
         <Alert className="mb-6 bg-amber-50 border-amber-200">
           <AlertTriangle className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800 text-sm">
-            This information is for general awareness only. Always consult your doctor before taking any medication.
+            {t("disclaimer")}
           </AlertDescription>
         </Alert>
 
@@ -165,17 +167,17 @@ export function PatientFindMedicineClient() {
           ) : searchQuery.length >= 2 && results.length === 0 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">No medicines found</p>
+              <p className="text-muted-foreground mb-1">{t("empty.noMedicinesTitle")}</p>
               <p className="text-sm text-muted-foreground">
-                Try searching with a different name or spelling
+                {t("empty.noMedicinesDescription")}
               </p>
             </div>
           ) : searchQuery.length < 2 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Pill className="h-12 w-12 text-primary/30 mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">Search for medicines</p>
+              <p className="text-muted-foreground mb-1">{t("empty.searchPromptTitle")}</p>
               <p className="text-sm text-muted-foreground">
-                Enter at least 2 characters to start searching
+                {t("empty.searchPromptDescription")}
               </p>
             </div>
           ) : (
@@ -208,7 +210,7 @@ export function PatientFindMedicineClient() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-background rounded-xl p-6 flex flex-col items-center gap-3">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Loading details...</p>
+            <p className="text-sm text-muted-foreground">{t("loadingDetails")}</p>
           </div>
         </div>
       )}

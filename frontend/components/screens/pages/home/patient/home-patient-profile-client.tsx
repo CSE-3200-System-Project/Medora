@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { getMyAppointments } from "@/lib/appointment-actions";
 import { Navbar } from "@/components/ui/navbar";
+import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,6 +33,7 @@ import {
   Bell,
   Hospital,
 } from "lucide-react";
+import { withLocale, type AppLocale } from "@/lib/locale-path";
 
 interface Medication {
   name?: string;
@@ -102,11 +105,25 @@ interface PatientData {
   emergency_contact_relation?: string;
 }
 
-export default function PatientProfilePage() {
+type PatientProfilePageProps = {
+  adminPatientId?: string;
+  adminEditHref?: string;
+  useAdminNavbar?: boolean;
+};
+
+export default function PatientProfilePage({
+  adminPatientId,
+  adminEditHref,
+  useAdminNavbar = false,
+}: PatientProfilePageProps = {}) {
+  const t = useTranslations("patientProfilePage");
+  const locale = useLocale();
   const router = useRouter();
   const [patient, setPatient] = React.useState<PatientData | null>(null);
   const [appointments, setAppointments] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const isAdminView = Boolean(adminPatientId);
+  const editTargetHref = adminEditHref || withLocale('/onboarding/patient?mode=edit', locale as AppLocale);
 
   React.useEffect(() => {
     loadPatientProfile();
@@ -114,6 +131,15 @@ export default function PatientProfilePage() {
 
   const loadPatientProfile = async () => {
     try {
+      if (isAdminView && adminPatientId) {
+        const adminResponse = await fetch(`/api/admin/patients/${adminPatientId}`, { cache: "no-store" });
+        if (adminResponse.ok) {
+          const data = await adminResponse.json();
+          setPatient(data);
+        }
+        return;
+      }
+
       const response = await fetchWithAuth('/api/auth/me');
       if (response?.ok) {
         const data = await response.json();
@@ -165,14 +191,14 @@ export default function PatientProfilePage() {
     if (!patient) return [];
     const conditions: string[] = [];
     // From boolean flags
-    if (patient.has_diabetes) conditions.push("Diabetes");
-    if (patient.has_hypertension) conditions.push("Hypertension");
-    if (patient.has_heart_disease) conditions.push("Heart Disease");
-    if (patient.has_asthma) conditions.push("Asthma");
-    if (patient.has_kidney_disease) conditions.push("Kidney Disease");
-    if (patient.has_liver_disease) conditions.push("Liver Disease");
-    if (patient.has_thyroid) conditions.push("Thyroid");
-    if (patient.has_mental_health) conditions.push("Mental Health");
+    if (patient.has_diabetes) conditions.push(t("conditions.diabetes"));
+    if (patient.has_hypertension) conditions.push(t("conditions.hypertension"));
+    if (patient.has_heart_disease) conditions.push(t("conditions.heartDisease"));
+    if (patient.has_asthma) conditions.push(t("conditions.asthma"));
+    if (patient.has_kidney_disease) conditions.push(t("conditions.kidneyDisease"));
+    if (patient.has_liver_disease) conditions.push(t("conditions.liverDisease"));
+    if (patient.has_thyroid) conditions.push(t("conditions.thyroid"));
+    if (patient.has_mental_health) conditions.push(t("conditions.mentalHealth"));
     // From conditions array (defensive check)
     if (patient.conditions && Array.isArray(patient.conditions)) {
       patient.conditions.forEach(c => {
@@ -187,11 +213,11 @@ export default function PatientProfilePage() {
   if (loading) {
     return (
       <AppBackground className="container-padding">
-        <Navbar />
+        {useAdminNavbar ? <AdminNavbar /> : <Navbar />}
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <div className="skeleton h-12 w-12 rounded-full mx-auto mb-4"></div>
-            <p className="text-foreground font-semibold">Loading profile...</p>
+            <p className="text-foreground font-semibold">{t("loading")}</p>
           </div>
         </div>
       </AppBackground>
@@ -201,12 +227,12 @@ export default function PatientProfilePage() {
   if (!patient) {
     return (
       <AppBackground className="container-padding">
-        <Navbar />
+        {useAdminNavbar ? <AdminNavbar /> : <Navbar />}
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-            <p className="text-foreground mb-4">Failed to load profile</p>
-            <Button onClick={() => router.push('/login')} className="touch-target">Go to Login</Button>
+            <p className="text-foreground mb-4">{t("errors.loadFailed")}</p>
+            <Button onClick={() => router.push(withLocale('/login', locale as AppLocale))} className="touch-target">{t("actions.goToLogin")}</Button>
           </div>
         </div>
       </AppBackground>
@@ -218,24 +244,24 @@ export default function PatientProfilePage() {
 
   return (
     <AppBackground className="container-padding animate-page-enter">
-      <Navbar />
+      {useAdminNavbar ? <AdminNavbar /> : <Navbar />}
       
-      <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+      <main className="max-w-6xl mx-auto py-8 pt-(--nav-content-offset)">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">My Profile</h1>
-            <p className="text-muted-foreground mt-1">Manage your personal and medical information</p>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">{t("title")}</h1>
+            <p className="text-muted-foreground mt-1">{t("subtitle")}</p>
           </div>
-          <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient?mode=edit')} className="touch-target">
+          <Button variant="medical" size="lg" onClick={() => router.push(editTargetHref)} className="touch-target">
             <Edit className="h-4 w-4 mr-2" />
-            Edit Profile
+            {t("actions.editProfile")}
           </Button>
         </div>
 
         {/* Profile Header Card */}
         <Card className="mb-6 overflow-hidden border-none shadow-lg">
-          <div className="bg-gradient-to-r from-primary via-primary-muted to-primary h-32 sm:h-40" />
+          <div className="bg-linear-to-r from-primary via-primary-muted to-primary h-32 sm:h-40" />
           <CardContent className="relative px-4 sm:px-6 pb-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 -mt-16 sm:-mt-20">
               <Avatar className="h-28 w-28 sm:h-36 sm:w-36 border-4 border-background shadow-lg">
@@ -256,7 +282,7 @@ export default function PatientProfilePage() {
                   )}
                   {age && (
                     <Badge variant="outline" className="font-medium">
-                      {age} years old
+                      {t("ageYearsOld", { age })}
                     </Badge>
                   )}
                   {patient.blood_group && (
@@ -277,7 +303,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <User className="h-5 w-5 text-primary" />
-                Contact Information
+                {t("sections.contactInfo")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -286,8 +312,8 @@ export default function PatientProfilePage() {
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium">{patient.email || 'Not provided'}</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.email")}</p>
+                  <p className="font-medium">{patient.email || t("fallback.notProvided")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -295,8 +321,8 @@ export default function PatientProfilePage() {
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium">{patient.phone || 'Not provided'}</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.phone")}</p>
+                  <p className="font-medium">{patient.phone || t("fallback.notProvided")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -304,9 +330,9 @@ export default function PatientProfilePage() {
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Address</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.address")}</p>
                   <p className="font-medium">
-                    {[patient.address, patient.city, patient.district, patient.country].filter(Boolean).join(', ') || 'Not provided'}
+                    {[patient.address, patient.city, patient.district, patient.country].filter(Boolean).join(', ') || t("fallback.notProvided")}
                   </p>
                 </div>
               </div>
@@ -318,37 +344,39 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Activity className="h-5 w-5 text-primary" />
-                Physical Information
+                {t("sections.physicalInfo")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Ruler className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Height</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.height")}</p>
                   <p className="text-xl font-bold text-foreground">
-                    {patient.height ? `${patient.height} cm` : '--'}
+                    {patient.height ? t("units.heightCm", { value: patient.height }) : t("fallback.empty")}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Scale className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Weight</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.weight")}</p>
                   <p className="text-xl font-bold text-foreground">
-                    {patient.weight ? `${patient.weight} kg` : '--'}
+                    {patient.weight ? t("units.weightKg", { value: patient.weight }) : t("fallback.empty")}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Calendar className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Date of Birth</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.dateOfBirth")}</p>
                   <p className="text-sm font-bold text-foreground">
-                    {patient.date_of_birth ? new Date(patient.date_of_birth).toLocaleDateString() : '--'}
+                    {patient.date_of_birth
+                      ? new Date(patient.date_of_birth).toLocaleDateString(locale === "bn" ? "bn-BD" : "en-US")
+                      : t("fallback.empty")}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Users className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Marital Status</p>
+                  <p className="text-sm text-muted-foreground">{t("fields.maritalStatus")}</p>
                   <p className="text-sm font-bold text-foreground capitalize">
-                    {patient.marital_status || '--'}
+                    {patient.marital_status || t("fallback.empty")}
                   </p>
                 </div>
               </div>
@@ -360,7 +388,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Heart className="h-5 w-5 text-primary" />
-                Medical Conditions
+                {t("sections.medicalConditions")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -373,21 +401,21 @@ export default function PatientProfilePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No chronic conditions reported</p>
+                <p className="text-muted-foreground text-sm">{t("empty.noChronicConditions")}</p>
               )}
               {/* Current Medications */}
               {patient.medications && patient.medications.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-border/50">
                   <p className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                     <Pill className="h-4 w-4 text-primary" />
-                    Current Medications
+                    {t("sections.currentMedications")}
                   </p>
                   <div className="space-y-1">
                     {patient.medications.slice(0, 3).map((med, i) => (
-                      <p key={i} className="text-sm text-muted-foreground">• {med.name || med.display_name || 'Unknown medication'}</p>
+                      <p key={i} className="text-sm text-muted-foreground">• {med.name || med.display_name || t("fallback.unknownMedication")}</p>
                     ))}
                     {patient.medications.length > 3 && (
-                      <p className="text-xs text-primary mt-2">+{patient.medications.length - 3} more</p>
+                      <p className="text-xs text-primary mt-2">{t("moreCount", { count: patient.medications.length - 3 })}</p>
                     )}
                   </div>
                 </div>
@@ -400,7 +428,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <AlertCircle className="h-5 w-5 text-destructive" />
-                Allergies
+                {t("sections.allergies")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -420,7 +448,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No allergies reported</p>
+                <p className="text-muted-foreground text-sm">{t("empty.noAllergies")}</p>
               )}
             </CardContent>
           </Card>
@@ -430,27 +458,27 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Shield className="h-5 w-5 text-primary" />
-                Emergency Contact
+                {t("sections.emergencyContact")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {patient.emergency_contact_name ? (
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Name</p>
+                    <p className="text-sm text-muted-foreground">{t("fields.name")}</p>
                     <p className="font-medium">{patient.emergency_contact_name}</p>
                   </div>
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Relation</p>
-                    <p className="font-medium capitalize">{patient.emergency_contact_relation || 'Not specified'}</p>
+                    <p className="text-sm text-muted-foreground">{t("fields.relation")}</p>
+                    <p className="font-medium capitalize">{patient.emergency_contact_relation || t("fallback.notSpecified")}</p>
                   </div>
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Phone</p>
-                    <p className="font-medium">{patient.emergency_contact_phone || 'Not provided'}</p>
+                    <p className="text-sm text-muted-foreground">{t("fields.phone")}</p>
+                    <p className="font-medium">{patient.emergency_contact_phone || t("fallback.notProvided")}</p>
                   </div>
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No emergency contact added</p>
+                <p className="text-muted-foreground text-sm">{t("empty.noEmergencyContact")}</p>
               )}
             </CardContent>
           </Card>
@@ -461,10 +489,10 @@ export default function PatientProfilePage() {
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <FileText className="h-5 w-5 text-primary" />
-                  Medical History
+                  {t("sections.medicalHistory")}
                 </CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')} className="touch-target">
-                  View All
+                <Button variant="ghost" size="sm" onClick={() => router.push(withLocale('/patient/medical-history', locale as AppLocale))} className="touch-target">
+                  {t("actions.viewAll")}
                 </Button>
               </div>
             </CardHeader>
@@ -474,7 +502,7 @@ export default function PatientProfilePage() {
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Surgeries</p>
+                    <p className="font-medium text-sm">{t("sections.surgeries")}</p>
                   </div>
                   {patient.surgeries && patient.surgeries.length > 0 ? (
                     <div className="space-y-1">
@@ -482,18 +510,18 @@ export default function PatientProfilePage() {
                         <p key={i} className="text-xs text-muted-foreground">• {s.name} ({s.year})</p>
                       ))}
                       {patient.surgeries.length > 2 && (
-                        <p className="text-xs text-primary">+{patient.surgeries.length - 2} more</p>
+                        <p className="text-xs text-primary">{t("moreCount", { count: patient.surgeries.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No surgeries recorded</p>
+                    <p className="text-xs text-muted-foreground">{t("empty.noSurgeries")}</p>
                   )}
                 </div>
                 {/* Hospitalizations */}
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Hospitalizations</p>
+                    <p className="font-medium text-sm">{t("sections.hospitalizations")}</p>
                   </div>
                   {patient.hospitalizations && patient.hospitalizations.length > 0 ? (
                     <div className="space-y-1">
@@ -501,18 +529,18 @@ export default function PatientProfilePage() {
                         <p key={i} className="text-xs text-muted-foreground">• {h.reason} ({h.year})</p>
                       ))}
                       {patient.hospitalizations.length > 2 && (
-                        <p className="text-xs text-primary">+{patient.hospitalizations.length - 2} more</p>
+                        <p className="text-xs text-primary">{t("moreCount", { count: patient.hospitalizations.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No hospitalizations recorded</p>
+                    <p className="text-xs text-muted-foreground">{t("empty.noHospitalizations")}</p>
                   )}
                 </div>
                 {/* Recent Visits */}
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Recent Visits</p>
+                    <p className="font-medium text-sm">{t("sections.recentVisits")}</p>
                   </div>
                   {appointments.length > 0 ? (
                     <div className="space-y-1">
@@ -522,11 +550,11 @@ export default function PatientProfilePage() {
                         </p>
                       ))}
                       {appointments.length > 2 && (
-                        <p className="text-xs text-primary">+{appointments.length - 2} more</p>
+                        <p className="text-xs text-primary">{t("moreCount", { count: appointments.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No visits recorded</p>
+                    <p className="text-xs text-muted-foreground">{t("empty.noVisits")}</p>
                   )}
                 </div>
               </div>
@@ -539,42 +567,42 @@ export default function PatientProfilePage() {
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
-            onClick={() => router.push('/patient/find-doctor')}
+            onClick={() => router.push(withLocale('/patient/find-doctor', locale as AppLocale))}
           >
             <Users className="h-6 w-6 text-primary" />
-            <span>Find Doctors</span>
+            <span>{t("quickActions.findDoctors")}</span>
           </Button>
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
-            onClick={() => router.push('/patient/appointments')}
+            onClick={() => router.push(withLocale('/patient/appointments', locale as AppLocale))}
           >
             <Calendar className="h-6 w-6 text-primary" />
-            <span>My Appointments</span>
+            <span>{t("quickActions.myAppointments")}</span>
           </Button>
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
-            onClick={() => router.push("/patient/medical-history")}
+            onClick={() => router.push(withLocale('/patient/medical-history', locale as AppLocale))}
           >
             <FileText className="h-6 w-6 text-primary" />
-            <span>Medical History</span>
+            <span>{t("quickActions.medicalHistory")}</span>
           </Button>
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-primary-more-light dark:hover:bg-primary/20 hover:border-primary touch-target"
-            onClick={() => router.push("/patient/prescriptions")}
+            onClick={() => router.push(withLocale('/patient/prescriptions', locale as AppLocale))}
           >
             <Pill className="h-6 w-6 text-primary" />
-            <span>Prescriptions</span>
+            <span>{t("quickActions.prescriptions")}</span>
           </Button>
           <Button 
             variant="outline" 
             className="h-auto py-4 flex flex-col items-center gap-2 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:border-amber-500 touch-target"
-            onClick={() => router.push("/patient/reminders")}
+            onClick={() => router.push(withLocale('/patient/reminders', locale as AppLocale))}
           >
             <Bell className="h-6 w-6 text-amber-500" />
-            <span>Reminders</span>
+            <span>{t("quickActions.reminders")}</span>
           </Button>
         </div>
       </main>

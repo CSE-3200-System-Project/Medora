@@ -1,0 +1,1314 @@
+{
+  "common": {
+    "appName": "Medora",
+    "user": "User",
+    "language": "Language",
+    "english": "EN",
+    "bangla": "বাংলা",
+    "loading": "Loading...",
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "upload": "Upload",
+      "submit": "Submit",
+      "login": "Log in",
+      "signup": "Sign up",
+      "logout": "Log out",
+      "loggingOut": "Logging out..."
+    },
+    "notifications": {
+      "dismiss": "Dismiss notification"
+    }
+  },
+  "navbar": {
+    "doctor": {
+      "appointments": "Appointments",
+      "patients": "Patients",
+      "analytics": "Analytics",
+      "profile": "Profile",
+      "settings": "Settings",
+      "privacy": "Privacy & Data Sharing"
+    },
+    "patient": {
+      "findDoctor": "Find Doctor",
+      "analytics": "Analytics",
+      "appointments": "Appointments",
+      "findMedicine": "Find Medicine",
+      "medicalHistory": "Medical History",
+      "labReports": "Lab Reports",
+      "profile": "My Profile",
+      "settings": "Settings"
+    }
+  },
+  "settings": {
+    "page": {
+      "titlePatient": "Settings",
+      "titleDoctor": "Doctor Settings",
+      "titleAdmin": "Admin Settings",
+      "description": "Manage your app behavior, healthcare preferences, notifications, privacy, and language."
+    },
+    "actions": {
+      "reset": "Reset Defaults",
+      "save": "Save Settings",
+      "saving": "Saving..."
+    },
+    "messages": {
+      "saved": "Settings saved successfully.",
+      "reset": "Settings reset to defaults.",
+      "loading": "Loading your settings...",
+      "pushUnsupported": "Push notifications are not supported in this browser.",
+      "pushBlocked": "Push permission is blocked. You can enable it from browser settings."
+    },
+    "appearance": {
+      "title": "Appearance",
+      "description": "Choose light, dark, or system mode. Theme changes apply instantly across Medora.",
+      "switchToLight": "Switch to Light Mode",
+      "switchToDark": "Switch to Dark Mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "activeMode": "Active mode"
+    },
+    "language": {
+      "description": "Choose the language for all screens. Changes apply instantly.",
+      "englishDescription": "English interface and labels",
+      "banglaDescription": "Bangla interface and labels"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Control how and when Medora sends medical reminders and care updates.",
+      "inAppTitle": "In-App Notifications",
+      "inAppDescription": "Receive alerts in your Medora dashboard.",
+      "pushTitle": "Push Notifications",
+      "pushDescription": "Browser/device alerts for critical updates.",
+      "emailTitle": "Email Notifications",
+      "emailDescription": "Appointment and prescription updates by email.",
+      "smsTitle": "SMS Notifications",
+      "smsDescription": "Time-sensitive reminders via SMS.",
+      "appointmentTitle": "Appointment Reminders",
+      "appointmentDescription": "Get reminders before your appointments.",
+      "medicationTitle": "Medication Reminders",
+      "medicationDescription": "Receive alerts for medication schedules.",
+      "labTitle": "Lab Results",
+      "labDescription": "Notify when test results are ready.",
+      "prescriptionTitle": "Prescription Updates",
+      "prescriptionDescription": "Status updates for newly issued prescriptions.",
+      "careTipsTitle": "Health Care Tips",
+      "careTipsDescription": "Personalized wellness and preventive care updates.",
+      "permissionLabel": "Browser permission"
+    },
+    "healthcare": {
+      "title": "Healthcare Preferences",
+      "description": "Keep emergency and care-related preferences ready for faster support.",
+      "preferredLanguage": "Preferred Language",
+      "emergencyName": "Emergency Contact Name",
+      "emergencyNamePlaceholder": "Full name",
+      "emergencyPhone": "Emergency Contact Phone",
+      "emergencyPhonePlaceholder": "01XXXXXXXXX",
+      "emergencyRelation": "Relation",
+      "emergencyRelationPlaceholder": "Parent / Sibling / Spouse",
+      "dosageTitle": "Dosage Alerts",
+      "dosageDescription": "Extra alerts if medication is delayed.",
+      "fastingTitle": "Fasting Medication Alerts",
+      "fastingDescription": "Reminder cues for before/after meal instructions.",
+      "hydrationTitle": "Hydration Reminders",
+      "hydrationDescription": "Scheduled water intake reminders.",
+      "menstrualTitle": "Menstrual Health Reminders",
+      "menstrualDescription": "Cycle and symptom logging reminder nudges."
+    },
+    "privacy": {
+      "title": "Privacy, Security & App",
+      "description": "Secure your account and tailor experience for readability and comfort.",
+      "biometricTitle": "Biometric App Lock",
+      "biometricDescription": "Require fingerprint/face unlock on supported devices.",
+      "hideSensitiveTitle": "Hide Sensitive Notification Content",
+      "hideSensitiveDescription": "Only show generic text on lock screen-style notifications.",
+      "verifiedDoctorsTitle": "Verified Doctors Access Only",
+      "verifiedDoctorsDescription": "Share profile data only with verified doctors.",
+      "researchTitle": "Anonymous Research Contribution",
+      "researchDescription": "Allow anonymized data for healthcare improvement studies.",
+      "autoLock": "Auto-Lock Timeout",
+      "minutes5": "5 minutes",
+      "minutes15": "15 minutes",
+      "minutes30": "30 minutes",
+      "minutes60": "60 minutes"
+    },
+    "appBehavior": {
+      "title": "App Behavior",
+      "compactTitle": "Compact Mode",
+      "compactDescription": "Reduce spacing to fit more content on one screen.",
+      "largeTextTitle": "Large Text",
+      "largeTextDescription": "Increase text size for better readability.",
+      "reduceMotionTitle": "Reduce Motion",
+      "reduceMotionDescription": "Limit non-essential animations.",
+      "defaultStartPage": "Default Start Page",
+      "home": "Home",
+      "appointments": "Appointments",
+      "medicalHistory": "Medical History",
+      "reminders": "Reminders"
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your account password. You will need your current password first.",
+      "current": "Current Password",
+      "currentPlaceholder": "Enter current password",
+      "new": "New Password",
+      "newPlaceholder": "Enter new password",
+      "confirm": "Confirm New Password",
+      "confirmPlaceholder": "Confirm new password",
+      "actions": {
+        "changing": "Changing Password...",
+        "change": "Change Password"
+      },
+      "messages": {
+        "success": "Password changed successfully",
+        "failure": "Failed to change password"
+      },
+      "validation": {
+        "minLength": "New password must be at least 8 characters",
+        "mismatch": "Passwords do not match",
+        "sameAsCurrent": "New password must be different from current password"
+      }
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "patients": "Patients",
+    "appointments": "Appointments",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "admin": {
+    "tag": "ADMIN",
+    "dashboard": "Dashboard",
+    "doctors": "Doctors",
+    "patients": "Patients",
+    "appointments": "Appointments",
+    "auditLog": "Audit Log",
+    "settings": "Settings",
+    "userManagement": "User Management",
+    "administrator": "Administrator",
+    "logout": "Logout",
+    "loggingOut": "Logging out...",
+    "notifications": {
+      "title": "Notifications",
+      "none": "No new notifications",
+      "close": "Close",
+      "pendingDoctorsTitle": "Pending Doctor Verifications",
+      "pendingDoctorsMessage": "{count} doctor(s) awaiting verification",
+      "newRegistrationsTitle": "New User Registrations",
+      "newRegistrationsMessage": "{count} new user(s) registered this week",
+      "pendingAppointmentsTitle": "Pending Appointments",
+      "pendingAppointmentsMessage": "{count} appointment(s) pending",
+      "timeNow": "Now",
+      "timeWeek": "This week",
+      "timeToday": "Today"
+    },
+    "verifyPending": {
+      "titles": {
+        "pending": "Verification in Progress",
+        "verified": "Verification Approved",
+        "rejected": "Verification Rejected"
+      },
+      "pending": {
+        "thankYou": "Thank you for registering with Medora",
+        "underReview": "Your profile is currently under verification.",
+        "verificationDescription": "Our team is reviewing your BMDC credentials and professional details. This usually takes",
+        "timeRange": "24-48 hours",
+        "nextTitle": "What happens next?",
+        "steps": {
+          "verifyBmdc": "We verify your BMDC registration",
+          "reviewDocs": "We review your submitted documents",
+          "emailNotification": "You receive an email once approved",
+          "portalAccess": "You can then access the full doctor portal"
+        },
+        "emailTitle": "Check your email",
+        "emailDescription": "We will notify you as soon as verification is complete.",
+        "helpTitle": "Need help?",
+        "helpDescription": "Contact support if your verification is taking longer than expected."
+      },
+      "verified": {
+        "congratulations": "Congratulations!",
+        "successMessage": "Your doctor account has been verified successfully.",
+        "redirecting": "Redirecting you to your dashboard..."
+      },
+      "rejected": {
+        "title": "Verification not approved",
+        "message": "We could not complete your verification at this time.",
+        "description": "Please review your submitted information and contact support for guidance."
+      },
+      "actions": {
+        "logout": "Log out",
+        "refresh": "Refresh status"
+      }
+    },
+    "dashboardPage": {
+      "title": "Admin Dashboard",
+      "subtitle": "Monitor platform metrics and manage critical workflows",
+      "stats": {
+        "totalUsers": "Total Users",
+        "totalDoctors": "Total Doctors",
+        "totalPatients": "Total Patients",
+        "totalAppointments": "Total Appointments",
+        "totalUsersTrend": "+{count} registrations in last 7 days",
+        "totalDoctorsTrend": "{count} verified doctors",
+        "totalPatientsTrend": "{count} complete patient profiles",
+        "totalAppointmentsTrend": "{count} confirmed appointments"
+      },
+      "sections": {
+        "doctorVerification": "Doctor Verification",
+        "appointmentStatus": "Appointment Status",
+        "quickActions": "Quick Actions"
+      },
+      "doctorStatus": {
+        "verified": "Verified",
+        "pending": "Pending",
+        "rejected": "Rejected"
+      },
+      "appointmentStatus": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "quickActions": {
+        "reviewPendingDoctors": "Review pending doctors",
+        "viewAllDoctors": "View all doctors",
+        "viewAllPatients": "View all patients",
+        "viewAppointments": "View appointments"
+      }
+    },
+    "doctorsPage": {
+      "title": "Doctor Management",
+      "subtitle": "Review and verify doctor registrations",
+      "searchPlaceholder": "Search by name or email...",
+      "filterAriaLabel": "Filter doctors by status",
+      "loading": "Loading doctors...",
+      "empty": "No doctors found in this category",
+      "filters": {
+        "status": {
+          "all": "All",
+          "pending": "Pending",
+          "verified": "Verified",
+          "rejected": "Rejected"
+        }
+      },
+      "status": {
+        "verified": "Verified",
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "unknown": "Unknown"
+      },
+      "dialog": {
+        "approveTitle": "Approve Doctor Verification",
+        "rejectTitle": "Reject Doctor Verification",
+        "approveDescription": "This will verify the doctor and allow them to access the platform.",
+        "rejectDescription": "This will reject the doctor's application.",
+        "fields": {
+          "doctorName": "Doctor Name",
+          "bmdcNumber": "BMDC Number",
+          "notes": "Notes (Optional)",
+          "notesPlaceholder": "Add any notes about this verification..."
+        }
+      },
+      "banDialog": {
+        "title": "Ban Doctor",
+        "description": "Are you sure you want to ban {name}? They will no longer be able to access their account or receive appointments.",
+        "confirmText": "Ban User"
+      },
+      "table": {
+        "doctor": "Doctor",
+        "contact": "Contact",
+        "bmdc": "BMDC",
+        "verification": "Verification",
+        "account": "Account",
+        "actions": "Actions",
+        "document": "Document"
+      },
+      "account": {
+        "active": "Active",
+        "banned": "Banned"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "processing": "Processing...",
+        "approve": "Approve",
+        "reject": "Reject",
+        "ban": "Ban",
+        "banUser": "Ban User",
+        "unban": "Unban",
+        "viewBmdcDocument": "View BMDC Document"
+      },
+      "errors": {
+        "fetchFailed": "Failed to fetch doctors",
+        "verificationFailed": "Verification failed"
+      },
+      "alerts": {
+        "verificationFailed": "Verification failed. Please try again.",
+        "banFailed": "Failed to ban user",
+        "unbanFailed": "Failed to unban user"
+      },
+      "common": {
+        "notAvailable": "N/A",
+        "noSpecialty": "No specialty",
+        "bmdcPrefix": "BMDC: {number}"
+      }
+    },
+    "patientsPage": {
+      "title": "Patient Management",
+      "subtitle": "Track registrations, profile completion, and patient account status",
+      "searchPlaceholder": "Search by name or email...",
+      "filterAriaLabel": "Filter patients by status",
+      "loading": "Loading patients...",
+      "empty": "No patients found",
+      "filters": {
+        "status": {
+          "all": "All",
+          "active": "Active",
+          "incomplete": "Incomplete",
+          "banned": "Banned"
+        }
+      },
+      "status": {
+        "active": "Active",
+        "incomplete": "Incomplete",
+        "banned": "Banned"
+      },
+      "table": {
+        "patient": "Patient",
+        "contact": "Contact",
+        "status": "Status",
+        "onboarding": "Onboarding",
+        "onboardingProgress": "Progress",
+        "joinedDate": "Joined",
+        "actions": "Actions",
+        "selectAllPatients": "Select all patients",
+        "selectPatient": "Select {name}"
+      },
+      "stats": {
+        "totalPatients": "Total Patients",
+        "activePatients": "Active Patients",
+        "incompleteProfiles": "Incomplete Profiles",
+        "bannedPatients": "Banned Patients"
+      },
+      "charts": {
+        "growthTitle": "Registration Trend",
+        "statusTitle": "Status Distribution",
+        "totalLabel": "Total"
+      },
+      "bulk": {
+        "selected": "selected",
+        "activate": "Activate",
+        "ban": "Ban",
+        "delete": "Delete"
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page"
+      },
+      "actions": {
+        "addPatient": "Add Patient",
+        "viewProfile": "View Profile",
+        "editPatient": "Edit Patient",
+        "activateAccount": "Activate Account",
+        "banPatient": "Ban Patient",
+        "toggleActive": "Account",
+        "toggleBan": "Ban Control",
+        "deletePatient": "Delete Patient",
+        "viewReports": "View Reports",
+        "activate": "Activate",
+        "deactivate": "Deactivate",
+        "ban": "Ban",
+        "unban": "Unban"
+      },
+      "insights": {
+        "todaysRegistrations": "Today's Registrations",
+        "pendingReviews": "Pending Reviews",
+        "recentActivity": "Recent Activity",
+        "emptyActivity": "No recent activity"
+      },
+      "dialogs": {
+        "ban": {
+          "title": "Ban Patient",
+          "description": "Are you sure you want to ban {name}?",
+          "confirm": "Ban"
+        },
+        "activate": {
+          "title": "Activate Account",
+          "description": "Activate {name}'s account now?",
+          "confirm": "Activate"
+        },
+        "deactivate": {
+          "title": "Deactivate Account",
+          "description": "Deactivate {name}'s account now? You can activate again later.",
+          "confirm": "Deactivate"
+        },
+        "delete": {
+          "title": "Delete Patient",
+          "description": "Delete {name}? This action anonymizes account access.",
+          "confirm": "Delete"
+        },
+        "bulk": {
+          "activateTitle": "Activate Selected Patients",
+          "banTitle": "Ban Selected Patients",
+          "deleteTitle": "Delete Selected Patients",
+          "description": "Apply this action to {count} selected patient(s)?"
+        }
+      },
+      "messages": {
+        "addPatientComingSoon": "Add patient flow will be available soon.",
+        "viewProfileComingSoon": "Patient profile view will be available soon.",
+        "editPatientComingSoon": "Patient editing flow will be available soon.",
+        "viewReportsComingSoon": "Medical reports view will be available soon.",
+        "createdSuccess": "Patient created successfully",
+        "updatedSuccess": "Patient updated successfully",
+        "deletedSuccess": "Patient deleted successfully",
+        "bulkSuccess": "Bulk action completed"
+      },
+      "modals": {
+        "common": {
+          "cancel": "Cancel",
+          "saving": "Saving...",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "fields": {
+          "name": "Name",
+          "firstName": "First Name",
+          "lastName": "Last Name",
+          "email": "Email",
+          "phone": "Phone",
+          "status": "Status",
+          "city": "City",
+          "bloodGroup": "Blood Group",
+          "onboardingCompleted": "Onboarding Complete"
+        },
+        "add": {
+          "title": "Add New Patient",
+          "submit": "Create Patient"
+        },
+        "edit": {
+          "title": "Edit Patient",
+          "submit": "Save Changes"
+        },
+        "profile": {
+          "title": "Patient Profile"
+        },
+        "reports": {
+          "title": "Medical Reports",
+          "empty": "No reports found",
+          "unknownReport": "Unknown Report"
+        }
+      },
+      "errors": {
+        "updateFailed": "Failed to update patient",
+        "deleteFailed": "Failed to delete patient",
+        "bulkFailed": "Bulk action failed",
+        "createFailed": "Failed to create patient"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "logoAlt": "Medora logo",
+      "adminAccessButton": "Admin access",
+      "heroDescription": "Access your dashboard, manage appointments, and stay connected with your healthcare journey.",
+      "goToSlide": "Go to slide {number}",
+      "title": "Sign in to your account",
+      "subtitle": "Enter your email and password to access your account",
+      "newToMedora": "New to Medora?",
+      "signUpHere": "Sign up here",
+      "carousel": {
+        "altDoctor": "Doctor team",
+        "altPatient": "Patient care",
+        "textWelcome": "Welcome back to Medora",
+        "textPriority": "Your health, our priority"
+      },
+      "verifiedBanner": {
+        "title": "Email verified successfully",
+        "description": "You can now log in to your account"
+      },
+      "form": {
+        "emailLabel": "Email address",
+        "emailPlaceholder": "name@example.com",
+        "passwordLabel": "Password",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?",
+        "signingIn": "Signing in...",
+        "signIn": "Sign in"
+      },
+      "adminDialog": {
+        "title": "Access verification",
+        "description": "To access the admin panel, please enter the passkey.",
+        "passkeyLabel": "Admin passkey",
+        "passkeyPlaceholder": "Enter admin passkey",
+        "cancel": "Cancel",
+        "enterPanel": "Enter admin panel",
+        "errors": {
+          "incorrectPasskey": "Incorrect admin password",
+          "failedAuth": "Failed to authenticate"
+        }
+      },
+      "errors": {
+        "loginFailed": "Login failed. Please check your credentials."
+      },
+      "toasts": {
+        "emailVerified": "Email verified successfully. You can now sign in.",
+        "signInFailedTitle": "Sign in failed"
+      }
+    },
+    "forgot": {
+      "logoAlt": "Medora logo",
+      "heroDescription": "Recover access to your account in a few simple steps.",
+      "goToSlide": "Go to slide {number}",
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we will send a password reset link.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "sending": "Sending...",
+      "sendResetLink": "Send reset link",
+      "backToSignIn": "Back to sign in",
+      "carousel": {
+        "altDoctor": "Doctor team",
+        "altPatient": "Patient care",
+        "textRecover": "Recover your account",
+        "textSecure": "Secure and protected"
+      },
+      "success": {
+        "title": "Email sent successfully",
+        "description": "Please check your inbox and follow the reset instructions."
+      },
+      "errors": {
+        "sendFailed": "Failed to send reset email. Please try again."
+      }
+    },
+    "reset": {
+      "logoAlt": "Medora logo",
+      "heroDescription": "Create a strong, secure password for your Medora account.",
+      "goToSlide": "Go to slide {number}",
+      "backToSignIn": "Back to sign in",
+      "carousel": {
+        "altDoctor": "Doctor team",
+        "altPatient": "Patient care",
+        "textReset": "Reset your password",
+        "textSecure": "Secure and protected"
+      },
+      "loading": {
+        "verifying": "Verifying your reset link..."
+      },
+      "errorState": {
+        "title": "Link expired",
+        "requestNewLink": "Request new reset link"
+      },
+      "formState": {
+        "title": "Set new password",
+        "subtitle": "Choose a strong password to secure your account."
+      },
+      "form": {
+        "newPassword": "New password",
+        "newPasswordPlaceholder": "Enter new password",
+        "confirmPassword": "Confirm password",
+        "confirmPasswordPlaceholder": "Confirm new password",
+        "resetting": "Resetting password...",
+        "submit": "Reset password"
+      },
+      "validation": {
+        "minLength": "Password must be at least 8 characters",
+        "uppercase": "Password must contain an uppercase letter",
+        "lowercase": "Password must contain a lowercase letter",
+        "number": "Password must contain a number",
+        "passwordsDoNotMatch": "Passwords do not match"
+      },
+      "strength": {
+        "label": "Password strength",
+        "weak": "Weak",
+        "fair": "Fair",
+        "strong": "Strong"
+      },
+      "requirements": {
+        "title": "Password requirements:",
+        "minLength": "At least 8 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number"
+      },
+      "successState": {
+        "title": "Password reset complete",
+        "subtitle": "Your password has been successfully updated.",
+        "updatedTitle": "Password updated",
+        "updatedDescription": "You can now sign in with your new password.",
+        "redirectingPrefix": "Redirecting to login in",
+        "second": "second",
+        "seconds": "seconds",
+        "continueToLogin": "Continue to login"
+      },
+      "errors": {
+        "noRecoveryToken": "No recovery token found. Please request a new password reset link.",
+        "invalidRecoveryLink": "Invalid recovery link. Please request a new password reset link.",
+        "linkExpired": "This reset link has expired. Please request a new one.",
+        "generic": "Something went wrong. Please request a new password reset link.",
+        "resetFailed": "Failed to reset password. Please try again."
+      }
+    },
+    "patientRegister": {
+      "title": "Patient Registration",
+      "subtitle": "Join thousands of patients getting better care.",
+      "goToSlide": "Go to slide {number}",
+      "carousel": {
+        "altPatientCare": "Patient care",
+        "altExpertDoctors": "Expert doctors",
+        "textFindCare": "Find the Best Care for You",
+        "textTopSpecialists": "Connect with Top Specialists",
+        "description": "Book appointments with top doctors, manage your health records, and get personalized care."
+      },
+      "form": {
+        "firstName": "First Name",
+        "firstNamePlaceholder": "John",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Doe",
+        "email": "Email Address",
+        "emailPlaceholder": "patient@example.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+880 1XXX XXXXXX",
+        "dob": "Date of Birth",
+        "gender": "Gender",
+        "selectGender": "Select Gender",
+        "genderMale": "Male",
+        "genderFemale": "Female",
+        "genderOther": "Other",
+        "bloodGroupOptional": "Blood Group (Optional)",
+        "selectBloodGroup": "Select Blood Group",
+        "password": "Password",
+        "passwordPlaceholder": "••••••••",
+        "confirmPassword": "Confirm Password",
+        "agreePrefix": "I agree to the",
+        "termsOfService": "Terms of Service",
+        "and": "and",
+        "privacyPolicy": "Privacy Policy",
+        "creating": "Creating Account...",
+        "createAccount": "Create Account"
+      },
+      "success": {
+        "title": "Registration Successful",
+        "description": "Welcome to Medora! Your account has been created.",
+        "verifyEmailPrompt": "Please verify your email to continue.",
+        "verifyEmailButton": "Verify Email"
+      },
+      "footer": {
+        "alreadyHaveAccount": "Already have an account?",
+        "signIn": "Sign in"
+      },
+      "errors": {
+        "passwordsDoNotMatch": "Passwords do not match",
+        "registrationFailed": "Registration failed. Please try again."
+      }
+    },
+    "doctorRegister": {
+      "title": "Doctor Registration",
+      "subtitle": "Enter your professional details to get verified.",
+      "goToSlide": "Go to slide {number}",
+      "carousel": {
+        "altDoctorsTeam": "Doctors team",
+        "altPatientCare": "Patient care",
+        "textJoinNetwork": "Join Our Network of Specialists",
+        "textProvideCare": "Provide Better Care to Patients",
+        "description": "Connect with millions of patients, manage your appointments efficiently, and grow your practice."
+      },
+      "form": {
+        "firstName": "First Name",
+        "firstNamePlaceholder": "John",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Doe",
+        "email": "Email Address",
+        "emailPlaceholder": "doctor@example.com",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+880 1XXX XXXXXX",
+        "bmdc": "BM&DC Registration Number",
+        "bmdcPlaceholder": "A-12345",
+        "uploadDocument": "Upload Document (BM&DC Certificate)",
+        "uploadHint": "Please upload a clear scan of your registration certificate.",
+        "password": "Password",
+        "passwordPlaceholder": "••••••••",
+        "confirmPassword": "Confirm Password",
+        "agreePrefix": "I agree to the",
+        "termsOfService": "Terms of Service",
+        "and": "and",
+        "privacyPolicy": "Privacy Policy",
+        "submitting": "Submitting...",
+        "submitForVerification": "Submit for Verification"
+      },
+      "success": {
+        "title": "Application Submitted",
+        "description": "Thank you for registering. Your BM&DC number is under review.",
+        "verificationWindow": "Verification usually takes 24-48 hours.",
+        "verifyEmailPrompt": "Please verify your email to continue.",
+        "verifyEmailButton": "Verify Email"
+      },
+      "footer": {
+        "alreadyHaveAccount": "Already have an account?",
+        "signIn": "Sign in"
+      },
+      "errors": {
+        "passwordsDoNotMatch": "Passwords do not match",
+        "registrationFailed": "Registration failed. Please try again."
+      }
+    }
+  },
+  "doctorNav": {
+    "home": "Home",
+    "myProfile": "My Profile",
+    "appointments": "Appointments",
+    "patients": "Patients",
+    "settings": "Settings",
+    "logout": "Logout",
+    "doctorPrefix": "Dr.",
+    "menuToggle": "Toggle menu",
+    "title": "Medora Doctor"
+  },
+  "landing": {
+    "hero": {
+      "title": "Build better care with shared context",
+      "subtitle": "Start as patient or doctor and keep healthcare decisions anchored in accurate history.",
+      "createPatient": "Create Patient Account",
+      "createDoctor": "Create Doctor Account"
+    },
+    "sections": {
+      "howItWorksTitle": "How it works",
+      "howItWorksDescription": "Join as a patient or doctor, add essential information, and keep care decisions anchored in reliable context.",
+      "forPatientsHeadline": "Everything stays organized",
+      "forDoctorsHeadline": "Clinical context before consultation",
+      "aboutTitle": "Why this platform exists",
+      "aboutDescription": "Healthcare quality depends on continuity. Medora is designed to preserve clinical context, reduce repetition, and make both patient and doctor workflows more dependable.",
+      "patientQuote": "I no longer need to repeat my full history every time.",
+      "doctorQuote": "I can focus on decisions, not searching for missing records."
+    },
+    "pillars": {
+      "structuredProfilesTitle": "Structured Profiles",
+      "structuredProfilesDescription": "Clear, editable medical information designed for long-term use.",
+      "longitudinalHistoryTitle": "Longitudinal History",
+      "longitudinalHistoryDescription": "Conditions, medication, tests, and visits organized in a single timeline.",
+      "sharedVisibilityTitle": "Shared Visibility",
+      "sharedVisibilityDescription": "Doctors and patients work from the same context with less repetition.",
+      "practicalAssistanceTitle": "Practical Assistance",
+      "practicalAssistanceDescription": "Optional reminders and summaries that support real workflows."
+    },
+    "steps": {
+      "step1Title": "Create your account",
+      "step1Description": "Choose patient or doctor onboarding flow.",
+      "step2Title": "Add core medical details",
+      "step2Description": "Start with clean data entry built for follow-up care.",
+      "step3Title": "Keep history updated",
+      "step3Description": "Track visits, medication, tests, and condition changes over time.",
+      "step4Title": "Collaborate with confidence",
+      "step4Description": "Use shared context for clearer consultations."
+    },
+    "flow": {
+      "patientTitle": "Patient updates profile",
+      "patientDescription": "Medication and symptoms are added.",
+      "systemTitle": "System organizes timeline",
+      "systemDescription": "Data appears in one history view.",
+      "doctorTitle": "Doctor reviews context",
+      "doctorDescription": "Consultation starts with useful background."
+    },
+    "patientFeatures": {
+      "feature1": "One place for medication, tests, and conditions",
+      "feature2": "Clear reminders and appointment continuity",
+      "feature3": "Better communication with doctors",
+      "feature4": "Control over profile and shared information"
+    },
+    "doctorFeatures": {
+      "feature1": "Structured patient history in one view",
+      "feature2": "Reduced repetitive intake questions",
+      "feature3": "Improved continuity across appointments",
+      "feature4": "Optional AI support without forced automation"
+    },
+    "info": {
+      "privacyTitle": "Privacy and Control",
+      "privacyDescription": "Data is role-aware and user-controlled with explicit visibility boundaries.",
+      "futureTitle": "Future Ready Architecture",
+      "futureDescription": "Designed for safe automation and measurable outcomes without hype-first design.",
+      "brandName": "Medora"
+    },
+    "platform": {
+      "heading": "A platform built around shared context",
+      "description": "Replace scattered records with one clear timeline that supports patient care and clinical decisions."
+    },
+    "cta": {
+      "forPatients": "For Patients",
+      "forDoctors": "For Doctors",
+      "startPatient": "Start as a Patient",
+      "startDoctor": "Start as a Doctor"
+    },
+    "footer": {
+      "tagline": "One platform. Shared understanding. Better care.",
+      "platform": "Platform",
+      "legal": "Legal",
+      "contact": "Contact",
+      "howItWorks": "How it works",
+      "forPatients": "For Patients",
+      "forDoctors": "For Doctors",
+      "privacyPolicy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "support": "Support",
+      "contactUs": "Contact Us",
+      "rights": "All rights reserved."
+    }
+  },
+  "selection": {
+    "doctorTitle": "Doctor",
+    "doctorDescription": "Join our network of healthcare specialists",
+    "patientTitle": "Patient",
+    "patientDescription": "Find the best care for you and your family",
+    "getStarted": "Get Started",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "chorui": {
+    "doctorTag": "Doctor Workflow Assistant",
+    "doctorHint": "Use a patient ID from your list in your prompt for secure patient-linked AI context.",
+    "patientTag": "Patient Intake Assistant"
+  },
+  "doctorHome": {
+    "profileLoadError": "Unable to load profile data",
+    "backToLogin": "Back to Login",
+    "scheduleReviewTitle": "Action Required: Schedule Format Review",
+    "scheduleReviewDescription": "We detected an ambiguous schedule format on your profile. Please review and update your weekly schedule to ensure appointment slots work correctly.",
+    "fixSchedule": "Fix Schedule",
+    "welcomeBack": "Welcome back, Dr. {name}!",
+    "defaultDoctorName": "Doctor",
+    "welcomeSubtitle": "Here's what's happening with your practice today",
+    "todaySuffix": "today",
+    "cards": {
+      "totalPatientPopulation": "Total Patient Population",
+      "activeClinicalCases": "Active Clinical Cases",
+      "highPriority": "High Priority",
+      "actionableTasks": "Actionable Tasks",
+      "monthlyRevenue": "Monthly Revenue"
+    },
+    "demographics": {
+      "title": "Demographic Distribution",
+      "subtitle": "Patient age segments",
+      "settingsAriaLabel": "Demographic settings",
+      "total": "Total",
+      "range0to18": "0-18 Years",
+      "range19to45": "19-45 Years",
+      "range46to64": "46-64 Years",
+      "range65plus": "65+ Years"
+    },
+    "wsi": {
+      "title": "Doctor Workload Stress Index",
+      "subtitle": "Real-time workload pressure tracking",
+      "sixMonths": "6 Months",
+      "oneYear": "1 Year",
+      "highLoad": "High Load",
+      "moderateLoad": "Moderate Load",
+      "lowLoad": "Low Load"
+    },
+    "pending": {
+      "title": "Pending Action Items",
+      "emptyTitle": "No pending actions",
+      "noDueDate": "No due date",
+      "statusLabel": "Status",
+      "patientLabel": "Patient"
+    },
+    "revenue": {
+      "title": "Revenue & Billing Overview",
+      "billingTrends": "Billing Trends",
+      "claimsProcessed": "Claims Processed",
+      "totalClaims": "Total Claims"
+    }
+  },
+  "patientDashboard": {
+    "title": "Patient Health Overview",
+    "defaultUser": "Patient",
+    "greeting": "Good day, {name}. Here is your live summary for today.",
+    "actions": {
+      "scheduleVisit": "Schedule Visit",
+      "healthReport": "Health Report",
+      "joinVisit": "Join Visit",
+      "manage": "Manage",
+      "bookNow": "Book Now"
+    },
+    "sections": {
+      "upcomingAppointments": "Upcoming Appointments",
+      "seeAll": "See all",
+      "aiHealthInsights": "AI Health Insights",
+      "fullAnalytics": "Full Analytics",
+      "quickHealthStats": "Quick Health Stats",
+      "viewDetails": "View Details"
+    },
+    "defaults": {
+      "generalConsultation": "General Consultation",
+      "medoraConsultation": "Medora Consultation",
+      "stepsToday": "Steps Today",
+      "healthDeviceSync": "Health Device Sync",
+      "noSyncYet": "No sync yet"
+    },
+    "empty": {
+      "noUpcomingAppointments": "No upcoming appointments",
+      "scheduleIsClear": "Your schedule is clear",
+      "noInsightsYet": "No insights yet",
+      "noInsightsDescription": "Start logging health metrics and reminders to unlock personalized insights."
+    },
+    "score": {
+      "excellent": "Excellent",
+      "improving": "Improving",
+      "needsAttention": "Needs Attention",
+      "activityHigh": "High",
+      "activityModerate": "Moderate",
+      "activityLow": "Low",
+      "nutritionBalanced": "Balanced",
+      "nutritionNeedsReview": "Needs Review"
+    },
+    "appointmentCard": {
+      "dateTime": "Date & Time",
+      "location": "Location"
+    },
+    "healthScoreCard": {
+      "title": "Overall Health Score",
+      "description": {
+        "prefix": "Your health score has improved by",
+        "suffix": "since last month. Keep up the good work."
+      },
+      "activity": "Activity",
+      "nutrition": "Nutrition",
+      "viewDetails": "View details"
+    },
+    "deviceConnectionCard": {
+      "lastSynced": "Last synced: {value}",
+      "manageDevices": "Manage Devices"
+    },
+    "medicationTrendChart": {
+      "title": "Medication Trend",
+      "subtitle": "Last 7 days adherence"
+    }
+  },
+  "errors": {
+    "doctorAnalyticsLoad": "Unable to load advanced analytics right now. Please try again shortly.",
+    "patientAnalyticsLoad": "Unable to load reminders for analytics right now."
+  },
+  "appointmentSuccess": {
+    "locationFallback": "Not specified"
+  },
+  "appointmentSuccessPage": {
+    "loading": "Loading appointment details...",
+    "logoAlt": "Medora logo",
+    "titlePrefix": "Your",
+    "titleHighlight": "appointment request",
+    "titleSuffix": "has been successfully submitted!",
+    "subtitle": "We'll be in touch shortly to confirm.",
+    "detailsTitle": "Requested appointment details:",
+    "doctor": "Doctor",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "locationNotSpecified": "Not specified",
+    "viewAppointments": "View My Appointments",
+    "backToHome": "Back to Home"
+  },
+  "doctorInformation": {
+    "generalPhysician": "General Physician",
+    "yearsOfExperience": "{years} Years of Experience Overall",
+    "bmdcVerified": "BMDC Verified",
+    "bmdcComingSoon": "BMDC Reg.: Coming Soon",
+    "id": "ID: {value}",
+    "aboutDoctor": "About Dr. {name}",
+    "practiceLocations": "Practice Locations",
+    "primaryHospital": "Primary Hospital",
+    "chamber": "Chamber {index}",
+    "getDirection": "Get Direction",
+    "servesFor": "Serves for:",
+    "viewLess": "View less",
+    "viewMore": "View more",
+    "fieldOfConcentration": "Field of Concentration"
+  },
+  "patientAnalytics": {
+    "todaySchedule": {
+      "title": "Today's Schedule",
+      "today": "Today",
+      "previousDay": "Previous day",
+      "nextDay": "Next day"
+    },
+    "smartInsight": {
+      "title": "Smart Insight",
+      "setupReminder": "Setup Reminder"
+    }
+  },
+  "patientAppointmentCalendar": {
+    "myAppointments": "My Appointments",
+    "appointments": "Appointments",
+    "today": "Today",
+    "appointmentsOn": "Appointments on {date}",
+    "close": "Close",
+    "timeNotSet": "Time not set",
+    "appointmentDetails": "Appointment Details",
+    "doctorFallback": "Doctor",
+    "consultation": "Consultation",
+    "weekdays": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "statuses": {
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "pendingAdminReview": "Pending Admin Review",
+      "pendingDoctorConfirmation": "Pending Doctor Confirmation",
+      "pendingPatientConfirmation": "Pending Patient Confirmation",
+      "rescheduleRequested": "Reschedule Requested",
+      "cancelRequested": "Cancel Requested",
+      "noShow": "No Show"
+    }
+  },
+  "notificationsPage": {
+    "title": "Notifications",
+    "youHave": "You have",
+    "unreadNotifications": "unread notifications",
+    "allCaughtUp": "All caught up!",
+    "markAllRead": "Mark all as read",
+    "loading": "Loading notifications...",
+    "filters": {
+      "all": "All",
+      "unread": "Unread",
+      "read": "Read"
+    },
+    "empty": {
+      "title": "No notifications",
+      "caughtUp": "You're all caught up!",
+      "noNotifications": "No notifications to show"
+    },
+    "time": {
+      "justNow": "Just now",
+      "minutesAgo": "{count} minutes ago",
+      "hoursAgo": "{count} hours ago",
+      "daysAgo": "{count} days ago"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {page} of {total}"
+    }
+  },
+  "patientFindMedicinePage": {
+    "title": "Find Medicine",
+    "subtitle": "Search medicines by brand or generic name",
+    "disclaimer": "This information is for general awareness only. Always consult your doctor before taking any medication.",
+    "loadingDetails": "Loading details...",
+    "alerts": {
+      "saveMedicationFailed": "Failed to save medication. Please try again.",
+      "redirectingMedicalHistory": "Redirecting to Medical History..."
+    },
+    "empty": {
+      "noMedicinesTitle": "No medicines found",
+      "noMedicinesDescription": "Try searching with a different name or spelling",
+      "searchPromptTitle": "Search for medicines",
+      "searchPromptDescription": "Enter at least 2 characters to start searching"
+    }
+  },
+  "patientAppointmentsPage": {
+    "title": "My Appointments",
+    "subtitle": "Comprehensive overview of your clinic visits and appointment history.",
+    "ranges": {
+      "month": "month",
+      "quarter": "quarter",
+      "year": "year"
+    },
+    "months": {
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct"
+    },
+    "actions": {
+      "showAllUpcoming": "Show All Upcoming"
+    },
+    "fallback": {
+      "patientName": "Patient",
+      "rescheduleReason": "Patient requested reschedule",
+      "notAvailable": "Not available"
+    }
+  },
+  "patientMedicalReportsPage": {
+    "title": "Medical Reports",
+    "subtitle": "Upload and view your lab test reports",
+    "actions": {
+      "uploadReport": "Upload Report",
+      "processing": "Processing...",
+      "uploadAndExtract": "Upload & Extract",
+      "cancel": "Cancel",
+      "retry": "Retry"
+    },
+    "upload": {
+      "cardTitle": "Upload Lab Report",
+      "previewAlt": "Preview",
+      "reportDateLabel": "Report Date (optional)",
+      "dropzone": {
+        "title": "Drag & drop your report here, or click to browse",
+        "description": "Supports JPG, PNG, WebP, PDF (max 15MB)"
+      },
+      "validation": {
+        "invalidType": "Please upload an image (JPG, PNG, WebP) or PDF."
+      }
+    },
+    "errors": {
+      "loadFailed": "Failed to load reports",
+      "uploadFailed": "Upload failed"
+    },
+    "empty": {
+      "title": "No medical reports yet",
+      "description": "Upload your first lab report to get started"
+    },
+    "status": {
+      "processed": "Processed",
+      "pending": "Pending"
+    },
+    "meta": {
+      "tests": "{count} tests",
+      "comments": "{count} comments"
+    },
+    "sharing": {
+      "shared": "Shared",
+      "private": "Private"
+    },
+    "fallback": {
+      "reportName": "Lab Report"
+    }
+  },
+  "patientProfilePage": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal and medical information",
+    "loading": "Loading profile...",
+    "ageYearsOld": "{age} years old",
+    "moreCount": "+{count} more",
+    "sections": {
+      "contactInfo": "Contact Information",
+      "physicalInfo": "Physical Information",
+      "medicalConditions": "Medical Conditions",
+      "currentMedications": "Current Medications",
+      "allergies": "Allergies",
+      "emergencyContact": "Emergency Contact",
+      "medicalHistory": "Medical History",
+      "surgeries": "Surgeries",
+      "hospitalizations": "Hospitalizations",
+      "recentVisits": "Recent Visits"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "height": "Height",
+      "weight": "Weight",
+      "dateOfBirth": "Date of Birth",
+      "maritalStatus": "Marital Status",
+      "name": "Name",
+      "relation": "Relation"
+    },
+    "actions": {
+      "editProfile": "Edit Profile",
+      "viewAll": "View All",
+      "goToLogin": "Go to Login"
+    },
+    "quickActions": {
+      "findDoctors": "Find Doctors",
+      "myAppointments": "My Appointments",
+      "medicalHistory": "Medical History",
+      "prescriptions": "Prescriptions",
+      "reminders": "Reminders"
+    },
+    "conditions": {
+      "diabetes": "Diabetes",
+      "hypertension": "Hypertension",
+      "heartDisease": "Heart Disease",
+      "asthma": "Asthma",
+      "kidneyDisease": "Kidney Disease",
+      "liverDisease": "Liver Disease",
+      "thyroid": "Thyroid",
+      "mentalHealth": "Mental Health"
+    },
+    "empty": {
+      "noChronicConditions": "No chronic conditions reported",
+      "noAllergies": "No allergies reported",
+      "noEmergencyContact": "No emergency contact added",
+      "noSurgeries": "No surgeries recorded",
+      "noHospitalizations": "No hospitalizations recorded",
+      "noVisits": "No visits recorded"
+    },
+    "fallback": {
+      "notProvided": "Not provided",
+      "notSpecified": "Not specified",
+      "unknownMedication": "Unknown medication",
+      "empty": "--"
+    },
+    "units": {
+      "heightCm": "{value} cm",
+      "weightKg": "{value} kg"
+    },
+    "errors": {
+      "loadFailed": "Failed to load profile"
+    }
+  },
+  "doctorAppointmentsPage": {
+    "loading": "Loading schedule dashboard...",
+    "overviewLabel": "Dashboard Overview",
+    "title": "Schedule Performance",
+    "subtitle": "Good morning, Dr. {doctorName}. Here's your clinic activity for today.",
+    "actions": {
+      "thisWeek": "This Week",
+      "exportReport": "Export Report"
+    },
+    "metrics": {
+      "totalBookings": "Total Bookings",
+      "newPatients": "New Patients",
+      "avgWaitTime": "Avg Wait Time",
+      "reschedules": "Reschedules"
+    },
+    "weekdays": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "labels": {
+      "averagePerDay": "Avg: {value}/day",
+      "vsLastWeek": "{value} vs last week"
+    },
+    "units": {
+      "minutes": "{value} min"
+    },
+    "fallback": {
+      "doctorName": "Doctor",
+      "notAvailable": "N/A"
+    },
+    "errors": {
+      "loadFailed": "Failed to load appointments. Please refresh and try again.",
+      "updateStatusFailed": "Could not update appointment status. Please try again.",
+      "rescheduleFailed": "Could not reschedule this appointment"
+    }
+  },
+  "forms": {
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password"
+    }
+  },
+  "toasts": {
+    "saved": "Saved successfully",
+    "updated": "Updated successfully",
+    "uploaded": "Uploaded successfully",
+    "somethingWentWrong": "Something went wrong"
+  }
+}

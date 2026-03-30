@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MedicationItem, MedicationTimelineItem } from "@/components/patient/analytics/MedicationTimelineItem";
@@ -11,16 +12,18 @@ type TodayScheduleProps = {
 };
 
 export function TodaySchedule({ medications, onTake, onSkip, onRemind }: TodayScheduleProps) {
+  const t = useTranslations("patientAnalytics.todaySchedule");
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3 pb-2">
-        <CardTitle className="text-xl">Today&apos;s Schedule</CardTitle>
+        <CardTitle className="text-xl">{t("title")}</CardTitle>
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label="Previous day">
+          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label={t("previousDay")}>
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <span>Today</span>
-          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label="Next day">
+          <span>{t("today")}</span>
+          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label={t("nextDay")}>
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>

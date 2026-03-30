@@ -4,8 +4,9 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { Menu, User, Settings, LogOut, LayoutDashboard, FileText, Calendar, Shield, Activity, Users, Loader2, FlaskConical } from "lucide-react";
+import { Menu, User, Settings, LogOut, FileText, Calendar, Shield, Activity, Users, Loader2, FlaskConical } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { NotificationDropdown } from "@/components/ui/notification-dropdown";
 import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { resolveAvatarUrl } from "@/lib/avatar";
+import { stripLocaleFromPathname, withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
@@ -47,12 +49,19 @@ const USER_CACHE_TTL_MS = 5 * 60 * 1000;
 
 export function Navbar() {
   const pathname = usePathname();
+  const currentPath = stripLocaleFromPathname(pathname || "/");
   const router = useRouter();
+  const locale = useLocale() as AppLocale;
+  const tNavbar = useTranslations("navbar");
+  const tCommon = useTranslations("common");
+  const tDoctorNav = useTranslations("doctorNav");
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [user, setUser] = React.useState<UserData | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const appName = tCommon("appName");
+  const fallbackUserName = tCommon("user");
 
   React.useEffect(() => {
     const hasSessionToken = document.cookie.includes("session_token=");
@@ -76,13 +85,28 @@ export function Navbar() {
     }
 
     const controller = new AbortController();
+    let isMounted = true;
+
+    const isAbortError = (error: unknown) =>
+      error instanceof DOMException
+        ? error.name === "AbortError"
+        : typeof error === "object" && error !== null && "name" in error && (error as { name?: string }).name === "AbortError";
+
     async function fetchUser() {
       try {
         const response = await fetchWithAuth("/api/auth/me", {
           signal: controller.signal,
         });
+        if (!isMounted) {
+          return;
+        }
+
         if (response?.ok) {
           const data = await response.json();
+          if (!isMounted) {
+            return;
+          }
+
           setUser(data);
           sessionStorage.setItem(
             USER_CACHE_KEY,
@@ -92,10 +116,15 @@ export function Navbar() {
             }),
           );
         }
-      } catch {
+      } catch (error) {
+        if (isAbortError(error)) {
+          return;
+        }
         // Best effort user lookup.
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
@@ -107,6 +136,7 @@ export function Navbar() {
     };
     window.addEventListener("medora:logged_out", handleLogout);
     return () => {
+      isMounted = false;
       controller.abort();
       window.removeEventListener("medora:logged_out", handleLogout);
     };
@@ -136,7 +166,7 @@ export function Navbar() {
     try {
       sessionStorage.removeItem(USER_CACHE_KEY);
       // Redirect to logout route which handles cookie cleanup
-      router.push('/logout');
+      router.push(localeHref('/logout'));
     } catch (error) {
       console.error('Logout failed:', error);
       setLoggingOut(false);
@@ -144,13 +174,13 @@ export function Navbar() {
   };
 
   const getUserInitials = () => {
-    if (!user) return 'U';
-    return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
+    if (!user) return fallbackUserName[0]?.toUpperCase() || "U";
+    return `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase() || fallbackUserName[0]?.toUpperCase() || "U";
   };
 
   const getUserDisplayName = () => {
-    if (!user) return 'User';
-    return `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
+    if (!user) return fallbackUserName;
+    return `${user.first_name || ""} ${user.last_name || ""}`.trim() || fallbackUserName;
   };
 
   const resolvedAvatarUrl = user
@@ -161,11 +191,19 @@ export function Navbar() {
   const homePath = user
     ? (user.role?.toLowerCase() === 'admin' ? '/admin' : user.role?.toLowerCase() === 'doctor' ? '/doctor/home' : '/patient/home')
     : '/';
+  const localizedHomePath = withLocale(homePath, locale);
+  const settingsPath = user?.role?.toLowerCase() === "admin"
+    ? "/admin/settings"
+    : user?.role?.toLowerCase() === "doctor"
+      ? "/doctor/settings"
+      : "/settings";
+
+  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
 
   const showChoruiFab =
     !!user &&
     (user.role?.toLowerCase() === "patient" || user.role?.toLowerCase() === "doctor") &&
-    !pathname.includes("/chorui-ai");
+    !currentPath.includes("/chorui-ai");
 
   return (
     <>
@@ -187,18 +225,18 @@ export function Navbar() {
       >
       <div className="flex h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6">
         {/* LEFT: Logo */}
-        <Link href={homePath} className="flex items-center gap-2 touch-target">
+        <Link href={localizedHomePath} className="flex items-center gap-2 touch-target">
           <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14">
             <Image
               src={medoraDarkLogo}
-              alt="Medora"
+              alt={appName}
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="object-contain dark:hidden"
             />
             <Image
               src={medoraLightLogo}
-              alt="Medora"
+              alt={appName}
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="hidden object-contain dark:block"
@@ -212,32 +250,32 @@ export function Navbar() {
             <div className="h-8 w-64 skeleton rounded-full" />
           ) : user?.role?.toLowerCase() === 'doctor' ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
-              <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/appointments" && "text-primary font-semibold")}>
-                Appointments
+              <Link href={localeHref("/doctor/appointments")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/doctor/appointments" && "text-primary font-semibold")}>
+                {tNavbar("doctor.appointments")}
               </Link>
-              <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/patients" && "text-primary font-semibold")}>
-                Patients
+              <Link href={localeHref("/doctor/patients")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/doctor/patients" && "text-primary font-semibold")}>
+                {tNavbar("doctor.patients")}
               </Link>
-              <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/doctor/analytics" && "text-primary font-semibold")}>
-                Analytics
+              <Link href={localeHref("/doctor/analytics")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/doctor/analytics" && "text-primary font-semibold")}>
+                {tNavbar("doctor.analytics")}
               </Link>
             </nav>
           ) : user?.role?.toLowerCase() === 'patient' ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
-              <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/find-doctor" && "text-primary font-semibold")}>
-                Find Doctor
+              <Link href={localeHref("/patient/find-doctor")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/patient/find-doctor" && "text-primary font-semibold")}>
+                {tNavbar("patient.findDoctor")}
               </Link>
-              <Link href="/patient/analytics" className={cn("transition-colors hover:text-primary py-2", pathname === "/analytics" && "text-primary font-semibold")}>
-                Analytics
+              <Link href={localeHref("/patient/analytics")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/patient/analytics" && "text-primary font-semibold")}>
+                {tNavbar("patient.analytics")}
               </Link>
-              <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/appointments" && "text-primary font-semibold")}>
-                Appointments
+              <Link href={localeHref("/patient/appointments")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/patient/appointments" && "text-primary font-semibold")}>
+                {tNavbar("patient.appointments")}
               </Link>
-              <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary py-2", pathname === "/find-medicine" && "text-primary font-semibold")}>
-                Find Medicine
+              <Link href={localeHref("/patient/find-medicine")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/patient/find-medicine" && "text-primary font-semibold")}>
+                {tNavbar("patient.findMedicine")}
               </Link>
-              <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", pathname === "/patient/medical-history" && "text-primary font-semibold")}>
-                Medical History
+              <Link href={localeHref("/patient/medical-history")} className={cn("transition-colors hover:text-primary py-2", currentPath === "/patient/medical-history" && "text-primary font-semibold")}>
+                {tNavbar("patient.medicalHistory")}
               </Link>
               
             </nav>
@@ -251,10 +289,10 @@ export function Navbar() {
           ) : !user ? (
             <>
               <Button variant="ghost" asChild className="text-foreground/80 hover:bg-accent hover:text-foreground">
-                <Link href="/login">Log in</Link>
+                <Link href={localeHref("/login")}>{tCommon("buttons.login")}</Link>
               </Button>
               <Button asChild className="rounded-xl px-6 shadow-sm">
-                <Link href="/selection">Sign up</Link>
+                <Link href={localeHref("/selection")}>{tCommon("buttons.signup")}</Link>
               </Button>
             </>
           ) : (
@@ -284,22 +322,22 @@ export function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
-                    <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'}>
+                    <Link href={localeHref(user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile')}>
                       <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
+                      <span>{tNavbar("doctor.profile")}</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
-                    <Link href="/settings">
+                    <Link href={localeHref(settingsPath)}>
                       <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
+                      <span>{tNavbar("doctor.settings")}</span>
                     </Link>
                   </DropdownMenuItem>
                   {user.role?.toLowerCase() === 'patient' && (
                     <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
-                      <Link href="/patient/privacy">
+                      <Link href={localeHref("/patient/privacy")}>
                         <Shield className="mr-2 h-4 w-4" />
-                        <span>Privacy & Data Sharing</span>
+                        <span>{tNavbar("doctor.privacy")}</span>
                       </Link>
                     </DropdownMenuItem>
                   )}
@@ -314,7 +352,7 @@ export function Navbar() {
                     ) : (
                       <LogOut className="mr-2 h-4 w-4" />
                     )}
-                    <span>{loggingOut ? 'Logging out...' : 'Log out'}</span>
+                    <span>{loggingOut ? tCommon("buttons.loggingOut") : tCommon("buttons.logout")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -331,18 +369,18 @@ export function Navbar() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-muted-foreground touch-target rounded-xl hover:bg-accent/80">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">{tDoctorNav("menuToggle")}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[min(88vw,22rem)] border-l border-border/70 px-0">
               <SheetHeader className="border-b border-border/60 px-5 pb-4 pt-5">
                 <SheetTitle className="flex items-center gap-2">
-                  <Link href={homePath} className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href={localizedHomePath} className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <div className="relative h-8 w-8">
-                      <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
-                      <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
+                      <Image src={medoraDarkLogo} alt={appName} fill className="object-contain dark:hidden" />
+                      <Image src={medoraLightLogo} alt={appName} fill className="hidden object-contain dark:block" />
                     </div>
-                    <span>Medora</span>
+                    <span>{appName}</span>
                   </Link>
                 </SheetTitle>
               </SheetHeader>
@@ -365,10 +403,10 @@ export function Navbar() {
                   <>
                     <div className="mt-auto flex flex-col gap-3 pt-6">
                       <Button variant="outline" asChild className="w-full justify-center h-12 text-base border-primary/20 hover:bg-primary-more-light hover:text-primary">
-                        <Link href="/login">Log in</Link>
+                        <Link href={localeHref("/login")}>{tCommon("buttons.login")}</Link>
                       </Button>
                       <Button asChild className="w-full justify-center h-12 text-base bg-primary hover:bg-primary-muted shadow-lg shadow-primary/20">
-                        <Link href="/selection">Sign up</Link>
+                        <Link href={localeHref("/selection")}>{tCommon("buttons.signup")}</Link>
                       </Button>
                     </div>
                   </>
@@ -377,38 +415,38 @@ export function Navbar() {
                     <div className="flex flex-col gap-2">
                       {user?.role?.toLowerCase() === 'doctor' ? (
                         <>
-                          <Link href="/doctor/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                          <Link href={localeHref("/doctor/appointments")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Calendar className="h-5 w-5 text-primary" /> {tNavbar("doctor.appointments")}
                           </Link>
-                          <Link href="/doctor/patients" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Users className="h-5 w-5 text-primary" /> Patients
+                          <Link href={localeHref("/doctor/patients")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Users className="h-5 w-5 text-primary" /> {tNavbar("doctor.patients")}
                           </Link>
-                          <Link href="/doctor/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Analytics
+                          <Link href={localeHref("/doctor/analytics")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Activity className="h-5 w-5 text-primary" /> {tNavbar("doctor.analytics")}
                           </Link>
                         </>
                       ) : user?.role?.toLowerCase() === 'patient' ? (
                         <>
-                          <Link href="/patient/find-doctor" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Users className="h-5 w-5 text-primary" /> Find Doctor
+                          <Link href={localeHref("/patient/find-doctor")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Users className="h-5 w-5 text-primary" /> {tNavbar("patient.findDoctor")}
                           </Link>
-                          <Link href="/patient/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Analytics
+                          <Link href={localeHref("/patient/analytics")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Activity className="h-5 w-5 text-primary" /> {tNavbar("patient.analytics")}
                           </Link>
-                          <Link href="/patient/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                          <Link href={localeHref("/patient/appointments")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Calendar className="h-5 w-5 text-primary" /> {tNavbar("patient.appointments")}
                           </Link>
-                          <Link href="/patient/find-medicine" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Find Medicine
+                          <Link href={localeHref("/patient/find-medicine")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Activity className="h-5 w-5 text-primary" /> {tNavbar("patient.findMedicine")}
                           </Link>
-                          <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <FileText className="h-5 w-5 text-primary" /> Medical History
+                          <Link href={localeHref("/patient/medical-history")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <FileText className="h-5 w-5 text-primary" /> {tNavbar("patient.medicalHistory")}
                           </Link>
-                          <Link href="/patient/medical-reports" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <FlaskConical className="h-5 w-5 text-primary" /> Lab Reports
+                          <Link href={localeHref("/patient/medical-reports")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <FlaskConical className="h-5 w-5 text-primary" /> {tNavbar("patient.labReports")}
                           </Link>
-                          <Link href="/patient/privacy" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Shield className="h-5 w-5 text-primary" /> Privacy & Data Sharing
+                          <Link href={localeHref("/patient/privacy")} className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Shield className="h-5 w-5 text-primary" /> {tNavbar("doctor.privacy")}
                           </Link>
 
                         </>
@@ -426,11 +464,11 @@ export function Navbar() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
-                          <User className="h-4 w-4" /> My Profile
+                        <Link href={localeHref(user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile')} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                          <User className="h-4 w-4" /> {tNavbar("patient.profile")}
                         </Link>
-                        <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
-                          <Settings className="h-4 w-4" /> Settings
+                        <Link href={localeHref(settingsPath)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                          <Settings className="h-4 w-4" /> {tNavbar("patient.settings")}
                         </Link>
                         <Button 
                           variant="ghost" 
@@ -443,7 +481,7 @@ export function Navbar() {
                           ) : (
                             <LogOut className="mr-2 h-4 w-4" />
                           )}
-                          {loggingOut ? 'Logging out...' : 'Log out'}
+                          {loggingOut ? tCommon("buttons.loggingOut") : tCommon("buttons.logout")}
                         </Button>
                       </div>
                     </div>
