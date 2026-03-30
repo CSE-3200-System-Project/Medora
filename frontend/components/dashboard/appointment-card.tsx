@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Calendar, MapPin } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -28,6 +29,8 @@ export function AppointmentCard({
   actionLabel,
   actionVariant = "default",
 }: AppointmentCardProps) {
+  const t = useTranslations("patientDashboard.appointmentCard")
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -55,14 +58,14 @@ export function AppointmentCard({
 
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Date & Time</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{t("dateTime")}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
                 <span>{dateTime}</span>
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Location</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{t("location")}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 <span>{location}</span>

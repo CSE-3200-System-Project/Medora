@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import {
@@ -35,8 +36,11 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
+import { withLocale, type AppLocale } from "@/lib/locale-path";
 
 export default function PatientMedicalReportsPage() {
+  const t = useTranslations("patientMedicalReportsPage");
+  const locale = useLocale();
   const router = useRouter();
   const [reports, setReports] = React.useState<MedicalReportListItem[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -64,7 +68,7 @@ export default function PatientMedicalReportsPage() {
       setReports(data);
     } catch (err: any) {
       console.error("Failed to load reports:", err);
-      setError(err.message || "Failed to load reports");
+      setError(err.message || t("errors.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -98,7 +102,7 @@ export default function PatientMedicalReportsPage() {
       "application/pdf",
     ];
     if (!validTypes.includes(file.type)) {
-      setUploadError("Please upload an image (JPG, PNG, WebP) or PDF.");
+      setUploadError(t("upload.validation.invalidType"));
       return;
     }
 
@@ -128,10 +132,10 @@ export default function PatientMedicalReportsPage() {
       setShowUpload(false);
 
       // Navigate to the new report
-      router.push(`/patient/medical-reports/${result.report.id}`);
+      router.push(withLocale(`/patient/medical-reports/${result.report.id}`, locale as AppLocale));
     } catch (err: any) {
       console.error("Upload failed:", err);
-      setUploadError(err.message || "Upload failed");
+      setUploadError(err.message || t("errors.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -150,7 +154,7 @@ export default function PatientMedicalReportsPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="pt-[var(--nav-content-offset)]">
+        <div className="pt-(--nav-content-offset)">
           <MedoraLoader />
         </div>
       </AppBackground>
@@ -161,15 +165,15 @@ export default function PatientMedicalReportsPage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+      <main className="max-w-6xl mx-auto py-8 pt-(--nav-content-offset)">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-              Medical Reports
+              {t("title")}
             </h1>
             <p className="text-muted-foreground mt-2">
-              Upload and view your lab test reports
+              {t("subtitle")}
             </p>
           </div>
           <Button
@@ -177,7 +181,7 @@ export default function PatientMedicalReportsPage() {
             className="gap-2"
           >
             <Upload className="h-4 w-4" />
-            Upload Report
+            {t("actions.uploadReport")}
           </Button>
         </div>
 
@@ -187,7 +191,7 @@ export default function PatientMedicalReportsPage() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Upload className="h-5 w-5 text-primary" />
-                Upload Lab Report
+                {t("upload.cardTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -203,7 +207,7 @@ export default function PatientMedicalReportsPage() {
                     {previewUrl ? (
                       <img
                         src={previewUrl}
-                        alt="Preview"
+                        alt={t("upload.previewAlt")}
                         className="max-h-48 mx-auto rounded-lg object-contain"
                       />
                     ) : (
@@ -234,10 +238,10 @@ export default function PatientMedicalReportsPage() {
                   <div className="space-y-2">
                     <ImageIcon className="h-12 w-12 mx-auto opacity-40" />
                     <p className="text-muted-foreground">
-                      Drag & drop your report here, or click to browse
+                      {t("upload.dropzone.title")}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      Supports JPG, PNG, WebP, PDF (max 15MB)
+                      {t("upload.dropzone.description")}
                     </p>
                   </div>
                 )}
@@ -252,7 +256,7 @@ export default function PatientMedicalReportsPage() {
 
               {/* Report date */}
               <div className="space-y-2">
-                <Label>Report Date (optional)</Label>
+                <Label>{t("upload.reportDateLabel")}</Label>
                 <Input
                   type="date"
                   value={reportDate}
@@ -276,7 +280,7 @@ export default function PatientMedicalReportsPage() {
                   {uploading && (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   )}
-                  {uploading ? "Processing..." : "Upload & Extract"}
+                  {uploading ? t("actions.processing") : t("actions.uploadAndExtract")}
                 </Button>
                 <Button
                   variant="outline"
@@ -285,7 +289,7 @@ export default function PatientMedicalReportsPage() {
                     clearFile();
                   }}
                 >
-                  Cancel
+                  {t("actions.cancel")}
                 </Button>
               </div>
             </CardContent>
@@ -303,7 +307,7 @@ export default function PatientMedicalReportsPage() {
                 className="ml-4"
                 onClick={loadReports}
               >
-                Retry
+                {t("actions.retry")}
               </Button>
             </CardContent>
           </Card>
@@ -315,10 +319,10 @@ export default function PatientMedicalReportsPage() {
             <CardContent>
               <FlaskConical className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p className="text-muted-foreground mb-2">
-                No medical reports yet
+                {t("empty.title")}
               </p>
               <p className="text-sm text-muted-foreground">
-                Upload your first lab report to get started
+                {t("empty.description")}
               </p>
             </CardContent>
           </Card>
@@ -329,7 +333,7 @@ export default function PatientMedicalReportsPage() {
                 key={report.id}
                 className="rounded-xl hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() =>
-                  router.push(`/patient/medical-reports/${report.id}`)
+                  router.push(withLocale(`/patient/medical-reports/${report.id}`, locale as AppLocale))
                 }
               >
                 <CardContent className="p-4 sm:p-6">
@@ -341,7 +345,7 @@ export default function PatientMedicalReportsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h3 className="font-medium text-foreground truncate">
-                            {report.file_name || "Lab Report"}
+                            {report.file_name || t("fallback.reportName")}
                           </h3>
                           {report.parsed ? (
                             <Badge
@@ -349,7 +353,7 @@ export default function PatientMedicalReportsPage() {
                               className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800"
                             >
                               <CheckCircle2 className="h-3 w-3 mr-1" />
-                              Processed
+                              {t("status.processed")}
                             </Badge>
                           ) : (
                             <Badge
@@ -357,7 +361,7 @@ export default function PatientMedicalReportsPage() {
                               className="bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800"
                             >
                               <Clock className="h-3 w-3 mr-1" />
-                              Pending
+                              {t("status.pending")}
                             </Badge>
                           )}
                         </div>
@@ -373,13 +377,13 @@ export default function PatientMedicalReportsPage() {
                           {report.result_count > 0 && (
                             <span className="flex items-center gap-1">
                               <FlaskConical className="h-3 w-3" />
-                              {report.result_count} tests
+                              {t("meta.tests", { count: report.result_count })}
                             </span>
                           )}
                           {report.comment_count > 0 && (
                             <span className="flex items-center gap-1">
                               <MessageSquare className="h-3 w-3" />
-                              {report.comment_count} comments
+                              {t("meta.comments", { count: report.comment_count })}
                             </span>
                           )}
                           <span className={`flex items-center gap-1 ${
@@ -390,12 +394,12 @@ export default function PatientMedicalReportsPage() {
                             {report.shared_with_doctors ? (
                               <>
                                 <Eye className="h-3 w-3" />
-                                Shared
+                                {t("sharing.shared")}
                               </>
                             ) : (
                               <>
                                 <EyeOff className="h-3 w-3" />
-                                Private
+                                {t("sharing.private")}
                               </>
                             )}
                           </span>

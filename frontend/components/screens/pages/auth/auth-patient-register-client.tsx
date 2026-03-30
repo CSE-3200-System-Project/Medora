@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,12 +13,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { signupPatient } from "@/lib/auth-actions";
 import { AppBackground } from "@/components/ui/app-background";
+import { withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 
 // Import images
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
 
 export default function PatientRegister() {
+  const t = useTranslations("auth.patientRegister");
+  const locale = useLocale() as AppLocale;
+  const localeHref = (path: string) => withLocale(path, locale);
   const [submitted, setSubmitted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +32,8 @@ export default function PatientRegister() {
   const [loading, setLoading] = useState(false);
   
   const images = [
-    { src: patientImg, alt: "Patient Care", text: "Find the Best Care for You" },
-    { src: doctorImg, alt: "Expert Doctors", text: "Connect with Top Specialists" }
+    { src: patientImg, alt: t("carousel.altPatientCare"), text: t("carousel.textFindCare") },
+    { src: doctorImg, alt: t("carousel.altExpertDoctors"), text: t("carousel.textTopSpecialists") }
   ];
 
   useEffect(() => {
@@ -50,7 +56,7 @@ export default function PatientRegister() {
     const confirmPassword = formData.get("confirmPassword") as string;
     
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("errors.passwordsDoNotMatch"));
       setLoading(false);
       return;
     }
@@ -62,7 +68,7 @@ export default function PatientRegister() {
         setSubmitted(true);
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Registration failed. Please try again.";
+      const message = err instanceof Error ? err.message : t("errors.registrationFailed");
       setError(message);
     } finally {
       setLoading(false);
@@ -79,19 +85,19 @@ export default function PatientRegister() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <CardTitle className="text-2xl">Registration Successful</CardTitle>
+            <CardTitle className="text-2xl">{t("success.title")}</CardTitle>
             <CardDescription>
-              Welcome to Medora! Your account has been created.
+              {t("success.description")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground text-center">
-              Please verify your email to continue.
+              {t("success.verifyEmailPrompt")}
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Link href="/verify-email">
-              <Button>Verify Email</Button>
+            <Link href={localeHref("/verify-email")}>
+              <Button>{t("success.verifyEmailButton")}</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -104,7 +110,7 @@ export default function PatientRegister() {
   return (
     <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
       <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
-        <div className="flex flex-col lg:flex-row min-h-[600px]">
+        <div className="flex flex-col lg:flex-row min-h-150">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
@@ -132,7 +138,7 @@ export default function PatientRegister() {
                   {images[currentImageIndex].text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 mb-6 hidden sm:block">
-                  Book appointments with top doctors, manage your health records, and get personalized care.
+                  {t("carousel.description")}
                 </p>
               </div>
               
@@ -144,7 +150,7 @@ export default function PatientRegister() {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"
                     }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    aria-label={t("goToSlide", { number: index + 1 })}
                   />
                 ))}
               </div>
@@ -155,9 +161,9 @@ export default function PatientRegister() {
           <div className="w-full lg:w-1/2 bg-card p-6 lg:p-12">
             <div className="space-y-6">
               <div className="space-y-1 text-center lg:text-left">
-                <h2 className="text-2xl font-bold tracking-tight">Patient Registration</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{t("title")}</h2>
                 <p className="text-muted-foreground">
-                  Join thousands of patients getting better care.
+                  {t("subtitle")}
                 </p>
               </div>
 
@@ -170,33 +176,33 @@ export default function PatientRegister() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input name="firstName" id="firstName" placeholder="John" required className="w-full" />
+                    <Label htmlFor="firstName">{t("form.firstName")}</Label>
+                    <Input name="firstName" id="firstName" placeholder={t("form.firstNamePlaceholder")} required className="w-full" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input name="lastName" id="lastName" placeholder="Doe" required className="w-full" />
+                    <Label htmlFor="lastName">{t("form.lastName")}</Label>
+                    <Input name="lastName" id="lastName" placeholder={t("form.lastNamePlaceholder")} required className="w-full" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input name="email" id="email" type="email" placeholder="patient@example.com" required className="w-full" />
+                  <Label htmlFor="email">{t("form.email")}</Label>
+                  <Input name="email" id="email" type="email" placeholder={t("form.emailPlaceholder")} required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required className="w-full" />
+                  <Label htmlFor="phone">{t("form.phone")}</Label>
+                  <Input name="phone" id="phone" type="tel" placeholder={t("form.phonePlaceholder")} required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="dob">Date of Birth</Label>
+                  <Label htmlFor="dob">{t("form.dob")}</Label>
                   <Input name="dob" id="dob" type="date" required className="w-full block" />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="gender">Gender</Label>
+                    <Label htmlFor="gender">{t("form.gender")}</Label>
                     <select 
                       name="gender"
                       id="gender" 
@@ -204,21 +210,21 @@ export default function PatientRegister() {
                       required
                       defaultValue=""
                     >
-                      <option value="" disabled>Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
+                      <option value="" disabled>{t("form.selectGender")}</option>
+                      <option value="male">{t("form.genderMale")}</option>
+                      <option value="female">{t("form.genderFemale")}</option>
+                      <option value="other">{t("form.genderOther")}</option>
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="bloodGroup">Blood Group (Optional)</Label>
+                    <Label htmlFor="bloodGroup">{t("form.bloodGroupOptional")}</Label>
                     <select 
                       name="bloodGroup"
                       id="bloodGroup" 
                       className={inputStyles}
                       defaultValue=""
                     >
-                      <option value="">Select Blood Group</option>
+                      <option value="">{t("form.selectBloodGroup")}</option>
                       <option value="A+">A+</option>
                       <option value="A-">A-</option>
                       <option value="B+">B+</option>
@@ -233,13 +239,13 @@ export default function PatientRegister() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t("form.password")}</Label>
                     <div className="relative">
                       <Input 
                         name="password"
                         id="password" 
                         type={showPassword ? "text" : "password"} 
-                        placeholder="••••••••" 
+                        placeholder={t("form.passwordPlaceholder")} 
                         required 
                         className="w-full pr-10"
                         minLength={6}
@@ -254,13 +260,13 @@ export default function PatientRegister() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword">{t("form.confirmPassword")}</Label>
                     <div className="relative">
                       <Input 
                         name="confirmPassword"
                         id="confirmPassword" 
                         type={showConfirmPassword ? "text" : "password"} 
-                        placeholder="••••••••" 
+                        placeholder={t("form.passwordPlaceholder")} 
                         required 
                         className="w-full pr-10"
                         minLength={6}
@@ -279,12 +285,12 @@ export default function PatientRegister() {
                 <div className="flex items-center space-x-2 pt-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms" className="text-sm font-normal text-foreground">
-                    I agree to the <Link href="#" className="font-medium text-primary hover:underline">Terms of Service</Link> and <Link href="#" className="font-medium text-primary hover:underline">Privacy Policy</Link>
+                    {t("form.agreePrefix")} <Link href="#" className="font-medium text-primary hover:underline">{t("form.termsOfService")}</Link> {t("form.and")} <Link href="#" className="font-medium text-primary hover:underline">{t("form.privacyPolicy")}</Link>
                   </Label>
                 </div>
 
                 <Button type="submit" className="w-full mt-4" disabled={loading}>
-                  {loading ? "Creating Account..." : "Create Account"}
+                  {loading ? t("form.creating") : t("form.createAccount")}
                 </Button>
               </form>
 
@@ -292,9 +298,9 @@ export default function PatientRegister() {
 
               <div className="flex flex-col space-y-2 text-center">
                 <div className="text-sm text-foreground">
-                  Already have an account?{' '}
-                  <Link href="/login" className="font-medium text-primary hover:underline">
-                    Sign in
+                  {t("footer.alreadyHaveAccount")}{' '}
+                  <Link href={localeHref("/login")} className="font-medium text-primary hover:underline">
+                    {t("footer.signIn")}
                   </Link>
                 </div>
               </div>

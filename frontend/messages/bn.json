@@ -1,0 +1,1314 @@
+{
+  "common": {
+    "appName": "মেডোরা",
+    "user": "ব্যবহারকারী",
+    "language": "ভাষা",
+    "english": "EN",
+    "bangla": "বাংলা",
+    "loading": "লোড হচ্ছে...",
+    "buttons": {
+      "save": "সংরক্ষণ করুন",
+      "cancel": "বাতিল করুন",
+      "upload": "আপলোড করুন",
+      "submit": "জমা দিন",
+      "login": "লগ ইন",
+      "signup": "সাইন আপ",
+      "logout": "লগ আউট",
+      "loggingOut": "লগ আউট করা হচ্ছে..."
+    },
+    "notifications": {
+      "dismiss": "নোটিফিকেশন বন্ধ করুন"
+    }
+  },
+  "navbar": {
+    "doctor": {
+      "appointments": "অ্যাপয়েন্টমেন্ট",
+      "patients": "রোগী",
+      "analytics": "অ্যানালিটিক্স",
+      "profile": "প্রোফাইল",
+      "settings": "সেটিংস",
+      "privacy": "গোপনীয়তা ও ডেটা শেয়ারিং"
+    },
+    "patient": {
+      "findDoctor": "ডাক্তার খুঁজুন",
+      "analytics": "অ্যানালিটিক্স",
+      "appointments": "অ্যাপয়েন্টমেন্ট",
+      "findMedicine": "ওষুধ খুঁজুন",
+      "medicalHistory": "মেডিক্যাল ইতিহাস",
+      "labReports": "ল্যাব রিপোর্ট",
+      "profile": "আমার প্রোফাইল",
+      "settings": "সেটিংস"
+    }
+  },
+  "settings": {
+    "page": {
+      "titlePatient": "সেটিংস",
+      "titleDoctor": "ডাক্তার সেটিংস",
+      "titleAdmin": "অ্যাডমিন সেটিংস",
+      "description": "অ্যাপ আচরণ, স্বাস্থ্যসেবা পছন্দ, নোটিফিকেশন, গোপনীয়তা এবং ভাষা পরিচালনা করুন।"
+    },
+    "actions": {
+      "reset": "ডিফল্টে রিসেট",
+      "save": "সেটিংস সংরক্ষণ করুন",
+      "saving": "সংরক্ষণ করা হচ্ছে..."
+    },
+    "messages": {
+      "saved": "সেটিংস সফলভাবে সংরক্ষিত হয়েছে।",
+      "reset": "সেটিংস ডিফল্টে রিসেট হয়েছে।",
+      "loading": "আপনার সেটিংস লোড হচ্ছে...",
+      "pushUnsupported": "এই ব্রাউজারে পুশ নোটিফিকেশন সমর্থিত নয়।",
+      "pushBlocked": "পুশ অনুমতি ব্লক করা আছে। ব্রাউজার সেটিংস থেকে চালু করুন।"
+    },
+    "appearance": {
+      "title": "দেখুন ও থিম",
+      "description": "লাইট, ডার্ক বা সিস্টেম মোড বেছে নিন। থিম পরিবর্তন সঙ্গে সঙ্গে কার্যকর হবে।",
+      "switchToLight": "লাইট মোডে যান",
+      "switchToDark": "ডার্ক মোডে যান",
+      "light": "লাইট",
+      "dark": "ডার্ক",
+      "system": "সিস্টেম",
+      "activeMode": "সক্রিয় মোড"
+    },
+    "language": {
+      "description": "সব স্ক্রিনের ভাষা নির্বাচন করুন। পরিবর্তন সাথে সাথে প্রয়োগ হবে।",
+      "englishDescription": "ইংরেজি ইন্টারফেস ও লেবেল",
+      "banglaDescription": "বাংলা ইন্টারফেস ও লেবেল"
+    },
+    "notifications": {
+      "title": "নোটিফিকেশন",
+      "description": "মেডোরা কীভাবে ও কখন চিকিৎসা-সংক্রান্ত রিমাইন্ডার পাঠাবে তা নিয়ন্ত্রণ করুন।",
+      "inAppTitle": "ইন-অ্যাপ নোটিফিকেশন",
+      "inAppDescription": "মেডোরা ড্যাশবোর্ডে সতর্কতা পান।",
+      "pushTitle": "পুশ নোটিফিকেশন",
+      "pushDescription": "গুরুত্বপূর্ণ আপডেটের জন্য ডিভাইস/ব্রাউজার অ্যালার্ট।",
+      "emailTitle": "ইমেইল নোটিফিকেশন",
+      "emailDescription": "ইমেইলে অ্যাপয়েন্টমেন্ট ও প্রেসক্রিপশন আপডেট।",
+      "smsTitle": "এসএমএস নোটিফিকেশন",
+      "smsDescription": "সময়-সংবেদনশীল রিমাইন্ডার এসএমএসে পান।",
+      "appointmentTitle": "অ্যাপয়েন্টমেন্ট রিমাইন্ডার",
+      "appointmentDescription": "অ্যাপয়েন্টমেন্টের আগে রিমাইন্ডার পান।",
+      "medicationTitle": "ওষুধ রিমাইন্ডার",
+      "medicationDescription": "ওষুধের সময়সূচির জন্য সতর্কতা পান।",
+      "labTitle": "ল্যাব ফলাফল",
+      "labDescription": "টেস্ট রেজাল্ট প্রস্তুত হলে জানান।",
+      "prescriptionTitle": "প্রেসক্রিপশন আপডেট",
+      "prescriptionDescription": "নতুন প্রেসক্রিপশনের অবস্থা আপডেট পান।",
+      "careTipsTitle": "স্বাস্থ্যসেবা টিপস",
+      "careTipsDescription": "ব্যক্তিগতকৃত সুস্থতা ও প্রতিরোধমূলক আপডেট।",
+      "permissionLabel": "ব্রাউজার অনুমতি"
+    },
+    "healthcare": {
+      "title": "স্বাস্থ্যসেবা পছন্দ",
+      "description": "দ্রুত সহায়তার জন্য জরুরি ও যত্ন-সম্পর্কিত পছন্দ প্রস্তুত রাখুন।",
+      "preferredLanguage": "পছন্দের ভাষা",
+      "emergencyName": "জরুরি যোগাযোগের নাম",
+      "emergencyNamePlaceholder": "পূর্ণ নাম",
+      "emergencyPhone": "জরুরি যোগাযোগের ফোন",
+      "emergencyPhonePlaceholder": "01XXXXXXXXX",
+      "emergencyRelation": "সম্পর্ক",
+      "emergencyRelationPlaceholder": "পিতা/মাতা / ভাই/বোন / জীবনসঙ্গী",
+      "dosageTitle": "ডোজ সতর্কতা",
+      "dosageDescription": "ওষুধ দেরি হলে অতিরিক্ত সতর্কতা।",
+      "fastingTitle": "খালি পেটে ওষুধ সতর্কতা",
+      "fastingDescription": "খাবারের আগে/পরে নির্দেশনার রিমাইন্ডার।",
+      "hydrationTitle": "পানি পানের রিমাইন্ডার",
+      "hydrationDescription": "নির্ধারিত সময়ে পানি পানের রিমাইন্ডার।",
+      "menstrualTitle": "মেন্সট্রুয়াল স্বাস্থ্য রিমাইন্ডার",
+      "menstrualDescription": "চক্র ও উপসর্গ লগ করার রিমাইন্ডার।"
+    },
+    "privacy": {
+      "title": "গোপনীয়তা, নিরাপত্তা ও অ্যাপ",
+      "description": "অ্যাকাউন্ট সুরক্ষিত করুন এবং পড়তে-ব্যবহারে আরামদায়ক অভিজ্ঞতা সাজান।",
+      "biometricTitle": "বায়োমেট্রিক অ্যাপ লক",
+      "biometricDescription": "সমর্থিত ডিভাইসে ফিঙ্গারপ্রিন্ট/ফেস আনলক প্রয়োজন হবে।",
+      "hideSensitiveTitle": "সংবেদনশীল নোটিফিকেশন কনটেন্ট লুকান",
+      "hideSensitiveDescription": "লক-স্ক্রিন ধরনের নোটিফিকেশনে সাধারণ টেক্সট দেখান।",
+      "verifiedDoctorsTitle": "শুধু যাচাইকৃত ডাক্তার অ্যাক্সেস",
+      "verifiedDoctorsDescription": "প্রোফাইল ডেটা কেবল যাচাইকৃত ডাক্তারদের সাথে শেয়ার করুন।",
+      "researchTitle": "নামবিহীন গবেষণা অবদান",
+      "researchDescription": "স্বাস্থ্য উন্নয়ন গবেষণার জন্য নামবিহীন ডেটা অনুমোদন দিন।",
+      "autoLock": "অটো-লক সময়",
+      "minutes5": "৫ মিনিট",
+      "minutes15": "১৫ মিনিট",
+      "minutes30": "৩০ মিনিট",
+      "minutes60": "৬০ মিনিট"
+    },
+    "appBehavior": {
+      "title": "অ্যাপ আচরণ",
+      "compactTitle": "কমপ্যাক্ট মোড",
+      "compactDescription": "এক স্ক্রিনে বেশি কনটেন্ট দেখাতে স্পেসিং কমান।",
+      "largeTextTitle": "বড় লেখা",
+      "largeTextDescription": "ভালো পড়ার জন্য টেক্সট সাইজ বাড়ান।",
+      "reduceMotionTitle": "মোশন কমান",
+      "reduceMotionDescription": "অপ্রয়োজনীয় অ্যানিমেশন সীমিত করুন।",
+      "defaultStartPage": "ডিফল্ট শুরু পেজ",
+      "home": "হোম",
+      "appointments": "অ্যাপয়েন্টমেন্ট",
+      "medicalHistory": "মেডিক্যাল ইতিহাস",
+      "reminders": "রিমাইন্ডার"
+    },
+    "password": {
+      "title": "পাসওয়ার্ড পরিবর্তন",
+      "description": "অ্যাকাউন্টের পাসওয়ার্ড আপডেট করুন। আগে বর্তমান পাসওয়ার্ড দিতে হবে।",
+      "current": "বর্তমান পাসওয়ার্ড",
+      "currentPlaceholder": "বর্তমান পাসওয়ার্ড লিখুন",
+      "new": "নতুন পাসওয়ার্ড",
+      "newPlaceholder": "নতুন পাসওয়ার্ড লিখুন",
+      "confirm": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+      "confirmPlaceholder": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+      "actions": {
+        "changing": "পাসওয়ার্ড পরিবর্তন করা হচ্ছে...",
+        "change": "পাসওয়ার্ড পরিবর্তন করুন"
+      },
+      "messages": {
+        "success": "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে",
+        "failure": "পাসওয়ার্ড পরিবর্তন ব্যর্থ হয়েছে"
+      },
+      "validation": {
+        "minLength": "নতুন পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে",
+        "mismatch": "পাসওয়ার্ড মিলছে না",
+        "sameAsCurrent": "নতুন পাসওয়ার্ড বর্তমান পাসওয়ার্ডের মতো হতে পারবে না"
+      }
+    }
+  },
+  "sidebar": {
+    "dashboard": "ড্যাশবোর্ড",
+    "patients": "রোগী",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "reports": "রিপোর্ট",
+    "settings": "সেটিংস"
+  },
+  "admin": {
+    "tag": "অ্যাডমিন",
+    "dashboard": "ড্যাশবোর্ড",
+    "doctors": "ডাক্তার",
+    "patients": "রোগী",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "auditLog": "অডিট লগ",
+    "settings": "সেটিংস",
+    "userManagement": "ব্যবহারকারী ব্যবস্থাপনা",
+    "administrator": "প্রশাসক",
+    "logout": "লগ আউট",
+    "loggingOut": "লগ আউট করা হচ্ছে...",
+    "notifications": {
+      "title": "নোটিফিকেশন",
+      "none": "নতুন কোনো নোটিফিকেশন নেই",
+      "close": "বন্ধ করুন",
+      "pendingDoctorsTitle": "অপেক্ষমাণ ডাক্তার যাচাইকরণ",
+      "pendingDoctorsMessage": "{count} জন ডাক্তার যাচাইয়ের অপেক্ষায়",
+      "newRegistrationsTitle": "নতুন ব্যবহারকারী নিবন্ধন",
+      "newRegistrationsMessage": "এই সপ্তাহে {count} জন নতুন ব্যবহারকারী নিবন্ধিত হয়েছে",
+      "pendingAppointmentsTitle": "অপেক্ষমাণ অ্যাপয়েন্টমেন্ট",
+      "pendingAppointmentsMessage": "{count}টি অ্যাপয়েন্টমেন্ট অপেক্ষমাণ",
+      "timeNow": "এখন",
+      "timeWeek": "এই সপ্তাহ",
+      "timeToday": "আজ"
+    },
+    "verifyPending": {
+      "titles": {
+        "pending": "যাচাইকরণ চলছে",
+        "verified": "যাচাইকরণ অনুমোদিত",
+        "rejected": "যাচাইকরণ বাতিল"
+      },
+      "pending": {
+        "thankYou": "মেডোরায় নিবন্ধনের জন্য ধন্যবাদ",
+        "underReview": "আপনার প্রোফাইল এখন যাচাইকরণের অধীনে রয়েছে।",
+        "verificationDescription": "আমাদের টিম আপনার BMDC ক্রেডেনশিয়াল এবং পেশাগত তথ্য পর্যালোচনা করছে। সাধারণত সময় লাগে",
+        "timeRange": "২৪-৪৮ ঘণ্টা",
+        "nextTitle": "পরবর্তী ধাপ",
+        "steps": {
+          "verifyBmdc": "আমরা আপনার BMDC নিবন্ধন যাচাই করি",
+          "reviewDocs": "আমরা জমা দেওয়া ডকুমেন্ট যাচাই করি",
+          "emailNotification": "অনুমোদিত হলে আপনি ইমেইল পাবেন",
+          "portalAccess": "এরপর আপনি পূর্ণ ডাক্তার পোর্টালে প্রবেশ করতে পারবেন"
+        },
+        "emailTitle": "ইমেইল দেখুন",
+        "emailDescription": "যাচাই সম্পন্ন হলে আমরা আপনাকে দ্রুত জানাব।",
+        "helpTitle": "সহায়তা দরকার?",
+        "helpDescription": "যদি যাচাইকরণ প্রত্যাশিত সময়ের বেশি নেয়, সাপোর্টে যোগাযোগ করুন।"
+      },
+      "verified": {
+        "congratulations": "অভিনন্দন!",
+        "successMessage": "আপনার ডাক্তার অ্যাকাউন্ট সফলভাবে যাচাই হয়েছে।",
+        "redirecting": "আপনাকে ড্যাশবোর্ডে নেওয়া হচ্ছে..."
+      },
+      "rejected": {
+        "title": "যাচাইকরণ অনুমোদিত হয়নি",
+        "message": "এই মুহূর্তে আপনার যাচাইকরণ সম্পন্ন করা যায়নি।",
+        "description": "দয়া করে জমা দেওয়া তথ্য পুনরায় যাচাই করুন এবং নির্দেশনার জন্য সাপোর্টে যোগাযোগ করুন।"
+      },
+      "actions": {
+        "logout": "লগ আউট",
+        "refresh": "স্ট্যাটাস রিফ্রেশ করুন"
+      }
+    },
+    "dashboardPage": {
+      "title": "অ্যাডমিন ড্যাশবোর্ড",
+      "subtitle": "প্ল্যাটফর্ম মেট্রিক পর্যবেক্ষণ করুন এবং গুরুত্বপূর্ণ ওয়ার্কফ্লো পরিচালনা করুন",
+      "stats": {
+        "totalUsers": "মোট ব্যবহারকারী",
+        "totalDoctors": "মোট ডাক্তার",
+        "totalPatients": "মোট রোগী",
+        "totalAppointments": "মোট অ্যাপয়েন্টমেন্ট",
+        "totalUsersTrend": "শেষ ৭ দিনে +{count} নিবন্ধন",
+        "totalDoctorsTrend": "{count} জন যাচাইকৃত ডাক্তার",
+        "totalPatientsTrend": "{count}টি সম্পূর্ণ রোগী প্রোফাইল",
+        "totalAppointmentsTrend": "{count}টি নিশ্চিত অ্যাপয়েন্টমেন্ট"
+      },
+      "sections": {
+        "doctorVerification": "ডাক্তার যাচাইকরণ",
+        "appointmentStatus": "অ্যাপয়েন্টমেন্ট স্ট্যাটাস",
+        "quickActions": "দ্রুত কার্যক্রম"
+      },
+      "doctorStatus": {
+        "verified": "যাচাইকৃত",
+        "pending": "অপেক্ষমাণ",
+        "rejected": "বাতিল"
+      },
+      "appointmentStatus": {
+        "pending": "অপেক্ষমাণ",
+        "confirmed": "নিশ্চিত",
+        "completed": "সম্পন্ন",
+        "cancelled": "বাতিল"
+      },
+      "quickActions": {
+        "reviewPendingDoctors": "অপেক্ষমাণ ডাক্তার যাচাই করুন",
+        "viewAllDoctors": "সব ডাক্তার দেখুন",
+        "viewAllPatients": "সব রোগী দেখুন",
+        "viewAppointments": "অ্যাপয়েন্টমেন্ট দেখুন"
+      }
+    },
+    "doctorsPage": {
+      "title": "ডাক্তার ব্যবস্থাপনা",
+      "subtitle": "ডাক্তার নিবন্ধন পর্যালোচনা ও যাচাই করুন",
+      "searchPlaceholder": "নাম বা ইমেইল দিয়ে খুঁজুন...",
+      "filterAriaLabel": "স্ট্যাটাস অনুযায়ী ডাক্তার ফিল্টার করুন",
+      "loading": "ডাক্তারদের তথ্য লোড হচ্ছে...",
+      "empty": "এই বিভাগে কোনো ডাক্তার পাওয়া যায়নি",
+      "filters": {
+        "status": {
+          "all": "সব",
+          "pending": "অপেক্ষমাণ",
+          "verified": "যাচাইকৃত",
+          "rejected": "প্রত্যাখ্যাত"
+        }
+      },
+      "status": {
+        "verified": "যাচাইকৃত",
+        "pending": "অপেক্ষমাণ",
+        "rejected": "প্রত্যাখ্যাত",
+        "unknown": "অজানা"
+      },
+      "dialog": {
+        "approveTitle": "ডাক্তার যাচাইকরণ অনুমোদন",
+        "rejectTitle": "ডাক্তার যাচাইকরণ প্রত্যাখ্যান",
+        "approveDescription": "এতে ডাক্তার যাচাইকৃত হবেন এবং প্ল্যাটফর্মে প্রবেশাধিকার পাবেন।",
+        "rejectDescription": "এতে ডাক্তারের আবেদন প্রত্যাখ্যাত হবে।",
+        "fields": {
+          "doctorName": "ডাক্তারের নাম",
+          "bmdcNumber": "BMDC নম্বর",
+          "notes": "নোট (ঐচ্ছিক)",
+          "notesPlaceholder": "এই যাচাইকরণ সম্পর্কে কোনো নোট লিখুন..."
+        }
+      },
+      "banDialog": {
+        "title": "ডাক্তার ব্যান করুন",
+        "description": "আপনি কি নিশ্চিত যে {name}-কে ব্যান করতে চান? তাহলে তিনি আর তার অ্যাকাউন্টে প্রবেশ করতে পারবেন না বা অ্যাপয়েন্টমেন্ট পাবেন না।",
+        "confirmText": "ব্যবহারকারী ব্যান করুন"
+      },
+      "table": {
+        "doctor": "ডাক্তার",
+        "contact": "যোগাযোগ",
+        "bmdc": "BMDC",
+        "verification": "যাচাইকরণ",
+        "account": "অ্যাকাউন্ট",
+        "actions": "অ্যাকশন",
+        "document": "ডকুমেন্ট"
+      },
+      "account": {
+        "active": "সক্রিয়",
+        "banned": "ব্যান করা"
+      },
+      "actions": {
+        "cancel": "বাতিল",
+        "processing": "প্রক্রিয়াকরণ হচ্ছে...",
+        "approve": "অনুমোদন",
+        "reject": "প্রত্যাখ্যান",
+        "ban": "ব্যান",
+        "banUser": "ব্যবহারকারী ব্যান করুন",
+        "unban": "আনব্যান",
+        "viewBmdcDocument": "BMDC ডকুমেন্ট দেখুন"
+      },
+      "errors": {
+        "fetchFailed": "ডাক্তারদের তথ্য আনতে ব্যর্থ",
+        "verificationFailed": "যাচাইকরণ ব্যর্থ হয়েছে"
+      },
+      "alerts": {
+        "verificationFailed": "যাচাইকরণ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
+        "banFailed": "ব্যবহারকারী ব্যান করা যায়নি",
+        "unbanFailed": "ব্যবহারকারী আনব্যান করা যায়নি"
+      },
+      "common": {
+        "notAvailable": "প্রযোজ্য নয়",
+        "noSpecialty": "কোনো বিশেষতা নেই",
+        "bmdcPrefix": "BMDC: {number}"
+      }
+    },
+    "patientsPage": {
+      "title": "রোগী ব্যবস্থাপনা",
+      "subtitle": "নিবন্ধন, প্রোফাইল সম্পন্নতা এবং রোগীর অ্যাকাউন্ট স্ট্যাটাস পর্যবেক্ষণ করুন",
+      "searchPlaceholder": "নাম বা ইমেইল দিয়ে খুঁজুন...",
+      "filterAriaLabel": "স্ট্যাটাস অনুযায়ী রোগী ফিল্টার করুন",
+      "loading": "রোগীদের তথ্য লোড হচ্ছে...",
+      "empty": "কোনো রোগী পাওয়া যায়নি",
+      "filters": {
+        "status": {
+          "all": "সব",
+          "active": "সক্রিয়",
+          "incomplete": "অসম্পূর্ণ",
+          "banned": "ব্যান"
+        }
+      },
+      "status": {
+        "active": "সক্রিয়",
+        "incomplete": "অসম্পূর্ণ",
+        "banned": "ব্যান"
+      },
+      "table": {
+        "patient": "রোগী",
+        "contact": "যোগাযোগ",
+        "status": "স্ট্যাটাস",
+        "onboarding": "অনবোর্ডিং",
+        "onboardingProgress": "অগ্রগতি",
+        "joinedDate": "যোগদানের তারিখ",
+        "actions": "অ্যাকশন",
+        "selectAllPatients": "সব রোগী নির্বাচন করুন",
+        "selectPatient": "{name} নির্বাচন করুন"
+      },
+      "stats": {
+        "totalPatients": "মোট রোগী",
+        "activePatients": "সক্রিয় রোগী",
+        "incompleteProfiles": "অসম্পূর্ণ প্রোফাইল",
+        "bannedPatients": "ব্যান করা রোগী"
+      },
+      "charts": {
+        "growthTitle": "নিবন্ধনের প্রবণতা",
+        "statusTitle": "স্ট্যাটাসের বণ্টন",
+        "totalLabel": "মোট"
+      },
+      "bulk": {
+        "selected": "নির্বাচিত",
+        "activate": "সক্রিয় করুন",
+        "ban": "ব্যান করুন",
+        "delete": "মুছে ফেলুন"
+      },
+      "pagination": {
+        "previous": "পূর্ববর্তী",
+        "next": "পরবর্তী",
+        "page": "পৃষ্ঠা"
+      },
+      "actions": {
+        "addPatient": "রোগী যোগ করুন",
+        "viewProfile": "প্রোফাইল দেখুন",
+        "editPatient": "রোগী সম্পাদনা",
+        "activateAccount": "অ্যাকাউন্ট সক্রিয়করণ",
+        "banPatient": "রোগী ব্যান করুন",
+        "toggleActive": "অ্যাকাউন্ট",
+        "toggleBan": "ব্যান নিয়ন্ত্রণ",
+        "deletePatient": "রোগী মুছুন",
+        "viewReports": "রিপোর্ট দেখুন",
+        "activate": "সক্রিয় করুন",
+        "deactivate": "নিষ্ক্রিয় করুন",
+        "ban": "ব্যান",
+        "unban": "আনব্যান"
+      },
+      "insights": {
+        "todaysRegistrations": "আজকের নিবন্ধন",
+        "pendingReviews": "অপেক্ষমাণ পর্যালোচনা",
+        "recentActivity": "সাম্প্রতিক কার্যক্রম",
+        "emptyActivity": "সাম্প্রতিক কোনো কার্যক্রম নেই"
+      },
+      "dialogs": {
+        "ban": {
+          "title": "রোগী ব্যান করুন",
+          "description": "আপনি কি নিশ্চিত যে {name}-কে ব্যান করতে চান?",
+          "confirm": "ব্যান"
+        },
+        "activate": {
+          "title": "অ্যাকাউন্ট সক্রিয় করুন",
+          "description": "{name}-এর অ্যাকাউন্ট এখন সক্রিয় করবেন?",
+          "confirm": "সক্রিয় করুন"
+        },
+        "deactivate": {
+          "title": "অ্যাকাউন্ট নিষ্ক্রিয় করুন",
+          "description": "{name}-এর অ্যাকাউন্ট এখন নিষ্ক্রিয় করবেন? পরে আবার সক্রিয় করা যাবে।",
+          "confirm": "নিষ্ক্রিয় করুন"
+        },
+        "delete": {
+          "title": "রোগী মুছে ফেলুন",
+          "description": "{name}-কে মুছবেন? এই কাজ অ্যাকাউন্ট তথ্য অ্যানোনিমাইজ করবে।",
+          "confirm": "মুছুন"
+        },
+        "bulk": {
+          "activateTitle": "নির্বাচিত রোগীদের সক্রিয় করুন",
+          "banTitle": "নির্বাচিত রোগীদের ব্যান করুন",
+          "deleteTitle": "নির্বাচিত রোগীদের মুছে ফেলুন",
+          "description": "এই কাজটি {count} জন নির্বাচিত রোগীর উপর প্রয়োগ করবেন?"
+        }
+      },
+      "messages": {
+        "addPatientComingSoon": "রোগী যোগ করার ফ্লো শীঘ্রই যুক্ত হবে।",
+        "viewProfileComingSoon": "রোগীর প্রোফাইল দেখার ফিচার শীঘ্রই যুক্ত হবে।",
+        "editPatientComingSoon": "রোগী সম্পাদনার ফিচার শীঘ্রই যুক্ত হবে।",
+        "viewReportsComingSoon": "মেডিকেল রিপোর্ট দেখার ফিচার শীঘ্রই যুক্ত হবে।",
+        "createdSuccess": "রোগী সফলভাবে তৈরি হয়েছে",
+        "updatedSuccess": "রোগীর তথ্য সফলভাবে আপডেট হয়েছে",
+        "deletedSuccess": "রোগী সফলভাবে মুছে ফেলা হয়েছে",
+        "bulkSuccess": "বাল্ক অ্যাকশন সম্পন্ন হয়েছে"
+      },
+      "modals": {
+        "common": {
+          "cancel": "বাতিল",
+          "saving": "সংরক্ষণ হচ্ছে...",
+          "yes": "হ্যাঁ",
+          "no": "না"
+        },
+        "fields": {
+          "name": "নাম",
+          "firstName": "নামের প্রথম অংশ",
+          "lastName": "নামের শেষ অংশ",
+          "email": "ইমেইল",
+          "phone": "ফোন",
+          "status": "স্ট্যাটাস",
+          "city": "শহর",
+          "bloodGroup": "রক্তের গ্রুপ",
+          "onboardingCompleted": "অনবোর্ডিং সম্পন্ন"
+        },
+        "add": {
+          "title": "নতুন রোগী যোগ করুন",
+          "submit": "রোগী তৈরি করুন"
+        },
+        "edit": {
+          "title": "রোগী সম্পাদনা",
+          "submit": "পরিবর্তন সংরক্ষণ"
+        },
+        "profile": {
+          "title": "রোগীর প্রোফাইল"
+        },
+        "reports": {
+          "title": "মেডিকেল রিপোর্ট",
+          "empty": "কোনো রিপোর্ট পাওয়া যায়নি",
+          "unknownReport": "অজানা রিপোর্ট"
+        }
+      },
+      "errors": {
+        "updateFailed": "রোগীর তথ্য আপডেট করা যায়নি",
+        "deleteFailed": "রোগী মুছতে ব্যর্থ হয়েছে",
+        "bulkFailed": "বাল্ক অ্যাকশন ব্যর্থ হয়েছে",
+        "createFailed": "রোগী তৈরি করতে ব্যর্থ হয়েছে"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "logoAlt": "মেডোরা লোগো",
+      "adminAccessButton": "অ্যাডমিন অ্যাক্সেস",
+      "heroDescription": "আপনার ড্যাশবোর্ডে প্রবেশ করুন, অ্যাপয়েন্টমেন্ট পরিচালনা করুন এবং আপনার স্বাস্থ্যসেবা যাত্রার সাথে সংযুক্ত থাকুন।",
+      "goToSlide": "স্লাইড {number}-এ যান",
+      "title": "আপনার অ্যাকাউন্টে সাইন ইন করুন",
+      "subtitle": "অ্যাকাউন্টে প্রবেশ করতে আপনার ইমেইল এবং পাসওয়ার্ড দিন",
+      "newToMedora": "মেডোরায় নতুন?",
+      "signUpHere": "এখানে সাইন আপ করুন",
+      "carousel": {
+        "altDoctor": "ডাক্তার টিম",
+        "altPatient": "রোগী সেবা",
+        "textWelcome": "মেডোরায় আবার স্বাগতম",
+        "textPriority": "আপনার স্বাস্থ্য, আমাদের অগ্রাধিকার"
+      },
+      "verifiedBanner": {
+        "title": "ইমেইল সফলভাবে যাচাই হয়েছে",
+        "description": "এখন আপনি আপনার অ্যাকাউন্টে লগ ইন করতে পারবেন"
+      },
+      "form": {
+        "emailLabel": "ইমেইল ঠিকানা",
+        "emailPlaceholder": "name@example.com",
+        "passwordLabel": "পাসওয়ার্ড",
+        "rememberMe": "আমাকে মনে রাখুন",
+        "forgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+        "signingIn": "সাইন ইন করা হচ্ছে...",
+        "signIn": "সাইন ইন"
+      },
+      "adminDialog": {
+        "title": "অ্যাক্সেস যাচাইকরণ",
+        "description": "অ্যাডমিন প্যানেলে প্রবেশ করতে অনুগ্রহ করে পাসকি দিন।",
+        "passkeyLabel": "অ্যাডমিন পাসকি",
+        "passkeyPlaceholder": "অ্যাডমিন পাসকি লিখুন",
+        "cancel": "বাতিল",
+        "enterPanel": "অ্যাডমিন প্যানেলে প্রবেশ করুন",
+        "errors": {
+          "incorrectPasskey": "ভুল অ্যাডমিন পাসওয়ার্ড",
+          "failedAuth": "প্রমাণীকরণ ব্যর্থ হয়েছে"
+        }
+      },
+      "errors": {
+        "loginFailed": "লগ ইন ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য যাচাই করুন।"
+      },
+      "toasts": {
+        "emailVerified": "ইমেইল সফলভাবে যাচাই হয়েছে। এখন আপনি সাইন ইন করতে পারবেন।",
+        "signInFailedTitle": "সাইন ইন ব্যর্থ"
+      }
+    },
+    "forgot": {
+      "logoAlt": "মেডোরা লোগো",
+      "heroDescription": "কয়েকটি সহজ ধাপে আপনার অ্যাকাউন্টে পুনরায় প্রবেশ করুন।",
+      "goToSlide": "স্লাইড {number}-এ যান",
+      "title": "পাসওয়ার্ড ভুলে গেছেন?",
+      "subtitle": "আপনার ইমেইল দিন, আমরা পাসওয়ার্ড রিসেট লিংক পাঠাব।",
+      "emailLabel": "ইমেইল ঠিকানা",
+      "emailPlaceholder": "আপনার ইমেইল লিখুন",
+      "sending": "পাঠানো হচ্ছে...",
+      "sendResetLink": "রিসেট লিংক পাঠান",
+      "backToSignIn": "সাইন ইনে ফিরুন",
+      "carousel": {
+        "altDoctor": "ডাক্তার টিম",
+        "altPatient": "রোগী সেবা",
+        "textRecover": "আপনার অ্যাকাউন্ট পুনরুদ্ধার করুন",
+        "textSecure": "নিরাপদ ও সুরক্ষিত"
+      },
+      "success": {
+        "title": "ইমেইল সফলভাবে পাঠানো হয়েছে",
+        "description": "আপনার ইনবক্স দেখুন এবং রিসেট নির্দেশনা অনুসরণ করুন।"
+      },
+      "errors": {
+        "sendFailed": "রিসেট ইমেইল পাঠানো যায়নি। আবার চেষ্টা করুন।"
+      }
+    },
+    "reset": {
+      "logoAlt": "মেডোরা লোগো",
+      "heroDescription": "আপনার মেডোরা অ্যাকাউন্টের জন্য একটি শক্তিশালী ও নিরাপদ পাসওয়ার্ড তৈরি করুন।",
+      "goToSlide": "স্লাইড {number}-এ যান",
+      "backToSignIn": "সাইন ইনে ফিরুন",
+      "carousel": {
+        "altDoctor": "ডাক্তার টিম",
+        "altPatient": "রোগী সেবা",
+        "textReset": "পাসওয়ার্ড রিসেট করুন",
+        "textSecure": "নিরাপদ ও সুরক্ষিত"
+      },
+      "loading": {
+        "verifying": "আপনার রিসেট লিংক যাচাই করা হচ্ছে..."
+      },
+      "errorState": {
+        "title": "লিংকের মেয়াদ শেষ",
+        "requestNewLink": "নতুন রিসেট লিংক অনুরোধ করুন"
+      },
+      "formState": {
+        "title": "নতুন পাসওয়ার্ড সেট করুন",
+        "subtitle": "আপনার অ্যাকাউন্ট সুরক্ষিত রাখতে একটি শক্তিশালী পাসওয়ার্ড বেছে নিন।"
+      },
+      "form": {
+        "newPassword": "নতুন পাসওয়ার্ড",
+        "newPasswordPlaceholder": "নতুন পাসওয়ার্ড লিখুন",
+        "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+        "confirmPasswordPlaceholder": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+        "resetting": "পাসওয়ার্ড রিসেট করা হচ্ছে...",
+        "submit": "পাসওয়ার্ড রিসেট করুন"
+      },
+      "validation": {
+        "minLength": "পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে",
+        "uppercase": "পাসওয়ার্ডে অন্তত একটি বড় হাতের অক্ষর থাকতে হবে",
+        "lowercase": "পাসওয়ার্ডে অন্তত একটি ছোট হাতের অক্ষর থাকতে হবে",
+        "number": "পাসওয়ার্ডে অন্তত একটি সংখ্যা থাকতে হবে",
+        "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না"
+      },
+      "strength": {
+        "label": "পাসওয়ার্ডের শক্তি",
+        "weak": "দুর্বল",
+        "fair": "মাঝারি",
+        "strong": "শক্তিশালী"
+      },
+      "requirements": {
+        "title": "পাসওয়ার্ডের শর্ত:",
+        "minLength": "কমপক্ষে ৮ অক্ষর",
+        "uppercase": "একটি বড় হাতের অক্ষর",
+        "lowercase": "একটি ছোট হাতের অক্ষর",
+        "number": "একটি সংখ্যা"
+      },
+      "successState": {
+        "title": "পাসওয়ার্ড রিসেট সম্পন্ন",
+        "subtitle": "আপনার পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।",
+        "updatedTitle": "পাসওয়ার্ড আপডেট হয়েছে",
+        "updatedDescription": "এখন আপনি নতুন পাসওয়ার্ড দিয়ে সাইন ইন করতে পারবেন।",
+        "redirectingPrefix": "লগইনে নেওয়া হচ্ছে",
+        "second": "সেকেন্ড",
+        "seconds": "সেকেন্ড",
+        "continueToLogin": "লগইনে যান"
+      },
+      "errors": {
+        "noRecoveryToken": "রিকভারি টোকেন পাওয়া যায়নি। নতুন পাসওয়ার্ড রিসেট লিংক অনুরোধ করুন।",
+        "invalidRecoveryLink": "অবৈধ রিকভারি লিংক। নতুন পাসওয়ার্ড রিসেট লিংক অনুরোধ করুন।",
+        "linkExpired": "এই রিসেট লিংকের মেয়াদ শেষ। নতুন লিংক অনুরোধ করুন।",
+        "generic": "কিছু সমস্যা হয়েছে। নতুন পাসওয়ার্ড রিসেট লিংক অনুরোধ করুন।",
+        "resetFailed": "পাসওয়ার্ড রিসেট করা যায়নি। আবার চেষ্টা করুন।"
+      }
+    },
+    "patientRegister": {
+      "title": "রোগী নিবন্ধন",
+      "subtitle": "ভালো সেবা পেতে হাজারো রোগীর সাথে যুক্ত হন।",
+      "goToSlide": "স্লাইড {number}-এ যান",
+      "carousel": {
+        "altPatientCare": "রোগী সেবা",
+        "altExpertDoctors": "বিশেষজ্ঞ ডাক্তার",
+        "textFindCare": "আপনার জন্য সেরা সেবা খুঁজুন",
+        "textTopSpecialists": "শীর্ষ বিশেষজ্ঞদের সাথে যুক্ত হোন",
+        "description": "শীর্ষ ডাক্তারদের সাথে অ্যাপয়েন্টমেন্ট বুক করুন, স্বাস্থ্য রেকর্ড পরিচালনা করুন এবং ব্যক্তিগতকৃত সেবা নিন।"
+      },
+      "form": {
+        "firstName": "নামের প্রথম অংশ",
+        "firstNamePlaceholder": "রহিম",
+        "lastName": "নামের শেষ অংশ",
+        "lastNamePlaceholder": "আহমেদ",
+        "email": "ইমেইল ঠিকানা",
+        "emailPlaceholder": "patient@example.com",
+        "phone": "ফোন নম্বর",
+        "phonePlaceholder": "+880 1XXX XXXXXX",
+        "dob": "জন্মতারিখ",
+        "gender": "লিঙ্গ",
+        "selectGender": "লিঙ্গ নির্বাচন করুন",
+        "genderMale": "পুরুষ",
+        "genderFemale": "নারী",
+        "genderOther": "অন্যান্য",
+        "bloodGroupOptional": "রক্তের গ্রুপ (ঐচ্ছিক)",
+        "selectBloodGroup": "রক্তের গ্রুপ নির্বাচন করুন",
+        "password": "পাসওয়ার্ড",
+        "passwordPlaceholder": "••••••••",
+        "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+        "agreePrefix": "আমি সম্মত",
+        "termsOfService": "সেবার শর্তাবলী",
+        "and": "এবং",
+        "privacyPolicy": "গোপনীয়তা নীতিতে",
+        "creating": "অ্যাকাউন্ট তৈরি হচ্ছে...",
+        "createAccount": "অ্যাকাউন্ট তৈরি করুন"
+      },
+      "success": {
+        "title": "নিবন্ধন সফল হয়েছে",
+        "description": "মেডোরায় স্বাগতম! আপনার অ্যাকাউন্ট তৈরি হয়েছে।",
+        "verifyEmailPrompt": "চালিয়ে যেতে দয়া করে ইমেইল যাচাই করুন।",
+        "verifyEmailButton": "ইমেইল যাচাই করুন"
+      },
+      "footer": {
+        "alreadyHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+        "signIn": "সাইন ইন"
+      },
+      "errors": {
+        "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না",
+        "registrationFailed": "নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
+      }
+    },
+    "doctorRegister": {
+      "title": "ডাক্তার নিবন্ধন",
+      "subtitle": "যাচাইকরণের জন্য আপনার পেশাগত তথ্য দিন।",
+      "goToSlide": "স্লাইড {number}-এ যান",
+      "carousel": {
+        "altDoctorsTeam": "ডাক্তার টিম",
+        "altPatientCare": "রোগী সেবা",
+        "textJoinNetwork": "আমাদের বিশেষজ্ঞ নেটওয়ার্কে যুক্ত হোন",
+        "textProvideCare": "রোগীদের আরও ভালো সেবা দিন",
+        "description": "লাখো রোগীর সাথে যুক্ত হন, দক্ষভাবে অ্যাপয়েন্টমেন্ট পরিচালনা করুন এবং আপনার প্র্যাকটিস বাড়ান।"
+      },
+      "form": {
+        "firstName": "নামের প্রথম অংশ",
+        "firstNamePlaceholder": "রহিম",
+        "lastName": "নামের শেষ অংশ",
+        "lastNamePlaceholder": "আহমেদ",
+        "email": "ইমেইল ঠিকানা",
+        "emailPlaceholder": "doctor@example.com",
+        "phone": "ফোন নম্বর",
+        "phonePlaceholder": "+880 1XXX XXXXXX",
+        "bmdc": "BM&DC নিবন্ধন নম্বর",
+        "bmdcPlaceholder": "A-12345",
+        "uploadDocument": "ডকুমেন্ট আপলোড করুন (BM&DC সার্টিফিকেট)",
+        "uploadHint": "আপনার নিবন্ধন সনদের পরিষ্কার স্ক্যান আপলোড করুন।",
+        "password": "পাসওয়ার্ড",
+        "passwordPlaceholder": "••••••••",
+        "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+        "agreePrefix": "আমি সম্মত",
+        "termsOfService": "সেবার শর্তাবলী",
+        "and": "এবং",
+        "privacyPolicy": "গোপনীয়তা নীতিতে",
+        "submitting": "জমা দেওয়া হচ্ছে...",
+        "submitForVerification": "যাচাইকরণের জন্য জমা দিন"
+      },
+      "success": {
+        "title": "আবেদন জমা হয়েছে",
+        "description": "নিবন্ধনের জন্য ধন্যবাদ। আপনার BM&DC নম্বর যাচাই হচ্ছে।",
+        "verificationWindow": "যাচাইকরণ সাধারণত ২৪-৪৮ ঘণ্টা সময় নেয়।",
+        "verifyEmailPrompt": "চালিয়ে যেতে দয়া করে ইমেইল যাচাই করুন।",
+        "verifyEmailButton": "ইমেইল যাচাই করুন"
+      },
+      "footer": {
+        "alreadyHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+        "signIn": "সাইন ইন"
+      },
+      "errors": {
+        "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না",
+        "registrationFailed": "নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
+      }
+    }
+  },
+  "doctorNav": {
+    "home": "হোম",
+    "myProfile": "আমার প্রোফাইল",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "patients": "রোগী",
+    "settings": "সেটিংস",
+    "logout": "লগ আউট",
+    "doctorPrefix": "ডা.",
+    "menuToggle": "মেনু টগল করুন",
+    "title": "মেডোরা ডাক্তার"
+  },
+  "landing": {
+    "hero": {
+      "title": "শেয়ারড কনটেক্সট দিয়ে আরও ভালো সেবা তৈরি করুন",
+      "subtitle": "রোগী বা ডাক্তার হিসেবে শুরু করুন এবং সঠিক ইতিহাসের ভিত্তিতে চিকিৎসা সিদ্ধান্ত নিন।",
+      "createPatient": "রোগীর অ্যাকাউন্ট তৈরি করুন",
+      "createDoctor": "ডাক্তার অ্যাকাউন্ট তৈরি করুন"
+    },
+    "sections": {
+      "howItWorksTitle": "কীভাবে কাজ করে",
+      "howItWorksDescription": "রোগী বা ডাক্তার হিসেবে যুক্ত হোন, প্রয়োজনীয় তথ্য যোগ করুন, এবং নির্ভরযোগ্য কনটেক্সটের ভিত্তিতে সেবার সিদ্ধান্ত নিন।",
+      "forPatientsHeadline": "সবকিছু থাকবে সুশৃঙ্খল",
+      "forDoctorsHeadline": "পরামর্শের আগে ক্লিনিক্যাল কনটেক্সট",
+      "aboutTitle": "এই প্ল্যাটফর্ম কেন",
+      "aboutDescription": "চিকিৎসার মান নির্ভর করে ধারাবাহিকতার ওপর। মেডোরা ক্লিনিক্যাল কনটেক্সট ধরে রাখতে, পুনরাবৃত্তি কমাতে, এবং রোগী ও ডাক্তারের কাজকে আরও নির্ভরযোগ্য করতে তৈরি।",
+      "patientQuote": "এখন আর প্রতিবার পুরো ইতিহাস আবার বলতে হয় না।",
+      "doctorQuote": "হারানো রেকর্ড খুঁজে নয়, সিদ্ধান্তে মনোযোগ দিতে পারি।"
+    },
+    "pillars": {
+      "structuredProfilesTitle": "গঠিত প্রোফাইল",
+      "structuredProfilesDescription": "দীর্ঘমেয়াদে ব্যবহারযোগ্য পরিষ্কার ও সম্পাদনাযোগ্য মেডিক্যাল তথ্য।",
+      "longitudinalHistoryTitle": "ধারাবাহিক ইতিহাস",
+      "longitudinalHistoryDescription": "একটাই টাইমলাইনে রোগ, ওষুধ, টেস্ট ও ভিজিটের তথ্য।",
+      "sharedVisibilityTitle": "শেয়ারড ভিজিবিলিটি",
+      "sharedVisibilityDescription": "রোগী ও ডাক্তার একই কনটেক্সটে কাজ করে, পুনরাবৃত্তি কমে।",
+      "practicalAssistanceTitle": "ব্যবহারিক সহায়তা",
+      "practicalAssistanceDescription": "বাস্তব কাজের জন্য ঐচ্ছিক রিমাইন্ডার ও সারাংশ।"
+    },
+    "steps": {
+      "step1Title": "অ্যাকাউন্ট তৈরি করুন",
+      "step1Description": "রোগী বা ডাক্তারের অনবোর্ডিং ফ্লো বেছে নিন।",
+      "step2Title": "মূল মেডিক্যাল তথ্য দিন",
+      "step2Description": "ফলো-আপ সেবার জন্য পরিষ্কার ডেটা এন্ট্রি দিয়ে শুরু করুন।",
+      "step3Title": "ইতিহাস আপডেট রাখুন",
+      "step3Description": "সময়ের সাথে ভিজিট, ওষুধ, টেস্ট ও অবস্থার পরিবর্তন ট্র্যাক করুন।",
+      "step4Title": "আত্মবিশ্বাস নিয়ে সহযোগিতা করুন",
+      "step4Description": "পরিষ্কার কনসালটেশনের জন্য শেয়ারড কনটেক্সট ব্যবহার করুন।"
+    },
+    "flow": {
+      "patientTitle": "রোগী প্রোফাইল আপডেট করে",
+      "patientDescription": "ওষুধ ও উপসর্গ যোগ করা হয়।",
+      "systemTitle": "সিস্টেম টাইমলাইন সাজায়",
+      "systemDescription": "তথ্য একক ইতিহাস ভিউতে দেখা যায়।",
+      "doctorTitle": "ডাক্তার কনটেক্সট পর্যালোচনা করেন",
+      "doctorDescription": "উপযোগী ব্যাকগ্রাউন্ড দিয়ে কনসালটেশন শুরু হয়।"
+    },
+    "patientFeatures": {
+      "feature1": "ওষুধ, টেস্ট ও রোগের জন্য এক জায়গা",
+      "feature2": "পরিষ্কার রিমাইন্ডার ও অ্যাপয়েন্টমেন্ট ধারাবাহিকতা",
+      "feature3": "ডাক্তারের সাথে আরও ভালো যোগাযোগ",
+      "feature4": "প্রোফাইল ও শেয়ারড তথ্যের উপর নিয়ন্ত্রণ"
+    },
+    "doctorFeatures": {
+      "feature1": "এক ভিউতে গঠিত রোগীর ইতিহাস",
+      "feature2": "পুনরাবৃত্ত ইনটেক প্রশ্ন কমে",
+      "feature3": "অ্যাপয়েন্টমেন্ট জুড়ে ধারাবাহিকতা বৃদ্ধি",
+      "feature4": "জোরপূর্বক অটোমেশন ছাড়া ঐচ্ছিক AI সহায়তা"
+    },
+    "info": {
+      "privacyTitle": "গোপনীয়তা ও নিয়ন্ত্রণ",
+      "privacyDescription": "ডেটা ভূমিকা-ভিত্তিক এবং স্পষ্ট ভিজিবিলিটি সীমার মধ্যে ব্যবহারকারীর নিয়ন্ত্রণে থাকে।",
+      "futureTitle": "ভবিষ্যৎ-প্রস্তুত আর্কিটেকচার",
+      "futureDescription": "অতিরঞ্জিত নকশা ছাড়া নিরাপদ অটোমেশন ও পরিমাপযোগ্য ফলাফলের জন্য ডিজাইন করা।",
+      "brandName": "মেডোরা"
+    },
+    "platform": {
+      "heading": "শেয়ারড কনটেক্সটকে কেন্দ্র করে তৈরি একটি প্ল্যাটফর্ম",
+      "description": "বিচ্ছিন্ন রেকর্ডের বদলে একক টাইমলাইনে রোগীর সেবা ও ক্লিনিক্যাল সিদ্ধান্ত সাজান।"
+    },
+    "cta": {
+      "forPatients": "রোগীদের জন্য",
+      "forDoctors": "ডাক্তারদের জন্য",
+      "startPatient": "রোগী হিসেবে শুরু করুন",
+      "startDoctor": "ডাক্তার হিসেবে শুরু করুন"
+    },
+    "footer": {
+      "tagline": "একটি প্ল্যাটফর্ম। শেয়ারড বোঝাপড়া। আরও ভালো সেবা।",
+      "platform": "প্ল্যাটফর্ম",
+      "legal": "আইনি",
+      "contact": "যোগাযোগ",
+      "howItWorks": "কীভাবে কাজ করে",
+      "forPatients": "রোগীদের জন্য",
+      "forDoctors": "ডাক্তারদের জন্য",
+      "privacyPolicy": "গোপনীয়তা নীতি",
+      "terms": "সেবার শর্তাবলী",
+      "support": "সহায়তা",
+      "contactUs": "আমাদের সাথে যোগাযোগ",
+      "rights": "সমস্ত অধিকার সংরক্ষিত।"
+    }
+  },
+  "selection": {
+    "doctorTitle": "ডাক্তার",
+    "doctorDescription": "আমাদের স্বাস্থ্যসেবা বিশেষজ্ঞ নেটওয়ার্কে যুক্ত হোন",
+    "patientTitle": "রোগী",
+    "patientDescription": "আপনি ও আপনার পরিবারের জন্য সেরা সেবা খুঁজুন",
+    "getStarted": "শুরু করুন",
+    "alreadyHaveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+    "signIn": "সাইন ইন"
+  },
+  "chorui": {
+    "doctorTag": "ডাক্তার ওয়ার্কফ্লো সহকারী",
+    "doctorHint": "নিরাপদ রোগী-সংযুক্ত AI কনটেক্সটের জন্য প্রম্পটে আপনার তালিকা থেকে একটি রোগী আইডি ব্যবহার করুন।",
+    "patientTag": "রোগী ইনটেক সহকারী"
+  },
+  "doctorHome": {
+    "profileLoadError": "প্রোফাইল তথ্য লোড করা যায়নি",
+    "backToLogin": "লগইনে ফিরে যান",
+    "scheduleReviewTitle": "অ্যাকশন প্রয়োজন: সিডিউল ফরম্যাট রিভিউ",
+    "scheduleReviewDescription": "আপনার প্রোফাইলে অস্পষ্ট সিডিউল ফরম্যাট শনাক্ত হয়েছে। সঠিক অ্যাপয়েন্টমেন্ট স্লট নিশ্চিত করতে সাপ্তাহিক সিডিউল রিভিউ করে আপডেট করুন।",
+    "fixSchedule": "সিডিউল ঠিক করুন",
+    "welcomeBack": "স্বাগতম ফিরে, ডা. {name}!",
+    "defaultDoctorName": "ডাক্তার",
+    "welcomeSubtitle": "আজ আপনার প্র্যাকটিসে যা ঘটছে",
+    "todaySuffix": "আজ",
+    "cards": {
+      "totalPatientPopulation": "মোট রোগী জনসংখ্যা",
+      "activeClinicalCases": "সক্রিয় ক্লিনিক্যাল কেস",
+      "highPriority": "উচ্চ অগ্রাধিকার",
+      "actionableTasks": "কার্যকরী কাজ",
+      "monthlyRevenue": "মাসিক আয়"
+    },
+    "demographics": {
+      "title": "জনসংখ্যা বণ্টন",
+      "subtitle": "রোগীর বয়সভিত্তিক বিভাগ",
+      "settingsAriaLabel": "জনসংখ্যা সেটিংস",
+      "total": "মোট",
+      "range0to18": "০-১৮ বছর",
+      "range19to45": "১৯-৪৫ বছর",
+      "range46to64": "৪৬-৬৪ বছর",
+      "range65plus": "৬৫+ বছর"
+    },
+    "wsi": {
+      "title": "ডাক্তার ওয়ার্কলোড স্ট্রেস ইনডেক্স",
+      "subtitle": "রিয়েল-টাইম কাজের চাপ ট্র্যাকিং",
+      "sixMonths": "৬ মাস",
+      "oneYear": "১ বছর",
+      "highLoad": "উচ্চ চাপ",
+      "moderateLoad": "মাঝারি চাপ",
+      "lowLoad": "কম চাপ"
+    },
+    "pending": {
+      "title": "অপেক্ষমাণ অ্যাকশন আইটেম",
+      "emptyTitle": "অপেক্ষমাণ কোনো কাজ নেই",
+      "noDueDate": "কোনো নির্ধারিত তারিখ নেই",
+      "statusLabel": "স্ট্যাটাস",
+      "patientLabel": "রোগী"
+    },
+    "revenue": {
+      "title": "আয় ও বিলিং সারাংশ",
+      "billingTrends": "বিলিং ট্রেন্ড",
+      "claimsProcessed": "প্রসেসকৃত ক্লেইম",
+      "totalClaims": "মোট ক্লেইম"
+    }
+  },
+  "patientDashboard": {
+    "title": "রোগীর স্বাস্থ্য সারসংক্ষেপ",
+    "defaultUser": "রোগী",
+    "greeting": "শুভ দিন, {name}। আজকের লাইভ সারসংক্ষেপ এখানে।",
+    "actions": {
+      "scheduleVisit": "ভিজিট নির্ধারণ করুন",
+      "healthReport": "স্বাস্থ্য রিপোর্ট",
+      "joinVisit": "ভিজিটে যোগ দিন",
+      "manage": "পরিচালনা করুন",
+      "bookNow": "এখনই বুক করুন"
+    },
+    "sections": {
+      "upcomingAppointments": "আসন্ন অ্যাপয়েন্টমেন্ট",
+      "seeAll": "সব দেখুন",
+      "aiHealthInsights": "AI স্বাস্থ্য ইনসাইটস",
+      "fullAnalytics": "পূর্ণ অ্যানালিটিক্স",
+      "quickHealthStats": "দ্রুত স্বাস্থ্য পরিসংখ্যান",
+      "viewDetails": "বিস্তারিত দেখুন"
+    },
+    "defaults": {
+      "generalConsultation": "সাধারণ পরামর্শ",
+      "medoraConsultation": "মেডোরা পরামর্শ",
+      "stepsToday": "আজকের পদক্ষেপ",
+      "healthDeviceSync": "স্বাস্থ্য ডিভাইস সিঙ্ক",
+      "noSyncYet": "এখনও সিঙ্ক হয়নি"
+    },
+    "empty": {
+      "noUpcomingAppointments": "কোনো আসন্ন অ্যাপয়েন্টমেন্ট নেই",
+      "scheduleIsClear": "আপনার সময়সূচি ফাঁকা",
+      "noInsightsYet": "এখনও কোনো ইনসাইট নেই",
+      "noInsightsDescription": "ব্যক্তিগতকৃত ইনসাইট পেতে স্বাস্থ্য মেট্রিক ও রিমাইন্ডার লগ করা শুরু করুন।"
+    },
+    "score": {
+      "excellent": "চমৎকার",
+      "improving": "উন্নত হচ্ছে",
+      "needsAttention": "বিশেষ মনোযোগ প্রয়োজন",
+      "activityHigh": "উচ্চ",
+      "activityModerate": "মাঝারি",
+      "activityLow": "নিম্ন",
+      "nutritionBalanced": "সুষম",
+      "nutritionNeedsReview": "রিভিউ প্রয়োজন"
+    },
+    "appointmentCard": {
+      "dateTime": "তারিখ ও সময়",
+      "location": "লোকেশন"
+    },
+    "healthScoreCard": {
+      "title": "সামগ্রিক স্বাস্থ্য স্কোর",
+      "description": {
+        "prefix": "আপনার স্বাস্থ্য স্কোর",
+        "suffix": "গত মাসের তুলনায় উন্নত হয়েছে। ভালো কাজ চালিয়ে যান।"
+      },
+      "activity": "শারীরিক কার্যক্রম",
+      "nutrition": "পুষ্টি",
+      "viewDetails": "বিস্তারিত দেখুন"
+    },
+    "deviceConnectionCard": {
+      "lastSynced": "সর্বশেষ সিঙ্ক: {value}",
+      "manageDevices": "ডিভাইস পরিচালনা করুন"
+    },
+    "medicationTrendChart": {
+      "title": "ওষুধ গ্রহণের প্রবণতা",
+      "subtitle": "গত ৭ দিনের অনুগত্য"
+    }
+  },
+  "errors": {
+    "doctorAnalyticsLoad": "এই মুহূর্তে উন্নত অ্যানালিটিক্স লোড করা যাচ্ছে না। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।",
+    "patientAnalyticsLoad": "এই মুহূর্তে অ্যানালিটিক্সের জন্য রিমাইন্ডার লোড করা যাচ্ছে না।"
+  },
+  "appointmentSuccess": {
+    "locationFallback": "উল্লেখ নেই"
+  },
+  "appointmentSuccessPage": {
+    "loading": "অ্যাপয়েন্টমেন্টের তথ্য লোড হচ্ছে...",
+    "logoAlt": "মেডোরা লোগো",
+    "titlePrefix": "আপনার",
+    "titleHighlight": "অ্যাপয়েন্টমেন্ট অনুরোধ",
+    "titleSuffix": "সফলভাবে জমা হয়েছে!",
+    "subtitle": "নিশ্চিত করার জন্য আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।",
+    "detailsTitle": "অনুরোধকৃত অ্যাপয়েন্টমেন্টের বিস্তারিত:",
+    "doctor": "ডাক্তার",
+    "date": "তারিখ",
+    "time": "সময়",
+    "location": "লোকেশন",
+    "locationNotSpecified": "উল্লেখ নেই",
+    "viewAppointments": "আমার অ্যাপয়েন্টমেন্ট দেখুন",
+    "backToHome": "হোমে ফিরে যান"
+  },
+  "doctorInformation": {
+    "generalPhysician": "সাধারণ চিকিৎসক",
+    "yearsOfExperience": "মোট {years} বছরের অভিজ্ঞতা",
+    "bmdcVerified": "BMDC যাচাইকৃত",
+    "bmdcComingSoon": "BMDC নিবন্ধন: শীঘ্রই আসছে",
+    "id": "আইডি: {value}",
+    "aboutDoctor": "ডা. {name} সম্পর্কে",
+    "practiceLocations": "চেম্বারের লোকেশন",
+    "primaryHospital": "প্রধান হাসপাতাল",
+    "chamber": "চেম্বার {index}",
+    "getDirection": "দিকনির্দেশনা নিন",
+    "servesFor": "যে সেবাগুলো দেওয়া হয়:",
+    "viewLess": "কম দেখুন",
+    "viewMore": "আরও দেখুন",
+    "fieldOfConcentration": "বিশেষ মনোযোগের ক্ষেত্র"
+  },
+  "patientAnalytics": {
+    "todaySchedule": {
+      "title": "আজকের সময়সূচি",
+      "today": "আজ",
+      "previousDay": "আগের দিন",
+      "nextDay": "পরের দিন"
+    },
+    "smartInsight": {
+      "title": "স্মার্ট ইনসাইট",
+      "setupReminder": "রিমাইন্ডার সেট করুন"
+    }
+  },
+  "patientAppointmentCalendar": {
+    "myAppointments": "আমার অ্যাপয়েন্টমেন্ট",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "today": "আজ",
+    "appointmentsOn": "{date}-এর অ্যাপয়েন্টমেন্ট",
+    "close": "বন্ধ করুন",
+    "timeNotSet": "সময় নির্ধারিত নয়",
+    "appointmentDetails": "অ্যাপয়েন্টমেন্টের বিস্তারিত",
+    "doctorFallback": "ডাক্তার",
+    "consultation": "পরামর্শ",
+    "weekdays": {
+      "sun": "রবি",
+      "mon": "সোম",
+      "tue": "মঙ্গল",
+      "wed": "বুধ",
+      "thu": "বৃহ",
+      "fri": "শুক্র",
+      "sat": "শনি"
+    },
+    "statuses": {
+      "confirmed": "নিশ্চিত",
+      "pending": "অপেক্ষমাণ",
+      "completed": "সম্পন্ন",
+      "cancelled": "বাতিল",
+      "pendingAdminReview": "অ্যাডমিন পর্যালোচনার অপেক্ষায়",
+      "pendingDoctorConfirmation": "ডাক্তার নিশ্চিতকরণের অপেক্ষায়",
+      "pendingPatientConfirmation": "রোগীর নিশ্চিতকরণের অপেক্ষায়",
+      "rescheduleRequested": "রিসিডিউল অনুরোধ করা হয়েছে",
+      "cancelRequested": "বাতিলের অনুরোধ করা হয়েছে",
+      "noShow": "উপস্থিত হননি"
+    }
+  },
+  "notificationsPage": {
+    "title": "নোটিফিকেশন",
+    "youHave": "আপনার",
+    "unreadNotifications": "টি অপঠিত নোটিফিকেশন আছে",
+    "allCaughtUp": "সব আপডেট দেখা হয়েছে!",
+    "markAllRead": "সব পঠিত হিসেবে চিহ্নিত করুন",
+    "loading": "নোটিফিকেশন লোড হচ্ছে...",
+    "filters": {
+      "all": "সব",
+      "unread": "অপঠিত",
+      "read": "পঠিত"
+    },
+    "empty": {
+      "title": "কোনো নোটিফিকেশন নেই",
+      "caughtUp": "সব আপডেট দেখা হয়েছে!",
+      "noNotifications": "দেখানোর মতো কোনো নোটিফিকেশন নেই"
+    },
+    "time": {
+      "justNow": "এইমাত্র",
+      "minutesAgo": "{count} মিনিট আগে",
+      "hoursAgo": "{count} ঘণ্টা আগে",
+      "daysAgo": "{count} দিন আগে"
+    },
+    "pagination": {
+      "previous": "পূর্ববর্তী",
+      "next": "পরবর্তী",
+      "pageOf": "পৃষ্ঠা {page} / {total}"
+    }
+  },
+  "patientFindMedicinePage": {
+    "title": "ওষুধ খুঁজুন",
+    "subtitle": "ব্র্যান্ড বা জেনেরিক নাম দিয়ে ওষুধ খুঁজুন",
+    "disclaimer": "এই তথ্য শুধুমাত্র সাধারণ সচেতনতার জন্য। কোনো ওষুধ সেবনের আগে অবশ্যই আপনার ডাক্তারের পরামর্শ নিন।",
+    "loadingDetails": "বিস্তারিত লোড হচ্ছে...",
+    "alerts": {
+      "saveMedicationFailed": "ওষুধ সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।",
+      "redirectingMedicalHistory": "মেডিক্যাল ইতিহাসে নিয়ে যাওয়া হচ্ছে..."
+    },
+    "empty": {
+      "noMedicinesTitle": "কোনো ওষুধ পাওয়া যায়নি",
+      "noMedicinesDescription": "ভিন্ন নাম বা বানান দিয়ে আবার খুঁজে দেখুন",
+      "searchPromptTitle": "ওষুধ খুঁজুন",
+      "searchPromptDescription": "সার্চ শুরু করতে অন্তত ২টি অক্ষর লিখুন"
+    }
+  },
+  "patientAppointmentsPage": {
+    "title": "আমার অ্যাপয়েন্টমেন্ট",
+    "subtitle": "আপনার ক্লিনিক ভিজিট ও অ্যাপয়েন্টমেন্ট ইতিহাসের পূর্ণ সারসংক্ষেপ।",
+    "ranges": {
+      "month": "মাস",
+      "quarter": "ত্রৈমাসিক",
+      "year": "বছর"
+    },
+    "months": {
+      "may": "মে",
+      "jun": "জুন",
+      "jul": "জুলাই",
+      "aug": "আগস্ট",
+      "sep": "সেপ্টে",
+      "oct": "অক্টো"
+    },
+    "actions": {
+      "showAllUpcoming": "সব আসন্ন দেখুন"
+    },
+    "fallback": {
+      "patientName": "রোগী",
+      "rescheduleReason": "রোগীর রিসিডিউল অনুরোধ",
+      "notAvailable": "উপলব্ধ নয়"
+    }
+  },
+  "patientMedicalReportsPage": {
+    "title": "মেডিক্যাল রিপোর্ট",
+    "subtitle": "আপনার ল্যাব টেস্ট রিপোর্ট আপলোড ও দেখুন",
+    "actions": {
+      "uploadReport": "রিপোর্ট আপলোড করুন",
+      "processing": "প্রসেস করা হচ্ছে...",
+      "uploadAndExtract": "আপলোড ও এক্সট্র্যাক্ট",
+      "cancel": "বাতিল",
+      "retry": "আবার চেষ্টা করুন"
+    },
+    "upload": {
+      "cardTitle": "ল্যাব রিপোর্ট আপলোড",
+      "previewAlt": "প্রিভিউ",
+      "reportDateLabel": "রিপোর্টের তারিখ (ঐচ্ছিক)",
+      "dropzone": {
+        "title": "রিপোর্ট এখানে ড্র্যাগ-ড্রপ করুন, অথবা ব্রাউজ করতে ক্লিক করুন",
+        "description": "JPG, PNG, WebP, PDF সমর্থিত (সর্বোচ্চ 15MB)"
+      },
+      "validation": {
+        "invalidType": "অনুগ্রহ করে ছবি (JPG, PNG, WebP) বা PDF আপলোড করুন।"
+      }
+    },
+    "errors": {
+      "loadFailed": "রিপোর্ট লোড করা যায়নি",
+      "uploadFailed": "আপলোড ব্যর্থ হয়েছে"
+    },
+    "empty": {
+      "title": "এখনও কোনো মেডিক্যাল রিপোর্ট নেই",
+      "description": "শুরু করতে আপনার প্রথম ল্যাব রিপোর্ট আপলোড করুন"
+    },
+    "status": {
+      "processed": "প্রসেস হয়েছে",
+      "pending": "অপেক্ষমাণ"
+    },
+    "meta": {
+      "tests": "{count} টি টেস্ট",
+      "comments": "{count} টি মন্তব্য"
+    },
+    "sharing": {
+      "shared": "শেয়ার করা",
+      "private": "ব্যক্তিগত"
+    },
+    "fallback": {
+      "reportName": "ল্যাব রিপোর্ট"
+    }
+  },
+  "patientProfilePage": {
+    "title": "আমার প্রোফাইল",
+    "subtitle": "আপনার ব্যক্তিগত ও চিকিৎসা সংক্রান্ত তথ্য পরিচালনা করুন",
+    "loading": "প্রোফাইল লোড হচ্ছে...",
+    "ageYearsOld": "{age} বছর বয়স",
+    "moreCount": "+{count}টি আরও",
+    "sections": {
+      "contactInfo": "যোগাযোগের তথ্য",
+      "physicalInfo": "শারীরিক তথ্য",
+      "medicalConditions": "চিকিৎসা অবস্থা",
+      "currentMedications": "বর্তমান ওষুধ",
+      "allergies": "অ্যালার্জি",
+      "emergencyContact": "জরুরি যোগাযোগ",
+      "medicalHistory": "মেডিক্যাল ইতিহাস",
+      "surgeries": "অপারেশনসমূহ",
+      "hospitalizations": "হাসপাতালে ভর্তি",
+      "recentVisits": "সাম্প্রতিক ভিজিট"
+    },
+    "fields": {
+      "email": "ইমেইল",
+      "phone": "ফোন",
+      "address": "ঠিকানা",
+      "height": "উচ্চতা",
+      "weight": "ওজন",
+      "dateOfBirth": "জন্মতারিখ",
+      "maritalStatus": "বৈবাহিক অবস্থা",
+      "name": "নাম",
+      "relation": "সম্পর্ক"
+    },
+    "actions": {
+      "editProfile": "প্রোফাইল সম্পাদনা",
+      "viewAll": "সব দেখুন",
+      "goToLogin": "লগইনে যান"
+    },
+    "quickActions": {
+      "findDoctors": "ডাক্তার খুঁজুন",
+      "myAppointments": "আমার অ্যাপয়েন্টমেন্ট",
+      "medicalHistory": "মেডিক্যাল ইতিহাস",
+      "prescriptions": "প্রেসক্রিপশন",
+      "reminders": "রিমাইন্ডার"
+    },
+    "conditions": {
+      "diabetes": "ডায়াবেটিস",
+      "hypertension": "উচ্চ রক্তচাপ",
+      "heartDisease": "হৃদরোগ",
+      "asthma": "অ্যাজমা",
+      "kidneyDisease": "কিডনি রোগ",
+      "liverDisease": "লিভার রোগ",
+      "thyroid": "থাইরয়েড",
+      "mentalHealth": "মানসিক স্বাস্থ্য"
+    },
+    "empty": {
+      "noChronicConditions": "কোনো দীর্ঘমেয়াদি রোগ উল্লেখ নেই",
+      "noAllergies": "কোনো অ্যালার্জি উল্লেখ নেই",
+      "noEmergencyContact": "জরুরি যোগাযোগ যোগ করা হয়নি",
+      "noSurgeries": "কোনো অপারেশন রেকর্ড নেই",
+      "noHospitalizations": "কোনো হাসপাতাল ভর্তি রেকর্ড নেই",
+      "noVisits": "কোনো ভিজিট রেকর্ড নেই"
+    },
+    "fallback": {
+      "notProvided": "প্রদান করা হয়নি",
+      "notSpecified": "উল্লেখ করা হয়নি",
+      "unknownMedication": "অজানা ওষুধ",
+      "empty": "--"
+    },
+    "units": {
+      "heightCm": "{value} সেমি",
+      "weightKg": "{value} কেজি"
+    },
+    "errors": {
+      "loadFailed": "প্রোফাইল লোড করা যায়নি"
+    }
+  },
+  "doctorAppointmentsPage": {
+    "loading": "সিডিউল ড্যাশবোর্ড লোড হচ্ছে...",
+    "overviewLabel": "ড্যাশবোর্ড সারাংশ",
+    "title": "সিডিউল পারফরম্যান্স",
+    "subtitle": "শুভ সকাল, ডা. {doctorName}। আজকের ক্লিনিক কার্যক্রম দেখুন।",
+    "actions": {
+      "thisWeek": "এই সপ্তাহ",
+      "exportReport": "রিপোর্ট এক্সপোর্ট করুন"
+    },
+    "metrics": {
+      "totalBookings": "মোট বুকিং",
+      "newPatients": "নতুন রোগী",
+      "avgWaitTime": "গড় অপেক্ষার সময়",
+      "reschedules": "রিসিডিউল"
+    },
+    "weekdays": {
+      "mon": "সোম",
+      "tue": "মঙ্গল",
+      "wed": "বুধ",
+      "thu": "বৃহ",
+      "fri": "শুক্র",
+      "sat": "শনি",
+      "sun": "রবি"
+    },
+    "labels": {
+      "averagePerDay": "গড়: {value}/দিন",
+      "vsLastWeek": "গত সপ্তাহের তুলনায় {value}"
+    },
+    "units": {
+      "minutes": "{value} মিনিট"
+    },
+    "fallback": {
+      "doctorName": "ডাক্তার",
+      "notAvailable": "প্রযোজ্য নয়"
+    },
+    "errors": {
+      "loadFailed": "অ্যাপয়েন্টমেন্ট লোড করা যায়নি। রিফ্রেশ করে আবার চেষ্টা করুন।",
+      "updateStatusFailed": "অ্যাপয়েন্টমেন্ট স্ট্যাটাস আপডেট করা যায়নি। আবার চেষ্টা করুন।",
+      "rescheduleFailed": "এই অ্যাপয়েন্টমেন্ট রিসিডিউল করা যায়নি"
+    }
+  },
+  "forms": {
+    "labels": {
+      "name": "নাম",
+      "email": "ইমেইল",
+      "phone": "ফোন",
+      "password": "পাসওয়ার্ড"
+    }
+  },
+  "toasts": {
+    "saved": "সফলভাবে সংরক্ষণ করা হয়েছে",
+    "updated": "সফলভাবে আপডেট করা হয়েছে",
+    "uploaded": "সফলভাবে আপলোড করা হয়েছে",
+    "somethingWentWrong": "কিছু সমস্যা হয়েছে"
+  }
+}

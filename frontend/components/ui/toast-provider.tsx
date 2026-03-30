@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { CheckCircle2, Info, TriangleAlert, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MEDORA_TOAST_EVENT, type NotifyPayload, toast } from "@/lib/notify";
@@ -21,6 +22,7 @@ function inferAlertVariant(message: string): "info" | "success" | "error" {
 }
 
 export function ToastProvider() {
+  const tNotifications = useTranslations("common.notifications");
   const [items, setItems] = React.useState<ToastItem[]>([]);
 
   React.useEffect(() => {
@@ -75,7 +77,7 @@ export function ToastProvider() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-0 z-[90] flex justify-end p-4 sm:p-6"
+      className="pointer-events-none fixed inset-x-0 top-0 z-90 flex justify-end p-4 sm:p-6"
       style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
       aria-live="polite"
       aria-atomic="true"
@@ -85,6 +87,7 @@ export function ToastProvider() {
           <ToastCard
             key={item.id}
             item={item}
+            dismissLabel={tNotifications("dismiss")}
             onDismiss={() => setItems((current) => current.filter((entry) => entry.id !== item.id))}
           />
         ))}
@@ -95,9 +98,11 @@ export function ToastProvider() {
 
 function ToastCard({
   item,
+  dismissLabel,
   onDismiss,
 }: {
   item: ToastItem;
+  dismissLabel: string;
   onDismiss: () => void;
 }) {
   const variant = item.variant ?? "info";
@@ -132,7 +137,7 @@ function ToastCard({
           type="button"
           onClick={onDismiss}
           className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          aria-label="Dismiss notification"
+          aria-label={dismissLabel}
         >
           <X className="h-4 w-4" />
         </button>

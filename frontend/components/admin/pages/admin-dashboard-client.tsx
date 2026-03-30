@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer } from "@/components/ui/responsive-container";
 import { ResponsiveGrid } from "@/components/ui/responsive-grid";
+import { withLocale } from "@/lib/locale-path";
+import type { AppLocale } from "@/i18n/routing";
 import {
   Users,
   UserCog,
@@ -36,6 +39,9 @@ type AdminDashboardClientProps = {
 };
 
 export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps) {
+  const t = useTranslations("admin.dashboardPage");
+  const locale = useLocale() as AppLocale;
+  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
   const stats = initialStats;
 
   return (
@@ -45,37 +51,37 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
       <main>
         <ResponsiveContainer className="py-4 sm:py-6 pt-(--nav-content-offset)">
           <div className="mb-6 sm:mb-8">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Platform overview and statistics</p>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">{t("title")}</h1>
+            <p className="text-muted-foreground">{t("subtitle")}</p>
           </div>
 
           <ResponsiveGrid pattern="custom" gap="md" className="mb-6 sm:mb-8 grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           <StatCard
-            title="Total Users"
+            title={t("stats.totalUsers")}
             value={stats?.total_users || 0}
             icon={<Users className="h-5 w-5" />}
-            trend={`+${stats?.recent_registrations_7days || 0} this week`}
+            trend={t("stats.totalUsersTrend", { count: stats?.recent_registrations_7days || 0 })}
             color="bg-gradient-to-br from-blue-500 to-blue-600"
           />
           <StatCard
-            title="Total Doctors"
+            title={t("stats.totalDoctors")}
             value={stats?.total_doctors || 0}
             icon={<UserCog className="h-5 w-5" />}
-            trend={`${stats?.verified_doctors || 0} verified`}
+            trend={t("stats.totalDoctorsTrend", { count: stats?.verified_doctors || 0 })}
             color="bg-gradient-to-br from-emerald-500 to-emerald-600"
           />
           <StatCard
-            title="Total Patients"
+            title={t("stats.totalPatients")}
             value={stats?.total_patients || 0}
             icon={<Users className="h-5 w-5" />}
-            trend={`${stats?.patients_with_complete_profile || 0} complete profiles`}
+            trend={t("stats.totalPatientsTrend", { count: stats?.patients_with_complete_profile || 0 })}
             color="bg-gradient-to-br from-purple-500 to-purple-600"
           />
           <StatCard
-            title="Total Appointments"
+            title={t("stats.totalAppointments")}
             value={stats?.total_appointments || 0}
             icon={<Calendar className="h-5 w-5" />}
-            trend={`${stats?.confirmed_appointments || 0} confirmed`}
+            trend={t("stats.totalAppointmentsTrend", { count: stats?.confirmed_appointments || 0 })}
             color="bg-gradient-to-br from-orange-500 to-orange-600"
           />
           </ResponsiveGrid>
@@ -85,25 +91,25 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <UserCog className="h-5 w-5 text-primary-light" />
-                Doctor Verification Status
+                {t("sections.doctorVerification")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <StatusRow
-                label="Verified Doctors"
+                label={t("doctorStatus.verified")}
                 value={stats?.verified_doctors || 0}
                 icon={<CheckCircle2 className="h-5 w-5 text-green-400" />}
                 color="text-green-400"
               />
               <StatusRow
-                label="Pending Verification"
+                label={t("doctorStatus.pending")}
                 value={stats?.pending_doctors || 0}
                 icon={<Clock className="h-5 w-5 text-yellow-400" />}
                 color="text-yellow-400"
-                href="/admin/doctors?tab=pending"
+                href={localeHref("/admin/doctors?tab=pending")}
               />
               <StatusRow
-                label="Rejected"
+                label={t("doctorStatus.rejected")}
                 value={stats?.rejected_doctors || 0}
                 icon={<XCircle className="h-5 w-5 text-red-400" />}
                 color="text-red-400"
@@ -115,30 +121,30 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary-light" />
-                Appointment Status
+                {t("sections.appointmentStatus")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <StatusRow
-                label="Pending"
+                label={t("appointmentStatus.pending")}
                 value={stats?.pending_appointments || 0}
                 icon={<Clock className="h-5 w-5 text-yellow-400" />}
                 color="text-yellow-400"
               />
               <StatusRow
-                label="Confirmed"
+                label={t("appointmentStatus.confirmed")}
                 value={stats?.confirmed_appointments || 0}
                 icon={<CheckCircle2 className="h-5 w-5 text-blue-400" />}
                 color="text-blue-400"
               />
               <StatusRow
-                label="Completed"
+                label={t("appointmentStatus.completed")}
                 value={stats?.completed_appointments || 0}
                 icon={<CheckCircle2 className="h-5 w-5 text-green-400" />}
                 color="text-green-400"
               />
               <StatusRow
-                label="Cancelled"
+                label={t("appointmentStatus.cancelled")}
                 value={stats?.cancelled_appointments || 0}
                 icon={<XCircle className="h-5 w-5 text-red-400" />}
                 color="text-red-400"
@@ -151,30 +157,30 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
             <CardHeader>
               <CardTitle className="text-foreground flex items-center gap-2">
                 <Activity className="h-5 w-5 text-primary-light" />
-                Quick Actions
+                {t("sections.quickActions")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveGrid pattern="quarters" gap="sm">
                 <QuickActionButton
-                label="Review Pending Doctors"
+                label={t("quickActions.reviewPendingDoctors")}
                 count={stats?.pending_doctors || 0}
-                href="/admin/doctors?tab=pending"
+                href={localeHref("/admin/doctors?tab=pending")}
               />
               <QuickActionButton
-                label="View All Doctors"
+                label={t("quickActions.viewAllDoctors")}
                 count={stats?.total_doctors || 0}
-                href="/admin/doctors"
+                href={localeHref("/admin/doctors")}
               />
               <QuickActionButton
-                label="View All Patients"
+                label={t("quickActions.viewAllPatients")}
                 count={stats?.total_patients || 0}
-                href="/admin/patients"
+                href={localeHref("/admin/patients")}
               />
               <QuickActionButton
-                label="View Appointments"
+                label={t("quickActions.viewAppointments")}
                 count={stats?.total_appointments || 0}
-                href="/admin/appointments"
+                href={localeHref("/admin/appointments")}
               />
               </ResponsiveGrid>
             </CardContent>

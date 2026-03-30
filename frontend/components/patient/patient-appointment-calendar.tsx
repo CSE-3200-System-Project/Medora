@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { useLocale, useTranslations } from "next-intl";
 
 interface CalendarAppointment {
   id: string;
@@ -40,15 +41,23 @@ export function PatientAppointmentCalendar({
   appointments,
   onAppointmentClick
 }: PatientAppointmentCalendarProps) {
+  const t = useTranslations("patientAppointmentCalendar");
+  const locale = useLocale();
+  const uiLocale = locale === "bn" ? "bn-BD" : "en-US";
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
   const [selectedAppointment, setSelectedAppointment] = React.useState<CalendarAppointment | null>(null);
 
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  const monthFormatter = React.useMemo(
+    () => new Intl.DateTimeFormat(uiLocale, { month: "long", year: "numeric" }),
+    [uiLocale]
+  );
+
+  const longDateFormatter = React.useMemo(
+    () => new Intl.DateTimeFormat(uiLocale, { weekday: "long", month: "short", day: "numeric", year: "numeric" }),
+    [uiLocale]
+  );
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -147,13 +156,38 @@ export function PatientAppointmentCalendar({
 
   const formatDateTime = (dateStr: string, slotTime?: string | null) => {
     const date = new Date(dateStr);
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
     return {
-      date: `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
-      time: slotTime || date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+      date: longDateFormatter.format(date),
+      time: slotTime || date.toLocaleTimeString(uiLocale, { hour: 'numeric', minute: '2-digit', hour12: true })
     };
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status?.toUpperCase()) {
+      case "CONFIRMED":
+        return t("statuses.confirmed");
+      case "PENDING":
+        return t("statuses.pending");
+      case "COMPLETED":
+        return t("statuses.completed");
+      case "CANCELLED":
+        return t("statuses.cancelled");
+      case "PENDING_ADMIN_REVIEW":
+        return t("statuses.pendingAdminReview");
+      case "PENDING_DOCTOR_CONFIRMATION":
+        return t("statuses.pendingDoctorConfirmation");
+      case "PENDING_PATIENT_CONFIRMATION":
+        return t("statuses.pendingPatientConfirmation");
+      case "RESCHEDULE_REQUESTED":
+        return t("statuses.rescheduleRequested");
+      case "CANCEL_REQUESTED":
+        return t("statuses.cancelRequested");
+      case "NO_SHOW":
+        return t("statuses.noShow");
+      default:
+        return status;
+    }
   };
 
   // Generate calendar grid
@@ -224,8 +258,8 @@ export function PatientAppointmentCalendar({
           <div className="flex items-center justify-between flex-wrap gap-2 md:gap-3">
             <CardTitle className="text-base md:text-lg flex items-center gap-2 text-foreground whitespace-nowrap">
               <CalendarIcon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-              <span className="hidden sm:inline">My Appointments</span>
-              <span className="sm:hidden">Appointments</span>
+              <span className="hidden sm:inline">{t("myAppointments")}</span>
+              <span className="sm:hidden">{t("appointments")}</span>
             </CardTitle>
 
             <div className="flex items-center gap-1 md:gap-2 whitespace-nowrap min-w-0">
@@ -239,7 +273,7 @@ export function PatientAppointmentCalendar({
               </Button>
 
               <span className="text-xs md:text-sm font-semibold min-w-0 text-center truncate px-1 md:px-2">
-                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                {monthFormatter.format(currentMonth)}
               </span>
 
               <Button
@@ -257,7 +291,15 @@ export function PatientAppointmentCalendar({
         <CardContent className="p-2 md:p-4">
           {/* Day headers */}
           <div className="grid grid-cols-7 gap-0.5 md:gap-1 mb-1 md:mb-2">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
+            {[
+              t("weekdays.sun"),
+              t("weekdays.mon"),
+              t("weekdays.tue"),
+              t("weekdays.wed"),
+              t("weekdays.thu"),
+              t("weekdays.fri"),
+              t("weekdays.sat"),
+            ].map((day, idx) => (
               <div
                 key={idx}
                 className="text-center text-xs font-semibold text-foreground py-1 md:py-2"
@@ -278,19 +320,19 @@ export function PatientAppointmentCalendar({
             <div className="flex overflow-x-auto gap-2 md:gap-3 text-xs pb-2 md:pb-0">
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                <span className="text-muted-foreground leading-none whitespace-nowrap">Confirmed</span>
+                <span className="text-muted-foreground leading-none whitespace-nowrap">{t("statuses.confirmed")}</span>
               </div>
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <div className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-                <span className="text-muted-foreground leading-none whitespace-nowrap">Pending</span>
+                <span className="text-muted-foreground leading-none whitespace-nowrap">{t("statuses.pending")}</span>
               </div>
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0" />
-                <span className="text-muted-foreground leading-none whitespace-nowrap">Completed</span>
+                <span className="text-muted-foreground leading-none whitespace-nowrap">{t("statuses.completed")}</span>
               </div>
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <div className="w-3 h-3 rounded border-2 border-primary flex-shrink-0" />
-                <span className="text-muted-foreground leading-none whitespace-nowrap">Today</span>
+                <span className="text-muted-foreground leading-none whitespace-nowrap">{t("today")}</span>
               </div>
             </div>
           </div>
@@ -304,10 +346,10 @@ export function PatientAppointmentCalendar({
           <CardHeader className="border-b border-primary/10 p-3 md:p-6">
             <div className="flex items-center justify-between gap-2">
               <CardTitle className="text-sm md:text-base truncate">
-                Appointments on {formatDateTime(selectedDate).date}
+                {t("appointmentsOn", { date: formatDateTime(selectedDate).date })}
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => setSelectedDate(null)} className="h-8 w-8 p-0 md:h-10 md:w-auto md:px-3">
-                <span className="hidden md:inline">Close</span>
+                <span className="hidden md:inline">{t("close")}</span>
                 <span className="md:hidden text-sm">✕</span>
               </Button>
             </div>
@@ -324,12 +366,12 @@ export function PatientAppointmentCalendar({
                     {appt.doctor_title} {appt.doctor_name}
                   </span>
                   <Badge className={cn("text-xs text-white flex-shrink-0", getStatusColor(appt.status))}>
-                    {appt.status}
+                    {getStatusLabel(appt.status)}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
                   <Clock className="w-3 h-3 flex-shrink-0" />
-                  <span>{appt.slot_time || "Time not set"}</span>
+                  <span>{appt.slot_time || t("timeNotSet")}</span>
                 </div>
               </button>
             ))}
@@ -343,7 +385,7 @@ export function PatientAppointmentCalendar({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CalendarIcon className="w-5 h-5 text-primary" />
-              Appointment Details
+              {t("appointmentDetails")}
             </DialogTitle>
             {selectedAppointment && (
               <DialogDescription>
@@ -360,7 +402,7 @@ export function PatientAppointmentCalendar({
                     {selectedAppointment.doctor_photo_url ? (
                       <Image
                         src={selectedAppointment.doctor_photo_url}
-                        alt={selectedAppointment.doctor_name || "Doctor"}
+                        alt={selectedAppointment.doctor_name || t("doctorFallback")}
                         width={48}
                         height={48}
                         className="w-12 h-12 rounded-full object-cover"
@@ -380,7 +422,7 @@ export function PatientAppointmentCalendar({
                   </div>
                 </div>
                 <Badge className={cn("text-white", getStatusColor(selectedAppointment.status))}>
-                  {selectedAppointment.status}
+                  {getStatusLabel(selectedAppointment.status)}
                 </Badge>
               </div>
               
@@ -388,7 +430,7 @@ export function PatientAppointmentCalendar({
                 <div className="flex items-center gap-2 text-foreground bg-primary-more-light/50 p-3 rounded-lg">
                   <Clock className="w-4 h-4 text-primary" />
                   <div>
-                    <p className="font-medium">{selectedAppointment.slot_time || "Time not set"}</p>
+                    <p className="font-medium">{selectedAppointment.slot_time || t("timeNotSet")}</p>
                     <p className="text-xs text-muted-foreground">
                       {formatDateTime(selectedAppointment.appointment_date).date}
                     </p>
@@ -404,7 +446,7 @@ export function PatientAppointmentCalendar({
                 
                 {selectedAppointment.reason && (
                   <div className="bg-accent/50 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1">Consultation</p>
+                    <p className="text-xs text-muted-foreground mb-1">{t("consultation")}</p>
                     {(() => {
                       const { consultationType, appointmentType } = parseCompositeReason(selectedAppointment.reason)
                       const ct = humanizeConsultationType(consultationType)

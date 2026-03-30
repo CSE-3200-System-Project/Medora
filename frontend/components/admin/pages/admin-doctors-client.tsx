@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,7 @@ type AdminDoctorsClientProps = {
 };
 
 function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminDoctorsClientProps) {
+  const t = useTranslations("admin.doctorsPage");
   const searchParams = useSearchParams();
   const defaultTab = searchParams?.get("tab") || "all";
 
@@ -78,7 +80,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
       setAllDoctors(allDocs.doctors || []);
       setPendingDoctors(pendingDocs.doctors || []);
     } catch (error) {
-      console.error("Failed to fetch doctors:", error);
+      console.error(t("errors.fetchFailed"), error);
     }
   };
 
@@ -98,8 +100,8 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
       setShowVerifyDialog(false);
       await fetchData();
     } catch (error) {
-      console.error("Verification failed:", error);
-      alert("Verification failed. Please try again.");
+      console.error(t("errors.verificationFailed"), error);
+      alert(t("alerts.verificationFailed"));
     } finally {
       setProcessing(false);
     }
@@ -108,13 +110,13 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
   const getVerificationBadge = (status?: string) => {
     switch (status) {
       case "verified":
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Verified</Badge>;
+        return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">{t("status.verified")}</Badge>;
       case "pending":
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">Pending</Badge>;
+        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">{t("status.pending")}</Badge>;
       case "rejected":
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Rejected</Badge>;
+        return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">{t("status.rejected")}</Badge>;
       default:
-        return <Badge className="bg-muted/30 text-muted-foreground border-border/30">Unknown</Badge>;
+        return <Badge className="bg-muted/30 text-muted-foreground border-border/30">{t("status.unknown")}</Badge>;
     }
   };
 
@@ -140,7 +142,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
       await fetchData();
       setBanConfirmDialog({ isOpen: false, doctor: null });
     } catch {
-      alert("Failed to ban user");
+      alert(t("alerts.banFailed"));
     }
   };
 
@@ -149,7 +151,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
       await unbanUser(doctor.id);
       await fetchData();
     } catch {
-      alert("Failed to unban user");
+      alert(t("alerts.unbanFailed"));
     }
   };
 
@@ -159,14 +161,14 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
 
       <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Doctor Management</h1>
-          <p className="text-muted-foreground">Review and verify doctor registrations</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
           <div className="w-full sm:w-96">
             <Input
-              placeholder="Search by name or email..."
+              placeholder={t("searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="bg-card/80 border-border text-foreground placeholder:text-muted-foreground"
@@ -178,7 +180,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
               className="h-11 bg-card/80 border-border text-foreground"
-              aria-label="Filter doctors by status"
+              aria-label={t("filterAriaLabel")}
             >
               {statusOptions.map((status) => {
                 const count =
@@ -192,7 +194,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
 
                 return (
                   <option key={status} value={status}>
-                    {status.charAt(0).toUpperCase() + status.slice(1)} ({count})
+                    {t(`filters.status.${status}`)} ({count})
                   </option>
                 );
               })}
@@ -210,7 +212,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
                   statusFilter === status ? "bg-primary text-primary-foreground border-primary" : "text-muted-foreground hover:bg-card/60"
                 }`}
               >
-                {status.charAt(0).toUpperCase() + status.slice(1)} ({
+                {t(`filters.status.${status}`)} ({
                   status === "all"
                     ? allDoctors.length
                     : status === "pending"
@@ -231,37 +233,38 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
           showActions={statusFilter === "pending"}
           onBan={handleBan}
           onUnban={handleUnban}
+          t={t}
         />
 
         <Dialog open={showVerifyDialog} onOpenChange={setShowVerifyDialog}>
           <DialogContent className="bg-card border-border text-foreground max-w-[95vw] sm:max-w-106.25">
             <DialogHeader>
-              <DialogTitle>{isApproving ? "Approve" : "Reject"} Doctor Verification</DialogTitle>
+              <DialogTitle>{isApproving ? t("dialog.approveTitle") : t("dialog.rejectTitle")}</DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 {isApproving
-                  ? "This will verify the doctor and allow them to access the platform."
-                  : "This will reject the doctor's application."}
+                  ? t("dialog.approveDescription")
+                  : t("dialog.rejectDescription")}
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4 py-4">
               <div>
-                <Label className="text-muted-foreground">Doctor Name</Label>
+                <Label className="text-muted-foreground">{t("dialog.fields.doctorName")}</Label>
                 <p className="text-foreground font-semibold">{selectedDoctor?.name}</p>
               </div>
               <div>
-                <Label className="text-muted-foreground">BMDC Number</Label>
-                <p className="text-foreground">{selectedDoctor?.bmdc_number || "N/A"}</p>
+                <Label className="text-muted-foreground">{t("dialog.fields.bmdcNumber")}</Label>
+                <p className="text-foreground">{selectedDoctor?.bmdc_number || t("common.notAvailable")}</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="notes" className="text-muted-foreground">
-                  Notes (Optional)
+                  {t("dialog.fields.notes")}
                 </Label>
                 <Textarea
                   id="notes"
                   value={verificationNotes}
                   onChange={(e) => setVerificationNotes(e.target.value)}
-                  placeholder="Add any notes about this verification..."
+                  placeholder={t("dialog.fields.notesPlaceholder")}
                   className="bg-background border-border text-foreground"
                 />
               </div>
@@ -274,14 +277,14 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
                 disabled={processing}
                 className="border-border text-muted-foreground hover:bg-card/60"
               >
-                Cancel
+                {t("actions.cancel")}
               </Button>
               <Button
                 onClick={confirmVerification}
                 disabled={processing}
                 className={isApproving ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}
               >
-                {processing ? "Processing..." : isApproving ? "Approve" : "Reject"}
+                {processing ? t("actions.processing") : isApproving ? t("actions.approve") : t("actions.reject")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -291,9 +294,9 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
           isOpen={banConfirmDialog.isOpen}
           onClose={() => setBanConfirmDialog({ isOpen: false, doctor: null })}
           onConfirm={confirmBan}
-          title="Ban Doctor"
-          description={`Are you sure you want to ban ${banConfirmDialog.doctor?.name}? They will no longer be able to access their account or receive appointments.`}
-          confirmText="Ban User"
+          title={t("banDialog.title")}
+          description={t("banDialog.description", { name: banConfirmDialog.doctor?.name || "" })}
+          confirmText={t("banDialog.confirmText")}
           variant="danger"
         />
       </main>
@@ -308,6 +311,7 @@ function DoctorGrid({
   showActions = false,
   onBan,
   onUnban,
+  t,
 }: {
   doctors: Doctor[];
   onVerify: (doctor: Doctor, approve: boolean) => void;
@@ -315,12 +319,13 @@ function DoctorGrid({
   showActions?: boolean;
   onBan: (doctor: Doctor) => void;
   onUnban: (doctor: Doctor) => void;
+  t: (key: string, values?: Record<string, string | number>) => string;
 }) {
   if (doctors.length === 0) {
     return (
       <Card className="bg-card/60 border-border/50">
         <CardContent className="p-12 text-center">
-          <p className="text-muted-foreground">No doctors found in this category</p>
+          <p className="text-muted-foreground">{t("empty")}</p>
         </CardContent>
       </Card>
     );
@@ -339,7 +344,7 @@ function DoctorGrid({
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">{doctor.name}</h3>
-                    <p className="text-sm text-muted-foreground">{doctor.specialization || "No specialty"}</p>
+                    <p className="text-sm text-muted-foreground">{doctor.specialization || t("common.noSpecialty")}</p>
                   </div>
                 </div>
                 {getVerificationBadge(doctor.verification_status)}
@@ -359,7 +364,7 @@ function DoctorGrid({
                 {doctor.bmdc_number && (
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <FileText className="h-4 w-4" />
-                    <span>BMDC: {doctor.bmdc_number}</span>
+                    <span>{t("common.bmdcPrefix", { number: doctor.bmdc_number })}</span>
                   </div>
                 )}
               </div>
@@ -372,7 +377,7 @@ function DoctorGrid({
                   className="flex items-center gap-2 text-sm text-primary-light hover:text-primary mb-4"
                 >
                   <ExternalLink className="h-4 w-4" />
-                  View BMDC Document
+                  {t("actions.viewBmdcDocument")}
                 </a>
               )}
 
@@ -380,7 +385,7 @@ function DoctorGrid({
                 <div className="flex flex-wrap gap-2 mb-4">
                   <Button size="sm" onClick={() => onVerify(doctor, true)} className="flex-1 min-w-28 bg-green-600 hover:bg-green-700">
                     <CheckCircle2 className="h-4 w-4 mr-1" />
-                    Approve
+                    {t("actions.approve")}
                   </Button>
                   <Button
                     size="sm"
@@ -389,7 +394,7 @@ function DoctorGrid({
                     className="flex-1 min-w-28 border-red-500/30 text-red-400 hover:bg-red-500/10"
                   >
                     <XCircle className="h-4 w-4 mr-1" />
-                    Reject
+                    {t("actions.reject")}
                   </Button>
                 </div>
               )}
@@ -399,16 +404,16 @@ function DoctorGrid({
                   <>
                     <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
                       <Ban className="h-3 w-3 mr-1" />
-                      Banned
+                      {t("account.banned")}
                     </Badge>
                     <Button size="sm" onClick={() => onUnban(doctor)} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
                       <Unlock className="h-4 w-4 mr-1" />
-                      Unban
+                      {t("actions.unban")}
                     </Button>
                   </>
                 ) : (
                   <>
-                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                    <Badge className="bg-green-500/20 text-green-400 border-green-500/30">{t("account.active")}</Badge>
                     <Button
                       size="sm"
                       variant="outline"
@@ -416,7 +421,7 @@ function DoctorGrid({
                       className="w-full sm:w-auto border-red-500/30 text-red-400 hover:bg-red-500/10"
                     >
                       <Ban className="h-4 w-4 mr-1" />
-                      Ban User
+                      {t("actions.banUser")}
                     </Button>
                   </>
                 )}
@@ -431,12 +436,12 @@ function DoctorGrid({
           <Table>
             <TableHeader className="bg-card/60 border-border/50">
               <TableRow className="border-border/50 hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Doctor</TableHead>
-                <TableHead className="text-muted-foreground">Contact</TableHead>
-                <TableHead className="text-muted-foreground">BMDC</TableHead>
-                <TableHead className="text-muted-foreground">Verification</TableHead>
-                <TableHead className="text-muted-foreground">Account</TableHead>
-                <TableHead className="text-right text-muted-foreground">Actions</TableHead>
+                <TableHead className="text-muted-foreground">{t("table.doctor")}</TableHead>
+                <TableHead className="text-muted-foreground">{t("table.contact")}</TableHead>
+                <TableHead className="text-muted-foreground">{t("table.bmdc")}</TableHead>
+                <TableHead className="text-muted-foreground">{t("table.verification")}</TableHead>
+                <TableHead className="text-muted-foreground">{t("table.account")}</TableHead>
+                <TableHead className="text-right text-muted-foreground">{t("table.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -445,7 +450,7 @@ function DoctorGrid({
                   <TableCell>
                     <div className="min-w-0">
                       <p className="font-semibold text-foreground">{doctor.name}</p>
-                      <p className="text-xs text-muted-foreground">{doctor.specialization || "No specialty"}</p>
+                      <p className="text-xs text-muted-foreground">{doctor.specialization || t("common.noSpecialty")}</p>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -454,7 +459,7 @@ function DoctorGrid({
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
-                      <p className="text-foreground">{doctor.bmdc_number || "N/A"}</p>
+                      <p className="text-foreground">{doctor.bmdc_number || t("common.notAvailable")}</p>
                       {doctor.bmdc_document_url && (
                         <a
                           href={doctor.bmdc_document_url}
@@ -463,7 +468,7 @@ function DoctorGrid({
                           className="inline-flex items-center gap-1 text-xs text-primary-light hover:text-primary"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
-                          Document
+                          {t("table.document")}
                         </a>
                       )}
                     </div>
@@ -471,9 +476,9 @@ function DoctorGrid({
                   <TableCell>{getVerificationBadge(doctor.verification_status)}</TableCell>
                   <TableCell>
                     {doctor.account_status === "banned" ? (
-                      <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Banned</Badge>
+                      <Badge className="bg-red-500/20 text-red-400 border-red-500/30">{t("account.banned")}</Badge>
                     ) : (
-                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Active</Badge>
+                      <Badge className="bg-green-500/20 text-green-400 border-green-500/30">{t("account.active")}</Badge>
                     )}
                   </TableCell>
                   <TableCell className="text-right">
@@ -481,7 +486,7 @@ function DoctorGrid({
                       {(showActions || doctor.verification_status === "pending") && (
                         <>
                           <Button size="sm" onClick={() => onVerify(doctor, true)} className="bg-green-600 hover:bg-green-700">
-                            Approve
+                            {t("actions.approve")}
                           </Button>
                           <Button
                             size="sm"
@@ -489,13 +494,13 @@ function DoctorGrid({
                             onClick={() => onVerify(doctor, false)}
                             className="border-red-500/30 text-red-400 hover:bg-red-500/10"
                           >
-                            Reject
+                            {t("actions.reject")}
                           </Button>
                         </>
                       )}
                       {doctor.account_status === "banned" ? (
                         <Button size="sm" onClick={() => onUnban(doctor)} className="bg-green-600 hover:bg-green-700">
-                          Unban
+                          {t("actions.unban")}
                         </Button>
                       ) : (
                         <Button
@@ -504,7 +509,7 @@ function DoctorGrid({
                           onClick={() => onBan(doctor)}
                           className="border-red-500/30 text-red-400 hover:bg-red-500/10"
                         >
-                          Ban
+                          {t("actions.ban")}
                         </Button>
                       )}
                     </div>
@@ -520,6 +525,8 @@ function DoctorGrid({
 }
 
 export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
+  const t = useTranslations("admin.doctorsPage");
+
   return (
     <Suspense
       fallback={
@@ -527,7 +534,7 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
           <AdminNavbar />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-(--nav-content-offset)">
             <div className="flex items-center justify-center min-h-[50vh]">
-              <MedoraLoader size="lg" label="Loading doctors..." />
+              <MedoraLoader size="lg" label={t("loading")} />
             </div>
           </main>
         </>
