@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { getPatientCalendarAppointments, syncAppointmentStatus } from "@/lib/appointment-actions";
+import {
+  cancelAppointment,
+  getCancellationReasons,
+  getPatientCalendarAppointments,
+  syncAppointmentStatus,
+  type CancellationReasonOption,
+} from "@/lib/appointment-actions";
 import { AppointmentCalendar } from "@/components/appointments/AppointmentCalendar";
 import { AppointmentHeatmap } from "@/components/appointments/AppointmentHeatmap";
 import { MonthlyAppointmentTrend } from "@/components/appointments/MonthlyAppointmentTrend";
@@ -13,12 +19,19 @@ import { PatientAppointmentSummary } from "@/components/appointments/PatientAppo
 import { SpecialtyDistributionChart } from "@/components/appointments/SpecialtyDistributionChart";
 import { UpcomingAppointmentsList } from "@/components/appointments/UpcomingAppointmentsList";
 import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
+import { CancelAppointmentDialog } from "@/components/appointment/cancel-appointment-dialog";
 import type { PatientAppointment, PatientSummary } from "@/components/appointments/types";
 import { Button } from "@/components/ui/button";
 import { cn, localDateKey } from "@/lib/utils";
 import { requestReschedule } from "@/lib/availability-actions";
 
 const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
+const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
+const UPCOMING_EXCLUDED_STATUSES = new Set([
+  ...CANCELLED_STATUSES,
+  "COMPLETED",
+  "NO_SHOW",
+]);
 
 type RangeKey = "month" | "quarter" | "year";
 
@@ -49,7 +62,7 @@ function formatSummaryDate(date?: string) {
 
 function isUpcoming(appointment: PatientAppointment) {
   const status = appointment.status.toUpperCase();
-  if (status === "CANCELLED" || status === "COMPLETED" || status === "NO_SHOW") return false;
+  if (UPCOMING_EXCLUDED_STATUSES.has(status)) return false;
   return new Date(appointment.appointment_date).getTime() >= Date.now();
 }
 
@@ -139,6 +152,9 @@ export default function PatientAppointmentsPage() {
   const [range, setRange] = React.useState<RangeKey>("month");
   const [loading, setLoading] = React.useState(true);
   const [rescheduleTarget, setRescheduleTarget] = React.useState<PatientAppointment | null>(null);
+  const [cancelTarget, setCancelTarget] = React.useState<PatientAppointment | null>(null);
+  const [cancelReasonOptions, setCancelReasonOptions] = React.useState<CancellationReasonOption[]>([]);
+  const [cancelBufferMinutes, setCancelBufferMinutes] = React.useState<number>(60);
 
   const handleRescheduleConfirm = async (appointmentId: string, newDate: string, slotTime: string, notes?: string) => {
     await requestReschedule({
@@ -156,18 +172,35 @@ export default function PatientAppointmentsPage() {
     }
   };
 
+  const handleCancelConfirm = async (
+    appointmentId: string,
+    reasonKey: string,
+    cancellationReason?: string,
+  ) => {
+    await cancelAppointment(appointmentId, {
+      reasonKey,
+      reasonNote: cancellationReason,
+    });
+
+    const response = await getPatientCalendarAppointments();
+    setAppointments(normalizeAppointments(response?.appointments || []));
+  };
+
   React.useEffect(() => {
     const load = async () => {
       try {
         await syncAppointmentStatus();
 
-        const [appointmentResponse, profileResponse] = await Promise.all([
+        const [appointmentResponse, profileResponse, cancellationCatalog] = await Promise.all([
           getPatientCalendarAppointments(),
           fetchWithAuth("/api/auth/me"),
+          getCancellationReasons("patient").catch(() => ({ bufferMinutes: 60, reasons: [] })),
         ]);
 
         const normalizedAppointments = normalizeAppointments(appointmentResponse?.appointments || []);
         setAppointments(normalizedAppointments);
+        setCancelReasonOptions(cancellationCatalog.reasons || []);
+        setCancelBufferMinutes(cancellationCatalog.bufferMinutes || 60);
 
         if (profileResponse?.ok) {
           const profileData = (await profileResponse.json()) as ProfileResponse;
@@ -283,6 +316,7 @@ export default function PatientAppointmentsPage() {
                 selectedDate={selectedDate}
                 onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
                 onRequestReschedule={setRescheduleTarget}
+                onRequestCancel={setCancelTarget}
               />
             </section>
 
@@ -310,6 +344,23 @@ export default function PatientAppointmentsPage() {
         } : null}
         onConfirm={handleRescheduleConfirm}
         userRole="patient"
+      />
+
+      <CancelAppointmentDialog
+        open={!!cancelTarget}
+        onOpenChange={(open) => !open && setCancelTarget(null)}
+        appointment={cancelTarget ? {
+          id: cancelTarget.id,
+          doctor_name: cancelTarget.doctor_name || undefined,
+          doctor_title: cancelTarget.doctor_title || undefined,
+          appointment_date: cancelTarget.appointment_date,
+          slot_time: cancelTarget.slot_time,
+          reason: cancelTarget.reason || undefined,
+        } : null}
+        onConfirm={handleCancelConfirm}
+        userRole="patient"
+        reasonOptions={cancelReasonOptions}
+        bufferMinutes={cancelBufferMinutes}
       />
     </AppBackground>
   );

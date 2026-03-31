@@ -5,6 +5,32 @@ import { cookies } from "next/headers";
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
+export type CancellationReasonOption = {
+  key: string;
+  label: string;
+};
+
+export type CancellationReasonCatalog = {
+  buffer_minutes: number;
+  patient: CancellationReasonOption[];
+  doctor: CancellationReasonOption[];
+};
+
+function getErrorMessage(detail: unknown, fallback: string): string {
+  if (typeof detail === "string" && detail.trim()) {
+    return detail;
+  }
+
+  if (detail && typeof detail === "object") {
+    const maybeDetail = (detail as { detail?: unknown }).detail;
+    if (typeof maybeDetail === "string" && maybeDetail.trim()) {
+      return maybeDetail;
+    }
+  }
+
+  return fallback;
+}
+
 // === APPOINTMENT ACTIONS ===
 
 export async function createAppointment(data: any) {
@@ -121,7 +147,59 @@ export async function updateAppointment(id: string, data: any) {
     body: JSON.stringify(data),
   });
   
-   if (!response.ok) throw new Error("Update failed");
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(getErrorMessage(error?.detail, "Update failed"));
+  }
+
+  revalidatePath("/doctor/appointments");
+  revalidatePath("/patient/appointments");
+  return response.json();
+}
+
+export async function getCancellationReasons(role: "patient" | "doctor" = "patient") {
+  const response = await fetch(`${BACKEND_URL}/appointment/cancellation-reasons`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch cancellation reasons");
+  }
+
+  const payload = (await response.json()) as CancellationReasonCatalog;
+  const reasons = role === "doctor" ? payload.doctor : payload.patient;
+
+  return {
+    bufferMinutes: payload.buffer_minutes,
+    reasons,
+  };
+}
+
+export async function cancelAppointment(
+  appointmentId: string,
+  payload: { reasonKey: string; reasonNote?: string },
+) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/cancel`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      reason_key: payload.reasonKey,
+      reason_note: payload.reasonNote,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(getErrorMessage(error?.detail, "Failed to cancel appointment"));
+  }
 
   revalidatePath("/doctor/appointments");
   revalidatePath("/patient/appointments");
@@ -194,28 +272,42 @@ export async function getPreviouslyVisitedDoctors() {
 
 // Get patient calendar appointments
 export async function getPatientCalendarAppointments() {
+  const fallbackPayload = { appointments: [], by_date: [], total: 0 };
+
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
-  if (!token) {
-    return { appointments: [], by_date: [], total: 0 };
+  if (!token || !BACKEND_URL) {
+    return fallbackPayload;
   }
 
-  const response = await fetch(`${BACKEND_URL}/appointment/patient/calendar`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${BACKEND_URL}/appointment/patient/calendar`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      return { appointments: [], by_date: [], total: 0 };
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403 || response.status === 404) {
+        return fallbackPayload;
+      }
+
+      const responseText = await response.text().catch(() => "");
+      console.warn("Calendar appointments request returned a non-ok response", {
+        status: response.status,
+        body: responseText,
+      });
+
+      return fallbackPayload;
     }
-    throw new Error("Failed to fetch calendar appointments");
-  }
 
-  return response.json();
+    return response.json();
+  } catch (error) {
+    console.warn("Calendar appointments request failed", error);
+    return fallbackPayload;
+  }
 }
 
 // Get doctor's patient list

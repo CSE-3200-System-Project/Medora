@@ -8,7 +8,7 @@ from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import VerificationStatus, UserRole, AccountStatus
-from datetime import datetime
+from datetime import datetime, timedelta
 from pydantic import BaseModel
 from typing import Any
 import re
@@ -244,7 +244,15 @@ async def get_admin_stats(
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.PENDING).label("pending"),
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CONFIRMED).label("confirmed"),
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.COMPLETED).label("completed"),
-                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CANCELLED).label("cancelled"),
+                func.count(Appointment.id).filter(
+                    Appointment.status.in_(
+                        [
+                            AppointmentStatus.CANCELLED,
+                            AppointmentStatus.CANCELLED_BY_PATIENT,
+                            AppointmentStatus.CANCELLED_BY_DOCTOR,
+                        ]
+                    )
+                ).label("cancelled"),
             )
         )
         appointment_stats = appointment_stats_result.one()
@@ -986,6 +994,12 @@ async def get_appointment_summary(
     today_end = today_start + timedelta(days=1)
     week_end = today_start + timedelta(days=7)
 
+    cancellation_statuses = [
+        ApptStatus.CANCELLED,
+        ApptStatus.CANCELLED_BY_PATIENT,
+        ApptStatus.CANCELLED_BY_DOCTOR,
+    ]
+
     result = await db.execute(
         select(
             func.count(Appointment.id).label("total"),
@@ -999,17 +1013,17 @@ async def get_appointment_summary(
             func.count(Appointment.id).filter(
                 Appointment.appointment_date >= today_start,
                 Appointment.appointment_date < today_end,
-                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+                Appointment.status.notin_([*cancellation_statuses, ApptStatus.NO_SHOW]),
             ).label("today"),
             func.count(Appointment.id).filter(
                 Appointment.appointment_date >= today_start,
                 Appointment.appointment_date < week_end,
-                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+                Appointment.status.notin_([*cancellation_statuses, ApptStatus.NO_SHOW]),
             ).label("this_week"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.CONFIRMED).label("confirmed"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.PENDING).label("pending"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.COMPLETED).label("completed"),
-            func.count(Appointment.id).filter(Appointment.status == ApptStatus.CANCELLED).label("cancelled"),
+            func.count(Appointment.id).filter(Appointment.status.in_(cancellation_statuses)).label("cancelled"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.NO_SHOW).label("no_show"),
         )
     )

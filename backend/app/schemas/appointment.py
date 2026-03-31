@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime, date, time
 from typing import Optional
 from enum import Enum
@@ -10,6 +10,8 @@ class AppointmentStatus(str, Enum):
     CONFIRMED = "CONFIRMED"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    CANCELLED_BY_PATIENT = "CANCELLED_BY_PATIENT"
+    CANCELLED_BY_DOCTOR = "CANCELLED_BY_DOCTOR"
 
     # New statuses
     PENDING_ADMIN_REVIEW = "PENDING_ADMIN_REVIEW"
@@ -18,6 +20,18 @@ class AppointmentStatus(str, Enum):
     RESCHEDULE_REQUESTED = "RESCHEDULE_REQUESTED"
     CANCEL_REQUESTED = "CANCEL_REQUESTED"
     NO_SHOW = "NO_SHOW"
+
+
+class CancellationReasonKey(str, Enum):
+    SCHEDULE_CONFLICT = "SCHEDULE_CONFLICT"
+    PERSONAL_EMERGENCY = "PERSONAL_EMERGENCY"
+    FEELING_BETTER = "FEELING_BETTER"
+    TRANSPORT_ISSUE = "TRANSPORT_ISSUE"
+    COST_CONCERN = "COST_CONCERN"
+    DOCTOR_UNAVAILABLE = "DOCTOR_UNAVAILABLE"
+    CLINIC_DELAY = "CLINIC_DELAY"
+    DOUBLE_BOOKED = "DOUBLE_BOOKED"
+    OTHER = "OTHER"
 
 
 # ── Original schemas (kept for backward compat) ──
@@ -61,6 +75,11 @@ class AppointmentStatusUpdate(BaseModel):
     notes: Optional[str] = None
 
 
+class AppointmentCancelRequest(BaseModel):
+    reason_key: CancellationReasonKey
+    reason_note: Optional[str] = Field(default=None, max_length=500)
+
+
 class AdminAppointmentAction(BaseModel):
     """Admin approve/reject with optional notes."""
     action: str  # "approve" | "reject" | "propose_time"
@@ -82,6 +101,10 @@ class AppointmentResponse(AppointmentBase):
     slot_time: Optional[time] = None
     duration_minutes: Optional[int] = None
     google_event_id: Optional[str] = None
+    cancellation_reason_key: Optional[str] = None
+    cancellation_reason_note: Optional[str] = None
+    cancelled_by_id: Optional[str] = None
+    cancelled_at: Optional[datetime] = None
 
     # Optional nested details for frontend display
     doctor_name: Optional[str] = None

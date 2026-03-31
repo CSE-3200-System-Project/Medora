@@ -1,3 +1,41 @@
+# Appointment Cancellation + Slot Management Implementation (2026-04-01)
+
+## Status: completed
+
+### Todo
+- [x] Add backend lifecycle extensions for ownership-aware cancellation statuses and metadata
+- [x] Add backend cancellation policy enforcement and dedicated cancellation endpoint
+- [x] Update slot availability logic to reopen slots for both cancellation statuses
+- [x] Wire cancellation notifications with structured reason context
+- [x] Add frontend patient cancellation flow wiring with reason taxonomy support
+- [x] Update doctor appointment UI typing and status handling for expanded lifecycle states
+- [x] Validate touched backend/frontend files and update review notes
+
+### Review
+- Added ownership-aware cancellation statuses (`CANCELLED_BY_PATIENT`, `CANCELLED_BY_DOCTOR`) and cancellation metadata fields (`reason key/note`, actor, timestamp) across appointment model/schema/response payloads.
+- Implemented role-aware cancellation flow with dedicated endpoint (`PATCH /appointment/{id}/cancel`), backend reason catalog endpoint, reason-role validation, and strict 60-minute cancellation cutoff enforcement.
+- Updated lifecycle/state-machine + slot occupancy behavior so both new cancellation statuses are terminal and non-occupying, reopening availability and cleaning up calendar events consistently.
+- Wired patient and doctor frontend cancellation UX to the new flow, including reason taxonomy selection, updated status handling/typing, terminal-state filtering, and cancellation metadata display.
+- Expanded cancellation handling in admin stats/summary queries and completed diagnostics checks on touched backend/frontend files with no reported errors.
+
+# Admin Patients + i18n Runtime Stabilization (2026-03-31)
+
+## Status: completed
+
+### Todo
+- [x] Remove partial next-intl usage causing missing-config runtime crashes
+- [x] Add missing frontend admin patient API proxy routes used by admin patients page
+- [x] Align admin patient mutations with backend-required moderation payloads
+- [x] Fix backend admin patient charts/insights runtime import issue
+- [x] Validate frontend and backend diagnostics after patch
+
+### Review
+- Removed partial `next-intl` provider wiring from app root and replaced locale blocked-account page rendering with a shared non-i18n component to prevent runtime config/provider crashes.
+- Added missing admin patient API proxy surface in frontend (`/api/admin/patients`, `[id]`, `stats`, `charts`, `insights`, `bulk-action`) plus shared backend-call helper.
+- Harmonized moderation payload behavior by injecting default reasons for `ban`/`delete` actions in UI mutations and proxy routes.
+- Fixed backend admin charts/insights runtime import path by adding missing `timedelta` import in `backend/app/routes/admin.py`.
+- Validation completed: frontend production build passes (`npm run build`), diagnostics report no errors on touched frontend/backend files, and backend app import smoke test passes with `backend/.venv`.
+
 # Split Chorui AI Access Controls (2026-03-27)
 
 ## Status: completed

@@ -39,6 +39,23 @@ export function handleUnauthorized() {
   }
 }
 
+function isAbortLikeError(error: unknown, signal?: AbortSignal): boolean {
+  if (signal?.aborted) {
+    return true;
+  }
+
+  if (error instanceof DOMException && error.name === "AbortError") {
+    return true;
+  }
+
+  if (error instanceof Error) {
+    const message = error.message.toLowerCase();
+    return message.includes("aborted") || message.includes("aborterror");
+  }
+
+  return false;
+}
+
 /**
  * Makes an authenticated fetch request and automatically handles 401 errors
  * @param url - The URL to fetch
@@ -60,6 +77,10 @@ export async function fetchWithAuth(url: string, options?: RequestInit): Promise
     
     return response;
   } catch (error) {
+    if (isAbortLikeError(error, options?.signal)) {
+      return null;
+    }
+
     console.error("Fetch error:", error);
     throw error;
   }

@@ -11,7 +11,13 @@ from app.db.models.doctor_location import DoctorLocation
 from app.db.models.patient import PatientProfile
 from app.db.models.enums import UserRole
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
-from app.schemas.appointment import AppointmentCreate, AppointmentUpdate, AppointmentResponse
+from app.schemas.appointment import (
+    AppointmentCreate,
+    AppointmentUpdate,
+    AppointmentResponse,
+    AppointmentCancelRequest,
+    CancellationReasonKey,
+)
 from app.routes.notification import create_notification
 from app.services.doctor_action_service import create_appointment_completed_action
 from app.services import appointment_service, notification_service, slot_service
@@ -66,6 +72,73 @@ SLOT_RANGE_PATTERN = re.compile(
     r"(\d{1,2}(?::\d{2})?\s*(?:AM|PM))\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))",
     re.IGNORECASE,
 )
+
+CANCELLATION_STATUSES = {
+    AppointmentStatus.CANCELLED,
+    AppointmentStatus.CANCELLED_BY_PATIENT,
+    AppointmentStatus.CANCELLED_BY_DOCTOR,
+}
+UPCOMING_EXCLUDED_STATUSES = CANCELLATION_STATUSES | {
+    AppointmentStatus.COMPLETED,
+    AppointmentStatus.NO_SHOW,
+}
+
+CANCELLATION_REASON_LABELS: dict[str, str] = {
+    CancellationReasonKey.SCHEDULE_CONFLICT.value: "Schedule conflict",
+    CancellationReasonKey.PERSONAL_EMERGENCY.value: "Personal emergency",
+    CancellationReasonKey.FEELING_BETTER.value: "Feeling better",
+    CancellationReasonKey.TRANSPORT_ISSUE.value: "Transport issue",
+    CancellationReasonKey.COST_CONCERN.value: "Cost concern",
+    CancellationReasonKey.DOCTOR_UNAVAILABLE.value: "Doctor unavailable",
+    CancellationReasonKey.CLINIC_DELAY.value: "Clinic delay",
+    CancellationReasonKey.DOUBLE_BOOKED.value: "Double booked",
+    CancellationReasonKey.OTHER.value: "Other",
+}
+PATIENT_ALLOWED_CANCELLATION_REASONS = {
+    CancellationReasonKey.SCHEDULE_CONFLICT.value,
+    CancellationReasonKey.PERSONAL_EMERGENCY.value,
+    CancellationReasonKey.FEELING_BETTER.value,
+    CancellationReasonKey.TRANSPORT_ISSUE.value,
+    CancellationReasonKey.COST_CONCERN.value,
+    CancellationReasonKey.OTHER.value,
+}
+DOCTOR_ALLOWED_CANCELLATION_REASONS = {
+    CancellationReasonKey.DOCTOR_UNAVAILABLE.value,
+    CancellationReasonKey.CLINIC_DELAY.value,
+    CancellationReasonKey.DOUBLE_BOOKED.value,
+    CancellationReasonKey.PERSONAL_EMERGENCY.value,
+    CancellationReasonKey.OTHER.value,
+}
+
+
+def _normalize_cancellation_note(note: str | None) -> str | None:
+    if note is None:
+        return None
+    cleaned = " ".join(note.split()).strip()
+    if not cleaned:
+        return None
+    return cleaned[:500]
+
+
+def _reason_label(reason_key: str | None) -> str:
+    if not reason_key:
+        return CANCELLATION_REASON_LABELS[CancellationReasonKey.OTHER.value]
+    return CANCELLATION_REASON_LABELS.get(reason_key, reason_key.replace("_", " ").title())
+
+
+def _build_cancellation_reason_text(reason_key: str | None, reason_note: str | None) -> str:
+    label = _reason_label(reason_key)
+    if reason_note:
+        return f"{label}: {reason_note}"
+    return label
+
+
+def _validate_cancellation_reason_for_role(reason_key: str, performed_by_role: str) -> None:
+    role = performed_by_role.lower()
+    if role == "patient" and reason_key not in PATIENT_ALLOWED_CANCELLATION_REASONS:
+        raise HTTPException(status_code=400, detail="Invalid cancellation reason for patient")
+    if role == "doctor" and reason_key not in DOCTOR_ALLOWED_CANCELLATION_REASONS:
+        raise HTTPException(status_code=400, detail="Invalid cancellation reason for doctor")
 
 
 def _normalize_slot_label(time_label: str) -> str:
@@ -290,6 +363,10 @@ async def get_my_appointments(
             "patient_gender": patient_profile.gender if patient_profile else None,
             "blood_group": patient_profile.blood_group if patient_profile else None,
             "chronic_conditions": _chronic_conditions_from_profile(patient_profile),
+            "cancellation_reason_key": appt.cancellation_reason_key,
+            "cancellation_reason_note": appt.cancellation_reason_note,
+            "cancelled_by_id": appt.cancelled_by_id,
+            "cancelled_at": appt.cancelled_at.isoformat() if appt.cancelled_at else None,
             "created_at": appt.created_at.isoformat() if appt.created_at else None,
             "updated_at": appt.updated_at.isoformat() if appt.updated_at else None,
         })
@@ -436,10 +513,113 @@ async def get_appointments_by_date(
                 "reason": matching_appointment.reason,
                 "status": _status_value(matching_appointment.status),
                 "appointmentDate": matching_appointment.appointment_date.isoformat(),
+                "cancellationReasonKey": matching_appointment.cancellation_reason_key,
+                "cancellationReasonNote": matching_appointment.cancellation_reason_note,
+                "cancelledAt": matching_appointment.cancelled_at.isoformat() if matching_appointment.cancelled_at else None,
             }
         )
 
     return slot_data
+
+
+@router.get("/cancellation-reasons")
+async def get_cancellation_reason_catalog():
+    return {
+        "buffer_minutes": appointment_service.APPOINTMENT_CANCEL_BUFFER_MINUTES,
+        "patient": [
+            {"key": key, "label": _reason_label(key)}
+            for key in sorted(PATIENT_ALLOWED_CANCELLATION_REASONS)
+        ],
+        "doctor": [
+            {"key": key, "label": _reason_label(key)}
+            for key in sorted(DOCTOR_ALLOWED_CANCELLATION_REASONS)
+        ],
+    }
+
+
+@router.patch("/{appointment_id}/cancel", response_model=AppointmentResponse)
+async def cancel_appointment(
+    appointment_id: str,
+    cancel_data: AppointmentCancelRequest,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    user_id = user.id
+
+    result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="User profile not found")
+
+    result_appt = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
+    appointment = result_appt.scalar_one_or_none()
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    is_patient = appointment.patient_id == user_id
+    is_doctor = appointment.doctor_id == user_id
+    if not (is_patient or is_doctor):
+        raise HTTPException(status_code=403, detail="Not authorized to cancel this appointment")
+
+    role_str = str(profile.role).upper()
+    performed_by_role = "patient" if "PATIENT" in role_str else "doctor"
+    cancel_status = appointment_service.get_role_based_cancel_status(performed_by_role)
+
+    reason_key = cancel_data.reason_key.value
+    reason_note = _normalize_cancellation_note(cancel_data.reason_note)
+    _validate_cancellation_reason_for_role(reason_key, performed_by_role)
+
+    try:
+        appointment_service.validate_cancellation_window(appointment)
+        appointment = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=cancel_status,
+            performed_by_id=user_id,
+            performed_by_role=performed_by_role,
+            notes=reason_note,
+            cancellation_reason_key=reason_key,
+            cancellation_reason_note=reason_note,
+        )
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error))
+
+    await db.commit()
+    await db.refresh(appointment)
+
+    patient_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.patient_id))
+    patient_profile = patient_profile_result.scalar_one_or_none()
+    doctor_profile_result = await db.execute(select(Profile).where(Profile.id == appointment.doctor_id))
+    doctor_profile = doctor_profile_result.scalar_one_or_none()
+
+    patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
+    doctor_name = f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
+    appt_date_str = appointment.appointment_date.strftime("%b %d, %Y at %I:%M %p")
+
+    if performed_by_role == "doctor":
+        notify_user_id = appointment.patient_id
+        other_party_name = doctor_name
+        other_party_id = appointment.doctor_id
+    else:
+        notify_user_id = appointment.doctor_id
+        other_party_name = patient_name
+        other_party_id = appointment.patient_id
+
+    cancellation_reason_text = _build_cancellation_reason_text(reason_key, reason_note)
+    await notification_service.notify_appointment_cancelled(
+        db,
+        notify_user_id=notify_user_id,
+        other_party_name=other_party_name,
+        appointment_id=appointment.id,
+        other_party_id=other_party_id,
+        appt_date_str=appt_date_str,
+        cancelled_by_role=performed_by_role,
+        cancellation_reason=cancellation_reason_text,
+    )
+
+    await db.commit()
+
+    return appointment
 
 
 @router.patch("/{appointment_id}", response_model=AppointmentResponse)
@@ -486,21 +666,42 @@ async def update_appointment_status(
             except Exception:
                 raise HTTPException(status_code=400, detail="Invalid status value")
 
-        # Patients can only cancel
-        if is_patient and new_status != AppointmentStatus.CANCELLED:
-            raise HTTPException(status_code=403, detail="Patients can only cancel appointments")
+        if new_status in CANCELLATION_STATUSES:
+            reason_note = _normalize_cancellation_note(update_data.notes)
+            reason_key = CancellationReasonKey.OTHER.value
+            _validate_cancellation_reason_for_role(reason_key, performed_by_role)
+            new_status = appointment_service.get_role_based_cancel_status(performed_by_role)
 
-        try:
-            appointment = await appointment_service.transition_status(
-                db,
-                appointment_id=appointment_id,
-                new_status=new_status,
-                performed_by_id=user_id,
-                performed_by_role=performed_by_role,
-                notes=update_data.notes,
-            )
-        except ValueError as e:
-            raise HTTPException(status_code=400, detail=str(e))
+            try:
+                appointment_service.validate_cancellation_window(appointment)
+                appointment = await appointment_service.transition_status(
+                    db,
+                    appointment_id=appointment_id,
+                    new_status=new_status,
+                    performed_by_id=user_id,
+                    performed_by_role=performed_by_role,
+                    notes=reason_note,
+                    cancellation_reason_key=reason_key,
+                    cancellation_reason_note=reason_note,
+                )
+            except ValueError as error:
+                raise HTTPException(status_code=400, detail=str(error))
+        else:
+            # Patients can only cancel
+            if is_patient:
+                raise HTTPException(status_code=403, detail="Patients can only cancel appointments")
+
+            try:
+                appointment = await appointment_service.transition_status(
+                    db,
+                    appointment_id=appointment_id,
+                    new_status=new_status,
+                    performed_by_id=user_id,
+                    performed_by_role=performed_by_role,
+                    notes=update_data.notes,
+                )
+            except ValueError as error:
+                raise HTTPException(status_code=400, detail=str(error))
     else:
         # Non-status updates (notes, date)
         if update_data.notes and is_doctor:
@@ -531,7 +732,7 @@ async def update_appointment_status(
                 doctor_id=appointment.doctor_id,
                 appt_date_str=appt_date_str,
             )
-        elif new_status == AppointmentStatus.CANCELLED:
+        elif new_status in CANCELLATION_STATUSES:
             if performed_by_role == "doctor":
                 notify_user_id = appointment.patient_id
                 other_party_name = doctor_name
@@ -541,6 +742,10 @@ async def update_appointment_status(
                 other_party_name = patient_name
                 other_party_id = appointment.patient_id
 
+            cancellation_reason_text = _build_cancellation_reason_text(
+                appointment.cancellation_reason_key,
+                appointment.cancellation_reason_note,
+            )
             await notification_service.notify_appointment_cancelled(
                 db,
                 notify_user_id=notify_user_id,
@@ -549,6 +754,7 @@ async def update_appointment_status(
                 other_party_id=other_party_id,
                 appt_date_str=appt_date_str,
                 cancelled_by_role=performed_by_role,
+                cancellation_reason=cancellation_reason_text,
             )
         elif new_status == AppointmentStatus.COMPLETED:
             await create_appointment_completed_action(db, appointment=appointment)
@@ -636,7 +842,10 @@ async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_curr
 
     now = datetime.now(timezone.utc)
 
-    query = select(Appointment).where(Appointment.appointment_date >= now)
+    query = select(Appointment).where(
+        Appointment.appointment_date >= now,
+        Appointment.status.notin_(list(UPCOMING_EXCLUDED_STATUSES)),
+    )
     role_str = str(profile.role).upper()
     if "PATIENT" in role_str:
         query = query.where(Appointment.patient_id == user_id)
@@ -665,6 +874,9 @@ async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_curr
             "reason": appt.reason,
             "notes": appt.notes,
             "status": _status_value(appt.status),
+            "cancellation_reason_key": appt.cancellation_reason_key,
+            "cancellation_reason_note": appt.cancellation_reason_note,
+            "cancelled_at": appt.cancelled_at.isoformat() if appt.cancelled_at else None,
             "patient_id": appt.patient_id,
             "doctor_id": appt.doctor_id,
             "patient_name": f"{patient.first_name} {patient.last_name}" if patient else None,
@@ -881,6 +1093,9 @@ async def get_patient_calendar_appointments(
             "status": _status_value(appt.status),
             "reason": appt.reason,
             "notes": appt.notes,
+            "cancellation_reason_key": appt.cancellation_reason_key,
+            "cancellation_reason_note": appt.cancellation_reason_note,
+            "cancelled_at": appt.cancelled_at.isoformat() if appt.cancelled_at else None,
             "doctor_id": appt.doctor_id,
             "doctor_name": f"{doctor.first_name} {doctor.last_name}" if doctor else None,
             "doctor_title": doc_profile.title if doc_profile else None,
