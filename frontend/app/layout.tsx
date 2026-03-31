@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { NextIntlClientProvider } from "next-intl";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -57,13 +56,11 @@ export default function RootLayout({
       <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
         <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NextIntlClientProvider locale="en" messages={{}}>
-            <SmoothScrollProvider>
-              <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
-                {children}
-              </div>
-            </SmoothScrollProvider>
-          </NextIntlClientProvider>
+          <SmoothScrollProvider>
+            <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
+              {children}
+            </div>
+          </SmoothScrollProvider>
           <ToastProvider />
         </ThemeProvider>
         <PWARegistration />

@@ -22,47 +22,86 @@ from app.services import slot_service, notification_service
 logger = logging.getLogger(__name__)
 
 
+CANCELLATION_STATUSES: set[AppointmentStatus] = {
+    AppointmentStatus.CANCELLED,
+    AppointmentStatus.CANCELLED_BY_PATIENT,
+    AppointmentStatus.CANCELLED_BY_DOCTOR,
+}
+NON_OCCUPYING_STATUSES: set[AppointmentStatus] = CANCELLATION_STATUSES | {
+    AppointmentStatus.NO_SHOW,
+}
+APPOINTMENT_CANCEL_BUFFER_MINUTES = 60
+
+
+def get_role_based_cancel_status(performed_by_role: str) -> AppointmentStatus:
+    role = (performed_by_role or "").strip().lower()
+    if role == "patient":
+        return AppointmentStatus.CANCELLED_BY_PATIENT
+    if role == "doctor":
+        return AppointmentStatus.CANCELLED_BY_DOCTOR
+    return AppointmentStatus.CANCELLED
+
+
+def validate_cancellation_window(
+    appointment: Appointment,
+    *,
+    now_utc: Optional[datetime] = None,
+) -> None:
+    now = now_utc or datetime.now(timezone.utc)
+    appointment_time = appointment.appointment_date
+    if appointment_time.tzinfo is None:
+        appointment_time = appointment_time.replace(tzinfo=timezone.utc)
+
+    cutoff = now + timedelta(minutes=APPOINTMENT_CANCEL_BUFFER_MINUTES)
+    if appointment_time <= cutoff:
+        raise ValueError(
+            f"Appointments can only be cancelled at least {APPOINTMENT_CANCEL_BUFFER_MINUTES} minutes before the scheduled time"
+        )
+
+
 # ── Status State Machine ──
 # Maps current status → set of allowed next statuses
 
 ALLOWED_TRANSITIONS: dict[AppointmentStatus, set[AppointmentStatus]] = {
     AppointmentStatus.PENDING: {
         AppointmentStatus.CONFIRMED,
-        AppointmentStatus.CANCELLED,
         AppointmentStatus.PENDING_ADMIN_REVIEW,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_ADMIN_REVIEW: {
         AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
         AppointmentStatus.CONFIRMED,
-        AppointmentStatus.CANCELLED,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_DOCTOR_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
-        AppointmentStatus.CANCELLED,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_PATIENT_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
-        AppointmentStatus.CANCELLED,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.CONFIRMED: {
         AppointmentStatus.COMPLETED,
-        AppointmentStatus.CANCELLED,
         AppointmentStatus.RESCHEDULE_REQUESTED,
         AppointmentStatus.NO_SHOW,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.RESCHEDULE_REQUESTED: {
         AppointmentStatus.CONFIRMED,
-        AppointmentStatus.CANCELLED,
         AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
         AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
-    },
+    }
+    | CANCELLATION_STATUSES,
     AppointmentStatus.CANCEL_REQUESTED: {
-        AppointmentStatus.CANCELLED,
         AppointmentStatus.CONFIRMED,
-    },
+    }
+    | CANCELLATION_STATUSES,
     # Terminal states — no transitions out
     AppointmentStatus.COMPLETED: set(),
     AppointmentStatus.CANCELLED: set(),
+    AppointmentStatus.CANCELLED_BY_PATIENT: set(),
+    AppointmentStatus.CANCELLED_BY_DOCTOR: set(),
     AppointmentStatus.NO_SHOW: set(),
 }
 
@@ -101,10 +140,7 @@ async def create_appointment(
                 Appointment.appointment_date >= start_of_day,
                 Appointment.appointment_date < end_of_day,
                 Appointment.slot_time == slot_time_val,
-                Appointment.status.notin_([
-                    AppointmentStatus.CANCELLED,
-                    AppointmentStatus.NO_SHOW,
-                ]),
+                Appointment.status.notin_(list(NON_OCCUPYING_STATUSES)),
             )
             .with_for_update()
         )
@@ -153,6 +189,8 @@ async def transition_status(
     performed_by_id: str,
     performed_by_role: str,
     notes: Optional[str] = None,
+    cancellation_reason_key: Optional[str] = None,
+    cancellation_reason_note: Optional[str] = None,
 ) -> Appointment:
     """
     Transition an appointment to a new status with state machine validation
@@ -183,6 +221,17 @@ async def transition_status(
 
     if notes:
         appointment.notes = notes
+
+    if new_status in CANCELLATION_STATUSES:
+        appointment.cancelled_by_id = performed_by_id
+        appointment.cancelled_at = appointment.cancelled_at or datetime.now(timezone.utc)
+        appointment.cancellation_reason_key = (
+            cancellation_reason_key
+            or appointment.cancellation_reason_key
+            or "OTHER"
+        )
+        if cancellation_reason_note is not None:
+            appointment.cancellation_reason_note = cancellation_reason_note
 
     # Create audit log
     audit = AppointmentAuditLog(
@@ -420,7 +469,7 @@ async def sync_calendar_on_status_change(
                 appointment.google_event_id = event_id
                 await db.flush()
 
-        elif new_status in (AppointmentStatus.CANCELLED, AppointmentStatus.NO_SHOW):
+        elif new_status in NON_OCCUPYING_STATUSES:
             # Delete calendar event if it exists
             if appointment.google_event_id:
                 await google_calendar_service.delete_calendar_event(

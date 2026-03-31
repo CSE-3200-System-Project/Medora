@@ -14,9 +14,17 @@ import { AppBackground } from "@/components/ui/app-background";
 import { Button } from "@/components/ui/button";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Navbar } from "@/components/ui/navbar";
-import { getMyAppointments, syncAppointmentStatus, updateAppointment, requestRescheduleAppointment } from "@/lib/appointment-actions";
+import {
+  cancelAppointment,
+  getMyAppointments,
+  requestRescheduleAppointment,
+  syncAppointmentStatus,
+  updateAppointment,
+} from "@/lib/appointment-actions";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { localDateKey } from "@/lib/utils";
+
+const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
 
 export default function DoctorAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
@@ -76,6 +84,7 @@ export default function DoctorAppointmentsPage() {
     const now = Date.now();
     const upcoming = appointments
       .filter((item) => new Date(item.appointment_date).getTime() >= now)
+      .filter((item) => !isTerminalAppointmentStatus(item.status))
       .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime());
 
     return upcoming.slice(0, 8);
@@ -153,7 +162,7 @@ export default function DoctorAppointmentsPage() {
     const counts = [0, 0, 0, 0, 0, 0, 0];
 
     appointments.forEach((item) => {
-      if (item.status === "CANCELLED") {
+      if (isCancelledAppointmentStatus(item.status)) {
         return;
       }
       const date = new Date(item.appointment_date);
@@ -184,7 +193,7 @@ export default function DoctorAppointmentsPage() {
     const counts = bucketMeta.map(() => 0);
 
     appointments.forEach((item) => {
-      if (item.status === "CANCELLED") {
+      if (isCancelledAppointmentStatus(item.status)) {
         return;
       }
 
@@ -229,10 +238,21 @@ export default function DoctorAppointmentsPage() {
   const handleStatusUpdate = async (id: string, status: DoctorAppointment["status"]) => {
     const previous = appointments;
     setActionError(null);
-    setAppointments((current) => current.map((item) => (item.id === id ? { ...item, status } : item)));
+    const isCancellation = isCancelledAppointmentStatus(status);
+    const nextStatus: DoctorAppointment["status"] = isCancellation
+      ? "CANCELLED_BY_DOCTOR"
+      : status;
+
+    setAppointments((current) => current.map((item) => (item.id === id ? { ...item, status: nextStatus } : item)));
 
     try {
-      await updateAppointment(id, { status });
+      if (isCancellation) {
+        await cancelAppointment(id, {
+          reasonKey: "DOCTOR_UNAVAILABLE",
+        });
+      } else {
+        await updateAppointment(id, { status });
+      }
     } catch {
       setAppointments(previous);
       setActionError("Could not update appointment status. Please try again.");
@@ -372,7 +392,20 @@ function normalizeAppointment(raw: any): DoctorAppointment | null {
   }
 
   const statusValue = String(raw?.status || "PENDING").toUpperCase();
-  const status = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"].includes(statusValue)
+  const status = [
+    "PENDING",
+    "CONFIRMED",
+    "COMPLETED",
+    "CANCELLED",
+    "CANCELLED_BY_PATIENT",
+    "CANCELLED_BY_DOCTOR",
+    "PENDING_ADMIN_REVIEW",
+    "PENDING_DOCTOR_CONFIRMATION",
+    "PENDING_PATIENT_CONFIRMATION",
+    "RESCHEDULE_REQUESTED",
+    "CANCEL_REQUESTED",
+    "NO_SHOW",
+  ].includes(statusValue)
     ? (statusValue as DoctorAppointment["status"])
     : "PENDING";
 
@@ -388,10 +421,22 @@ function normalizeAppointment(raw: any): DoctorAppointment | null {
     patient_phone: raw?.patient_phone ?? null,
     reason: raw?.reason ?? null,
     notes: raw?.notes ?? null,
+    cancellation_reason_key: raw?.cancellation_reason_key ?? null,
+    cancellation_reason_note: raw?.cancellation_reason_note ?? null,
+    cancelled_at: raw?.cancelled_at ?? null,
     blood_group: raw?.blood_group ?? null,
     chronic_conditions: Array.isArray(raw?.chronic_conditions) ? raw.chronic_conditions : [],
     location: raw?.location ?? null,
   };
+}
+
+function isCancelledAppointmentStatus(status: string) {
+  return CANCELLED_STATUSES.has(status.toUpperCase());
+}
+
+function isTerminalAppointmentStatus(status: string) {
+  const value = status.toUpperCase();
+  return isCancelledAppointmentStatus(value) || value === "COMPLETED" || value === "NO_SHOW";
 }
 
 function formatPercentDelta(current: number, previous: number) {

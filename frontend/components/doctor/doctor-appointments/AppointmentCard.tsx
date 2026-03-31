@@ -71,17 +71,26 @@ export function AppointmentCard({ appointment, onClick }: AppointmentCardProps) 
 
 function getStatusBadge(status: DoctorAppointment["status"]) {
   const base = "text-xs font-semibold";
+  const value = status.toUpperCase();
 
-  if (status === "CONFIRMED") {
+  if (value === "CONFIRMED") {
     return <Badge className={cn(base, "bg-primary text-primary-foreground")}>Confirmed</Badge>;
   }
 
-  if (status === "PENDING") {
+  if (value === "PENDING" || value === "PENDING_ADMIN_REVIEW" || value === "PENDING_DOCTOR_CONFIRMATION" || value === "PENDING_PATIENT_CONFIRMATION") {
     return <Badge className={cn(base, "bg-amber-500 text-white")}>Pending</Badge>;
   }
 
-  if (status === "COMPLETED") {
+  if (value === "COMPLETED") {
     return <Badge className={cn(base, "bg-emerald-600 text-white")}>Completed</Badge>;
+  }
+
+  if (value === "RESCHEDULE_REQUESTED") {
+    return <Badge className={cn(base, "bg-indigo-600 text-white")}>Reschedule Requested</Badge>;
+  }
+
+  if (value === "NO_SHOW") {
+    return <Badge className={cn(base, "bg-muted text-foreground")}>No Show</Badge>;
   }
 
   return <Badge className={cn(base, "bg-destructive text-white")}>Cancelled</Badge>;

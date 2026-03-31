@@ -47,6 +47,7 @@ export function AppointmentModal({
 
   const date = new Date(appointment.appointment_date);
   const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
+  const isCancelled = isCancelledStatus(appointment.status);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -62,9 +63,18 @@ export function AppointmentModal({
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Status:</span>
           <Badge variant={getStatusVariant(appointment.status)}>
-            {appointment.status}
+            {humanizeStatus(appointment.status)}
           </Badge>
         </div>
+
+        {isCancelled ? (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p className="font-semibold">Cancellation reason</p>
+            <p className="mt-1">
+              {appointment.cancellation_reason_note || humanizeReasonKey(appointment.cancellation_reason_key)}
+            </p>
+          </div>
+        ) : null}
 
         <div className="space-y-3 text-sm">
           <DetailRow label="Appointment Time" value={date.toLocaleString("en-US")} icon={<Clock3 className="h-4 w-4 text-primary" />} />
@@ -104,8 +114,8 @@ export function AppointmentModal({
         ) : null}
 
         <DialogFooter className="flex flex-wrap gap-2 sm:justify-start">
-          {/* Approve button - only for PENDING appointments */}
-          {appointment.status === "PENDING" && (
+          {/* Approve button - only for pending-style appointments */}
+          {canApprove(appointment.status) && (
             <Button
               onClick={() => {
                 onApprove(appointment.id);
@@ -117,8 +127,8 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Cancel button - for PENDING and CONFIRMED appointments */}
-          {(appointment.status === "PENDING" || appointment.status === "CONFIRMED") && (
+          {/* Cancel button - for cancellable lifecycle states */}
+          {canCancel(appointment.status) && (
             <Button
               variant="destructive"
               onClick={() => {
@@ -131,8 +141,8 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Reschedule button - for PENDING, CONFIRMED, and COMPLETED appointments */}
-          {(appointment.status === "PENDING" || appointment.status === "CONFIRMED" || appointment.status === "COMPLETED") && (
+          {/* Reschedule button - for non-terminal lifecycle states */}
+          {canReschedule(appointment.status) && (
             <>
               {!showReschedule ? (
                 <Button
@@ -179,18 +189,64 @@ function DetailRow({ label, value, icon }: { label: string; value: string; icon:
 }
 
 function getStatusVariant(status: string): "default" | "secondary" | "outline" | "destructive" {
-  switch (status) {
+  switch (status.toUpperCase()) {
     case "PENDING":
+    case "PENDING_ADMIN_REVIEW":
+    case "PENDING_DOCTOR_CONFIRMATION":
+    case "PENDING_PATIENT_CONFIRMATION":
       return "secondary";
     case "CONFIRMED":
+    case "RESCHEDULE_REQUESTED":
       return "default";
     case "COMPLETED":
       return "outline";
     case "CANCELLED":
+    case "CANCELLED_BY_PATIENT":
+    case "CANCELLED_BY_DOCTOR":
+    case "NO_SHOW":
+    case "CANCEL_REQUESTED":
       return "destructive";
     default:
       return "outline";
   }
+}
+
+function humanizeStatus(status: string) {
+  return status.replaceAll("_", " ");
+}
+
+function humanizeReasonKey(reasonKey?: string | null) {
+  if (!reasonKey) {
+    return "Not provided";
+  }
+  return reasonKey.replaceAll("_", " ").toLowerCase();
+}
+
+function isCancelledStatus(status: string) {
+  const value = status.toUpperCase();
+  return value === "CANCELLED" || value === "CANCELLED_BY_PATIENT" || value === "CANCELLED_BY_DOCTOR";
+}
+
+function canApprove(status: string) {
+  const value = status.toUpperCase();
+  return value === "PENDING" || value === "PENDING_ADMIN_REVIEW" || value === "PENDING_DOCTOR_CONFIRMATION";
+}
+
+function canCancel(status: string) {
+  const value = status.toUpperCase();
+  return (
+    value === "PENDING" ||
+    value === "PENDING_ADMIN_REVIEW" ||
+    value === "PENDING_DOCTOR_CONFIRMATION" ||
+    value === "PENDING_PATIENT_CONFIRMATION" ||
+    value === "CONFIRMED" ||
+    value === "RESCHEDULE_REQUESTED"
+  );
+}
+
+function canReschedule(status: string) {
+  const value = status.toUpperCase();
+  return !isCancelledStatus(value) && value !== "NO_SHOW" && value !== "COMPLETED";
 }
 
 function extractLocation(appointment: DoctorAppointment) {

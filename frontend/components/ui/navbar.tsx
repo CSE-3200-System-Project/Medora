@@ -107,7 +107,9 @@ export function Navbar() {
     };
     window.addEventListener("medora:logged_out", handleLogout);
     return () => {
-      controller.abort();
+      if (!controller.signal.aborted) {
+        controller.abort("navbar-unmount");
+      }
       window.removeEventListener("medora:logged_out", handleLogout);
     };
   }, []);

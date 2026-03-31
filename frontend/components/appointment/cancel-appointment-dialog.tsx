@@ -27,9 +27,28 @@ interface CancelAppointmentDialogProps {
     slot_time?: string | null;
     reason?: string;
   } | null;
-  onConfirm: (appointmentId: string, cancellationReason?: string) => Promise<void>;
+  onConfirm: (appointmentId: string, reasonKey: string, cancellationReason?: string) => Promise<void>;
   userRole?: 'patient' | 'doctor';
+  reasonOptions?: Array<{ key: string; label: string }>;
+  bufferMinutes?: number;
 }
+
+const DEFAULT_PATIENT_REASON_OPTIONS = [
+  { key: "SCHEDULE_CONFLICT", label: "Schedule conflict" },
+  { key: "PERSONAL_EMERGENCY", label: "Personal emergency" },
+  { key: "FEELING_BETTER", label: "Feeling better" },
+  { key: "TRANSPORT_ISSUE", label: "Transport issue" },
+  { key: "COST_CONCERN", label: "Cost concern" },
+  { key: "OTHER", label: "Other" },
+];
+
+const DEFAULT_DOCTOR_REASON_OPTIONS = [
+  { key: "DOCTOR_UNAVAILABLE", label: "Doctor unavailable" },
+  { key: "CLINIC_DELAY", label: "Clinic delay" },
+  { key: "DOUBLE_BOOKED", label: "Double booked" },
+  { key: "PERSONAL_EMERGENCY", label: "Personal emergency" },
+  { key: "OTHER", label: "Other" },
+];
 
 export function CancelAppointmentDialog({
   open,
@@ -37,16 +56,28 @@ export function CancelAppointmentDialog({
   appointment,
   onConfirm,
   userRole = 'patient',
+  reasonOptions,
+  bufferMinutes = 60,
 }: CancelAppointmentDialogProps) {
   const [cancellationReason, setCancellationReason] = React.useState("");
+  const roleDefaultOptions = userRole === "doctor" ? DEFAULT_DOCTOR_REASON_OPTIONS : DEFAULT_PATIENT_REASON_OPTIONS;
+  const options = reasonOptions && reasonOptions.length > 0 ? reasonOptions : roleDefaultOptions;
+  const [selectedReasonKey, setSelectedReasonKey] = React.useState(options[0]?.key || "OTHER");
   const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (open) {
+      setSelectedReasonKey(options[0]?.key || "OTHER");
+      setCancellationReason("");
+    }
+  }, [open, options]);
 
   const handleConfirm = async () => {
     if (!appointment) return;
     
     setLoading(true);
     try {
-      await onConfirm(appointment.id, cancellationReason || undefined);
+      await onConfirm(appointment.id, selectedReasonKey, cancellationReason || undefined);
       setCancellationReason("");
       onOpenChange(false);
     } catch (error) {
@@ -76,7 +107,7 @@ export function CancelAppointmentDialog({
             Cancel Appointment
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to cancel this appointment? This action cannot be undone.
+            Are you sure you want to cancel this appointment? Cancellation must happen at least {bufferMinutes} minutes before appointment time.
           </DialogDescription>
         </DialogHeader>
 
@@ -113,14 +144,35 @@ export function CancelAppointmentDialog({
               )}
             </div>
 
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Cancellation reason</Label>
+              <div className="flex flex-wrap gap-2">
+                {options.map((option) => {
+                  const isSelected = selectedReasonKey === option.key;
+                  return (
+                    <Button
+                      key={option.key}
+                      type="button"
+                      variant={isSelected ? "default" : "outline"}
+                      size="sm"
+                      className="h-8"
+                      onClick={() => setSelectedReasonKey(option.key)}
+                    >
+                      {option.label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Cancellation Reason */}
             <div className="space-y-2">
               <Label htmlFor="cancellation-reason" className="text-sm font-medium">
-                Reason for cancellation (optional)
+                Additional details (optional)
               </Label>
               <Textarea
                 id="cancellation-reason"
-                placeholder="Let them know why you're cancelling..."
+                placeholder="Add optional context for the cancellation..."
                 value={cancellationReason}
                 onChange={(e) => setCancellationReason(e.target.value)}
                 rows={3}

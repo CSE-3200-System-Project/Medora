@@ -87,6 +87,8 @@ export function AppointmentCalendar({
       case 'COMPLETED':
         return 'bg-green-500';
       case 'CANCELLED':
+      case 'CANCELLED_BY_PATIENT':
+      case 'CANCELLED_BY_DOCTOR':
         return 'bg-red-500';
       case 'PENDING_ADMIN_REVIEW':
         return 'bg-orange-500';

@@ -15,6 +15,8 @@ class AppointmentStatus(str, enum.Enum):
     CONFIRMED = "CONFIRMED"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    CANCELLED_BY_PATIENT = "CANCELLED_BY_PATIENT"
+    CANCELLED_BY_DOCTOR = "CANCELLED_BY_DOCTOR"
 
     # New statuses for enhanced workflow
     PENDING_ADMIN_REVIEW = "PENDING_ADMIN_REVIEW"
@@ -66,6 +68,12 @@ class Appointment(Base):
         String, ForeignKey("doctor_locations.id"), nullable=True, index=True
     )
     location_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    cancellation_reason_key: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    cancellation_reason_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cancelled_by_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("profiles.id"), nullable=True, index=True
+    )
+    cancelled_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

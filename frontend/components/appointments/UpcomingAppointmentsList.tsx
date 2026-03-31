@@ -11,6 +11,7 @@ interface UpcomingAppointmentsListProps {
   selectedDate: string | null;
   onViewHistory: () => void;
   onRequestReschedule?: (appointment: PatientAppointment) => void;
+  onRequestCancel?: (appointment: PatientAppointment) => void;
 }
 
 function statusVariant(status: string): "success" | "warning" | "destructive" {
@@ -24,8 +25,15 @@ function statusVariant(status: string): "success" | "warning" | "destructive" {
   if (value === "RESCHEDULE_REQUESTED") return "warning";
   if (value === "CANCEL_REQUESTED") return "destructive";
   if (value === "CANCELLED") return "destructive";
+  if (value === "CANCELLED_BY_PATIENT") return "destructive";
+  if (value === "CANCELLED_BY_DOCTOR") return "destructive";
   if (value === "NO_SHOW") return "destructive";
   return "destructive";
+}
+
+function canCancel(status: string) {
+  const value = status.toUpperCase();
+  return value === "CONFIRMED" || value === "PENDING" || value === "PENDING_ADMIN_REVIEW";
 }
 
 function specialtyIcon(specialty?: string | null) {
@@ -65,6 +73,7 @@ export function UpcomingAppointmentsList({
   selectedDate,
   onViewHistory,
   onRequestReschedule,
+  onRequestCancel,
 }: UpcomingAppointmentsListProps) {
   return (
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
@@ -121,6 +130,16 @@ export function UpcomingAppointmentsList({
                     >
                       <RefreshCw className="h-3 w-3 mr-1" />
                       Reschedule
+                    </Button>
+                  )}
+                  {onRequestCancel && canCancel(appointment.status) && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                      onClick={() => onRequestCancel(appointment)}
+                    >
+                      Cancel
                     </Button>
                   )}
                 </div>

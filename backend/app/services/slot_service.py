@@ -29,6 +29,14 @@ from app.db.models.doctor_availability import (
 )
 
 
+NON_OCCUPYING_STATUSES = [
+    AppointmentStatus.CANCELLED,
+    AppointmentStatus.CANCELLED_BY_PATIENT,
+    AppointmentStatus.CANCELLED_BY_DOCTOR,
+    AppointmentStatus.NO_SHOW,
+]
+
+
 # ── Slot categorization ──
 
 def _categorize_slot(t: time) -> str:
@@ -292,10 +300,7 @@ async def get_available_slots(
             Appointment.doctor_id == doctor_id,
             Appointment.appointment_date >= start_of_day,
             Appointment.appointment_date < end_of_day,
-            Appointment.status.notin_([
-                AppointmentStatus.CANCELLED,
-                AppointmentStatus.NO_SHOW,
-            ]),
+            Appointment.status.notin_(NON_OCCUPYING_STATUSES),
         )
     )
     booked_appointments = booked_result.scalars().all()
@@ -415,10 +420,7 @@ async def is_slot_available(
             Appointment.appointment_date >= start_of_day,
             Appointment.appointment_date < end_of_day,
             Appointment.slot_time == slot_time_val,
-            Appointment.status.notin_([
-                AppointmentStatus.CANCELLED,
-                AppointmentStatus.NO_SHOW,
-            ]),
+            Appointment.status.notin_(NON_OCCUPYING_STATUSES),
         )
     )
     if booked_result.scalar_one_or_none():

@@ -327,8 +327,24 @@ export async function getAvailableSlots(profileId: string, date: string, locatio
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Failed to fetch available slots");
+      let errorMessage = "Failed to fetch available slots";
+      try {
+        const contentType = response.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const errorData = await response.json();
+          if (typeof errorData?.detail === "string" && errorData.detail.trim()) {
+            errorMessage = errorData.detail;
+          }
+        } else {
+          const textError = await response.text();
+          if (textError && textError.trim()) {
+            errorMessage = textError;
+          }
+        }
+      } catch {
+        // Keep default message if response body parsing fails.
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();

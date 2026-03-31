@@ -19,11 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select-native";
-import { BulkActionsBar } from "@/components/admin/patients/BulkActionsBar";
-import { InsightsPanel } from "@/components/admin/patients/InsightsPanel";
-import { PatientCharts } from "@/components/admin/patients/PatientCharts";
-import { PatientStats } from "@/components/admin/patients/PatientStats";
-import { PatientTable } from "@/components/admin/patients/PatientTable";
+import { BulkActionsBar } from "../patients/BulkActionsBar";
+import { InsightsPanel } from "../patients/InsightsPanel";
+import { PatientCharts } from "../patients/PatientCharts";
+import { PatientStats } from "../patients/PatientStats";
+import { PatientTable } from "../patients/PatientTable";
 import type {
   PatientChartsPayload,
   PatientInsightsPayload,
@@ -51,6 +51,10 @@ const textMap: Record<string, string> = {
   "subtitle": "Monitor and manage patient accounts",
   "searchPlaceholder": "Search by name, email or phone",
   "filterAriaLabel": "Filter patients by status",
+  "filters.status.all": "All",
+  "filters.status.active": "Active",
+  "filters.status.incomplete": "Incomplete",
+  "filters.status.banned": "Banned",
   "loading": "Loading patients...",
   "empty": "No patients found",
   "loadError": "Failed to load patients",
@@ -180,6 +184,8 @@ type PatientFormState = {
 };
 
 const PAGE_SIZE = 12;
+const DEFAULT_BAN_REASON = "Moderation action by admin";
+const DEFAULT_DELETE_REASON = "Removed by admin";
 
 async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
@@ -435,11 +441,12 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
   });
 
   const deletePatientMutation = useMutation({
-    mutationFn: (id: string) =>
+    mutationFn: ({ id, reason }: { id: string; reason?: string }) =>
       requestJson(`/api/admin/patients/${id}`, {
         method: "DELETE",
+        body: JSON.stringify({ reason: reason || DEFAULT_DELETE_REASON }),
       }),
-    onMutate: async (id) => {
+    onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: ["admin-patients"] });
       const previous = queryClient.getQueryData<PatientsListPayload>(patientQueryKey);
 
@@ -537,10 +544,15 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
   };
 
   const runPatchAction = async (patient: PatientRecord, action: string) => {
+    const payload: Record<string, unknown> = { action };
+    if (action === "ban") {
+      payload.reason = DEFAULT_BAN_REASON;
+    }
+
     try {
       await patchPatientMutation.mutateAsync({
         id: patient.id,
-        payload: { action },
+        payload,
       });
       toast.success(t("messages.updatedSuccess"));
     } catch {
@@ -855,7 +867,7 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
         onClose={() => setDeleteTarget(null)}
         onConfirm={() => {
           if (!deleteTarget) return;
-          deletePatientMutation.mutate(deleteTarget.id, {
+          deletePatientMutation.mutate({ id: deleteTarget.id, reason: DEFAULT_DELETE_REASON }, {
             onError: () => {
               toast.error(t("errors.deleteFailed"));
             },
@@ -877,10 +889,18 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
         onClose={() => setBulkAction(null)}
         onConfirm={() => {
           if (!bulkAction || activeSelectedIds.length === 0) return;
+          const reason =
+            bulkAction === "ban"
+              ? DEFAULT_BAN_REASON
+              : bulkAction === "delete"
+              ? DEFAULT_DELETE_REASON
+              : undefined;
+
           bulkMutation.mutate(
             {
               action: bulkAction,
               patient_ids: activeSelectedIds,
+              reason,
             },
             {
               onError: () => {

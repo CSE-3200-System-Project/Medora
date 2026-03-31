@@ -68,6 +68,7 @@ export async function PatientHomeDashboard() {
   }
 
   const appointments = (dashboard?.upcoming_appointments ?? []).map((item) => ({
+    appointmentKey: item.id || `${item.doctor_name}-${item.appointment_date}-${item.status}`,
     doctorName: item.doctor_name,
     specialty: item.specialty || "General Consultation",
     dateTime: formatAppointmentDate(item.appointment_date),
@@ -155,6 +156,7 @@ export async function PatientHomeDashboard() {
           <div className="space-y-4">
             {(appointments.length > 0 ? appointments : [
               {
+                appointmentKey: "no-upcoming-appointments",
                 doctorName: "No upcoming appointments",
                 specialty: "Your schedule is clear",
                 dateTime: "-",
@@ -163,9 +165,10 @@ export async function PatientHomeDashboard() {
                 actionLabel: "Book Now",
                 actionVariant: "outline" as const,
               },
-            ]).map((appointment) => (
-              <AppointmentCard key={appointment.doctorName} {...appointment} />
-            ))}
+            ]).map((appointment) => {
+              const { appointmentKey, ...appointmentCardProps } = appointment
+              return <AppointmentCard key={appointmentKey} {...appointmentCardProps} />
+            })}
           </div>
         </div>
 
