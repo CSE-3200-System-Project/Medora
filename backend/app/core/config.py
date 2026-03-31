@@ -29,6 +29,13 @@ class Settings(BaseSettings):
     WEB_PUSH_VAPID_PUBLIC_KEY: str | None = None
     WEB_PUSH_VAPID_PRIVATE_KEY: str | None = None
     WEB_PUSH_VAPID_SUBJECT: str = "mailto:support@medora.app"
+    SUPPORT_EMAIL: str = "support@medora.com"
+    SMTP_HOST: str | None = None
+    SMTP_PORT: int = 587
+    SMTP_USERNAME: str | None = None
+    SMTP_PASSWORD: str | None = None
+    SMTP_FROM_EMAIL: str = "no-reply@medora.com"
+    SMTP_USE_TLS: bool = True
 
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True

@@ -182,7 +182,11 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
             supabase.auth.sign_out()
             raise HTTPException(
                 status_code=403, 
-                detail="Your account has been banned. Please contact support."
+                detail={
+                    "code": "ACCOUNT_BANNED",
+                    "message": "Your account has been suspended by the administrator.",
+                    "reason": profile.ban_reason or "No reason provided",
+                },
             )
         
         # Return profile info including verification status
@@ -241,7 +245,11 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
         if profile and profile.status == AccountStatus.banned:
             raise HTTPException(
                 status_code=403,
-                detail="Your account has been banned. Please contact support."
+                detail={
+                    "code": "ACCOUNT_BANNED",
+                    "message": "Your account has been suspended by the administrator.",
+                    "reason": profile.ban_reason or "No reason provided",
+                },
             )
         
         return user

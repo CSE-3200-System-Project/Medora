@@ -18,6 +18,7 @@ const publicRoutes = [
   '/verification-success',
   '/verify-email',
   '/verify-pending',
+  '/account-blocked',
 ]
 
 // Routes that do NOT require auth and are not auth- or admin-specific
@@ -46,6 +47,7 @@ export async function proxy(request: NextRequest) {
   const onboardingSkipped = request.cookies.get('onboarding_skipped')?.value
   const adminAccess = request.cookies.get('admin_access')?.value
   const verificationStatus = request.cookies.get('verification_status')?.value
+  const blockedReason = request.cookies.get('account_blocked_reason')?.value
 
   const isLoggedIn = !!sessionToken
   const isAdmin = adminAccess === 'true' || userRole === 'admin'
@@ -57,9 +59,15 @@ export async function proxy(request: NextRequest) {
   const isPatientRoute = pathname.startsWith('/patient/')
   const isDoctorRoute = pathname.startsWith('/doctor/')
   const isRootPage = pathname === '/'
+  const isBlockedPage = pathname === '/account-blocked'
   const isSettingsRoute = pathname === '/settings'
   const isNotificationsRoute = pathname === '/notifications'
   const isOnboardingEditMode = onboardingMode === 'edit'
+
+  // Blocked account users should stay on blocked route until they sign out.
+  if (blockedReason && !isAdmin && !isBlockedPage && !isAuthRoute && !isPublicRoute) {
+    return NextResponse.redirect(new URL('/account-blocked', request.url))
+  }
 
   // ──────── Public routes — always accessible ────────
   if (isPublicRoute) {
