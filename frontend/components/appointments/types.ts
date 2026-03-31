@@ -13,6 +13,13 @@ export interface PatientAppointment {
   appointment_date: string;
   slot_time?: string | null;
   status: AppointmentStatus;
+  hold_expires_at?: string | null;
+  cancellation_reason_key?: string | null;
+  cancellation_reason_note?: string | null;
+  reschedule_request_id?: string | null;
+  reschedule_requested_by_role?: string | null;
+  proposed_date?: string | null;
+  proposed_time?: string | null;
 }
 
 export interface PatientSummary {

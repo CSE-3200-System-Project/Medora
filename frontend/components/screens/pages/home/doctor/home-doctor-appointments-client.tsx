@@ -7,6 +7,7 @@ import { AppointmentCalendar } from "@/components/doctor/doctor-appointments/App
 import { AppointmentDensityChart } from "@/components/doctor/doctor-appointments/AppointmentDensityChart";
 import { AppointmentListPanel } from "@/components/doctor/doctor-appointments/AppointmentListPanel";
 import { AppointmentModal } from "@/components/doctor/doctor-appointments/AppointmentModal";
+import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
 import { DailyWorkloadChart } from "@/components/doctor/doctor-appointments/DailyWorkloadChart";
 import { ScheduleMetrics } from "@/components/doctor/doctor-appointments/ScheduleMetrics";
 import { DoctorAppointment, MetricCard } from "@/components/doctor/doctor-appointments/types";
@@ -17,10 +18,10 @@ import { Navbar } from "@/components/ui/navbar";
 import {
   cancelAppointment,
   getMyAppointments,
-  requestRescheduleAppointment,
   syncAppointmentStatus,
   updateAppointment,
 } from "@/lib/appointment-actions";
+import { requestReschedule } from "@/lib/availability-actions";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { localDateKey } from "@/lib/utils";
 
@@ -29,9 +30,11 @@ const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCEL
 export default function DoctorAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
   const [doctorName, setDoctorName] = React.useState("Doctor");
+  const [doctorId, setDoctorId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedAppointment, setSelectedAppointment] = React.useState<DoctorAppointment | null>(null);
+  const [rescheduleTarget, setRescheduleTarget] = React.useState<DoctorAppointment | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [actionError, setActionError] = React.useState<string | null>(null);
 
@@ -52,6 +55,9 @@ export default function DoctorAppointmentsPage() {
       }
 
       const data = await response.json();
+      if (data?.id) {
+        setDoctorId(String(data.id));
+      }
       const fullName = `${data?.first_name || ""} ${data?.last_name || ""}`.trim();
       if (fullName) {
         setDoctorName(fullName);
@@ -236,14 +242,8 @@ export default function DoctorAppointmentsPage() {
   }, [appointments]);
 
   const handleStatusUpdate = async (id: string, status: DoctorAppointment["status"]) => {
-    const previous = appointments;
     setActionError(null);
     const isCancellation = isCancelledAppointmentStatus(status);
-    const nextStatus: DoctorAppointment["status"] = isCancellation
-      ? "CANCELLED_BY_DOCTOR"
-      : status;
-
-    setAppointments((current) => current.map((item) => (item.id === id ? { ...item, status: nextStatus } : item)));
 
     try {
       if (isCancellation) {
@@ -253,45 +253,33 @@ export default function DoctorAppointmentsPage() {
       } else {
         await updateAppointment(id, { status });
       }
+      await loadAppointments();
     } catch {
-      setAppointments(previous);
       setActionError("Could not update appointment status. Please try again.");
     }
   };
 
-  const handleReschedule = async (id: string, newTime: string) => {
-    const target = appointments.find((item) => item.id === id);
-    if (!target) {
-      return;
-    }
-
-    const currentDate = new Date(target.appointment_date);
-    const [hours, minutes] = newTime.split(":").map(Number);
-    const rescheduledDate = new Date(currentDate);
-    rescheduledDate.setHours(hours, minutes, 0, 0);
-
-    const previous = appointments;
+  const handleRescheduleConfirm = async (
+    appointmentId: string,
+    newDate: string,
+    slotTime: string,
+    notes?: string,
+  ) => {
     setActionError(null);
-    setAppointments((current) =>
-      current.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              appointment_date: rescheduledDate.toISOString(),
-              status: "PENDING",
-              notes: `Rescheduled to ${newTime}`,
-            }
-          : item,
-      ),
-    );
 
     try {
-      // Request reschedule - sends notification to patient
-      await requestRescheduleAppointment(id, rescheduledDate.toISOString());
+      await requestReschedule({
+        appointment_id: appointmentId,
+        proposed_date: newDate,
+        proposed_time: slotTime,
+        reason: notes || "Doctor requested reschedule",
+      });
+      await loadAppointments();
+      setRescheduleTarget(null);
     } catch (error) {
-      setAppointments(previous);
       const errorMessage = error instanceof Error ? error.message : "Could not reschedule this appointment";
       setActionError(errorMessage);
+      throw error;
     }
   };
 
@@ -372,7 +360,26 @@ export default function DoctorAppointmentsPage() {
         onOpenChange={setIsModalOpen}
         onApprove={(id) => handleStatusUpdate(id, "CONFIRMED")}
         onCancel={(id) => handleStatusUpdate(id, "CANCELLED")}
-        onReschedule={handleReschedule}
+        onRescheduleRequest={(appointment) => setRescheduleTarget(appointment)}
+      />
+
+      <RescheduleAppointmentDialog
+        open={!!rescheduleTarget}
+        onOpenChange={(open) => !open && setRescheduleTarget(null)}
+        appointment={
+          rescheduleTarget
+            ? {
+                id: rescheduleTarget.id,
+                doctor_id: rescheduleTarget.doctor_id || doctorId || undefined,
+                patient_name: rescheduleTarget.patient_name,
+                appointment_date: rescheduleTarget.appointment_date,
+                slot_time: null,
+                reason: rescheduleTarget.reason || undefined,
+              }
+            : null
+        }
+        onConfirm={handleRescheduleConfirm}
+        userRole="doctor"
       />
     </AppBackground>
   );
@@ -411,6 +418,7 @@ function normalizeAppointment(raw: any): DoctorAppointment | null {
 
   return {
     id: String(idValue),
+    doctor_id: raw?.doctor_id || null,
     appointment_date: String(dateValue),
     status,
     patient_name: String(patientName),
