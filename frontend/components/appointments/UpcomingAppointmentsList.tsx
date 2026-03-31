@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Brain, CalendarClock, HeartPulse, RefreshCw, Stethoscope } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,8 +12,44 @@ interface UpcomingAppointmentsListProps {
   selectedDate: string | null;
   onViewHistory: () => void;
   onRequestReschedule?: (appointment: PatientAppointment) => void;
+  onRespondReschedule?: (appointment: PatientAppointment) => void;
   onRequestCancel?: (appointment: PatientAppointment) => void;
+  onDeletePending?: (appointment: PatientAppointment) => void;
+  onBookAgain?: (appointment: PatientAppointment) => void;
+  messages?: Partial<SoftHoldMessages>;
 }
+
+type SoftHoldState = {
+  isPending: boolean;
+  isExpired: boolean;
+  isWarning: boolean;
+  showWaiting: boolean;
+  remainingMs: number | null;
+};
+
+type SoftHoldMessages = {
+  waiting: string;
+  expiresIn: string;
+  expiringSoon: string;
+  expired: string;
+  bookAgain: string;
+  deleteRequest: string;
+  reschedule: string;
+  cancel: string;
+};
+
+const SOFT_HOLD_WARNING_MS = 3 * 60 * 1000;
+
+const HOLD_MESSAGES: SoftHoldMessages = {
+  waiting: "Waiting for doctor confirmation",
+  expiresIn: "Expires in",
+  expiringSoon: "Doctor hasn't responded yet. This request will expire soon.",
+  expired: "This request expired because the doctor didn't confirm in time.",
+  bookAgain: "Book Again",
+  deleteRequest: "Delete Request",
+  reschedule: "Reschedule",
+  cancel: "Cancel",
+};
 
 function statusVariant(status: string): "success" | "warning" | "destructive" {
   const value = status.toUpperCase();
@@ -33,7 +70,7 @@ function statusVariant(status: string): "success" | "warning" | "destructive" {
 
 function canCancel(status: string) {
   const value = status.toUpperCase();
-  return value === "CONFIRMED" || value === "PENDING" || value === "PENDING_ADMIN_REVIEW";
+  return value === "CONFIRMED" || value === "RESCHEDULE_REQUESTED" || value === "CANCEL_REQUESTED";
 }
 
 function specialtyIcon(specialty?: string | null) {
@@ -68,13 +105,76 @@ function appointmentTitle(appointment: PatientAppointment) {
   return `${specialty} Consultation`;
 }
 
+function formatRemaining(remainingMs: number) {
+  const totalSeconds = Math.max(0, Math.floor(remainingMs / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  if (minutes >= 60) {
+    const hours = Math.floor(minutes / 60);
+    const remMinutes = minutes % 60;
+    return `${hours}h ${remMinutes}m`;
+  }
+
+  return `${minutes}m ${seconds}s`;
+}
+
+function deriveSoftHoldState(appointment: PatientAppointment, nowMs: number): SoftHoldState {
+  const status = (appointment.status || "").toUpperCase();
+  const isPending = status === "PENDING";
+  if (!isPending) {
+    return {
+      isPending: false,
+      isExpired: false,
+      isWarning: false,
+      showWaiting: false,
+      remainingMs: null,
+    };
+  }
+
+  const holdExpiresAtMs = appointment.hold_expires_at ? Date.parse(appointment.hold_expires_at) : Number.NaN;
+  const hasValidExpiry = Number.isFinite(holdExpiresAtMs);
+  const remainingMs = hasValidExpiry ? holdExpiresAtMs - nowMs : null;
+  const isExpired = remainingMs !== null && remainingMs <= 0;
+  const isWarning = remainingMs !== null && remainingMs > 0 && remainingMs <= SOFT_HOLD_WARNING_MS;
+
+  return {
+    isPending: true,
+    isExpired,
+    isWarning,
+    showWaiting: !isExpired,
+    remainingMs,
+  };
+}
+
+function isBackendHoldExpired(appointment: PatientAppointment) {
+  const status = (appointment.status || "").toUpperCase();
+  const reasonKey = (appointment.cancellation_reason_key || "").toUpperCase();
+  return (status === "CANCELLED" || status === "CANCELLED_BY_PATIENT" || status === "CANCELLED_BY_DOCTOR") && reasonKey === "HOLD_EXPIRED";
+}
+
 export function UpcomingAppointmentsList({
   appointments,
   selectedDate,
   onViewHistory,
   onRequestReschedule,
+  onRespondReschedule,
   onRequestCancel,
+  onDeletePending,
+  onBookAgain,
+  messages,
 }: UpcomingAppointmentsListProps) {
+  const holdMessages = React.useMemo(() => ({ ...HOLD_MESSAGES, ...(messages || {}) }), [messages]);
+  const [nowMs, setNowMs] = React.useState(() => Date.now());
+
+  React.useEffect(() => {
+    const timer = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
       <div className="flex items-center justify-between gap-3">
@@ -96,56 +196,116 @@ export function UpcomingAppointmentsList({
             No upcoming appointments found for this view.
           </div>
         ) : (
-          appointments.map((appointment) => (
-            <div key={appointment.id} className="flex flex-col gap-3 rounded-xl border border-border bg-background/50 p-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                  {specialtyIcon(appointment.doctor_specialization)}
+          appointments.map((appointment) => {
+            const softHoldState = deriveSoftHoldState(appointment, nowMs);
+            const backendHoldExpired = isBackendHoldExpired(appointment);
+            const showExpiredState = softHoldState.isExpired || backendHoldExpired;
+            const canDeletePending = softHoldState.isPending && !showExpiredState;
+
+            return (
+              <div key={appointment.id} className="flex flex-col gap-3 rounded-xl border border-border bg-background/50 p-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                    {specialtyIcon(appointment.doctor_specialization)}
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-foreground">{appointmentTitle(appointment)}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      Dr. {appointment.doctor_name || "Assigned Doctor"}
+                      {appointment.doctor_specialization ? ` | ${appointment.doctor_specialization}` : ""}
+                    </p>
+
+                    {softHoldState.showWaiting && (
+                      <div className="mt-2 space-y-1">
+                        <p className="text-xs text-muted-foreground">{holdMessages.waiting}</p>
+                        {softHoldState.remainingMs !== null && softHoldState.remainingMs > 0 ? (
+                          <p className="text-xs text-muted-foreground">
+                            {holdMessages.expiresIn} {formatRemaining(softHoldState.remainingMs)}
+                          </p>
+                        ) : null}
+                        {softHoldState.isWarning ? (
+                          <p className="text-xs text-amber-700 dark:text-amber-300">
+                            {holdMessages.expiringSoon}
+                          </p>
+                        ) : null}
+                      </div>
+                    )}
+
+                    {showExpiredState ? (
+                      <div className="mt-2 space-y-2">
+                        <p className="text-xs text-destructive">{holdMessages.expired}</p>
+                        {onBookAgain ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 px-2 text-xs"
+                            onClick={() => onBookAgain(appointment)}
+                          >
+                            {holdMessages.bookAgain}
+                          </Button>
+                        ) : null}
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
 
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">{appointmentTitle(appointment)}</p>
-                  <p className="truncate text-xs text-muted-foreground">
-                    Dr. {appointment.doctor_name || "Assigned Doctor"}
-                    {appointment.doctor_specialization ? ` • ${appointment.doctor_specialization}` : ""}
-                  </p>
+                <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-center">
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-foreground">{formatDateLabel(appointment.appointment_date)}</p>
+                    <p className="text-xs text-muted-foreground">{formatTimeLabel(appointment.appointment_date, appointment.slot_time)}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={showExpiredState ? "destructive" : statusVariant(appointment.status)} className="uppercase tracking-wide">
+                      {showExpiredState ? "EXPIRED" : appointment.status}
+                    </Badge>
+                    {onRequestReschedule && appointment.status.toUpperCase() === "CONFIRMED" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-muted-foreground hover:text-primary"
+                        onClick={() => onRequestReschedule(appointment)}
+                      >
+                        <RefreshCw className="h-3 w-3 mr-1" />
+                        {holdMessages.reschedule}
+                      </Button>
+                    )}
+                    {onRespondReschedule && appointment.status.toUpperCase() === "RESCHEDULE_REQUESTED" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-muted-foreground hover:text-primary"
+                        onClick={() => onRespondReschedule(appointment)}
+                      >
+                        <RefreshCw className="h-3 w-3 mr-1" />
+                        {holdMessages.reschedule}
+                      </Button>
+                    )}
+                    {onDeletePending && canDeletePending && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                        onClick={() => onDeletePending(appointment)}
+                      >
+                        {holdMessages.deleteRequest}
+                      </Button>
+                    )}
+                    {onRequestCancel && canCancel(appointment.status) && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                        onClick={() => onRequestCancel(appointment)}
+                      >
+                        {holdMessages.cancel}
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-center">
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-foreground">{formatDateLabel(appointment.appointment_date)}</p>
-                  <p className="text-xs text-muted-foreground">{formatTimeLabel(appointment.appointment_date, appointment.slot_time)}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant={statusVariant(appointment.status)} className="uppercase tracking-wide">
-                    {appointment.status}
-                  </Badge>
-                  {onRequestReschedule && appointment.status.toUpperCase() === "CONFIRMED" && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 px-2 text-xs text-muted-foreground hover:text-primary"
-                      onClick={() => onRequestReschedule(appointment)}
-                    >
-                      <RefreshCw className="h-3 w-3 mr-1" />
-                      Reschedule
-                    </Button>
-                  )}
-                  {onRequestCancel && canCancel(appointment.status) && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 px-2 text-xs text-destructive hover:text-destructive"
-                      onClick={() => onRequestCancel(appointment)}
-                    >
-                      Cancel
-                    </Button>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </Card>

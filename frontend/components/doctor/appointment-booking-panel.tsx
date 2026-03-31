@@ -4,12 +4,13 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAvailableSlots } from "@/lib/auth-actions";
-import { createAppointment, getDoctorBookedSlots } from "@/lib/appointment-actions";
+import { createAppointment } from "@/lib/appointment-actions";
 import { useRouter, usePathname } from "next/navigation";
-import { MapPin, XCircle, Navigation, ExternalLink } from "lucide-react";
+import { MapPin, Navigation, ExternalLink } from "lucide-react";
 import { cn, localDateKey } from "@/lib/utils";
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map-lazy";
 import type { BackendDoctorLocation, BackendDoctorProfile, SlotGroup } from "@/components/doctor/doctor-profile/types";
+import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 
 interface AppointmentBookingPanelProps {
   doctor: BackendDoctorProfile & { telemedicine_available?: boolean };
@@ -31,13 +32,6 @@ interface SlotResponse {
   slots: SlotGroup[];
 }
 
-interface BookedSlot {
-  time: string;
-  is_booked: boolean;
-  is_past: boolean;
-  patient_name?: string | null;
-}
-
 export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps) {
   const [bookingState, setBookingState] = React.useState<BookingState>({
     locationId: null,
@@ -48,7 +42,6 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
   });
 
   const [slots, setSlots] = React.useState<SlotResponse | null>(null);
-  const [bookedSlots, setBookedSlots] = React.useState<BookedSlot[]>([]);
   const [loadingSlots, setLoadingSlots] = React.useState(false);
 
   const getLocationKey = (location: BackendDoctorLocation, index: number) => location.id || index.toString();
@@ -95,21 +88,30 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
     setLoadingSlots(true);
     try {
       const location = resolveSelectedLocation();
-      
-      // Fetch both available slots and booked slots in parallel
-      const [slotsData, bookedData] = await Promise.all([
-        getAvailableSlots(doctor.profile_id, bookingState.selectedDate, location?.id),
-        getDoctorBookedSlots(doctor.profile_id, bookingState.selectedDate)
-      ]);
-      
+
+      const slotsData = await getAvailableSlots(
+        doctor.profile_id,
+        bookingState.selectedDate,
+        location?.id,
+      );
+
       setSlots((slotsData ?? null) as SlotResponse | null);
-      setBookedSlots((bookedData?.slots ?? []) as BookedSlot[]);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
     } finally {
       setLoadingSlots(false);
     }
   }, [bookingState.selectedDate, doctor.profile_id, resolveSelectedLocation]);
+
+  useRealtimeSlots(
+    doctor.profile_id,
+    bookingState.selectedDate,
+    () => {
+      if (bookingState.selectedDate && bookingState.locationId) {
+        void fetchSlots();
+      }
+    },
+  );
 
   React.useEffect(() => {
     if (bookingState.selectedDate && bookingState.locationId) {
@@ -129,19 +131,6 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       bookingState.selectedDate &&
       bookingState.selectedSlot
     );
-  };
-
-  // Check if a slot is booked or past
-  const getSlotStatus = (slotTime: string) => {
-    const bookedSlot = bookedSlots.find(s => s.time === slotTime);
-    if (bookedSlot) {
-      return {
-        isBooked: bookedSlot.is_booked,
-        isPast: bookedSlot.is_past,
-        patientName: bookedSlot.patient_name
-      };
-    }
-    return { isBooked: false, isPast: false, patientName: null };
   };
 
   const router = useRouter();
@@ -408,8 +397,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                     <h4 className="text-sm font-semibold text-foreground mb-2">{group.period}</h4>
                     <div className="grid grid-cols-4 gap-2">
                       {group.slots?.map((slot, slotIndex: number) => {
-                        const { isBooked, isPast } = getSlotStatus(slot.time);
-                        const isUnavailable = !slot.available || isBooked || isPast;
+                        const isUnavailable = !slot.available;
                         const isSelected = bookingState.selectedSlot === slot.time;
                         
                         return (
@@ -417,7 +405,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                             key={slotIndex}
                             onClick={() => !isUnavailable && updateBookingState('selectedSlot', slot.time)}
                             disabled={isUnavailable}
-                            title={isPast ? "Past slot" : isBooked ? "Already booked" : !slot.available ? "Not available" : ""}
+                            title={!slot.available ? "Not available" : ""}
                             className={cn(
                               "py-2 px-2 rounded border text-xs font-medium transition-colors relative",
                               isUnavailable && "opacity-50 cursor-not-allowed",
@@ -425,22 +413,10 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                                 ? "bg-primary text-primary-foreground border-primary"
                                 : !isUnavailable
                                 ? "bg-background text-foreground border-border hover:bg-accent"
-                                : isBooked
-                                ? "bg-destructive/10 text-destructive-muted border-destructive/20"
-                                : isPast
-                                ? "bg-muted/70 text-muted-foreground border-border"
                                 : "bg-muted text-muted-foreground border-muted"
                             )}
                           >
-                            <span className={cn(isPast && "line-through")}>{slot.time}</span>
-                            {isBooked && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full flex items-center justify-center">
-                                <XCircle className="w-2 h-2 text-white" />
-                              </span>
-                            )}
-                            {isPast && !isBooked && (
-                              <span className="absolute -top-1 -right-1 w-3 h-3 bg-muted-foreground rounded-full" />
-                            )}
+                            <span>{slot.time}</span>
                           </button>
                         );
                       })}
@@ -455,12 +431,8 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
                     <span>Available</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded bg-red-50 border border-red-200"></div>
-                    <span>Booked</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded bg-muted/50 border border-border"></div>
-                    <span>Past</span>
+                    <div className="w-3 h-3 rounded bg-muted border border-border"></div>
+                    <span>Unavailable</span>
                   </div>
                 </div>
               </div>
