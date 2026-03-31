@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, Loader2, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -12,8 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@supabase/supabase-js";
 import { resetPassword } from "@/lib/auth-actions";
-import { withLocale } from "@/lib/locale-path";
-import type { AppLocale } from "@/i18n/routing";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
@@ -26,9 +23,6 @@ type PageState = "loading" | "form" | "success" | "error";
 
 export function ResetPasswordClient() {
   const router = useRouter();
-  const t = useTranslations("auth.reset");
-  const locale = useLocale() as AppLocale;
-  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [pageState, setPageState] = useState<PageState>("loading");
   const [accessToken, setAccessToken] = useState("");
@@ -41,8 +35,8 @@ export function ResetPasswordClient() {
   const [countdown, setCountdown] = useState(5);
 
   const images = [
-    { src: doctorImg, alt: t("carousel.altDoctor"), text: t("carousel.textReset") },
-    { src: patientImg, alt: t("carousel.altPatient"), text: t("carousel.textSecure") },
+    { src: doctorImg, alt: "Doctors Team", text: "Reset Your Password" },
+    { src: patientImg, alt: "Patient Care", text: "Secure & Protected" },
   ];
 
   // Image carousel
@@ -60,7 +54,7 @@ export function ResetPasswordClient() {
         const hash = window.location.hash;
         if (!hash) {
           setPageState("error");
-          setError(t("errors.noRecoveryToken"));
+          setError("No recovery token found. Please request a new password reset link.");
           return;
         }
 
@@ -70,7 +64,7 @@ export function ResetPasswordClient() {
 
         if (type !== "recovery" || !token) {
           setPageState("error");
-          setError(t("errors.invalidRecoveryLink"));
+          setError("Invalid recovery link. Please request a new password reset link.");
           return;
         }
 
@@ -85,7 +79,7 @@ export function ResetPasswordClient() {
 
         if (sessionError) {
           setPageState("error");
-          setError(t("errors.linkExpired"));
+          setError("This reset link has expired. Please request a new one.");
           return;
         }
 
@@ -93,12 +87,12 @@ export function ResetPasswordClient() {
         setPageState("form");
       } catch {
         setPageState("error");
-        setError(t("errors.generic"));
+        setError("Something went wrong. Please request a new password reset link.");
       }
     }
 
     handleRecovery();
-  }, [t]);
+  }, []);
 
   // Success countdown redirect
   useEffect(() => {
@@ -115,20 +109,20 @@ export function ResetPasswordClient() {
     }, 1000);
 
     const timeout = setTimeout(() => {
-      router.push(localeHref("/login"));
+      router.push("/login");
     }, 5000);
 
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
     };
-  }, [localeHref, pageState, router]);
+  }, [pageState, router]);
 
   const validatePassword = (pw: string) => {
-    if (pw.length < 8) return t("validation.minLength");
-    if (!/[A-Z]/.test(pw)) return t("validation.uppercase");
-    if (!/[a-z]/.test(pw)) return t("validation.lowercase");
-    if (!/[0-9]/.test(pw)) return t("validation.number");
+    if (pw.length < 8) return "Password must be at least 8 characters";
+    if (!/[A-Z]/.test(pw)) return "Password must contain an uppercase letter";
+    if (!/[a-z]/.test(pw)) return "Password must contain a lowercase letter";
+    if (!/[0-9]/.test(pw)) return "Password must contain a number";
     return null;
   };
 
@@ -143,7 +137,7 @@ export function ResetPasswordClient() {
     }
 
     if (password !== confirmPassword) {
-      setError(t("validation.passwordsDoNotMatch"));
+      setError("Passwords do not match");
       return;
     }
 
@@ -152,7 +146,7 @@ export function ResetPasswordClient() {
       await resetPassword(accessToken, password);
       setPageState("success");
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("errors.resetFailed");
+      const msg = err instanceof Error ? err.message : "Failed to reset password. Please try again.";
       setError(msg);
     } finally {
       setLoading(false);
@@ -168,9 +162,9 @@ export function ResetPasswordClient() {
     if (/[0-9]/.test(password)) strength++;
     if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-    if (strength <= 2) return { label: t("strength.weak"), color: "bg-destructive", width: "w-1/3" };
-    if (strength <= 3) return { label: t("strength.fair"), color: "bg-yellow-500", width: "w-2/3" };
-    return { label: t("strength.strong"), color: "bg-success", width: "w-full" };
+    if (strength <= 2) return { label: "Weak", color: "bg-destructive", width: "w-1/3" };
+    if (strength <= 3) return { label: "Fair", color: "bg-yellow-500", width: "w-2/3" };
+    return { label: "Strong", color: "bg-success", width: "w-full" };
   };
 
   const strength = passwordStrength();
@@ -198,7 +192,7 @@ export function ResetPasswordClient() {
                   {images[currentImageIndex].text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden sm:block">
-                  {t("heroDescription")}
+                  Create a strong, secure password for your Medora account.
                 </p>
               </div>
 
@@ -208,7 +202,7 @@ export function ResetPasswordClient() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"}`}
-                    aria-label={t("goToSlide", { number: index + 1 })}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
@@ -220,15 +214,15 @@ export function ResetPasswordClient() {
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
-                  <Image src={medoraDarkLogo} alt={t("logoAlt")} fill className="object-contain dark:hidden" />
-                  <Image src={medoraLightLogo} alt={t("logoAlt")} fill className="hidden object-contain dark:block" />
+                  <Image src={medoraDarkLogo} alt="Medora Logo" fill className="object-contain dark:hidden" />
+                  <Image src={medoraLightLogo} alt="Medora Logo" fill className="hidden object-contain dark:block" />
                 </div>
 
                 {pageState === "loading" && (
                   <>
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Loader2 className="h-5 w-5 animate-spin" />
-                      <span>{t("loading.verifying")}</span>
+                      <span>Verifying your reset link...</span>
                     </div>
                   </>
                 )}
@@ -238,20 +232,20 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-destructive/10 rounded-full flex items-center justify-center">
                       <ShieldAlert className="h-9 w-9 text-destructive" />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">{t("errorState.title")}</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Link Expired</h2>
                     <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
                       <p className="text-sm">{error}</p>
                     </div>
                     <div className="pt-4 space-y-3 w-full">
-                      <Link href={localeHref("/forgot-password")} className="block">
+                      <Link href="/forgot-password" className="block">
                         <Button className="w-full" variant="default">
-                          {t("errorState.requestNewLink")}
+                          Request New Reset Link
                         </Button>
                       </Link>
-                      <Link href={localeHref("/login")} className="block">
+                      <Link href="/login" className="block">
                         <Button className="w-full" variant="outline">
                           <ArrowLeft className="h-4 w-4 mr-2" />
-                          {t("backToSignIn")}
+                          Back to Sign In
                         </Button>
                       </Link>
                     </div>
@@ -263,9 +257,9 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center">
                       <KeyRound className="h-9 w-9 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">{t("formState.title")}</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Set New Password</h2>
                     <p className="text-muted-foreground">
-                      {t("formState.subtitle")}
+                      Choose a strong password to secure your account.
                     </p>
                   </>
                 )}
@@ -275,9 +269,9 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-success/10 rounded-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
                       <CheckCircle2 className="h-9 w-9 text-success" strokeWidth={2.5} />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">{t("successState.title")}</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Password Reset Complete</h2>
                     <p className="text-muted-foreground">
-                      {t("successState.subtitle")}
+                      Your password has been successfully updated.
                     </p>
                   </>
                 )}
@@ -293,12 +287,12 @@ export function ResetPasswordClient() {
 
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-2">
-                      <Label htmlFor="new-password">{t("form.newPassword")}</Label>
+                      <Label htmlFor="new-password">New Password</Label>
                       <div className="relative">
                         <Input
                           id="new-password"
                           type={showPassword ? "text" : "password"}
-                          placeholder={t("form.newPasswordPlaceholder")}
+                          placeholder="Enter new password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           required
@@ -319,19 +313,19 @@ export function ResetPasswordClient() {
                             <div className={`h-full ${strength.color} ${strength.width} rounded-full transition-all duration-300`} />
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            {t("strength.label")}: <span className="font-medium">{strength.label}</span>
+                            Password strength: <span className="font-medium">{strength.label}</span>
                           </p>
                         </div>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="confirm-password">{t("form.confirmPassword")}</Label>
+                      <Label htmlFor="confirm-password">Confirm Password</Label>
                       <div className="relative">
                         <Input
                           id="confirm-password"
                           type={showConfirmPassword ? "text" : "password"}
-                          placeholder={t("form.confirmPasswordPlaceholder")}
+                          placeholder="Confirm new password"
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           required
@@ -347,24 +341,24 @@ export function ResetPasswordClient() {
                         </button>
                       </div>
                       {confirmPassword && password !== confirmPassword && (
-                        <p className="text-xs text-destructive">{t("validation.passwordsDoNotMatch")}</p>
+                        <p className="text-xs text-destructive">Passwords do not match</p>
                       )}
                     </div>
 
                     <div className="rounded-lg bg-accent/50 p-3 space-y-1">
-                      <p className="text-xs font-medium text-foreground">{t("requirements.title")}</p>
+                      <p className="text-xs font-medium text-foreground">Password requirements:</p>
                       <ul className="text-xs text-muted-foreground space-y-0.5">
                         <li className={password.length >= 8 ? "text-success" : ""}>
-                          {password.length >= 8 ? "\u2713" : "\u2022"} {t("requirements.minLength")}
+                          {password.length >= 8 ? "\u2713" : "\u2022"} At least 8 characters
                         </li>
                         <li className={/[A-Z]/.test(password) ? "text-success" : ""}>
-                          {/[A-Z]/.test(password) ? "\u2713" : "\u2022"} {t("requirements.uppercase")}
+                          {/[A-Z]/.test(password) ? "\u2713" : "\u2022"} One uppercase letter
                         </li>
                         <li className={/[a-z]/.test(password) ? "text-success" : ""}>
-                          {/[a-z]/.test(password) ? "\u2713" : "\u2022"} {t("requirements.lowercase")}
+                          {/[a-z]/.test(password) ? "\u2713" : "\u2022"} One lowercase letter
                         </li>
                         <li className={/[0-9]/.test(password) ? "text-success" : ""}>
-                          {/[0-9]/.test(password) ? "\u2713" : "\u2022"} {t("requirements.number")}
+                          {/[0-9]/.test(password) ? "\u2713" : "\u2022"} One number
                         </li>
                       </ul>
                     </div>
@@ -373,18 +367,18 @@ export function ResetPasswordClient() {
                       {loading ? (
                         <>
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          {t("form.resetting")}
+                          Resetting Password...
                         </>
                       ) : (
-                        t("form.submit")
+                        "Reset Password"
                       )}
                     </Button>
                   </form>
 
                   <div className="text-center text-sm text-foreground">
-                    <Link href={localeHref("/login")} className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
+                    <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
                       <ArrowLeft size={16} />
-                      {t("backToSignIn")}
+                      Back to Sign In
                     </Link>
                   </div>
                 </>
@@ -395,21 +389,21 @@ export function ResetPasswordClient() {
                   <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 shrink-0" />
                     <div className="flex-1">
-                      <p className="text-sm font-medium">{t("successState.updatedTitle")}</p>
+                      <p className="text-sm font-medium">Password Updated!</p>
                       <p className="text-xs text-success-muted/80 mt-1">
-                        {t("successState.updatedDescription")}
+                        You can now sign in with your new password
                       </p>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground text-center">
-                    {t("successState.redirectingPrefix")} <span className="font-semibold text-primary">{countdown}</span>{" "}
-                    {countdown === 1 ? t("successState.second") : t("successState.seconds")}...
+                    Redirecting to login in <span className="font-semibold text-primary">{countdown}</span>{" "}
+                    {countdown === 1 ? "second" : "seconds"}...
                   </p>
 
-                  <Link href={localeHref("/login")} className="block">
+                  <Link href="/login" className="block">
                     <Button className="w-full" variant="medical" size="lg">
-                      {t("successState.continueToLogin")}
+                      Continue to Login
                     </Button>
                   </Link>
                 </div>

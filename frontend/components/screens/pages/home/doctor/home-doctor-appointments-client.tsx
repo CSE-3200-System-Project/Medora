@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Download, CalendarDays } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 import { AppointmentCalendar } from "@/components/doctor/doctor-appointments/AppointmentCalendar";
 import { AppointmentDensityChart } from "@/components/doctor/doctor-appointments/AppointmentDensityChart";
@@ -20,9 +19,8 @@ import { fetchWithAuth } from "@/lib/auth-utils";
 import { localDateKey } from "@/lib/utils";
 
 export default function DoctorAppointmentsPage() {
-  const t = useTranslations("doctorAppointmentsPage");
   const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
-  const [doctorName, setDoctorName] = React.useState(t("fallback.doctorName"));
+  const [doctorName, setDoctorName] = React.useState("Doctor");
   const [loading, setLoading] = React.useState(true);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedAppointment, setSelectedAppointment] = React.useState<DoctorAppointment | null>(null);
@@ -62,7 +60,7 @@ export default function DoctorAppointmentsPage() {
       const normalized = (Array.isArray(data) ? data : []).map(normalizeAppointment).filter(Boolean) as DoctorAppointment[];
       setAppointments(uniqueById(normalized));
     } catch {
-      setActionError(t("errors.loadFailed"));
+      setActionError("Failed to load appointments. Please refresh and try again.");
     } finally {
       setLoading(false);
     }
@@ -120,28 +118,28 @@ export default function DoctorAppointmentsPage() {
 
     return [
       {
-        title: t("metrics.totalBookings"),
+        title: "Total Bookings",
         value: totalBookings.toLocaleString(),
         trend: formatPercentDelta(totalBookings, previousBookings),
         trendUp: totalBookings >= previousBookings,
         accentClass: "bg-primary/10 text-primary",
       },
       {
-        title: t("metrics.newPatients"),
+        title: "New Patients",
         value: uniquePatients.toLocaleString(),
         trend: formatPercentDelta(uniquePatients, previousUniquePatients),
         trendUp: uniquePatients >= previousUniquePatients,
         accentClass: "bg-primary-more-light text-primary",
       },
       {
-        title: t("metrics.avgWaitTime"),
-        value: avgWait === null ? t("fallback.notAvailable") : t("units.minutes", { value: avgWait }),
+        title: "Avg Wait Time",
+        value: avgWait === null ? "N/A" : `${avgWait} min`,
         trend: avgWait === null ? "0%" : formatPercentDelta(avgWait, previousAvgWait ?? avgWait),
         trendUp: avgWait !== null && previousAvgWait !== null ? avgWait <= previousAvgWait : true,
         accentClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
       },
       {
-        title: t("metrics.reschedules"),
+        title: "Reschedules",
         value: `${rescheduleRate.toFixed(1)}%`,
         trend: formatPercentDelta(rescheduleRate, previousRescheduleRate),
         trendUp: rescheduleRate <= previousRescheduleRate,
@@ -151,15 +149,7 @@ export default function DoctorAppointmentsPage() {
   }, [appointments]);
 
   const workloadData = React.useMemo(() => {
-    const labels = [
-      t("weekdays.mon"),
-      t("weekdays.tue"),
-      t("weekdays.wed"),
-      t("weekdays.thu"),
-      t("weekdays.fri"),
-      t("weekdays.sat"),
-      t("weekdays.sun"),
-    ];
+    const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const counts = [0, 0, 0, 0, 0, 0, 0];
 
     appointments.forEach((item) => {
@@ -177,7 +167,7 @@ export default function DoctorAppointmentsPage() {
 
   const workloadAverageLabel = React.useMemo(() => {
     const total = workloadData.reduce((sum, item) => sum + item.patients, 0);
-    return t("labels.averagePerDay", { value: (total / 7).toFixed(1) });
+    return `Avg: ${(total / 7).toFixed(1)}/day`;
   }, [workloadData]);
 
   const densityData = React.useMemo(() => {
@@ -233,7 +223,7 @@ export default function DoctorAppointmentsPage() {
       return date >= previousWeekStart && date < previousWeekEnd;
     }).length;
 
-    return t("labels.vsLastWeek", { value: formatPercentDelta(currentWeekCount, previousWeekCount) });
+    return `${formatPercentDelta(currentWeekCount, previousWeekCount)} vs last week`;
   }, [appointments]);
 
   const handleStatusUpdate = async (id: string, status: DoctorAppointment["status"]) => {
@@ -245,7 +235,7 @@ export default function DoctorAppointmentsPage() {
       await updateAppointment(id, { status });
     } catch {
       setAppointments(previous);
-      setActionError(t("errors.updateStatusFailed"));
+      setActionError("Could not update appointment status. Please try again.");
     }
   };
 
@@ -280,7 +270,7 @@ export default function DoctorAppointmentsPage() {
       await requestRescheduleAppointment(id, rescheduledDate.toISOString());
     } catch (error) {
       setAppointments(previous);
-      const errorMessage = error instanceof Error ? error.message : t("errors.rescheduleFailed");
+      const errorMessage = error instanceof Error ? error.message : "Could not reschedule this appointment";
       setActionError(errorMessage);
     }
   };
@@ -289,9 +279,9 @@ export default function DoctorAppointmentsPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="mx-auto max-w-7xl px-4 pb-10 pt-(--nav-content-offset) sm:px-6 lg:px-8">
+        <main className="mx-auto max-w-7xl px-4 pb-10 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
           <div className="flex items-center justify-center py-24">
-            <MedoraLoader size="lg" label={t("loading")} />
+            <MedoraLoader size="lg" label="Loading schedule dashboard..." />
           </div>
         </main>
       </AppBackground>
@@ -301,22 +291,22 @@ export default function DoctorAppointmentsPage() {
   return (
     <AppBackground>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-4 pb-10 pt-(--nav-content-offset) sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="space-y-6">
           <section className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">{t("overviewLabel")}</p>
-              <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{t("title")}</h1>
-              <p className="mt-2 text-sm text-muted-foreground">{t("subtitle", { doctorName })}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">Dashboard Overview</p>
+              <h1 className="mt-1 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Schedule Performance</h1>
+              <p className="mt-2 text-sm text-muted-foreground">Good morning, Dr. {doctorName}. Here&apos;s your clinic activity for today.</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" className="h-11">
                 <CalendarDays className="h-4 w-4" />
-                {t("actions.thisWeek")}
+                This Week
               </Button>
               <Button className="h-11">
                 <Download className="h-4 w-4" />
-                {t("actions.exportReport")}
+                Export Report
               </Button>
             </div>
           </section>

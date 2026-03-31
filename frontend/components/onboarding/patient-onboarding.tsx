@@ -21,8 +21,6 @@ import { MedoraLoader } from "@/components/ui/medora-loader"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
 import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
 import { useRouter } from "next/navigation"
-import { useLocale } from "next-intl"
-import { withLocale, type AppLocale } from "@/lib/locale-path"
 
 const STEPS = [
   { id: 1, title: "Personal Identity", shortName: "Identity" },
@@ -74,19 +72,12 @@ interface MedicalTest {
   document_url: string
 }
 
-type PatientOnboardingProps = {
-  adminPatientId?: string
-  onCompleteRedirectHref?: string
-}
-
-export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: PatientOnboardingProps = {}) {
+export function PatientOnboarding() {
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
   const [showSkipDialog, setShowSkipDialog] = useState(false)
   const router = useRouter()
-  const locale = useLocale()
-  const isAdminEdit = Boolean(adminPatientId)
   const [formData, setFormData] = useState({
     // Step 1 - Personal Identity
     firstName: "",
@@ -196,15 +187,7 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
   useEffect(() => {
     async function fetchExistingData() {
       try {
-        let data: any = null
-        if (isAdminEdit && adminPatientId) {
-          const response = await fetch(`/api/admin/patients/${adminPatientId}`, { cache: "no-store" })
-          if (response.ok) {
-            data = await response.json()
-          }
-        } else {
-          data = await getPatientOnboardingData()
-        }
+        const data = await getPatientOnboardingData()
         if (data) {
           setFormData(prev => ({
             ...prev,
@@ -328,23 +311,7 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
     }
     
     fetchExistingData()
-  }, [adminPatientId, isAdminEdit])
-
-  const saveOnboarding = async (payload: Record<string, any>) => {
-    if (isAdminEdit && adminPatientId) {
-      const response = await fetch(`/api/admin/patients/${adminPatientId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
-      if (!response.ok) {
-        throw new Error("Failed to save patient profile")
-      }
-      return
-    }
-
-    await updatePatientOnboarding(payload)
-  }
+  }, [])
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -508,7 +475,7 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
   const nextStep = async () => {
     if (currentStep < STEPS.length) {
       try {
-        await saveOnboarding(preparePayload())
+        await updatePatientOnboarding(preparePayload())
         setCurrentStep((prev) => prev + 1)
         window.scrollTo(0, 0)
       } catch (error) {
@@ -517,14 +484,9 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
     } else {
       setLoading(true)
       try {
-        await saveOnboarding(preparePayload())
-        if (!isAdminEdit) {
-          await completeOnboarding()
-          router.push("/patient/home")
-        } else {
-          const fallbackHref = withLocale(`/admin/patients/${adminPatientId}/profile`, locale as AppLocale)
-          router.push(onCompleteRedirectHref || fallbackHref)
-        }
+        await updatePatientOnboarding(preparePayload())
+        await completeOnboarding()
+        router.push("/patient/home")
       } catch (error) {
         console.error("Failed to complete onboarding", error)
       } finally {
@@ -543,12 +505,6 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
   const handleSkipOnboarding = async () => {
     setLoading(true)
     try {
-      if (isAdminEdit && adminPatientId) {
-        const fallbackHref = withLocale(`/admin/patients/${adminPatientId}/profile`, locale as AppLocale)
-        router.push(onCompleteRedirectHref || fallbackHref)
-        return
-      }
-
       // Skip onboarding WITHOUT marking it as completed
       // User can return later to complete their profile
       // Mark skip so middleware allows access to protected routes, but keep the banner showing
@@ -582,7 +538,7 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
         return med
       })
 
-      await saveOnboarding({
+      await updatePatientOnboarding({
         taking_meds: medications.length > 0 ? "yes" : "no",
         medications: backendMedications
       })
@@ -1521,7 +1477,7 @@ export function PatientOnboarding({ adminPatientId, onCompleteRedirectHref }: Pa
 
         {/* Skip Onboarding Confirmation Dialog */}
         {showSkipDialog && (
-          <div className="fixed inset-0 z-60 flex items-end justify-center bg-black/50 p-4 sm:items-center">
+          <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 p-4 sm:items-center">
             <Card className="max-h-[90dvh] w-full max-w-md overflow-y-auto">
               <CardHeader>
                 <CardTitle>Skip Onboarding?</CardTitle>

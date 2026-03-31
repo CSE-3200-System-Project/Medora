@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { CalendarCheck, ShieldPlus } from "lucide-react"
-import { getLocale, getTranslations } from "next-intl/server"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -12,8 +11,6 @@ import {
   MedicationTrendChart,
 } from "@/components/dashboard"
 import { getPatientDashboard } from "@/lib/patient-dashboard-actions"
-import { withLocale } from "@/lib/locale-path"
-import type { AppLocale } from "@/i18n/routing"
 
 const iconNameByStatLabel: Record<string, string> = {
   "Steps Today": "Footprints",
@@ -55,10 +52,6 @@ function formatSyncLabel(value: string) {
 }
 
 export async function PatientHomeDashboard() {
-  const locale = (await getLocale()) as AppLocale
-  const t = await getTranslations("patientDashboard")
-  const localeHref = (path: string) => withLocale(path, locale)
-
   let dashboard: Awaited<ReturnType<typeof getPatientDashboard>> | null = null
 
   try {
@@ -76,11 +69,11 @@ export async function PatientHomeDashboard() {
 
   const appointments = (dashboard?.upcoming_appointments ?? []).map((item) => ({
     doctorName: item.doctor_name,
-    specialty: item.specialty || t("defaults.generalConsultation"),
+    specialty: item.specialty || "General Consultation",
     dateTime: formatAppointmentDate(item.appointment_date),
-    location: t("defaults.medoraConsultation"),
+    location: "Medora Consultation",
     status: item.status,
-    actionLabel: item.status.toUpperCase() === "CONFIRMED" ? t("actions.joinVisit") : t("actions.manage"),
+    actionLabel: item.status.toUpperCase() === "CONFIRMED" ? "Join Visit" : "Manage",
     actionVariant: item.status.toUpperCase() === "CONFIRMED" ? ("default" as const) : ("outline" as const),
   }))
 
@@ -100,40 +93,40 @@ export async function PatientHomeDashboard() {
   }))
 
   const healthScore = dashboard?.health_score ?? 0
-  const scoreStatus = healthScore >= 80 ? t("score.excellent") : healthScore >= 60 ? t("score.improving") : t("score.needsAttention")
-  const activityLabel = healthScore >= 75 ? t("score.activityHigh") : healthScore >= 50 ? t("score.activityModerate") : t("score.activityLow")
-  const nutritionLabel = healthScore >= 70 ? t("score.nutritionBalanced") : t("score.nutritionNeedsReview")
+  const scoreStatus = healthScore >= 80 ? "Excellent" : healthScore >= 60 ? "Improving" : "Needs Attention"
+  const activityLabel = healthScore >= 75 ? "High" : healthScore >= 50 ? "Moderate" : "Low"
+  const nutritionLabel = healthScore >= 70 ? "Balanced" : "Needs Review"
 
   return (
     <main className="mx-auto w-full max-w-360 px-4 pb-10 pt-6 sm:px-6 lg:px-8 lg:pt-8">
       <section className="mb-6 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {t("title")}
+            Patient Health Overview
           </h1>
           <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-            {t("greeting", { name: dashboard?.user_name || t("defaultUser") })}
+            Good day, {dashboard?.user_name || "Patient"}. Here&apos;s your live summary for today.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="outline" className="min-w-37.5" asChild>
-            <Link href={localeHref("/patient/find-doctor")}>
+            <Link href="/patient/find-doctor">
               <CalendarCheck className="h-4 w-4" />
-              {t("actions.scheduleVisit")}
+              Schedule Visit
             </Link>
           </Button>
           <Button className="min-w-37.5" asChild>
-            <Link href={localeHref("/patient/analytics")}>
+            <Link href="/analytics">
               <ShieldPlus className="h-4 w-4" />
-              {t("actions.healthReport")}
+              Health Report
             </Link>
           </Button>
         </div>
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <Link href={localeHref("/patient/analytics")} className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
+        <Link href="/analytics" className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
           <HealthScoreCard
             score={healthScore}
             maxScore={100}
@@ -143,7 +136,7 @@ export async function PatientHomeDashboard() {
           />
         </Link>
 
-        <Link href={localeHref("/patient/analytics")} className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
+        <Link href="/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
           <MedicationTrendChart
             values={medicationTrend.values}
             labels={medicationTrend.labels}
@@ -154,20 +147,20 @@ export async function PatientHomeDashboard() {
 
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-foreground">{t("sections.upcomingAppointments")}</h2>
-            <Link href={localeHref("/patient/appointments")} className="text-sm font-semibold text-primary hover:text-primary/80">
-              {t("sections.seeAll")}
+            <h2 className="text-2xl font-semibold text-foreground">Upcoming Appointments</h2>
+            <Link href="/patient/appointments" className="text-sm font-semibold text-primary hover:text-primary/80">
+              See all
             </Link>
           </div>
           <div className="space-y-4">
             {(appointments.length > 0 ? appointments : [
               {
-                doctorName: t("empty.noUpcomingAppointments"),
-                specialty: t("empty.scheduleIsClear"),
+                doctorName: "No upcoming appointments",
+                specialty: "Your schedule is clear",
                 dateTime: "-",
                 location: "-",
                 status: "",
-                actionLabel: t("actions.bookNow"),
+                actionLabel: "Book Now",
                 actionVariant: "outline" as const,
               },
             ]).map((appointment) => (
@@ -178,17 +171,17 @@ export async function PatientHomeDashboard() {
 
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-foreground">{t("sections.aiHealthInsights")}</h2>
-            <Link href={localeHref("/patient/analytics")} className="text-sm font-semibold text-primary hover:text-primary/80">
-              {t("sections.fullAnalytics")}
+            <h2 className="text-2xl font-semibold text-foreground">AI Health Insights</h2>
+            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+              Full Analytics
             </Link>
           </div>
           <div className="space-y-4">
             {(insights.length > 0 ? insights : [
               {
                 iconName: "Pill",
-                title: t("empty.noInsightsYet"),
-                description: t("empty.noInsightsDescription"),
+                title: "No insights yet",
+                description: "Start logging health metrics and reminders to unlock personalized insights.",
                 tone: "info" as const,
               },
             ]).map((insight) => (
@@ -199,9 +192,9 @@ export async function PatientHomeDashboard() {
 
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-foreground">{t("sections.quickHealthStats")}</h2>
-            <Link href={localeHref("/patient/analytics")} className="text-sm font-semibold text-primary hover:text-primary/80">
-              {t("sections.viewDetails")}
+            <h2 className="text-2xl font-semibold text-foreground">Quick Health Stats</h2>
+            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+              View Details
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -209,7 +202,7 @@ export async function PatientHomeDashboard() {
               {
                 iconName: "Footprints",
                 value: "N/A",
-                label: t("defaults.stepsToday"),
+                label: "Steps Today",
                 trend: "-",
                 trendType: "neutral" as const,
               },
@@ -220,11 +213,11 @@ export async function PatientHomeDashboard() {
 
           <div className="mt-4">
             <DeviceConnectionCard
-              title={dashboard?.device_connection_status.title || t("defaults.healthDeviceSync")}
+              title={dashboard?.device_connection_status.title || "Health Device Sync"}
               lastSynced={
                 dashboard?.device_connection_status.last_synced
                   ? formatSyncLabel(dashboard.device_connection_status.last_synced)
-                  : t("defaults.noSyncYet")
+                  : "No sync yet"
               }
             />
           </div>

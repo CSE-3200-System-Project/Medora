@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Noto_Sans_Bengali } from "next/font/google";
-import { cookies } from "next/headers";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { ToastProvider } from "@/components/ui/toast-provider";
 import { PWARegistration } from "@/components/pwa-registration";
 import { MobileViewportFix } from "@/components/ui/mobile-viewport-fix";
 
@@ -17,12 +16,6 @@ const sfProDisplay = localFont({
     { path: "./fonts/SFPRODISPLAYBOLD.otf", weight: "700", style: "normal" },
   ],
   variable: "--sf-pro-display",
-  display: "swap",
-});
-
-const notoSansBengali = Noto_Sans_Bengali({
-  subsets: ["bengali"],
-  variable: "--font-bn-sans",
   display: "swap",
 });
 
@@ -53,20 +46,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const locale = cookieStore.get("NEXT_LOCALE")?.value === "bn" ? "bn" : "en";
-
   return (
-    <html
-      lang={locale}
-      className={`${sfProDisplay.variable} ${notoSansBengali.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={sfProDisplay.variable} suppressHydrationWarning>
       <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
         <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -75,6 +61,7 @@ export default async function RootLayout({
               {children}
             </div>
           </SmoothScrollProvider>
+          <ToastProvider />
         </ThemeProvider>
         <PWARegistration />
       </body>

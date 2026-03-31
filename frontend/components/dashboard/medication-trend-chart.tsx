@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { useMemo } from "react"
 import type { EChartsOption } from "echarts"
 import { useTheme } from "next-themes"
-import { useTranslations } from "next-intl"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -24,7 +23,6 @@ export function MedicationTrendChart({
   adherenceRate,
   deltaPercent,
 }: MedicationTrendChartProps) {
-  const t = useTranslations("patientDashboard.medicationTrendChart")
   const { resolvedTheme } = useTheme()
 
   const chartOption = useMemo<EChartsOption>(() => {
@@ -102,8 +100,8 @@ export function MedicationTrendChart({
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <CardTitle className="text-xl text-foreground">{t("title")}</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">{t("subtitle")}</p>
+              <CardTitle className="text-xl text-foreground">Medication Trend</CardTitle>
+              <p className="mt-1 text-sm text-muted-foreground">Last 7 days adherence</p>
             </div>
             <div className="text-right">
               <p className="text-3xl font-bold text-primary">{adherenceRate}%</p>

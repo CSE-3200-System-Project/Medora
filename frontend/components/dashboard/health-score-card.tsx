@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react"
 import { useMemo } from "react"
 import type { EChartsOption } from "echarts"
 import { useTheme } from "next-themes"
-import { useTranslations } from "next-intl"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,7 +27,6 @@ export function HealthScoreCard({
   nutritionLabel,
   statusLabel,
 }: HealthScoreCardProps) {
-  const t = useTranslations("patientDashboard.healthScoreCard")
   const { resolvedTheme } = useTheme()
 
   const gaugeOption = useMemo<EChartsOption>(() => {
@@ -95,7 +93,7 @@ export function HealthScoreCard({
     >
       <Card className="h-full border-border/70 bg-card/95 shadow-sm">
         <CardHeader className="pb-1">
-          <CardTitle className="text-xl text-foreground">{t("title")}</CardTitle>
+          <CardTitle className="text-xl text-foreground">Overall Health Score</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-[190px_1fr]">
@@ -110,17 +108,17 @@ export function HealthScoreCard({
 
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                {t("description.prefix")} <span className="font-semibold text-success-muted">+5%</span>{" "}
-                {t("description.suffix")}
+                Your health score has improved by <span className="font-semibold text-success-muted">+5%</span>{" "}
+                since last month. Keep up the good work.
               </p>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{t("activity")}</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Activity</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{activityLabel}</p>
                 </div>
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{t("nutrition")}</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Nutrition</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{nutritionLabel}</p>
                 </div>
               </div>
@@ -133,7 +131,7 @@ export function HealthScoreCard({
                   type="button"
                   className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                 >
-                  {t("viewDetails")}
+                  View details
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
