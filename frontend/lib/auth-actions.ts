@@ -65,7 +65,22 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.detail || "Login failed");
+      const detail = errorData?.detail;
+      const isBanned = typeof detail === "object" && detail?.code === "ACCOUNT_BANNED";
+      if (response.status === 403 && isBanned) {
+        const cookieStore = await cookies();
+        const blockedCookieOptions = getMetadataCookieOptions(SHORT_SESSION_MAX_AGE_SECONDS);
+        cookieStore.set("account_blocked_reason", String(detail?.reason || "No reason provided"), blockedCookieOptions);
+        cookieStore.set("account_blocked_message", String(detail?.message || "Account suspended"), blockedCookieOptions);
+        cookieStore.delete("session_token");
+        cookieStore.delete("user_role");
+        cookieStore.delete("onboarding_completed");
+        cookieStore.delete("verification_status");
+        redirect("/account-blocked");
+      }
+
+      const message = typeof detail === "string" ? detail : detail?.message;
+      throw new Error(message || "Login failed");
     }
 
     const data = await response.json();
@@ -89,6 +104,8 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     cookieStore.set("onboarding_completed", String(profile?.onboarding_completed || false), metadataCookieOptions);
     cookieStore.set("verification_status", verificationStatus, metadataCookieOptions);
     cookieStore.set("remember_me", rememberMe ? "true" : "false", metadataCookieOptions);
+    cookieStore.delete("account_blocked_reason");
+    cookieStore.delete("account_blocked_message");
     
     // Check email verification FIRST
     if (!data.user.email_confirmed_at) {
@@ -421,6 +438,8 @@ export async function signout() {
     cookieStore.delete("verification_status");
     cookieStore.delete("admin_access");
     cookieStore.delete("remember_me");
+    cookieStore.delete("account_blocked_reason");
+    cookieStore.delete("account_blocked_message");
   } catch (error) {
     console.error(error);
   }
@@ -446,6 +465,19 @@ export async function getCurrentUser() {
     });
 
     if (!response.ok) {
+      if (response.status === 403) {
+        try {
+          const errorData = await response.json();
+          const detail = errorData?.detail;
+          if (typeof detail === "object" && detail?.code === "ACCOUNT_BANNED") {
+            const blockedCookieOptions = getMetadataCookieOptions(SHORT_SESSION_MAX_AGE_SECONDS);
+            cookieStore.set("account_blocked_reason", String(detail?.reason || "No reason provided"), blockedCookieOptions);
+            cookieStore.set("account_blocked_message", String(detail?.message || "Account suspended"), blockedCookieOptions);
+          }
+        } catch {
+          // Ignore parse failures and fall through to null.
+        }
+      }
       return null;
     }
 
