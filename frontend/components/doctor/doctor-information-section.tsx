@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,6 @@ interface DoctorInformationSectionProps {
 }
 
 export function DoctorInformationSection({ doctor }: DoctorInformationSectionProps) {
-  const t = useTranslations("doctorInformation");
   const [showAllServices, setShowAllServices] = React.useState(false);
 
   const buildDirectionsUrl = (location: any) => {
@@ -85,7 +83,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
               <div className="inline-flex items-center gap-2 bg-background/80 rounded-lg px-3 py-2 border border-border/50">
                 <Award className="h-5 w-5 text-primary" />
                 <span className="text-lg font-semibold text-foreground">
-                  {doctor.speciality_name || doctor.specialization || t("generalPhysician")}
+                  {doctor.speciality_name || doctor.specialization || "General Physician"}
                 </span>
               </div>
 
@@ -95,7 +93,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                   <div className="flex items-center gap-2 bg-background/80 rounded-lg px-3 py-1.5 border border-border/50">
                     <Briefcase className="h-4 w-4 text-primary" />
                     <span className="text-sm font-medium text-foreground">
-                      {t("yearsOfExperience", { years: doctor.years_of_experience })}
+                      {doctor.years_of_experience} Years of Experience Overall
                     </span>
                   </div>
                 )}
@@ -103,18 +101,18 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 {doctor.bmdc_verified ? (
                   <Badge variant="default" className="bg-success text-primary-foreground font-semibold">
                     <CheckCircle2 className="h-3 w-3 mr-1" />
-                    {t("bmdcVerified")}
+                    BMDC Verified
                   </Badge>
                 ) : (
                   <Badge variant="destructive" className="font-semibold">
                     <AlertCircle className="h-3 w-3 mr-1" />
-                    {t("bmdcComingSoon")}
+                    BMDC Reg.: Coming Soon
                   </Badge>
                 )}
 
                 {doctor.bmdc_number && (
                   <span className="text-sm font-semibold text-foreground bg-background/80 rounded-lg px-3 py-1.5 border border-border/50">
-                    {t("id", { value: doctor.bmdc_number })}
+                    ID: {doctor.bmdc_number}
                   </span>
                 )}
               </div>
@@ -127,7 +125,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
       {doctor.about && (
         <Card className="rounded-2xl shadow-md border-primary/10 bg-linear-to-br from-background to-accent/20 dark:from-card dark:to-card">
           <CardHeader className="border-b border-primary/10">
-            <h2 className="text-xl font-bold text-foreground">{t("aboutDoctor", { name: doctor.last_name || "" })}</h2>
+            <h2 className="text-xl font-bold text-foreground">About Dr. {doctor.last_name}</h2>
           </CardHeader>
           <CardContent className="pt-6">
             <p className="text-foreground leading-relaxed whitespace-pre-line font-medium">
@@ -143,7 +141,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
           <CardHeader className="border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <MapPin className="h-5 w-5 text-primary" />
-              {t("practiceLocations")}
+              Practice Locations
             </h2>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
@@ -153,7 +151,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                   <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div className="flex-1">
                     <span className="inline-block bg-primary text-primary-foreground text-xs font-semibold px-2 py-0.5 rounded mb-2">
-                      {index === 0 ? t("primaryHospital") : t("chamber", { index })}
+                      {index === 0 ? "Primary Hospital" : `Chamber ${index}`}
                     </span>
                     <h3 className="font-bold text-foreground text-lg mb-1">
                       {location.name}
@@ -177,7 +175,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 >
                   <a href={buildDirectionsUrl(location)} target="_blank" rel="noopener noreferrer">
                   <MapPin className="h-4 w-4 mr-2" />
-                  {t("getDirection")}
+                  Get Direction
                   </a>
                 </Button>
               </div>
@@ -191,7 +189,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
         <Card className="rounded-2xl shadow-md border-primary/10 bg-linear-to-br from-background to-accent/20 dark:from-card dark:to-card">
           <CardHeader className="border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground">
-              {t("servesFor")}
+              Serves for:
             </h2>
           </CardHeader>
           <CardContent className="pt-6">
@@ -212,7 +210,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
                 className="text-primary mt-3 px-0 font-bold hover:underline"
                 onClick={() => setShowAllServices(!showAllServices)}
               >
-                {showAllServices ? t("viewLess") : t("viewMore")}
+                {showAllServices ? "View less" : "View more"}
               </Button>
             )}
           </CardContent>
@@ -225,7 +223,7 @@ export function DoctorInformationSection({ doctor }: DoctorInformationSectionPro
           <CardHeader className="bg-accent/20 border-b border-primary/10">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <Award className="h-5 w-5 text-primary" />
-              {t("fieldOfConcentration")}
+              Field of Concentration
             </h2>
           </CardHeader>
           <CardContent className="pt-6">

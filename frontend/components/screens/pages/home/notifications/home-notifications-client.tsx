@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -107,18 +106,17 @@ const notificationColors: Record<NotificationType, string> = {
 
 type FilterType = 'all' | 'unread' | 'read';
 
-function formatTimeAgo(dateString: string, locale: string, t: ReturnType<typeof useTranslations>): string {
+function formatTimeAgo(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  const dateLocale = locale === "bn" ? "bn-BD" : "en-US";
 
-  if (diffInSeconds < 60) return t("time.justNow");
-  if (diffInSeconds < 3600) return t("time.minutesAgo", { count: Math.floor(diffInSeconds / 60) });
-  if (diffInSeconds < 86400) return t("time.hoursAgo", { count: Math.floor(diffInSeconds / 3600) });
-  if (diffInSeconds < 604800) return t("time.daysAgo", { count: Math.floor(diffInSeconds / 86400) });
+  if (diffInSeconds < 60) return "Just now";
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
   
-  return date.toLocaleDateString(dateLocale, { 
+  return date.toLocaleDateString("en-US", { 
     month: "short", 
     day: "numeric",
     year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined
@@ -126,8 +124,6 @@ function formatTimeAgo(dateString: string, locale: string, t: ReturnType<typeof 
 }
 
 export default function NotificationsPage() {
-  const t = useTranslations("notificationsPage");
-  const locale = useLocale();
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
@@ -202,19 +198,19 @@ export default function NotificationsPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset)">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
               <Bell className="w-7 h-7 text-primary" />
-              {t("title")}
+              Notifications
             </h1>
             <p className="text-muted-foreground mt-1">
               {unreadCount > 0 ? (
-                <span>{t("youHave")} <span className="font-semibold text-primary">{unreadCount}</span> {t("unreadNotifications")}</span>
+                <span>You have <span className="font-semibold text-primary">{unreadCount}</span> unread notifications</span>
               ) : (
-                t("allCaughtUp")
+                "All caught up!"
               )}
             </p>
           </div>
@@ -227,7 +223,7 @@ export default function NotificationsPage() {
               className="text-primary border-primary hover:bg-primary/10"
             >
               <CheckCheck className="w-4 h-4 mr-2" />
-              {t("markAllRead")}
+              Mark all as read
             </Button>
           )}
         </div>
@@ -239,7 +235,7 @@ export default function NotificationsPage() {
             variant={filter === 'all' ? 'default' : 'outline'}
             onClick={() => { setFilter('all'); setPage(0); }}
           >
-            {t("filters.all")}
+            All
           </Button>
           <Button
             size="sm"
@@ -247,14 +243,14 @@ export default function NotificationsPage() {
             onClick={() => { setFilter('unread'); setPage(0); }}
             className={cn(filter === 'unread' && "bg-primary")}
           >
-            {t("filters.unread")} {unreadCount > 0 && `(${unreadCount})`}
+            Unread {unreadCount > 0 && `(${unreadCount})`}
           </Button>
           <Button
             size="sm"
             variant={filter === 'read' ? 'default' : 'outline'}
             onClick={() => { setFilter('read'); setPage(0); }}
           >
-            {t("filters.read")}
+            Read
           </Button>
         </div>
 
@@ -268,9 +264,9 @@ export default function NotificationsPage() {
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
                 <Bell className="h-12 w-12 mb-3 opacity-50" />
-                <p className="text-lg font-medium">{t("empty.title")}</p>
+                <p className="text-lg font-medium">No notifications</p>
                 <p className="text-sm">
-                  {filter === 'unread' ? t("empty.caughtUp") : t("empty.noNotifications")}
+                  {filter === 'unread' ? "You're all caught up!" : "No notifications to show"}
                 </p>
               </div>
             ) : (
@@ -315,7 +311,7 @@ export default function NotificationsPage() {
                         
                         <div className="flex items-center justify-between mt-2">
                           <p className="text-xs text-muted-foreground">
-                            {formatTimeAgo(notification.created_at, locale, t)}
+                            {formatTimeAgo(notification.created_at)}
                           </p>
                           
                           <Button
@@ -346,10 +342,10 @@ export default function NotificationsPage() {
               disabled={page === 0}
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              {t("pagination.previous")}
+              Previous
             </Button>
             <span className="text-sm text-muted-foreground px-4">
-              {t("pagination.pageOf", { page: page + 1, total: totalPages })}
+              Page {page + 1} of {totalPages}
             </span>
             <Button
               variant="outline"
@@ -357,7 +353,7 @@ export default function NotificationsPage() {
               onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
               disabled={page >= totalPages - 1}
             >
-              {t("pagination.next")}
+              Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
           </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, AlertCircle, Info, CheckCircle2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -29,24 +28,7 @@ export function ConfirmationDialog({
   variant = 'danger',
   isLoading = false,
 }: ConfirmationDialogProps) {
-  const [isMounted, setIsMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  React.useEffect(() => {
-    if (!isOpen || !isMounted) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [isOpen, isMounted]);
-
-  if (!isOpen || !isMounted) return null;
+  if (!isOpen) return null;
 
   const variantConfig = {
     danger: {
@@ -78,45 +60,59 @@ export function ConfirmationDialog({
   const config = variantConfig[variant];
   const Icon = config.icon;
 
-  return createPortal(
-    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4">
-      <button
-        type="button"
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
-        aria-label={title}
       />
-
-      <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      
+      {/* Dialog */}
+      <div className="relative bg-card text-card-foreground border border-border rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
+        {/* Close button */}
         <button
-          type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-muted-foreground transition-colors hover:text-foreground"
-          aria-label={cancelText}
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
         >
-          <X className="h-5 w-5" />
+          <X className="w-5 h-5" />
         </button>
 
-        <div className={cn("mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full", config.iconBg)}>
-          <Icon className={cn("h-6 w-6", config.iconColor)} />
+        {/* Icon */}
+        <div className={cn("w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4", config.iconBg)}>
+          <Icon className={cn("w-6 h-6", config.iconColor)} />
         </div>
 
-        <div className="mb-6 text-center">
-          <h3 className="mb-2 text-lg font-semibold text-foreground">{title}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
+        {/* Content */}
+        <div className="text-center mb-6">
+          <h3 className="text-lg font-semibold text-foreground mb-2">
+            {title}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {description}
+          </p>
         </div>
 
+        {/* Actions */}
         <div className="flex gap-3">
-          <Button variant="outline" onClick={onClose} className="flex-1" disabled={isLoading}>
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="flex-1"
+            disabled={isLoading}
+          >
             {cancelText}
           </Button>
-          <Button onClick={onConfirm} className={cn("flex-1", config.buttonClass)} disabled={isLoading}>
+          <Button
+            onClick={onConfirm}
+            className={cn("flex-1", config.buttonClass)}
+            disabled={isLoading}
+          >
             {isLoading ? "Processing..." : confirmText}
           </Button>
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 }
 

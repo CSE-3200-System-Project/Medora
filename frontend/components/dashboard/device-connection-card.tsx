@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { Watch } from "lucide-react"
-import { useTranslations } from "next-intl"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,8 +12,6 @@ type DeviceConnectionCardProps = {
 }
 
 export function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCardProps) {
-  const t = useTranslations("patientDashboard.deviceConnectionCard")
-
   return (
     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
       <Card className="overflow-hidden border border-border/70 bg-background text-foreground shadow-md dark:bg-card dark:text-card-foreground">
@@ -24,13 +21,13 @@ export function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCard
           </div>
 
           <p className="text-lg font-semibold">{title}</p>
-          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">{t("lastSynced", { value: lastSynced })}</p>
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">Last synced: {lastSynced}</p>
 
           <Button
             variant="ghost"
             className="mt-4 h-9 min-h-9 rounded-md border border-border bg-card px-3 text-xs font-semibold tracking-wide text-foreground hover:bg-card/80 hover:text-foreground dark:border-border dark:bg-muted dark:text-foreground dark:hover:bg-muted/80"
           >
-            {t("manageDevices")}
+            Manage Devices
           </Button>
         </CardContent>
       </Card>

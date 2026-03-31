@@ -3,24 +3,18 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { forgotPassword } from "@/lib/auth-actions";
-import { withLocale } from "@/lib/locale-path";
-import type { AppLocale } from "@/i18n/routing";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function ForgotPasswordClient() {
-  const t = useTranslations("auth.forgot");
-  const locale = useLocale() as AppLocale;
-  const localeHref = React.useCallback((path: string) => withLocale(path, locale), [locale]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,8 +22,8 @@ export function ForgotPasswordClient() {
   const [success, setSuccess] = useState(false);
 
   const images = [
-    { src: doctorImg, alt: t("carousel.altDoctor"), text: t("carousel.textRecover") },
-    { src: patientImg, alt: t("carousel.altPatient"), text: t("carousel.textSecure") },
+    { src: doctorImg, alt: "Doctors Team", text: "Recover Your Account" },
+    { src: patientImg, alt: "Patient Care", text: "Secure & Private" },
   ];
 
   useEffect(() => {
@@ -49,7 +43,7 @@ export function ForgotPasswordClient() {
       await forgotPassword(email);
       setSuccess(true);
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : t("errors.sendFailed");
+      const errorMessage = err instanceof Error ? err.message : "Failed to send reset email. Please try again.";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -78,7 +72,7 @@ export function ForgotPasswordClient() {
                   {images[currentImageIndex].text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden sm:block">
-                  {t("heroDescription")}
+                  We&apos;ll help you get back to your account safely and securely.
                 </p>
               </div>
 
@@ -88,7 +82,7 @@ export function ForgotPasswordClient() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"}`}
-                    aria-label={t("goToSlide", { number: index + 1 })}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
@@ -99,11 +93,11 @@ export function ForgotPasswordClient() {
             <div className="w-full max-w-md mx-auto space-y-8">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
-                  <Image src={medoraDarkLogo} alt={t("logoAlt")} fill className="object-contain dark:hidden" />
-                  <Image src={medoraLightLogo} alt={t("logoAlt")} fill className="hidden object-contain dark:block" />
+                  <Image src={medoraDarkLogo} alt="Medora Logo" fill className="object-contain dark:hidden" />
+                  <Image src={medoraLightLogo} alt="Medora Logo" fill className="hidden object-contain dark:block" />
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight">{t("title")}</h2>
-                <p className="text-muted-foreground">{t("subtitle")}</p>
+                <h2 className="text-2xl font-bold tracking-tight">Forgot Password?</h2>
+                <p className="text-muted-foreground">Enter your email address and we&apos;ll send you a link to reset your password.</p>
               </div>
 
               {error && (
@@ -117,15 +111,15 @@ export function ForgotPasswordClient() {
                   <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 shrink-0" />
                     <div className="flex-1">
-                      <p className="text-sm font-medium">{t("success.title")}</p>
-                      <p className="text-xs text-success-muted/80 mt-1">{t("success.description")}</p>
+                      <p className="text-sm font-medium">Email Sent Successfully!</p>
+                      <p className="text-xs text-success-muted/80 mt-1">Check your inbox for the password reset link</p>
                     </div>
                   </div>
 
                   <div className="text-center text-sm text-foreground">
-                    <Link href={localeHref("/login")} className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
+                    <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
                       <ArrowLeft size={16} />
-                      {t("backToSignIn")}
+                      Back to Sign In
                     </Link>
                   </div>
                 </div>
@@ -133,11 +127,11 @@ export function ForgotPasswordClient() {
                 <>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="email">{t("emailLabel")}</Label>
+                      <Label htmlFor="email">Email Address</Label>
                       <Input
                         id="email"
                         type="email"
-                        placeholder={t("emailPlaceholder")}
+                        placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -146,14 +140,14 @@ export function ForgotPasswordClient() {
                     </div>
 
                     <Button type="submit" className="w-full" disabled={loading}>
-                      {loading ? t("sending") : t("sendResetLink")}
+                      {loading ? "Sending..." : "Send Reset Link"}
                     </Button>
                   </form>
 
                   <div className="text-center text-sm text-foreground">
-                    <Link href={localeHref("/login")} className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
+                    <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
                       <ArrowLeft size={16} />
-                      {t("backToSignIn")}
+                      Back to Sign In
                     </Link>
                   </div>
                 </>
