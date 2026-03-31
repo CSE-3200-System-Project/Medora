@@ -39,7 +39,7 @@ export function handleUnauthorized() {
   }
 }
 
-function isAbortLikeError(error: unknown, signal?: AbortSignal): boolean {
+function isAbortLikeError(error: unknown, signal?: AbortSignal | null): boolean {
   if (signal?.aborted) {
     return true;
   }

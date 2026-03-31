@@ -1,3 +1,24 @@
+# Reschedule Acceptance Old-Slot Occupancy Root-Cause Fix (2026-03-31)
+
+## Status: completed
+
+### Todo
+- [x] Trace reschedule acceptance flow and confirm canonical write path
+- [x] Harden slot occupancy filtering to ignore stale reschedule blocker rows
+- [x] Align booking/reschedule conflict checks with the hardened availability source
+- [x] Add stale duplicate old-slot cleanup on reschedule accept
+- [x] Remove conflicting dual-source slot merge in booking UI and add realtime refresh
+- [x] Validate diagnostics on touched files and document review
+
+### Review
+- Identified root cause as slot occupancy drift between canonical appointment state and stale blocker candidates (notably stale `RESCHEDULE_REQUESTED` rows without pending requests), plus frontend dual-source slot merging that could preserve stale unavailability overlays.
+- Updated `slot_service` to filter stale reschedule blockers by verifying pending reschedule-request existence before treating `RESCHEDULE_REQUESTED` appointments as occupying.
+- Added optional temporary diagnostics in `slot_service` (`SLOT_DEBUG_LOGGING=1`) to log doctor/date occupancy candidates before and after filtering.
+- Updated appointment booking/reschedule conflict checks in `appointment_service` to use stale-safe slot availability checks.
+- Added reschedule-accept cleanup in `appointment_service` to auto-cancel stale duplicate old-slot rows for the same doctor+patient+day+slot context, with audit trail entries.
+- Fixed legacy booked-slots mapping so `is_booked` excludes purely past slots (`is_booked = !is_available && !is_past`).
+- Simplified booking panel slot state to rely on canonical available-slots response (removed conflicting booked-slots overlay) and added realtime refresh subscription for immediate slot state updates.
+
 # Appointment Cancellation + Slot Management Implementation (2026-04-01)
 
 ## Status: completed
