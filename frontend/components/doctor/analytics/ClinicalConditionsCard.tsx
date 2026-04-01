@@ -25,9 +25,9 @@ export const ClinicalConditionsCard = memo(function ClinicalConditionsCard({
   return (
     <section className={cn(glassCardClass, "space-y-6 p-6")}>
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <h3 className="font-bold text-foreground">Clinical Conditions</h3>
+        <h3 className="text-lg font-semibold text-foreground">Clinical Conditions</h3>
 
-        <div className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-bold tracking-wide text-primary uppercase">
+        <div className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           <Sparkles className="h-3 w-3" />
           {alert}
         </div>
@@ -40,7 +40,7 @@ export const ClinicalConditionsCard = memo(function ClinicalConditionsCard({
             <div className="h-8 flex-1 overflow-hidden rounded-lg bg-muted">
               <div className="h-full bg-linear-to-r from-primary to-primary-light" style={{ width: `${item.percentage}%` }} />
             </div>
-            <span className="w-12 text-sm font-bold text-foreground">{item.count}</span>
+            <span className="w-12 text-lg font-semibold tabular-nums text-foreground">{item.count}</span>
           </div>
         ))}
       </div>

@@ -1662,7 +1662,7 @@ export default function MedicalHistoryPage() {
     <Suspense fallback={
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-dvh min-h-app">
           <div className="skeleton w-8 h-8 rounded-full"></div>
         </div>
       </AppBackground>

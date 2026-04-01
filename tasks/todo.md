@@ -1,3 +1,60 @@
+# Doctor + Patient Onboarding Activation Pass (2026-04-01)
+
+## Status: completed
+
+### Todo
+- [x] Add onboarding welcome/value primer with clear time estimate in doctor onboarding
+- [x] Add onboarding welcome/value primer with clear time estimate in patient onboarding
+- [x] Add step-level guidance text to reduce uncertainty through all onboarding steps
+- [x] Add first-success completion state before redirect for both doctor and patient flows
+- [x] Validate diagnostics for touched onboarding files
+
+### Review
+- Added step-1 onboarding primers in `frontend/components/onboarding/doctor-onboarding.tsx` and `frontend/components/onboarding/patient-onboarding.tsx` with value framing, realistic completion estimate, and a visible skip path.
+- Added per-step helper guidance in both onboarding cards so users understand what each step is for before filling fields.
+- Replaced immediate post-submit redirects with brief completion-success states (countdown + direct CTA) to create a clearer first-success moment.
+- Preserved existing onboarding architecture and payload shape, keeping all backend contracts unchanged.
+- Diagnostics check reported no errors in the touched onboarding files.
+
+# Patient Onboarding Distill Pass (2026-04-01)
+
+## Status: completed
+
+### Todo
+- [x] Reduce visible choice count in chronic conditions step with a progressive "show more" toggle
+- [x] Simplify medical-history step by prioritizing key fields and collapsing optional detailed sections
+- [x] Reduce visible choice count in family history step with a progressive "show more" toggle
+- [x] Convert lifestyle step into collapsible thematic sections to minimize immediate cognitive load
+- [x] Validate onboarding file diagnostics and fix introduced lint/compile issues
+
+### Review
+- Added a distill-focused progressive disclosure layer to `patient-onboarding.tsx` without removing any existing medical fields.
+- Step 3 now shows common chronic conditions first and reveals advanced options only on demand.
+- Step 5 now presents core treatment/checkup inputs first, while surgeries/hospitalizations/vaccinations/medical tests moved into expandable sections with concise summaries.
+- Step 6 now mirrors the same simplification pattern for family history, reducing up-front checkbox overload.
+- Step 7 now uses grouped collapsible sections (substance use, activity/sleep, diet, mental health) so users can complete one topic at a time.
+- Confirmed no diagnostics errors remain in the updated onboarding file.
+
+# Frontend/Backend Stability + Full Adapt Pass (2026-04-01)
+
+## Status: completed
+
+### Todo
+- [x] Fix frontend build blockers and missing runtime dependencies
+- [x] Fix backend pytest collection errors for non-test modules
+- [x] Remove auth login/register jitter by moving redirect logic server-side and stabilizing motion
+- [x] Improve shared mobile/tablet responsiveness through global layouts/background utilities
+- [x] Patch key fixed-width overflow components used across admin and landing flows
+- [x] Validate frontend + backend checks after changes
+
+### Review
+- Added missing frontend dependency `@tanstack/react-query` and fixed a strict TypeScript abort-signal type issue in `auth-utils.ts`; frontend production build now completes successfully.
+- Added backend `pytest.ini` with explicit `tests` discovery and introduced a smoke test (`backend/tests/test_smoke.py`) to avoid module-name collection conflicts and ensure `pytest` is green.
+- Removed auth route flicker by shifting authenticated-user redirect checks into server-side auth layout (`frontend/app/(auth)/layout.tsx`) and removing client-side login session redirect effect.
+- Stabilized motion and viewport behavior: throttled mobile viewport variable updates, reduced background repaint pressure, disabled page-enter animations on tablet/mobile, and skipped Lenis on auth/onboarding routes.
+- Applied broad responsive pass on auth selection/login/register pages plus core patient/doctor/admin states using `min-h-dvh min-h-app`, tablet-safe breakpoints, and overflow-safe table/sheet behavior.
+- Validation completed: `frontend` build passes; `backend` pytest passes (`1 passed`).
+
 # Appointment Cancellation + Slot Management Implementation (2026-04-01)
 
 ## Status: completed

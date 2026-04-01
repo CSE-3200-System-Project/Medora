@@ -31,11 +31,22 @@ export default function DoctorRegister() {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktopViewport = window.matchMedia("(min-width: 1280px)").matches;
+
+    if (prefersReducedMotion || !isDesktopViewport) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [images.length]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +82,7 @@ export default function DoctorRegister() {
 
   if (submitted) {
     return (
-      <AppBackground className="min-h-screen flex items-center justify-center p-4 animate-page-enter">
+      <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 sm:p-6 animate-page-enter">
         <Card className="max-w-md w-full">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-20 w-20 bg-green-100 rounded-full flex items-center justify-center">
@@ -105,15 +116,15 @@ export default function DoctorRegister() {
   }
 
   return (
-    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
-      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
-        <div className="flex flex-col lg:flex-row min-h-[600px]">
+    <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 animate-page-enter">
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
+        <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,48rem)]">
           {/* Left Side - Hero/Image */}
-          <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
+          <div className="relative w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
               <div 
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                className={`absolute inset-0 transition-none xl:transition-opacity xl:duration-700 xl:ease-in-out ${
                   index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -121,6 +132,7 @@ export default function DoctorRegister() {
                   src={img.src}
                   alt={img.alt}
                   fill
+                  sizes="(max-width: 1279px) 100vw, 50vw"
                   className="object-cover"
                   priority={index === 0}
                 />
@@ -129,11 +141,11 @@ export default function DoctorRegister() {
 
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
-            <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-6 md:p-12 text-center">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight transition-all duration-500">
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
+              <h1 className="min-h-[4.5rem] sm:min-h-[5.25rem] text-2xl sm:text-3xl xl:text-4xl font-bold mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
                 {images[currentImageIndex].text}
               </h1>
-              <p className="text-sm sm:text-base text-white/90 mb-6 hidden sm:block">
+              <p className="text-sm sm:text-base text-white/90 mb-6 hidden md:block">
                 Connect with millions of patients, manage your appointments efficiently, and grow your practice.
               </p>
               
@@ -153,8 +165,8 @@ export default function DoctorRegister() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="w-full lg:w-1/2 bg-card p-6 lg:p-12">
-            <div className="space-y-6">
+          <div className="w-full xl:w-1/2 bg-card p-5 sm:p-6 md:p-8 xl:p-10">
+            <div className="space-y-5 sm:space-y-6">
               <div className="space-y-1 text-center lg:text-left">
                 <h2 className="text-2xl font-bold tracking-tight">Doctor Registration</h2>
                 <p className="text-muted-foreground">

@@ -15,8 +15,8 @@ export default async function OnboardingLayout({
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-background">
-      <div className="min-h-screen w-full flex flex-col">
+    <div className="min-h-dvh min-h-app w-full overflow-x-hidden bg-background">
+      <div className="min-h-dvh min-h-app w-full flex flex-col">
         {children}
       </div>
     </div>

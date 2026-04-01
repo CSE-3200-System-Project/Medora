@@ -25,7 +25,7 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
   if (!initialAppointmentData) {
     return (
       <AppBackground>
-        <div className="flex items-center justify-center h-screen px-4">
+        <div className="flex items-center justify-center min-h-dvh min-h-app px-4">
           <div className="text-center">
             <p className="text-muted-foreground">Loading appointment details...</p>
           </div>
@@ -36,7 +36,7 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
 
   return (
     <AppBackground className="animate-page-enter">
-      <div className="flex items-center justify-center min-h-screen px-4 py-8">
+      <div className="flex items-center justify-center min-h-dvh min-h-app px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

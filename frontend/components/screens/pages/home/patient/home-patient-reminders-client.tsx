@@ -105,7 +105,7 @@ export default function PatientRemindersPage() {
     <>
       <Navbar />
       <AppBackground>
-        <div className="min-h-screen pt-[var(--nav-content-offset)] pb-8">
+        <div className="min-h-dvh min-h-app pt-[var(--nav-content-offset)] pb-8">
           {/* Header */}
           <div className="bg-background/80 backdrop-blur-md border-b border-border sticky top-16 z-10">
             <div className="container mx-auto px-4 py-4 max-w-4xl">

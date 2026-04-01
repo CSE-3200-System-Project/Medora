@@ -170,7 +170,7 @@ export function ResetPasswordClient() {
   const strength = passwordStrength();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
+    <div className="min-h-dvh min-h-app flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
       <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-150">
           {/* Left panel — image carousel */}

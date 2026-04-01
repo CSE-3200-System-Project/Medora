@@ -27,7 +27,7 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
 
   return (
     <section className={cn(glassCardClass, "flex h-full flex-col p-8")}>
-      <h3 className="mb-8 font-bold text-foreground">Prescription Safety Analysis</h3>
+      <h3 className="mb-8 text-lg font-semibold text-foreground">Prescription Safety Analysis</h3>
 
       <div className="flex h-full flex-col items-center gap-8 md:flex-row">
         <div className="relative h-48 w-48 shrink-0">
@@ -49,10 +49,10 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
           </ResponsiveContainer>
 
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="text-3xl font-bold text-foreground">
+            <span className="text-3xl font-bold tabular-nums text-foreground">
               {data.score.toFixed(1)}%
             </span>
-            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Safety Score</span>
+            <span className="text-sm font-medium text-muted-foreground">Safety score</span>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
               <span className="h-3 w-3 rounded-full bg-primary" />
               <span className="text-sm text-muted-foreground">Safe Interactions</span>
             </div>
-            <span className="text-sm font-bold text-foreground">{data.safe}</span>
+            <span className="text-lg font-semibold tabular-nums text-foreground">{data.safe}</span>
           </div>
 
           <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4">
@@ -70,7 +70,7 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
               <span className="h-3 w-3 rounded-full bg-primary-muted" />
               <span className="text-sm text-muted-foreground">Warnings flagged</span>
             </div>
-            <span className="text-sm font-bold text-primary-muted">{data.warning}</span>
+            <span className="text-lg font-semibold tabular-nums text-primary-muted">{data.warning}</span>
           </div>
 
           <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4">
@@ -78,14 +78,14 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
               <span className="h-3 w-3 rounded-full bg-destructive-muted" />
               <span className="text-sm text-muted-foreground">Blocked Interactions</span>
             </div>
-            <span className="text-sm font-bold text-destructive-muted">{data.blocked}</span>
+            <span className="text-lg font-semibold tabular-nums text-destructive-muted">{data.blocked}</span>
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <p className="text-xs text-muted-foreground">
-              Override Rate: <span className="font-bold text-foreground">{data.overrideRate}%</span>
+            <p className="text-sm text-muted-foreground">
+              Override rate: <span className="font-semibold tabular-nums text-foreground">{data.overrideRate}%</span>
             </p>
-            <span className="rounded px-2 py-1 text-xs font-bold text-emerald-600 uppercase bg-emerald-500/15 dark:text-emerald-400">Status: {data.status}</span>
+            <span className="rounded bg-emerald-500/15 px-2 py-1 text-sm font-medium text-emerald-600 dark:text-emerald-400">Status: {data.status}</span>
           </div>
         </div>
       </div>

@@ -46,13 +46,13 @@ export const ActionableInsightsSection = memo(function ActionableInsightsSection
 
       <div className="relative z-10 flex flex-col items-center gap-12 md:flex-row">
         <div className="space-y-4 md:w-1/3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold tracking-wide text-primary uppercase">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             Actionable Insights
           </div>
 
           <h2 className="text-4xl leading-tight font-extrabold text-foreground">{title}</h2>
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
+          <p className="text-base text-muted-foreground">{subtitle}</p>
 
           <button type="button" className="rounded-full bg-primary px-8 py-3 text-sm font-bold text-primary-foreground shadow-sm transition-colors hover:bg-primary-muted active:scale-95">
             {ctaLabel}
@@ -68,7 +68,7 @@ export const ActionableInsightsSection = memo(function ActionableInsightsSection
                   <div className={cn("flex h-10 w-10 items-center justify-center rounded-full", insightColors(card.kind))}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <span className="font-bold text-foreground">{card.title}</span>
+                  <span className="text-base font-semibold text-foreground">{card.title}</span>
                 </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">{card.body}</p>
               </article>

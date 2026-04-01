@@ -62,7 +62,7 @@ export default function DoctorProfilePage() {
   if (error || !doctor) {
     return (
       <AppBackground>
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex min-h-dvh min-h-app items-center justify-center">
           <div className="text-center">
             <p className="mb-4 text-destructive">{error || "Doctor not found"}</p>
             <Link href="/patient/find-doctor" className="text-primary hover:underline">

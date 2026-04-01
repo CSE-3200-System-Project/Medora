@@ -79,17 +79,17 @@ export const WorkloadAnalyticsSection = memo(function WorkloadAnalyticsSection({
 
       <div className="grid grid-cols-1 gap-6 border-t border-border/80 pt-6 md:grid-cols-3">
         <div>
-          <p className="text-xs font-bold tracking-widest text-muted-foreground uppercase">Peak Workload</p>
-          <p className="mt-1 text-xl font-semibold text-foreground">{peakWindow}</p>
+          <p className="text-sm font-medium text-muted-foreground">Peak workload</p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{peakWindow}</p>
         </div>
         <div>
-          <p className="text-xs font-bold tracking-widest text-muted-foreground uppercase">Avg Patients</p>
-          <p className="mt-1 text-xl font-semibold text-foreground">{averagePatientsPerDay}</p>
+          <p className="text-sm font-medium text-muted-foreground">Average patients</p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">{averagePatientsPerDay}</p>
         </div>
         <div>
-          <p className="text-xs font-bold tracking-widest text-muted-foreground uppercase">Burnout Risk</p>
+          <p className="text-sm font-medium text-muted-foreground">Burnout risk</p>
           <div className="mt-1 flex items-center gap-2">
-            <span className="text-xl font-semibold text-destructive-muted">{burnoutRisk}</span>
+            <span className="text-2xl font-semibold text-destructive-muted">{burnoutRisk}</span>
             <span className="h-2 w-2 rounded-full bg-destructive-muted" />
           </div>
         </div>

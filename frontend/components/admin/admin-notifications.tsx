@@ -123,7 +123,7 @@ export function AdminNotifications() {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="bg-card border-border text-foreground w-full sm:w-[400px] max-w-full sm:max-w-[400px] flex flex-col">
+      <SheetContent className="bg-card border-border text-foreground w-full sm:w-[min(24rem,92vw)] max-w-full sm:max-w-[min(24rem,92vw)] flex flex-col">
         <SheetHeader className="shrink-0">
           <SheetTitle className="text-foreground flex items-center gap-2">
             <Bell className="h-5 w-5" />

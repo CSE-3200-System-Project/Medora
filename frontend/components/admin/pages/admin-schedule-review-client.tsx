@@ -61,7 +61,7 @@ export function AdminScheduleReviewClient() {
   };
 
   return (
-    <AppBackground className="min-h-screen px-4 py-6 animate-page-enter">
+    <AppBackground className="min-h-dvh min-h-app px-4 py-6 animate-page-enter">
       <div className="max-w-4xl mx-auto">
         <Card>
           <CardHeader>

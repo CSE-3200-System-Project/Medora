@@ -12,6 +12,7 @@ import { AIPerformanceCard } from "@/components/doctor/analytics/AIPerformanceCa
 import { PatientOutcomesCard } from "@/components/doctor/analytics/PatientOutcomesCard";
 import { ActionableInsightsSection } from "@/components/doctor/analytics/ActionableInsightsSection";
 import type { DateRangeOption, DoctorAnalyticsData } from "@/components/doctor/analytics/types";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
 import { cn } from "@/lib/utils";
@@ -55,6 +56,9 @@ type DoctorAnalyticsDashboardProps = {
   className?: string;
 };
 
+const tertiaryAccordionTriggerClass =
+  "rounded-md px-2 py-3 text-left transition-colors duration-200 hover:bg-muted/40 hover:no-underline motion-reduce:transition-none";
+
 export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
   initialData,
   initialError = null,
@@ -85,124 +89,196 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
         </SectionReveal>
 
         <SectionReveal delay={0.1}>
-          <MetricsGrid metrics={resolvedData?.metrics ?? []} isLoading={isLoading} />
-        </SectionReveal>
-
-        <SectionReveal delay={0.15}>
-          <section className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <WorkloadAnalyticsSection
-                chart={resolvedData?.workload.chart ?? []}
-                peakWindow={resolvedData?.workload.peakWindow ?? "09:00 - 11:30"}
-                averagePatientsPerDay={resolvedData?.workload.averagePatientsPerDay ?? "28 / day"}
-                burnoutRisk={resolvedData?.workload.burnoutRisk ?? "Moderate"}
-                isLoading={isLoading}
-              />
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-primary">Primary decision layer</p>
+              <p className="text-sm text-muted-foreground">
+                Operational signals for immediate planning and intervention decisions.
+              </p>
             </div>
 
-            <div className="space-y-6">
-              <AIInsightCard insight={resolvedData?.aiInsight ?? { badge: "AI-generated", title: "AI Insight", description: "No insight data", ctaLabel: "Review" }} isLoading={isLoading} />
-              <HeatmapCard data={resolvedData?.heatmap ?? { hours: [], days: [], values: [] }} isLoading={isLoading} />
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+              <div className="space-y-6">
+                <WorkloadAnalyticsSection
+                  chart={resolvedData?.workload.chart ?? []}
+                  peakWindow={resolvedData?.workload.peakWindow ?? "09:00 - 11:30"}
+                  averagePatientsPerDay={resolvedData?.workload.averagePatientsPerDay ?? "28 / day"}
+                  burnoutRisk={resolvedData?.workload.burnoutRisk ?? "Moderate"}
+                  isLoading={isLoading}
+                />
+                <AIInsightCard
+                  insight={
+                    resolvedData?.aiInsight ?? {
+                      badge: "AI-generated",
+                      title: "AI Insight",
+                      description: "No insight data",
+                      ctaLabel: "Review",
+                    }
+                  }
+                  isLoading={isLoading}
+                />
+              </div>
+              <MetricsGrid metrics={resolvedData?.metrics ?? []} isLoading={isLoading} />
             </div>
           </section>
         </SectionReveal>
 
         <SectionReveal delay={0.2}>
-          <section className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-            <div className="lg:col-span-2">
-              <DemographicsSection
-                data={
-                  resolvedData?.demographics ?? {
-                    highlightedLabel: "35-50 yrs",
-                    highlightedValue: 0,
-                    segments: [],
-                    newPatients: 0,
-                    returningPatients: 0,
-                    trendLabel: "No trend data",
-                  }
-                }
-                isLoading={isLoading}
-              />
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-primary">Secondary trend context</p>
+              <p className="text-sm text-muted-foreground">
+                Mid-term movement across patient mix, revenue flow, and appointment timing.
+              </p>
             </div>
-            <div className="lg:col-span-2">
-              <ClinicalConditionsCard
-                alert={resolvedData?.conditions.alert ?? "AI Alert"}
-                conditions={resolvedData?.conditions.items ?? []}
-                isLoading={isLoading}
-              />
+
+            <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+              <div className="space-y-6">
+                <RevenueChartCard
+                  data={
+                    resolvedData?.revenue ?? {
+                      series: [],
+                      total: 0,
+                      pending: 0,
+                      avgPerVisit: 0,
+                    }
+                  }
+                  isLoading={isLoading}
+                />
+                <DemographicsSection
+                  data={
+                    resolvedData?.demographics ?? {
+                      highlightedLabel: "35-50 yrs",
+                      highlightedValue: 0,
+                      segments: [],
+                      newPatients: 0,
+                      returningPatients: 0,
+                      trendLabel: "No trend data",
+                    }
+                  }
+                  isLoading={isLoading}
+                />
+              </div>
+
+              <div className="space-y-6">
+                <PatientOutcomesCard
+                  data={
+                    resolvedData?.outcomes ?? {
+                      recoveryProgress: 0,
+                      recoveryTrendLabel: "No data",
+                      repeatVisitProgress: 0,
+                      repeatVisitLabel: "No data",
+                      averageRecoveryTime: "-",
+                      satisfaction: "-",
+                    }
+                  }
+                  isLoading={isLoading}
+                />
+                <HeatmapCard data={resolvedData?.heatmap ?? { hours: [], days: [], values: [] }} isLoading={isLoading} />
+              </div>
             </div>
           </section>
         </SectionReveal>
 
         <SectionReveal delay={0.25}>
-          <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <PrescriptionSafetyCard
-              data={
-                resolvedData?.prescriptionSafety ?? {
-                  score: 0,
-                  safe: 0,
-                  warning: 0,
-                  blocked: 0,
-                  overrideRate: 0,
-                  status: "Unknown",
-                }
-              }
-              isLoading={isLoading}
-            />
-            <RevenueChartCard
-              data={
-                resolvedData?.revenue ?? {
-                  series: [],
-                  total: 0,
-                  pending: 0,
-                  avgPerVisit: 0,
-                }
-              }
-              isLoading={isLoading}
-            />
+          <section className="space-y-5">
+            <div className="space-y-1.5">
+              <p className="text-sm font-semibold text-primary">Tertiary expandable details</p>
+              <p className="text-sm text-muted-foreground">
+                Drill into risk, AI utilization, and recommendations only when deeper review is needed.
+              </p>
+            </div>
+
+            <Accordion
+              type="single"
+              collapsible
+              className="rounded-xl border border-border/60 bg-background/80 px-3 py-1"
+            >
+              <AccordionItem value="clinical-conditions" className="border-border/60">
+                <AccordionTrigger className={tertiaryAccordionTriggerClass}>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-base font-semibold text-foreground">Clinical Conditions</p>
+                    <p className="text-sm text-muted-foreground">Case concentration and condition-level alerts.</p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ClinicalConditionsCard
+                    alert={resolvedData?.conditions.alert ?? "AI Alert"}
+                    conditions={resolvedData?.conditions.items ?? []}
+                    isLoading={isLoading}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="prescription-safety" className="border-border/60">
+                <AccordionTrigger className={tertiaryAccordionTriggerClass}>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-base font-semibold text-foreground">Prescription Safety</p>
+                    <p className="text-sm text-muted-foreground">Warning rates, blocked scripts, and override pressure.</p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <PrescriptionSafetyCard
+                    data={
+                      resolvedData?.prescriptionSafety ?? {
+                        score: 0,
+                        safe: 0,
+                        warning: 0,
+                        blocked: 0,
+                        overrideRate: 0,
+                        status: "Unknown",
+                      }
+                    }
+                    isLoading={isLoading}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="ai-performance" className="border-border/60">
+                <AccordionTrigger className={tertiaryAccordionTriggerClass}>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-base font-semibold text-foreground">AI Performance</p>
+                    <p className="text-sm text-muted-foreground">Acceptance behavior and documentation productivity impact.</p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AIPerformanceCard
+                    data={
+                      resolvedData?.aiPerformance ?? {
+                        suggestions: 0,
+                        accepted: 0,
+                        modified: 0,
+                        rejected: 0,
+                        insightTitle: "No AI insight",
+                        insightBody: "No data available.",
+                      }
+                    }
+                    isLoading={isLoading}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="actionable-insights" className="border-border/60">
+                <AccordionTrigger className={tertiaryAccordionTriggerClass}>
+                  <div className="space-y-0.5 text-left">
+                    <p className="text-base font-semibold text-foreground">Actionable Insights</p>
+                    <p className="text-sm text-muted-foreground">System recommendations for scheduling, revenue, and care outcomes.</p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ActionableInsightsSection
+                    title={resolvedData?.actionableInsights.title ?? "Smart Performance Optimization"}
+                    subtitle={resolvedData?.actionableInsights.subtitle ?? "No actionable insight data available yet."}
+                    ctaLabel={resolvedData?.actionableInsights.ctaLabel ?? "Apply Recommendations"}
+                    cards={resolvedData?.actionableInsights.cards ?? []}
+                    isLoading={isLoading}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </section>
         </SectionReveal>
 
-        <SectionReveal delay={0.3}>
-          <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <AIPerformanceCard
-              data={
-                resolvedData?.aiPerformance ?? {
-                  suggestions: 0,
-                  accepted: 0,
-                  modified: 0,
-                  rejected: 0,
-                  insightTitle: "No AI insight",
-                  insightBody: "No data available.",
-                }
-              }
-              isLoading={isLoading}
-            />
-            <PatientOutcomesCard
-              data={
-                resolvedData?.outcomes ?? {
-                  recoveryProgress: 0,
-                  recoveryTrendLabel: "No data",
-                  repeatVisitProgress: 0,
-                  repeatVisitLabel: "No data",
-                  averageRecoveryTime: "-",
-                  satisfaction: "-",
-                }
-              }
-              isLoading={isLoading}
-            />
-          </section>
-        </SectionReveal>
-
-        <SectionReveal delay={0.35}>
-          <ActionableInsightsSection
-            title={resolvedData?.actionableInsights.title ?? "Smart Performance Optimization"}
-            subtitle={resolvedData?.actionableInsights.subtitle ?? "No actionable insight data available yet."}
-            ctaLabel={resolvedData?.actionableInsights.ctaLabel ?? "Apply Recommendations"}
-            cards={resolvedData?.actionableInsights.cards ?? []}
-            isLoading={isLoading}
-          />
-        </SectionReveal>
       </main>
 
     </AppBackground>

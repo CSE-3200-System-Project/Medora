@@ -19,7 +19,7 @@ export const PatientOutcomesCard = memo(function PatientOutcomesCard({ data, isL
 
   return (
     <section className={cn(glassCardClass, "p-8")}>
-      <h3 className="mb-8 font-bold text-foreground">Patient Outcomes</h3>
+      <h3 className="mb-8 text-lg font-semibold text-foreground">Patient Outcomes</h3>
 
       <div className="space-y-6">
         <div className="flex items-center gap-6">
@@ -28,8 +28,8 @@ export const PatientOutcomesCard = memo(function PatientOutcomesCard({ data, isL
           </div>
           <div className="flex-1">
             <div className="mb-1 flex items-end justify-between">
-              <span className="font-bold text-foreground">Recovery Tracking</span>
-              <span className="font-bold text-primary">{data.recoveryTrendLabel}</span>
+              <span className="font-semibold text-foreground">Recovery Tracking</span>
+              <span className="font-semibold text-primary">{data.recoveryTrendLabel}</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-muted">
               <div className="h-full rounded-full bg-linear-to-r from-primary to-primary-light" style={{ width: `${data.recoveryProgress}%` }} />
@@ -43,8 +43,8 @@ export const PatientOutcomesCard = memo(function PatientOutcomesCard({ data, isL
           </div>
           <div className="flex-1">
             <div className="mb-1 flex items-end justify-between">
-              <span className="font-bold text-foreground">Repeat Visit Frequency</span>
-              <span className="font-bold text-primary-muted">{data.repeatVisitLabel}</span>
+              <span className="font-semibold text-foreground">Repeat Visit Frequency</span>
+              <span className="font-semibold text-primary-muted">{data.repeatVisitLabel}</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-muted">
               <div className="h-full rounded-full bg-primary-muted" style={{ width: `${data.repeatVisitProgress}%` }} />
@@ -54,12 +54,12 @@ export const PatientOutcomesCard = memo(function PatientOutcomesCard({ data, isL
 
         <div className="grid grid-cols-2 gap-4 pt-4">
           <div className="rounded-xl bg-surface/40 p-4">
-            <p className="mb-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Avg Recovery Time</p>
-            <p className="text-2xl font-bold text-foreground">{data.averageRecoveryTime}</p>
+            <p className="mb-1 text-sm font-medium text-muted-foreground">Average recovery time</p>
+            <p className="text-2xl font-bold tabular-nums text-foreground">{data.averageRecoveryTime}</p>
           </div>
           <div className="rounded-xl bg-surface/40 p-4">
-            <p className="mb-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Patient Satisfaction</p>
-            <p className="text-2xl font-bold text-foreground">{data.satisfaction}</p>
+            <p className="mb-1 text-sm font-medium text-muted-foreground">Patient satisfaction</p>
+            <p className="text-2xl font-bold tabular-nums text-foreground">{data.satisfaction}</p>
           </div>
         </div>
       </div>

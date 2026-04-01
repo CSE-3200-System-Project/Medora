@@ -54,7 +54,7 @@ export function DoctorFindMedicineClient() {
   };
 
   return (
-    <AppBackground className="min-h-screen font-sans text-foreground animate-page-enter">
+    <AppBackground className="min-h-dvh min-h-app font-sans text-foreground animate-page-enter">
       <Navbar />
 
       <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">

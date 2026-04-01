@@ -28,7 +28,7 @@ export const RevenueChartCard = memo(function RevenueChartCard({ data, isLoading
   return (
     <section className={cn(glassCardClass, "relative flex h-full flex-col overflow-hidden p-8")}>
       <div className="mb-8 flex items-center justify-between">
-        <h3 className="font-bold text-foreground">Revenue Analysis</h3>
+        <h3 className="text-lg font-semibold text-foreground">Revenue Analysis</h3>
       </div>
 
       <div className="min-h-50 flex-1">
@@ -60,16 +60,16 @@ export const RevenueChartCard = memo(function RevenueChartCard({ data, isLoading
 
       <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="rounded-xl border border-border/70 bg-surface/40 p-4">
-          <p className="mb-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Total</p>
-          <p className="text-xl font-bold text-foreground">{formatCurrency(data.total)}</p>
+          <p className="mb-1 text-sm font-medium text-muted-foreground">Total</p>
+          <p className="text-2xl font-bold tabular-nums text-foreground">{formatCurrency(data.total)}</p>
         </div>
         <div className="rounded-xl border border-border/70 bg-surface/40 p-4">
-          <p className="mb-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Pending</p>
-          <p className="text-xl font-bold text-primary-muted">{formatCurrency(data.pending)}</p>
+          <p className="mb-1 text-sm font-medium text-muted-foreground">Pending</p>
+          <p className="text-2xl font-bold tabular-nums text-primary-muted">{formatCurrency(data.pending)}</p>
         </div>
         <div className="rounded-xl border border-border/70 bg-surface/40 p-4">
-          <p className="mb-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Avg/Visit</p>
-          <p className="text-xl font-bold text-foreground">{formatCurrency(data.avgPerVisit)}</p>
+          <p className="mb-1 text-sm font-medium text-muted-foreground">Avg per visit</p>
+          <p className="text-2xl font-bold tabular-nums text-foreground">{formatCurrency(data.avgPerVisit)}</p>
         </div>
       </div>
     </section>

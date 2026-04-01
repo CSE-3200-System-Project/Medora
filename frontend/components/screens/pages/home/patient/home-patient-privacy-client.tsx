@@ -277,7 +277,7 @@ export default function PatientPrivacyPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center min-h-dvh min-h-app">
           <div className="flex flex-col items-center gap-4">
             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             <p className="text-muted-foreground">Loading privacy settings...</p>
