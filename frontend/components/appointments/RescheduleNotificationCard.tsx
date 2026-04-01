@@ -15,7 +15,9 @@ interface RescheduleNotificationCardProps {
     message: string;
     data?: {
       appointment_id?: string;
-      new_appointment_time?: string;
+      reschedule_request_id?: string;
+      proposed_date?: string;
+      proposed_time?: string;
       doctor_id?: string;
       [key: string]: any;
     };
@@ -35,9 +37,13 @@ export function RescheduleNotificationCard({
   const [responded, setResponded] = React.useState(false);
   const [responseResult, setResponseResult] = React.useState<"accepted" | "rejected" | null>(null);
 
-  const appointmentId = notification.data?.appointment_id;
-  const newAppointmentTime = notification.data?.new_appointment_time
-    ? new Date(notification.data.new_appointment_time).toLocaleString("en-US", {
+  const rescheduleRequestId = notification.data?.reschedule_request_id;
+  const proposedDate = notification.data?.proposed_date;
+  const proposedTime = notification.data?.proposed_time;
+  const proposedDateTime = proposedDate && proposedTime ? `${proposedDate}T${proposedTime}` : null;
+
+  const newAppointmentTime = proposedDateTime
+    ? new Date(proposedDateTime).toLocaleString("en-US", {
         weekday: "long",
         month: "long",
         day: "numeric",
@@ -48,14 +54,14 @@ export function RescheduleNotificationCard({
     : null;
 
   const handleAccept = async () => {
-    if (!appointmentId) {
-      onError?.("Appointment ID not found in notification");
+    if (!rescheduleRequestId) {
+      onError?.("Reschedule request ID not found in notification");
       return;
     }
 
     setIsLoading(true);
     try {
-      await respondToRescheduleRequest(appointmentId, true);
+      await respondToRescheduleRequest(rescheduleRequestId, true);
       setResponded(true);
       setResponseResult("accepted");
       onResponseSubmitted?.();
@@ -68,14 +74,14 @@ export function RescheduleNotificationCard({
   };
 
   const handleReject = async () => {
-    if (!appointmentId) {
-      onError?.("Appointment ID not found in notification");
+    if (!rescheduleRequestId) {
+      onError?.("Reschedule request ID not found in notification");
       return;
     }
 
     setIsLoading(true);
     try {
-      await respondToRescheduleRequest(appointmentId, false);
+      await respondToRescheduleRequest(rescheduleRequestId, false);
       setResponded(true);
       setResponseResult("rejected");
       onResponseSubmitted?.();

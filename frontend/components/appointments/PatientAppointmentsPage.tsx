@@ -7,6 +7,7 @@ import { AppBackground } from "@/components/ui/app-background";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import {
   cancelAppointment,
+  deletePendingAppointmentRequest,
   getCancellationReasons,
   getPatientCalendarAppointments,
   syncAppointmentStatus,
@@ -20,10 +21,11 @@ import { SpecialtyDistributionChart } from "@/components/appointments/SpecialtyD
 import { UpcomingAppointmentsList } from "@/components/appointments/UpcomingAppointmentsList";
 import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
 import { CancelAppointmentDialog } from "@/components/appointment/cancel-appointment-dialog";
+import { RescheduleResponseDialog } from "@/components/appointment/reschedule-response-dialog";
 import type { PatientAppointment, PatientSummary } from "@/components/appointments/types";
 import { Button } from "@/components/ui/button";
 import { cn, localDateKey } from "@/lib/utils";
-import { requestReschedule } from "@/lib/availability-actions";
+import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
 
 const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
 const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
@@ -41,6 +43,27 @@ interface ProfileResponse {
   profile_photo_url?: string | null;
   patient_id?: string;
   id?: string;
+}
+
+interface RescheduleHistoryItem {
+  id?: string;
+  requested_by_role?: string;
+  proposed_date?: string;
+  proposed_time?: string;
+  status?: string;
+}
+
+interface RescheduleHistoryPayload {
+  reschedule_requests?: RescheduleHistoryItem[];
+}
+
+interface RescheduleResponseState {
+  appointment: PatientAppointment;
+  request: {
+    id: string;
+    proposed_date: string;
+    proposed_time: string;
+  } | null;
 }
 
 function toPatientId(raw?: string) {
@@ -62,6 +85,16 @@ function formatSummaryDate(date?: string) {
 
 function isUpcoming(appointment: PatientAppointment) {
   const status = appointment.status.toUpperCase();
+  const holdExpiredCancellation =
+    (status === "CANCELLED" || status === "CANCELLED_BY_PATIENT" || status === "CANCELLED_BY_DOCTOR") &&
+    (appointment.cancellation_reason_key || "").toUpperCase() === "HOLD_EXPIRED";
+
+  if (holdExpiredCancellation) {
+    const appointmentTs = new Date(appointment.appointment_date).getTime();
+    const recentWindowMs = 24 * 60 * 60 * 1000;
+    return appointmentTs >= Date.now() - recentWindowMs;
+  }
+
   if (UPCOMING_EXCLUDED_STATUSES.has(status)) return false;
   return new Date(appointment.appointment_date).getTime() >= Date.now();
 }
@@ -82,6 +115,13 @@ function normalizeAppointments(raw: any[]): PatientAppointment[] {
       appointment_date: item.appointment_date,
       slot_time: item.slot_time || null,
       status: item.status || "PENDING",
+      hold_expires_at: item.hold_expires_at || null,
+      cancellation_reason_key: item.cancellation_reason_key || null,
+      cancellation_reason_note: item.cancellation_reason_note || null,
+      reschedule_request_id: item.reschedule_request_id || null,
+      reschedule_requested_by_role: item.reschedule_requested_by_role || item.requested_by || null,
+      proposed_date: item.proposed_date || null,
+      proposed_time: item.proposed_time || null,
     }));
 }
 
@@ -140,6 +180,28 @@ function sortByDateAsc(items: PatientAppointment[]) {
   );
 }
 
+function normalizeRole(value?: string | null) {
+  return (value || "").trim().toLowerCase();
+}
+
+function normalizeRequestStatus(value?: string | null) {
+  return (value || "").trim().toLowerCase();
+}
+
+function coerceIsoDate(value?: string | null) {
+  if (!value) return "";
+  const trimmed = value.trim();
+  return trimmed.includes("T") ? trimmed.slice(0, 10) : trimmed;
+}
+
+function hasInlineRescheduleData(appointment: PatientAppointment) {
+  return Boolean(
+    appointment.reschedule_request_id &&
+      appointment.proposed_date &&
+      appointment.proposed_time,
+  );
+}
+
 export default function PatientAppointmentsPage() {
   const router = useRouter();
   const [appointments, setAppointments] = React.useState<PatientAppointment[]>([]);
@@ -152,24 +214,111 @@ export default function PatientAppointmentsPage() {
   const [range, setRange] = React.useState<RangeKey>("month");
   const [loading, setLoading] = React.useState(true);
   const [rescheduleTarget, setRescheduleTarget] = React.useState<PatientAppointment | null>(null);
+  const [rescheduleResponseTarget, setRescheduleResponseTarget] = React.useState<RescheduleResponseState | null>(null);
+  const [rescheduleResponseLoading, setRescheduleResponseLoading] = React.useState(false);
+  const [rescheduleResponseError, setRescheduleResponseError] = React.useState<string | null>(null);
   const [cancelTarget, setCancelTarget] = React.useState<PatientAppointment | null>(null);
   const [cancelReasonOptions, setCancelReasonOptions] = React.useState<CancellationReasonOption[]>([]);
   const [cancelBufferMinutes, setCancelBufferMinutes] = React.useState<number>(60);
+  const [actionFeedback, setActionFeedback] = React.useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  const reloadAppointments = React.useCallback(async () => {
+    const response = await getPatientCalendarAppointments();
+    setAppointments(normalizeAppointments(response?.appointments || []));
+  }, []);
 
   const handleRescheduleConfirm = async (appointmentId: string, newDate: string, slotTime: string, notes?: string) => {
+    setActionFeedback(null);
     await requestReschedule({
       appointment_id: appointmentId,
       proposed_date: newDate,
       proposed_time: slotTime,
       reason: notes || "Patient requested reschedule",
     });
-    // Reload appointments
-    try {
-      const response = await getPatientCalendarAppointments();
-      setAppointments(normalizeAppointments(response?.appointments || []));
-    } catch (error) {
-      console.error("Failed to reload appointments:", error);
+    await reloadAppointments();
+    setActionFeedback({ type: "success", message: "Reschedule request sent successfully." });
+  };
+
+  const resolveRescheduleRequest = React.useCallback(async (appointment: PatientAppointment) => {
+    if (hasInlineRescheduleData(appointment)) {
+      const requesterRole = normalizeRole(appointment.reschedule_requested_by_role || "");
+      if (!requesterRole || requesterRole === "doctor") {
+        return {
+          id: String(appointment.reschedule_request_id),
+          proposed_date: coerceIsoDate(appointment.proposed_date),
+          proposed_time: String(appointment.proposed_time),
+        };
+      }
     }
+
+    const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
+    const requests = Array.isArray(history?.reschedule_requests) ? history!.reschedule_requests! : [];
+
+    const pendingDoctorRequest = requests.find(
+      (request) =>
+        normalizeRequestStatus(request.status) === "pending" &&
+        normalizeRole(request.requested_by_role) === "doctor",
+    );
+
+    const pendingRequest = pendingDoctorRequest || requests.find((request) => normalizeRequestStatus(request.status) === "pending");
+    if (!pendingRequest?.id || !pendingRequest.proposed_date || !pendingRequest.proposed_time) {
+      throw new Error("No pending doctor reschedule request is available for this appointment.");
+    }
+
+    return {
+      id: String(pendingRequest.id),
+      proposed_date: coerceIsoDate(pendingRequest.proposed_date),
+      proposed_time: String(pendingRequest.proposed_time),
+    };
+  }, []);
+
+  const handleRescheduleAction = async (appointment: PatientAppointment) => {
+    const status = appointment.status.toUpperCase();
+
+    if (status === "CONFIRMED") {
+      setRescheduleTarget(appointment);
+      return;
+    }
+
+    if (status !== "RESCHEDULE_REQUESTED") {
+      return;
+    }
+
+    setActionFeedback(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(true);
+    setRescheduleResponseTarget({ appointment, request: null });
+
+    try {
+      const resolved = await resolveRescheduleRequest(appointment);
+      setRescheduleResponseTarget({
+        appointment,
+        request: resolved,
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to load this reschedule request. Please try again.";
+      setRescheduleResponseError(message);
+      setRescheduleResponseTarget({ appointment, request: null });
+      setActionFeedback({ type: "error", message });
+    } finally {
+      setRescheduleResponseLoading(false);
+    }
+  };
+
+  const handleRescheduleResponse = async (requestId: string, accept: boolean) => {
+    setActionFeedback(null);
+    await respondToReschedule(requestId, accept, accept ? "Accepted by patient" : "Rejected by patient");
+    await reloadAppointments();
+    setRescheduleResponseTarget(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(false);
+    setActionFeedback({
+      type: "success",
+      message: accept ? "Reschedule request accepted." : "Reschedule request rejected.",
+    });
   };
 
   const handleCancelConfirm = async (
@@ -177,13 +326,32 @@ export default function PatientAppointmentsPage() {
     reasonKey: string,
     cancellationReason?: string,
   ) => {
+    setActionFeedback(null);
     await cancelAppointment(appointmentId, {
       reasonKey,
       reasonNote: cancellationReason,
     });
 
-    const response = await getPatientCalendarAppointments();
-    setAppointments(normalizeAppointments(response?.appointments || []));
+    await reloadAppointments();
+    setActionFeedback({ type: "success", message: "Appointment cancelled successfully." });
+  };
+
+  const handleDeletePending = async (appointmentId: string) => {
+    try {
+      setActionFeedback(null);
+      await deletePendingAppointmentRequest(appointmentId);
+      await reloadAppointments();
+      setActionFeedback({ type: "success", message: "Pending request deleted." });
+    } catch (error) {
+      console.error("Failed to delete pending appointment request:", error);
+      setActionFeedback({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to delete pending appointment request.",
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -282,6 +450,19 @@ export default function PatientAppointmentsPage() {
           </div>
         </div>
 
+        {actionFeedback ? (
+          <div
+            className={cn(
+              "rounded-lg border px-4 py-3 text-sm",
+              actionFeedback.type === "success"
+                ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300"
+                : "border-destructive/30 bg-destructive/10 text-destructive",
+            )}
+          >
+            {actionFeedback.message}
+          </div>
+        ) : null}
+
         {loading ? (
           <div className="grid gap-4">
             <div className="h-28 rounded-2xl border border-border bg-card" />
@@ -315,8 +496,17 @@ export default function PatientAppointmentsPage() {
                 appointments={filteredUpcomingAppointments}
                 selectedDate={selectedDate}
                 onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
-                onRequestReschedule={setRescheduleTarget}
+                onRequestReschedule={handleRescheduleAction}
+                onRespondReschedule={handleRescheduleAction}
                 onRequestCancel={setCancelTarget}
+                onDeletePending={(appointment) => handleDeletePending(appointment.id)}
+                onBookAgain={(appointment) => {
+                  if (appointment.doctor_id) {
+                    router.push(`/patient/doctor/${appointment.doctor_id}`);
+                    return;
+                  }
+                  router.push("/patient/find-doctor");
+                }}
               />
             </section>
 
@@ -344,6 +534,33 @@ export default function PatientAppointmentsPage() {
         } : null}
         onConfirm={handleRescheduleConfirm}
         userRole="patient"
+      />
+
+      <RescheduleResponseDialog
+        open={!!rescheduleResponseTarget}
+        onOpenChange={(open) => {
+          if (!open) {
+            setRescheduleResponseTarget(null);
+            setRescheduleResponseLoading(false);
+            setRescheduleResponseError(null);
+          }
+        }}
+        appointment={
+          rescheduleResponseTarget
+            ? {
+                id: rescheduleResponseTarget.appointment.id,
+                doctor_name: rescheduleResponseTarget.appointment.doctor_name || null,
+                doctor_title: rescheduleResponseTarget.appointment.doctor_title || null,
+                appointment_date: rescheduleResponseTarget.appointment.appointment_date,
+                slot_time: rescheduleResponseTarget.appointment.slot_time || null,
+              }
+            : null
+        }
+        request={rescheduleResponseTarget?.request || null}
+        isResolving={rescheduleResponseLoading}
+        resolveError={rescheduleResponseError}
+        onAccept={(requestId) => handleRescheduleResponse(requestId, true)}
+        onReject={(requestId) => handleRescheduleResponse(requestId, false)}
       />
 
       <CancelAppointmentDialog

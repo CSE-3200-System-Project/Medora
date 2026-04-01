@@ -20,7 +20,7 @@ type AppointmentModalProps = {
   onOpenChange: (open: boolean) => void;
   onApprove: (id: string) => void;
   onCancel: (id: string) => void;
-  onReschedule: (id: string, newTime: string) => void;
+  onRescheduleRequest: (appointment: DoctorAppointment) => void;
 };
 
 export function AppointmentModal({
@@ -29,18 +29,8 @@ export function AppointmentModal({
   onOpenChange,
   onApprove,
   onCancel,
-  onReschedule,
+  onRescheduleRequest,
 }: AppointmentModalProps) {
-  const [showReschedule, setShowReschedule] = React.useState(false);
-  const [newTime, setNewTime] = React.useState("");
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      setShowReschedule(false);
-      setNewTime("");
-    }
-  }, [isOpen]);
-
   if (!appointment) {
     return null;
   }
@@ -101,18 +91,6 @@ export function AppointmentModal({
           </div>
         </div>
 
-        {showReschedule ? (
-          <div className="rounded-xl border border-border/70 bg-surface/40 p-3">
-            <p className="mb-2 text-sm font-semibold">Select a new time</p>
-            <input
-              type="time"
-              value={newTime}
-              onChange={(event) => setNewTime(event.target.value)}
-              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            />
-          </div>
-        ) : null}
-
         <DialogFooter className="flex flex-wrap gap-2 sm:justify-start">
           {/* Approve button - only for pending-style appointments */}
           {canApprove(appointment.status) && (
@@ -127,7 +105,7 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Cancel button - for cancellable lifecycle states */}
+          {/* Cancel button - for confirmed lifecycle states */}
           {canCancel(appointment.status) && (
             <Button
               variant="destructive"
@@ -141,34 +119,18 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Reschedule button - for non-terminal lifecycle states */}
+          {/* Reschedule request - opens availability slot picker */}
           {canReschedule(appointment.status) && (
-            <>
-              {!showReschedule ? (
-                <Button
-                  variant="outline"
-                  onClick={() => setShowReschedule(true)}
-                  className="flex-1 sm:flex-none"
-                >
-                  Reschedule Appointment
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    if (!newTime) {
-                      return;
-                    }
-                    onReschedule(appointment.id, newTime);
-                    onOpenChange(false);
-                  }}
-                  disabled={!newTime}
-                  className="flex-1 sm:flex-none"
-                >
-                  Confirm New Time
-                </Button>
-              )}
-            </>
+            <Button
+              variant="outline"
+              onClick={() => {
+                onRescheduleRequest(appointment);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Reschedule Appointment
+            </Button>
           )}
         </DialogFooter>
       </DialogContent>
@@ -235,18 +197,14 @@ function canApprove(status: string) {
 function canCancel(status: string) {
   const value = status.toUpperCase();
   return (
-    value === "PENDING" ||
-    value === "PENDING_ADMIN_REVIEW" ||
-    value === "PENDING_DOCTOR_CONFIRMATION" ||
-    value === "PENDING_PATIENT_CONFIRMATION" ||
     value === "CONFIRMED" ||
-    value === "RESCHEDULE_REQUESTED"
+    value === "RESCHEDULE_REQUESTED" ||
+    value === "CANCEL_REQUESTED"
   );
 }
 
 function canReschedule(status: string) {
-  const value = status.toUpperCase();
-  return !isCancelledStatus(value) && value !== "NO_SHOW" && value !== "COMPLETED";
+  return status.toUpperCase() === "CONFIRMED";
 }
 
 function extractLocation(appointment: DoctorAppointment) {

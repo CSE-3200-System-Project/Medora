@@ -17,6 +17,46 @@ async function authHeaders(): Promise<Record<string, string>> {
   };
 }
 
+function readErrorDetail(payload: unknown, fallback: string): string {
+  if (typeof payload === "string" && payload.trim()) {
+    return payload;
+  }
+
+  if (payload && typeof payload === "object") {
+    const detail = (payload as { detail?: unknown }).detail;
+    if (typeof detail === "string" && detail.trim()) {
+      return detail;
+    }
+  }
+
+  return fallback;
+}
+
+function normalizeTimeForApi(rawTime: string): string {
+  const input = rawTime.trim();
+  const twentyFourHour = /^([01]?\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/.exec(input);
+  if (twentyFourHour) {
+    const hour = twentyFourHour[1].padStart(2, "0");
+    const minute = twentyFourHour[2];
+    const second = twentyFourHour[3] ?? "00";
+    return `${hour}:${minute}:${second}`;
+  }
+
+  const twelveHour = /^(\d{1,2}):([0-5]\d)\s*([AP]M)$/i.exec(input);
+  if (twelveHour) {
+    const hourValue = Number(twelveHour[1]);
+    const minute = twelveHour[2];
+    const meridiem = twelveHour[3].toUpperCase();
+    const convertedHour =
+      meridiem === "AM"
+        ? (hourValue === 12 ? 0 : hourValue)
+        : (hourValue === 12 ? 12 : hourValue + 12);
+    return `${String(convertedHour).padStart(2, "0")}:${minute}:00`;
+  }
+
+  return input;
+}
+
 // === Weekly Availability ===
 
 export async function getWeeklyAvailability(doctorId: string) {
@@ -175,16 +215,66 @@ export async function requestReschedule(data: {
   reason?: string;
 }) {
   const headers = await authHeaders();
+  const normalizedTime = normalizeTimeForApi(data.proposed_time);
+  const canonicalPayload = {
+    proposed_date: data.proposed_date,
+    proposed_time: normalizedTime,
+    reason: data.reason,
+  };
 
-  const response = await fetch(`${BACKEND_URL}/reschedule/request`, {
+  const response = await fetch(`${BACKEND_URL}/appointment/${data.appointment_id}/reschedule-requests`, {
     method: "POST",
     headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify(canonicalPayload),
   });
 
+  if (!response.ok && response.status === 404) {
+    // Compatibility fallback: legacy dedicated reschedule router.
+    const compatResponse = await fetch(`${BACKEND_URL}/reschedule/request`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        appointment_id: data.appointment_id,
+        proposed_date: data.proposed_date,
+        proposed_time: normalizedTime,
+        reason: data.reason,
+      }),
+    });
+
+    if (compatResponse.ok) {
+      revalidatePath("/patient/appointments");
+      revalidatePath("/doctor/appointments");
+      return compatResponse.json();
+    }
+
+    if (compatResponse.status !== 404) {
+      const compatError = await compatResponse.json().catch(() => null);
+      throw new Error(readErrorDetail(compatError, "Failed to request reschedule"));
+    }
+
+    // Final fallback: old appointment legacy endpoint accepting `new_appointment_date`.
+    const legacyResponse = await fetch(`${BACKEND_URL}/appointment/${data.appointment_id}/request-reschedule`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        new_appointment_date: `${data.proposed_date}T${normalizedTime}`,
+        reason: data.reason,
+      }),
+    });
+
+    if (!legacyResponse.ok) {
+      const legacyError = await legacyResponse.json().catch(() => null);
+      throw new Error(readErrorDetail(legacyError, "Failed to request reschedule"));
+    }
+
+    revalidatePath("/patient/appointments");
+    revalidatePath("/doctor/appointments");
+    return legacyResponse.json();
+  }
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || "Failed to request reschedule");
+    const error = await response.json().catch(() => null);
+    throw new Error(readErrorDetail(error, "Failed to request reschedule"));
   }
 
   revalidatePath("/patient/appointments");
@@ -194,22 +284,43 @@ export async function requestReschedule(data: {
 
 export async function respondToReschedule(
   requestId: string,
-  accept: boolean
+  accept: boolean,
+  responseNote?: string,
 ) {
   const headers = await authHeaders();
 
   const response = await fetch(
-    `${BACKEND_URL}/reschedule/${requestId}/respond`,
+    `${BACKEND_URL}/appointment/reschedule-requests/${requestId}/respond`,
     {
       method: "POST",
       headers,
-      body: JSON.stringify({ accept }),
+      body: JSON.stringify({ accept, response_note: responseNote }),
     }
   );
 
+  if (!response.ok && response.status === 404) {
+    const compatResponse = await fetch(
+      `${BACKEND_URL}/reschedule/${requestId}/respond`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ accept, response_note: responseNote }),
+      }
+    );
+
+    if (!compatResponse.ok) {
+      const compatError = await compatResponse.json().catch(() => null);
+      throw new Error(readErrorDetail(compatError, "Failed to respond to reschedule"));
+    }
+
+    revalidatePath("/patient/appointments");
+    revalidatePath("/doctor/appointments");
+    return compatResponse.json();
+  }
+
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || "Failed to respond to reschedule");
+    const error = await response.json().catch(() => null);
+    throw new Error(readErrorDetail(error, "Failed to respond to reschedule"));
   }
 
   revalidatePath("/patient/appointments");

@@ -1,15 +1,40 @@
 import os
 import logging
+import asyncio
 from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
+from app.db.session import AsyncSessionLocal
+from app.services import appointment_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+async def _run_hold_expiry_loop(stop_event: asyncio.Event) -> None:
+    """Periodically expire stale pending soft-holds."""
+    interval_seconds = int(os.getenv("APPOINTMENT_HOLD_SWEEP_INTERVAL_SECONDS", "60"))
+
+    while not stop_event.is_set():
+        try:
+            async with AsyncSessionLocal() as db:
+                expired_count = await appointment_service.expire_pending_holds(db)
+                if expired_count > 0:
+                    await db.commit()
+                    logger.info("Expired %s pending appointment hold(s)", expired_count)
+                else:
+                    await db.rollback()
+        except Exception as exc:
+            logger.warning("Hold expiry loop iteration failed: %s", exc)
+
+        try:
+            await asyncio.wait_for(stop_event.wait(), timeout=interval_seconds)
+        except asyncio.TimeoutError:
+            continue
 
 
 @asynccontextmanager
@@ -41,9 +66,14 @@ async def lifespan(app: FastAPI):
     except Exception as exc:
         logger.warning("Failed to start reminder dispatcher: %s", exc)
 
+    hold_expiry_stop_event = asyncio.Event()
+    hold_expiry_task = asyncio.create_task(_run_hold_expiry_loop(hold_expiry_stop_event))
+
     yield  # Application runs
 
     # Shutdown: Cleanup (if needed)
+    hold_expiry_stop_event.set()
+    await hold_expiry_task
     await stop_reminder_dispatcher()
     logger.info("Shutting down...")
 

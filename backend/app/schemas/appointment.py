@@ -105,6 +105,7 @@ class AppointmentResponse(AppointmentBase):
     cancellation_reason_note: Optional[str] = None
     cancelled_by_id: Optional[str] = None
     cancelled_at: Optional[datetime] = None
+    hold_expires_at: Optional[datetime] = None
 
     # Optional nested details for frontend display
     doctor_name: Optional[str] = None
@@ -138,3 +139,14 @@ class AppointmentRequestResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class AppointmentRescheduleRequestCreate(BaseModel):
+    proposed_date: date
+    proposed_time: time
+    reason: Optional[str] = None
+
+
+class AppointmentRescheduleRespond(BaseModel):
+    accept: bool
+    response_note: Optional[str] = Field(default=None, max_length=1000)
