@@ -91,6 +91,12 @@ class AppointmentRescheduleRequest(Base):
         ),
         default=RescheduleRequestStatus.PENDING,
     )
+    responded_by_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("profiles.id"), nullable=True
+    )
+    responded_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    response_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    expires_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
@@ -99,3 +105,4 @@ class AppointmentRescheduleRequest(Base):
     # Relationships
     appointment = relationship("Appointment", backref="reschedule_requests")
     requested_by = relationship("Profile", foreign_keys=[requested_by_id])
+    responded_by = relationship("Profile", foreign_keys=[responded_by_id])

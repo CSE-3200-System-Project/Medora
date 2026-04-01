@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
-import { getDoctorBookedSlots } from "@/lib/appointment-actions";
+import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
 
 interface RescheduleAppointmentDialogProps {
@@ -36,9 +36,7 @@ interface RescheduleAppointmentDialogProps {
 
 interface TimeSlot {
   time: string;
-  is_booked: boolean;
-  is_past: boolean;
-  patient_name?: string | null;
+  available: boolean;
 }
 
 export function RescheduleAppointmentDialog({
@@ -55,6 +53,7 @@ export function RescheduleAppointmentDialog({
   const [loadingSlots, setLoadingSlots] = React.useState(false);
   const [slots, setSlots] = React.useState<TimeSlot[]>([]);
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
 
   // Reset state when dialog opens
   React.useEffect(() => {
@@ -64,6 +63,7 @@ export function RescheduleAppointmentDialog({
       setNotes("");
       setSlots([]);
       setCurrentMonth(new Date());
+      setSubmitError(null);
     }
   }, [open]);
 
@@ -72,11 +72,15 @@ export function RescheduleAppointmentDialog({
     
     setLoadingSlots(true);
     setSelectedSlot(null);
+    setSubmitError(null);
     
     try {
       const dateStr = localDateKey(date);
-      const data = await getDoctorBookedSlots(appointment.doctor_id, dateStr);
-      setSlots(data.slots || []);
+      const data = await getAvailableSlots(appointment.doctor_id, dateStr);
+      const availableSlots: TimeSlot[] = (data?.slots || [])
+        .flatMap((group: { slots?: TimeSlot[] }) => group.slots || [])
+        .filter((slot: TimeSlot) => slot.available);
+      setSlots(availableSlots);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
       setSlots([]);
@@ -104,19 +108,24 @@ export function RescheduleAppointmentDialog({
     if (!appointment || !selectedDate || !selectedSlot) return;
 
     setLoading(true);
+    setSubmitError(null);
     try {
       const dateStr = localDateKey(selectedDate);
       await onConfirm(appointment.id, dateStr, selectedSlot, notes || undefined);
       onOpenChange(false);
     } catch (error) {
       console.error("Failed to reschedule appointment:", error);
+      setSubmitError(error instanceof Error ? error.message : "Failed to reschedule appointment");
     } finally {
       setLoading(false);
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+  const formatDate = (value: string | Date) => {
+    const date = typeof value === "string" ? new Date(value) : value;
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
   };
@@ -253,7 +262,7 @@ export function RescheduleAppointmentDialog({
             {selectedDate && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium">
-                  Select a time slot for {formatDate(selectedDate.toISOString())}
+                  Select a time slot for {formatDate(selectedDate)}
                 </Label>
                 {loadingSlots ? (
                   <div className="flex items-center justify-center py-4">
@@ -266,18 +275,15 @@ export function RescheduleAppointmentDialog({
                 ) : (
                   <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
                     {slots.map((slot) => {
-                      const isAvailable = !slot.is_booked && !slot.is_past;
                       const isSelected = selectedSlot === slot.time;
                       
                       return (
                         <button
                           key={slot.time}
-                          onClick={() => isAvailable && setSelectedSlot(slot.time)}
-                          disabled={!isAvailable}
+                          onClick={() => setSelectedSlot(slot.time)}
                           className={`
                             p-2 text-sm rounded-lg border transition-colors
-                            ${!isAvailable ? 'bg-muted/50 text-muted-foreground/50 cursor-not-allowed border-border' : ''}
-                            ${isAvailable && !isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
+                            ${!isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
                             ${isSelected ? 'bg-primary text-primary-foreground border-primary' : ''}
                           `}
                         >
@@ -289,6 +295,12 @@ export function RescheduleAppointmentDialog({
                 )}
               </div>
             )}
+
+            {submitError ? (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {submitError}
+              </div>
+            ) : null}
 
             {/* Notes */}
             <div className="space-y-2">

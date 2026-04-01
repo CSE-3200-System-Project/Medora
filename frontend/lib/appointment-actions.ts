@@ -336,26 +336,89 @@ export async function getDoctorPatients() {
   return response.json();
 }
 
-// Reschedule an appointment
+function toReschedulePayload(newAppointmentDate: string) {
+  const parsed = new Date(newAppointmentDate);
+  if (Number.isNaN(parsed.getTime())) {
+    throw new Error("Invalid appointment date");
+  }
+
+  const iso = parsed.toISOString();
+  return {
+    proposed_date: iso.slice(0, 10),
+    proposed_time: iso.slice(11, 16),
+  };
+}
+
+// Reschedule helper (legacy alias kept for compatibility)
 export async function rescheduleAppointment(id: string, newDate: string, newSlot: string) {
+  const slotSuffix = newSlot ? ` ${newSlot}` : "";
+  return requestRescheduleAppointment(id, newDate, `Reschedule requested${slotSuffix}`.trim());
+}
+
+export async function deletePendingAppointmentRequest(appointmentId: string) {
+  if (!appointmentId?.trim()) {
+    throw new Error("Invalid appointment id");
+  }
+
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
   if (!token) throw new Error("Not authenticated");
 
-  const response = await fetch(`${BACKEND_URL}/appointment/${id}`, {
-    method: "PATCH",
+  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/pending-request`, {
+    method: "DELETE",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      appointment_date: new Date(newDate).toISOString(),
-      notes: `Rescheduled to: ${newSlot}`,
-    }),
   });
 
-  if (!response.ok) throw new Error("Reschedule failed");
+  if (!response.ok && response.status === 404) {
+    // Compatibility fallback for older backend builds that don't expose /pending-request yet.
+    const cancelResponse = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/cancel`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        reason_key: "OTHER",
+        reason_note: "Pending request deleted by patient",
+      }),
+    });
+
+    if (cancelResponse.ok) {
+      revalidatePath("/doctor/appointments");
+      revalidatePath("/patient/appointments");
+      return cancelResponse.json();
+    }
+
+    // Final fallback for legacy PATCH status flow.
+    const legacyPatchResponse = await fetch(`${BACKEND_URL}/appointment/${appointmentId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        status: "CANCELLED",
+        notes: "Pending request deleted by patient",
+      }),
+    });
+
+    if (legacyPatchResponse.ok) {
+      revalidatePath("/doctor/appointments");
+      revalidatePath("/patient/appointments");
+      return legacyPatchResponse.json();
+    }
+
+    const legacyError = await legacyPatchResponse.json().catch(() => null);
+    throw new Error(getErrorMessage(legacyError?.detail, "Failed to delete pending request"));
+  }
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(getErrorMessage(error?.detail, "Failed to delete pending request"));
+  }
 
   revalidatePath("/doctor/appointments");
   revalidatePath("/patient/appointments");
@@ -415,20 +478,23 @@ export async function completeAppointment(appointmentId: string) {
   return response.json();
 }
 
-// Respond to reschedule request (patient only)
-export async function respondToRescheduleRequest(appointmentId: string, accepted: boolean) {
+export async function respondToRescheduleRequest(
+  rescheduleRequestId: string,
+  accepted: boolean,
+  responseNote?: string,
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
   if (!token) throw new Error("Not authenticated");
 
-  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/reschedule-response`, {
+  const response = await fetch(`${BACKEND_URL}/appointment/reschedule-requests/${rescheduleRequestId}/respond`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ accepted }),
+    body: JSON.stringify({ accept: accepted, response_note: responseNote }),
   });
 
   if (!response.ok) {
@@ -441,20 +507,27 @@ export async function respondToRescheduleRequest(appointmentId: string, accepted
   return response.json();
 }
 
-// Request reschedule (doctor only)
-export async function requestRescheduleAppointment(appointmentId: string, newAppointmentDate: string) {
+export async function requestRescheduleAppointment(
+  appointmentId: string,
+  newAppointmentDate: string,
+  reason?: string,
+) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
   if (!token) throw new Error("Not authenticated");
+  const payload = toReschedulePayload(newAppointmentDate);
 
-  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/request-reschedule`, {
+  const response = await fetch(`${BACKEND_URL}/appointment/${appointmentId}/reschedule-requests`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ new_appointment_date: newAppointmentDate }),
+    body: JSON.stringify({
+      ...payload,
+      reason,
+    }),
   });
 
   if (!response.ok) {
