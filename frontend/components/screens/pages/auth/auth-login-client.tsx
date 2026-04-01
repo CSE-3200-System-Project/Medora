@@ -18,7 +18,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { login, getCurrentUser } from "@/lib/auth-actions";
+import { login } from "@/lib/auth-actions";
 import { setAdminAccess } from "@/lib/admin-actions";
 import { toast } from "@/lib/notify";
 import { AppBackground } from "@/components/ui/app-background";
@@ -48,11 +48,22 @@ function LoginPageContent() {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktopViewport = window.matchMedia("(min-width: 1280px)").matches;
+
+    if (prefersReducedMotion || !isDesktopViewport) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [images.length]);
 
   useEffect(() => {
@@ -66,27 +77,6 @@ function LoginPageContent() {
       return () => clearTimeout(hideTimer);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const user = await getCurrentUser();
-        if (user) {
-          const role = user.role.toLowerCase();
-          if (role === 'doctor') {
-            router.push('/doctor/home');
-          } else if (!user.onboarding_completed) {
-            router.push(`/onboarding/${role}`);
-          } else {
-            router.push('/patient/home');
-          }
-        }
-      } catch {
-        // Ignore error, just stay on login page
-      }
-    };
-    checkSession();
-  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -136,24 +126,24 @@ function LoginPageContent() {
   };
 
   return (
-    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 relative animate-page-enter">
+    <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 relative animate-page-enter">
       {/* Admin Access Button */}
       <button
         onClick={() => setShowAdminDialog(true)}
-        className="fixed top-4 right-4 p-3 bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
+        className="fixed top-3 right-3 sm:top-4 sm:right-4 size-11 sm:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
         aria-label="Admin Access"
       >
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
       </button>
 
-      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
-        <div className="flex flex-col lg:flex-row min-h-150">
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
+        <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,46rem)]">
           {/* Left Side - Hero/Image */}
-          <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
+          <div className="relative w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
               <div 
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                className={`absolute inset-0 transition-none xl:transition-opacity xl:duration-700 xl:ease-in-out ${
                   index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -171,17 +161,17 @@ function LoginPageContent() {
 
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
-            <div className="relative z-10 h-full flex flex-col items-center text-white p-6 md:p-12 text-center">
+            <div className="relative z-10 h-full flex flex-col items-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
               <div className="flex-1 flex flex-col items-center justify-center w-full">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight transition-all duration-500">
+                <h1 className="min-h-[4.5rem] sm:min-h-[5.25rem] text-2xl sm:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
                   {images[currentImageIndex].text}
                 </h1>
-                <p className="text-sm sm:text-base text-white/90 hidden sm:block">
+                <p className="text-sm sm:text-base text-white/90 hidden md:block">
                   Access your dashboard, manage appointments, and stay connected with your healthcare journey.
                 </p>
               </div>
               
-              <div className="flex justify-center gap-2 pb-2">
+              <div className="flex justify-center gap-2 pb-1 sm:pb-2">
                 {images.map((_, index) => (
                   <button
                     key={index}
@@ -197,8 +187,8 @@ function LoginPageContent() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="w-full lg:w-1/2 bg-card p-8 lg:p-12 flex flex-col justify-center">
-            <div className="w-full max-w-md mx-auto space-y-8">
+          <div className="w-full xl:w-1/2 bg-card p-5 sm:p-6 md:p-8 xl:p-10 flex flex-col justify-center">
+            <div className="w-full max-w-md mx-auto space-y-6 sm:space-y-7">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative w-32 h-32">
                    <Image src={medoraDarkLogo} alt="Medora Logo" fill sizes="128px" className="object-contain dark:hidden" />
@@ -286,7 +276,7 @@ function LoginPageContent() {
 
       {/* Admin Access Dialog */}
       <Dialog open={showAdminDialog} onOpenChange={setShowAdminDialog}>
-        <DialogContent className="bg-linear-to-br from-background via-surface to-background border-border text-white sm:max-w-md">
+        <DialogContent className="bg-linear-to-br from-background via-surface to-background border-border text-white w-[min(92vw,28rem)] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-xl">
               <div className="p-2 bg-primary/20 rounded-lg">

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronRight, ChevronLeft, Upload, Plus, Trash2, MapPin } from "lucide-react"
+import { ChevronRight, ChevronLeft, Upload, Plus, Trash2, MapPin, CheckCircle2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,6 +32,21 @@ const STEPS = [
   { id: 7, title: "About & Bio", shortName: "About" },
   { id: 8, title: "Preferences & Consent", shortName: "Consent" },
 ]
+
+const DOCTOR_ONBOARDING_TIME_ESTIMATE = "10-12 minutes"
+const DOCTOR_ONBOARDING_AHA =
+  "Once your profile, chambers, and schedule are complete, patients can discover and book you with greater trust."
+
+const DOCTOR_STEP_GUIDANCE: Record<number, string> = {
+  1: "Identity details to build a trusted professional profile.",
+  2: "Credentials that help patients and admins verify your practice.",
+  3: "Specialties and services to improve patient matching.",
+  4: "Career history that strengthens clinical credibility.",
+  5: "Practice locations and map pins for precise discoverability.",
+  6: "Consultation fees and schedule setup for booking readiness.",
+  7: "A concise bio so patients understand your expertise.",
+  8: "Language, telemedicine, and consent preferences.",
+}
 
 interface Education {
   degree: string
@@ -92,6 +107,8 @@ export function DoctorOnboarding() {
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
   const [showSkipDialog, setShowSkipDialog] = useState(false)
+  const [showCompletionState, setShowCompletionState] = useState(false)
+  const [completionCountdown, setCompletionCountdown] = useState(3)
   const [specialities, setSpecialities] = useState<Speciality[]>([])
   const [mapPickerLocationId, setMapPickerLocationId] = useState<string | null>(null)
   const [scheduleLocationId, setScheduleLocationId] = useState<string | null>(null)
@@ -325,6 +342,23 @@ export function DoctorOnboarding() {
     }
     fetchSpecialities();
   }, []);
+
+  useEffect(() => {
+    if (!showCompletionState) {
+      return
+    }
+
+    if (completionCountdown <= 0) {
+      router.push("/doctor/home")
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      setCompletionCountdown((prev) => prev - 1)
+    }, 1000)
+
+    return () => window.clearTimeout(timer)
+  }, [showCompletionState, completionCountdown, router])
 
   const handleInputChange = <K extends keyof typeof formData>(field: K, value: (typeof formData)[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -628,7 +662,8 @@ export function DoctorOnboarding() {
       try {
         await updateDoctorOnboarding(preparePayload())
         await completeOnboarding()
-        router.push("/doctor/home")
+        setCompletionCountdown(3)
+        setShowCompletionState(true)
       } catch (error) {
         console.error("Failed to complete onboarding", error)
       } finally {
@@ -1349,9 +1384,55 @@ export function DoctorOnboarding() {
     )
   }
 
+  if (showCompletionState) {
+    return (
+      <div className="mx-auto flex w-full max-w-2xl px-2 py-8 sm:px-4">
+        <Card className="w-full border-border bg-card shadow-xl">
+          <CardHeader className="space-y-3 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10">
+              <CheckCircle2 className="h-9 w-9 text-success" />
+            </div>
+            <CardTitle className="text-xl sm:text-2xl">Doctor Profile Ready</CardTitle>
+            <CardDescription>
+              Onboarding is complete. Patients can now discover your profile, locations, and consultation availability.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-center">
+            <p className="text-sm text-muted-foreground">Redirecting to your home dashboard in {completionCountdown} seconds...</p>
+            <Button onClick={() => router.push("/doctor/home")} className="w-full sm:w-auto" variant="medical">
+              Go to Doctor Home
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto w-full max-w-5xl px-1 sm:px-2">
       <div className="space-y-6">
+        {currentStep === 1 && (
+          <Card className="border-primary/20 bg-primary-more-light/30">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base sm:text-lg">Set up your doctor profile in about {DOCTOR_ONBOARDING_TIME_ESTIMATE}</CardTitle>
+              <CardDescription className="text-foreground/90">{DOCTOR_ONBOARDING_AHA}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 pt-0">
+              <div className="grid gap-2 text-sm text-foreground/90 sm:grid-cols-3">
+                <p>1. Confirm identity and credentials</p>
+                <p>2. Add chambers and map locations</p>
+                <p>3. Set fees, schedule, and finish consent</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button type="button" size="sm" variant="outline" onClick={() => setShowSkipDialog(true)}>
+                  Skip for now
+                </Button>
+                <p className="text-xs text-muted-foreground">You can finish onboarding later from settings.</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={(id) => setCurrentStep(id)} />
 
         <AnimatePresence mode="wait">
@@ -1365,8 +1446,9 @@ export function DoctorOnboarding() {
             <Card className="border-border shadow-xl bg-card">
               <CardHeader>
                 <CardTitle>{STEPS[currentStep - 1].title}</CardTitle>
-                <CardDescription>
-                  Step {currentStep} of {STEPS.length}
+                <CardDescription className="space-y-1">
+                  <span className="block">Step {currentStep} of {STEPS.length}</span>
+                  <span className="block text-xs">{DOCTOR_STEP_GUIDANCE[currentStep]}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent>

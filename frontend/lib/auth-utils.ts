@@ -22,7 +22,7 @@ export function handleUnauthorized() {
   // Notify app that we've logged out (components can listen and update UI)
   try {
     window.dispatchEvent(new Event("medora:logged_out"));
-  } catch (e) {
+  } catch {
     // ignore in non-browser environments
   }
 
@@ -39,7 +39,7 @@ export function handleUnauthorized() {
   }
 }
 
-function isAbortLikeError(error: unknown, signal?: AbortSignal): boolean {
+function isAbortLikeError(error: unknown, signal?: AbortSignal | null): boolean {
   if (signal?.aborted) {
     return true;
   }

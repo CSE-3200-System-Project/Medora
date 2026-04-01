@@ -105,7 +105,7 @@ export default function Home() {
         </section>
 
         <section id="for-patients" className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center">
-          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-[clamp(16rem,44vw,30rem)] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={patientImg} alt="Patient experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
@@ -149,7 +149,7 @@ export default function Home() {
               <Link href="/selection">Start as a Doctor</Link>
             </Button>
           </div>
-          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-[clamp(16rem,44vw,30rem)] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={doctorImg} alt="Doctor experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">

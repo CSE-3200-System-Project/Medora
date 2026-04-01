@@ -23,9 +23,9 @@ export default async function HomeLayout({
   const isPatient = roleValue.toLowerCase() === "patient";
   
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-dvh min-h-app w-full overflow-x-hidden">
       {isPatient ? <ReminderNotificationService /> : null}
-      <div className="min-h-screen w-full">
+      <div className="min-h-dvh min-h-app w-full">
         {children}
       </div>
     </div>
