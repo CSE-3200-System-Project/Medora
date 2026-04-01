@@ -8,7 +8,7 @@ from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import VerificationStatus, UserRole, AccountStatus
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 from typing import Any
 import re
@@ -96,6 +96,14 @@ def _sanitize_reason(reason: str | None) -> str:
     sanitized = re.sub(r"[\x00-\x1f\x7f]+", " ", raw)
     sanitized = re.sub(r"\s+", " ", sanitized).strip()
     return sanitized[:1000]
+
+
+def _to_utc(dt: datetime | None) -> datetime | None:
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
 
 
 class CreatePatientRequest(BaseModel):
@@ -635,7 +643,7 @@ async def get_patient_insights(
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
 ):
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     day_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
     todays_registrations_result = await db.execute(
@@ -663,11 +671,13 @@ async def get_patient_insights(
 
     activity = []
     for profile in recent_profiles:
+        created_at = _to_utc(profile.created_at)
+        updated_at = _to_utc(profile.updated_at)
         full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
         if profile.status == AccountStatus.banned:
             event_type = "account_banned"
             message = f"{full_name} account was banned"
-        elif profile.created_at and (now - profile.created_at) <= timedelta(hours=24):
+        elif created_at and (now - created_at) <= timedelta(hours=24):
             event_type = "registration"
             message = f"New patient registration: {full_name}"
         else:
@@ -678,7 +688,7 @@ async def get_patient_insights(
             "id": profile.id,
             "type": event_type,
             "message": message,
-            "timestamp": (profile.updated_at or profile.created_at or now).isoformat(),
+            "timestamp": (updated_at or created_at or now).isoformat(),
         })
 
     return {

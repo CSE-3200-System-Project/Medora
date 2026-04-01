@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 
 import type { AnalyticsMetric } from "@/components/doctor/analytics/types";
@@ -62,6 +62,8 @@ const MetricSparkline = memo(function MetricSparkline({
 });
 
 export function MetricsGrid({ metrics, isLoading = false }: MetricsGridProps) {
+  const [expandedMetricId, setExpandedMetricId] = useState<string | undefined>(undefined);
+
   if (isLoading) {
     return (
       <section className="space-y-6">
@@ -149,7 +151,13 @@ export function MetricsGrid({ metrics, isLoading = false }: MetricsGridProps) {
           <p className="mt-1 text-sm text-muted-foreground">Deep metric diagnostics and raw trend traces.</p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion
+          type="single"
+          collapsible
+          value={expandedMetricId}
+          onValueChange={(value) => setExpandedMetricId(value || undefined)}
+          className="w-full"
+        >
           {metrics.map((metric) => (
             <AccordionItem key={metric.id} value={metric.id} className="border-border/60">
               <AccordionTrigger className={detailAccordionTriggerClass}>
@@ -167,19 +175,21 @@ export function MetricsGrid({ metrics, isLoading = false }: MetricsGridProps) {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                  <MetricSparkline metric={metric} className="h-24" />
-                  <div className="rounded-lg border border-border/60 bg-muted/20 p-3">
-                    <p className="mb-2 text-sm font-medium text-muted-foreground">Trend points</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {metric.sparkline.map((point, index) => (
-                        <span key={`${metric.id}-point-${index}`} className="rounded-md bg-muted px-2 py-1 text-sm font-medium tabular-nums text-muted-foreground">
-                          {point}
-                        </span>
-                      ))}
+                {expandedMetricId === metric.id ? (
+                  <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                    <MetricSparkline metric={metric} className="h-24" />
+                    <div className="rounded-lg border border-border/60 bg-muted/20 p-3">
+                      <p className="mb-2 text-sm font-medium text-muted-foreground">Trend points</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {metric.sparkline.map((point, index) => (
+                          <span key={`${metric.id}-point-${index}`} className="rounded-md bg-muted px-2 py-1 text-sm font-medium tabular-nums text-muted-foreground">
+                            {point}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : null}
               </AccordionContent>
             </AccordionItem>
           ))}

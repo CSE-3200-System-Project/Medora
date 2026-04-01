@@ -108,7 +108,17 @@ export async function getPatientHealthForDoctor(patientId: string, days: number 
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: "Failed to fetch patient health data" }));
-    throw new Error(error.detail || "Failed to fetch patient health data");
+    const detail = String(error.detail || "Failed to fetch patient health data");
+    const lowered = detail.toLowerCase();
+    const consentMissing =
+      response.status === 403 &&
+      (lowered.includes("not granted") || lowered.includes("no active consent"));
+
+    if (consentMissing) {
+      return null;
+    }
+
+    throw new Error(detail);
   }
 
   return (await response.json()) as PatientHealthOverview;

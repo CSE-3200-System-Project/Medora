@@ -5,6 +5,7 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
@@ -13,6 +14,90 @@ from app.services import appointment_service
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+async def _ensure_scheduling_schema_compatibility() -> None:
+    """Repair known scheduling schema drift in long-lived/dev databases."""
+    try:
+        async with AsyncSessionLocal() as db:
+            appointments_table_exists = (
+                await db.execute(
+                    text("SELECT to_regclass('public.appointments')")
+                )
+            ).scalar_one_or_none() is not None
+            if appointments_table_exists:
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointments "
+                        "ADD COLUMN IF NOT EXISTS hold_expires_at TIMESTAMPTZ"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "CREATE INDEX IF NOT EXISTS ix_appointments_hold_expires_at "
+                        "ON appointments (hold_expires_at)"
+                    )
+                )
+
+            reschedule_table_exists = (
+                await db.execute(
+                    text("SELECT to_regclass('public.appointment_reschedule_requests')")
+                )
+            ).scalar_one_or_none() is not None
+            if reschedule_table_exists:
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointment_reschedule_requests "
+                        "ADD COLUMN IF NOT EXISTS responded_by_id VARCHAR"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointment_reschedule_requests "
+                        "ADD COLUMN IF NOT EXISTS responded_at TIMESTAMPTZ"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointment_reschedule_requests "
+                        "ADD COLUMN IF NOT EXISTS response_note TEXT"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointment_reschedule_requests "
+                        "ADD COLUMN IF NOT EXISTS expires_at TIMESTAMPTZ"
+                    )
+                )
+                await db.execute(
+                    text(
+                        """
+                        DO $$
+                        BEGIN
+                            IF NOT EXISTS (
+                                SELECT 1
+                                FROM pg_constraint
+                                WHERE conname = 'fk_appointment_reschedule_requests_responded_by_id_profiles'
+                            ) THEN
+                                ALTER TABLE appointment_reschedule_requests
+                                ADD CONSTRAINT fk_appointment_reschedule_requests_responded_by_id_profiles
+                                FOREIGN KEY (responded_by_id) REFERENCES profiles(id);
+                            END IF;
+                        END
+                        $$;
+                        """
+                    )
+                )
+                await db.execute(
+                    text(
+                        "CREATE INDEX IF NOT EXISTS ix_appointment_reschedule_requests_responded_by_id "
+                        "ON appointment_reschedule_requests (responded_by_id)"
+                    )
+                )
+
+            await db.commit()
+    except Exception as exc:
+        logger.warning("Scheduling schema compatibility check failed: %s", exc)
 
 
 async def _run_hold_expiry_loop(stop_event: asyncio.Event) -> None:
@@ -59,6 +144,9 @@ async def lifespan(app: FastAPI):
             logger.warning("Model will be loaded on first voice transcription request")
     else:
         logger.info("Skipping Whisper preload (PRELOAD_WHISPER_ON_STARTUP=false)")
+
+    # Startup: self-heal known scheduling drift (kept idempotent)
+    await _ensure_scheduling_schema_compatibility()
 
     # Startup: begin reminder dispatch loop
     try:
