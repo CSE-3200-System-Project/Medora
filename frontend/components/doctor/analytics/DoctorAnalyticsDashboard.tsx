@@ -66,6 +66,7 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
 }: DoctorAnalyticsDashboardProps) {
   const [dateRange, setDateRange] = useState<DateRangeOption>(initialData?.dateRange ?? "30d");
   const [comparePeriod, setComparePeriod] = useState<boolean>(initialData?.comparePeriod ?? false);
+  const [expandedTertiarySection, setExpandedTertiarySection] = useState<string | undefined>(undefined);
   const resolvedData = initialData;
   const error = initialError ?? (resolvedData ? null : "Unable to load analytics data at this moment.");
   const isLoading = false;
@@ -192,6 +193,8 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
             <Accordion
               type="single"
               collapsible
+              value={expandedTertiarySection}
+              onValueChange={(value) => setExpandedTertiarySection(value || undefined)}
               className="rounded-xl border border-border/60 bg-background/80 px-3 py-1"
             >
               <AccordionItem value="clinical-conditions" className="border-border/60">
@@ -202,11 +205,13 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <ClinicalConditionsCard
-                    alert={resolvedData?.conditions.alert ?? "AI Alert"}
-                    conditions={resolvedData?.conditions.items ?? []}
-                    isLoading={isLoading}
-                  />
+                  {expandedTertiarySection === "clinical-conditions" ? (
+                    <ClinicalConditionsCard
+                      alert={resolvedData?.conditions.alert ?? "AI Alert"}
+                      conditions={resolvedData?.conditions.items ?? []}
+                      isLoading={isLoading}
+                    />
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
 
@@ -218,19 +223,21 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <PrescriptionSafetyCard
-                    data={
-                      resolvedData?.prescriptionSafety ?? {
-                        score: 0,
-                        safe: 0,
-                        warning: 0,
-                        blocked: 0,
-                        overrideRate: 0,
-                        status: "Unknown",
+                  {expandedTertiarySection === "prescription-safety" ? (
+                    <PrescriptionSafetyCard
+                      data={
+                        resolvedData?.prescriptionSafety ?? {
+                          score: 0,
+                          safe: 0,
+                          warning: 0,
+                          blocked: 0,
+                          overrideRate: 0,
+                          status: "Unknown",
+                        }
                       }
-                    }
-                    isLoading={isLoading}
-                  />
+                      isLoading={isLoading}
+                    />
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
 
@@ -242,19 +249,21 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <AIPerformanceCard
-                    data={
-                      resolvedData?.aiPerformance ?? {
-                        suggestions: 0,
-                        accepted: 0,
-                        modified: 0,
-                        rejected: 0,
-                        insightTitle: "No AI insight",
-                        insightBody: "No data available.",
+                  {expandedTertiarySection === "ai-performance" ? (
+                    <AIPerformanceCard
+                      data={
+                        resolvedData?.aiPerformance ?? {
+                          suggestions: 0,
+                          accepted: 0,
+                          modified: 0,
+                          rejected: 0,
+                          insightTitle: "No AI insight",
+                          insightBody: "No data available.",
+                        }
                       }
-                    }
-                    isLoading={isLoading}
-                  />
+                      isLoading={isLoading}
+                    />
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
 
@@ -266,13 +275,15 @@ export const DoctorAnalyticsDashboard = memo(function DoctorAnalyticsDashboard({
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <ActionableInsightsSection
-                    title={resolvedData?.actionableInsights.title ?? "Smart Performance Optimization"}
-                    subtitle={resolvedData?.actionableInsights.subtitle ?? "No actionable insight data available yet."}
-                    ctaLabel={resolvedData?.actionableInsights.ctaLabel ?? "Apply Recommendations"}
-                    cards={resolvedData?.actionableInsights.cards ?? []}
-                    isLoading={isLoading}
-                  />
+                  {expandedTertiarySection === "actionable-insights" ? (
+                    <ActionableInsightsSection
+                      title={resolvedData?.actionableInsights.title ?? "Smart Performance Optimization"}
+                      subtitle={resolvedData?.actionableInsights.subtitle ?? "No actionable insight data available yet."}
+                      ctaLabel={resolvedData?.actionableInsights.ctaLabel ?? "Apply Recommendations"}
+                      cards={resolvedData?.actionableInsights.cards ?? []}
+                      isLoading={isLoading}
+                    />
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

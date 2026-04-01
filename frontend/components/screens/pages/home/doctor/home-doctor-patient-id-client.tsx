@@ -148,13 +148,24 @@ export default function DoctorPatientViewPage() {
     let cancelled = false
     const fetchHealth = async () => {
       setHealthLoading(true)
+      setHealthNoConsent(false)
+      setHealthOverview(null)
       try {
         const data = await getPatientHealthForDoctor(patientId, 7)
-        if (!cancelled) setHealthOverview(data)
+        if (!cancelled) {
+          if (data) {
+            setHealthOverview(data)
+            setHealthNoConsent(false)
+          } else {
+            setHealthNoConsent(true)
+          }
+        }
       } catch (err: any) {
         if (!cancelled) {
           if (err?.message?.includes("not granted")) {
             setHealthNoConsent(true)
+          } else {
+            setHealthNoConsent(false)
           }
         }
       } finally {
