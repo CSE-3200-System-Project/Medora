@@ -14,9 +14,9 @@ import {
   KeyRound,
   Eye,
   EyeOff,
-  Loader2,
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { GoogleCalendarConnect } from "@/components/settings/google-calendar-connect";
 import { changePassword } from "@/lib/auth-actions";
 
@@ -336,6 +336,17 @@ export default function SettingsPage() {
     setTheme("system");
     setSaveMessage("Settings reset to defaults.");
   };
+
+  if (!isHydrated) {
+    return (
+      <AppBackground className="container-padding animate-page-enter">
+        <Navbar />
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading settings..." cardCount={4} />
+        </main>
+      </AppBackground>
+    );
+  }
 
   return (
     <AppBackground className="container-padding animate-page-enter">
@@ -767,7 +778,7 @@ export default function SettingsPage() {
                 <Button type="submit" className="w-full" disabled={passwordLoading}>
                   {passwordLoading ? (
                     <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      <ButtonLoader className="h-4 w-4 mr-2" />
                       Changing Password...
                     </>
                   ) : (
@@ -781,10 +792,6 @@ export default function SettingsPage() {
           {/* Google Calendar Integration */}
           <GoogleCalendarConnect />
         </div>
-
-        {!isHydrated && (
-          <div className="mt-6 text-sm text-muted-foreground">Loading your settings...</div>
-        )}
       </main>
     </AppBackground>
   );

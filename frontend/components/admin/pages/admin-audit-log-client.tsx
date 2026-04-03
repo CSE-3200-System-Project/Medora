@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
   Table,
   TableBody,
@@ -201,8 +203,12 @@ export function AdminAuditLogClient({
 
         {loading ? (
           <Card className="bg-card/60 border-border/50">
-            <CardContent className="p-12 text-center">
-              <p className="text-muted-foreground">Loading audit logs...</p>
+            <CardContent className="space-y-4 p-6">
+              <div className="flex items-center justify-center py-2">
+                <MedoraLoader size="md" label="Loading audit logs..." />
+              </div>
+              <CardSkeleton />
+              <CardSkeleton />
             </CardContent>
           </Card>
         ) : logs.length === 0 ? (

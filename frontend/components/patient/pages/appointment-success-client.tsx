@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRight, Calendar, CheckCircle2, Clock, Home, User } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import logo from "@/assets/images/logo.png";
 
 type AppointmentData = {
@@ -26,8 +27,12 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
     return (
       <AppBackground>
         <div className="flex items-center justify-center min-h-dvh min-h-app px-4">
-          <div className="text-center">
-            <p className="text-muted-foreground">Loading appointment details...</p>
+          <div className="w-full max-w-2xl space-y-4">
+            <div className="flex justify-center py-2">
+              <MedoraLoader size="lg" label="Loading appointment details..." />
+            </div>
+            <CardSkeleton />
+            <CardSkeleton />
           </div>
         </div>
       </AppBackground>
@@ -37,47 +42,27 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
   return (
     <AppBackground className="animate-page-enter">
       <div className="flex items-center justify-center min-h-dvh min-h-app px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-2xl"
-        >
+        <div className="w-full max-w-2xl animate-fade-in-up">
           <div className="flex items-center justify-center gap-3 mb-8">
             <Image src={logo} alt="Medora Logo" width={64} height={64} className="w-10 h-10 sm:w-12 sm:h-12" />
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Medora</h1>
           </div>
 
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-            className="flex justify-center mb-6"
-          >
+          <div className="flex justify-center mb-6 animate-scale-in">
             <div className="relative">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.3 }}
-                className="absolute inset-0 bg-success/20 rounded-full blur-xl"
-              />
+              <div className="absolute inset-0 bg-success/20 rounded-full blur-xl" />
               <CheckCircle2 className="w-20 h-20 sm:w-24 sm:h-24 text-success relative z-10" />
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="text-center mb-8"
-          >
+          <div className="text-center mb-8 animate-fade-in-up delay-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
               Your <span className="text-success">appointment request</span> has been successfully submitted!
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground">We&apos;ll be in touch shortly to confirm.</p>
-          </motion.div>
+          </div>
 
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }}>
+          <div className="animate-fade-in-up delay-3">
             <Card className="rounded-2xl shadow-lg border-border/50 overflow-hidden mb-6">
               <div className="bg-primary/5 border-b border-border px-4 sm:px-6 py-3">
                 <h3 className="text-base sm:text-lg font-semibold text-foreground">Requested appointment details:</h3>
@@ -130,14 +115,9 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
                 )}
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.4 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
-          >
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up delay-3">
             <Link href="/patient/appointments" className="flex-1">
               <Button variant="medical" size="lg" className="w-full h-12 sm:h-14 text-sm sm:text-base font-semibold">
                 View My Appointments
@@ -150,8 +130,8 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
                 Back to Home
               </Button>
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </AppBackground>
   );

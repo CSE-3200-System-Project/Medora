@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { PatientAppointment } from "@/components/appointments/types";
+import { formatAppointmentTime } from "@/lib/utils";
 
 interface UpcomingAppointmentsListProps {
   appointments: PatientAppointment[];
@@ -90,12 +91,7 @@ function formatDateLabel(isoDate: string) {
 }
 
 function formatTimeLabel(isoDate: string, slotTime?: string | null) {
-  if (slotTime) return slotTime;
-  return new Date(isoDate).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
+  return formatAppointmentTime(isoDate, slotTime);
 }
 
 function appointmentTitle(appointment: PatientAppointment) {

@@ -21,6 +21,11 @@ import { MedicalTestSearch } from "@/components/medical-test"
 import { MedoraLoader } from "@/components/ui/medora-loader"
 import { updatePatientOnboarding, completeOnboarding, getPatientOnboardingData } from "@/lib/auth-actions"
 import { uploadMediaFile, type MediaCategory } from "@/lib/file-storage-actions"
+import {
+  toBackendPatientMedication,
+  toPatientMedication,
+  type BackendPatientMedication,
+} from "@/lib/patient-medication"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 
@@ -319,23 +324,9 @@ export function PatientOnboarding() {
             conditionDetails: data.condition_details || "",
             
             takingMeds: data.taking_meds ? "yes" : "no",
-            medications: (data.medications || []).map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-              if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
-              return {
-                id: crypto.randomUUID(),
-                drug_id: "",
-                display_name: med.name || "",
-                generic_name: med.generic_name || med.name || "",
-                strength: "",
-                dosage_form: "",
-                dosage: med.dosage || "",
-                frequency: med.frequency || "",
-                duration: med.duration || "",
-                status: "current" as const,
-                prescribing_doctor: med.prescribing_doctor || "",
-                notes: "",
-              };
-            }),
+            medications: (data.medications || []).map((med: BackendPatientMedication) =>
+              toPatientMedication(med),
+            ),
             drugAllergies: data.drug_allergies || [],
             foodAllergies: data.food_allergies || "",
             environmentalAllergies: data.environmental_allergies || "",
@@ -718,20 +709,9 @@ export function PatientOnboarding() {
       condition_details: formData.conditionDetails,
       
       taking_meds: formData.takingMeds,
-      medications: (formData.medications || []).map((m: any) => {
-        const med: any = {
-          // Convert internal medication object to backend expected shape
-          name: m.display_name || m.name || "",
-          dosage: m.dosage || "",
-          frequency: m.frequency || "",
-          duration: m.duration || "",
-          generic_name: m.generic_name || null,
-        }
-        if (m.prescribing_doctor && m.prescribing_doctor.trim()) {
-          med.prescribing_doctor = m.prescribing_doctor
-        }
-        return med
-      }),
+      medications: (formData.medications || []).map((medication) =>
+        toBackendPatientMedication(medication),
+      ),
       drug_allergies: formData.drugAllergies,
       food_allergies: formData.foodAllergies,
       environmental_allergies: formData.environmentalAllergies,
@@ -871,19 +851,9 @@ export function PatientOnboarding() {
 
     // Auto-save medications when they change
     try {
-      const backendMedications = medications.map((m: any) => {
-        const med: any = {
-          name: m.display_name || m.name || "",
-          dosage: m.dosage || "",
-          frequency: m.frequency || "",
-          duration: m.duration || "",
-          generic_name: m.generic_name || null,
-        }
-        if (m.prescribing_doctor && m.prescribing_doctor.trim()) {
-          med.prescribing_doctor = m.prescribing_doctor
-        }
-        return med
-      })
+      const backendMedications = medications.map((medication) =>
+        toBackendPatientMedication(medication),
+      )
 
       await updatePatientOnboarding({
         taking_meds: medications.length > 0 ? "yes" : "no",

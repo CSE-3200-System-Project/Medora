@@ -18,6 +18,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { Select } from "@/components/ui/select-native";
 import { BulkActionsBar } from "../patients/BulkActionsBar";
 import { InsightsPanel } from "../patients/InsightsPanel";
@@ -673,7 +675,13 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
 
         {patientsQuery.isLoading ? (
           <Card className="rounded-2xl border-border/60">
-            <CardContent className="py-10 text-center text-muted-foreground">{t("loading")}</CardContent>
+            <CardContent className="space-y-4 py-6">
+              <div className="flex items-center justify-center">
+                <MedoraLoader size="md" label={t("loading")} />
+              </div>
+              <CardSkeleton />
+              <CardSkeleton />
+            </CardContent>
           </Card>
         ) : (
           <div className="overflow-x-auto rounded-2xl">
@@ -813,7 +821,12 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
         title={t("modals.reports.title")}
       >
         {detailQuery.isLoading || !detailQuery.data ? (
-          <p className="text-sm text-muted-foreground">{t("loading")}</p>
+          <div className="space-y-3">
+            <div className="flex items-center justify-center">
+              <MedoraLoader size="sm" label={t("loading")} />
+            </div>
+            <CardSkeleton className="h-16" />
+          </div>
         ) : detailQuery.data.medical_tests && detailQuery.data.medical_tests.length > 0 ? (
           <ul className="max-h-72 space-y-2 overflow-y-auto rounded-lg border border-border/60 p-3 text-sm">
             {detailQuery.data.medical_tests.map((test, index) => (

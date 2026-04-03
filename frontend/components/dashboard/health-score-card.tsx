@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useMemo } from "react"
 import type { EChartsOption } from "echarts"
@@ -84,27 +83,16 @@ export function HealthScoreCard({
   }, [maxScore, resolvedTheme, score])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-      className="h-full"
-    >
+    <div className="h-full animate-fade-in-up card-hover">
       <Card className="h-full border-border/70 bg-card/95 shadow-sm">
         <CardHeader className="pb-1">
           <CardTitle className="text-xl text-foreground">Overall Health Score</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-[190px_1fr]">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="mx-auto h-46 w-46"
-            >
+            <div className="mx-auto h-46 w-46 animate-scale-in">
               <ReactECharts option={gaugeOption} style={{ width: "100%", height: "100%" }} />
-            </motion.div>
+            </div>
 
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
@@ -139,6 +127,6 @@ export function HealthScoreCard({
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

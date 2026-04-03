@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { memo } from "react"
 import { Footprints, Heart, MoonStar, Waves, Activity } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -28,7 +28,7 @@ const trendClasses = {
   neutral: "text-muted-foreground",
 }
 
-export function HealthStatCard({
+export const HealthStatCard = memo(function HealthStatCard({
   iconName,
   value,
   label,
@@ -38,7 +38,7 @@ export function HealthStatCard({
   const Icon = ICON_MAP[iconName] ?? Activity
 
   return (
-    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+    <div className="card-hover">
       <Card className="border-border/70 bg-card/95 shadow-sm">
         <CardContent className="space-y-3 pt-4">
           <div className="flex items-center justify-between">
@@ -53,6 +53,6 @@ export function HealthStatCard({
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
-}
+})

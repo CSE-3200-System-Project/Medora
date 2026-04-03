@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Navbar } from "@/components/ui/navbar"
 import { AppBackground } from "@/components/ui/app-background"
+import { ButtonLoader } from "@/components/ui/medora-loader"
+import { PageLoadingShell } from "@/components/ui/page-loading-shell"
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { getPatientForDoctor } from "@/lib/patient-access-actions"
 import { getDoctorPatientAssistantSummary, type DoctorPatientAssistantSummaryResponse } from "@/lib/ai-consultation-actions"
@@ -178,14 +180,11 @@ export default function DoctorPatientViewPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="min-h-dvh min-h-app flex items-center justify-center pt-(--nav-content-offset)">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-            <p className="text-muted-foreground">Loading patient records...</p>
-          </div>
-        </div>
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading patient records..." cardCount={5} />
+        </main>
       </AppBackground>
     )
   }
@@ -242,7 +241,7 @@ export default function DoctorPatientViewPage() {
                   disabled={assistantLoading}
                   className="gap-2"
                 >
-                  {assistantLoading ? <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" /> : <FileText className="w-4 h-4" />}
+                  {assistantLoading ? <ButtonLoader className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
                   <span className="hidden sm:inline">AI Summarizer</span>
                   <span className="sm:hidden">Summary</span>
                 </Button>
@@ -770,8 +769,8 @@ export default function DoctorPatientViewPage() {
                   <CardContent>
                     {healthLoading ? (
                       <div className="flex items-center gap-2 py-4 text-sm text-muted-foreground">
-                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                        Loading health data...
+                        <ButtonLoader className="w-4 h-4" />
+                        <span>Loading health data...</span>
                       </div>
                     ) : healthNoConsent ? (
                       <div className="rounded-lg bg-muted/50 p-4 text-center">

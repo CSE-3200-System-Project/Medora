@@ -26,7 +26,8 @@ import {
   type ReportResultUpdatePayload,
   type ReportTestResult,
 } from "@/lib/medical-report-actions";
-import { MedoraLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   ArrowLeft,
   FlaskConical,
@@ -42,7 +43,6 @@ import {
   Trash2,
   Save,
   X,
-  Loader2,
   Eye,
   EyeOff,
   UserCheck,
@@ -391,11 +391,11 @@ export default function PatientMedicalReportDetailPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="pt-[var(--nav-content-offset)]">
-          <MedoraLoader />
-        </div>
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading report details..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }
@@ -502,7 +502,7 @@ export default function PatientMedicalReportDetailPage() {
               </div>
               <div className="flex items-center gap-2">
                 {togglingVisibility && (
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <ButtonLoader className="h-4 w-4 text-muted-foreground" />
                 )}
                 <Switch
                   checked={report.shared_with_doctors}
@@ -587,7 +587,7 @@ export default function PatientMedicalReportDetailPage() {
                     className="gap-1"
                   >
                     {addingSaving ? (
-                      <Loader2 className="h-3 w-3 animate-spin" />
+                      <ButtonLoader className="h-3 w-3" />
                     ) : (
                       <Save className="h-3 w-3" />
                     )}
@@ -648,7 +648,7 @@ export default function PatientMedicalReportDetailPage() {
                                     className="gap-1"
                                   >
                                     {saving ? (
-                                      <Loader2 className="h-3 w-3 animate-spin" />
+                                      <ButtonLoader className="h-3 w-3" />
                                     ) : (
                                       <Save className="h-3 w-3" />
                                     )}
@@ -728,7 +728,7 @@ export default function PatientMedicalReportDetailPage() {
                                   title="Delete this result"
                                 >
                                   {isDeleting ? (
-                                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                    <ButtonLoader className="h-3.5 w-3.5" />
                                   ) : (
                                     <Trash2 className="h-3.5 w-3.5" />
                                   )}

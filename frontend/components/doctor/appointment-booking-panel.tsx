@@ -3,11 +3,13 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { createAppointment } from "@/lib/appointment-actions";
 import { useRouter, usePathname } from "next/navigation";
 import { MapPin, Navigation, ExternalLink } from "lucide-react";
-import { cn, localDateKey } from "@/lib/utils";
+import { cn, localDateKey, toUtcIsoFromDateAndSlot } from "@/lib/utils";
 import { Map, MapMarker, MarkerContent, MapControls } from "@/components/ui/map-lazy";
 import type { BackendDoctorLocation, BackendDoctorProfile, SlotGroup } from "@/components/doctor/doctor-profile/types";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
@@ -151,7 +153,7 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
       await createAppointment({
         doctor_id: doctor.profile_id,
         doctor_location_id: resolveSelectedLocation()?.id,
-        appointment_date: new Date(bookingState.selectedDate!).toISOString(),
+        appointment_date: toUtcIsoFromDateAndSlot(bookingState.selectedDate!, bookingState.selectedSlot!),
         reason: `${bookingState.consultationType} - ${bookingState.appointmentType}`,
         location_name: resolveSelectedLocation()?.name,
         notes: `Slot: ${bookingState.selectedSlot} | Location: ${resolveSelectedLocation()?.name}`
@@ -386,9 +388,12 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
         {bookingState.selectedDate && (
           <div>
             {loadingSlots ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                <p className="text-sm text-muted-foreground mt-2">Loading slots...</p>
+              <div className="space-y-3 py-4">
+                <div className="flex items-center justify-center">
+                  <MedoraLoader size="sm" label="Loading slots..." />
+                </div>
+                <CardSkeleton className="h-9" />
+                <CardSkeleton className="h-9" />
               </div>
             ) : slots ? (
               <div className="space-y-4">

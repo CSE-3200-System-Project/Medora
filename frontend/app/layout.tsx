@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ToastProvider } from "@/components/ui/toast-provider";
 import { PWARegistration } from "@/components/pwa-registration";
@@ -12,11 +11,12 @@ const APP_DESCRIPTION = "AI-assisted healthcare platform for Bangladesh";
 
 const sfProDisplay = localFont({
   src: [
-    { path: "./fonts/SFPRODISPLAYREGULAR.otf", weight: "400", style: "normal" },
-    { path: "./fonts/SFPRODISPLAYBOLD.otf", weight: "700", style: "normal" },
+    { path: "./fonts/SFPRODISPLAYREGULAR.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/SFPRODISPLAYBOLD.woff2", weight: "700", style: "normal" },
   ],
   variable: "--sf-pro-display",
   display: "swap",
+  preload: true,
 });
 
 export const viewport: Viewport = {
@@ -56,11 +56,9 @@ export default function RootLayout({
       <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
         <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <SmoothScrollProvider>
-            <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
-              {children}
-            </div>
-          </SmoothScrollProvider>
+          <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
+            {children}
+          </div>
           <ToastProvider />
         </ThemeProvider>
         <PWARegistration />

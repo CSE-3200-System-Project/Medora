@@ -15,18 +15,30 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import {
   Pill,
-  Clock,
+  Sun,
+  Cloud,
+  Moon,
+  Star,
   Calendar,
   User,
   FileText,
-  Loader2,
   CheckCircle2,
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  buildFrequencyFromDoseSchedule,
+  normalizeDoseAmount,
+  normalizeMealInstruction,
+  parseDoseScheduleFromFrequency,
+  type DoseSchedule,
+  type MealInstructionValue,
+  type PatientMedication,
+} from "@/lib/patient-medication";
 
 // Types
 interface MedicineResult {
@@ -41,22 +53,34 @@ interface MedicineResult {
   is_brand: boolean;
 }
 
-export interface Medication {
-  id: string;
-  drug_id: string;
-  brand_id?: string;
-  display_name: string;
-  generic_name: string;
-  strength: string;
-  dosage_form: string;
-  dosage: string;
-  frequency: string;
-  duration: string;
-  status: "current" | "past";
-  started_date?: string;
-  stopped_date?: string;
-  prescribing_doctor?: string;
-  notes?: string;
+export type Medication = PatientMedication;
+
+const DEFAULT_SCHEDULE: DoseSchedule = {
+  dose_morning: false,
+  dose_afternoon: false,
+  dose_evening: false,
+  dose_night: false,
+  dose_morning_amount: "1",
+  dose_afternoon_amount: "1",
+  dose_evening_amount: "1",
+  dose_night_amount: "1",
+};
+
+const MEAL_INSTRUCTION_OPTIONS: Array<{ value: MealInstructionValue; label: string }> = [
+  { value: "after_meal", label: "After Meal" },
+  { value: "before_meal", label: "Before Meal" },
+  { value: "with_meal", label: "With Meal" },
+  { value: "empty_stomach", label: "Empty Stomach" },
+  { value: "any_time", label: "Any Time" },
+];
+
+function hasAtLeastOneDose(schedule: DoseSchedule) {
+  return (
+    schedule.dose_morning ||
+    schedule.dose_afternoon ||
+    schedule.dose_evening ||
+    schedule.dose_night
+  );
 }
 
 interface AddMedicationDialogProps {
@@ -83,7 +107,16 @@ export function AddMedicationDialog({
 
   const [formData, setFormData] = useState({
     dosage: "",
-    frequency: "",
+    frequency: buildFrequencyFromDoseSchedule(DEFAULT_SCHEDULE),
+    dose_morning: DEFAULT_SCHEDULE.dose_morning,
+    dose_afternoon: DEFAULT_SCHEDULE.dose_afternoon,
+    dose_evening: DEFAULT_SCHEDULE.dose_evening,
+    dose_night: DEFAULT_SCHEDULE.dose_night,
+    dose_morning_amount: DEFAULT_SCHEDULE.dose_morning_amount,
+    dose_afternoon_amount: DEFAULT_SCHEDULE.dose_afternoon_amount,
+    dose_evening_amount: DEFAULT_SCHEDULE.dose_evening_amount,
+    dose_night_amount: DEFAULT_SCHEDULE.dose_night_amount,
+    meal_instruction: "after_meal" as MealInstructionValue,
     duration: "",
     status: "current" as "current" | "past",
     started_date: "",
@@ -98,6 +131,21 @@ export function AddMedicationDialog({
       setSelectedMedicine(prefilledMedicine);
       setStep(2);
     } else if (editingMedication) {
+      const parsed = parseDoseScheduleFromFrequency(editingMedication.frequency);
+      const schedule: DoseSchedule = {
+        dose_morning: editingMedication.dose_morning ?? parsed.dose_morning,
+        dose_afternoon: editingMedication.dose_afternoon ?? parsed.dose_afternoon,
+        dose_evening: editingMedication.dose_evening ?? parsed.dose_evening,
+        dose_night: editingMedication.dose_night ?? parsed.dose_night,
+        dose_morning_amount:
+          editingMedication.dose_morning_amount ?? parsed.dose_morning_amount,
+        dose_afternoon_amount:
+          editingMedication.dose_afternoon_amount ?? parsed.dose_afternoon_amount,
+        dose_evening_amount:
+          editingMedication.dose_evening_amount ?? parsed.dose_evening_amount,
+        dose_night_amount:
+          editingMedication.dose_night_amount ?? parsed.dose_night_amount,
+      };
       setSelectedMedicine({
         drug_id: editingMedication.drug_id,
         brand_id: editingMedication.brand_id,
@@ -109,7 +157,16 @@ export function AddMedicationDialog({
       });
       setFormData({
         dosage: editingMedication.dosage,
-        frequency: editingMedication.frequency,
+        frequency: editingMedication.frequency || buildFrequencyFromDoseSchedule(schedule),
+        dose_morning: schedule.dose_morning,
+        dose_afternoon: schedule.dose_afternoon,
+        dose_evening: schedule.dose_evening,
+        dose_night: schedule.dose_night,
+        dose_morning_amount: normalizeDoseAmount(schedule.dose_morning_amount),
+        dose_afternoon_amount: normalizeDoseAmount(schedule.dose_afternoon_amount),
+        dose_evening_amount: normalizeDoseAmount(schedule.dose_evening_amount),
+        dose_night_amount: normalizeDoseAmount(schedule.dose_night_amount),
+        meal_instruction: normalizeMealInstruction(editingMedication.meal_instruction),
         duration: editingMedication.duration,
         status: editingMedication.status,
         started_date: editingMedication.started_date || "",
@@ -131,7 +188,16 @@ export function AddMedicationDialog({
         setSelectedMedicine(null);
         setFormData({
           dosage: "",
-          frequency: "",
+          frequency: buildFrequencyFromDoseSchedule(DEFAULT_SCHEDULE),
+          dose_morning: DEFAULT_SCHEDULE.dose_morning,
+          dose_afternoon: DEFAULT_SCHEDULE.dose_afternoon,
+          dose_evening: DEFAULT_SCHEDULE.dose_evening,
+          dose_night: DEFAULT_SCHEDULE.dose_night,
+          dose_morning_amount: DEFAULT_SCHEDULE.dose_morning_amount,
+          dose_afternoon_amount: DEFAULT_SCHEDULE.dose_afternoon_amount,
+          dose_evening_amount: DEFAULT_SCHEDULE.dose_evening_amount,
+          dose_night_amount: DEFAULT_SCHEDULE.dose_night_amount,
+          meal_instruction: "after_meal",
           duration: "",
           status: "current",
           started_date: "",
@@ -191,13 +257,36 @@ export function AddMedicationDialog({
     setStep(2);
   };
 
+  const updateSchedule = (updates: Partial<DoseSchedule>) => {
+    setFormData((prev) => {
+      const nextSchedule: DoseSchedule = {
+        dose_morning: updates.dose_morning ?? prev.dose_morning,
+        dose_afternoon: updates.dose_afternoon ?? prev.dose_afternoon,
+        dose_evening: updates.dose_evening ?? prev.dose_evening,
+        dose_night: updates.dose_night ?? prev.dose_night,
+        dose_morning_amount: updates.dose_morning_amount ?? prev.dose_morning_amount,
+        dose_afternoon_amount: updates.dose_afternoon_amount ?? prev.dose_afternoon_amount,
+        dose_evening_amount: updates.dose_evening_amount ?? prev.dose_evening_amount,
+        dose_night_amount: updates.dose_night_amount ?? prev.dose_night_amount,
+      };
+
+      return {
+        ...prev,
+        ...updates,
+        frequency: buildFrequencyFromDoseSchedule(nextSchedule),
+      };
+    });
+  };
+
   const handleSave = async () => {
-    if (!selectedMedicine || !formData.dosage || !formData.frequency) {
-      alert("Please fill in medicine, dosage, and frequency");
+    const hasDoseSchedule = hasAtLeastOneDose(formData);
+    if (!selectedMedicine || !formData.dosage || !hasDoseSchedule) {
+      alert("Please fill in medicine, dosage, and at least one dose time");
       return;
     }
 
     setSaving(true);
+    const frequency = buildFrequencyFromDoseSchedule(formData);
 
     const medication: Medication = {
       id: crypto.randomUUID(),
@@ -208,6 +297,8 @@ export function AddMedicationDialog({
       strength: selectedMedicine.strength,
       dosage_form: selectedMedicine.dosage_form,
       ...formData,
+      frequency,
+      meal_instruction: normalizeMealInstruction(formData.meal_instruction),
     };
 
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -218,7 +309,7 @@ export function AddMedicationDialog({
 
   const canProceed = () => {
     if (step === 1) return !!selectedMedicine;
-    if (step === 2) return formData.dosage && formData.frequency;
+    if (step === 2) return formData.dosage && hasAtLeastOneDose(formData);
     return true;
   };
 
@@ -231,7 +322,7 @@ export function AddMedicationDialog({
           </DialogTitle>
           <DialogDescription>
             {step === 1 && "Search and select a medicine"}
-            {step === 2 && "Enter dosage and frequency details"}
+            {step === 2 && "Enter dosage and day-part schedule details"}
             {step === 3 && "Add optional information"}
           </DialogDescription>
         </DialogHeader>
@@ -315,7 +406,7 @@ export function AddMedicationDialog({
               {/* Search Results */}
               {searchLoading && (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                  <MedoraLoader size="sm" label="Searching medicines..." />
                 </div>
               )}
 
@@ -400,21 +491,6 @@ export function AddMedicationDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="frequency" className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    Frequency <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="frequency"
-                    placeholder="e.g., 3 times daily"
-                    value={formData.frequency}
-                    onChange={(e) =>
-                      setFormData({ ...formData, frequency: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="duration">Duration</Label>
                   <Input
                     id="duration"
@@ -424,6 +500,27 @@ export function AddMedicationDialog({
                       setFormData({ ...formData, duration: e.target.value })
                     }
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="meal_instruction">Meal Instructions</Label>
+                  <select
+                    id="meal_instruction"
+                    value={formData.meal_instruction}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        meal_instruction: normalizeMealInstruction(e.target.value),
+                      })
+                    }
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {MEAL_INSTRUCTION_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="space-y-2">
@@ -443,6 +540,108 @@ export function AddMedicationDialog({
                     <option value="past">Past Medication</option>
                   </select>
                 </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>
+                  Dosage Schedule <span className="text-destructive">*</span>
+                </Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => updateSchedule({ dose_morning: !formData.dose_morning })}
+                    className={cn(
+                      "flex flex-col items-center rounded-xl border-2 p-3 text-sm transition-all",
+                      formData.dose_morning
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50",
+                    )}
+                  >
+                    <Sun className={cn("mb-1 h-5 w-5", formData.dose_morning ? "text-primary" : "text-muted-foreground")} />
+                    <span className="font-medium">Morning</span>
+                    {formData.dose_morning && (
+                      <Input
+                        value={formData.dose_morning_amount}
+                        onChange={(e) => updateSchedule({ dose_morning_amount: e.target.value })}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
+                        placeholder="1"
+                      />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => updateSchedule({ dose_afternoon: !formData.dose_afternoon })}
+                    className={cn(
+                      "flex flex-col items-center rounded-xl border-2 p-3 text-sm transition-all",
+                      formData.dose_afternoon
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50",
+                    )}
+                  >
+                    <Cloud className={cn("mb-1 h-5 w-5", formData.dose_afternoon ? "text-primary" : "text-muted-foreground")} />
+                    <span className="font-medium">Afternoon</span>
+                    {formData.dose_afternoon && (
+                      <Input
+                        value={formData.dose_afternoon_amount}
+                        onChange={(e) => updateSchedule({ dose_afternoon_amount: e.target.value })}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
+                        placeholder="1"
+                      />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => updateSchedule({ dose_evening: !formData.dose_evening })}
+                    className={cn(
+                      "flex flex-col items-center rounded-xl border-2 p-3 text-sm transition-all",
+                      formData.dose_evening
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50",
+                    )}
+                  >
+                    <Moon className={cn("mb-1 h-5 w-5", formData.dose_evening ? "text-primary" : "text-muted-foreground")} />
+                    <span className="font-medium">Evening</span>
+                    {formData.dose_evening && (
+                      <Input
+                        value={formData.dose_evening_amount}
+                        onChange={(e) => updateSchedule({ dose_evening_amount: e.target.value })}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
+                        placeholder="1"
+                      />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => updateSchedule({ dose_night: !formData.dose_night })}
+                    className={cn(
+                      "flex flex-col items-center rounded-xl border-2 p-3 text-sm transition-all",
+                      formData.dose_night
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50",
+                    )}
+                  >
+                    <Star className={cn("mb-1 h-5 w-5", formData.dose_night ? "text-primary" : "text-muted-foreground")} />
+                    <span className="font-medium">Night</span>
+                    {formData.dose_night && (
+                      <Input
+                        value={formData.dose_night_amount}
+                        onChange={(e) => updateSchedule({ dose_night_amount: e.target.value })}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
+                        placeholder="1"
+                      />
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Stored frequency format: <span className="font-mono">{formData.frequency}</span>
+                </p>
               </div>
 
               <div className="pt-2">
@@ -552,7 +751,7 @@ export function AddMedicationDialog({
               disabled={saving}
               className="w-full sm:w-auto sm:ml-auto"
             >
-              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              {saving && <ButtonLoader className="w-4 h-4 mr-2" />}
               {editingMedication ? "Update Medication" : "Add Medication"}
             </Button>
           )}

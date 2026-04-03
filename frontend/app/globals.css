@@ -490,50 +490,9 @@ hr {
     );
 }
 
-/* Animated ambient orbs - subtle floating effect */
+/* Ambient color layer - static for layout stability */
 .app-background::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  left: -20%;
-  right: -20%;
-  bottom: -20%;
-  pointer-events: none;
-  opacity: 0.5;
-  background:
-    radial-gradient(
-      ellipse 600px 600px at 70% 25%,
-      var(--bg-orb-1),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 500px 500px at 25% 75%,
-      var(--bg-orb-2),
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 450px 450px at 60% 80%,
-      var(--bg-glow-accent),
-      transparent 70%
-    );
-  animation: ambient-drift 30s ease-in-out infinite;
-  z-index: 0;
-  will-change: transform;
-}
-
-@keyframes ambient-drift {
-  0%, 100% {
-    transform: translate(0%, 0%) scale(1);
-  }
-  25% {
-    transform: translate(2%, -1.5%) scale(1.02);
-  }
-  50% {
-    transform: translate(-1.5%, 2%) scale(0.98);
-  }
-  75% {
-    transform: translate(1%, 1%) scale(1.01);
-  }
+  content: none;
 }
 
 /* Noise texture overlay - refined */
@@ -557,10 +516,32 @@ hr {
 }
 
 @media (max-width: 1023px) {
+  .app-background {
+    background:
+      radial-gradient(
+        ellipse 480px 360px at 88% 4%,
+        var(--bg-orb-1),
+        transparent 68%
+      ),
+      radial-gradient(
+        ellipse 520px 380px at 12% 96%,
+        var(--bg-orb-2),
+        transparent 68%
+      ),
+      linear-gradient(
+        180deg,
+        var(--bg-top) 0%,
+        var(--bg-mid) 52%,
+        var(--bg-bottom) 100%
+      );
+  }
+
   .app-background::before {
-    animation: none;
-    transform: none;
-    opacity: 0.22;
+    display: none;
+  }
+
+  .app-background::after {
+    display: none;
   }
 }
 
@@ -647,6 +628,17 @@ hr {
   .shadow-surface-strong {
     box-shadow: 0 22px 46px -26px rgba(3, 96, 217, 0.8);
   }
+
+  .defer-content {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+  }
+
+  @media (max-width: 767px) {
+    .defer-content {
+      contain-intrinsic-size: 1px 760px;
+    }
+  }
   
   @media (hover: hover) {
     .card-hover:hover {
@@ -683,6 +675,49 @@ hr {
     min-width: var(--touch-target-min);
   }
   
+  /* Fade-in-up animation — replaces framer-motion initial/animate pattern */
+  .animate-fade-in-up {
+    animation: fade-in-up var(--motion-duration-base, 0.35s) var(--motion-ease-enter, ease-out) both;
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scale-in animation — replaces framer-motion scale entrance */
+  .animate-scale-in {
+    animation: scale-in 0.4s var(--motion-ease-enter, ease-out) 0.15s both;
+  }
+
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* Stagger delay utilities for sequential fade-ins */
+  .delay-1 { animation-delay: 50ms; }
+  .delay-2 { animation-delay: 80ms; }
+  .delay-3 { animation-delay: 180ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up,
+    .animate-scale-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .animate-fade-in-up,
+    .animate-scale-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Skeleton loading states */
   .skeleton {
     background: linear-gradient(

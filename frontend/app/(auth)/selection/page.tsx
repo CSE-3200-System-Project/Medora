@@ -15,26 +15,27 @@ export default function SelectionPage() {
         
         {/* Floating Logo - Centered at top */}
         <div className="absolute top-4 left-0 right-0 flex justify-center z-20 lg:top-8">
-          <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-card/95 backdrop-blur-md rounded-full p-3 shadow-xl border-4 border-white/30">
-            <Image src={medoraDarkLogo} alt="Medora" fill sizes="96px" className="object-contain p-1 dark:hidden" />
-            <Image src={medoraLightLogo} alt="Medora" fill sizes="96px" className="hidden object-contain p-1 dark:block" />
+          <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-card/95 rounded-full p-3 shadow-xl border-4 border-white/30">
+            <Image src={medoraDarkLogo} alt="Medora" fill sizes="96px" className="object-contain p-1 dark:hidden" loading="eager" fetchPriority="high" />
+            <Image src={medoraLightLogo} alt="Medora" fill sizes="96px" className="hidden object-contain p-1 dark:block" loading="eager" fetchPriority="high" />
           </div>
         </div>
 
         {/* Doctor Section */}
         <Link 
           href="/doctor/register" 
-          className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-[280px] sm:min-h-[320px] xl:min-h-0"
+          className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-70 sm:min-h-80 xl:min-h-0 bg-linear-to-br from-primary to-primary-muted"
         >
           <Image
             src={doctorImg}
             alt="Doctor"
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-700 motion-reduce:transition-none group-hover:scale-105"
-            priority
+            sizes="(max-width: 767px) 1px, (max-width: 1279px) 100vw, 50vw"
+            className="hidden md:block object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
+            loading="lazy"
+            fetchPriority="low"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/60 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent md:group-hover:from-black/60 transition-colors duration-300" />
           
           <div className="absolute inset-0 flex flex-col items-center justify-end p-5 sm:p-6 pb-8 xl:pb-16">
             <div className="bg-card/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-card/30 transition-colors">
@@ -56,17 +57,18 @@ export default function SelectionPage() {
         {/* Patient Section */}
         <Link 
           href="/patient/register" 
-          className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-[280px] sm:min-h-[320px] xl:min-h-0"
+          className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-70 sm:min-h-80 xl:min-h-0 bg-linear-to-br from-primary-muted to-primary"
         >
           <Image
             src={patientImg}
             alt="Patient"
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-700 motion-reduce:transition-none group-hover:scale-105"
-            priority
+            sizes="(max-width: 767px) 1px, (max-width: 1279px) 100vw, 50vw"
+            className="hidden md:block object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
+            loading="lazy"
+            fetchPriority="low"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-black/60 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent md:group-hover:from-black/60 transition-colors duration-300" />
           
           <div className="absolute inset-0 flex flex-col items-center justify-end p-5 sm:p-6 pb-8 xl:pb-16">
             <div className="bg-card/20 backdrop-blur-sm rounded-full p-3 mb-4 group-hover:bg-card/30 transition-colors">
@@ -88,7 +90,7 @@ export default function SelectionPage() {
 
       {/* Floating Sign In Link - Fixed at bottom */}
       <div className="fixed bottom-3 sm:bottom-6 left-0 right-0 text-center z-10 px-4">
-        <div className="inline-block bg-card/95 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-border/50">
+        <div className="inline-block bg-card/95 md:backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-border/50">
           <p className="text-foreground text-sm md:text-base">
             Already have an account?{' '}
             <Link href="/login" className="text-primary font-semibold hover:text-primary-muted underline underline-offset-2">

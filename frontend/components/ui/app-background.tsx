@@ -1,9 +1,7 @@
-"use client";
-
-import * as React from "react";
+import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-interface AppBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
+interface AppBackgroundProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Whether to use the full page background (mobile-safe viewport height)
    * @default true

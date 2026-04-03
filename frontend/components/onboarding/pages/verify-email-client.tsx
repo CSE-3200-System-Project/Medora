@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, RefreshCw } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { AppBackground } from "@/components/ui/app-background";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { getCurrentUser } from "@/lib/auth-actions";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
@@ -136,7 +137,7 @@ export function VerifyEmailClient() {
                 <Button onClick={checkVerification} className="w-full" disabled={loading}>
                   {loading ? (
                     <>
-                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                      <ButtonLoader className="mr-2 h-4 w-4" />
                       Checking...
                     </>
                   ) : (

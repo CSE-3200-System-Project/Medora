@@ -7,6 +7,7 @@ import { AddMedicationDialog, type Medication } from "./add-medication-dialog";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ReminderDialog } from "@/components/ui/reminder-dialog";
 import { cn } from "@/lib/utils";
+import { formatDoseScheduleSummary, humanizeMealInstruction } from "@/lib/patient-medication";
 
 interface MedicationManagerProps {
   medications: Medication[];
@@ -180,7 +181,7 @@ export function MedicationManager({
           <DialogHeader>
             <DialogTitle>Delete Medication</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete "{medicationToDelete?.display_name}"? This action cannot be undone.
+              Are you sure you want to delete &quot;{medicationToDelete?.display_name}&quot;? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -211,6 +212,14 @@ function MedicationCard({
   onRemove: () => void;
 }) {
   const [reminderOpen, setReminderOpen] = useState(false);
+  const scheduleSummary = formatDoseScheduleSummary(medication);
+  const frequencyLabel =
+    scheduleSummary !== "As directed"
+      ? scheduleSummary
+      : (medication.frequency || "As directed");
+  const mealInstructionLabel = medication.meal_instruction
+    ? humanizeMealInstruction(medication.meal_instruction)
+    : null;
 
   return (
     <>
@@ -256,8 +265,9 @@ function MedicationCard({
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Pill className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">
-                    {medication.dosage} · {medication.frequency}
+                    {medication.dosage} · {frequencyLabel}
                     {medication.duration && ` · ${medication.duration}`}
+                    {mealInstructionLabel && ` · ${mealInstructionLabel}`}
                   </span>
                 </div>
                 

@@ -20,7 +20,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { MedicationForm, TestForm, SurgeryForm, PrescriptionReview } from "@/components/prescription";
-import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   startConsultation,
   updateConsultation,
@@ -457,12 +458,10 @@ export default function ConsultationPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
-          <div className="flex items-center justify-center py-20">
-            <MedoraLoader size="lg" label="Loading consultation..." />
-          </div>
+          <PageLoadingShell label="Loading consultation..." cardCount={4} />
         </main>
       </AppBackground>
     );

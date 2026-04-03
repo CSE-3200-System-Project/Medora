@@ -5,6 +5,8 @@ import { MapPin, Plus, Stethoscope, Navigation, Clock, Route, X } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
   Map as MedoraMap,
   MapMarker,
@@ -567,14 +569,9 @@ export function MapView({
       {/* Loading indicator */}
       {isLoadingRoutes && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
-          <div className="bg-background/95 rounded-lg px-4 py-3 shadow-lg border border-border">
-            <div className="flex items-center gap-3">
-              <div className="relative flex h-4 w-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-primary"></span>
-              </div>
-              <span className="font-medium text-sm">Finding best routes...</span>
-            </div>
+          <div className="space-y-3 rounded-lg border border-border bg-background/95 px-4 py-3 shadow-lg">
+            <MedoraLoader size="sm" label="Finding best routes..." />
+            <CardSkeleton className="h-6 w-56" />
           </div>
         </div>
       )}

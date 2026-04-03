@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, FileImage, FileText, Loader2, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle2, FileImage, FileText, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { extractPrescriptionFromImage, PrescriptionExtractionResponse } from "@/lib/file-storage-actions";
 
 type EditableMedication = {
@@ -172,7 +173,7 @@ export function PrescriptionUploadDemo() {
                 >
                   {isProcessing ? (
                     <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <ButtonLoader className="h-4 w-4" />
                       Processing
                     </span>
                   ) : (
@@ -216,7 +217,7 @@ export function PrescriptionUploadDemo() {
                         <div className="h-2 animate-pulse rounded-full bg-primary/60 [animation-delay:200ms]" />
                       </div>
                       <div className="flex items-center gap-2 text-sm text-foreground">
-                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                        <ButtonLoader className="h-4 w-4 text-primary" />
                         Reading prescription text...
                       </div>
                     </div>

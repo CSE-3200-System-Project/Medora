@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Search, X, ChevronDown, Loader2 } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 
 interface MedicalTestOption {
   id: number;
@@ -165,7 +166,7 @@ export function MedicalTestSearch({
           className="pr-16 border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+          {loading && <ButtonLoader className="h-4 w-4 text-muted-foreground" />}
           {query && !loading && (
             <button
               type="button"

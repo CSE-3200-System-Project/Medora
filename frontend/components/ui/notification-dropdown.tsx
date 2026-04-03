@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Bell, Check, CheckCheck, Trash2, X, Calendar, UserPlus, ShieldCheck, ShieldX, AlertCircle, Info, Pill, FlaskConical, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -260,7 +261,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
         <div className="no-scrollbar flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              <ButtonLoader className="h-6 w-6 text-primary" />
             </div>
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">

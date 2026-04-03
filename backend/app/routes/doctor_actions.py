@@ -196,6 +196,15 @@ async def get_doctor_action_stats(
         )
     ).scalars().all()
 
+    pending_actions_total = (
+        await db.execute(
+            select(func.count(DoctorAction.id)).where(
+                DoctorAction.doctor_id == user.id,
+                DoctorAction.status.in_([DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]),
+            )
+        )
+    ).scalar() or 0
+
     pending_actions = [
         DoctorActionStatsPendingItem(
             id=item.id,
@@ -332,7 +341,7 @@ async def get_doctor_action_stats(
     return DoctorActionStatsResponse(
         monthly_revenue=float(round(monthly_revenue, 2)),
         weekly_wsi=weekly_wsi,
-        pending_actions_count=len(pending_actions),
+        pending_actions_count=int(pending_actions_total),
         pending_actions=pending_actions,
         completion_rate=completion_rate,
         revenue_trend=revenue_trend,

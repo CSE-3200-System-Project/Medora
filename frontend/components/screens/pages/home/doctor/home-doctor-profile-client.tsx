@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   MapPin,
   Clock,
@@ -100,13 +101,11 @@ export default function DoctorProfilePage() {
 
   if (loading) {
     return (
-      <AppBackground>
-        <div className="flex items-center justify-center min-h-dvh min-h-app">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-foreground font-semibold">Loading profile...</p>
-          </div>
-        </div>
+      <AppBackground className="container-padding">
+        <Navbar />
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading profile..." cardCount={5} />
+        </main>
       </AppBackground>
     );
   }

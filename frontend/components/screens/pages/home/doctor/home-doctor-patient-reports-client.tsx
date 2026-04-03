@@ -16,7 +16,7 @@ import {
   listMedicalReports,
   type MedicalReportListItem,
 } from "@/lib/medical-report-actions";
-import { MedoraLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   ArrowLeft,
   ArrowRight,
@@ -57,11 +57,11 @@ export default function DoctorPatientReportsPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="pt-[var(--nav-content-offset)]">
-          <MedoraLoader />
-        </div>
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading patient reports..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }

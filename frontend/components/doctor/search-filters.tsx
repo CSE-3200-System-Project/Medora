@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Sparkles, MapPin, Loader2, SlidersHorizontal } from "lucide-react";
+import { Search, Sparkles, MapPin, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +17,7 @@ import { useVoiceRecorder } from "@/lib/use-voice-recorder";
 import { transcribeVoice } from "@/lib/voice-actions";
 import { VoiceInputButton } from "@/components/doctor/voice-input-button";
 import { VoiceTranscriptionReview } from "@/components/doctor/voice-transcription-review";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 
 interface UserLocation {
   latitude: number;
@@ -370,7 +371,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                     disabled={locationLoading}
                   >
                     {locationLoading ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <ButtonLoader className="w-4 h-4 mr-2" />
                     ) : (
                       <MapPin className="w-4 h-4 mr-2" />
                     )}

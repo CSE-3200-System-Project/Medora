@@ -5,6 +5,8 @@ import { AlertTriangle, Info, Pill } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { Switch } from "@/components/ui/switch";
 import { getAIPatientSummary, type PatientSummaryResponse } from "@/lib/ai-consultation-actions";
 
@@ -107,10 +109,12 @@ export function PatientSummaryCard({ patientId, fallbackData }: PatientSummaryCa
       <CardContent className="card-padding pt-0 space-y-5">
         {state.loading ? (
           <div className="space-y-4">
-            <div className="skeleton h-5 w-32" />
-            <div className="skeleton h-10 w-full rounded-xl" />
-            <div className="skeleton h-10 w-full rounded-xl" />
-            <div className="skeleton h-10 w-full rounded-xl" />
+            <div className="flex items-center justify-center py-1">
+              <MedoraLoader size="sm" label="Loading patient summary..." />
+            </div>
+            <CardSkeleton className="h-10 rounded-xl" />
+            <CardSkeleton className="h-10 rounded-xl" />
+            <CardSkeleton className="h-10 rounded-xl" />
           </div>
         ) : (
           <>

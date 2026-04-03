@@ -1,51 +1,49 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { login } from "@/lib/auth-actions";
-import { setAdminAccess } from "@/lib/admin-actions";
 import { toast } from "@/lib/notify";
 import { AppBackground } from "@/components/ui/app-background";
-import { FormSkeleton } from "@/components/ui/skeleton-loaders";
+
+const AdminDialog = lazy(() => import("./admin-dialog"));
 
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
-import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
-import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
+import medoraLogoDark from "@/assets/images/Medora-Logo-Dark.png";
+import medoraLogoLight from "@/assets/images/Medora-Logo-Light.png";
 
-function LoginPageContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+const LOGIN_HERO_IMAGES = [
+  { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
+  { src: patientImg, alt: "Patient Care", text: "Your Health, Our Priority" },
+] as const;
+
+function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: boolean }) {
+  const { theme, systemTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAdminDialog, setShowAdminDialog] = useState(false);
-  const [adminPassword, setAdminPassword] = useState("");
-  const [adminError, setAdminError] = useState("");
-  const [showVerifiedMessage, setShowVerifiedMessage] = useState(searchParams.get("verified") === "true");
-  
-  const images = [
-    { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
-    { src: patientImg, alt: "Patient Care", text: "Your Health, Our Priority" }
-  ];
+  const [showVerifiedMessage, setShowVerifiedMessage] = useState(initiallyVerified);
+  const activeImage = LOGIN_HERO_IMAGES[currentImageIndex] ?? LOGIN_HERO_IMAGES[0];
+
+  const currentTheme = theme === "system" ? systemTheme : theme;
+  const medoraLogo = currentTheme === "dark" ? medoraLogoLight : medoraLogoDark;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -60,23 +58,24 @@ function LoginPageContent() {
     }
 
     const interval = window.setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % LOGIN_HERO_IMAGES.length);
     }, 5000);
 
     return () => window.clearInterval(interval);
-  }, [images.length]);
+  }, []);
 
   useEffect(() => {
-    const verified = searchParams.get("verified") === "true";
-    if (verified) {
-      toast.success("Email verified successfully. You can now sign in.");
-      const hideTimer = setTimeout(() => {
-        setShowVerifiedMessage(false);
-      }, 5000);
-
-      return () => clearTimeout(hideTimer);
+    if (!initiallyVerified) {
+      return;
     }
-  }, [searchParams]);
+
+    toast.success("Email verified successfully. You can now sign in.");
+    const hideTimer = setTimeout(() => {
+      setShowVerifiedMessage(false);
+    }, 5000);
+
+    return () => clearTimeout(hideTimer);
+  }, [initiallyVerified]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,25 +105,6 @@ function LoginPageContent() {
     }
   };
 
-  const handleAdminAccess = async () => {
-    setAdminError("");
-    try {
-      const result = await setAdminAccess(adminPassword);
-      if (result.success) {
-        setShowAdminDialog(false);
-        setAdminPassword("");
-        router.replace("/admin");
-      } else {
-        const message = result.error || "Incorrect admin password";
-        setAdminError(message);
-        toast.error(message);
-      }
-    } catch {
-      setAdminError("Failed to authenticate");
-      toast.error("Failed to authenticate");
-    }
-  };
-
   return (
     <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 relative animate-page-enter">
       {/* Admin Access Button */}
@@ -136,43 +116,36 @@ function LoginPageContent() {
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
       </button>
 
-      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,46rem)]">
-          {/* Left Side - Hero/Image */}
-          <div className="relative w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
-            {images.map((img, index) => (
-              <div 
-                key={index}
-                className={`absolute inset-0 transition-none xl:transition-opacity xl:duration-700 xl:ease-in-out ${
-                  index === currentImageIndex ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  priority={index === 0}
-                  loading={index === 0 ? "eager" : undefined}
-                />
-              </div>
-            ))}
+          <div className="relative hidden xl:block w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
+            <div className="absolute inset-0">
+              <Image
+                src={activeImage.src}
+                alt={activeImage.alt}
+                fill
+                sizes="(max-width: 1279px) 1px, 50vw"
+                className="object-cover"
+                loading="lazy"
+                fetchPriority="low"
+                decoding="async"
+              />
+            </div>
 
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
-            
+
             <div className="relative z-10 h-full flex flex-col items-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
               <div className="flex-1 flex flex-col items-center justify-center w-full">
-                <h1 className="min-h-[4.5rem] sm:min-h-[5.25rem] text-2xl sm:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
-                  {images[currentImageIndex].text}
+                <h1 className="min-h-18 sm:min-h-21 text-2xl sm:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
+                  {activeImage.text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden md:block">
                   Access your dashboard, manage appointments, and stay connected with your healthcare journey.
                 </p>
               </div>
-              
+
               <div className="flex justify-center gap-2 pb-1 sm:pb-2">
-                {images.map((_, index) => (
+                {LOGIN_HERO_IMAGES.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
@@ -190,9 +163,17 @@ function LoginPageContent() {
           <div className="w-full xl:w-1/2 bg-card p-5 sm:p-6 md:p-8 xl:p-10 flex flex-col justify-center">
             <div className="w-full max-w-md mx-auto space-y-6 sm:space-y-7">
               <div className="flex flex-col items-center space-y-2 text-center">
-                <div className="relative w-32 h-32">
-                   <Image src={medoraDarkLogo} alt="Medora Logo" fill sizes="128px" className="object-contain dark:hidden" />
-                   <Image src={medoraLightLogo} alt="Medora Logo" fill sizes="128px" className="hidden object-contain dark:block" />
+                <div className="relative hidden sm:block w-24 h-24 md:w-32 md:h-32">
+                   <Image
+                     src={medoraLogo}
+                     alt="Medora Logo"
+                     fill
+                     sizes="128px"
+                     className="object-contain"
+                     priority
+                     loading="eager"
+                     fetchPriority="high"
+                   />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">Sign in to your account</h2>
                 <p className="text-muted-foreground">
@@ -274,88 +255,16 @@ function LoginPageContent() {
         </div>
       </Card>
 
-      {/* Admin Access Dialog */}
-      <Dialog open={showAdminDialog} onOpenChange={setShowAdminDialog}>
-        <DialogContent className="bg-linear-to-br from-background via-surface to-background border-border text-white w-[min(92vw,28rem)] sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl">
-              <div className="p-2 bg-primary/20 rounded-lg">
-                <Shield className="h-6 w-6 text-primary-light" />
-              </div>
-              Access Verification
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              To access the admin panel, please enter the passkey.
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="admin-password" className="text-muted-foreground">
-                Admin Passkey
-              </Label>
-              <Input
-                id="admin-password"
-                type="password"
-                value={adminPassword}
-                onChange={(e) => {
-                  setAdminPassword(e.target.value);
-                  setAdminError("");
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleAdminAccess();
-                  }
-                }}
-                placeholder="Enter admin passkey"
-                className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary"
-                autoFocus
-              />
-              {adminError && (
-                <p className="text-sm text-red-400 flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 bg-red-400 rounded-full"></span>
-                  {adminError}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <DialogFooter className="gap-2">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setShowAdminDialog(false);
-                setAdminPassword("");
-                setAdminError("");
-              }}
-              className="border-border text-muted-foreground hover:bg-card hover:text-foreground"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleAdminAccess}
-              className="bg-linear-to-r from-primary to-primary-muted hover:from-primary-muted hover:to-primary shadow-lg shadow-primary/20"
-            >
-              Enter admin panel
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {showAdminDialog && (
+        <Suspense fallback={null}>
+          <AdminDialog open={showAdminDialog} onOpenChange={setShowAdminDialog} />
+        </Suspense>
+      )}
     </AppBackground>
   );
 }
 
-export default function LoginPage() {
-  return (
-    <Suspense
-      fallback={
-        <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 md:p-6 lg:p-8">
-          <FormSkeleton className="w-full max-w-md" />
-        </AppBackground>
-      }
-    >
-      <LoginPageContent />
-    </Suspense>
-  );
+export default function LoginPage({ initiallyVerified = false }: { initiallyVerified?: boolean }) {
+  return <LoginPageContent initiallyVerified={initiallyVerified} />;
 }
 

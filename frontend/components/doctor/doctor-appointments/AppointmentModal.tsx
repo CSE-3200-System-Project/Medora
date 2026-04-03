@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { humanizeAppointmentType, humanizeConsultationType, parseCompositeReason } from "@/lib/utils";
+import { formatAppointmentDateTime, humanizeAppointmentType, humanizeConsultationType, parseCompositeReason } from "@/lib/utils";
 
 type AppointmentModalProps = {
   appointment: DoctorAppointment | null;
@@ -21,6 +21,7 @@ type AppointmentModalProps = {
   onApprove: (id: string) => void;
   onCancel: (id: string) => void;
   onRescheduleRequest: (appointment: DoctorAppointment) => void;
+  onRespondReschedule: (appointment: DoctorAppointment) => void;
 };
 
 export function AppointmentModal({
@@ -30,12 +31,13 @@ export function AppointmentModal({
   onApprove,
   onCancel,
   onRescheduleRequest,
+  onRespondReschedule,
 }: AppointmentModalProps) {
   if (!appointment) {
     return null;
   }
 
-  const date = new Date(appointment.appointment_date);
+  const appointmentDateTime = formatAppointmentDateTime(appointment.appointment_date, appointment.slot_time);
   const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
   const isCancelled = isCancelledStatus(appointment.status);
 
@@ -67,7 +69,7 @@ export function AppointmentModal({
         ) : null}
 
         <div className="space-y-3 text-sm">
-          <DetailRow label="Appointment Time" value={date.toLocaleString("en-US")} icon={<Clock3 className="h-4 w-4 text-primary" />} />
+          <DetailRow label="Appointment Time" value={appointmentDateTime} icon={<Clock3 className="h-4 w-4 text-primary" />} />
           <DetailRow
             label="Reason"
             value={`${humanizeConsultationType(consultationType)}${appointmentType ? ` | ${humanizeAppointmentType(appointmentType)}` : ""}`}
@@ -130,6 +132,18 @@ export function AppointmentModal({
               className="flex-1 sm:flex-none"
             >
               Reschedule Appointment
+            </Button>
+          )}
+          {canRespondToReschedule(appointment.status) && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onRespondReschedule(appointment);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Accept / Reject Reschedule
             </Button>
           )}
         </DialogFooter>
@@ -198,13 +212,16 @@ function canCancel(status: string) {
   const value = status.toUpperCase();
   return (
     value === "CONFIRMED" ||
-    value === "RESCHEDULE_REQUESTED" ||
     value === "CANCEL_REQUESTED"
   );
 }
 
 function canReschedule(status: string) {
   return status.toUpperCase() === "CONFIRMED";
+}
+
+function canRespondToReschedule(status: string) {
+  return status.toUpperCase() === "RESCHEDULE_REQUESTED";
 }
 
 function extractLocation(appointment: DoctorAppointment) {

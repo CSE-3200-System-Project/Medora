@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
 
@@ -8,19 +8,14 @@ interface DoctorAboutCardProps {
   doctor: BackendDoctorProfile;
 }
 
-export function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
+export const DoctorAboutCard = memo(function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
   const tags = (doctor.services || doctor.sub_specializations || []).slice(0, 6);
   const aboutText =
     doctor.about ||
     `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name} provides patient-focused care with a strong emphasis on evidence-based treatment and clear communication.`;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.35 }}
-    >
+    <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader className="pb-2">
           <CardTitle className="text-2xl font-bold text-foreground">About Dr. {doctor.last_name}</CardTitle>
@@ -39,7 +34,7 @@ export function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
           </div>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
-}
+})
 

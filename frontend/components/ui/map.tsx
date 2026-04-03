@@ -17,9 +17,10 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
+import { X, Minus, Plus, Locate, Maximize } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 
 type MapContextValue = {
   map: MapLibreGL.Map | null;
@@ -58,11 +59,7 @@ type MapRef = MapLibreGL.Map;
 
 const DefaultLoader = () => (
   <div className="absolute inset-0 flex items-center justify-center">
-    <div className="flex gap-1">
-      <span className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse [animation-delay:150ms]" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse [animation-delay:300ms]" />
-    </div>
+    <MedoraLoader size="sm" label="Loading map..." />
   </div>
 );
 
@@ -683,7 +680,7 @@ function MapControls({
             disabled={waitingForLocation}
           >
             {waitingForLocation ? (
-              <Loader2 className="size-4 animate-spin" />
+              <ButtonLoader className="size-4" />
             ) : (
               <Locate className="size-4" />
             )}

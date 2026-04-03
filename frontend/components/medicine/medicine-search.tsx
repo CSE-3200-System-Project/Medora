@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, X, Filter, Loader2 } from "lucide-react";
+import { X, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import {
   Select,
   SelectContent,
@@ -119,7 +120,7 @@ export function MedicineSearch({ onSearch, loading, resultCount }: MedicineSearc
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {loading && (
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <ButtonLoader className="h-4 w-4 text-primary" />
           )}
           {query && (
             <Button

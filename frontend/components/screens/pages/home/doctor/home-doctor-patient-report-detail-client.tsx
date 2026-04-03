@@ -19,7 +19,8 @@ import {
   addReportComment,
   type MedicalReport,
 } from "@/lib/medical-report-actions";
-import { MedoraLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   ArrowLeft,
   FlaskConical,
@@ -28,7 +29,6 @@ import {
   ArrowDown,
   MessageSquare,
   ExternalLink,
-  Loader2,
   Send,
   AlertTriangle,
   FileText,
@@ -135,11 +135,11 @@ export default function DoctorPatientReportDetailPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="pt-[var(--nav-content-offset)]">
-          <MedoraLoader />
-        </div>
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading report details..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }
@@ -396,7 +396,7 @@ export default function DoctorPatientReportDetailPage() {
                 className="gap-2"
               >
                 {submittingComment ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <ButtonLoader className="h-4 w-4" />
                 ) : (
                   <Send className="h-4 w-4" />
                 )}

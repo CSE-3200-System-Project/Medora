@@ -43,7 +43,8 @@ import {
 } from "@/lib/prescription-actions";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 
 export default function MyPrescriptionsPage() {
   const router = useRouter();
@@ -165,12 +166,10 @@ export default function MyPrescriptionsPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
-          <div className="flex items-center justify-center py-20">
-            <MedoraLoader size="lg" label="Loading prescriptions..." />
-          </div>
+          <PageLoadingShell label="Loading prescriptions..." cardCount={4} />
         </main>
       </AppBackground>
     );

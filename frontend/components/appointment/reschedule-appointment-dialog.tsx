@@ -10,9 +10,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { RefreshCw, Clock, User, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
@@ -36,7 +37,9 @@ interface RescheduleAppointmentDialogProps {
 
 interface TimeSlot {
   time: string;
-  available: boolean;
+  available?: boolean;
+  is_available?: boolean;
+  is_past?: boolean;
 }
 
 export function RescheduleAppointmentDialog({
@@ -77,10 +80,9 @@ export function RescheduleAppointmentDialog({
     try {
       const dateStr = localDateKey(date);
       const data = await getAvailableSlots(appointment.doctor_id, dateStr);
-      const availableSlots: TimeSlot[] = (data?.slots || [])
-        .flatMap((group: { slots?: TimeSlot[] }) => group.slots || [])
-        .filter((slot: TimeSlot) => slot.available);
-      setSlots(availableSlots);
+      const nextSlots: TimeSlot[] = (data?.slots || [])
+        .flatMap((group: { slots?: TimeSlot[] }) => group.slots || []);
+      setSlots(nextSlots);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
       setSlots([]);
@@ -266,28 +268,37 @@ export function RescheduleAppointmentDialog({
                 </Label>
                 {loadingSlots ? (
                   <div className="flex items-center justify-center py-4">
-                    <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                    <ButtonLoader className="w-5 h-5 text-primary" />
                   </div>
                 ) : slots.length === 0 ? (
                   <p className="text-sm text-muted-foreground py-4 text-center">
-                    No available slots for this date
+                    No slots available for this date
                   </p>
                 ) : (
                   <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
                     {slots.map((slot) => {
+                      const isAvailable = slot.available ?? slot.is_available ?? false;
+                      const isPast = Boolean(slot.is_past);
+                      const isUnavailable = !isAvailable;
                       const isSelected = selectedSlot === slot.time;
                       
                       return (
                         <button
                           key={slot.time}
-                          onClick={() => setSelectedSlot(slot.time)}
+                          onClick={() => isAvailable && setSelectedSlot(slot.time)}
+                          disabled={isUnavailable}
+                          title={isPast ? "Past slot" : isUnavailable ? "Booked or unavailable" : ""}
                           className={`
                             p-2 text-sm rounded-lg border transition-colors
-                            ${!isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
+                            ${isUnavailable ? 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-60' : ''}
+                            ${isAvailable && !isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
                             ${isSelected ? 'bg-primary text-primary-foreground border-primary' : ''}
                           `}
                         >
-                          {slot.time}
+                          <span>{slot.time}</span>
+                          {isPast ? (
+                            <span className="block text-[10px] uppercase tracking-wide">Past</span>
+                          ) : null}
                         </button>
                       );
                     })}
@@ -329,7 +340,7 @@ export function RescheduleAppointmentDialog({
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <ButtonLoader className="w-4 h-4 mr-2" />
                 Rescheduling...
               </>
             ) : (

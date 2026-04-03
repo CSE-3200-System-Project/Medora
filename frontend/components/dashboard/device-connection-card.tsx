@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { memo } from "react"
 import { Watch } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -11,9 +11,9 @@ type DeviceConnectionCardProps = {
   lastSynced: string
 }
 
-export function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCardProps) {
+export const DeviceConnectionCard = memo(function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCardProps) {
   return (
-    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+    <div className="card-hover">
       <Card className="overflow-hidden border border-border/70 bg-background text-foreground shadow-md dark:bg-card dark:text-card-foreground">
         <CardContent className="relative pt-5">
           <div className="absolute -right-4 -bottom-6 opacity-20">
@@ -31,7 +31,7 @@ export function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCard
           </Button>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
-}
+})
 
