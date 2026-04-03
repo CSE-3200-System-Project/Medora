@@ -1,11 +1,10 @@
 "use client";
 
-import { memo, useState } from "react";
-import { Line, LineChart, ResponsiveContainer } from "recharts";
+import { memo } from "react";
+import { Line, LineChart } from "recharts";
 
 import type { AnalyticsMetric } from "@/components/doctor/analytics/types";
-import { changeClass, glassCardClass, metricFillClass } from "@/components/doctor/analytics/shared";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { changeClass, glassCardClass } from "@/components/doctor/analytics/shared";
 import { cn } from "@/lib/utils";
 
 type MetricsGridProps = {
@@ -13,22 +12,16 @@ type MetricsGridProps = {
   isLoading?: boolean;
 };
 
-const detailAccordionTriggerClass =
-  "rounded-md px-2 py-3 transition-colors duration-200 hover:bg-muted/40 hover:no-underline motion-reduce:transition-none";
-
 function MetricCardSkeleton() {
   return (
-    <div className={cn(glassCardClass, "animate-pulse p-6")}>
-      <div className="mb-5 flex items-start justify-between">
-        <div className="h-4 w-36 rounded bg-muted" />
-        <div className="h-6 w-20 rounded-full bg-muted" />
-      </div>
-      <div className="flex items-end justify-between gap-4">
+    <div className={cn(glassCardClass, "animate-pulse p-4 sm:p-5")}>
+      <div className="mb-4 h-4 w-28 rounded bg-muted" />
+      <div className="flex items-end justify-between gap-3">
         <div className="space-y-2">
-          <div className="h-10 w-28 rounded bg-muted" />
-          <div className="h-3 w-32 rounded bg-muted" />
+          <div className="h-8 w-20 rounded bg-muted" />
+          <div className="h-3 w-24 rounded bg-muted" />
         </div>
-        <div className="h-16 w-32 rounded-lg bg-muted" />
+        <div className="h-12 w-24 rounded-lg bg-muted" />
       </div>
     </div>
   );
@@ -36,165 +29,96 @@ function MetricCardSkeleton() {
 
 const MetricSparkline = memo(function MetricSparkline({
   metric,
+  width = 96,
+  height = 48,
   className,
 }: {
   metric: AnalyticsMetric;
+  width?: number;
+  height?: number;
   className?: string;
 }) {
   const chartData = metric.sparkline.map((value, index) => ({ index, value }));
+  const stroke = metric.accent === "error" ? "#B91C1C" : metric.accent === "tertiary" ? "#1379B1" : "#0360D9";
 
   return (
-    <div className={cn("rounded-lg bg-muted/70 p-2", className)}>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
-          <Line
-            type="monotone"
-            dataKey="value"
-            strokeWidth={2}
-            dot={false}
-            stroke={metric.accent === "error" ? "#B91C1C" : metric.accent === "tertiary" ? "#1379B1" : "#0360D9"}
-            className={cn("drop-shadow-sm", metricFillClass(metric.accent))}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className={cn("rounded-lg bg-muted/50 p-1.5", className)}>
+      <LineChart data={chartData} width={width} height={height}>
+        <Line type="monotone" dataKey="value" strokeWidth={2} dot={false} stroke={stroke} />
+      </LineChart>
     </div>
   );
 });
 
 export function MetricsGrid({ metrics, isLoading = false }: MetricsGridProps) {
-  const [expandedMetricId, setExpandedMetricId] = useState<string | undefined>(undefined);
-
   if (isLoading) {
     return (
-      <section className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
-          <MetricCardSkeleton />
-          <MetricCardSkeleton />
-        </div>
-        <div className={cn(glassCardClass, "h-56 animate-pulse")} />
-      </section>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <MetricCardSkeleton key={i} />
+        ))}
+      </div>
     );
   }
 
   if (metrics.length === 0) {
     return (
-      <section className={cn(glassCardClass, "p-8 text-center")}>
+      <div className={cn(glassCardClass, "p-8 text-center")}>
         <p className="text-sm text-muted-foreground">No metric data available for this period.</p>
-      </section>
+      </div>
     );
   }
 
   const primaryMetric = metrics[0];
-  const contextualMetrics = metrics.slice(1, 6);
+  const secondaryMetrics = metrics.slice(1);
 
   return (
-    <section className="space-y-6">
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
-        <article className={cn(glassCardClass, "space-y-6 p-6 lg:p-7")}>
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-primary">Primary decision panel</p>
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="space-y-1">
-                <p className="text-base font-semibold text-foreground">{primaryMetric.label}</p>
-                <p className="text-sm text-muted-foreground">{primaryMetric.subtitle}</p>
-              </div>
-              <span className={cn("rounded-full px-2.5 py-1 text-sm font-semibold", changeClass(primaryMetric.changeDirection))}>
+    <div className="space-y-5">
+      {/* Primary metric — full width highlight card */}
+      <article className={cn(glassCardClass, "p-5 sm:p-6")}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1 space-y-1">
+            <p className="text-sm font-medium text-muted-foreground">{primaryMetric.subtitle}</p>
+            <div className="flex flex-wrap items-baseline gap-3">
+              <p className="text-3xl font-bold tracking-tight tabular-nums text-foreground sm:text-4xl">
+                {primaryMetric.value}
+              </p>
+              <span className={cn("rounded-full px-2.5 py-0.5 text-sm font-semibold", changeClass(primaryMetric.changeDirection))}>
                 {primaryMetric.changeLabel}
               </span>
             </div>
+            <p className="text-base font-semibold text-foreground">{primaryMetric.label}</p>
           </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[auto_1fr] sm:items-end">
-            <div>
-              <p className="text-4xl font-bold tracking-tight tabular-nums text-foreground lg:text-5xl">{primaryMetric.value}</p>
-              <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                {primaryMetric.changeDirection === "down"
-                  ? "Declining trajectory detected. Review schedules and intervention priority."
-                  : "Current trend is favorable. Continue monitoring to sustain care quality and throughput."}
-              </p>
-            </div>
-            <MetricSparkline metric={primaryMetric} className="h-20 sm:h-24" />
-          </div>
-        </article>
-
-        <aside className={cn(glassCardClass, "space-y-4 p-6")}>
-          <div className="space-y-1">
-            <p className="text-sm font-semibold text-primary">Secondary trend context</p>
-            <p className="text-sm text-muted-foreground">Cross-signal metrics for short-term pattern tracking.</p>
-          </div>
-
-          <div className="space-y-3">
-            {contextualMetrics.map((metric) => (
-              <article
-                key={metric.id}
-                className="grid grid-cols-[minmax(0,1fr)_6rem] gap-3 rounded-lg border border-border/60 bg-muted/30 p-3 transition-colors duration-200 hover:bg-muted/45 motion-reduce:transition-none"
-              >
-                <div className="min-w-0 space-y-1">
-                  <p className="truncate text-sm font-semibold text-foreground">{metric.label}</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg leading-none font-bold tabular-nums text-foreground">{metric.value}</span>
-                    <span className={cn("rounded-full px-2 py-0.5 text-sm font-semibold", changeClass(metric.changeDirection))}>
-                      {metric.changeLabel}
-                    </span>
-                  </div>
-                </div>
-                <MetricSparkline metric={metric} className="h-14 w-full" />
-              </article>
-            ))}
-          </div>
-        </aside>
-      </div>
-
-      <section className={cn(glassCardClass, "p-4 sm:p-6")}>
-        <div className="mb-3">
-          <p className="text-sm font-semibold text-primary">Tertiary expandable details</p>
-          <p className="mt-1 text-sm text-muted-foreground">Deep metric diagnostics and raw trend traces.</p>
+          <MetricSparkline metric={primaryMetric} width={160} height={72} className="shrink-0" />
         </div>
+      </article>
 
-        <Accordion
-          type="single"
-          collapsible
-          value={expandedMetricId}
-          onValueChange={(value) => setExpandedMetricId(value || undefined)}
-          className="w-full"
-        >
-          {metrics.map((metric) => (
-            <AccordionItem key={metric.id} value={metric.id} className="border-border/60">
-              <AccordionTrigger className={detailAccordionTriggerClass}>
-                <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 pr-3">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-foreground">{metric.label}</p>
-                    <p className="truncate text-sm text-muted-foreground">{metric.subtitle}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-base font-bold tabular-nums text-foreground">{metric.value}</span>
-                    <span className={cn("rounded-full px-2 py-0.5 text-sm font-semibold", changeClass(metric.changeDirection))}>
-                      {metric.changeLabel}
-                    </span>
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent>
-                {expandedMetricId === metric.id ? (
-                  <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                    <MetricSparkline metric={metric} className="h-24" />
-                    <div className="rounded-lg border border-border/60 bg-muted/20 p-3">
-                      <p className="mb-2 text-sm font-medium text-muted-foreground">Trend points</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {metric.sparkline.map((point, index) => (
-                          <span key={`${metric.id}-point-${index}`} className="rounded-md bg-muted px-2 py-1 text-sm font-medium tabular-nums text-muted-foreground">
-                            {point}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-    </section>
+      {/* Secondary metrics — responsive card grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {secondaryMetrics.map((metric) => (
+          <article
+            key={metric.id}
+            className={cn(
+              glassCardClass,
+              "flex flex-col justify-between p-4 transition-colors duration-150 hover:bg-muted/20 sm:p-5",
+            )}
+          >
+            <div className="mb-3 flex items-start justify-between gap-2">
+              <p className="text-sm font-medium text-muted-foreground">{metric.label}</p>
+              <span className={cn("shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold", changeClass(metric.changeDirection))}>
+                {metric.changeLabel}
+              </span>
+            </div>
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <p className="text-2xl font-bold tabular-nums text-foreground">{metric.value}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{metric.subtitle}</p>
+              </div>
+              <MetricSparkline metric={metric} width={88} height={48} className="shrink-0" />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }

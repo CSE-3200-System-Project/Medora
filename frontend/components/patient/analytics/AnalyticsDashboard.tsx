@@ -1,18 +1,26 @@
 "use client";
 
 import * as React from "react";
+import dynamic from "next/dynamic";
 import { Activity, AlertCircle, BellRing, Eye, EyeOff, Footprints, Heart, MoonStar, ShieldCheck, TrendingDown, TrendingUp, UserCheck, Waves, Minus } from "lucide-react";
 
 import { AdherenceHeatmap, HeatmapDay } from "@/components/patient/analytics/AdherenceHeatmap";
 import { AdherenceStats } from "@/components/patient/analytics/AdherenceStats";
 import { MedicationItem, MedicationStatus } from "@/components/patient/analytics/MedicationTimelineItem";
-import { MissedDoseChart, MissedDosePoint } from "@/components/patient/analytics/MissedDoseChart";
+import type { MissedDosePoint } from "@/components/patient/analytics/MissedDoseChart";
 import { SmartInsight } from "@/components/patient/analytics/SmartInsight";
+
+const MissedDoseChart = dynamic(
+  () => import("@/components/patient/analytics/MissedDoseChart").then((m) => m.MissedDoseChart),
+  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-xl border border-border/60 bg-card p-4" /> },
+);
 import { TodaySchedule } from "@/components/patient/analytics/TodaySchedule";
 import { AppBackground } from "@/components/ui/app-background";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Navbar } from "@/components/ui/navbar";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { getMetricTrends, getTodayMetrics, logHealthMetric, type HealthMetricTrendPoint } from "@/lib/health-metrics-actions";
 import { listMyConsents, revokeHealthDataConsent, type HealthDataConsent } from "@/lib/health-data-consent-actions";
 import { getReminders } from "@/lib/reminder-actions";
@@ -321,7 +329,7 @@ export default function AnalyticsDashboard({
     };
 
     return baseline;
-  }, [medications]);
+  }, [clock, medications]);
 
   const adherenceScore = React.useMemo(() => {
     const totals = dailySummaries.reduce(
@@ -696,9 +704,15 @@ export default function AnalyticsDashboard({
             </p>
 
             {consentsLoading ? (
-              <Card className="border-border/60">
-                <CardContent className="py-6 text-center text-sm text-muted-foreground">Loading...</CardContent>
-              </Card>
+              <div className="space-y-3 rounded-xl border border-border/60 bg-card/80 p-4">
+                <div className="flex justify-center py-1">
+                  <MedoraLoader size="md" label="Loading data sharing status..." />
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <CardSkeleton />
+                  <CardSkeleton />
+                </div>
+              </div>
             ) : consents.length === 0 ? (
               <Card className="border-border/60 bg-card/95">
                 <CardContent className="flex items-center gap-3 py-5">

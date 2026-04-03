@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/dialog";
 import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { XCircle, Clock, User, Calendar, Loader2 } from "lucide-react";
+import { XCircle, Clock, User, Calendar } from "lucide-react";
 
 interface CancelAppointmentDialogProps {
   open: boolean;
@@ -189,7 +190,7 @@ export function CancelAppointmentDialog({
           <Button variant="destructive" onClick={handleConfirm} disabled={loading}>
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <ButtonLoader className="w-4 h-4 mr-2" />
                 Cancelling...
               </>
             ) : (

@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, Loader2, ShieldAlert } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { createClient } from "@supabase/supabase-js";
 import { resetPassword } from "@/lib/auth-actions";
 import doctorImg from "@/assets/images/doctors.jpg";
@@ -221,7 +222,7 @@ export function ResetPasswordClient() {
                 {pageState === "loading" && (
                   <>
                     <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <MedoraLoader size="sm" />
                       <span>Verifying your reset link...</span>
                     </div>
                   </>
@@ -366,7 +367,7 @@ export function ResetPasswordClient() {
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          <ButtonLoader className="h-4 w-4 mr-2" />
                           Resetting Password...
                         </>
                       ) : (

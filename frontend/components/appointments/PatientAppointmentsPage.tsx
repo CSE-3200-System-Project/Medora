@@ -24,6 +24,7 @@ import { CancelAppointmentDialog } from "@/components/appointment/cancel-appoint
 import { RescheduleResponseDialog } from "@/components/appointment/reschedule-response-dialog";
 import type { PatientAppointment, PatientSummary } from "@/components/appointments/types";
 import { Button } from "@/components/ui/button";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { cn, localDateKey } from "@/lib/utils";
 import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
 
@@ -99,30 +100,44 @@ function isUpcoming(appointment: PatientAppointment) {
   return new Date(appointment.appointment_date).getTime() >= Date.now();
 }
 
-function normalizeAppointments(raw: any[]): PatientAppointment[] {
+function asOptionalString(value: unknown) {
+  return typeof value === "string" ? value : null;
+}
+
+function normalizeAppointments(raw: unknown[]): PatientAppointment[] {
   return raw
-    .filter((item) => item?.id && item?.appointment_date)
-    .map((item) => ({
-      id: String(item.id),
-      title: item.title || null,
-      reason: item.reason || null,
-      doctor_id: item.doctor_id || null,
-      doctor_name: item.doctor_name || null,
-      doctor_title: item.doctor_title || null,
-      doctor_specialization: item.doctor_specialization || null,
-      doctor_photo_url: item.doctor_photo_url || null,
-      hospital_name: item.hospital_name || null,
-      appointment_date: item.appointment_date,
-      slot_time: item.slot_time || null,
-      status: item.status || "PENDING",
-      hold_expires_at: item.hold_expires_at || null,
-      cancellation_reason_key: item.cancellation_reason_key || null,
-      cancellation_reason_note: item.cancellation_reason_note || null,
-      reschedule_request_id: item.reschedule_request_id || null,
-      reschedule_requested_by_role: item.reschedule_requested_by_role || item.requested_by || null,
-      proposed_date: item.proposed_date || null,
-      proposed_time: item.proposed_time || null,
-    }));
+    .map((item): PatientAppointment | null => {
+      if (!item || typeof item !== "object") return null;
+      const row = item as Record<string, unknown>;
+      const id = asOptionalString(row.id);
+      const appointmentDate = asOptionalString(row.appointment_date);
+      if (!id || !appointmentDate) return null;
+
+      return {
+        id,
+        title: asOptionalString(row.title),
+        reason: asOptionalString(row.reason),
+        doctor_id: asOptionalString(row.doctor_id),
+        doctor_name: asOptionalString(row.doctor_name),
+        doctor_title: asOptionalString(row.doctor_title),
+        doctor_specialization: asOptionalString(row.doctor_specialization),
+        doctor_photo_url: asOptionalString(row.doctor_photo_url),
+        hospital_name: asOptionalString(row.hospital_name),
+        appointment_date: appointmentDate,
+        slot_time: asOptionalString(row.slot_time),
+        status: asOptionalString(row.status) || "PENDING",
+        hold_expires_at: asOptionalString(row.hold_expires_at),
+        cancellation_reason_key: asOptionalString(row.cancellation_reason_key),
+        cancellation_reason_note: asOptionalString(row.cancellation_reason_note),
+        reschedule_request_id: asOptionalString(row.reschedule_request_id),
+        reschedule_requested_by_role:
+          asOptionalString(row.reschedule_requested_by_role) ||
+          asOptionalString(row.requested_by),
+        proposed_date: asOptionalString(row.proposed_date),
+        proposed_time: asOptionalString(row.proposed_time),
+      };
+    })
+    .filter((item): item is PatientAppointment => item !== null);
 }
 
 function buildMonthlyStats(appointments: PatientAppointment[]) {
@@ -249,6 +264,7 @@ export default function PatientAppointmentsPage() {
           proposed_time: String(appointment.proposed_time),
         };
       }
+      throw new Error("Waiting for doctor's response on your reschedule request.");
     }
 
     const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
@@ -260,15 +276,18 @@ export default function PatientAppointmentsPage() {
         normalizeRole(request.requested_by_role) === "doctor",
     );
 
-    const pendingRequest = pendingDoctorRequest || requests.find((request) => normalizeRequestStatus(request.status) === "pending");
-    if (!pendingRequest?.id || !pendingRequest.proposed_date || !pendingRequest.proposed_time) {
+    if (!pendingDoctorRequest?.id || !pendingDoctorRequest.proposed_date || !pendingDoctorRequest.proposed_time) {
+      const hasPendingRequest = requests.some((request) => normalizeRequestStatus(request.status) === "pending");
+      if (hasPendingRequest) {
+        throw new Error("Waiting for doctor's response on your reschedule request.");
+      }
       throw new Error("No pending doctor reschedule request is available for this appointment.");
     }
 
     return {
-      id: String(pendingRequest.id),
-      proposed_date: coerceIsoDate(pendingRequest.proposed_date),
-      proposed_time: String(pendingRequest.proposed_time),
+      id: String(pendingDoctorRequest.id),
+      proposed_date: coerceIsoDate(pendingDoctorRequest.proposed_date),
+      proposed_time: String(pendingDoctorRequest.proposed_time),
     };
   }, []);
 
@@ -302,7 +321,10 @@ export default function PatientAppointmentsPage() {
           : "Unable to load this reschedule request. Please try again.";
       setRescheduleResponseError(message);
       setRescheduleResponseTarget({ appointment, request: null });
-      setActionFeedback({ type: "error", message });
+      setActionFeedback({
+        type: message.toLowerCase().includes("waiting for doctor") ? "success" : "error",
+        message,
+      });
     } finally {
       setRescheduleResponseLoading(false);
     }
@@ -464,11 +486,7 @@ export default function PatientAppointmentsPage() {
         ) : null}
 
         {loading ? (
-          <div className="grid gap-4">
-            <div className="h-28 rounded-2xl border border-border bg-card" />
-            <div className="h-36 rounded-2xl border border-border bg-card" />
-            <div className="h-80 rounded-2xl border border-border bg-card" />
-          </div>
+          <PageLoadingShell label="Loading appointments..." cardCount={4} loaderSize="md" />
         ) : (
           <>
             <PatientAppointmentSummary

@@ -25,7 +25,8 @@ from app.schemas.appointment import (
 from app.services.doctor_action_service import create_appointment_completed_action
 from app.services import appointment_service, notification_service, slot_service
 from typing import List
-from datetime import datetime, timedelta, timezone, date as date_class
+from datetime import datetime, timedelta, timezone, date as date_class, time as time_class
+from zoneinfo import ZoneInfo
 import re
 
 router = APIRouter()
@@ -74,6 +75,7 @@ SLOT_RANGE_PATTERN = re.compile(
     r"(\d{1,2}(?::\d{2})?\s*(?:AM|PM))\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))",
     re.IGNORECASE,
 )
+MEDORA_TIMEZONE = ZoneInfo("Asia/Dhaka")
 
 CANCELLATION_STATUSES = {
     AppointmentStatus.CANCELLED,
@@ -161,6 +163,38 @@ def _slot_label_from_datetime(value: datetime) -> str:
     return value.strftime("%I:%M %p").lstrip("0").upper()
 
 
+def _parse_slot_time_from_notes(notes: str | None) -> time_class | None:
+    if not notes:
+        return None
+
+    match = SLOT_NOTE_PATTERN.search(notes)
+    if not match:
+        return None
+
+    normalized = _normalize_slot_label(match.group(1))
+    parsed = datetime.strptime(normalized, "%I:%M %p")
+    return time_class(parsed.hour, parsed.minute)
+
+
+def _canonicalize_appointment_datetime(raw_datetime: datetime, slot_time_val: time_class | None) -> datetime:
+    if slot_time_val is not None:
+        target_date = raw_datetime.date()
+        local_datetime = datetime(
+            target_date.year,
+            target_date.month,
+            target_date.day,
+            slot_time_val.hour,
+            slot_time_val.minute,
+            tzinfo=MEDORA_TIMEZONE,
+        )
+        return local_datetime.astimezone(timezone.utc)
+
+    if raw_datetime.tzinfo is None:
+        return raw_datetime.replace(tzinfo=timezone.utc)
+
+    return raw_datetime.astimezone(timezone.utc)
+
+
 def _slot_sort_key(slot_label: str) -> datetime:
     try:
         return datetime.strptime(_normalize_slot_label(slot_label), "%I:%M %p")
@@ -246,18 +280,13 @@ async def create_appointment(
         if not selected_location_name:
             selected_location_name = location.location_name
 
-    # Extract slot_time from appointment_date or notes
-    slot_time_val = None
-    appt_dt = appointment_data.appointment_date
-    if appt_dt.hour != 0 or appt_dt.minute != 0:
-        from datetime import time as time_type
-        slot_time_val = time_type(appt_dt.hour, appt_dt.minute)
-    elif appointment_data.notes:
-        slot_match = re.search(r'Slot:\s*(\d{1,2}:\d{2}\s*(?:AM|PM))', appointment_data.notes, re.IGNORECASE)
-        if slot_match:
-            from datetime import time as time_type
-            parsed = datetime.strptime(slot_match.group(1).strip(), "%I:%M %p")
-            slot_time_val = time_type(parsed.hour, parsed.minute)
+    # Prefer explicit slot label from notes to avoid client-timezone drift.
+    appt_dt_raw = appointment_data.appointment_date
+    slot_time_val = _parse_slot_time_from_notes(appointment_data.notes)
+    if slot_time_val is None and (appt_dt_raw.hour != 0 or appt_dt_raw.minute != 0):
+        slot_time_val = time_class(appt_dt_raw.hour, appt_dt_raw.minute)
+
+    appt_dt = _canonicalize_appointment_datetime(appt_dt_raw, slot_time_val)
 
     try:
         new_appointment = await appointment_service.create_appointment(
@@ -340,10 +369,25 @@ async def get_my_appointments(
         patient = profiles_by_id.get(appt.patient_id)
         doctor = profiles_by_id.get(appt.doctor_id)
         patient_profile = patient_profiles_by_id.get(appt.patient_id)
+        # Keep slot_time as a proper time object to satisfy AppointmentResponse validation.
+        slot_time = appt.slot_time
+        if slot_time is None and appt.notes:
+            slot_match = SLOT_NOTE_PATTERN.search(appt.notes)
+            if slot_match:
+                try:
+                    normalized_slot = _normalize_slot_label(slot_match.group(1))
+                    parsed_time = datetime.strptime(normalized_slot, "%I:%M %p")
+                    slot_time = time_class(
+                        hour=parsed_time.hour,
+                        minute=parsed_time.minute,
+                    )
+                except ValueError:
+                    slot_time = None
 
         out.append({
             "id": appt.id,
             "appointment_date": appt.appointment_date.isoformat(),
+            "slot_time": slot_time,
             "reason": appt.reason,
             "notes": appt.notes,
             "status": _status_value(appt.status),

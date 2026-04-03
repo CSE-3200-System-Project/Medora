@@ -6,7 +6,8 @@ import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components
 import { PrescriptionUploadDemo } from "@/components/medicine/prescription-upload-demo";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Pill, Search, Info } from "lucide-react";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { Pill, Search, Info } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
 import {
   getMedicineDetails,
@@ -83,6 +84,9 @@ export function DoctorFindMedicineClient() {
         <div className="mt-6 space-y-3">
           {loading ? (
             <div className="space-y-3">
+              <div className="flex justify-center py-2">
+                <MedoraLoader size="md" label="Loading medicines..." />
+              </div>
               {[1, 2, 3].map((i) => (
                 <Card key={i} className="animate-pulse">
                   <CardContent className="p-4">
@@ -139,8 +143,7 @@ export function DoctorFindMedicineClient() {
       {drawerOpen && detailLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-background rounded-xl p-6 flex flex-col items-center gap-3">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Loading details...</p>
+            <MedoraLoader size="md" label="Loading details..." />
           </div>
         </div>
       )}

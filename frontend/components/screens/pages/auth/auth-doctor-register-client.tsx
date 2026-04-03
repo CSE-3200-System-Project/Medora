@@ -36,9 +36,7 @@ export default function DoctorRegister() {
     }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isDesktopViewport = window.matchMedia("(min-width: 1280px)").matches;
-
-    if (prefersReducedMotion || !isDesktopViewport) {
+    if (prefersReducedMotion) {
       return;
     }
 
@@ -117,7 +115,7 @@ export default function DoctorRegister() {
 
   return (
     <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 animate-page-enter">
-      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,48rem)]">
           {/* Left Side - Hero/Image */}
           <div className="relative w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
@@ -142,7 +140,7 @@ export default function DoctorRegister() {
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
             <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
-              <h1 className="min-h-[4.5rem] sm:min-h-[5.25rem] text-2xl sm:text-3xl xl:text-4xl font-bold mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
+              <h1 className="min-h-18 sm:min-h-21 text-2xl sm:text-3xl xl:text-4xl font-bold mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
                 {images[currentImageIndex].text}
               </h1>
               <p className="text-sm sm:text-base text-white/90 mb-6 hidden md:block">

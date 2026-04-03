@@ -39,10 +39,10 @@ export function AnalyticsHeader({
           type="button"
           onClick={() => onDateRangeChange(range)}
           className={cn(
-            "px-4 py-2 text-sm font-medium transition-colors",
+            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
             range === dateRange
-              ? "bg-primary-light text-primary shadow-sm"
-              : "text-muted-foreground hover:bg-accent",
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground",
           )}
         >
           {RANGE_LABELS[range]}
@@ -52,45 +52,56 @@ export function AnalyticsHeader({
   );
 
   return (
-    <header className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-      <div className="space-y-1">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-          Advanced Analytics
-        </h1>
-        <p className="max-w-2xl text-base md:text-lg text-muted-foreground">
-          Deep insights into your clinical performance, workload, and outcomes
-        </p>
+    <header className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Advanced Analytics</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground sm:text-base">
+            Clinical performance, workload, and outcomes
+          </p>
+        </div>
+
+        <label className="hidden items-center rounded-lg border border-border bg-background px-3 py-2 text-muted-foreground lg:flex lg:w-64">
+          <Search className="mr-2 h-4 w-4 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search analytics..."
+            className="w-full border-none bg-transparent text-sm outline-none placeholder:text-current focus:ring-0"
+          />
+        </label>
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 rounded-xl bg-muted/60 p-2">
-        <div className="flex overflow-hidden rounded-lg bg-background border border-border/50">{rangeButtons}</div>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap gap-1 rounded-lg border border-border/50 bg-background p-1">
+          {rangeButtons}
+        </div>
 
-        <div className="mx-2 h-8 w-px bg-border/70" />
-
-        <label className="group flex cursor-pointer items-center gap-2">
-          <Switch checked={comparePeriod} onCheckedChange={onComparePeriodChange} className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-border" />
-          <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
-            Compare Period
-          </span>
+        <label className="flex cursor-pointer items-center gap-2">
+          <Switch
+            checked={comparePeriod}
+            onCheckedChange={onComparePeriodChange}
+            className="data-[state=checked]:bg-primary data-[state=unchecked]:bg-border"
+          />
+          <span className="text-sm font-medium text-muted-foreground">Compare</span>
         </label>
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary-muted"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary-muted"
         >
-          <Upload className="h-4 w-4" />
+          <Upload className="h-3.5 w-3.5" />
           Export
         </button>
       </div>
 
-      <div className="hidden items-center rounded-xl border border-border bg-background px-4 py-2 text-muted-foreground lg:flex">
-        <Search className="mr-2 h-4 w-4" />
+      <label className="flex items-center rounded-lg border border-border bg-background px-3 py-2 text-muted-foreground lg:hidden">
+        <Search className="mr-2 h-4 w-4 shrink-0" />
         <input
           type="text"
           placeholder="Search analytics..."
-          className="w-48 border-none bg-transparent text-sm outline-none placeholder:text-current focus:ring-0"
+          className="w-full border-none bg-transparent text-sm outline-none placeholder:text-current focus:ring-0"
         />
-      </div>
+      </label>
     </header>
   );
 }

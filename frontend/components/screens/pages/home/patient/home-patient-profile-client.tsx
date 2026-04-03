@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AppBackground } from "@/components/ui/app-background";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   User,
   Mail,
@@ -198,12 +199,9 @@ export default function PatientProfilePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center min-h-dvh min-h-app">
-          <div className="text-center">
-            <div className="skeleton h-12 w-12 rounded-full mx-auto mb-4"></div>
-            <p className="text-foreground font-semibold">Loading profile...</p>
-          </div>
-        </div>
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading profile..." cardCount={5} />
+        </main>
       </AppBackground>
     );
   }

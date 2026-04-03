@@ -20,6 +20,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
   getReminders,
   deleteReminder,
@@ -188,8 +189,12 @@ export default function PatientRemindersPage() {
 
             {/* Loading State */}
             {loading && (
-              <div className="flex items-center justify-center py-12">
-                <MedoraLoader size="lg" label="Loading reminders..." />
+              <div className="space-y-4 py-4">
+                <div className="flex justify-center py-2">
+                  <MedoraLoader size="lg" label="Loading reminders..." />
+                </div>
+                <CardSkeleton />
+                <CardSkeleton />
               </div>
             )}
 

@@ -42,34 +42,38 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
     return () => observer.disconnect();
   }, []);
 
-  const maxValue = Math.max(1, ...stats.map((item) => item.value));
+  const maxValue = React.useMemo(() => Math.max(1, ...stats.map((item) => item.value)), [stats]);
 
-  const bubblePoints = stats.map((item, index) => {
-    const horizontalPositions = [18, 40, 62, 84, 30, 74];
-    const verticalPositions = [45, 30, 50, 35, 60, 62];
-    const lengthScale = Math.min(18, Math.max(0, item.name.length - 10));
-    const valueScale = Math.round((item.value / maxValue) * 24);
-    const radius = 28 + valueScale + lengthScale;
+  const bubblePoints = React.useMemo(
+    () =>
+      stats.map((item, index) => {
+        const horizontalPositions = [18, 40, 62, 84, 30, 74];
+        const verticalPositions = [45, 30, 50, 35, 60, 62];
+        const lengthScale = Math.min(18, Math.max(0, item.name.length - 10));
+        const valueScale = Math.round((item.value / maxValue) * 24);
+        const radius = 28 + valueScale + lengthScale;
 
-    return {
-      value: [horizontalPositions[index % horizontalPositions.length], verticalPositions[index % verticalPositions.length], radius, item.value],
-      name: item.name,
-      itemStyle: {
-        color: colorFor(item.name),
-        opacity: isDark ? 0.24 : 0.14,
-        borderColor: colorFor(item.name),
-        borderWidth: 2,
-      },
-      label: {
-        show: true,
-        formatter: `${item.name}\n${item.value} Visits`,
-        color: isDark ? "#d8e6ff" : "#17345a",
-        fontSize: 10,
-        fontWeight: 600,
-        lineHeight: 14,
-      },
-    };
-  });
+        return {
+          value: [horizontalPositions[index % horizontalPositions.length], verticalPositions[index % verticalPositions.length], radius, item.value],
+          name: item.name,
+          itemStyle: {
+            color: colorFor(item.name),
+            opacity: isDark ? 0.24 : 0.14,
+            borderColor: colorFor(item.name),
+            borderWidth: 2,
+          },
+          label: {
+            show: true,
+            formatter: `${item.name}\n${item.value} Visits`,
+            color: isDark ? "#d8e6ff" : "#17345a",
+            fontSize: 10,
+            fontWeight: 600,
+            lineHeight: 14,
+          },
+        };
+      }),
+    [stats, maxValue, isDark],
+  );
 
   const option = React.useMemo(
     () => ({
@@ -106,7 +110,7 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
       <p className="mt-1 text-sm text-muted-foreground">Frequency of specialist interactions</p>
 
       <div className="mt-4 h-55">
-        <ReactECharts option={option} style={{ width: "100%", height: "100%" }} />
+        <ReactECharts option={option} style={{ width: "100%", height: "100%" }} notMerge lazyUpdate />
       </div>
 
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">

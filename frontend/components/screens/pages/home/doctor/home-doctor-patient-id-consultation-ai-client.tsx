@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Navbar } from "@/components/ui/navbar";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { Textarea } from "@/components/ui/textarea";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 
@@ -147,12 +147,10 @@ export default function ConsultationAIPreStepPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
-          <div className="flex items-center justify-center py-20">
-            <MedoraLoader size="lg" label="Loading AI pre-consultation..." />
-          </div>
+          <PageLoadingShell label="Loading AI pre-consultation..." cardCount={4} />
         </main>
       </AppBackground>
     );

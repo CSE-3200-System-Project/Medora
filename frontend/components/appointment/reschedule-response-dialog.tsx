@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Calendar, Check, Loader2, RefreshCw, X } from "lucide-react";
+import { Calendar, Check, RefreshCw, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 
 type RescheduleResponseMessages = {
   title: string;
@@ -47,6 +48,8 @@ interface RescheduleResponseDialogProps {
     id: string;
     doctor_name?: string | null;
     doctor_title?: string | null;
+    patient_name?: string | null;
+    patient_title?: string | null;
     appointment_date: string;
     slot_time?: string | null;
   } | null;
@@ -153,6 +156,8 @@ export function RescheduleResponseDialog({
   const oldDateLabel = appointment ? formatDateLabel(appointment.appointment_date) : "N/A";
   const oldTimeLabel =
     appointment?.slot_time || formatTimeLabel(appointment?.appointment_date ? new Date(appointment.appointment_date).toTimeString().slice(0, 8) : null);
+  const counterpartyTitle = appointment?.doctor_title || appointment?.patient_title || "";
+  const counterpartyName = appointment?.doctor_name || appointment?.patient_name || "Counterparty";
   const proposedDateLabel = request?.proposed_date ? formatDateLabel(request.proposed_date) : "N/A";
   const proposedTimeLabel = formatTimeLabel(request?.proposed_time);
 
@@ -170,13 +175,13 @@ export function RescheduleResponseDialog({
         <div className="space-y-4">
           <div className="rounded-lg border border-border bg-accent/40 p-3">
             <p className="text-sm font-medium text-foreground">
-              {appointment?.doctor_title || "Dr."} {appointment?.doctor_name || "Doctor"}
+              {counterpartyTitle ? `${counterpartyTitle} ` : ""}{counterpartyName}
             </p>
           </div>
 
           {isResolving ? (
             <div className="flex items-center justify-center gap-2 rounded-lg border border-border p-4 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <ButtonLoader className="h-4 w-4" />
               {copy.loadingRequest}
             </div>
           ) : request ? (
@@ -219,7 +224,7 @@ export function RescheduleResponseDialog({
           >
             {submitting === "reject" ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ButtonLoader className="mr-2 h-4 w-4" />
                 {copy.rejecting}
               </>
             ) : (
@@ -235,7 +240,7 @@ export function RescheduleResponseDialog({
           >
             {submitting === "accept" ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ButtonLoader className="mr-2 h-4 w-4" />
                 {copy.accepting}
               </>
             ) : (

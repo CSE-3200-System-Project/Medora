@@ -14,52 +14,54 @@ type PatientOutcomesCardProps = {
 
 export const PatientOutcomesCard = memo(function PatientOutcomesCard({ data, isLoading = false }: PatientOutcomesCardProps) {
   if (isLoading) {
-    return <div className={cn(glassCardClass, "h-80 animate-pulse p-8")} />;
+    return <div className={cn(glassCardClass, "h-64 animate-pulse p-4 sm:p-5")} />;
   }
 
   return (
-    <section className={cn(glassCardClass, "p-8")}>
-      <h3 className="mb-8 text-lg font-semibold text-foreground">Patient Outcomes</h3>
+    <section className={cn(glassCardClass, "flex h-full flex-col p-5 sm:p-6")}>
+      <h3 className="mb-4 text-lg font-semibold text-foreground">Patient Outcomes</h3>
 
-      <div className="space-y-6">
-        <div className="flex items-center gap-6">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
-            <Activity className="h-8 w-8 text-primary" />
-          </div>
-          <div className="flex-1">
-            <div className="mb-1 flex items-end justify-between">
-              <span className="font-semibold text-foreground">Recovery Tracking</span>
-              <span className="font-semibold text-primary">{data.recoveryTrendLabel}</span>
+      <div className="flex flex-1 flex-col justify-between gap-4">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <Activity className="h-5 w-5 text-primary" />
             </div>
-            <div className="h-1.5 w-full rounded-full bg-muted">
-              <div className="h-full rounded-full bg-linear-to-r from-primary to-primary-light" style={{ width: `${data.recoveryProgress}%` }} />
+            <div className="min-w-0 flex-1">
+              <div className="mb-1 flex items-center justify-between text-sm">
+                <span className="font-medium text-foreground">Recovery Tracking</span>
+                <span className="font-semibold tabular-nums text-primary">{data.recoveryTrendLabel}</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${data.recoveryProgress}%` }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
+              <Repeat2 className="h-5 w-5 text-primary-muted" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="mb-1 flex items-center justify-between text-sm">
+                <span className="font-medium text-foreground">Repeat Visits</span>
+                <span className="font-semibold tabular-nums text-primary-muted">{data.repeatVisitLabel}</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary-muted transition-all" style={{ width: `${data.repeatVisitProgress}%` }} />
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary">
-            <Repeat2 className="h-8 w-8 text-primary-muted" />
+        <div className="grid grid-cols-2 gap-3 border-t border-border/60 pt-4">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground">Avg recovery time</p>
+            <p className="mt-0.5 text-lg font-bold tabular-nums text-foreground">{data.averageRecoveryTime}</p>
           </div>
-          <div className="flex-1">
-            <div className="mb-1 flex items-end justify-between">
-              <span className="font-semibold text-foreground">Repeat Visit Frequency</span>
-              <span className="font-semibold text-primary-muted">{data.repeatVisitLabel}</span>
-            </div>
-            <div className="h-1.5 w-full rounded-full bg-muted">
-              <div className="h-full rounded-full bg-primary-muted" style={{ width: `${data.repeatVisitProgress}%` }} />
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 pt-4">
-          <div className="rounded-xl bg-surface/40 p-4">
-            <p className="mb-1 text-sm font-medium text-muted-foreground">Average recovery time</p>
-            <p className="text-2xl font-bold tabular-nums text-foreground">{data.averageRecoveryTime}</p>
-          </div>
-          <div className="rounded-xl bg-surface/40 p-4">
-            <p className="mb-1 text-sm font-medium text-muted-foreground">Patient satisfaction</p>
-            <p className="text-2xl font-bold tabular-nums text-foreground">{data.satisfaction}</p>
+          <div>
+            <p className="text-xs font-medium text-muted-foreground">Satisfaction</p>
+            <p className="mt-0.5 text-lg font-bold tabular-nums text-foreground">{data.satisfaction}</p>
           </div>
         </div>
       </div>

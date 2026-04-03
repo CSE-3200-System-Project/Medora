@@ -5,6 +5,8 @@ import { AlertTriangle, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { ChoruiSummaryPanel } from "@/components/ai/ChoruiSummaryPanel";
 import { useChoruiChat } from "@/hooks/useChoruiChat";
 import type { ChoruiRoleContext } from "@/types/ai";
@@ -124,7 +126,13 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
               <div className="no-scrollbar max-h-[70vh] space-y-2 overflow-y-auto pr-1">
                 {conversationsLoading ? (
-                  <p className="text-sm text-muted-foreground">Loading conversations...</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center py-2">
+                      <MedoraLoader size="sm" label="Loading conversations..." />
+                    </div>
+                    <CardSkeleton className="h-16" />
+                    <CardSkeleton className="h-16" />
+                  </div>
                 ) : conversations.length === 0 ? (
                   <p className="text-sm text-muted-foreground">No saved conversations yet.</p>
                 ) : (
@@ -226,10 +234,9 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                     <Brain className="h-4 w-4" />
                   </div>
                   <div className="rounded-2xl border border-border/60 bg-card/80 px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary [animation-delay:120ms]" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary [animation-delay:240ms]" />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <ButtonLoader className="h-4 w-4 text-primary" />
+                      Thinking...
                     </div>
                   </div>
                 </div>

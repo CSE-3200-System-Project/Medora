@@ -1,3 +1,109 @@
+# Frontend Mobile Performance Optimization Pass (2026-04-03)
+
+## Status: completed
+
+### Todo
+- [x] Measure baseline frontend performance with production build, Lighthouse mobile/desktop, and bundle budget checks
+- [x] Reduce above-the-fold rendering cost on `/`, `/login`, and `/selection` using mobile-first hero/media changes
+- [x] Lower global rendering overhead in shared layout/background layers and defer below-the-fold home sections
+- [x] Re-run build plus Lighthouse mobile/desktop and verify no new CLS regressions
+
+### Review
+- Home (`/`) and auth routes were still bottlenecked by above-the-fold LCP candidates and render delay, so the pass focused on mobile-first rendering simplification instead of broad refactors.
+- Updated landing hero behavior so desktop media rendering is viewport-gated and mobile hero copy is compact; home below-the-fold sections now use deferred rendering (`defer-content`) and global smooth-scroll wrapper overhead was removed.
+- Updated login flow to resolve `verified` server-side, remove suspense/search-param client indirection, keep desktop hero split stable, and simplify logo rendering behavior for mobile/desktop stability.
+- Updated selection cards to avoid eager mobile image work and use lightweight gradient-backed mobile presentation while preserving richer desktop media treatment.
+- Global background CSS was simplified for layout stability and lower mobile paint overhead; CLS regression from ambient pseudo layers was removed.
+- Validation results (latest run): mobile Lighthouse now reaches `80` on `/selection`, while `/` remains `75-77` and `/login` remains `78-79` (still below the configured `>=80` assertion). Desktop Lighthouse assertions pass after the CLS fix.
+- Bundle budget remains above repository baseline (`totalClientJsBytes` and `largestClientChunkBytes` regressions still failing), indicating additional cross-route JS reduction is still required beyond this targeted pass.
+
+# Appointment Response Validation + Doctor Chart Container Fix (2026-04-03)
+
+## Status: completed
+
+### Todo
+- [x] Identify and fix `/appointment/my-appointments` backend 500 caused by `slot_time` response validation mismatch
+- [x] Ensure `slot_time` stays schema-compatible (`time`) while preserving legacy note-based fallback parsing
+- [x] Remove doctor appointments Recharts `width(-1)/height(-1)` warnings by stabilizing chart mount dimensions
+- [x] Validate touched backend/frontend files with diagnostics and focused lint/compile checks
+
+### Review
+- Root cause of `/doctor/appointments` failure was `get_my_appointments` returning AM/PM strings (e.g. `11:30 AM`) for `slot_time` while `AppointmentResponse.slot_time` expects a proper `time` value.
+- Updated `backend/app/routes/appointment.py` to return `slot_time` as a canonical time object and parse legacy `Slot:` notes into `time` safely (invalid note values now fail closed to `None` instead of crashing response serialization).
+- Updated doctor appointments charts (`AppointmentDensityChart`, `DailyWorkloadChart`) to use measured `SafeChartContainer` rendering, eliminating Recharts negative-dimension mount warnings.
+- Updated patient upcoming appointment time-label rendering to use shared appointment-time formatting so both `HH:MM:SS` and `h:mm AM/PM` slot payloads display consistently.
+- Validation: no diagnostics errors in modified files, focused frontend ESLint passed for touched chart files, backend compile check passed for updated route module.
+
+# Appointment Timezone Consistency Fix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Trace and normalize appointment create payload/time extraction to remove client-timezone drift
+- [x] Canonicalize backend appointment datetime construction from selected slot for booking and reschedule acceptance
+- [x] Update doctor appointment UI to display canonical slot time (`slot_time`) with safe fallback
+- [x] Validate touched backend/frontend files with diagnostics and focused lint checks
+
+### Review
+- Frontend booking flows now create `appointment_date` via a timezone-agnostic date+slot conversion helper (`toUtcIsoFromDateAndSlot`) so selected slot labels no longer shift based on client/browser timezone.
+- Backend booking route now prioritizes parsing explicit `Slot:` labels from notes, then canonicalizes `appointment_date` from selected date + slot in `Asia/Dhaka` before converting to UTC.
+- Backend service now applies the same canonical appointment datetime construction for both new appointment creation and accepted reschedule transitions, preventing drift between booking and reschedule paths.
+- Doctor appointment card/modal now display canonical slot labels using `slot_time` first with safe datetime fallback to avoid doctor-facing mismatches like `10:30 PM -> 4:30 AM`.
+- Validation: editor diagnostics show no errors in all touched files; focused frontend ESLint run on changed files completed without lint errors.
+
+# Analytics Accordion + Navbar Loader + Frontend Perf Pass (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Trace accordion warning and isolate the controlled/uncontrolled root cause in doctor analytics
+- [x] Refactor deep-dive accordion state to a stable controlled value and reduce parent-level rerenders
+- [x] Optimize shared chart resize measurement and expensive specialty-chart calculations
+- [x] Fix navbar authenticated loader behavior so role navigation remains visible during route/tab transitions
+- [x] Validate changed files with diagnostics and focused lint checks
+
+### Review
+- Moved deep-dive accordion ownership into a memoized `DeepDiveSection` and normalized accordion state to a stable string value (`""` when collapsed), preventing Radix controlled/uncontrolled mode switching.
+- Reduced analytics interaction lag by avoiding whole-dashboard rerenders on accordion toggles and by simplifying `SafeChartContainer` resize handling to use `ResizeObserver` `contentRect` updates directly.
+- Optimized specialty distribution chart computation by memoizing `maxValue` and `bubblePoints` and enabling lazy ECharts updates (`notMerge` + `lazyUpdate`).
+- Updated navbar auth hydration flow to initialize from session cache synchronously, avoid aborted user fetch loops on remount, keep logout listener attached for cached sessions, and derive role fallback from pathname so desktop nav remains visible while user details are loading.
+- Validation: diagnostics report no errors in touched files; focused ESLint passed for all modified components. Bundle budget check still reports existing repository-wide regressions and was not introduced by this patch.
+
+# Doctor Analytics Layout + Chart Stability Hotfix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Audit current doctor analytics page composition and identify overlap root causes
+- [x] Fix chart container sizing lifecycle to stop Recharts width/height `-1` runtime warnings
+- [x] Stabilize dashboard section rendering order so tertiary content cannot visually overlap secondary cards
+- [x] Validate modified analytics files with diagnostics/lint
+
+### Review
+- Added a reusable `SafeChartContainer` that waits for valid measured dimensions before mounting chart trees.
+- Updated all doctor analytics Recharts surfaces (metrics sparkline, workload, revenue, demographics pie, prescription safety pie) to use guarded containers and explicit `minWidth`/`minHeight` props on `ResponsiveContainer`.
+- Simplified `DoctorAnalyticsDashboard` composition by removing dynamic wrappers and framer reveal wrappers around major sections, keeping the page in a stable normal-flow render path.
+- Ran focused ESLint on `components/doctor/analytics` and `app/(home)/doctor/analytics/page.tsx` with no lint errors returned.
+
+# Auth Carousel + Doctor Analytics Consistency Fix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Audit auth carousel, auth card layout, and doctor analytics data/layout paths
+- [x] Fix login/signup image slider behavior and make image panel flush to card edge
+- [x] Resolve doctor analytics overlap/inconsistency issues with mobile-first responsive layout
+- [x] Align doctor analytics data mapping with backend-driven values and remove misleading static fallbacks
+- [x] Validate touched frontend/backend files and record review notes
+
+### Review
+- Auth slideshow now rotates on all viewport sizes (except reduced-motion users), and auth card responsive padding is fully removed (`p-0 sm:p-0`) so the hero image sits flush with the card border.
+- Doctor analytics UI was normalized to mobile-first responsive behavior across header controls, workload/revenue cards, heatmap, metrics grid, outcomes, safety, and actionable insights to prevent overlap/collision.
+- Analytics data mapping is now backend-driven from doctor actions + appointment stats, replacing hardcoded/demo figures with live-derived metrics, trends, heatmap, insights, and recommendations.
+- Analytics route is forced dynamic (`force-dynamic`, `revalidate = 0`) so dashboard values remain synchronized with backend/database updates.
+- Backend doctor stats now return true pending queue size via DB count (`pending_actions_count`) instead of preview-list length, improving frontend/backend consistency.
+- Validation completed with targeted diagnostics on touched files plus focused frontend lint run for updated auth/analytics surfaces.
+
 # Reschedule Acceptance Old-Slot Occupancy Root-Cause Fix (2026-03-31)
 
 ## Status: completed

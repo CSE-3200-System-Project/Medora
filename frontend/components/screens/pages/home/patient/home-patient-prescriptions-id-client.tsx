@@ -31,7 +31,6 @@ import {
   XCircle,
   AlertCircle,
   ArrowLeft,
-  Loader2,
   Calendar,
   User,
   Sunrise,
@@ -43,6 +42,8 @@ import {
   DollarSign,
   AlertTriangle,
 } from "lucide-react";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 
 export default function PatientPrescriptionDetailPage() {
   const params = useParams();
@@ -201,11 +202,11 @@ export default function PatientPrescriptionDetailPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex justify-center items-center py-24">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <main className="container mx-auto container-padding py-6 pt-(--nav-content-offset) max-w-4xl">
+          <PageLoadingShell label="Loading prescription..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }
@@ -261,7 +262,7 @@ export default function PatientPrescriptionDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <Button variant="outline" onClick={handleAssistantSummary} disabled={assistantLoading}>
-                {assistantLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <FileText className="h-4 w-4 mr-2" />}
+                {assistantLoading ? <ButtonLoader className="h-4 w-4 mr-2" /> : <FileText className="h-4 w-4 mr-2" />}
                 Summarize This Prescription
               </Button>
               {getStatusBadge(prescription.status)}
@@ -621,7 +622,7 @@ export default function PatientPrescriptionDetailPage() {
                       disabled={actionLoading}
                     >
                       {actionLoading ? (
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        <ButtonLoader className="h-4 w-4 mr-2" />
                       ) : (
                         <CheckCircle2 className="h-4 w-4 mr-2" />
                       )}
@@ -653,7 +654,7 @@ export default function PatientPrescriptionDetailPage() {
                       disabled={actionLoading || !rejectReason.trim()}
                     >
                       {actionLoading ? (
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        <ButtonLoader className="h-4 w-4 mr-2" />
                       ) : (
                         <XCircle className="h-4 w-4 mr-2" />
                       )}

@@ -2,6 +2,7 @@
 
 from datetime import date, time, datetime, timedelta, timezone
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import and_, or_, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -48,6 +49,7 @@ SLOT_NOTE_PATTERN = re.compile(
     r"Slot:\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))",
     re.IGNORECASE,
 )
+MEDORA_TIMEZONE = ZoneInfo("Asia/Dhaka")
 
 
 def get_role_based_cancel_status(performed_by_role: str) -> AppointmentStatus:
@@ -151,6 +153,20 @@ def _slot_label_from_time(value: time) -> str:
     return datetime(2000, 1, 1, value.hour, value.minute).strftime("%I:%M %p").lstrip("0")
 
 
+def _appointment_schedule_label(appointment: Appointment) -> str:
+    scheduled_at = appointment.appointment_date
+    if scheduled_at.tzinfo is None:
+        scheduled_at = scheduled_at.replace(tzinfo=timezone.utc)
+
+    local_date_label = scheduled_at.astimezone(MEDORA_TIMEZONE).strftime("%b %d, %Y")
+    if appointment.slot_time:
+        time_label = _slot_label_from_time(appointment.slot_time)
+    else:
+        time_label = scheduled_at.astimezone(MEDORA_TIMEZONE).strftime("%I:%M %p").lstrip("0")
+
+    return f"{local_date_label} at {time_label}"
+
+
 def _replace_slot_note(notes: Optional[str], new_slot: time) -> Optional[str]:
     """Keep notes consistent with the current appointment slot to avoid stale slot references."""
     if not notes:
@@ -171,6 +187,18 @@ def _slot_occupancy_condition(now_utc: datetime):
             Appointment.hold_expires_at > now_utc,
         ),
     )
+
+
+def _build_canonical_appointment_datetime(target_date: date, slot_time_value: time) -> datetime:
+    local_datetime = datetime(
+        target_date.year,
+        target_date.month,
+        target_date.day,
+        slot_time_value.hour,
+        slot_time_value.minute,
+        tzinfo=MEDORA_TIMEZONE,
+    )
+    return local_datetime.astimezone(timezone.utc)
 
 
 async def _cancel_stale_old_slot_duplicates(
@@ -268,6 +296,7 @@ async def _emit_domain_event(
     actor_name = await _profile_name(db, actor_id, "User")
     doctor_name = await _profile_name(db, appointment.doctor_id, "Doctor")
     patient_name = await _profile_name(db, appointment.patient_id, "Patient")
+    schedule_label = _appointment_schedule_label(appointment)
 
     metadata: dict[str, str | None] = {
         "appointment_id": appointment.id,
@@ -287,14 +316,14 @@ async def _emit_domain_event(
     if event_name == "appointment.created":
         notification_type = NotificationType.APPOINTMENT_BOOKED
         title = "New Appointment Request"
-        message = f"{patient_name} requested an appointment on {appointment.appointment_date.strftime('%b %d, %Y at %I:%M %p')}"
+        message = f"{patient_name} requested an appointment on {schedule_label}"
         notify_user_id = appointment.doctor_id
         action_url = "/doctor/appointments"
 
     elif event_name == "appointment.confirmed":
         notification_type = NotificationType.APPOINTMENT_CONFIRMED
         title = "Appointment Confirmed"
-        message = f"Your appointment with Dr. {doctor_name} on {appointment.appointment_date.strftime('%b %d, %Y at %I:%M %p')} has been confirmed"
+        message = f"Your appointment with Dr. {doctor_name} on {schedule_label} has been confirmed"
         notify_user_id = appointment.patient_id
         action_url = "/patient/appointments"
 
@@ -312,12 +341,12 @@ async def _emit_domain_event(
             action_url = "/patient/appointments"
         elif appointment.cancelled_by_id == appointment.doctor_id:
             title = "Appointment Cancelled"
-            message = f"Your appointment with Dr. {doctor_name} on {appointment.appointment_date.strftime('%b %d, %Y at %I:%M %p')} was cancelled"
+            message = f"Your appointment with Dr. {doctor_name} on {schedule_label} was cancelled"
             notify_user_id = appointment.patient_id
             action_url = "/patient/appointments"
         else:
             title = "Appointment Cancelled"
-            message = f"{patient_name} cancelled the appointment on {appointment.appointment_date.strftime('%b %d, %Y at %I:%M %p')}"
+            message = f"{patient_name} cancelled the appointment on {schedule_label}"
             notify_user_id = appointment.doctor_id
             action_url = "/doctor/appointments"
         if reason and not is_hold_expired:
@@ -389,19 +418,30 @@ async def create_appointment(
     Uses advisory lock + SELECT FOR UPDATE to prevent race conditions.
     """
     now_utc = datetime.now(timezone.utc)
+    if appointment_date.tzinfo is None:
+        normalized_input_datetime = appointment_date.replace(tzinfo=timezone.utc)
+    else:
+        normalized_input_datetime = appointment_date.astimezone(timezone.utc)
+
+    requested_date = normalized_input_datetime.astimezone(MEDORA_TIMEZONE).date()
+
+    if slot_time_val is not None:
+        appointment_date = _build_canonical_appointment_datetime(requested_date, slot_time_val)
+    else:
+        appointment_date = normalized_input_datetime
 
     if slot_time_val:
         await _acquire_slot_lock(
             db,
             doctor_id=doctor_id,
-            target_date=appointment_date.date(),
+            target_date=requested_date,
             slot_time_value=slot_time_val,
         )
 
         slot_available = await slot_service.is_slot_available(
             db,
             doctor_id,
-            appointment_date.date(),
+            requested_date,
             slot_time_val,
         )
         if not slot_available:
@@ -766,13 +806,9 @@ async def respond_to_reschedule(
 
             return reschedule_request
 
-        new_dt = datetime(
-            reschedule_request.proposed_date.year,
-            reschedule_request.proposed_date.month,
-            reschedule_request.proposed_date.day,
-            reschedule_request.proposed_time.hour,
-            reschedule_request.proposed_time.minute,
-            tzinfo=timezone.utc,
+        new_dt = _build_canonical_appointment_datetime(
+            reschedule_request.proposed_date,
+            reschedule_request.proposed_time,
         )
         appointment.appointment_date = new_dt
         appointment.slot_time = reschedule_request.proposed_time

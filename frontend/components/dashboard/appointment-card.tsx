@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Calendar, MapPin } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -29,12 +28,7 @@ export function AppointmentCard({
   actionVariant = "default",
 }: AppointmentCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-    >
+    <div className="animate-fade-in-up card-hover">
       <Card className="border-border/70 bg-card/95 shadow-sm">
         <CardContent className="space-y-4 pt-5">
           <div className="flex items-center gap-3">
@@ -75,6 +69,6 @@ export function AppointmentCard({
           </Button>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

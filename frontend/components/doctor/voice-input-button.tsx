@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { Mic, MicOff, Loader2, Square } from "lucide-react";
+import { Mic, MicOff, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { cn } from "@/lib/utils";
 import { VoiceRecorderState } from "@/lib/use-voice-recorder";
 
@@ -74,7 +75,7 @@ export function VoiceInputButton({
         className={cn("h-11 w-11", className)}
         aria-label="Processing"
       >
-        <Loader2 className="w-5 h-5 animate-spin" />
+        <ButtonLoader className="w-5 h-5" />
       </Button>
     );
   }
