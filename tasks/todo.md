@@ -1,3 +1,19 @@
+# README Overhaul (2026-04-04)
+
+## Status: completed
+
+### Todo
+- [x] Audit current README structure against required 18-section format
+- [x] Rewrite README with strict 18-section structure and verified repository facts
+- [x] Re-validate all claims against codebase (architecture, workflows, stack, structure)
+- [x] Finalize README polishing for investor/recruiter/contributor audience
+
+### Review
+- Rewrote `README.md` end-to-end using a strict 18-section layout covering architecture, workflows, stack, setup, API overview, design decisions, roadmap, contribution model, and license.
+- Removed generic and potentially misleading positioning by grounding claims in repository-verified implementation details (service boundaries, route modules, migrations, model classes, and workflow behavior).
+- Added mandatory placeholder sections for system diagrams, screenshots, and demo walkthrough to support presentation and documentation expansion.
+- Completed a second expansion pass to restore deep implementation detail (architecture internals, grouped feature depth, workflow narratives, endpoint breadth, deployment/operations context) while preserving the strict 18-section structure.
+
 # Frontend Mobile Performance Optimization Pass (2026-04-03)
 
 ## Status: completed
