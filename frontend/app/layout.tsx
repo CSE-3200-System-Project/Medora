@@ -53,7 +53,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={sfProDisplay.variable} suppressHydrationWarning>
-      <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
+      <head>
+        <meta name="darkreader-lock" />
+      </head>
+      <body suppressHydrationWarning className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
         <MobileViewportFix />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
