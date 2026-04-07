@@ -1,0 +1,25 @@
+{
+  "AIDoctorSearchResponse": [
+    "ambiguity",
+    "doctors",
+    "medical_intent",
+    "patient_context_factors"
+  ],
+  "AIClinicalInfoResponse": [
+    "ai_generated",
+    "answer",
+    "cautions",
+    "interaction_ids",
+    "suggested_conditions",
+    "suggested_medications",
+    "suggested_tests"
+  ],
+  "PrescriptionExtractionResponse": [
+    "confidence",
+    "extracted_text",
+    "file",
+    "medications",
+    "meta",
+    "raw_text"
+  ]
+}

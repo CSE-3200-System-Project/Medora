@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-04-03T15:00:00Z",
+  "rows": 300,
+  "exact_match_rate": 0.79,
+  "field_accuracy": {
+    "name": 0.91,
+    "dosage": 0.88,
+    "frequency": 0.84,
+    "quantity": 0.82
+  },
+  "thresholds": {
+    "min_exact_match_rate": 0.7
+  },
+  "passed": true
+}
