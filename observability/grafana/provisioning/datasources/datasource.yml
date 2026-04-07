@@ -1,0 +1,10 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: medora-prom
+    type: prometheus
+    access: proxy
+    isDefault: true
+    url: http://prometheus:9090
+    editable: true
