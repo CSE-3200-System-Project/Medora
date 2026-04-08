@@ -124,6 +124,16 @@ class Prescription(Base):
     # Added to medical history flag
     added_to_history: Mapped[bool] = mapped_column(Boolean, default=False)
 
+    # Persisted clinical document HTML generated from doctor preview template.
+    rendered_prescription_html: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # Immutable structured snapshot captured at send time.
+    rendered_prescription_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    rendered_prescription_generated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
     # Relationships
     consultation = relationship("Consultation", back_populates="prescriptions")
     doctor = relationship("DoctorProfile", backref="prescriptions")
