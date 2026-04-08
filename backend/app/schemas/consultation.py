@@ -1,7 +1,7 @@
 """
 Pydantic schemas for Consultation and Prescription endpoints.
 """
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List
 from datetime import datetime, date
 from enum import Enum
@@ -65,6 +65,11 @@ class DurationUnit(str, Enum):
     MONTHS = "months"
 
 
+class DosageType(str, Enum):
+    PATTERN = "pattern"
+    FREQUENCY = "frequency"
+
+
 # ========== CONSULTATION SCHEMAS ==========
 
 class ConsultationCreate(BaseModel):
@@ -86,6 +91,7 @@ class ConsultationResponse(BaseModel):
     patient_id: str
     patient_ref: Optional[str] = None
     appointment_id: Optional[str] = None
+    draft_id: Optional[str] = None
     chief_complaint: Optional[str] = None
     diagnosis: Optional[str] = None
     notes: Optional[str] = None
@@ -128,6 +134,9 @@ class MedicationPrescriptionCreate(BaseModel):
     dose_night_amount: Optional[str] = "1"
     
     frequency_per_day: Optional[int] = None
+    dosage_type: Optional[DosageType] = None
+    dosage_pattern: Optional[str] = None
+    frequency_text: Optional[str] = None
     
     # Duration
     duration_value: Optional[int] = None
@@ -143,6 +152,33 @@ class MedicationPrescriptionCreate(BaseModel):
     
     quantity: Optional[int] = None
     refills: int = 0
+
+    @field_validator("medicine_name", mode="before")
+    @classmethod
+    def normalize_medicine_name(cls, value):
+        if value is None:
+            return value
+        text = str(value).strip()
+        if not text:
+            raise ValueError("medicine_name is required")
+        return text
+
+    @field_validator("generic_name", "strength", "dosage_pattern", "frequency_text", "special_instructions", mode="before")
+    @classmethod
+    def normalize_optional_text_fields(cls, value):
+        if value is None:
+            return None
+        text = str(value).strip()
+        return text or None
+
+    @field_validator("start_date", "end_date", mode="before")
+    @classmethod
+    def normalize_optional_date_fields(cls, value):
+        if value is None:
+            return None
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 class MedicationPrescriptionResponse(BaseModel):
@@ -164,6 +200,9 @@ class MedicationPrescriptionResponse(BaseModel):
     dose_night_amount: Optional[str] = None
     
     frequency_per_day: Optional[int] = None
+    dosage_type: Optional[DosageType] = None
+    dosage_pattern: Optional[str] = None
+    frequency_text: Optional[str] = None
     
     duration_value: Optional[int] = None
     duration_unit: DurationUnit
@@ -192,6 +231,33 @@ class TestPrescriptionCreate(BaseModel):
     urgency: TestUrgency = TestUrgency.NORMAL
     preferred_lab: Optional[str] = None
     expected_date: Optional[date] = None
+
+    @field_validator("test_name", mode="before")
+    @classmethod
+    def normalize_test_name(cls, value):
+        if value is None:
+            return value
+        text = str(value).strip()
+        if not text:
+            raise ValueError("test_name is required")
+        return text
+
+    @field_validator("test_type", "instructions", "preferred_lab", mode="before")
+    @classmethod
+    def normalize_optional_text_fields(cls, value):
+        if value is None:
+            return None
+        text = str(value).strip()
+        return text or None
+
+    @field_validator("expected_date", mode="before")
+    @classmethod
+    def normalize_expected_date(cls, value):
+        if value is None:
+            return None
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 class TestPrescriptionResponse(BaseModel):
@@ -222,6 +288,40 @@ class SurgeryRecommendationCreate(BaseModel):
     pre_op_instructions: Optional[str] = None
     notes: Optional[str] = None
     preferred_facility: Optional[str] = None
+
+    @field_validator("procedure_name", mode="before")
+    @classmethod
+    def normalize_procedure_name(cls, value):
+        if value is None:
+            return value
+        text = str(value).strip()
+        if not text:
+            raise ValueError("procedure_name is required")
+        return text
+
+    @field_validator(
+        "procedure_type",
+        "reason",
+        "pre_op_instructions",
+        "notes",
+        "preferred_facility",
+        mode="before",
+    )
+    @classmethod
+    def normalize_optional_text_fields(cls, value):
+        if value is None:
+            return None
+        text = str(value).strip()
+        return text or None
+
+    @field_validator("recommended_date", mode="before")
+    @classmethod
+    def normalize_recommended_date(cls, value):
+        if value is None:
+            return None
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 class SurgeryRecommendationResponse(BaseModel):
@@ -310,3 +410,109 @@ class PrescriptionListResponse(BaseModel):
 
 class ConsultationWithPrescriptions(ConsultationResponse):
     prescriptions: List[PrescriptionResponse] = []
+
+
+# ========== CONSULTATION DRAFT SCHEMAS ==========
+
+class ConsultationDraftUpdate(BaseModel):
+    chief_complaint: Optional[str] = None
+    diagnosis: Optional[str] = None
+    notes: Optional[str] = None
+    prescription_type: Optional[PrescriptionType] = None
+    prescription_notes: Optional[str] = None
+    medications: Optional[List[MedicationPrescriptionCreate]] = None
+    tests: Optional[List[TestPrescriptionCreate]] = None
+    surgeries: Optional[List[SurgeryRecommendationCreate]] = None
+
+
+class ConsultationDraftPatientInfo(BaseModel):
+    name: Optional[str] = None
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    blood_group: Optional[str] = None
+
+
+class ConsultationDraftDoctorInfo(BaseModel):
+    name: Optional[str] = None
+    specialization: Optional[str] = None
+    qualification: Optional[str] = None
+    chamber_info: Optional[str] = None
+
+
+class ConsultationDraftResponse(BaseModel):
+    consultation_id: str
+    draft_id: Optional[str] = None
+    chief_complaint: Optional[str] = None
+    diagnosis: Optional[str] = None
+    notes: Optional[str] = None
+    prescription_type: Optional[PrescriptionType] = None
+    prescription_notes: Optional[str] = None
+    medications: List[MedicationPrescriptionCreate] = []
+    tests: List[TestPrescriptionCreate] = []
+    surgeries: List[SurgeryRecommendationCreate] = []
+    patient_info: Optional[ConsultationDraftPatientInfo] = None
+    doctor_info: Optional[ConsultationDraftDoctorInfo] = None
+    updated_at: Optional[datetime] = None
+
+
+# ========== PRESCRIPTION FULL PREVIEW SCHEMAS ==========
+
+class PrescriptionPreviewDoctor(BaseModel):
+    name: str
+    qualification: Optional[str] = None
+    specialization: Optional[str] = None
+    chamber_info: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    registration_number: Optional[str] = None
+    signature_url: Optional[str] = None
+
+
+class PrescriptionPreviewPatient(BaseModel):
+    name: str
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    blood_group: Optional[str] = None
+    patient_id: str
+
+
+class PrescriptionPreviewConsultation(BaseModel):
+    date: datetime
+    chief_complaint: Optional[str] = None
+    diagnosis: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class PrescriptionPreviewMedication(BaseModel):
+    medicine_name: str
+    strength: Optional[str] = None
+    dosage_type: DosageType
+    dosage_pattern: Optional[str] = None
+    frequency_text: Optional[str] = None
+    duration: Optional[str] = None
+    route: Optional[str] = None
+    meal_instruction: Optional[str] = None
+    quantity: Optional[int] = None
+
+
+class PrescriptionPreviewTest(BaseModel):
+    test_name: str
+    instructions: Optional[str] = None
+    urgency: Optional[str] = None
+
+
+class PrescriptionPreviewProcedure(BaseModel):
+    procedure_name: str
+    notes: Optional[str] = None
+    reason: Optional[str] = None
+    urgency: Optional[str] = None
+
+
+class PrescriptionFullResponse(BaseModel):
+    data_source: Optional[str] = None
+    doctor: PrescriptionPreviewDoctor
+    patient: PrescriptionPreviewPatient
+    consultation: PrescriptionPreviewConsultation
+    medications: List[PrescriptionPreviewMedication] = []
+    tests: List[PrescriptionPreviewTest] = []
+    procedures: List[PrescriptionPreviewProcedure] = []
