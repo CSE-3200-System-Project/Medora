@@ -80,8 +80,9 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = React.useState(false);
-  const [user, setUser] = React.useState<UserData | null>(() => readCachedUser());
-  const [loading, setLoading] = React.useState<boolean>(() => hasSessionToken() && readCachedUser() === null);
+  const [user, setUser] = React.useState<UserData | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [hasToken, setHasToken] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
@@ -97,7 +98,10 @@ export function Navbar() {
 
     window.addEventListener("medora:logged_out", handleLogout);
 
-    if (!hasSessionToken()) {
+    const tokenPresent = hasSessionToken();
+    setHasToken(tokenPresent);
+
+    if (!tokenPresent) {
       setLoading(false);
       return () => {
         isMounted = false;
@@ -194,7 +198,7 @@ export function Navbar() {
     : "";
 
   const inferredRole = inferRoleFromPath(pathname);
-  const effectiveRole = user?.role?.toLowerCase() ?? (hasSessionToken() ? inferredRole : null);
+  const effectiveRole = user?.role?.toLowerCase() ?? (hasToken ? inferredRole : null);
 
   // Compute role-aware home path
   const homePath =
@@ -241,8 +245,6 @@ export function Navbar() {
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="object-contain dark:hidden"
-              loading="eager"
-              fetchPriority="high"
             />
             <Image
               src={medoraLightLogo}
@@ -250,8 +252,6 @@ export function Navbar() {
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="hidden object-contain dark:block"
-              loading="eager"
-              fetchPriority="high"
             />
           </div>
         </Link>

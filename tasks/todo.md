@@ -1,3 +1,183 @@
+# Consultation Draft ID Architecture Migration (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add consultation draft entity model and relationship (`consultations.draft_id`)
+- [x] Add Alembic migration to move existing `draft_payload` data into `consultation_drafts`
+- [x] Refactor consultation draft routes and preview payload builder to use `draft_id`
+- [x] Add direct draft-by-id API support and keep consultation-based endpoints compatible
+- [x] Update frontend draft types/actions and consultation editor state to persist by `draft_id`
+- [x] Extend integration coverage for draft-id endpoints and preview flow
+- [x] Run focused backend diagnostics/tests for changed files
+
+### Review
+- Implemented normalized draft architecture with one-to-one `consultations.draft_id -> consultation_drafts.id` linkage and migration-backed payload transfer.
+- Added draft APIs for both consultation-id and draft-id paths, with canonical payload normalization and consistent error responses.
+- Updated frontend consultation workflow to hydrate/save by draft id, preserve unsaved edits, and avoid focus-based clobbering.
+- Validation status: changed-file diagnostics clean, backend compile clean, targeted frontend lint clean, focused integration test invocation skipped in local environment.
+
+# Consultation Draft Schema + Dataflow Production Incident (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Complete schema audit for consultation, draft, and prescription tables across models/migrations/routes/frontend contracts
+- [x] Harden draft migration chain (`c0nsult_draft_001` -> `c0nsult_draft_002`) for safe transition with existing payload data
+- [x] Enforce deterministic preview source resolution (no unsafe branch fallback mixing)
+- [x] Add compatibility normalization for legacy draft payload shapes and optional dates
+- [x] Replace silent exception handling in consultation draft/preview paths with structured logging + typed API errors
+- [x] Extend integration tests to cover save draft -> preview -> resume consultation round-trip
+- [x] Update migration/runbook docs to prevent schema drift (`alembic current/head` + upgrade path)
+- [x] Run focused diagnostics/tests on touched backend/frontend files and record blockers if environment prevents full run
+
+### Review
+- Root cause confirmed from runtime behavior and logs: API code expected `consultations.draft_id`, while live DB can remain behind at `c0nsult_draft_001` without migration execution.
+- Hardened `c0nsult_draft_002` to be safer across partially migrated environments, including legacy payload key/date normalization during transfer.
+- Full preview payload is now deterministic with explicit `data_source` (`draft` or `prescription`) and single-source shaping rules.
+- Draft read/save paths now normalize legacy payload shapes (`name` aliases and blank date fields) and return structured validation/DB error output.
+- Consultation UI now prevents unsaved local state loss when returning from preview or tab focus changes.
+- Validation status: diagnostics are clean on touched files; backend compile and targeted frontend lint are clean; focused backend integration test is skipped locally due environment dependencies.
+
+# Consultation = Saved = Preview Contract Unification (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Audit consultation form field set vs draft schema vs full preview response
+- [x] Remove preview key mismatches (`name` vs `medicine_name`/`test_name`/`procedure_name`)
+- [x] Add procedure `notes` and doctor `chamber_info` to full preview contract
+- [x] Persist doctor/patient identity snapshot into consultation draft payload
+- [x] Persist normalized medication preview fields (`dosage_pattern`, `frequency_text`, `duration`, `route`) in draft payload
+- [x] Ensure preview endpoint reads backend draft/persisted DB data only (no local/mock source)
+- [x] Align frontend preview types and rendering to canonical backend response keys
+- [x] Run focused diagnostics/lint/compile and integration test attempt
+
+### Review
+- Root mismatches were in response contract naming and missing procedure notes: consultation editor used `medicine_name`, `test_name`, `procedure_name`, while preview returned `name`, causing drift and brittle mapping.
+- Full preview API contract now uses canonical keys aligned with consultation input model: medications now expose `medicine_name`, tests expose `test_name`, and procedures expose `procedure_name` + `notes`.
+- Save draft now stores server-side doctor/patient identity snapshots plus normalized medication fields (dosage/frequency/duration/route), so saved consultation context is self-contained and stable.
+- Preview payload now prioritizes draft snapshot identity context when present, then falls back to current profile data, while remaining strictly backend-sourced.
+- Backend preview payload generation no longer injects placeholder identity or dosage text values (e.g., "Unknown ...", "As directed") as source data.
+- Frontend preview page and response typings were updated to consume the canonical keys directly.
+- Validation status:
+   - Changed-file diagnostics: clean.
+   - Focused frontend lint (`preview page`, `prescription-actions`): clean.
+   - Backend compile check: clean.
+   - Focused integration test executed but skipped due missing local Docker/Postgres daemon.
+
+# Consultation Draft 500 Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and confirm consultation draft payload validation failure path
+- [x] Harden backend draft save endpoint to return explicit 400 validation errors
+- [x] Normalize backend consultation schema date and text inputs for optional fields
+- [x] Normalize frontend outgoing draft and prescription payloads (trim text, drop blank dates)
+- [x] Improve frontend error parsing for structured backend validation responses
+- [x] Run focused diagnostics for changed backend/frontend files
+
+### Review
+- Root cause confirmed: blank-string optional date values from consultation editor payloads (e.g. expected_date/recommended_date/start_date/end_date) can fail request model parsing and bubble up as server-action failures.
+- Backend draft save route now parses JSON explicitly, validates with ConsultationDraftUpdate, and returns clear 400 errors for malformed or invalid payloads instead of opaque crash behavior.
+- Backend schemas now normalize blank optional date/text values and enforce trimmed required names for medication/test/procedure entries.
+- Frontend prescription action layer now sanitizes outgoing draft and add-prescription payloads so optional text/date fields are omitted when blank.
+- Frontend error parsing now extracts nested detail.message/detail.errors responses to show actionable validation feedback.
+- Validation status: diagnostics report no errors on changed files.
+
+# Manual Save Consultation Sync Flow (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Analyze consultation state, autosave, draft API, and preview data path
+- [x] Add manual Save Consultation as primary draft synchronization action
+- [x] Keep autosave as backup only (non-authoritative for preview gating)
+- [x] Block preview navigation when there are unsaved local changes
+- [x] Ensure consultation draft rehydration on load and on return focus from preview
+- [x] Enforce single-source full payload shaping in backend (no draft/persisted mixing)
+- [x] Run focused diagnostics/lint/compile validation
+
+### Review
+- Consultation page now tracks unsaved changes against the last manual save snapshot and requires explicit save before preview.
+- Save button behavior is upgraded from note-only semantics to full consultation draft synchronization (notes + medications + tests + procedures).
+- Preview flow now warns with "Please save before preview" and does not navigate while unsaved changes exist.
+- Autosave remains enabled only as backup persistence and no longer serves as preview authorization signal.
+- Backend full payload route now reads from one source at a time: `draft_payload` when present, otherwise persisted prescriptions, eliminating mixed-source responses.
+- Validation passed: file diagnostics clean, targeted frontend lint clean, backend route compile clean.
+- Focused integration test could execute collection but is skipped in this environment because Docker/Postgres is unavailable.
+
+# Consultation Preview Single Source Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Remove consultation page sessionStorage prefill fallback
+- [x] Resolve consultation from `consultation_id` query first, then fallback to active lookup
+- [x] Keep consultation hydration strictly backend draft + consultation endpoints
+- [x] Re-verify preview/full endpoint routing consistency
+- [x] Run focused frontend lint and diagnostics on changed files
+
+### Review
+- Removed legacy sessionStorage AI-prefill hydration from the consultation client to eliminate a second source of truth.
+- Updated consultation initial load to prefer `consultation_id` from query string and hydrate strictly via backend endpoints.
+- Preserved backend-draft autosave flow and preview backend fetch path (`/api/consultations/{id}/full`) as the single data source.
+- Validation: targeted frontend lint and file diagnostics passed on edited consultation and preview files.
+
+# Prescription Draft Persistence + Dosage/Preview Fix (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend consultation draft persistence (`draft_payload`) and migration
+- [x] Add backend draft APIs (save/load) and consultation-level full payload endpoint alias
+- [x] Update full prescription payload shaping to include draft-first data for doctor preview
+- [x] Add medication preview fields for optional `quantity` and `meal_instruction`
+- [x] Update consultation frontend to load draft on init and autosave all edits to backend
+- [x] Replace dosage schedule UI with Morning/Noon/Night (3 slots) and keep `dosage_pattern` generation (`1-0-1` style)
+- [x] Ensure consultation navigation flow persists data (Consultation → Preview → Back)
+- [x] Update preview route fetch path to `/api/consultations/{id}/full` and keep print/PDF flow intact
+- [x] Add/adjust focused integration tests for draft persistence and full payload correctness
+- [x] Run focused validation and capture review notes
+
+### Review
+- Added backend draft persistence on consultations via new `draft_payload` JSON column and migration `c0nsult_draft_001` (head now includes draft migration).
+- Added consultation draft APIs: `GET /consultation/{consultation_id}/draft` and `PATCH /consultation/{consultation_id}/draft` for draft load/autosave.
+- Added consultation-level full preview API alias `GET /consultation/{consultation_id}/full` and kept backward-compatible `GET /consultation/prescriptions/{consultation_id}/full`.
+- Updated full preview payload shaping to use draft-first data (consultation notes + medications/tests/procedures) when draft state exists.
+- Extended medication preview payload with optional `meal_instruction` and `quantity`, and updated preview rendering accordingly.
+- Updated consultation editor to backend-first flow: hydrate from backend draft on load, debounced autosave on every edit, manual save wired to draft API, preview/complete actions flush draft before navigation.
+- Replaced dosage editor schedule with 3 slots (Morning/Noon/Night), while preserving storage compatibility and generating `dosage_pattern` in `first-second-third` format.
+- Added frontend proxy route `/api/consultations/[consultation_id]/full` and switched preview page fetch to that route.
+- Added focused integration coverage in `tests/integration/backend/test_consultation_draft_preview.py` for draft save/read + full payload assertions.
+- Validation: editor diagnostics on changed files show no errors; focused frontend lint on modified files passed without warnings; Python compile checks passed on changed backend modules.
+- Test environment blockers: new focused backend integration test could not run due missing `factory` module in the current backend environment; `test_api_contracts.py` baseline check fails in this environment because `tests/benchmarks/baselines/schema_contract_snapshot.json` is missing.
+
+# Prescription Preview, Print, and Download System (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend full preview response schemas and endpoint payload shaping
+- [x] Add dual dosage fields support (`dosage_type`, `dosage_pattern`, `frequency_text`) with migration-safe model updates
+- [x] Implement `GET /consultation/prescriptions/{consultation_id}/full` with doctor/patient/consultation/medications/tests/procedures blocks
+- [x] Add frontend proxy endpoint at `/api/prescriptions/[consultation_id]/full`
+- [x] Build dedicated A4 prescription preview route `/prescription/preview/[consultation_id]`
+- [x] Implement print and PDF download actions scoped to prescription paper container
+- [x] Add "Preview Prescription" navigation from doctor consultation page
+- [x] Run focused validation (diagnostics/lint) and resolve feature-related issues
+
+### Review
+- Added new backend full-preview response models and endpoint `GET /consultation/prescriptions/{consultation_id}/full` that aggregates doctor, patient, consultation, medications, tests, and procedures.
+- Added dual dosage persistence support on medication records (`dosage_type`, `dosage_pattern`, `frequency_text`) and migration `pr3v13w_001` chained from current head.
+- Updated prescription creation and standard prescription responses so dosage mode fields are persisted and returned without breaking legacy schedule booleans.
+- Added frontend API proxy route `/api/prescriptions/[consultation_id]/full` that forwards authenticated requests using session token.
+- Built dedicated prescription preview page at `/prescription/preview/[consultation_id]` with paper-style A4 layout, print action (`window.print`), and PDF export using `html2pdf.js` scoped to the paper container.
+- Integrated consultation page with a new "Preview Prescription" button and dosage-mode aware medication validation/normalization.
+- Validation completed: backend Python compile checks passed, `get_errors` reported no diagnostics on changed files, Alembic heads confirms `pr3v13w_001` as current head.
+- Focused frontend lint run now passes with no errors across edited files; one existing warning remains for a missing hook dependency (`react-hooks/exhaustive-deps`) in the consultation client file.
+
 # README Overhaul (2026-04-04)
 
 ## Status: completed
