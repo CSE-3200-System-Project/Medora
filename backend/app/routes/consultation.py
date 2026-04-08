@@ -171,7 +171,11 @@ def build_consultation_response(
     return response
 
 
-def build_prescription_response(prescription: Prescription, doctor_profile: Optional[Profile] = None) -> dict:
+def build_prescription_response(
+    prescription: Prescription,
+    doctor_profile: Optional[Profile] = None,
+    include_snapshot: bool = False,
+) -> dict:
     """Build prescription response with all items."""
     response = {
         "id": prescription.id,
@@ -187,10 +191,17 @@ def build_prescription_response(prescription: Prescription, doctor_profile: Opti
         "accepted_at": prescription.accepted_at,
         "rejected_at": prescription.rejected_at,
         "added_to_history": prescription.added_to_history,
+        "rendered_prescription_html": prescription.rendered_prescription_html,
+        "rendered_prescription_generated_at": prescription.rendered_prescription_generated_at,
         "medications": [],
         "tests": [],
         "surgeries": [],
     }
+
+    if include_snapshot:
+        response["rendered_prescription_snapshot"] = _normalize_prescription_snapshot_payload(
+            prescription.rendered_prescription_snapshot
+        )
     
     if doctor_profile:
         response["doctor_name"] = f"{doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip()
@@ -446,6 +457,62 @@ def _normalize_optional_date_like(value: Any) -> Any:
     if isinstance(value, str) and not value.strip():
         return None
     return value
+
+
+def _parse_optional_iso_datetime(value: Any) -> Optional[datetime]:
+    if value is None:
+        return None
+
+    if isinstance(value, datetime):
+        parsed = value
+    else:
+        text = str(value).strip()
+        if not text:
+            return None
+        normalized = text.replace("Z", "+00:00")
+        try:
+            parsed = datetime.fromisoformat(normalized)
+        except ValueError:
+            return None
+
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+
+    return parsed.astimezone(timezone.utc)
+
+
+def _normalize_prescription_snapshot_payload(raw_payload: Any) -> Optional[dict[str, Any]]:
+    if not isinstance(raw_payload, dict):
+        return None
+
+    try:
+        snapshot = PrescriptionFullResponse.model_validate(raw_payload)
+    except ValidationError:
+        return None
+
+    normalized = snapshot.model_dump(mode="json")
+    normalized.pop("data_source", None)
+    normalized.pop("snapshot_generated_at", None)
+    return normalized
+
+
+def _latest_prescription_snapshot_for_consultation(
+    consultation: Consultation,
+) -> tuple[Optional[dict[str, Any]], Optional[datetime]]:
+    prescriptions = sorted(
+        consultation.prescriptions or [],
+        key=lambda prescription: prescription.created_at or datetime.min.replace(tzinfo=timezone.utc),
+        reverse=True,
+    )
+
+    for prescription in prescriptions:
+        normalized = _normalize_prescription_snapshot_payload(
+            prescription.rendered_prescription_snapshot
+        )
+        if normalized:
+            return normalized, prescription.rendered_prescription_generated_at
+
+    return None, None
 
 
 def _normalize_draft_medication_item(item: dict[str, Any]) -> Optional[dict[str, Any]]:
@@ -1318,6 +1385,15 @@ async def _get_full_prescription_payload_for_consultation(
     if consultation.doctor_id != user_id and consultation.patient_id != user_id:
         raise HTTPException(status_code=403, detail="You don't have access to this consultation")
 
+    if consultation.status != ConsultationStatus.OPEN:
+        snapshot_payload, snapshot_generated_at = _latest_prescription_snapshot_for_consultation(consultation)
+        if snapshot_payload:
+            return {
+                "data_source": "snapshot",
+                "snapshot_generated_at": snapshot_generated_at,
+                **snapshot_payload,
+            }
+
     profiles_result = await db.execute(
         select(Profile).where(Profile.id.in_([consultation.doctor_id, consultation.patient_id]))
     )
@@ -1504,6 +1580,7 @@ async def _get_full_prescription_payload_for_consultation(
 
     return {
         "data_source": preview_data_source,
+        "snapshot_generated_at": None,
         "doctor": final_doctor_info,
         "patient": final_patient_info,
         "consultation": {
@@ -1587,6 +1664,20 @@ async def add_prescription(
             else PrescriptionType.SURGERY
         )
 
+        normalized_rendered_html = (
+            data.rendered_prescription_html.strip()
+            if isinstance(data.rendered_prescription_html, str) and data.rendered_prescription_html.strip()
+            else None
+        )
+        normalized_snapshot_payload = _normalize_prescription_snapshot_payload(
+            data.rendered_prescription_snapshot
+        )
+        normalized_snapshot_generated_at = _parse_optional_iso_datetime(
+            data.rendered_prescription_generated_at
+        )
+        if normalized_snapshot_payload and normalized_snapshot_generated_at is None:
+            normalized_snapshot_generated_at = datetime.now(timezone.utc)
+
         prescription = Prescription(
             id=str(uuid.uuid4()),
             consultation_id=consultation_id,
@@ -1595,6 +1686,9 @@ async def add_prescription(
             type=resolved_type,
             notes=data.notes,
             status=PrescriptionStatus.PENDING,
+            rendered_prescription_html=normalized_rendered_html,
+            rendered_prescription_snapshot=normalized_snapshot_payload,
+            rendered_prescription_generated_at=normalized_snapshot_generated_at,
         )
         db.add(prescription)
         
@@ -1913,7 +2007,7 @@ async def get_patient_prescription(
     )
     doctor_profile = result.scalar_one_or_none()
     
-    return build_prescription_response(prescription, doctor_profile)
+    return build_prescription_response(prescription, doctor_profile, include_snapshot=True)
 
 
 @router.post("/patient/prescription/{prescription_id}/accept")

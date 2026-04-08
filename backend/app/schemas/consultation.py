@@ -348,6 +348,9 @@ class SurgeryRecommendationResponse(BaseModel):
 class PrescriptionCreate(BaseModel):
     type: PrescriptionType
     notes: Optional[str] = None
+    rendered_prescription_html: Optional[str] = None
+    rendered_prescription_snapshot: Optional[dict] = None
+    rendered_prescription_generated_at: Optional[datetime] = None
     
     # Items to add (at least one should be provided based on type)
     medications: Optional[List[MedicationPrescriptionCreate]] = None
@@ -369,6 +372,9 @@ class PrescriptionResponse(BaseModel):
     accepted_at: Optional[datetime] = None
     rejected_at: Optional[datetime] = None
     added_to_history: bool
+    rendered_prescription_html: Optional[str] = None
+    rendered_prescription_snapshot: Optional[dict] = None
+    rendered_prescription_generated_at: Optional[datetime] = None
     
     # Doctor info
     doctor_name: Optional[str] = None
@@ -510,6 +516,7 @@ class PrescriptionPreviewProcedure(BaseModel):
 
 class PrescriptionFullResponse(BaseModel):
     data_source: Optional[str] = None
+    snapshot_generated_at: Optional[datetime] = None
     doctor: PrescriptionPreviewDoctor
     patient: PrescriptionPreviewPatient
     consultation: PrescriptionPreviewConsultation
