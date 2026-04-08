@@ -128,6 +128,9 @@ function normalizeDraftUpdateInput(
 type AddPrescriptionInput = {
   type: PrescriptionType;
   notes?: string;
+  rendered_prescription_html?: string;
+  rendered_prescription_snapshot?: FullPrescriptionResponse;
+  rendered_prescription_generated_at?: string;
   medications?: MedicationPrescriptionInput[];
   tests?: TestPrescriptionInput[];
   surgeries?: SurgeryRecommendationInput[];
@@ -137,6 +140,8 @@ function normalizeAddPrescriptionInput(data: AddPrescriptionInput): AddPrescript
   return {
     ...data,
     notes: normalizeOptionalText(data.notes),
+    rendered_prescription_html: normalizeOptionalText(data.rendered_prescription_html),
+    rendered_prescription_generated_at: normalizeOptionalText(data.rendered_prescription_generated_at),
     medications: data.medications?.map((medication) => normalizeMedicationInput(medication)),
     tests: data.tests?.map((test) => normalizeTestInput(test)),
     surgeries: data.surgeries?.map((surgery) => normalizeSurgeryInput(surgery)),
@@ -226,6 +231,9 @@ export interface Prescription {
   accepted_at?: string;
   rejected_at?: string;
   added_to_history: boolean;
+  rendered_prescription_html?: string;
+  rendered_prescription_snapshot?: FullPrescriptionResponse;
+  rendered_prescription_generated_at?: string;
   doctor_name?: string;
   doctor_photo?: string;
   doctor_specialization?: string;
@@ -286,7 +294,8 @@ export interface FullPrescriptionProcedure {
 }
 
 export interface FullPrescriptionResponse {
-  data_source?: "draft" | "prescription";
+  data_source?: "draft" | "prescription" | "snapshot";
+  snapshot_generated_at?: string;
   doctor: FullPrescriptionDoctor;
   patient: FullPrescriptionPatient;
   consultation: FullPrescriptionConsultation;
@@ -538,11 +547,20 @@ export async function saveConsultationDraftById(
  * Get consultation-level full prescription payload for preview/print.
  */
 export async function getFullPrescriptionByConsultation(
-  consultationId: string
+  consultationId: string,
+  draftId?: string
 ): Promise<FullPrescriptionResponse> {
   const headers = await getAuthHeaders();
+  const params = new URLSearchParams();
+  if (draftId) {
+    params.set("draft_id", draftId);
+  }
+  const queryString = params.toString();
+  const endpoint = queryString
+    ? `${BACKEND_URL}/consultation/${consultationId}/full?${queryString}`
+    : `${BACKEND_URL}/consultation/${consultationId}/full`;
 
-  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/full`, {
+  const response = await fetch(endpoint, {
     method: "GET",
     headers,
     cache: "no-store",
