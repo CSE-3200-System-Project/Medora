@@ -28,7 +28,6 @@ const LOGIN_HERO_IMAGES = [
 
 function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: boolean }) {
   const { theme, systemTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -37,13 +36,10 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
   const [showAdminDialog, setShowAdminDialog] = useState(false);
   const [showVerifiedMessage, setShowVerifiedMessage] = useState(initiallyVerified);
   const activeImage = LOGIN_HERO_IMAGES[currentImageIndex] ?? LOGIN_HERO_IMAGES[0];
+  const isPrimaryHeroImage = currentImageIndex === 0;
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   const medoraLogo = currentTheme === "dark" ? medoraLogoLight : medoraLogoDark;
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -85,8 +81,16 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
     const formData = new FormData(e.currentTarget);
 
     try {
-      await login(formData, rememberMe);
-      // If we reach here, login was successful and redirect happened
+      const result = await login(formData, rememberMe);
+      if (result?.success === false) {
+        setError(result.error || "Login failed. Please check your credentials.");
+        toast.error(result.error || "Login failed. Please check your credentials.", {
+          title: "Sign in failed",
+        });
+        setLoading(false);
+        return;
+      }
+      // If redirect succeeds, Next throws NEXT_REDIRECT and navigation occurs.
     } catch (err: unknown) {
       // Don't show NEXT_REDIRECT errors to user - these are internal Next.js redirects
       if (
@@ -126,8 +130,9 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                 fill
                 sizes="(max-width: 1279px) 1px, 50vw"
                 className="object-cover"
-                loading="lazy"
-                fetchPriority="low"
+                priority={isPrimaryHeroImage}
+                loading={isPrimaryHeroImage ? "eager" : "lazy"}
+                fetchPriority={isPrimaryHeroImage ? "high" : "low"}
                 decoding="async"
               />
             </div>
