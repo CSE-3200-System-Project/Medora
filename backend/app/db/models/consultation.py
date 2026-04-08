@@ -17,6 +17,7 @@ from app.db.models.enums import (
     SurgeryUrgency,
     MealInstruction,
     DurationUnit,
+    DosageType,
 )
 
 
@@ -31,6 +32,13 @@ class Consultation(Base):
     doctor_id: Mapped[str] = mapped_column(String, ForeignKey("doctor_profiles.profile_id"), nullable=False)
     patient_id: Mapped[str] = mapped_column(String, ForeignKey("patient_profiles.profile_id"), nullable=False)
     appointment_id: Mapped[str | None] = mapped_column(String, ForeignKey("appointments.id"), nullable=True)
+    # One-to-one pointer to the latest in-progress consultation draft snapshot.
+    draft_id: Mapped[str | None] = mapped_column(
+        String,
+        ForeignKey("consultation_drafts.id", ondelete="SET NULL"),
+        nullable=True,
+        unique=True,
+    )
     
     # Consultation details
     chief_complaint: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -52,7 +60,30 @@ class Consultation(Base):
     doctor = relationship("DoctorProfile", backref="consultations")
     patient = relationship("PatientProfile", backref="consultations")
     appointment = relationship("Appointment", backref="consultation")
+    draft = relationship("ConsultationDraft", back_populates="consultation", uselist=False, foreign_keys=[draft_id])
     prescriptions = relationship("Prescription", back_populates="consultation", cascade="all, delete-orphan")
+
+
+class ConsultationDraft(Base):
+    """Stores consultation editor draft payload snapshots in a normalized table."""
+
+    __tablename__ = "consultation_drafts"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    payload: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+    )
+
+    consultation = relationship(
+        "Consultation",
+        back_populates="draft",
+        uselist=False,
+        primaryjoin="Consultation.draft_id == ConsultationDraft.id",
+    )
 
 
 class Prescription(Base):
@@ -137,6 +168,14 @@ class MedicationPrescription(Base):
     
     # Frequency fallback
     frequency_per_day: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    # Dual dosage mode support
+    dosage_type: Mapped[DosageType | None] = mapped_column(
+        Enum(DosageType, values_callable=lambda x: [e.value for e in x]),
+        nullable=True,
+    )
+    dosage_pattern: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    frequency_text: Mapped[str | None] = mapped_column(String(128), nullable=True)
     
     # Duration
     duration_value: Mapped[int | None] = mapped_column(Integer, nullable=True)

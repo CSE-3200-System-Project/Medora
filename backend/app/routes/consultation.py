@@ -2,13 +2,17 @@
 Consultation and Prescription API routes.
 Handles doctor-patient consultations and prescription management.
 """
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, and_, or_
-from sqlalchemy.orm import selectinload
-from typing import Optional
-from datetime import datetime, timezone
+import logging
 import uuid
+from datetime import datetime, timezone
+from typing import Any, Optional
+
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import select, func, and_, or_
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
+from pydantic import ValidationError
 
 from app.core.dependencies import get_db
 from app.core.patient_reference import (
@@ -18,6 +22,7 @@ from app.core.patient_reference import (
 from app.routes.auth import get_current_user_token
 from app.db.models.consultation import (
     Consultation,
+    ConsultationDraft,
     Prescription,
     MedicationPrescription,
     TestPrescription,
@@ -27,6 +32,7 @@ from app.db.models.enums import (
     ConsultationStatus,
     PrescriptionType,
     PrescriptionStatus,
+    DosageType,
     UserRole,
 )
 from app.db.models.profile import Profile
@@ -36,6 +42,8 @@ from app.db.models.notification import Notification, NotificationType, Notificat
 from app.schemas.consultation import (
     ConsultationCreate,
     ConsultationUpdate,
+    ConsultationDraftUpdate,
+    ConsultationDraftResponse,
     ConsultationResponse,
     ConsultationListResponse,
     ConsultationWithPrescriptions,
@@ -49,6 +57,7 @@ from app.schemas.consultation import (
     SurgeryRecommendationCreate,
     SurgeryRecommendationResponse,
     PrescriptionReject,
+    PrescriptionFullResponse,
 )
 from app.services.doctor_action_service import (
     create_consultation_completed_action,
@@ -56,6 +65,7 @@ from app.services.doctor_action_service import (
 )
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 # ========== HELPER FUNCTIONS ==========
@@ -139,6 +149,7 @@ def build_consultation_response(
         "patient_id": consultation.patient_id,
         "patient_ref": patient_ref_from_uuid(consultation.patient_id),
         "appointment_id": consultation.appointment_id,
+        "draft_id": consultation.draft_id,
         "chief_complaint": consultation.chief_complaint,
         "diagnosis": consultation.diagnosis,
         "notes": consultation.notes,
@@ -205,6 +216,9 @@ def build_prescription_response(prescription: Prescription, doctor_profile: Opti
                 "dose_evening_amount": med.dose_evening_amount,
                 "dose_night_amount": med.dose_night_amount,
                 "frequency_per_day": med.frequency_per_day,
+                "dosage_type": med.dosage_type.value if med.dosage_type else None,
+                "dosage_pattern": med.dosage_pattern,
+                "frequency_text": med.frequency_text,
                 "duration_value": med.duration_value,
                 "duration_unit": med.duration_unit.value if med.duration_unit else "days",
                 "meal_instruction": med.meal_instruction.value if med.meal_instruction else "after_meal",
@@ -253,6 +267,533 @@ def build_prescription_response(prescription: Prescription, doctor_profile: Opti
     return response
 
 
+def _calculate_age(date_of_birth) -> Optional[int]:
+    if not date_of_birth:
+        return None
+
+    today = datetime.now(timezone.utc).date()
+    age = today.year - date_of_birth.year
+    if (today.month, today.day) < (date_of_birth.month, date_of_birth.day):
+        age -= 1
+    return age
+
+
+def _duration_text(duration_value: Optional[int], duration_unit: Optional[Any]) -> Optional[str]:
+    if not duration_value:
+        return None
+
+    unit = duration_unit.value if hasattr(duration_unit, "value") else str(duration_unit or "days")
+    return f"{duration_value} {unit}"
+
+
+def _frequency_text_from_count(frequency_per_day: Optional[int]) -> Optional[str]:
+    if not frequency_per_day:
+        return None
+
+    frequency_map = {
+        1: "Once daily",
+        2: "Twice daily",
+        3: "Three times daily",
+        4: "Four times daily",
+    }
+    return frequency_map.get(frequency_per_day, f"{frequency_per_day} times daily")
+
+
+def _route_from_medicine_type(medicine_type: Optional[Any]) -> Optional[str]:
+    if not medicine_type:
+        return None
+
+    value = medicine_type.value if hasattr(medicine_type, "value") else str(medicine_type)
+    route_map = {
+        "tablet": "Oral",
+        "capsule": "Oral",
+        "syrup": "Oral",
+        "powder": "Oral",
+        "injection": "Injection",
+        "drops": "Drops",
+        "inhaler": "Inhalation",
+        "cream": "Topical",
+        "ointment": "Topical",
+        "gel": "Topical",
+        "suppository": "Rectal",
+        "patch": "Transdermal",
+    }
+    return route_map.get(value, value.replace("_", " ").title())
+
+
+def _derive_dosage_mode(medication: MedicationPrescription) -> tuple[DosageType, Optional[str], Optional[str]]:
+    if medication.dosage_type == DosageType.PATTERN and medication.dosage_pattern:
+        return DosageType.PATTERN, medication.dosage_pattern, medication.frequency_text
+
+    if medication.dosage_type == DosageType.FREQUENCY and medication.frequency_text:
+        return DosageType.FREQUENCY, medication.dosage_pattern, medication.frequency_text
+
+    if medication.dosage_pattern:
+        return DosageType.PATTERN, medication.dosage_pattern, medication.frequency_text
+
+    if medication.frequency_text:
+        return DosageType.FREQUENCY, medication.dosage_pattern, medication.frequency_text
+
+    morning = medication.dose_morning_amount or "1"
+    afternoon = medication.dose_afternoon_amount or "1"
+    evening = medication.dose_evening_amount or "1"
+    night = medication.dose_night_amount or "1"
+
+    morning_value = morning if medication.dose_morning else "0"
+    afternoon_value = afternoon if medication.dose_afternoon else "0"
+    # Use evening as the third slot. If evening is empty but night exists, reuse night there.
+    evening_slot_value = evening if medication.dose_evening else (night if medication.dose_night else "0")
+
+    if medication.dose_morning or medication.dose_afternoon or medication.dose_evening or medication.dose_night:
+        return DosageType.PATTERN, f"{morning_value}-{afternoon_value}-{evening_slot_value}", None
+
+    fallback_frequency = _frequency_text_from_count(medication.frequency_per_day)
+    if fallback_frequency:
+        return DosageType.FREQUENCY, None, fallback_frequency
+
+    return DosageType.FREQUENCY, None, None
+
+
+def _build_doctor_address(doctor: DoctorProfile) -> Optional[str]:
+    if doctor.chamber_name and doctor.chamber_address:
+        return f"{doctor.chamber_name}, {doctor.chamber_address}"
+    if doctor.hospital_name and doctor.hospital_address:
+        return f"{doctor.hospital_name}, {doctor.hospital_address}"
+    return doctor.chamber_address or doctor.hospital_address
+
+
+def _build_doctor_chamber_info(doctor: DoctorProfile) -> Optional[str]:
+    if doctor.chamber_name and doctor.chamber_address:
+        return f"{doctor.chamber_name}, {doctor.chamber_address}"
+    if doctor.chamber_name:
+        return doctor.chamber_name
+    return doctor.chamber_address
+
+
+def _build_profile_name(profile: Optional[Profile]) -> Optional[str]:
+    if not profile:
+        return None
+
+    full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip()
+    return full_name or None
+
+
+def _build_doctor_identity_snapshot(
+    doctor_profile: Optional[Profile],
+    doctor_details: Optional[DoctorProfile],
+) -> dict[str, Any]:
+    base_name = _build_profile_name(doctor_profile)
+    display_name = base_name
+    if base_name and doctor_details and doctor_details.title:
+        display_name = f"{doctor_details.title} {base_name}".strip()
+
+    return {
+        "name": display_name,
+        "specialization": doctor_details.specialization if doctor_details else None,
+        "qualification": (
+            (doctor_details.qualifications or doctor_details.degree)
+            if doctor_details
+            else None
+        ),
+        "chamber_info": _build_doctor_chamber_info(doctor_details) if doctor_details else None,
+    }
+
+
+def _build_patient_identity_snapshot(
+    patient_profile: Optional[Profile],
+    patient_details: Optional[PatientProfile],
+) -> dict[str, Any]:
+    return {
+        "name": _build_profile_name(patient_profile),
+        "age": _calculate_age(patient_details.date_of_birth) if patient_details else None,
+        "gender": patient_details.gender if patient_details else None,
+        "blood_group": patient_details.blood_group if patient_details else None,
+    }
+
+
+def _meal_instruction_text(meal_instruction: Optional[Any]) -> Optional[str]:
+    if not meal_instruction:
+        return None
+
+    value = meal_instruction.value if hasattr(meal_instruction, "value") else str(meal_instruction)
+    labels = {
+        "before_meal": "Before meal",
+        "after_meal": "After meal",
+        "with_meal": "With meal",
+        "empty_stomach": "Empty stomach",
+        "any_time": "Any time",
+    }
+    return labels.get(value, value.replace("_", " ").title())
+
+
+def _safe_list_from_draft(payload: dict[str, Any], key: str) -> list[dict[str, Any]]:
+    value = payload.get(key)
+    if not isinstance(value, list):
+        return []
+
+    return [item for item in value if isinstance(item, dict)]
+
+
+def _normalize_optional_text(value: Any) -> Optional[str]:
+    if value is None:
+        return None
+
+    text = str(value).strip()
+    return text or None
+
+
+def _normalize_optional_date_like(value: Any) -> Any:
+    if isinstance(value, str) and not value.strip():
+        return None
+    return value
+
+
+def _normalize_draft_medication_item(item: dict[str, Any]) -> Optional[dict[str, Any]]:
+    normalized = dict(item)
+
+    medicine_name = _normalize_optional_text(
+        normalized.get("medicine_name")
+        or normalized.get("name")
+        or normalized.get("medication_name")
+    )
+    if not medicine_name:
+        return None
+
+    normalized["medicine_name"] = medicine_name
+    normalized["generic_name"] = _normalize_optional_text(normalized.get("generic_name"))
+    normalized["strength"] = _normalize_optional_text(normalized.get("strength"))
+    normalized["dosage_pattern"] = _normalize_optional_text(normalized.get("dosage_pattern"))
+    normalized["frequency_text"] = _normalize_optional_text(normalized.get("frequency_text"))
+    normalized["special_instructions"] = _normalize_optional_text(normalized.get("special_instructions"))
+    normalized["start_date"] = _normalize_optional_date_like(normalized.get("start_date"))
+    normalized["end_date"] = _normalize_optional_date_like(normalized.get("end_date"))
+    return normalized
+
+
+def _normalize_draft_test_item(item: dict[str, Any]) -> Optional[dict[str, Any]]:
+    normalized = dict(item)
+
+    test_name = _normalize_optional_text(
+        normalized.get("test_name")
+        or normalized.get("name")
+    )
+    if not test_name:
+        return None
+
+    normalized["test_name"] = test_name
+    normalized["test_type"] = _normalize_optional_text(normalized.get("test_type"))
+    normalized["instructions"] = _normalize_optional_text(normalized.get("instructions"))
+    normalized["preferred_lab"] = _normalize_optional_text(normalized.get("preferred_lab"))
+    normalized["expected_date"] = _normalize_optional_date_like(normalized.get("expected_date"))
+    return normalized
+
+
+def _normalize_draft_surgery_item(item: dict[str, Any]) -> Optional[dict[str, Any]]:
+    normalized = dict(item)
+
+    procedure_name = _normalize_optional_text(
+        normalized.get("procedure_name")
+        or normalized.get("name")
+    )
+    if not procedure_name:
+        return None
+
+    normalized["procedure_name"] = procedure_name
+    normalized["procedure_type"] = _normalize_optional_text(normalized.get("procedure_type"))
+    normalized["reason"] = _normalize_optional_text(normalized.get("reason"))
+    normalized["pre_op_instructions"] = _normalize_optional_text(normalized.get("pre_op_instructions"))
+    normalized["notes"] = _normalize_optional_text(normalized.get("notes"))
+    normalized["preferred_facility"] = _normalize_optional_text(normalized.get("preferred_facility"))
+    normalized["recommended_date"] = _normalize_optional_date_like(normalized.get("recommended_date"))
+    return normalized
+
+
+def _normalize_consultation_draft_payload(raw_payload: Any) -> dict[str, Any]:
+    if not isinstance(raw_payload, dict):
+        return {}
+
+    payload = dict(raw_payload)
+
+    for text_key in ("chief_complaint", "diagnosis", "notes", "prescription_notes"):
+        payload[text_key] = _normalize_optional_text(payload.get(text_key))
+
+    prescription_type = payload.get("prescription_type")
+    if prescription_type not in {item.value for item in PrescriptionType}:
+        payload["prescription_type"] = None
+
+    normalized_medications: list[dict[str, Any]] = []
+    for medication in _safe_list_from_draft(payload, "medications"):
+        normalized = _normalize_draft_medication_item(medication)
+        if normalized:
+            normalized_medications.append(normalized)
+    payload["medications"] = normalized_medications
+
+    normalized_tests: list[dict[str, Any]] = []
+    for test in _safe_list_from_draft(payload, "tests"):
+        normalized = _normalize_draft_test_item(test)
+        if normalized:
+            normalized_tests.append(normalized)
+    payload["tests"] = normalized_tests
+
+    normalized_surgeries: list[dict[str, Any]] = []
+    for surgery in _safe_list_from_draft(payload, "surgeries"):
+        normalized = _normalize_draft_surgery_item(surgery)
+        if normalized:
+            normalized_surgeries.append(normalized)
+    payload["surgeries"] = normalized_surgeries
+
+    payload["patient_info"] = payload.get("patient_info") if isinstance(payload.get("patient_info"), dict) else None
+    payload["doctor_info"] = payload.get("doctor_info") if isinstance(payload.get("doctor_info"), dict) else None
+
+    return payload
+
+
+def _parse_int_or_none(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value)
+
+    try:
+        return int(str(value).strip())
+    except (TypeError, ValueError):
+        return None
+
+
+def _derive_draft_dosage_mode(medication_data: dict[str, Any]) -> tuple[DosageType, Optional[str], Optional[str]]:
+    dosage_type_raw = medication_data.get("dosage_type")
+    dosage_pattern = medication_data.get("dosage_pattern")
+    frequency_text = medication_data.get("frequency_text")
+
+    if dosage_type_raw == DosageType.PATTERN.value and dosage_pattern:
+        return DosageType.PATTERN, str(dosage_pattern), str(frequency_text) if frequency_text else None
+
+    if dosage_type_raw == DosageType.FREQUENCY.value and frequency_text:
+        return DosageType.FREQUENCY, str(dosage_pattern) if dosage_pattern else None, str(frequency_text)
+
+    if dosage_pattern:
+        return DosageType.PATTERN, str(dosage_pattern), str(frequency_text) if frequency_text else None
+
+    if frequency_text:
+        return DosageType.FREQUENCY, None, str(frequency_text)
+
+    morning_amount = str(medication_data.get("dose_morning_amount") or "1")
+    noon_amount = str(medication_data.get("dose_afternoon_amount") or "1")
+    night_amount = str(
+        medication_data.get("dose_evening_amount")
+        or medication_data.get("dose_night_amount")
+        or "1"
+    )
+
+    has_morning = bool(medication_data.get("dose_morning"))
+    has_noon = bool(medication_data.get("dose_afternoon"))
+    has_night = bool(medication_data.get("dose_evening")) or bool(medication_data.get("dose_night"))
+
+    if has_morning or has_noon or has_night:
+        pattern = f"{morning_amount if has_morning else '0'}-{noon_amount if has_noon else '0'}-{night_amount if has_night else '0'}"
+        return DosageType.PATTERN, pattern, None
+
+    fallback_frequency = _frequency_text_from_count(_parse_int_or_none(medication_data.get("frequency_per_day")))
+    if fallback_frequency:
+        return DosageType.FREQUENCY, None, fallback_frequency
+
+    return DosageType.FREQUENCY, None, None
+
+
+def _get_consultation_draft_payload(consultation: Consultation) -> dict[str, Any]:
+    if consultation.draft and isinstance(consultation.draft.payload, dict):
+        return _normalize_consultation_draft_payload(consultation.draft.payload)
+    return {}
+
+
+def _consultation_has_persisted_prescription_items(consultation: Consultation) -> bool:
+    for prescription in consultation.prescriptions or []:
+        if (prescription.medications and len(prescription.medications) > 0) or (
+            prescription.tests and len(prescription.tests) > 0
+        ) or (
+            prescription.surgeries and len(prescription.surgeries) > 0
+        ):
+            return True
+
+    return False
+
+
+def _resolve_preview_data_source(consultation: Consultation) -> str:
+    if consultation.draft:
+        return "draft"
+    if _consultation_has_persisted_prescription_items(consultation):
+        return "prescription"
+    return "draft"
+
+
+def _build_consultation_draft_response(consultation: Consultation) -> dict[str, Any]:
+    payload = _get_consultation_draft_payload(consultation)
+
+    prescription_type = payload.get("prescription_type")
+    if prescription_type not in {item.value for item in PrescriptionType}:
+        prescription_type = None
+
+    return {
+        "consultation_id": consultation.id,
+        "draft_id": consultation.draft_id,
+        "chief_complaint": payload.get("chief_complaint", consultation.chief_complaint),
+        "diagnosis": payload.get("diagnosis", consultation.diagnosis),
+        "notes": payload.get("notes", consultation.notes),
+        "prescription_type": prescription_type,
+        "prescription_notes": payload.get("prescription_notes"),
+        "medications": _safe_list_from_draft(payload, "medications"),
+        "tests": _safe_list_from_draft(payload, "tests"),
+        "surgeries": _safe_list_from_draft(payload, "surgeries"),
+        "patient_info": payload.get("patient_info") if isinstance(payload.get("patient_info"), dict) else None,
+        "doctor_info": payload.get("doctor_info") if isinstance(payload.get("doctor_info"), dict) else None,
+        "updated_at": consultation.draft.updated_at if consultation.draft else consultation.updated_at,
+    }
+
+
+def _validate_consultation_draft_payload(raw_payload: Any) -> ConsultationDraftUpdate:
+    if not isinstance(raw_payload, dict):
+        raise HTTPException(status_code=400, detail="Draft payload must be a JSON object")
+
+    try:
+        return ConsultationDraftUpdate.model_validate(raw_payload)
+    except ValidationError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Invalid consultation draft payload",
+                "errors": exc.errors(),
+            },
+        )
+
+
+async def _resolve_consultation_by_draft_id(
+    db: AsyncSession,
+    draft_id: str,
+) -> Optional[Consultation]:
+    result = await db.execute(
+        select(Consultation)
+        .options(selectinload(Consultation.draft))
+        .where(Consultation.draft_id == draft_id)
+    )
+    return result.scalar_one_or_none()
+
+
+async def _resolve_consultation_with_draft(
+    db: AsyncSession,
+    consultation_id: str,
+) -> Optional[Consultation]:
+    result = await db.execute(
+        select(Consultation)
+        .options(selectinload(Consultation.draft))
+        .where(Consultation.id == consultation_id)
+    )
+    return result.scalar_one_or_none()
+
+
+async def _get_or_create_consultation_draft(
+    db: AsyncSession,
+    consultation: Consultation,
+) -> ConsultationDraft:
+    if consultation.draft:
+        return consultation.draft
+
+    if consultation.draft_id:
+        existing_draft_result = await db.execute(
+            select(ConsultationDraft).where(ConsultationDraft.id == consultation.draft_id)
+        )
+        existing_draft = existing_draft_result.scalar_one_or_none()
+        if existing_draft:
+            consultation.draft = existing_draft
+            return existing_draft
+
+        consultation.draft_id = None
+
+    draft = ConsultationDraft(id=str(uuid.uuid4()), payload={})
+    db.add(draft)
+    consultation.draft = draft
+    consultation.draft_id = draft.id
+    return draft
+
+
+async def _apply_consultation_draft_update(
+    db: AsyncSession,
+    consultation: Consultation,
+    data: ConsultationDraftUpdate,
+) -> ConsultationDraft:
+    draft_record = await _get_or_create_consultation_draft(db, consultation)
+    payload = _normalize_consultation_draft_payload(draft_record.payload)
+
+    if "chief_complaint" in data.model_fields_set:
+        consultation.chief_complaint = data.chief_complaint
+        payload["chief_complaint"] = data.chief_complaint
+
+    if "diagnosis" in data.model_fields_set:
+        consultation.diagnosis = data.diagnosis
+        payload["diagnosis"] = data.diagnosis
+
+    if "notes" in data.model_fields_set:
+        consultation.notes = data.notes
+        payload["notes"] = data.notes
+
+    if "prescription_type" in data.model_fields_set:
+        payload["prescription_type"] = data.prescription_type.value if data.prescription_type else None
+
+    if "prescription_notes" in data.model_fields_set:
+        payload["prescription_notes"] = data.prescription_notes
+
+    if "medications" in data.model_fields_set:
+        normalized_medications: list[dict[str, Any]] = []
+        for item in data.medications or []:
+            medication_payload = item.model_dump(mode="json")
+            dosage_type, dosage_pattern, frequency_text = _derive_draft_dosage_mode(medication_payload)
+            medication_payload["dosage_type"] = dosage_type.value
+            medication_payload["dosage_pattern"] = dosage_pattern
+            medication_payload["frequency_text"] = frequency_text
+            medication_payload["duration"] = _duration_text(
+                _parse_int_or_none(medication_payload.get("duration_value")),
+                medication_payload.get("duration_unit"),
+            )
+            medication_payload["route"] = _route_from_medicine_type(medication_payload.get("medicine_type"))
+            normalized_medications.append(medication_payload)
+
+        payload["medications"] = normalized_medications
+
+    if "tests" in data.model_fields_set:
+        payload["tests"] = [item.model_dump(mode="json") for item in (data.tests or [])]
+
+    if "surgeries" in data.model_fields_set:
+        payload["surgeries"] = [item.model_dump(mode="json") for item in (data.surgeries or [])]
+
+    profiles_result = await db.execute(
+        select(Profile).where(Profile.id.in_([consultation.doctor_id, consultation.patient_id]))
+    )
+    profiles = {profile.id: profile for profile in profiles_result.scalars().all()}
+
+    doctor_result = await db.execute(
+        select(DoctorProfile).where(DoctorProfile.profile_id == consultation.doctor_id)
+    )
+    doctor_details = doctor_result.scalar_one_or_none()
+
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == consultation.patient_id)
+    )
+    patient_details = patient_result.scalar_one_or_none()
+
+    payload["doctor_info"] = _build_doctor_identity_snapshot(
+        profiles.get(consultation.doctor_id),
+        doctor_details,
+    )
+    payload["patient_info"] = _build_patient_identity_snapshot(
+        profiles.get(consultation.patient_id),
+        patient_details,
+    )
+
+    draft_record.payload = payload
+    return draft_record
+
+
 # ========== CONSULTATION ROUTES (DOCTOR) ==========
 
 @router.post("/", response_model=ConsultationResponse)
@@ -265,7 +806,6 @@ async def start_consultation(
     Start a new consultation with a patient.
     Only doctors can start consultations.
     """
-    import traceback
     try:
         doctor = await get_doctor_profile(db, user.id)
         
@@ -299,7 +839,26 @@ async def start_consultation(
         if existing:
             raise HTTPException(status_code=400, detail="Active consultation already exists with this patient")
         
-        # Create consultation
+        # Create consultation with an initialized draft record so draft_id is always present.
+        initial_draft_payload = _normalize_consultation_draft_payload(
+            {
+                "chief_complaint": data.chief_complaint,
+                "diagnosis": None,
+                "notes": data.notes,
+                "prescription_type": None,
+                "prescription_notes": None,
+                "medications": [],
+                "tests": [],
+                "surgeries": [],
+                "patient_info": None,
+                "doctor_info": None,
+            }
+        )
+        consultation_draft = ConsultationDraft(
+            id=str(uuid.uuid4()),
+            payload=initial_draft_payload,
+        )
+
         consultation = Consultation(
             id=str(uuid.uuid4()),
             doctor_id=user.id,
@@ -308,7 +867,10 @@ async def start_consultation(
             chief_complaint=data.chief_complaint,
             notes=data.notes,
             status=ConsultationStatus.OPEN,
+            draft_id=consultation_draft.id,
         )
+        consultation.draft = consultation_draft
+        db.add(consultation_draft)
         db.add(consultation)
         
         # Get doctor profile info for notification
@@ -336,10 +898,9 @@ async def start_consultation(
         return build_consultation_response(consultation, doctor_profile)
     except HTTPException:
         raise
-    except Exception as e:
-        print(f"ERROR in start_consultation: {str(e)}")
-        print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+    except Exception:
+        logger.exception("Failed to start consultation (doctor_id=%s, patient_id=%s)", user.id, data.patient_id)
+        raise HTTPException(status_code=500, detail="Failed to start consultation")
 
 
 @router.get("/doctor/active", response_model=ConsultationListResponse)
@@ -506,6 +1067,175 @@ async def update_consultation(
     return build_consultation_response(consultation)
 
 
+@router.get("/{consultation_id}/draft", response_model=ConsultationDraftResponse)
+async def get_consultation_draft(
+    consultation_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get backend draft payload for a consultation."""
+    consultation = await _resolve_consultation_with_draft(db, consultation_id)
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    if consultation.doctor_id != user.id and consultation.patient_id != user.id:
+        raise HTTPException(status_code=403, detail="You don't have access to this consultation")
+
+    # Self-heal old open consultations that were created before eager draft initialization.
+    if consultation.status == ConsultationStatus.OPEN and consultation.doctor_id == user.id and not consultation.draft:
+        await _get_or_create_consultation_draft(db, consultation)
+        try:
+            await db.commit()
+            await db.refresh(consultation)
+        except SQLAlchemyError:
+            await db.rollback()
+            logger.exception(
+                "Failed to initialize consultation draft during fetch (consultation_id=%s, doctor_id=%s)",
+                consultation_id,
+                user.id,
+            )
+            raise HTTPException(
+                status_code=500,
+                detail={
+                    "message": "Failed to initialize consultation draft",
+                    "code": "consultation_draft_init_failed",
+                },
+            )
+
+    return _build_consultation_draft_response(consultation)
+
+
+@router.patch("/{consultation_id}/draft", response_model=ConsultationDraftResponse)
+async def save_consultation_draft(
+    consultation_id: str,
+    request: Request,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Persist consultation editor draft state with backend as source of truth."""
+    try:
+        raw_payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid draft payload")
+
+    data = _validate_consultation_draft_payload(raw_payload)
+
+    result = await db.execute(
+        select(Consultation)
+        .options(selectinload(Consultation.draft))
+        .where(Consultation.id == consultation_id)
+    )
+    consultation = result.scalar_one_or_none()
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    if consultation.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
+
+    if consultation.status == ConsultationStatus.COMPLETED:
+        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
+
+    draft_record = await _apply_consultation_draft_update(db, consultation, data)
+
+    try:
+        await db.commit()
+        await db.refresh(consultation)
+        await db.refresh(draft_record)
+    except SQLAlchemyError:
+        await db.rollback()
+        logger.exception(
+            "Database error while saving consultation draft (consultation_id=%s, doctor_id=%s)",
+            consultation_id,
+            user.id,
+        )
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to save consultation draft",
+                "code": "consultation_draft_save_failed",
+            },
+        )
+
+    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
+    if not refreshed:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    return _build_consultation_draft_response(refreshed)
+
+
+@router.get("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
+async def get_consultation_draft_by_id(
+    draft_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get consultation draft by draft_id."""
+    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Draft not found")
+
+    if consultation.doctor_id != user.id and consultation.patient_id != user.id:
+        raise HTTPException(status_code=403, detail="You don't have access to this draft")
+
+    return _build_consultation_draft_response(consultation)
+
+
+@router.patch("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
+async def save_consultation_draft_by_id(
+    draft_id: str,
+    request: Request,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Persist consultation draft updates directly by draft_id."""
+    try:
+        raw_payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid draft payload")
+
+    data = _validate_consultation_draft_payload(raw_payload)
+    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Draft not found")
+
+    if consultation.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
+
+    if consultation.status == ConsultationStatus.COMPLETED:
+        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
+
+    draft_record = await _apply_consultation_draft_update(db, consultation, data)
+
+    try:
+        await db.commit()
+        await db.refresh(consultation)
+        await db.refresh(draft_record)
+    except SQLAlchemyError:
+        await db.rollback()
+        logger.exception(
+            "Database error while saving consultation draft by draft_id (draft_id=%s, doctor_id=%s)",
+            draft_id,
+            user.id,
+        )
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to save consultation draft",
+                "code": "consultation_draft_save_failed",
+            },
+        )
+
+    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
+    if not refreshed:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    return _build_consultation_draft_response(refreshed)
+
+
 @router.patch("/{consultation_id}/complete", response_model=ConsultationResponse)
 async def complete_consultation(
     consultation_id: str,
@@ -558,6 +1288,257 @@ async def complete_consultation(
 
 # ========== PRESCRIPTION ROUTES (DOCTOR) ==========
 
+async def _get_full_prescription_payload_for_consultation(
+    consultation_id: str,
+    user_id: str,
+    db: AsyncSession,
+    draft_id: Optional[str] = None,
+) -> dict[str, Any]:
+    consultation_query = (
+        select(Consultation)
+        .options(
+            selectinload(Consultation.draft),
+            selectinload(Consultation.prescriptions).selectinload(Prescription.medications),
+            selectinload(Consultation.prescriptions).selectinload(Prescription.tests),
+            selectinload(Consultation.prescriptions).selectinload(Prescription.surgeries),
+        )
+        .where(Consultation.id == consultation_id)
+    )
+    if draft_id:
+        consultation_query = consultation_query.where(Consultation.draft_id == draft_id)
+
+    result = await db.execute(consultation_query)
+    consultation = result.scalar_one_or_none()
+
+    if not consultation:
+        if draft_id:
+            raise HTTPException(status_code=404, detail="Draft not found for consultation")
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    if consultation.doctor_id != user_id and consultation.patient_id != user_id:
+        raise HTTPException(status_code=403, detail="You don't have access to this consultation")
+
+    profiles_result = await db.execute(
+        select(Profile).where(Profile.id.in_([consultation.doctor_id, consultation.patient_id]))
+    )
+    profiles = {profile.id: profile for profile in profiles_result.scalars().all()}
+
+    doctor_result = await db.execute(
+        select(DoctorProfile).where(DoctorProfile.profile_id == consultation.doctor_id)
+    )
+    doctor_details = doctor_result.scalar_one_or_none()
+
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == consultation.patient_id)
+    )
+    patient_details = patient_result.scalar_one_or_none()
+
+    doctor_profile = profiles.get(consultation.doctor_id)
+    patient_profile = profiles.get(consultation.patient_id)
+
+    base_doctor_info = _build_doctor_identity_snapshot(doctor_profile, doctor_details)
+    base_patient_info = _build_patient_identity_snapshot(patient_profile, patient_details)
+
+    medications: list[dict[str, Any]] = []
+    tests: list[dict[str, Any]] = []
+    procedures: list[dict[str, Any]] = []
+    draft_doctor_info: dict[str, Any] = {}
+    draft_patient_info: dict[str, Any] = {}
+
+    draft_payload = _get_consultation_draft_payload(consultation)
+    if consultation.status == ConsultationStatus.OPEN:
+        # Open consultation preview must always read from draft, not from prescription fallback.
+        if not consultation.draft:
+            raise HTTPException(
+                status_code=409,
+                detail="Consultation draft is not initialized. Save consultation before preview.",
+            )
+        preview_data_source = "draft"
+    else:
+        preview_data_source = _resolve_preview_data_source(consultation)
+
+    if preview_data_source == "draft":
+        draft_doctor_info_raw = draft_payload.get("doctor_info")
+        if isinstance(draft_doctor_info_raw, dict):
+            draft_doctor_info = draft_doctor_info_raw
+
+        draft_patient_info_raw = draft_payload.get("patient_info")
+        if isinstance(draft_patient_info_raw, dict):
+            draft_patient_info = draft_patient_info_raw
+
+        draft_medications = _safe_list_from_draft(draft_payload, "medications")
+        draft_tests = _safe_list_from_draft(draft_payload, "tests")
+        draft_surgeries = _safe_list_from_draft(draft_payload, "surgeries")
+
+        for medication_data in draft_medications:
+            medicine_name = str(medication_data.get("medicine_name") or "").strip()
+            if not medicine_name:
+                continue
+
+            dosage_type, dosage_pattern, frequency_text = _derive_draft_dosage_mode(medication_data)
+            if dosage_type == DosageType.FREQUENCY and not frequency_text:
+                frequency_text = _frequency_text_from_count(_parse_int_or_none(medication_data.get("frequency_per_day")))
+
+            duration_text = medication_data.get("duration")
+            if not isinstance(duration_text, str) or not duration_text.strip():
+                duration_text = _duration_text(
+                    _parse_int_or_none(medication_data.get("duration_value")),
+                    medication_data.get("duration_unit"),
+                )
+
+            route_text = medication_data.get("route")
+            if not isinstance(route_text, str) or not route_text.strip():
+                route_text = _route_from_medicine_type(medication_data.get("medicine_type"))
+
+            medications.append(
+                {
+                    "medicine_name": medicine_name,
+                    "strength": medication_data.get("strength"),
+                    "dosage_type": dosage_type.value,
+                    "dosage_pattern": dosage_pattern,
+                    "frequency_text": frequency_text,
+                    "duration": duration_text,
+                    "route": route_text,
+                    "meal_instruction": _meal_instruction_text(medication_data.get("meal_instruction")),
+                    "quantity": _parse_int_or_none(medication_data.get("quantity")),
+                }
+            )
+
+        for test_data in draft_tests:
+            test_name = str(test_data.get("test_name") or "").strip()
+            if not test_name:
+                continue
+
+            tests.append(
+                {
+                    "test_name": test_name,
+                    "instructions": test_data.get("instructions"),
+                    "urgency": test_data.get("urgency"),
+                }
+            )
+
+        for surgery_data in draft_surgeries:
+            procedure_name = str(surgery_data.get("procedure_name") or "").strip()
+            if not procedure_name:
+                continue
+
+            procedures.append(
+                {
+                    "procedure_name": procedure_name,
+                    "notes": surgery_data.get("notes"),
+                    "reason": surgery_data.get("reason"),
+                    "urgency": surgery_data.get("urgency"),
+                }
+            )
+
+        chief_complaint = draft_payload.get("chief_complaint", consultation.chief_complaint)
+        diagnosis = draft_payload.get("diagnosis", consultation.diagnosis)
+        notes = draft_payload.get("notes", consultation.notes)
+    else:
+        sorted_prescriptions = sorted(
+            consultation.prescriptions or [],
+            key=lambda prescription: prescription.created_at or datetime.now(timezone.utc),
+        )
+
+        for prescription in sorted_prescriptions:
+            for medication in prescription.medications or []:
+                dosage_type, dosage_pattern, frequency_text = _derive_dosage_mode(medication)
+                if dosage_type == DosageType.FREQUENCY and not frequency_text:
+                    frequency_text = _frequency_text_from_count(medication.frequency_per_day)
+
+                medications.append(
+                    {
+                        "medicine_name": medication.medicine_name,
+                        "strength": medication.strength,
+                        "dosage_type": dosage_type.value,
+                        "dosage_pattern": dosage_pattern,
+                        "frequency_text": frequency_text,
+                        "duration": _duration_text(medication.duration_value, medication.duration_unit),
+                        "route": _route_from_medicine_type(medication.medicine_type),
+                        "meal_instruction": _meal_instruction_text(medication.meal_instruction),
+                        "quantity": medication.quantity,
+                    }
+                )
+
+            for test in prescription.tests or []:
+                tests.append(
+                    {
+                        "test_name": test.test_name,
+                        "instructions": test.instructions,
+                        "urgency": test.urgency.value if test.urgency else None,
+                    }
+                )
+
+            for surgery in prescription.surgeries or []:
+                procedures.append(
+                    {
+                        "procedure_name": surgery.procedure_name,
+                        "notes": surgery.notes,
+                        "reason": surgery.reason,
+                        "urgency": surgery.urgency.value if surgery.urgency else None,
+                    }
+                )
+
+        chief_complaint = consultation.chief_complaint
+        diagnosis = consultation.diagnosis
+        notes = consultation.notes
+
+    final_doctor_info = {
+        "name": draft_doctor_info.get("name") or base_doctor_info.get("name") or "",
+        "qualification": draft_doctor_info.get("qualification") or base_doctor_info.get("qualification"),
+        "specialization": draft_doctor_info.get("specialization") or base_doctor_info.get("specialization"),
+        "chamber_info": draft_doctor_info.get("chamber_info") or base_doctor_info.get("chamber_info"),
+        "phone": doctor_profile.phone if doctor_profile else None,
+        "address": _build_doctor_address(doctor_details) if doctor_details else None,
+        "registration_number": doctor_details.bmdc_number if doctor_details else None,
+        "signature_url": None,
+    }
+
+    final_patient_info = {
+        "name": draft_patient_info.get("name") or base_patient_info.get("name") or "",
+        "age": draft_patient_info.get("age", base_patient_info.get("age")),
+        "gender": draft_patient_info.get("gender") or base_patient_info.get("gender"),
+        "blood_group": draft_patient_info.get("blood_group") or base_patient_info.get("blood_group"),
+        "patient_id": patient_ref_from_uuid(consultation.patient_id),
+    }
+
+    return {
+        "data_source": preview_data_source,
+        "doctor": final_doctor_info,
+        "patient": final_patient_info,
+        "consultation": {
+            "date": consultation.consultation_date,
+            "chief_complaint": chief_complaint,
+            "diagnosis": diagnosis,
+            "notes": notes,
+        },
+        "medications": medications,
+        "tests": tests,
+        "procedures": procedures,
+    }
+
+
+@router.get("/{consultation_id}/full", response_model=PrescriptionFullResponse)
+async def get_full_prescription_by_consultation(
+    consultation_id: str,
+    draft_id: Optional[str] = Query(default=None),
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get full structured consultation payload for prescription preview/print."""
+    return await _get_full_prescription_payload_for_consultation(consultation_id, user.id, db, draft_id=draft_id)
+
+
+@router.get("/prescriptions/{consultation_id}/full", response_model=PrescriptionFullResponse)
+async def get_full_prescription_by_consultation_legacy(
+    consultation_id: str,
+    draft_id: Optional[str] = Query(default=None),
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Backward-compatible full payload endpoint for existing preview clients."""
+    return await _get_full_prescription_payload_for_consultation(consultation_id, user.id, db, draft_id=draft_id)
+
 @router.post("/{consultation_id}/prescription", response_model=PrescriptionResponse)
 async def add_prescription(
     consultation_id: str,
@@ -569,10 +1550,11 @@ async def add_prescription(
     Add a prescription to a consultation.
     Only the consultation doctor can add prescriptions.
     """
-    import traceback
     try:
         result = await db.execute(
-            select(Consultation).where(Consultation.id == consultation_id)
+            select(Consultation)
+            .options(selectinload(Consultation.draft))
+            .where(Consultation.id == consultation_id)
         )
         consultation = result.scalar_one_or_none()
         
@@ -619,6 +1601,12 @@ async def add_prescription(
         # Add medications
         if data.medications:
             for med_data in data.medications:
+                resolved_dosage_type = (
+                    DosageType(med_data.dosage_type.value)
+                    if med_data.dosage_type
+                    else None
+                )
+
                 medication = MedicationPrescription(
                     id=str(uuid.uuid4()),
                     prescription_id=prescription.id,
@@ -635,6 +1623,9 @@ async def add_prescription(
                     dose_evening_amount=med_data.dose_evening_amount,
                     dose_night_amount=med_data.dose_night_amount,
                     frequency_per_day=med_data.frequency_per_day,
+                    dosage_type=resolved_dosage_type,
+                    dosage_pattern=med_data.dosage_pattern,
+                    frequency_text=med_data.frequency_text,
                     duration_value=med_data.duration_value,
                     duration_unit=med_data.duration_unit,
                     meal_instruction=med_data.meal_instruction,
@@ -703,14 +1694,6 @@ async def add_prescription(
         items_text = ", ".join(prescription_items)
         type_label = data.type.value.replace("_", " ").title()
         
-        print(f"\n{'='*60}")
-        print(f"CREATING PRESCRIPTION NOTIFICATION")
-        print(f"  - Patient ID: {consultation.patient_id}")
-        print(f"  - Doctor ID: {user.id}")
-        print(f"  - Prescription ID: {prescription.id}")
-        print(f"  - Items: {items_text}")
-        print(f"{'='*60}\n")
-        
         notification = await create_notification(
             db=db,
             user_id=consultation.patient_id,
@@ -727,13 +1710,29 @@ async def add_prescription(
             },
             priority=NotificationPriority.HIGH,
         )
-        print(f"Notification created with ID: {notification.id}")
-        print(f"Notification user_id: {notification.user_id}")
-        print(f"Notification type: {notification.type}")
+        logger.info(
+            "Created prescription notification (notification_id=%s, prescription_id=%s, patient_id=%s)",
+            notification.id,
+            prescription.id,
+            consultation.patient_id,
+        )
         await create_prescription_issued_action(db, prescription=prescription)
+
+        # Prescription is now finalized; clear in-progress draft snapshot.
+        draft_to_delete = consultation.draft
+        if not draft_to_delete and consultation.draft_id:
+            draft_result = await db.execute(
+                select(ConsultationDraft).where(ConsultationDraft.id == consultation.draft_id)
+            )
+            draft_to_delete = draft_result.scalar_one_or_none()
+
+        consultation.draft = None
+        consultation.draft_id = None
+
+        if draft_to_delete:
+            await db.delete(draft_to_delete)
         
         await db.commit()
-        print(f"Notification committed to database\n")
         
         # Reload with relationships
         result = await db.execute(
@@ -750,10 +1749,9 @@ async def add_prescription(
         return build_prescription_response(prescription, doctor_profile)
     except HTTPException:
         raise
-    except Exception as e:
-        print(f"ERROR in add_prescription: {str(e)}")
-        print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+    except Exception:
+        logger.exception("Failed to add prescription (consultation_id=%s, doctor_id=%s)", consultation_id, user.id)
+        raise HTTPException(status_code=500, detail="Failed to add prescription")
 
 
 @router.get("/{consultation_id}/prescriptions", response_model=PrescriptionListResponse)
@@ -835,14 +1833,7 @@ async def get_patient_prescriptions(
     db: AsyncSession = Depends(get_db),
 ):
     """Get all prescriptions for the current patient."""
-    import traceback
     try:
-        print(f"\n{'='*60}")
-        print(f"GET PATIENT PRESCRIPTIONS")
-        print(f"User ID: {user.id}")
-        print(f"Status Filter: {status_filter}")
-        print(f"{'='*60}\n")
-        
         # Query prescriptions directly - don't require consultation to exist
         query = select(Prescription).options(
             selectinload(Prescription.medications),
@@ -879,15 +1870,17 @@ async def get_patient_prescriptions(
         for prescription in prescriptions:
             doctor_profile = doctor_profiles.get(prescription.doctor_id)
             response_list.append(build_prescription_response(prescription, doctor_profile))
-        
-        print(f"Returning {len(response_list)} prescriptions\n")
+
         return {"prescriptions": response_list, "total": total}
     except HTTPException:
         raise
-    except Exception as e:
-        print(f"ERROR in get_patient_prescriptions: {str(e)}")
-        print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+    except Exception:
+        logger.exception(
+            "Failed to get patient prescriptions (patient_id=%s, status_filter=%s)",
+            user.id,
+            status_filter,
+        )
+        raise HTTPException(status_code=500, detail="Failed to fetch patient prescriptions")
 
 
 @router.get("/patient/prescription/{prescription_id}", response_model=PrescriptionResponse)
