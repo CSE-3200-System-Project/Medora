@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Pill, Sun, Cloud, Moon, Star, X } from "lucide-react";
+import { Plus, Trash2, Pill, Sun, Cloud, Star, X } from "lucide-react";
 import { MedicationPrescriptionInput, MedicineType, MealInstruction, DurationUnit } from "@/lib/prescription-actions";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 
@@ -55,6 +55,11 @@ const DURATION_UNITS: { value: DurationUnit; label: string }[] = [
   { value: "months", label: "Months" },
 ];
 
+const DOSAGE_TYPES = [
+  { value: "pattern", label: "Pattern (e.g., 1-0-1)" },
+  { value: "frequency", label: "Frequency Text (e.g., Twice daily)" },
+] as const;
+
 const emptyMedication: MedicationPrescriptionInput = {
   medicine_name: "",
   generic_name: "",
@@ -68,6 +73,9 @@ const emptyMedication: MedicationPrescriptionInput = {
   dose_afternoon_amount: "1",
   dose_evening_amount: "1",
   dose_night_amount: "1",
+  dosage_type: "pattern",
+  dosage_pattern: "",
+  frequency_text: "",
   duration_value: 7,
   duration_unit: "days",
   meal_instruction: "after_meal",
@@ -214,9 +222,29 @@ export function MedicationForm({ medications, onMedicationsChange }: MedicationF
     onMedicationsChange(updated);
   };
 
-  const updateMedication = (index: number, field: keyof MedicationPrescriptionInput, value: any) => {
+  const updateMedication = (
+    index: number,
+    field: keyof MedicationPrescriptionInput,
+    value: MedicationPrescriptionInput[keyof MedicationPrescriptionInput]
+  ) => {
     const updated = [...medications];
-    updated[index] = { ...updated[index], [field]: value };
+    const nextMedication = { ...updated[index], [field]: value };
+
+    if (field === "dosage_type" && value === "pattern") {
+      nextMedication.frequency_text = "";
+      nextMedication.frequency_per_day = undefined;
+    }
+
+    if (field === "dosage_type" && value === "frequency") {
+      nextMedication.dosage_pattern = "";
+    }
+
+    if (field === "dose_evening") {
+      nextMedication.dose_night = false;
+      nextMedication.dose_night_amount = undefined;
+    }
+
+    updated[index] = nextMedication;
     onMedicationsChange(updated);
   };
 
@@ -326,111 +354,125 @@ export function MedicationForm({ medications, onMedicationsChange }: MedicationF
               </div>
             </div>
 
-            {/* Dosage Schedule */}
             <div className="space-y-2">
-              <Label>Dosage Schedule</Label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {/* Morning */}
-                <div
-                  onClick={() => updateMedication(index, "dose_morning", !med.dose_morning)}
-                  className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                    med.dose_morning
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                >
-                  <Sun className={`w-6 h-6 mb-1 ${med.dose_morning ? "text-primary" : "text-muted-foreground"}`} />
-                  <span className="text-sm font-medium">Morning</span>
-                  {med.dose_morning && (
-                    <Input
-                      value={med.dose_morning_amount || "1"}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        updateMedication(index, "dose_morning_amount", e.target.value);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      placeholder="1"
-                      className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
-                    />
-                  )}
-                </div>
+              <Label>Dosage Format</Label>
+              <select
+                value={med.dosage_type || "pattern"}
+                onChange={(e) => updateMedication(index, "dosage_type", e.target.value)}
+                className="w-full h-9 rounded-lg border border-input bg-background px-3 text-sm"
+              >
+                {DOSAGE_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                {/* Afternoon */}
-                <div
-                  onClick={() => updateMedication(index, "dose_afternoon", !med.dose_afternoon)}
-                  className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                    med.dose_afternoon
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                >
-                  <Cloud className={`w-6 h-6 mb-1 ${med.dose_afternoon ? "text-primary" : "text-muted-foreground"}`} />
-                  <span className="text-sm font-medium">Afternoon</span>
-                  {med.dose_afternoon && (
-                    <Input
-                      value={med.dose_afternoon_amount || "1"}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        updateMedication(index, "dose_afternoon_amount", e.target.value);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      placeholder="1"
-                      className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
-                    />
-                  )}
-                </div>
+            {(med.dosage_type || "pattern") === "pattern" ? (
+              <div className="space-y-2">
+                <Label>Dosage Schedule (Morning / Noon / Night)</Label>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  {/* Morning */}
+                  <div
+                    onClick={() => updateMedication(index, "dose_morning", !med.dose_morning)}
+                    className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                      med.dose_morning
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <Sun className={`w-6 h-6 mb-1 ${med.dose_morning ? "text-primary" : "text-muted-foreground"}`} />
+                    <span className="text-sm font-medium">Morning</span>
+                    {med.dose_morning && (
+                      <Input
+                        value={med.dose_morning_amount || "1"}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          updateMedication(index, "dose_morning_amount", e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        placeholder="1"
+                        className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
+                      />
+                    )}
+                  </div>
 
-                {/* Evening */}
-                <div
-                  onClick={() => updateMedication(index, "dose_evening", !med.dose_evening)}
-                  className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                    med.dose_evening
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                >
-                  <Moon className={`w-6 h-6 mb-1 ${med.dose_evening ? "text-primary" : "text-muted-foreground"}`} />
-                  <span className="text-sm font-medium">Evening</span>
-                  {med.dose_evening && (
-                    <Input
-                      value={med.dose_evening_amount || "1"}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        updateMedication(index, "dose_evening_amount", e.target.value);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      placeholder="1"
-                      className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
-                    />
-                  )}
-                </div>
+                  {/* Noon */}
+                  <div
+                    onClick={() => updateMedication(index, "dose_afternoon", !med.dose_afternoon)}
+                    className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                      med.dose_afternoon
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <Cloud className={`w-6 h-6 mb-1 ${med.dose_afternoon ? "text-primary" : "text-muted-foreground"}`} />
+                    <span className="text-sm font-medium">Noon</span>
+                    {med.dose_afternoon && (
+                      <Input
+                        value={med.dose_afternoon_amount || "1"}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          updateMedication(index, "dose_afternoon_amount", e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        placeholder="1"
+                        className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
+                      />
+                    )}
+                  </div>
 
-                {/* Night */}
-                <div
-                  onClick={() => updateMedication(index, "dose_night", !med.dose_night)}
-                  className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                    med.dose_night
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                >
-                  <Star className={`w-6 h-6 mb-1 ${med.dose_night ? "text-primary" : "text-muted-foreground"}`} />
-                  <span className="text-sm font-medium">Night</span>
-                  {med.dose_night && (
-                    <Input
-                      value={med.dose_night_amount || "1"}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        updateMedication(index, "dose_night_amount", e.target.value);
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                      placeholder="1"
-                      className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
-                    />
-                  )}
+                  {/* Night */}
+                  <div
+                    onClick={() => updateMedication(index, "dose_evening", !med.dose_evening)}
+                    className={`flex flex-col items-center p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                      med.dose_evening
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <Star className={`w-6 h-6 mb-1 ${med.dose_evening ? "text-primary" : "text-muted-foreground"}`} />
+                    <span className="text-sm font-medium">Night</span>
+                    {med.dose_evening && (
+                      <Input
+                        value={med.dose_evening_amount || "1"}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          updateMedication(index, "dose_evening_amount", e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        placeholder="1"
+                        className="w-16 h-7 text-center mt-2 text-xs rounded-lg"
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Frequency Text</Label>
+                  <Input
+                    value={med.frequency_text || ""}
+                    onChange={(e) => updateMedication(index, "frequency_text", e.target.value)}
+                    placeholder="e.g., Once daily after meal"
+                    className="rounded-lg"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Times per Day (Optional)</Label>
+                  <Input
+                    type="number"
+                    min="1"
+                    value={med.frequency_per_day || ""}
+                    onChange={(e) => updateMedication(index, "frequency_per_day", parseInt(e.target.value) || undefined)}
+                    placeholder="e.g., 2"
+                    className="rounded-lg"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Duration & Instructions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
