@@ -32,6 +32,7 @@ import {
   completeConsultation,
   addPrescription,
   getDoctorActiveConsultations,
+  getFullPrescriptionByConsultation,
   Consultation,
   ConsultationDraftPayload,
   ConsultationDraftUpdateInput,
@@ -40,6 +41,7 @@ import {
   SurgeryRecommendationInput,
   PrescriptionType,
 } from "@/lib/prescription-actions";
+import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document";
 import { extractPrescriptionFromImage } from "@/lib/file-storage-actions";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 import {
@@ -658,11 +660,21 @@ export default function ConsultationPage() {
       setSubmitting(true);
       setError(null);
 
-      await persistDraft({ silent: true, suppressError: false });
+      const updatedDraft = await persistDraft({ silent: true, suppressError: false });
+      const activeDraftId = normalizeConsultationId(updatedDraft?.draft_id) ?? normalizeConsultationId(consultationDraftId);
+      const previewPayload = await getFullPrescriptionByConsultation(consultation.id, activeDraftId || undefined);
+      const snapshotGeneratedAt = new Date().toISOString();
+      const renderedPrescriptionHtml = buildClinicalPrescriptionDocumentHtml(previewPayload, {
+        consultationId: consultation.id,
+        generatedAtIso: snapshotGeneratedAt,
+      });
 
       await addPrescription(consultation.id, {
         type: prescriptionType,
         notes: prescriptionNotes,
+        rendered_prescription_html: renderedPrescriptionHtml,
+        rendered_prescription_snapshot: previewPayload,
+        rendered_prescription_generated_at: snapshotGeneratedAt,
         medications: normalizedMedications,
         tests: hasTests ? tests : undefined,
         surgeries: hasSurgeries ? surgeries : undefined,
