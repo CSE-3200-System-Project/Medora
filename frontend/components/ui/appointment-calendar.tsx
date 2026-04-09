@@ -77,7 +77,16 @@ export function AppointmentCalendar({
     const dateStr = getDateString(day);
     return appointments.filter((appointment) => {
       const a = appointment;
-      const apptDate = localDateKey(a.appointment_date || a.date || a.appointmentDate || a.appointment_date_local || a.date_local);
+      const rawDate =
+        a.appointment_date ||
+        a.date ||
+        a.appointmentDate ||
+        a.appointment_date_local ||
+        a.date_local;
+      if (!rawDate) {
+        return false;
+      }
+      const apptDate = localDateKey(rawDate);
       return apptDate === dateStr;
     });
   };
@@ -98,7 +107,7 @@ export function AppointmentCalendar({
     return date < today;
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status?: string) => {
     switch (status?.toUpperCase()) {
       case 'CONFIRMED':
         return 'bg-blue-500';
