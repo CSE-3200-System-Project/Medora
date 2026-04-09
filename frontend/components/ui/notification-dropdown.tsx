@@ -23,6 +23,7 @@ import {
   type NotificationType,
 } from "@/lib/notification-actions";
 import { toast } from "@/lib/notify";
+import { tError, useT } from "@/i18n/client";
 
 interface NotificationDropdownProps {
   className?: string;
@@ -95,37 +96,62 @@ const notificationColors: Record<NotificationType, string> = {
   prescription_rejected: "text-destructive bg-destructive/10",
 };
 
-function formatTimeAgo(dateString: string): string {
+function formatTimeAgo(
+  dateString: string,
+  tNotifications: (key: string, values?: Record<string, string | number | Date>) => string
+): string {
   const date = new Date(dateString);
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  if (diffInSeconds < 60) return "Just now";
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  if (diffInSeconds < 60) return tNotifications("time.justNow");
+  if (diffInSeconds < 3600) return tNotifications("time.minutesAgo", { count: Math.floor(diffInSeconds / 60) });
+  if (diffInSeconds < 86400) return tNotifications("time.hoursAgo", { count: Math.floor(diffInSeconds / 3600) });
+  if (diffInSeconds < 604800) return tNotifications("time.daysAgo", { count: Math.floor(diffInSeconds / 86400) });
   
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export function NotificationDropdown({ className }: NotificationDropdownProps) {
+  const tNotifications = useT("notifications");
+  const tErrors = useT("errors");
   const router = useRouter();
   const [notifications, setNotifications] = React.useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // Fetch full notifications when dropdown opens
-  React.useEffect(() => {
-    if (isOpen) {
-      fetchNotifications();
-    }
-  }, [isOpen]);
-
   const fetchUnreadCount = React.useCallback(async () => {
     const count = await getUnreadCount();
     setUnreadCount(count);
   }, []);
+
+  const fetchNotifications = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getNotifications(10, 0, false);
+      setNotifications(data.notifications);
+      setUnreadCount(data.unread_count);
+    } catch (error) {
+      console.error("Failed to fetch notifications:", error);
+      toast.error(
+        tError(tErrors, {
+          code: "NOTIFICATIONS_LOAD_FAILED",
+          detail: tNotifications("failedToLoad"),
+          fallbackKey: "notifications.loadFailed",
+        })
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [tErrors, tNotifications]);
+
+  // Fetch full notifications when dropdown opens
+  React.useEffect(() => {
+    if (isOpen) {
+      void fetchNotifications();
+    }
+  }, [fetchNotifications, isOpen]);
 
   // Visibility-aware polling with adaptive cadence.
   React.useEffect(() => {
@@ -163,20 +189,6 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [fetchUnreadCount, isOpen]);
-
-  const fetchNotifications = async () => {
-    setLoading(true);
-    try {
-      const data = await getNotifications(10, 0, false);
-      setNotifications(data.notifications);
-      setUnreadCount(data.unread_count);
-    } catch (error) {
-      console.error("Failed to fetch notifications:", error);
-      toast.error("Failed to load notifications");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleNotificationClick = async (notification: Notification) => {
     // Immediately update UI - reduce count before API call for responsive feel
@@ -225,7 +237,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
           variant="ghost"
           size="icon"
           className={cn("relative", className)}
-          aria-label="Notifications"
+          aria-label={tNotifications("ariaLabel")}
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -243,7 +255,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b">
           <DropdownMenuLabel className="p-0 text-base font-semibold">
-            Notifications
+            {tNotifications("title")}
           </DropdownMenuLabel>
           {unreadCount > 0 && (
             <Button
@@ -252,7 +264,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
               className="h-auto py-1 px-2 text-xs text-primary hover:text-primary"
               onClick={handleMarkAllRead}
             >
-              Mark all read
+              {tNotifications("markAllRead")}
             </Button>
           )}
         </div>
@@ -266,7 +278,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
           ) : notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
               <Bell className="h-10 w-10 mb-2 opacity-50" />
-              <p className="text-sm">No notifications yet</p>
+              <p className="text-sm">{tNotifications("empty")}</p>
             </div>
           ) : (
             <div className="py-1">
@@ -300,7 +312,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
                         {notification.message}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        {formatTimeAgo(notification.created_at)}
+                        {formatTimeAgo(notification.created_at, tNotifications)}
                       </p>
                     </div>
 
@@ -335,7 +347,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
                 className="w-full text-sm text-primary hover:text-primary hover:bg-primary/10"
                 onClick={handleViewAll}
               >
-                View all notifications
+                {tNotifications("viewAll")}
               </Button>
             </div>
           </>

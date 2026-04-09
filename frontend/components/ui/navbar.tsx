@@ -30,6 +30,7 @@ import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { useT } from "@/i18n/client";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
@@ -77,6 +78,7 @@ function inferRoleFromPath(pathname: string) {
 }
 
 export function Navbar() {
+  const tNav = useT("nav");
   const pathname = usePathname();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -261,31 +263,31 @@ export function Navbar() {
           {effectiveRole === "doctor" ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/appointments") && "text-primary font-semibold")}>
-                Appointments
+                {tNav("doctorMenu.appointments")}
               </Link>
               <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/patients") && "text-primary font-semibold")}>
-                Patients
+                {tNav("doctorMenu.patients")}
               </Link>
               <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/analytics") && "text-primary font-semibold")}>
-                Analytics
+                {tNav("doctorMenu.analytics")}
               </Link>
             </nav>
           ) : effectiveRole === "patient" ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/patient/find-doctor" className={cn("transition-colors hover:text-primary py-2", isActivePath("/patient/find-doctor") && "text-primary font-semibold")}>
-                Find Doctor
+                {tNav("patientMenu.findDoctor")}
               </Link>
               <Link href="/patient/analytics" className={cn("transition-colors hover:text-primary py-2", isActivePath("/patient/analytics") && "text-primary font-semibold")}>
-                Analytics
+                {tNav("patientMenu.analytics")}
               </Link>
               <Link href="/patient/appointments" className={cn("transition-colors hover:text-primary py-2", isActivePath("/patient/appointments") && "text-primary font-semibold")}>
-                Appointments
+                {tNav("patientMenu.appointments")}
               </Link>
               <Link href="/patient/find-medicine" className={cn("transition-colors hover:text-primary py-2", isActivePath("/patient/find-medicine") && "text-primary font-semibold")}>
-                Find Medicine
+                {tNav("patientMenu.findMedicine")}
               </Link>
               <Link href="/patient/medical-history" className={cn("transition-colors hover:text-primary py-2", isActivePath("/patient/medical-history") && "text-primary font-semibold")}>
-                Medical History
+                {tNav("patientMenu.medicalHistory")}
               </Link>
               
             </nav>
@@ -301,10 +303,10 @@ export function Navbar() {
           ) : !user ? (
             <>
               <Button variant="ghost" asChild className="text-foreground/80 hover:bg-accent hover:text-foreground">
-                <Link href="/login">Log in</Link>
+                <Link href="/login">{tNav("logIn")}</Link>
               </Button>
               <Button asChild className="rounded-xl px-6 shadow-sm">
-                <Link href="/selection">Sign up</Link>
+                <Link href="/selection">{tNav("signUp")}</Link>
               </Button>
             </>
           ) : (
@@ -336,20 +338,20 @@ export function Navbar() {
                   <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
                     <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'}>
                       <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
+                      <span>{tNav("profile")}</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
                     <Link href="/settings">
                       <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
+                      <span>{tNav("settings")}</span>
                     </Link>
                   </DropdownMenuItem>
                   {user.role?.toLowerCase() === 'patient' && (
                     <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
                       <Link href="/patient/privacy">
                         <Shield className="mr-2 h-4 w-4" />
-                        <span>Privacy & Data Sharing</span>
+                        <span>{tNav("patientMenu.privacyDataSharing")}</span>
                       </Link>
                     </DropdownMenuItem>
                   )}
@@ -364,7 +366,7 @@ export function Navbar() {
                     ) : (
                       <LogOut className="mr-2 h-4 w-4" />
                     )}
-                    <span>{loggingOut ? 'Logging out...' : 'Log out'}</span>
+                    <span>{loggingOut ? tNav("loggingOut") : tNav("logOut")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -381,7 +383,7 @@ export function Navbar() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-muted-foreground touch-target rounded-xl hover:bg-accent/80">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">{tNav("toggleMenu")}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[min(88vw,22rem)] border-l border-border/70 px-0">
@@ -415,10 +417,10 @@ export function Navbar() {
                   <>
                     <div className="mt-auto flex flex-col gap-3 pt-6">
                       <Button variant="outline" asChild className="w-full justify-center h-12 text-base border-primary/20 hover:bg-primary-more-light hover:text-primary">
-                        <Link href="/login">Log in</Link>
+                        <Link href="/login">{tNav("logIn")}</Link>
                       </Button>
                       <Button asChild className="w-full justify-center h-12 text-base bg-primary hover:bg-primary-muted shadow-lg shadow-primary/20">
-                        <Link href="/selection">Sign up</Link>
+                        <Link href="/selection">{tNav("signUp")}</Link>
                       </Button>
                     </div>
                   </>
@@ -428,37 +430,37 @@ export function Navbar() {
                       {user?.role?.toLowerCase() === 'doctor' ? (
                         <>
                           <Link href="/doctor/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                            <Calendar className="h-5 w-5 text-primary" /> {tNav("doctorMenu.appointments")}
                           </Link>
                           <Link href="/doctor/patients" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Users className="h-5 w-5 text-primary" /> Patients
+                            <Users className="h-5 w-5 text-primary" /> {tNav("doctorMenu.patients")}
                           </Link>
                           <Link href="/doctor/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Analytics
+                            <Activity className="h-5 w-5 text-primary" /> {tNav("doctorMenu.analytics")}
                           </Link>
                         </>
                       ) : user?.role?.toLowerCase() === 'patient' ? (
                         <>
                           <Link href="/patient/find-doctor" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Users className="h-5 w-5 text-primary" /> Find Doctor
+                            <Users className="h-5 w-5 text-primary" /> {tNav("patientMenu.findDoctor")}
                           </Link>
                           <Link href="/patient/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Analytics
+                            <Activity className="h-5 w-5 text-primary" /> {tNav("patientMenu.analytics")}
                           </Link>
                           <Link href="/patient/appointments" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Calendar className="h-5 w-5 text-primary" /> Appointments
+                            <Calendar className="h-5 w-5 text-primary" /> {tNav("patientMenu.appointments")}
                           </Link>
                           <Link href="/patient/find-medicine" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Activity className="h-5 w-5 text-primary" /> Find Medicine
+                            <Activity className="h-5 w-5 text-primary" /> {tNav("patientMenu.findMedicine")}
                           </Link>
                           <Link href="/patient/medical-history" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <FileText className="h-5 w-5 text-primary" /> Medical History
+                            <FileText className="h-5 w-5 text-primary" /> {tNav("patientMenu.medicalHistory")}
                           </Link>
                           <Link href="/patient/medical-reports" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <FlaskConical className="h-5 w-5 text-primary" /> Lab Reports
+                            <FlaskConical className="h-5 w-5 text-primary" /> {tNav("patientMenu.labReports")}
                           </Link>
                           <Link href="/patient/privacy" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
-                            <Shield className="h-5 w-5 text-primary" /> Privacy & Data Sharing
+                            <Shield className="h-5 w-5 text-primary" /> {tNav("patientMenu.privacyDataSharing")}
                           </Link>
 
                         </>
@@ -477,10 +479,10 @@ export function Navbar() {
                       </div>
                       <div className="flex flex-col gap-2">
                         <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
-                          <User className="h-4 w-4" /> My Profile
+                          <User className="h-4 w-4" /> {tNav("profile")}
                         </Link>
                         <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
-                          <Settings className="h-4 w-4" /> Settings
+                          <Settings className="h-4 w-4" /> {tNav("settings")}
                         </Link>
                         <Button 
                           variant="ghost" 
@@ -493,7 +495,7 @@ export function Navbar() {
                           ) : (
                             <LogOut className="mr-2 h-4 w-4" />
                           )}
-                          {loggingOut ? 'Logging out...' : 'Log out'}
+                          {loggingOut ? tNav("loggingOut") : tNav("logOut")}
                         </Button>
                       </div>
                     </div>

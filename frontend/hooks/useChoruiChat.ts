@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { fetchWithAuth } from "@/lib/auth-utils";
+import { useAppI18n, useT } from "@/i18n/client";
 import {
   CHORUI_DISCLAIMER,
   type ChoruiConversationDeleteResponse,
@@ -23,16 +24,6 @@ import {
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 const AI_DEBOUNCE_MS = 380;
-
-const FALLBACK_AI_REPLY =
-  "I could not reach Medora AI right now. Please try again and I will continue from your context.";
-
-const MODE_WELCOME_MESSAGE: Record<ChoruiRoleContext, string> = {
-  patient:
-    "Hello. I am Chorui, Medora's AI assistant. I can help you understand your health records and prepare useful details for your doctor.",
-  doctor:
-    "Hello Doctor. I am Chorui, your workflow assistant. Ask general workflow questions anytime, and include a patient ID when you want record-linked intelligence.",
-};
 
 const CHORUI_NAVIGATION_ACTION_TYPES = new Set<ChoruiNavigationActionType>([
   "navigate",
@@ -263,6 +254,16 @@ function createMessage(role: "ai" | "user", content: string, failed = false): Ch
   };
 }
 
+function createWelcomeMessage(content: string): ChoruiMessage {
+  return {
+    id: "ai-welcome",
+    role: "ai",
+    content,
+    timestamp: "",
+    failed: false,
+  };
+}
+
 async function parseError(response: Response): Promise<string> {
   try {
     const text = await response.text();
@@ -289,8 +290,15 @@ type UseChoruiChatOptions = {
 };
 
 export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOptions) {
+  const { locale } = useAppI18n();
+  const tChorui = useT("chorui");
+  const welcomeMessage = React.useMemo(
+    () => (roleContext === "doctor" ? tChorui("welcomeDoctor") : tChorui("welcomePatient")),
+    [roleContext, tChorui]
+  );
+
   const [messages, setMessages] = React.useState<ChoruiMessage[]>([
-    createMessage("ai", MODE_WELCOME_MESSAGE[roleContext]),
+    createWelcomeMessage(welcomeMessage),
   ]);
   const [input, setInput] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -324,9 +332,9 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     setConversationId("");
     setContextMode(roleContext === "doctor" ? "doctor-general" : "patient-self");
     setStructuredData(DEFAULT_CHORUI_STRUCTURED_DATA);
-    setMessages([createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
+    setMessages([createWelcomeMessage(welcomeMessage)]);
     clearNavigationState();
-  }, [clearNavigationState, roleContext]);
+  }, [clearNavigationState, roleContext, welcomeMessage]);
 
   const fetchConversationList = React.useCallback(async () => {
     const token = getCookieValue("session_token");
@@ -450,14 +458,14 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
 
         setConversationId(data.conversation_id || normalizedId);
         setContextMode(data.context_mode ?? (roleContext === "doctor" ? "doctor-general" : "patient-self"));
-        setMessages(loadedMessages.length > 0 ? loadedMessages : [createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
+        setMessages(loadedMessages.length > 0 ? loadedMessages : [createWelcomeMessage(welcomeMessage)]);
         clearNavigationState();
       } catch (loadError) {
-        const message = loadError instanceof Error ? loadError.message : "Failed to load conversation";
+        const message = loadError instanceof Error ? loadError.message : tChorui("loadConversationFailed");
         setError(message);
       }
     },
-    [clearNavigationState, loading, roleContext]
+    [clearNavigationState, loading, roleContext, tChorui, welcomeMessage]
   );
 
   const startNewConversation = React.useCallback(() => {
@@ -503,13 +511,13 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
           }
         }
       } catch (deleteError) {
-        const message = deleteError instanceof Error ? deleteError.message : "Failed to delete conversation";
+        const message = deleteError instanceof Error ? deleteError.message : tChorui("deleteConversationFailed");
         setError(message);
       } finally {
         setDeletingConversationId("");
       }
     },
-    [conversationId, deletingConversationId, loading, resetToWelcome]
+    [conversationId, deletingConversationId, loading, resetToWelcome, tChorui]
   );
 
   const submitMessage = React.useCallback(async () => {
@@ -519,7 +527,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     }
 
     if (roleContext === "patient" && !patientId) {
-      setError("Patient session is still loading. Please try again in a moment.");
+      setError(tChorui("patientSessionLoading"));
       return;
     }
 
@@ -556,6 +564,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
           patient_id: patientId || undefined,
           history: historySnapshot,
           role_context: roleContext,
+          ui_locale: locale,
         }),
       });
 
@@ -568,7 +577,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       const aiReply =
         typeof data.reply === "string" && data.reply.trim().length > 0
           ? data.reply.trim()
-          : "Thank you. I have updated the intake summary. Please continue with any additional details.";
+          : tChorui("fallbackReply");
 
       setMessages((prev) => [...prev, createMessage("ai", aiReply)]);
       if (typeof data.conversation_id === "string" && data.conversation_id.trim().length > 0) {
@@ -582,9 +591,9 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       setNavigationMeta(normalizeNavigationMeta(data.navigation_meta));
       void fetchConversationList();
     } catch (requestError) {
-      const message = requestError instanceof Error ? requestError.message : "Unable to process intake message";
+      const message = requestError instanceof Error ? requestError.message : tChorui("unableToProcess");
       setError(message);
-      setMessages((prev) => [...prev, createMessage("ai", FALLBACK_AI_REPLY, true)]);
+      setMessages((prev) => [...prev, createMessage("ai", tChorui("fallbackReply"), true)]);
       clearNavigationState();
     } finally {
       setLoading(false);
@@ -599,6 +608,8 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     messages,
     patientId,
     roleContext,
+    locale,
+    tChorui,
   ]);
 
   const retryLastMessage = React.useCallback(async () => {
@@ -619,12 +630,12 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
 
   const confirmAndSave = React.useCallback(async () => {
     if (roleContext === "doctor") {
-      setSaveState("Doctor mode does not store intake snapshots from this panel.");
+      setSaveState(tChorui("doctorSaveDisabled"));
       return;
     }
 
     if (!patientId) {
-      setSaveState("Unable to save yet. Patient session is not ready.");
+      setSaveState(tChorui("patientNotReady"));
       return;
     }
 
@@ -655,14 +666,14 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
         throw new Error(message);
       }
 
-      setSaveState("Clinical intake saved successfully.");
+      setSaveState(tChorui("saveSuccess"));
     } catch (saveError) {
-      const message = saveError instanceof Error ? saveError.message : "Failed to save intake data";
+      const message = saveError instanceof Error ? saveError.message : tChorui("saveFailed");
       setSaveState(message);
     } finally {
       setSaving(false);
     }
-  }, [patientId, roleContext, structuredData]);
+  }, [patientId, roleContext, structuredData, tChorui]);
 
   return {
     messages,

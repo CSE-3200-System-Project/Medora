@@ -22,6 +22,7 @@ export interface ChoruiIntakeRequest {
   patient_id?: string;
   history: ChoruiMessage[];
   role_context?: ChoruiRoleContext;
+  ui_locale?: "en" | "bn";
 }
 
 export type ChoruiNavigationActionType = "navigate" | "clarify" | "suggest" | "undo" | "none";
