@@ -1,3 +1,108 @@
+# Chorui Namespace Loading Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Identify why Chorui UI rendered i18n keys instead of translated strings
+- [x] Ensure route-specific namespaces auto-load in App i18n provider
+- [x] Preload chorui namespace in core server-loaded namespaces to avoid first-paint key fallback
+- [x] Run focused diagnostics and lint on i18n and Chorui files
+
+### Review
+- Root cause: `AppI18nProvider` never auto-called `ensureNamespaces(getNamespacesForPath(pathname))`, so route-only namespaces (like `chorui`) stayed unloaded and `useT("chorui")` returned fallback keys (e.g., `chorui.titlePatient`).
+- Added route namespace auto-loading effect in `frontend/components/providers/app-i18n-provider.tsx`.
+- Added `chorui` to `CORE_I18N_NAMESPACES` in `frontend/i18n/config.ts` so Chorui pages have translated strings on first render.
+- Validation: diagnostics clean for provider/config/layout; focused lint passed for provider/config/layout and Chorui hook/component files.
+
+# Chorui Hydration Timestamp Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce hydration mismatch source in Chorui chat timestamp render
+- [x] Remove non-deterministic SSR timestamp generation for initial welcome message
+- [x] Run focused diagnostics and lint for chat hook/component
+
+### Review
+- Root cause: `frontend/hooks/useChoruiChat.ts` initialized the first AI welcome message via `createMessage(...)`, which used `Date.now()`/`new Date()` during SSR and again during client hydration, producing different rendered minute text in `frontend/components/ai/ChoruiChat.tsx`.
+- Fix: added deterministic `createWelcomeMessage(...)` with stable ID and empty timestamp for the initial/reset fallback welcome message state; runtime user/AI messages still use real timestamps.
+- This removes server-client text drift at hydration while preserving message-time behavior for interactive chat events.
+- Validation: focused diagnostics reported no errors for `useChoruiChat.ts` and `ChoruiChat.tsx`; focused ESLint run completed without reported issues.
+
+# Medicine Add Dialog Translation Follow-up (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit add-medication dialog for remaining hardcoded text
+- [x] Localize all dialog step labels, placeholders, statuses, meal instructions, and action buttons
+- [x] Add EN/BN translation keys for medicine add-dialog flow in common messages
+- [x] Run focused diagnostics and lint checks for updated files
+
+### Review
+- Root cause: `frontend/components/medicine/add-medication-dialog.tsx` still had hardcoded English copy, so locale switching remained incomplete in the medicine flow.
+- Updated dialog to use `useT("common")` for all user-facing text across all 3 steps, including validation alert copy, search states, schedule labels, and CTA labels.
+- Added `medicine.addDialog` key groups to both `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` for full parity with existing medicine page translations.
+- Validation: focused diagnostics returned no errors for changed files; focused ESLint run on `components/medicine/add-medication-dialog.tsx` completed without reported issues.
+
+# Patient Find Medicine Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient find-medicine page and shared route components for hardcoded copy
+- [x] Add EN/BN medicine translation keys in common messages
+- [x] Localize patient page copy, search/filter panel, upload demo, and medicine detail drawer
+- [x] Align doctor find-medicine page with shared translated medicine keys
+- [x] Run focused lint and diagnostics on changed medicine files
+
+### Review
+- Root cause: patient find-medicine route still rendered hardcoded English text in page sections and shared components (`medicine-search`, `prescription-upload-demo`, `medicine-detail-drawer`, `medicine-card`).
+- Added a new `medicine` key group to `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page titles, warnings, search/filter text, upload-demo copy, drawer labels, and fallback error strings.
+- Updated patient and doctor route components to consume translation keys from `useT("common")` while preserving all existing behavior.
+- Updated upload extraction output builder to use localized labels for fallback medicine names and extracted field lines.
+- Validation: focused diagnostics reported no errors; focused lint passed for all changed medicine page/component files.
+
+# Patient Appointments Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient appointments page, charts, calendar, list, and dialogs for hardcoded strings
+- [x] Add EN/BN `patientAppointments` translation keys for page copy, statuses, charts, calendar, and dialogs
+- [x] Localize appointments page-level texts, range controls, loading states, and feedback messages
+- [x] Localize appointments child components (summary, heatmap, trend, specialty chart, calendar, upcoming list)
+- [x] Localize cancel, reschedule, and reschedule-response dialogs with locale-aware date/time formatting
+- [x] Run focused frontend lint and diagnostics on changed appointments files
+
+### Review
+- Root cause: the patient appointments flow still contained many hardcoded English strings across page UI, child components, and modal dialogs, so locale switching did not fully apply.
+- Added and wired `patientAppointments` keys in `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page labels, feedback copy, chart legends/tooltips, status labels, and all dialog content.
+- Updated `frontend/components/appointments/PatientAppointmentsPage.tsx` to use i18n for headings, range labels, loading text, action feedback copy, and summary fallbacks.
+- Updated appointments components (`PatientAppointmentSummary`, `AppointmentHeatmap`, `MonthlyAppointmentTrend`, `SpecialtyDistributionChart`, `AppointmentCalendar`, `UpcomingAppointmentsList`, `components/ui/appointment-calendar.tsx`) to use translated strings and locale-aware formatting.
+- Updated dialog components (`cancel-appointment-dialog.tsx`, `reschedule-appointment-dialog.tsx`, `reschedule-response-dialog.tsx`) to remove hardcoded text and respect active locale for visible date/time labels.
+- Validation: focused diagnostics for modified files reported no errors; focused lint passed for all touched appointments page/component/dialog files.
+
+# Patient Home Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient home route and dashboard components for hardcoded strings
+- [x] Add EN/BN i18n keys for patient home content and patient/doctor navbar labels
+- [x] Update patient dashboard to resolve locale and render translated labels with safe fallbacks
+- [x] Pass translated copy into dashboard cards and localize date/time plus weekday labels
+- [x] Replace hardcoded patient and doctor navbar menu labels with nav i18n keys
+- [x] Run focused frontend lint and diagnostics on changed files
+
+### Review
+- Root cause: patient home dashboard and key navbar labels were hardcoded in English and were not wired to i18n message keys, so locale switching had no effect.
+- Added patient-home translations in common namespace (`frontend/i18n/messages/en/common.json`, `frontend/i18n/messages/bn/common.json`) and role-menu labels in nav namespace (`frontend/i18n/messages/en/nav.json`, `frontend/i18n/messages/bn/nav.json`).
+- Updated `frontend/components/dashboard/patient-home-dashboard.tsx` to load locale messages server-side and pass translated strings into dashboard cards.
+- Localized date and time formatting to active locale (`en-US` and `bn-BD`), translated known weekday and status labels, and preserved fallback values for missing data.
+- Updated `frontend/components/ui/navbar.tsx` to use i18n labels for doctor and patient menus across desktop and mobile navigation.
+- Validation: `npm run lint -- components/dashboard/patient-home-dashboard.tsx components/dashboard/health-score-card.tsx components/dashboard/medication-trend-chart.tsx components/dashboard/appointment-card.tsx components/dashboard/device-connection-card.tsx components/ui/navbar.tsx` passed; diagnostics reported no errors in changed files.
+
 # AI Navigation Phase 10 - Doctor Role Navigation Parity (2026-04-09)
 
 ## Status: completed
