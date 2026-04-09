@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -18,11 +18,49 @@ class ChoruiAssistantRequest(BaseModel):
     prompt_version: str = "v1"
 
 
+class ChoruiNavigationActionOption(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    canonical_intent: str = Field(..., min_length=1, max_length=80)
+    route: str = Field(..., min_length=1, max_length=240)
+
+
+class ChoruiSuggestedRoute(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    route: str = Field(..., min_length=1, max_length=240)
+    canonical_intent: str = Field(..., min_length=1, max_length=80)
+
+
+class ChoruiNavigationAction(BaseModel):
+    type: Literal["navigate", "clarify", "suggest", "undo", "none"] = "none"
+    route: str | None = Field(default=None, max_length=240)
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    requires_confirmation: bool = False
+    missing_params: list[str] = Field(default_factory=list)
+    options: list[ChoruiNavigationActionOption] = Field(default_factory=list)
+    reason: str | None = Field(default=None, max_length=240)
+    delay_ms: int | None = Field(default=None, ge=0, le=5000)
+
+
+class ChoruiNavigationMemory(BaseModel):
+    pending_intent: str | None = Field(default=None, max_length=80)
+    missing_params: list[str] = Field(default_factory=list)
+    last_resolved_intent: str | None = Field(default=None, max_length=80)
+
+
+class ChoruiNavigationMeta(BaseModel):
+    previous_route: str | None = Field(default=None, max_length=240)
+    last_navigation_route: str | None = Field(default=None, max_length=240)
+
+
 class ChoruiAssistantResponse(BaseModel):
     reply: str
     conversation_id: str
     structured_data: dict[str, Any] = Field(default_factory=dict)
     context_mode: str = "general"
+    action: ChoruiNavigationAction | None = None
+    suggested_routes: list[ChoruiSuggestedRoute] = Field(default_factory=list)
+    memory: ChoruiNavigationMemory | None = None
+    navigation_meta: ChoruiNavigationMeta | None = None
 
 
 class ChoruiConversationSummary(BaseModel):
