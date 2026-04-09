@@ -15,6 +15,7 @@ class ChoruiAssistantRequest(BaseModel):
     patient_id: str | None = None
     history: list[ChoruiHistoryMessage] = Field(default_factory=list)
     role_context: str | None = Field(default=None, max_length=32)
+    ui_locale: Literal["en", "bn"] | None = Field(default=None)
     prompt_version: str = "v1"
 
 

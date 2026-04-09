@@ -23,6 +23,7 @@ import {
   Plus,
 } from "lucide-react";
 import { getDosageFormIcon, getMedicineTypeStyle } from "./medicine-card";
+import { useT } from "@/i18n/client";
 
 // Types
 interface BrandInfo {
@@ -59,6 +60,7 @@ export function MedicineDetailDrawer({
   onOpenChange,
   onAddToMedications,
 }: MedicineDetailDrawerProps) {
+  const tCommon = useT("common");
   if (!medicine) return null;
 
   return (
@@ -86,25 +88,25 @@ export function MedicineDetailDrawer({
           <section className="space-y-3">
             <h3 className="font-semibold text-sm text-foreground flex items-center gap-2">
               <Pill className="h-4 w-4 text-primary" />
-              Medicine Identity
+              {tCommon("medicine.detailDrawer.medicineIdentity")}
             </h3>
             <div className="bg-surface rounded-xl p-4 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Generic Name</span>
+                <span className="text-sm text-muted-foreground">{tCommon("medicine.detailDrawer.genericName")}</span>
                 <span className="text-sm font-medium text-foreground text-right max-w-[60%]">
                   {medicine.generic_name}
                 </span>
               </div>
               <Separator />
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Strength</span>
+                <span className="text-sm text-muted-foreground">{tCommon("medicine.detailDrawer.strength")}</span>
                 <span className="text-sm font-medium text-foreground">
                   {medicine.strength}
                 </span>
               </div>
               <Separator />
               <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Dosage Form</span>
+                <span className="text-sm text-muted-foreground">{tCommon("medicine.detailDrawer.dosageForm")}</span>
                 <span className="text-sm font-medium text-foreground">
                   {medicine.dosage_form}
                 </span>
@@ -117,7 +119,7 @@ export function MedicineDetailDrawer({
             <section className="space-y-3">
               <h3 className="font-semibold text-sm text-foreground flex items-center gap-2">
                 <Info className="h-4 w-4 text-primary" />
-                Common Uses
+                {tCommon("medicine.detailDrawer.commonUses")}
               </h3>
               <div className="bg-surface rounded-xl p-4">
                 <p className="text-sm text-foreground leading-relaxed">
@@ -131,8 +133,7 @@ export function MedicineDetailDrawer({
           <Alert className="bg-amber-50 border-amber-200">
             <AlertTriangle className="h-4 w-4 text-amber-600" />
             <AlertDescription className="text-amber-800 text-xs">
-              {medicine.common_uses_disclaimer || 
-                "This information is for general awareness only and does not replace professional medical advice. Always consult your doctor before taking any medication."}
+              {medicine.common_uses_disclaimer || tCommon("medicine.detailDrawer.defaultDisclaimer")}
             </AlertDescription>
           </Alert>
 
@@ -141,7 +142,7 @@ export function MedicineDetailDrawer({
             <section className="space-y-3">
               <h3 className="font-semibold text-sm text-foreground flex items-center gap-2">
                 <Package className="h-4 w-4 text-primary" />
-                Available Brands ({medicine.brands.length})
+                {tCommon("medicine.detailDrawer.availableBrands", { count: medicine.brands.length })}
               </h3>
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {medicine.brands.map((brand) => (
@@ -186,7 +187,7 @@ export function MedicineDetailDrawer({
               }}
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add to My Medications
+              {tCommon("medicine.detailDrawer.addToMyMedications")}
             </Button>
           )}
           <Button
@@ -195,7 +196,7 @@ export function MedicineDetailDrawer({
             onClick={() => onOpenChange(false)}
           >
             <X className="h-4 w-4 mr-2" />
-            Close
+            {tCommon("medicine.detailDrawer.close")}
           </Button>
         </SheetFooter>
       </SheetContent>

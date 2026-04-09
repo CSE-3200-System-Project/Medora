@@ -11,6 +11,7 @@ import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { ChoruiSummaryPanel } from "@/components/ai/ChoruiSummaryPanel";
 import { useChoruiChat } from "@/hooks/useChoruiChat";
 import type { ChoruiNavigationAction, ChoruiRoleContext, ChoruiSuggestedRoute } from "@/types/ai";
+import { useT } from "@/i18n/client";
 
 const AUTO_NAVIGATION_CONFIDENCE = 0.85;
 const CONFIRM_NAVIGATION_CONFIDENCE = 0.6;
@@ -210,6 +211,7 @@ type ChoruiChatProps = {
 };
 
 export function ChoruiChat({ roleContext = "patient", defaultPatientId }: ChoruiChatProps) {
+  const tChorui = useT("chorui");
   const {
     messages,
     input,
@@ -315,26 +317,26 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
       if (delayMs > 0) {
         setIsTransitioning(true);
-        setNavigationStatus(options?.statusMessage ?? `Taking you to ${toNavigationLabel(safeRoute)}...`);
+        setNavigationStatus(options?.statusMessage ?? tChorui("takingYouTo", { label: toNavigationLabel(safeRoute) }));
         navigationTimerRef.current = window.setTimeout(navigateNow, delayMs);
         return true;
       }
 
-      setNavigationStatus(options?.statusMessage ?? `Opening ${toNavigationLabel(safeRoute)}...`);
+      setNavigationStatus(options?.statusMessage ?? tChorui("opening", { label: toNavigationLabel(safeRoute) }));
       navigateNow();
       return true;
     },
-    [clearNavigationState, pathname, roleContext, router]
+    [clearNavigationState, pathname, roleContext, router, tChorui]
   );
 
   const handleChoiceNavigation = React.useCallback(
     (choice: NavigationChoice) => {
       void executeNavigation(choice.route, {
         delayMs: 0,
-        statusMessage: `Opening ${choice.label}...`,
+        statusMessage: tChorui("opening", { label: choice.label }),
       });
     },
-    [executeNavigation]
+    [executeNavigation, tChorui]
   );
 
   React.useEffect(() => {
@@ -375,7 +377,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     }
 
     if (navigationAction.reason === "navigation_correction_detected") {
-      cancelPendingNavigation("Navigation cancelled. Tell me where you want to go next.");
+      cancelPendingNavigation(tChorui("navigationCancelled"));
       setNavigationIssue(null);
       clearNavigationState();
       return;
@@ -391,7 +393,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
       if (!undoValidation.isValid || !undoValidation.route) {
         setNavigationIssue("Unable to safely go back from this context. Please choose a safe destination below.");
-        setNavigationStatus("I cannot go back safely right now. Please choose one of the safe options below.");
+        setNavigationStatus(tChorui("safeOptions"));
         setPendingConfirmation(null);
         setIsTransitioning(false);
         return;
@@ -410,7 +412,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     if (navigationAction.type === "clarify" || navigationAction.type === "suggest") {
       const missingParamsText =
         navigationAction.type === "clarify" && navigationAction.missing_params.length > 0
-          ? ` I still need: ${navigationAction.missing_params.join(", ")}.`
+          ? ` ${tChorui("iNeed", { value: navigationAction.missing_params.join(", ") })}`
           : "";
 
       setNavigationIssue(null);
@@ -418,8 +420,8 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
       setIsTransitioning(false);
       setNavigationStatus(
         navigationAction.type === "clarify"
-          ? `I need one more detail before navigating.${missingParamsText}`
-          : "Here are safe places you can open next."
+          ? `${tChorui("needOneDetail")}${missingParamsText}`
+          : tChorui("safeOptions")
       );
       return;
     }
@@ -428,7 +430,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
       const routeValidation = validateNavigationRoute(navigationAction.route, roleContext);
       if (!routeValidation.isValid || !routeValidation.route) {
         setNavigationIssue(`I could not open that destination safely (${routeValidation.reason}).`);
-        setNavigationStatus("That destination is blocked. Please choose one of the safe options below.");
+        setNavigationStatus(tChorui("safeOptions"));
         setPendingConfirmation(null);
         setIsTransitioning(false);
         return;
@@ -444,7 +446,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
         setNavigationIssue(null);
         setPendingConfirmation(null);
         setIsTransitioning(false);
-        setNavigationStatus("I am not confident enough to auto-navigate. Please choose one of the safe options below.");
+        setNavigationStatus(tChorui("safeOptions"));
         return;
       }
 
@@ -461,7 +463,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
       void executeNavigation(routeValidation.route, {
         delayMs: clampNavigationDelay(navigationAction.delay_ms),
-        statusMessage: `Taking you to ${destinationLabel}...`,
+        statusMessage: tChorui("takingYouTo", { label: destinationLabel }),
       });
       return;
     }
@@ -471,9 +473,9 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
       setPendingConfirmation(null);
       setIsTransitioning(false);
       if (navigationChoices.length > 0) {
-        setNavigationStatus("Choose where you want to go next.");
+        setNavigationStatus(tChorui("chooseNext"));
       } else if (navigationMemory?.pending_intent && navigationMemory.missing_params.length > 0) {
-        setNavigationStatus(`I still need: ${navigationMemory.missing_params.join(", ")}.`);
+        setNavigationStatus(tChorui("iNeed", { value: navigationMemory.missing_params.join(", ") }));
       } else {
         setNavigationStatus(null);
       }
@@ -487,6 +489,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     navigationMemory,
     navigationMeta?.previous_route,
     roleContext,
+    tChorui,
   ]);
 
   return (
@@ -498,14 +501,14 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
           <div className="mb-4 flex items-start justify-between gap-3">
             <div>
               <h1 className="text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-tight text-foreground" style={{ fontFamily: "var(--font-manrope)" }}>
-                {isDoctorMode ? "Chorui AI for Clinical Workflow" : "Tell us about your health"}
+                {isDoctorMode ? tChorui("titleDoctor") : tChorui("titlePatient")}
               </h1>
               <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-inter)" }}>
                 {isDoctorMode
-                  ? "Summaries, context insights, and evidence-aware assistance for faster care coordination."
-                  : "We will organize it for your doctor."}
+                  ? tChorui("subtitleDoctor")
+                  : tChorui("subtitlePatient")}
               </p>
-              <p className="mt-2 text-xs text-muted-foreground/90">Mode: {contextMode}</p>
+              <p className="mt-2 text-xs text-muted-foreground/90">{tChorui("mode", { mode: contextMode })}</p>
             </div>
 
             <Button
@@ -514,7 +517,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
               size="icon"
               className="h-9 w-9 shrink-0 rounded-xl"
               onClick={() => setHistoryOpen(true)}
-              aria-label="Open conversation history"
+              aria-label={tChorui("openConversationHistory")}
             >
               <Menu className="h-4 w-4" />
             </Button>
@@ -523,7 +526,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
           {historyOpen ? (
             <div className="absolute inset-0 z-20 rounded-3xl border border-border/70 bg-background/95 p-3 backdrop-blur-sm md:p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h2 className="text-sm font-semibold text-foreground">Conversation History</h2>
+                <h2 className="text-sm font-semibold text-foreground">{tChorui("conversationHistory")}</h2>
                 <Button
                   type="button"
                   variant="ghost"
@@ -532,7 +535,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                   onClick={() => setHistoryOpen(false)}
                 >
                   <X className="h-4 w-4" />
-                  <span className="sr-only">Close history</span>
+                  <span className="sr-only">{tChorui("closeHistory")}</span>
                 </Button>
               </div>
 
@@ -724,7 +727,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                     onClick={() => {
                       void executeNavigation(pendingConfirmation.route, {
                         delayMs: 0,
-                        statusMessage: `Opening ${pendingConfirmation.label}...`,
+                        statusMessage: tChorui("opening", { label: pendingConfirmation.label }),
                       });
                     }}
                   >
