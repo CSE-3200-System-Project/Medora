@@ -1,0 +1,5 @@
+{
+  "startConsultationFailed": "Failed to start consultation",
+  "openPreviewFailed": "Failed to open prescription preview",
+  "sessionExpired": "Session expired. Redirecting to login..."
+}

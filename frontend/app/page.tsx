@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import {
   Activity,
   ArrowRight,
@@ -14,38 +13,25 @@ import {
 } from "lucide-react";
 
 import { AppBackground } from "@/components/ui/app-background";
+import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { HeroCarousel } from "@/components/landing/hero-carousel";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
-
-const Navbar = dynamic(
-  () => import("@/components/ui/navbar").then((mod) => mod.Navbar),
-  {
-    loading: () => <div className="mx-auto h-16 w-full max-w-7xl rounded-2xl border border-border/70 bg-background/75 shadow-surface" />,
-  }
-);
-
-const HeroCarousel = dynamic(
-  () => import("@/components/landing/hero-carousel").then((mod) => mod.HeroCarousel),
-  {
-    loading: () => <CardSkeleton className="min-h-90" />,
-  }
-);
 
 export default function Home() {
   return (
     <AppBackground className="min-h-dvh min-h-app">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl page-content pt-[var(--nav-content-offset)] pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
+      <main className="mx-auto max-w-7xl page-content pt-(--nav-content-offset) pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
         <HeroCarousel />
 
         <section className="space-y-8">
           <div className="text-center space-y-3 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">A platform built around shared context</h2>
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight">A platform built around shared context</h2>
             <p className="text-muted-foreground text-base md:text-lg">
               Replace scattered records with one clear timeline that supports patient care and clinical decisions.
             </p>
@@ -75,7 +61,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-offset-navbar rounded-3xl border border-border/70 bg-card/90 shadow-sm">
+        <section id="how-it-works" className="scroll-offset-navbar defer-content rounded-3xl border border-border/70 bg-card/90 shadow-sm">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-10 p-6 md:p-10">
             <div className="space-y-6">
               <h2 className="text-2xl md:text-3xl font-bold">How it works</h2>
@@ -104,8 +90,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="for-patients" className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center">
-          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+        <section id="for-patients" className="scroll-offset-navbar defer-content grid gap-8 lg:grid-cols-2 items-center">
+          <div className="relative h-[clamp(16rem,44vw,30rem)] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={patientImg} alt="Patient experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
@@ -132,7 +118,7 @@ export default function Home() {
 
         <section
           id="for-doctors"
-          className="scroll-offset-navbar grid gap-8 lg:grid-cols-2 items-center rounded-3xl border border-border/70 bg-card/90 p-6 md:p-10"
+          className="scroll-offset-navbar defer-content grid gap-8 lg:grid-cols-2 items-center rounded-3xl border border-border/70 bg-card/90 p-6 md:p-10"
         >
           <div className="space-y-6">
             <span className="inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
@@ -149,7 +135,7 @@ export default function Home() {
               <Link href="/selection">Start as a Doctor</Link>
             </Button>
           </div>
-          <div className="relative h-80 md:h-115 rounded-3xl overflow-hidden border border-border/70 shadow-xl">
+          <div className="relative h-[clamp(16rem,44vw,30rem)] rounded-3xl overflow-hidden border border-border/70 shadow-xl">
             <Image src={doctorImg} alt="Doctor experience" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end p-6">
               <p className="text-white text-sm md:text-base font-medium">
@@ -159,7 +145,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="scroll-offset-navbar max-w-4xl mx-auto space-y-10">
+        <section id="about" className="scroll-offset-navbar defer-content max-w-4xl mx-auto space-y-10">
           <div className="text-center space-y-4">
             <h2 className="text-3xl font-bold">Why this platform exists</h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -182,7 +168,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-primary/30 bg-linear-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
+        <section className="defer-content rounded-3xl border border-primary/30 bg-linear-to-br from-primary to-primary-muted text-primary-foreground shadow-[0_24px_60px_-30px_rgba(3,96,217,0.9)]">
           <div className="px-6 py-10 md:px-10 md:py-14 text-center">
             <h2 className="text-2xl md:text-4xl font-bold tracking-tight">Build better care with shared context</h2>
             <p className="mt-3 text-primary-foreground/90 text-sm md:text-base">

@@ -14,9 +14,9 @@ import {
   KeyRound,
   Eye,
   EyeOff,
-  Loader2,
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { GoogleCalendarConnect } from "@/components/settings/google-calendar-connect";
 import { changePassword } from "@/lib/auth-actions";
 
@@ -29,6 +29,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select-native";
 import { Separator } from "@/components/ui/separator";
+import { useAppI18n, useT } from "@/i18n/client";
+import { PHASE_ONE_NAMESPACES } from "@/i18n/config";
 
 type ThemeMode = "light" | "dark" | "system";
 
@@ -193,6 +195,9 @@ function SettingsToggleRow({
 
 export default function SettingsPage() {
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setLocale, isLocaleSwitching } = useAppI18n();
+  const tCommon = useT("common");
+  const tSettings = useT("settings");
 
   const [settings, setSettings] = React.useState<SettingsState>(defaultSettings);
   const [isHydrated, setIsHydrated] = React.useState(false);
@@ -249,6 +254,14 @@ export default function SettingsPage() {
       },
     }));
   };
+
+  const handlePreferredLanguageChange = React.useCallback(
+    (locale: SettingsState["healthcare"]["preferredLanguage"]) => {
+      setNestedSettings("healthcare", { preferredLanguage: locale });
+      void setLocale(locale, { requiredNamespaces: PHASE_ONE_NAMESPACES });
+    },
+    [setLocale]
+  );
 
   const handleThemeChange = (value: ThemeMode) => {
     setTheme(value);
@@ -337,6 +350,17 @@ export default function SettingsPage() {
     setSaveMessage("Settings reset to defaults.");
   };
 
+  if (!isHydrated) {
+    return (
+      <AppBackground className="container-padding animate-page-enter">
+        <Navbar />
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label={tSettings("loadingLabel")} cardCount={4} />
+        </main>
+      </AppBackground>
+    );
+  }
+
   return (
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
@@ -344,18 +368,18 @@ export default function SettingsPage() {
       <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
         <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">Settings</h1>
+            <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">{tSettings("title")}</h1>
             <p className="mt-1 text-sm text-muted-foreground md:text-base">
               Manage your app behavior, healthcare preferences, notifications, and privacy.
             </p>
           </div>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
-              Reset Defaults
+              {tSettings("resetDefaults")}
             </Button>
-            <Button onClick={handleSave} className="w-full sm:w-auto" disabled={isSaving}>
+            <Button onClick={handleSave} className="w-full sm:w-auto" disabled={isSaving || isLocaleSwitching}>
               {isSaving ? <ButtonLoader className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-              {isSaving ? "Saving..." : "Save Settings"}
+              {isSaving ? tSettings("savingButton") : tSettings("saveButton")}
             </Button>
           </div>
         </div>
@@ -504,18 +528,15 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="preferred-language">Preferred Language</Label>
+                <Label htmlFor="preferred-language">{tSettings("preferredLanguage")}</Label>
                 <Select
                   id="preferred-language"
                   value={settings.healthcare.preferredLanguage}
-                  onChange={(e) =>
-                    setNestedSettings("healthcare", {
-                      preferredLanguage: e.target.value as SettingsState["healthcare"]["preferredLanguage"],
-                    })
-                  }
+                  onChange={(e) => handlePreferredLanguageChange(e.target.value as SettingsState["healthcare"]["preferredLanguage"])}
+                  disabled={isLocaleSwitching}
                 >
-                  <option value="en">English</option>
-                  <option value="bn">Bangla</option>
+                  <option value="en">{tCommon("english")}</option>
+                  <option value="bn">{tCommon("bangla")}</option>
                 </Select>
               </div>
 
@@ -767,7 +788,7 @@ export default function SettingsPage() {
                 <Button type="submit" className="w-full" disabled={passwordLoading}>
                   {passwordLoading ? (
                     <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      <ButtonLoader className="h-4 w-4 mr-2" />
                       Changing Password...
                     </>
                   ) : (
@@ -781,10 +802,6 @@ export default function SettingsPage() {
           {/* Google Calendar Integration */}
           <GoogleCalendarConnect />
         </div>
-
-        {!isHydrated && (
-          <div className="mt-6 text-sm text-muted-foreground">Loading your settings...</div>
-        )}
       </main>
     </AppBackground>
   );

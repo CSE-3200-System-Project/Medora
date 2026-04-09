@@ -3,6 +3,8 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { 
   Heart, 
   Pill, 
@@ -84,13 +86,16 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
             <History className="w-4 h-4 text-primary" />
             Medical History Context
           </CardTitle>
-          <CardDescription>Loading your medical information...</CardDescription>
+          <CardDescription>
+            <div className="pt-1">
+              <MedoraLoader size="sm" label="Loading your medical information..." />
+            </div>
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-muted rounded h-12 animate-pulse" />
-            ))}
+          <div className="space-y-3">
+            <CardSkeleton />
+            <CardSkeleton />
           </div>
         </CardContent>
       </Card>

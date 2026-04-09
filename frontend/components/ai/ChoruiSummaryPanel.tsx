@@ -5,6 +5,8 @@ import { CheckCircle2, PencilLine, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { Textarea } from "@/components/ui/textarea";
 import type { ChoruiRoleContext, ChoruiStructuredData } from "@/types/ai";
 
@@ -88,14 +90,13 @@ export function ChoruiSummaryPanel({
 
       {loading ? (
         <div className="space-y-4">
-          <div className="skeleton h-6 w-28" />
-          <div className="skeleton h-10 w-full rounded-xl" />
-          <div className="skeleton h-6 w-40" />
-          <div className="skeleton h-10 w-full rounded-xl" />
-          <div className="skeleton h-5 w-24" />
-          <div className="skeleton h-10 w-full rounded-xl" />
-          <div className="skeleton h-5 w-36" />
-          <div className="skeleton h-3 w-full rounded-full" />
+          <div className="flex items-center justify-center py-1">
+            <MedoraLoader size="sm" label="Loading summary..." />
+          </div>
+          <CardSkeleton className="h-10 rounded-xl" />
+          <CardSkeleton className="h-10 rounded-xl" />
+          <CardSkeleton className="h-10 rounded-xl" />
+          <CardSkeleton className="h-3 rounded-full" />
         </div>
       ) : (
         <div className="space-y-5">
@@ -214,7 +215,12 @@ export function ChoruiSummaryPanel({
           }}
         >
           <Save className="h-4 w-4" />
-          {saving ? "Saving..." : isDoctorMode ? "Apply Summary" : "Confirm & Save"}
+          {saving ? (
+            <span className="inline-flex items-center gap-2">
+              <ButtonLoader className="h-4 w-4" />
+              Saving...
+            </span>
+          ) : isDoctorMode ? "Apply Summary" : "Confirm & Save"}
         </Button>
 
         {saveState ? (

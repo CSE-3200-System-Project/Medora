@@ -7,6 +7,8 @@ import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { 
   Bell, 
   Check, 
@@ -258,8 +260,12 @@ export default function NotificationsPage() {
         <Card className="rounded-2xl">
           <CardContent className="p-0">
             {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              <div className="space-y-4 p-4">
+                <div className="flex justify-center py-2">
+                  <MedoraLoader size="md" label="Loading notifications..." />
+                </div>
+                <CardSkeleton />
+                <CardSkeleton />
               </div>
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">

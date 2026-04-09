@@ -1,7 +1,6 @@
 import enum
 from sqlalchemy import (
     String, Integer, ForeignKey, DateTime, Enum, Text, Time, Index,
-    UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -15,6 +14,8 @@ class AppointmentStatus(str, enum.Enum):
     CONFIRMED = "CONFIRMED"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    CANCELLED_BY_PATIENT = "CANCELLED_BY_PATIENT"
+    CANCELLED_BY_DOCTOR = "CANCELLED_BY_DOCTOR"
 
     # New statuses for enhanced workflow
     PENDING_ADMIN_REVIEW = "PENDING_ADMIN_REVIEW"
@@ -28,12 +29,6 @@ class AppointmentStatus(str, enum.Enum):
 class Appointment(Base):
     __tablename__ = "appointments"
     __table_args__ = (
-        # Prevent double-booking: only one appointment per doctor+date+slot
-        # Partial unique index — only enforced when slot_time is not null
-        UniqueConstraint(
-            "doctor_id", "appointment_date", "slot_time",
-            name="uq_doctor_date_slot",
-        ),
         Index("ix_appointments_doctor_date", "doctor_id", "appointment_date"),
     )
 
@@ -66,6 +61,15 @@ class Appointment(Base):
         String, ForeignKey("doctor_locations.id"), nullable=True, index=True
     )
     location_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    cancellation_reason_key: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    cancellation_reason_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cancelled_by_id: Mapped[str | None] = mapped_column(
+        String, ForeignKey("profiles.id"), nullable=True, index=True
+    )
+    cancelled_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    hold_expires_at: Mapped[DateTime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

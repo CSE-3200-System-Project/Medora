@@ -22,7 +22,7 @@ export function handleUnauthorized() {
   // Notify app that we've logged out (components can listen and update UI)
   try {
     window.dispatchEvent(new Event("medora:logged_out"));
-  } catch (e) {
+  } catch {
     // ignore in non-browser environments
   }
 
@@ -37,6 +37,23 @@ export function handleUnauthorized() {
       window.location.href = "/";
     }
   }
+}
+
+function isAbortLikeError(error: unknown, signal?: AbortSignal | null): boolean {
+  if (signal?.aborted) {
+    return true;
+  }
+
+  if (error instanceof DOMException && error.name === "AbortError") {
+    return true;
+  }
+
+  if (error instanceof Error) {
+    const message = error.message.toLowerCase();
+    return message.includes("aborted") || message.includes("aborterror");
+  }
+
+  return false;
 }
 
 /**
@@ -60,6 +77,10 @@ export async function fetchWithAuth(url: string, options?: RequestInit): Promise
     
     return response;
   } catch (error) {
+    if (isAbortLikeError(error, options?.signal)) {
+      return null;
+    }
+
     console.error("Fetch error:", error);
     throw error;
   }

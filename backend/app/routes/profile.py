@@ -21,6 +21,7 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 import traceback
 import re
+import uuid
 
 router = APIRouter()
 
@@ -476,6 +477,7 @@ async def update_doctor_onboarding(
 
                 normalized_locations_payload.append(
                     {
+                        "id": (location.id or "").strip() or None,
                         "location_name": location_name or composed_location_text,
                         "location_type": location_type,
                         "location_text": composed_location_text,
@@ -574,18 +576,56 @@ async def update_doctor_onboarding(
                 )
 
         if data.practice_locations is not None:
-            await db.execute(
-                delete(DoctorLocation).where(DoctorLocation.doctor_id == user_id)
+            existing_location_rows = (
+                (
+                    await db.execute(
+                        select(DoctorLocation).where(DoctorLocation.doctor_id == user_id)
+                    )
+                )
+                .scalars()
+                .all()
             )
+            existing_locations_by_id = {row.id: row for row in existing_location_rows}
+            retained_location_ids: set[str] = set()
 
+            # Reconcile-by-id to avoid deleting referenced locations that are tied to appointments.
             for location_payload in normalized_locations_payload:
+                incoming_location_id = location_payload.get("id")
+                existing_location = (
+                    existing_locations_by_id.get(incoming_location_id) if incoming_location_id else None
+                )
+                normalized_location_text = " ".join(location_payload["location_text"].strip().lower().split())
+
+                if existing_location is not None:
+                    existing_location.location_name = location_payload["location_name"]
+                    existing_location.location_type = location_payload["location_type"]
+                    existing_location.location_text = location_payload["location_text"]
+                    existing_location.normalized_location_text = normalized_location_text
+                    existing_location.display_name = location_payload["display_name"]
+                    existing_location.address = location_payload["address"]
+                    existing_location.city = location_payload["city"]
+                    existing_location.country = location_payload["country"]
+                    existing_location.latitude = location_payload["latitude"]
+                    existing_location.longitude = location_payload["longitude"]
+                    existing_location.geocoded_at = datetime.utcnow()
+                    existing_location.geocode_source = location_payload["geocode_source"]
+                    existing_location.is_primary = location_payload["is_primary"]
+                    existing_location.available_days = location_payload["available_days"]
+                    existing_location.day_time_slots = location_payload["day_time_slots"]
+                    existing_location.appointment_duration = location_payload.get("appointment_duration")
+                    retained_location_ids.add(existing_location.id)
+                    continue
+
+                new_location_id = incoming_location_id or str(uuid.uuid4())
+                retained_location_ids.add(new_location_id)
                 db.add(
                     DoctorLocation(
+                        id=new_location_id,
                         doctor_id=user_id,
                         location_name=location_payload["location_name"],
                         location_type=location_payload["location_type"],
                         location_text=location_payload["location_text"],
-                        normalized_location_text=" ".join(location_payload["location_text"].strip().lower().split()),
+                        normalized_location_text=normalized_location_text,
                         display_name=location_payload["display_name"],
                         address=location_payload["address"],
                         city=location_payload["city"],
@@ -600,6 +640,80 @@ async def update_doctor_onboarding(
                         appointment_duration=location_payload.get("appointment_duration"),
                     )
                 )
+
+            stale_location_ids = [
+                row.id for row in existing_location_rows if row.id not in retained_location_ids
+            ]
+            if stale_location_ids:
+                from app.db.models.appointment import Appointment
+                from app.db.models.doctor_availability import (
+                    DoctorAvailability,
+                    DoctorException,
+                    DoctorScheduleOverride,
+                )
+
+                referenced_location_ids: set[str] = set()
+                appointment_refs = await db.execute(
+                    select(Appointment.doctor_location_id).where(
+                        Appointment.doctor_location_id.in_(stale_location_ids)
+                    )
+                )
+                referenced_location_ids.update(
+                    location_id for (location_id,) in appointment_refs.all() if location_id
+                )
+
+                availability_refs = await db.execute(
+                    select(DoctorAvailability.doctor_location_id).where(
+                        DoctorAvailability.doctor_location_id.in_(stale_location_ids)
+                    )
+                )
+                referenced_location_ids.update(
+                    location_id for (location_id,) in availability_refs.all() if location_id
+                )
+
+                exception_refs = await db.execute(
+                    select(DoctorException.doctor_location_id).where(
+                        DoctorException.doctor_location_id.in_(stale_location_ids)
+                    )
+                )
+                referenced_location_ids.update(
+                    location_id for (location_id,) in exception_refs.all() if location_id
+                )
+
+                override_refs = await db.execute(
+                    select(DoctorScheduleOverride.doctor_location_id).where(
+                        DoctorScheduleOverride.doctor_location_id.in_(stale_location_ids)
+                    )
+                )
+                referenced_location_ids.update(
+                    location_id for (location_id,) in override_refs.all() if location_id
+                )
+
+                removable_location_ids = [
+                    location_id
+                    for location_id in stale_location_ids
+                    if location_id not in referenced_location_ids
+                ]
+                if removable_location_ids:
+                    await db.execute(
+                        delete(DoctorLocation).where(
+                            DoctorLocation.doctor_id == user_id,
+                            DoctorLocation.id.in_(removable_location_ids),
+                        )
+                    )
+
+                if referenced_location_ids and retained_location_ids:
+                    await db.execute(
+                        update(DoctorLocation)
+                        .where(
+                            DoctorLocation.doctor_id == user_id,
+                            DoctorLocation.id.in_(list(referenced_location_ids)),
+                        )
+                        .values(is_primary=False)
+                    )
+                    print(
+                        f"Skipping deletion for referenced doctor_locations for doctor {user_id}: {sorted(referenced_location_ids)}"
+                    )
         
         # Geocode addresses if they were provided in the update
         address_fields_updated = data.practice_locations is None and any([

@@ -1,0 +1,445 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "loading": "Loading...",
+  "back": "Back",
+  "english": "English",
+  "bangla": "Bangla",
+  "patientHome": {
+    "title": "Patient Health Overview",
+    "defaultUserName": "Patient",
+    "greeting": "Good day, {name}. Here's your live summary for today.",
+    "scheduleVisit": "Schedule Visit",
+    "healthReport": "Health Report",
+    "sections": {
+      "upcomingAppointments": "Upcoming Appointments",
+      "aiHealthInsights": "AI Health Insights",
+      "quickHealthStats": "Quick Health Stats",
+      "seeAll": "See all",
+      "fullAnalytics": "Full Analytics",
+      "viewDetails": "View Details"
+    },
+    "healthScoreCard": {
+      "title": "Overall Health Score",
+      "improvementMessage": "Your health score has improved by {delta} since last month. Keep up the good work.",
+      "activity": "Activity",
+      "nutrition": "Nutrition",
+      "viewDetails": "View details",
+      "status": {
+        "excellent": "Excellent",
+        "improving": "Improving",
+        "needsAttention": "Needs Attention"
+      },
+      "activityLevels": {
+        "high": "High",
+        "moderate": "Moderate",
+        "low": "Low"
+      },
+      "nutritionLevels": {
+        "balanced": "Balanced",
+        "needsReview": "Needs Review"
+      }
+    },
+    "medicationTrend": {
+      "title": "Medication Trend",
+      "subtitle": "Last 7 days adherence",
+      "weekdayShort": {
+        "mon": "MON",
+        "tue": "TUE",
+        "wed": "WED",
+        "thu": "THU",
+        "fri": "FRI",
+        "sat": "SAT",
+        "sun": "SUN"
+      }
+    },
+    "appointmentCard": {
+      "dateTime": "Date & Time",
+      "location": "Location",
+      "generalConsultation": "General Consultation",
+      "medoraConsultation": "Medora Consultation",
+      "actionJoinVisit": "Join Visit",
+      "actionManage": "Manage",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "cancelled": "Cancelled",
+        "completed": "Completed"
+      }
+    },
+    "emptyStates": {
+      "noUpcomingAppointments": "No upcoming appointments",
+      "scheduleClear": "Your schedule is clear",
+      "bookNow": "Book Now",
+      "noInsights": "No insights yet",
+      "startLogging": "Start logging health metrics and reminders to unlock personalized insights.",
+      "notAvailable": "N/A"
+    },
+    "quickStats": {
+      "stepsToday": "Steps Today",
+      "avgSleep": "Avg Sleep",
+      "bpmResting": "BPM (Resting)",
+      "bloodPressure": "Blood Pressure"
+    },
+    "deviceSync": {
+      "title": "Health Device Sync",
+      "lastSynced": "Last synced",
+      "noSyncYet": "No sync yet",
+      "manageDevices": "Manage Devices"
+    },
+    "insightTitles": {
+      "medicationAdherence": "Medication Adherence",
+      "sleepMonitoring": "Sleep Monitoring",
+      "bloodPressureTracking": "Blood Pressure Tracking"
+    }
+  },
+  "patientAppointments": {
+    "page": {
+      "title": "My Appointments",
+      "subtitle": "Comprehensive overview of your clinic visits and appointment history.",
+      "loading": "Loading appointments...",
+      "range": {
+        "month": "Month",
+        "quarter": "Quarter",
+        "year": "Year"
+      },
+      "showAllUpcoming": "Show All Upcoming",
+      "appointmentHistory": "Appointment History",
+      "feedback": {
+        "rescheduleSent": "Reschedule request sent successfully.",
+        "waitingDoctor": "Waiting for doctor's response on your reschedule request.",
+        "rescheduleRequestMissing": "No pending doctor reschedule request is available for this appointment.",
+        "rescheduleLoadFailed": "Unable to load this reschedule request. Please try again.",
+        "rescheduleAccepted": "Reschedule request accepted.",
+        "rescheduleRejected": "Reschedule request rejected.",
+        "cancelSuccess": "Appointment cancelled successfully.",
+        "pendingDeleted": "Pending request deleted.",
+        "pendingDeleteFailed": "Failed to delete pending appointment request."
+      },
+      "defaults": {
+        "patientName": "Patient",
+        "doctorName": "Doctor",
+        "assignedDoctor": "Assigned Doctor"
+      }
+    },
+    "summary": {
+      "patientId": "Patient ID",
+      "next": "Next",
+      "notAvailable": "Not available",
+      "lastVisit": "Last Visit",
+      "newAppointment": "New Appointment"
+    },
+    "heatmap": {
+      "title": "Appointment Heatmap",
+      "less": "Less",
+      "more": "More",
+      "tooltipSingle": "{dateLabel}: {count} appointment",
+      "tooltipPlural": "{dateLabel}: {count} appointments",
+      "monthMarker": "{month} {day}"
+    },
+    "monthlyTrend": {
+      "title": "Monthly Trend",
+      "subtitle": "Visit frequency over the last 6 months",
+      "months": {
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct"
+      }
+    },
+    "specialtyDistribution": {
+      "title": "Specialty Distribution",
+      "subtitle": "Frequency of specialist interactions",
+      "visits": "{count} Visits",
+      "tooltip": "{name}: {count} visits",
+      "specialties": {
+        "generalPractice": "General Practice",
+        "cardiology": "Cardiology",
+        "dermatology": "Dermatology",
+        "neurology": "Neurology"
+      }
+    },
+    "calendar": {
+      "title": "Calendar",
+      "showingSelected": "Showing appointments for selected date",
+      "showAll": "Show All",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "past": "Past",
+      "dayShort": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      },
+      "monthNames": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      },
+      "legend": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "completed": "Completed",
+        "today": "Today"
+      }
+    },
+    "upcoming": {
+      "title": "Upcoming Schedule",
+      "subtitleSelected": "Appointments for selected date",
+      "subtitleUpcoming": "Your upcoming clinic visits",
+      "empty": "No upcoming appointments found for this view.",
+      "waiting": "Waiting for doctor confirmation",
+      "expiresIn": "Expires in",
+      "expiringSoon": "Doctor hasn't responded yet. This request will expire soon.",
+      "expired": "This request expired because the doctor didn't confirm in time.",
+      "bookAgain": "Book Again",
+      "deleteRequest": "Delete Request",
+      "reschedule": "Reschedule",
+      "cancel": "Cancel",
+      "consultationSuffix": "Consultation",
+      "at": "at",
+      "status": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "cancelledByPatient": "Cancelled by patient",
+        "cancelledByDoctor": "Cancelled by doctor",
+        "pendingAdminReview": "Pending admin review",
+        "pendingDoctorConfirmation": "Pending doctor confirmation",
+        "pendingPatientConfirmation": "Pending patient confirmation",
+        "rescheduleRequested": "Reschedule requested",
+        "cancelRequested": "Cancel requested",
+        "noShow": "No show",
+        "expired": "Expired"
+      }
+    },
+    "dialogs": {
+      "cancel": {
+        "title": "Cancel Appointment",
+        "description": "Are you sure you want to cancel this appointment? Cancellation must happen at least {minutes} minutes before appointment time.",
+        "currentAppointment": "Current appointment",
+        "consultation": "Consultation",
+        "reasonTitle": "Cancellation reason",
+        "additionalDetails": "Additional details (optional)",
+        "additionalPlaceholder": "Add optional context for the cancellation...",
+        "keepAppointment": "Keep Appointment",
+        "cancelAppointment": "Cancel Appointment",
+        "cancelling": "Cancelling...",
+        "fallbackDoctorPrefix": "Dr.",
+        "fallbackDoctorName": "Doctor",
+        "fallbackPatientName": "Patient",
+        "reasons": {
+          "scheduleConflict": "Schedule conflict",
+          "personalEmergency": "Personal emergency",
+          "feelingBetter": "Feeling better",
+          "transportIssue": "Transport issue",
+          "costConcern": "Cost concern",
+          "doctorUnavailable": "Doctor unavailable",
+          "clinicDelay": "Clinic delay",
+          "doubleBooked": "Double booked",
+          "other": "Other"
+        }
+      },
+      "reschedule": {
+        "title": "Reschedule Appointment",
+        "description": "Select a new date and time for your appointment.",
+        "currentAppointment": "Current appointment",
+        "selectSlotFor": "Select a time slot for {date}",
+        "noSlots": "No slots available for this date",
+        "additionalNotes": "Additional notes (optional)",
+        "additionalPlaceholder": "Any notes about the reschedule...",
+        "cancel": "Cancel",
+        "confirm": "Confirm Reschedule",
+        "rescheduling": "Rescheduling...",
+        "failed": "Failed to reschedule appointment",
+        "fallbackDoctorPrefix": "Dr.",
+        "fallbackDoctorName": "Doctor",
+        "fallbackPatientName": "Patient",
+        "past": "Past",
+        "pastSlotTitle": "Past slot",
+        "unavailableSlotTitle": "Booked or unavailable",
+        "dayShort": {
+          "sun": "S",
+          "mon": "M",
+          "tue": "T",
+          "wed": "W",
+          "thu": "T",
+          "fri": "F",
+          "sat": "S"
+        },
+        "monthNames": {
+          "january": "January",
+          "february": "February",
+          "march": "March",
+          "april": "April",
+          "may": "May",
+          "june": "June",
+          "july": "July",
+          "august": "August",
+          "september": "September",
+          "october": "October",
+          "november": "November",
+          "december": "December"
+        }
+      },
+      "rescheduleResponse": {
+        "title": "Doctor proposed a new time",
+        "description": "Review the proposed schedule and choose to accept or reject.",
+        "currentTime": "Current appointment",
+        "proposedTime": "Proposed appointment",
+        "loading": "Loading reschedule request details...",
+        "missing": "Reschedule request details are not available for this appointment.",
+        "close": "Close",
+        "accept": "Accept",
+        "reject": "Reject",
+        "accepting": "Accepting...",
+        "rejecting": "Rejecting...",
+        "failedAccept": "Failed to accept reschedule request",
+        "failedReject": "Failed to reject reschedule request",
+        "fallbackCounterparty": "Counterparty",
+        "na": "N/A",
+        "at": "at"
+      }
+    }
+  },
+  "medicine": {
+    "patientPage": {
+      "title": "Find Medicine",
+      "subtitle": "Search medicines by brand or generic name",
+      "awarenessWarning": "This information is for general awareness only. Always consult your doctor before taking any medication.",
+      "loadingMedicines": "Loading medicines...",
+      "noMedicinesFound": "No medicines found",
+      "searchDifferent": "Try searching with a different name or spelling",
+      "searchPromptTitle": "Search for medicines",
+      "searchPromptSubtitle": "Enter at least 2 characters to start searching",
+      "saveMedicationFailed": "Failed to save medication. Please try again.",
+      "redirectingMedicalHistory": "Redirecting to Medical History...",
+      "loadingDetails": "Loading details..."
+    },
+    "doctorPage": {
+      "title": "Medicine Reference",
+      "subtitle": "Search medicines by brand or generic name for prescription reference",
+      "infoWarning": "Use this tool to reference medicines and their available brands. Always verify prescriptions according to medical guidelines."
+    },
+    "search": {
+      "placeholder": "Search medicine by name or brand...",
+      "filters": "Filters",
+      "clearAll": "Clear all",
+      "dosageForm": "Dosage Form",
+      "medicineType": "Medicine Type",
+      "allForms": "All forms",
+      "allTypes": "All types",
+      "resultNone": "No medicines found",
+      "resultFound": "Found {count} medicine",
+      "resultFoundPlural": "Found {count} medicines"
+    },
+    "card": {
+      "brand": "Brand"
+    },
+    "detailDrawer": {
+      "medicineIdentity": "Medicine Identity",
+      "genericName": "Generic Name",
+      "strength": "Strength",
+      "dosageForm": "Dosage Form",
+      "commonUses": "Common Uses",
+      "defaultDisclaimer": "This information is for general awareness only and does not replace professional medical advice. Always consult your doctor before taking any medication.",
+      "availableBrands": "Available Brands ({count})",
+      "addToMyMedications": "Add to My Medications",
+      "close": "Close"
+    },
+    "uploadDemo": {
+      "title": "Prescription Upload Demo",
+      "subtitle": "Upload a prescription image or PDF to extract readable text for medicine search assistance.",
+      "chooseFile": "Choose Prescription File",
+      "fileHint": "PNG, JPG, WEBP, or PDF up to 15MB",
+      "noFileSelected": "No file selected",
+      "extractText": "Extract Text",
+      "processing": "Processing",
+      "pdfPreview": "PDF preview",
+      "readingText": "Reading prescription text...",
+      "previewPlaceholder": "Preview will appear here after upload",
+      "extractedText": "Extracted Text",
+      "confidence": "{count}% confidence",
+      "uploadToView": "Upload and process a prescription image to view extracted text here.",
+      "reviewTitle": "Medicine Review (Human Approval)",
+      "approved": "Approved",
+      "noStructured": "No structured medicines detected yet. You can add rows manually after extraction.",
+      "addRow": "Add Medicine Row",
+      "approveList": "Approve Structured List",
+      "deleteRow": "Delete medicine row {count}",
+      "medicineName": "Medicine name",
+      "dosagePlaceholder": "Dosage (e.g. 10 mg)",
+      "frequencyPlaceholder": "Frequency (e.g. 1+0+1)",
+      "quantityPlaceholder": "Quantity/Duration",
+      "invalidFile": "Please upload a JPG, PNG, WEBP image, or PDF file.",
+      "extractionFailed": "Extraction failed. Please try again.",
+      "unknownMedicine": "Unknown Medicine",
+      "dosageLabel": "Dosage: {value}",
+      "frequencyLabel": "Frequency: {value}",
+      "quantityLabel": "Quantity: {value}",
+      "noReadable": "No readable text detected."
+    },
+    "addDialog": {
+      "addMedication": "Add Medication",
+      "editMedication": "Edit Medication",
+      "updateMedication": "Update Medication",
+      "step1Description": "Search and select a medicine",
+      "step2Description": "Enter dosage and day-part schedule details",
+      "step3Description": "Add optional information",
+      "searchMedicine": "Search Medicine",
+      "searchPlaceholder": "Type medicine name or brand...",
+      "change": "Change",
+      "searchingMedicines": "Searching medicines...",
+      "resultsFound": "{count} results found",
+      "noMedicinesFor": "No medicines found for \"{query}\"",
+      "dosage": "Dosage",
+      "dosagePlaceholder": "e.g., 1 tablet",
+      "duration": "Duration",
+      "durationPlaceholder": "e.g., 7 days",
+      "mealInstruction": "Meal Instructions",
+      "status": "Status",
+      "currentlyTaking": "Currently Taking",
+      "pastMedication": "Past Medication",
+      "dosageSchedule": "Dosage Schedule",
+      "storedFrequency": "Stored frequency format",
+      "requiredFields": "Required fields",
+      "startedDate": "Started Date",
+      "stoppedDate": "Stopped Date",
+      "prescribingDoctor": "Prescribing Doctor",
+      "prescribingDoctorPlaceholder": "Doctor's name",
+      "notes": "Notes",
+      "notesPlaceholder": "Any additional notes or instructions...",
+      "next": "Next",
+      "validationRequired": "Please fill in medicine, dosage, and at least one dose time",
+      "timeOfDay": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "night": "Night"
+      },
+      "mealInstructions": {
+        "after_meal": "After Meal",
+        "before_meal": "Before Meal",
+        "with_meal": "With Meal",
+        "empty_stomach": "Empty Stomach",
+        "any_time": "Any Time"
+      }
+    }
+  }
+}

@@ -56,17 +56,35 @@ const HERO_SLIDES: Slide[] = [
 
 export function HeroCarousel() {
   const [slideIndex, setSlideIndex] = useState(0);
+  const [showDesktopMedia, setShowDesktopMedia] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const activeSlide = useMemo(() => HERO_SLIDES[slideIndex], [slideIndex]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const syncDesktopState = () => {
+      setShowDesktopMedia(desktopQuery.matches);
+    };
+
+    syncDesktopState();
+
+    if (typeof desktopQuery.addEventListener === "function") {
+      desktopQuery.addEventListener("change", syncDesktopState);
+      return () => {
+        desktopQuery.removeEventListener("change", syncDesktopState);
+      };
+    }
+
+    desktopQuery.addListener(syncDesktopState);
+    return () => {
+      desktopQuery.removeListener(syncDesktopState);
+    };
+  }, []);
 
   const previousSlide = useCallback(() => {
     setSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
@@ -107,7 +125,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong overflow-hidden"
+      className="rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong overflow-hidden min-h-[80dvh] lg:min-h-0"
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={() => {
@@ -117,7 +135,9 @@ export function HeroCarousel() {
       aria-label="Medora platform highlights"
     >
       <div className="grid lg:grid-cols-12">
-        <div className="lg:col-span-6 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-linear-to-b from-background/85 via-card/70 to-card/95">
+        <div
+          className={`${showDesktopMedia ? "lg:col-span-6" : "lg:col-span-12"} p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-linear-to-b from-background/85 via-card/70 to-card/95`}
+        >
           <span className="mb-4 inline-flex w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
             {activeSlide.badge}
           </span>
@@ -127,7 +147,13 @@ export function HeroCarousel() {
             <span className="mt-2 block text-primary">{activeSlide.accent}</span>
           </h1>
 
-          <p className="mt-5 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
+          <p className="mt-4 text-sm text-muted-foreground leading-relaxed sm:hidden">
+            {activeSlide.id === "patient"
+              ? "Keep your medical history organized and ready for each visit."
+              : "Review patient context quickly before every consultation."}
+          </p>
+
+          <p className="mt-5 hidden sm:block max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
             {activeSlide.description}
           </p>
 
@@ -174,10 +200,22 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        <div className="lg:col-span-6 relative min-h-70 sm:min-h-85 lg:min-h-140 border-t lg:border-t-0 lg:border-l border-border/70">
-          <Image src={activeSlide.image} alt={activeSlide.imageAlt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority />
-          <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/15 to-transparent" />
-        </div>
+        {showDesktopMedia ? (
+          <div className="lg:col-span-6 relative min-h-140 border-l border-border/70">
+            <Image
+              src={activeSlide.image}
+              alt={activeSlide.imageAlt}
+              fill
+              sizes="50vw"
+              className="object-cover"
+              priority={slideIndex === 0}
+              loading={slideIndex === 0 ? "eager" : "lazy"}
+              fetchPriority={slideIndex === 0 ? "high" : "auto"}
+              decoding="async"
+            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/15 to-transparent" />
+          </div>
+        ) : null}
       </div>
     </section>
   );

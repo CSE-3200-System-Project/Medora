@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -20,19 +20,28 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { MedicationForm, TestForm, SurgeryForm, PrescriptionReview } from "@/components/prescription";
-import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   startConsultation,
-  updateConsultation,
+  getConsultation,
+  getConsultationDraft,
+  getConsultationDraftById,
+  saveConsultationDraft,
+  saveConsultationDraftById,
   completeConsultation,
   addPrescription,
   getDoctorActiveConsultations,
+  getFullPrescriptionByConsultation,
   Consultation,
+  ConsultationDraftPayload,
+  ConsultationDraftUpdateInput,
   MedicationPrescriptionInput,
   TestPrescriptionInput,
   SurgeryRecommendationInput,
   PrescriptionType,
 } from "@/lib/prescription-actions";
+import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document";
 import { extractPrescriptionFromImage } from "@/lib/file-storage-actions";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 import {
@@ -48,7 +57,9 @@ import {
   Save,
   AlertCircle,
   Sparkles,
+  Printer,
 } from "lucide-react";
+import { handleUnauthorized } from "@/lib/auth-utils";
 
 interface PatientInfo {
   id: string;
@@ -62,14 +73,6 @@ interface PatientInfo {
   blood_group?: string;
 }
 
-interface AIConsultationPrefill {
-  chiefComplaint?: string;
-  diagnosis?: string;
-  notes?: string;
-  selectedMedications?: string[];
-  selectedTests?: string[];
-}
-
 interface OcrDetectedMedication {
   name: string;
   dosage?: string;
@@ -77,14 +80,82 @@ interface OcrDetectedMedication {
   quantity?: string;
 }
 
-function getPrefillStorageKey(patientId: string): string {
-  return `medora:consultation-ai-prefill:${patientId}`;
+function normalizeConsultationId(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const lowered = trimmed.toLowerCase();
+  if (lowered === "undefined" || lowered === "null") {
+    return null;
+  }
+
+  return trimmed;
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+}
+
+function isAuthErrorMessage(message: string): boolean {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("invalid or expired token")
+    || normalized.includes("authentication required")
+    || normalized.includes("not authenticated")
+    || normalized.includes("unauthorized")
+  );
+}
+
+function parseIsoDateToTimestamp(value?: string): number {
+  if (!value) return 0;
+  const parsed = new Date(value).getTime();
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function selectActiveConsultationForPatient(
+  consultations: Consultation[],
+  patientId: string
+): Consultation | null {
+  const matching = consultations.filter(
+    (consultationItem) => consultationItem.patient_ref === patientId || consultationItem.patient_id === patientId
+  );
+  if (matching.length === 0) return null;
+
+  const sorted = [...matching].sort((a, b) => {
+    const draftPriority = Number(Boolean(b.draft_id)) - Number(Boolean(a.draft_id));
+    if (draftPriority !== 0) {
+      return draftPriority;
+    }
+
+    const updatedDelta = parseIsoDateToTimestamp(b.created_at) - parseIsoDateToTimestamp(a.created_at);
+    if (updatedDelta !== 0) {
+      return updatedDelta;
+    }
+
+    return parseIsoDateToTimestamp(b.consultation_date) - parseIsoDateToTimestamp(a.consultation_date);
+  });
+
+  return sorted[0] ?? null;
 }
 
 export default function ConsultationPage() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const patientId = params.id as string;
+  const requestedConsultationId = React.useMemo(
+    () => normalizeConsultationId(searchParams.get("consultation_id")),
+    [searchParams]
+  );
 
   const [loading, setLoading] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
@@ -92,9 +163,13 @@ export default function ConsultationPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<string | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = React.useState(false);
+  const [previewLoading, setPreviewLoading] = React.useState(false);
+  const [autosavingDraft, setAutosavingDraft] = React.useState(false);
+  const [requiresManualSave, setRequiresManualSave] = React.useState(false);
 
   const [patient, setPatient] = React.useState<PatientInfo | null>(null);
   const [consultation, setConsultation] = React.useState<Consultation | null>(null);
+  const [consultationDraftId, setConsultationDraftId] = React.useState<string | null>(null);
 
   const [chiefComplaint, setChiefComplaint] = React.useState("");
   const [diagnosis, setDiagnosis] = React.useState("");
@@ -113,91 +188,342 @@ export default function ConsultationPage() {
   const [ocrAttachmentName, setOcrAttachmentName] = React.useState<string>("");
   const [ocrAttachmentKind, setOcrAttachmentKind] = React.useState<"image" | "pdf" | null>(null);
   const [ocrDetectedMedicines, setOcrDetectedMedicines] = React.useState<OcrDetectedMedication[]>([]);
+  const isHydratingDraftRef = React.useRef(false);
+  const autosaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastSavedDraftHashRef = React.useRef<string>("");
+
+  const handleAuthError = React.useCallback((error: unknown): boolean => {
+    const message = getErrorMessage(error, "");
+    if (!isAuthErrorMessage(message)) {
+      return false;
+    }
+
+    setError("Session expired. Redirecting to login...");
+    handleUnauthorized();
+    return true;
+  }, []);
 
   const parseDoseSchedule = React.useCallback((frequencyText: string | undefined) => {
     const normalized = (frequencyText || "").trim().toLowerCase();
-    const pattern = normalized.match(/(\d)\s*\+\s*(\d)\s*\+\s*(\d)(?:\s*\+\s*(\d))?/);
+    const pattern = normalized.match(/(\d+(?:\/\d+)?)\s*[+\-]\s*(\d+(?:\/\d+)?)\s*[+\-]\s*(\d+(?:\/\d+)?)/);
     if (pattern) {
       return {
         morning: Number(pattern[1] || "0") > 0,
-        afternoon: Number(pattern[2] || "0") > 0,
-        evening: Number(pattern[3] || "0") > 0,
-        night: Number(pattern[4] || "0") > 0,
+        noon: Number(pattern[2] || "0") > 0,
+        night: Number(pattern[3] || "0") > 0,
       };
     }
-    return { morning: true, afternoon: false, evening: false, night: false };
+    return { morning: true, noon: false, night: false };
   }, []);
 
+  const normalizeMedicationForDraft = React.useCallback(
+    (medication: MedicationPrescriptionInput): MedicationPrescriptionInput => {
+      const dosageType = medication.dosage_type || "pattern";
+
+      if (dosageType === "frequency") {
+        return {
+          ...medication,
+          dosage_type: "frequency",
+          dosage_pattern: undefined,
+          frequency_text: medication.frequency_text?.trim() || undefined,
+          dose_night: false,
+          dose_night_amount: undefined,
+        };
+      }
+
+      const morningAmount = medication.dose_morning ? (medication.dose_morning_amount || "1") : "0";
+      const noonAmount = medication.dose_afternoon ? (medication.dose_afternoon_amount || "1") : "0";
+      const hasNight = Boolean(medication.dose_evening || medication.dose_night);
+      const nightAmount = hasNight
+        ? (medication.dose_evening_amount || medication.dose_night_amount || "1")
+        : "0";
+
+      return {
+        ...medication,
+        dose_evening: hasNight,
+        dose_night: false,
+        dose_night_amount: undefined,
+        dosage_type: "pattern",
+        dosage_pattern: `${morningAmount}-${noonAmount}-${nightAmount}`,
+        frequency_text: medication.frequency_text?.trim() || undefined,
+      };
+    },
+    []
+  );
+
+  const buildDraftPayload = React.useCallback((): ConsultationDraftUpdateInput => {
+    return {
+      chief_complaint: chiefComplaint,
+      diagnosis,
+      notes,
+      prescription_type: prescriptionType,
+      prescription_notes: prescriptionNotes,
+      medications: medications.map(normalizeMedicationForDraft),
+      tests,
+      surgeries,
+    };
+  }, [chiefComplaint, diagnosis, notes, prescriptionType, prescriptionNotes, medications, tests, surgeries, normalizeMedicationForDraft]);
+
+  const hasIncompleteDraftEntries = React.useMemo(() => {
+    const hasIncompleteMedication = medications.some((medication) => !medication.medicine_name?.trim());
+    const hasIncompleteTest = tests.some((test) => !test.test_name?.trim());
+    const hasIncompleteProcedure = surgeries.some((surgery) => !surgery.procedure_name?.trim());
+
+    return hasIncompleteMedication || hasIncompleteTest || hasIncompleteProcedure;
+  }, [medications, tests, surgeries]);
+
+  const createDraftSnapshot = React.useCallback(
+    (payload: ConsultationDraftUpdateInput): string => {
+      const normalizedPayload: ConsultationDraftUpdateInput = {
+        chief_complaint: payload.chief_complaint ?? "",
+        diagnosis: payload.diagnosis ?? "",
+        notes: payload.notes ?? "",
+        prescription_type: payload.prescription_type ?? "medication",
+        prescription_notes: payload.prescription_notes ?? "",
+        medications: (payload.medications ?? []).map(normalizeMedicationForDraft),
+        tests: payload.tests ?? [],
+        surgeries: payload.surgeries ?? [],
+      };
+      return JSON.stringify(normalizedPayload);
+    },
+    [normalizeMedicationForDraft]
+  );
+
+  const hydrateConsultationState = React.useCallback(async (consultationId: string) => {
+    isHydratingDraftRef.current = true;
+    try {
+      const consultationData = await getConsultation(consultationId);
+      const consultationDraftIdFromConsultation = normalizeConsultationId(consultationData.draft_id);
+      let draftData: ConsultationDraftPayload | null = null;
+
+      if (consultationDraftIdFromConsultation) {
+        try {
+          draftData = await getConsultationDraftById(consultationDraftIdFromConsultation);
+        } catch (draftByIdError: unknown) {
+          const draftByIdMessage = getErrorMessage(draftByIdError, "").toLowerCase();
+          if (!draftByIdMessage.includes("draft not found")) {
+            throw draftByIdError;
+          }
+
+          draftData = await getConsultationDraft(consultationId);
+        }
+      } else {
+        draftData = await getConsultationDraft(consultationId);
+      }
+
+      const resolvedDraftId = normalizeConsultationId(draftData?.draft_id) ?? consultationDraftIdFromConsultation;
+
+      setConsultation(consultationData);
+      setConsultationDraftId(resolvedDraftId);
+      setChiefComplaint(draftData?.chief_complaint ?? consultationData.chief_complaint ?? "");
+      setDiagnosis(draftData?.diagnosis ?? consultationData.diagnosis ?? "");
+      setNotes(draftData?.notes ?? consultationData.notes ?? "");
+      setPrescriptionType(draftData?.prescription_type ?? "medication");
+      setPrescriptionNotes(draftData?.prescription_notes ?? "");
+      const hydratedMedications = (draftData?.medications ?? []).map((medication) => ({
+        ...medication,
+        dose_evening: Boolean(medication.dose_evening || medication.dose_night),
+        dose_evening_amount: medication.dose_evening_amount || medication.dose_night_amount,
+        dose_night: false,
+        dose_night_amount: undefined,
+      }));
+      const hydratedTests = draftData?.tests ?? [];
+      const hydratedSurgeries = draftData?.surgeries ?? [];
+
+      setMedications(hydratedMedications);
+      setTests(hydratedTests);
+      setSurgeries(hydratedSurgeries);
+
+      lastSavedDraftHashRef.current = createDraftSnapshot({
+        chief_complaint: draftData?.chief_complaint ?? consultationData.chief_complaint ?? "",
+        diagnosis: draftData?.diagnosis ?? consultationData.diagnosis ?? "",
+        notes: draftData?.notes ?? consultationData.notes ?? "",
+        prescription_type: draftData?.prescription_type ?? "medication",
+        prescription_notes: draftData?.prescription_notes ?? "",
+        medications: hydratedMedications,
+        tests: hydratedTests,
+        surgeries: hydratedSurgeries,
+      });
+      setRequiresManualSave(false);
+
+      const currentQueryConsultationId = normalizeConsultationId(searchParams.get("consultation_id"));
+      if (currentQueryConsultationId !== consultationData.id) {
+        const nextParams = new URLSearchParams(searchParams.toString());
+        nextParams.set("consultation_id", consultationData.id);
+        router.replace(`/doctor/patient/${patientId}/consultation?${nextParams.toString()}`, { scroll: false });
+      }
+    } finally {
+      isHydratingDraftRef.current = false;
+    }
+  }, [createDraftSnapshot, patientId, router, searchParams]);
+
+  const persistDraft = React.useCallback(
+    async ({
+      silent = true,
+      suppressError = true,
+      markAsManualSave = false,
+    }: {
+      silent?: boolean;
+      suppressError?: boolean;
+      markAsManualSave?: boolean;
+    } = {}): Promise<ConsultationDraftPayload | null> => {
+      if (!consultation) return null;
+
+      const payload = buildDraftPayload();
+      let updatedDraft: ConsultationDraftPayload | null = null;
+
+      try {
+        if (!silent) {
+          setSaving(true);
+          setError(null);
+        } else {
+          setAutosavingDraft(true);
+        }
+
+        const activeDraftId = normalizeConsultationId(consultationDraftId);
+
+        try {
+          updatedDraft = activeDraftId
+            ? await saveConsultationDraftById(activeDraftId, payload)
+            : await saveConsultationDraft(consultation.id, payload);
+        } catch (saveError: unknown) {
+          const saveMessage = getErrorMessage(saveError, "").toLowerCase();
+          const canFallback =
+            Boolean(activeDraftId)
+            && (saveMessage.includes("draft not found") || saveMessage.includes("consultation not found"));
+
+          if (!canFallback) {
+            throw saveError;
+          }
+
+          updatedDraft = await saveConsultationDraft(consultation.id, payload);
+        }
+
+        const returnedConsultationId = normalizeConsultationId(updatedDraft.consultation_id);
+        if (!returnedConsultationId) {
+          throw new Error("Save failed: backend returned an invalid consultation ID");
+        }
+
+        const returnedDraftId = normalizeConsultationId(updatedDraft.draft_id);
+        setConsultationDraftId(returnedDraftId);
+
+        if (returnedConsultationId !== consultation.id) {
+          setConsultation((previous) => (
+            previous
+              ? {
+                  ...previous,
+                  id: returnedConsultationId,
+                  draft_id: returnedDraftId ?? undefined,
+                }
+              : previous
+          ));
+        } else {
+          setConsultation((previous) => (
+            previous
+              ? {
+                  ...previous,
+                  draft_id: returnedDraftId ?? previous.draft_id,
+                }
+              : previous
+          ));
+        }
+
+        if (markAsManualSave) {
+          lastSavedDraftHashRef.current = createDraftSnapshot(payload);
+          setRequiresManualSave(false);
+        }
+
+        return updatedDraft;
+      } catch (err: unknown) {
+        if (handleAuthError(err)) {
+          if (suppressError) {
+            return null;
+          }
+          throw err;
+        }
+
+        if (!suppressError) {
+          setError(getErrorMessage(err, "Failed to save consultation draft"));
+          throw err;
+        }
+
+        return null;
+      } finally {
+        if (!silent) {
+          setSaving(false);
+        } else {
+          setAutosavingDraft(false);
+        }
+      }
+    },
+    [consultation, consultationDraftId, buildDraftPayload, createDraftSnapshot, handleAuthError]
+  );
+
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
     void loadData();
   }, [patientId]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   React.useEffect(() => {
-    if (!consultation || typeof window === "undefined") {
+    if (!consultation || isHydratingDraftRef.current) {
       return;
     }
 
-    const storageKey = getPrefillStorageKey(patientId);
-    const raw = window.sessionStorage.getItem(storageKey);
-    if (!raw) {
+    const currentDraftHash = createDraftSnapshot(buildDraftPayload());
+    setRequiresManualSave(currentDraftHash !== lastSavedDraftHashRef.current);
+  }, [consultation, chiefComplaint, diagnosis, notes, prescriptionType, prescriptionNotes, medications, tests, surgeries, buildDraftPayload, createDraftSnapshot]);
+
+  React.useEffect(() => {
+    if (!consultation || isHydratingDraftRef.current) {
       return;
     }
 
-    try {
-      const parsed = JSON.parse(raw) as AIConsultationPrefill;
-
-      if (parsed.chiefComplaint && !chiefComplaint.trim()) {
-        setChiefComplaint(parsed.chiefComplaint);
-      }
-      if (parsed.diagnosis && !diagnosis.trim()) {
-        setDiagnosis(parsed.diagnosis);
-      }
-      if (parsed.notes) {
-        const mergedNotes = notes.trim() ? `${notes.trim()}\n\n${parsed.notes.trim()}` : parsed.notes.trim();
-        setNotes(mergedNotes);
-      }
-
-      const selectedMedications = parsed.selectedMedications ?? [];
-      if (selectedMedications.length) {
-        setMedications((prev) => {
-          const existingNames = new Set(prev.map((item) => item.medicine_name.trim().toLowerCase()));
-          const additions = selectedMedications
-            .map((name) => name.trim())
-            .filter((name) => name.length > 0 && !existingNames.has(name.toLowerCase()))
-            .map((name) => ({
-              medicine_name: name,
-              dose_morning: true,
-              duration_value: 7,
-              duration_unit: "days" as const,
-              meal_instruction: "after_meal" as const,
-            }));
-          return [...prev, ...additions];
-        });
-      }
-
-      const selectedTests = parsed.selectedTests ?? [];
-      if (selectedTests.length) {
-        setTests((prev) => {
-          const existingNames = new Set(prev.map((item) => item.test_name.trim().toLowerCase()));
-          const additions = selectedTests
-            .map((name) => name.trim())
-            .filter((name) => name.length > 0 && !existingNames.has(name.toLowerCase()))
-            .map((name) => ({
-              test_name: name,
-              urgency: "normal" as const,
-            }));
-          return [...prev, ...additions];
-        });
-      }
-
-      setSuccess("AI suggestions loaded. Please review and edit before sending.");
-      setTimeout(() => setSuccess(null), 3500);
-    } catch {
-      setError("Failed to load AI suggestions into consultation.");
-    } finally {
-      window.sessionStorage.removeItem(storageKey);
+    if (!requiresManualSave) {
+      return;
     }
-  }, [consultation, patientId, chiefComplaint, diagnosis, notes]);
+
+    if (hasIncompleteDraftEntries) {
+      return;
+    }
+
+    if (autosaveTimerRef.current) {
+      clearTimeout(autosaveTimerRef.current);
+    }
+
+    autosaveTimerRef.current = setTimeout(() => {
+      void persistDraft({ silent: true, suppressError: true });
+    }, 1000);
+
+    return () => {
+      if (autosaveTimerRef.current) {
+        clearTimeout(autosaveTimerRef.current);
+      }
+    };
+  }, [consultation, chiefComplaint, diagnosis, notes, prescriptionType, prescriptionNotes, medications, tests, surgeries, requiresManualSave, hasIncompleteDraftEntries, persistDraft]);
+
+  React.useEffect(() => {
+    if (!consultation) return;
+
+    const reloadDraft = () => {
+      if (isHydratingDraftRef.current) return;
+
+      // Never clobber unsaved local edits when window focus changes.
+      if (requiresManualSave) return;
+
+      void hydrateConsultationState(consultation.id).catch((hydrateError: unknown) => {
+        if (handleAuthError(hydrateError)) {
+          return;
+        }
+        setError(getErrorMessage(hydrateError, "Failed to refresh consultation draft"));
+      });
+    };
+
+    window.addEventListener("focus", reloadDraft);
+    return () => {
+      window.removeEventListener("focus", reloadDraft);
+    };
+  }, [consultation, hydrateConsultationState, requiresManualSave, handleAuthError]);
 
   React.useEffect(() => {
     return () => {
@@ -207,7 +533,7 @@ export default function ConsultationPage() {
     };
   }, [ocrAttachmentPreviewUrl]);
 
-  const loadData = async () => {
+  const loadData = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -225,24 +551,23 @@ export default function ConsultationPage() {
         blood_group: patientData.blood_group,
       });
 
+      if (requestedConsultationId) {
+        await hydrateConsultationState(requestedConsultationId);
+        return;
+      }
+
       try {
         const newConsultation = await startConsultation({ patient_id: patientId });
-        setConsultation(newConsultation);
-        setChiefComplaint(newConsultation.chief_complaint || "");
-        setDiagnosis(newConsultation.diagnosis || "");
-        setNotes(newConsultation.notes || "");
-      } catch (err: any) {
-        if (err.message?.includes("Active consultation already exists")) {
+        await hydrateConsultationState(newConsultation.id);
+      } catch (err: unknown) {
+        const message = getErrorMessage(err, "Failed to start consultation");
+
+        if (message.includes("Active consultation already exists")) {
           const activeConsultations = await getDoctorActiveConsultations();
-          const existingConsultation = activeConsultations.consultations.find(
-            (c: any) => c.patient_ref === patientId || c.patient_id === patientId
-          );
+          const existingConsultation = selectActiveConsultationForPatient(activeConsultations.consultations, patientId);
 
           if (existingConsultation) {
-            setConsultation(existingConsultation);
-            setChiefComplaint(existingConsultation.chief_complaint || "");
-            setDiagnosis(existingConsultation.diagnosis || "");
-            setNotes(existingConsultation.notes || "");
+            await hydrateConsultationState(existingConsultation.id);
             setSuccess("Loaded existing active consultation");
           } else {
             setError("An active consultation exists but could not be loaded. Please try again.");
@@ -251,34 +576,32 @@ export default function ConsultationPage() {
           throw err;
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      if (handleAuthError(err)) {
+        return;
+      }
+
       console.error("Failed to load data:", err);
-      setError(err.message || "Failed to load patient data");
+      setError(getErrorMessage(err, "Failed to load patient data"));
     } finally {
       setLoading(false);
     }
-  };
+  }, [patientId, requestedConsultationId, hydrateConsultationState, handleAuthError]);
 
   const handleSaveNotes = async () => {
     if (!consultation) return;
 
+    if (hasIncompleteDraftEntries) {
+      setError("Please complete or remove empty medicine, test, or procedure entries before saving.");
+      return;
+    }
+
     try {
-      setSaving(true);
-      setError(null);
-
-      const updated = await updateConsultation(consultation.id, {
-        chief_complaint: chiefComplaint,
-        diagnosis,
-        notes,
-      });
-
-      setConsultation(updated);
-      setSuccess("Notes saved successfully");
+      await persistDraft({ silent: false, suppressError: false, markAsManualSave: true });
+      setSuccess("Consultation saved");
       setTimeout(() => setSuccess(null), 3000);
-    } catch (err: any) {
-      setError(err.message || "Failed to save notes");
-    } finally {
-      setSaving(false);
+    } catch {
+      // Error state is already surfaced by persistDraft.
     }
   };
 
@@ -300,8 +623,12 @@ export default function ConsultationPage() {
           setError("Medicine name is required for all medications");
           return;
         }
-        if (!med.dose_morning && !med.dose_afternoon && !med.dose_evening && !med.dose_night) {
-          setError("Please select at least one dosage time for each medication");
+        if ((med.dosage_type || "pattern") === "pattern" && !med.dose_morning && !med.dose_afternoon && !med.dose_evening) {
+          setError("Please select at least one dosage slot (Morning/Noon/Night) for each medication");
+          return;
+        }
+        if ((med.dosage_type || "pattern") === "frequency" && !med.frequency_text?.trim() && !med.frequency_per_day) {
+          setError("Please provide frequency text or times-per-day for frequency-based medications");
           return;
         }
       }
@@ -325,28 +652,93 @@ export default function ConsultationPage() {
       }
     }
 
+    const normalizedMedications = hasMedications
+      ? medications.map((medication) => normalizeMedicationForDraft(medication))
+      : undefined;
+
     try {
       setSubmitting(true);
       setError(null);
 
+      const updatedDraft = await persistDraft({ silent: true, suppressError: false });
+      const activeDraftId = normalizeConsultationId(updatedDraft?.draft_id) ?? normalizeConsultationId(consultationDraftId);
+      const previewPayload = await getFullPrescriptionByConsultation(consultation.id, activeDraftId || undefined);
+      const snapshotGeneratedAt = new Date().toISOString();
+      const renderedPrescriptionHtml = buildClinicalPrescriptionDocumentHtml(previewPayload, {
+        consultationId: consultation.id,
+        generatedAtIso: snapshotGeneratedAt,
+      });
+
       await addPrescription(consultation.id, {
         type: prescriptionType,
         notes: prescriptionNotes,
-        medications: hasMedications ? medications : undefined,
+        rendered_prescription_html: renderedPrescriptionHtml,
+        rendered_prescription_snapshot: previewPayload,
+        rendered_prescription_generated_at: snapshotGeneratedAt,
+        medications: normalizedMedications,
         tests: hasTests ? tests : undefined,
         surgeries: hasSurgeries ? surgeries : undefined,
       });
 
+      isHydratingDraftRef.current = true;
+      setConsultationDraftId(null);
+      setConsultation((previous) => (previous ? { ...previous, draft_id: undefined } : previous));
       setMedications([]);
       setTests([]);
       setSurgeries([]);
       setPrescriptionNotes("");
+      window.setTimeout(() => {
+        isHydratingDraftRef.current = false;
+      }, 0);
 
       setShowSuccessDialog(true);
-    } catch (err: any) {
-      setError(err.message || "Failed to add prescription");
+    } catch (err: unknown) {
+      if (handleAuthError(err)) {
+        return;
+      }
+      setError(getErrorMessage(err, "Failed to add prescription"));
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handlePreviewPrescription = async () => {
+    if (!consultation) return;
+
+    if (hasIncompleteDraftEntries) {
+      setError("Please complete or remove empty medicine, test, or procedure entries before preview.");
+      return;
+    }
+
+    try {
+      setError(null);
+      setPreviewLoading(true);
+
+      let activeDraftId = normalizeConsultationId(consultationDraftId);
+
+      if (requiresManualSave || !activeDraftId) {
+        const updatedDraft = await persistDraft({
+          silent: false,
+          suppressError: false,
+          markAsManualSave: true,
+        });
+        activeDraftId = normalizeConsultationId(updatedDraft?.draft_id) ?? normalizeConsultationId(consultationDraftId);
+      }
+
+      if (!activeDraftId) {
+        setError("Draft is not initialized. Please save consultation again.");
+        return;
+      }
+
+      router.push(`/prescription/preview/${consultation.id}?draft_id=${activeDraftId}`);
+    } catch (err: unknown) {
+      if (handleAuthError(err)) {
+        return;
+      }
+      const message = err instanceof Error ? err.message : "Failed to open prescription preview";
+      setError(message);
+    } finally {
+      setPreviewLoading(false);
     }
   };
 
@@ -387,14 +779,20 @@ export default function ConsultationPage() {
         .map((item) => {
           if (!item.name) return null;
           const schedule = parseDoseSchedule(item.frequency || undefined);
+          const normalizedFrequency = (item.frequency || "").trim();
+          const patternMatch = normalizedFrequency.match(/(\d)\s*[+\-]\s*(\d)\s*[+\-]\s*(\d)/);
+          const hasPattern = Boolean(patternMatch);
           const instructionParts = [item.frequency, item.quantity].filter(Boolean).map((part) => String(part).trim());
           return {
             medicine_name: item.name,
             strength: item.dosage || undefined,
             dose_morning: schedule.morning,
-            dose_afternoon: schedule.afternoon,
-            dose_evening: schedule.evening,
-            dose_night: schedule.night,
+            dose_afternoon: schedule.noon,
+            dose_evening: schedule.night,
+            dose_night: false,
+            dosage_type: hasPattern ? ("pattern" as const) : ("frequency" as const),
+            dosage_pattern: patternMatch ? `${patternMatch[1]}-${patternMatch[2]}-${patternMatch[3]}` : undefined,
+            frequency_text: hasPattern ? undefined : (normalizedFrequency || undefined),
             duration_value: 7,
             duration_unit: "days" as const,
             meal_instruction: "after_meal" as const,
@@ -417,8 +815,8 @@ export default function ConsultationPage() {
 
       setSuccess(`Imported ${parsed.length} medicine(s) from handwritten prescription. Please review before sending.`);
       setTimeout(() => setSuccess(null), 4000);
-    } catch (err: any) {
-      setOcrError(err?.message || "Failed to import handwritten prescription.");
+    } catch (err: unknown) {
+      setOcrError(getErrorMessage(err, "Failed to import handwritten prescription."));
     } finally {
       setOcrImporting(false);
     }
@@ -431,14 +829,19 @@ export default function ConsultationPage() {
       setSubmitting(true);
       setError(null);
 
+      await persistDraft({ silent: true, suppressError: false });
+
       await completeConsultation(consultation.id);
       setSuccess("Consultation completed successfully");
 
       setTimeout(() => {
         router.push("/doctor/patients");
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || "Failed to complete consultation");
+    } catch (err: unknown) {
+      if (handleAuthError(err)) {
+        return;
+      }
+      setError(getErrorMessage(err, "Failed to complete consultation"));
       setSubmitting(false);
     }
   };
@@ -457,12 +860,10 @@ export default function ConsultationPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-16 md:pt-12.5">
-          <div className="flex items-center justify-center py-20">
-            <MedoraLoader size="lg" label="Loading consultation..." />
-          </div>
+          <PageLoadingShell label="Loading consultation..." cardCount={4} />
         </main>
       </AppBackground>
     );
@@ -629,8 +1030,14 @@ export default function ConsultationPage() {
                   ) : (
                     <Save className="w-4 h-4 mr-2" />
                   )}
-                  Save Notes
+                  Save Consultation
                 </Button>
+                {autosavingDraft ? (
+                  <p className="text-xs text-muted-foreground">Autosave backup is running...</p>
+                ) : null}
+                {requiresManualSave ? (
+                  <p className="text-xs text-amber-700">Unsaved changes. Click Save Consultation before preview.</p>
+                ) : null}
               </CardContent>
             </Card>
 
@@ -787,7 +1194,6 @@ export default function ConsultationPage() {
 
                 <div className="mt-6">
                   <PrescriptionReview
-                    type={prescriptionType}
                     medications={medications}
                     tests={tests}
                     surgeries={surgeries}
@@ -795,7 +1201,21 @@ export default function ConsultationPage() {
                   />
                 </div>
 
-                <div className="mt-6 flex justify-end">
+                <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={handlePreviewPrescription}
+                    disabled={!consultation || previewLoading || saving}
+                    className="sm:min-w-50"
+                  >
+                    {previewLoading ? (
+                      <ButtonLoader className="mr-2" />
+                    ) : (
+                      <Printer className="w-4 h-4 mr-2" />
+                    )}
+                    Preview Prescription
+                  </Button>
                   <Button
                     variant="medical"
                     size="lg"

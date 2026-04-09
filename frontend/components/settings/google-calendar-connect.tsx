@@ -4,7 +4,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CheckCircle2, Link2Off, Loader2, ExternalLink } from "lucide-react";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { Calendar, CheckCircle2, Link2Off, ExternalLink } from "lucide-react";
 import {
   getGoogleCalendarStatus,
   getGoogleConnectUrl,
@@ -68,8 +69,7 @@ export function GoogleCalendarConnect() {
 
         {loading ? (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Checking connection status...
+            <MedoraLoader size="sm" label="Checking connection status..." />
           </div>
         ) : connected ? (
           <div className="space-y-3">
@@ -90,7 +90,7 @@ export function GoogleCalendarConnect() {
               className="text-destructive hover:text-destructive"
             >
               {actionLoading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                <ButtonLoader className="h-4 w-4 mr-2" />
               ) : (
                 <Link2Off className="h-4 w-4 mr-2" />
               )}
@@ -104,7 +104,7 @@ export function GoogleCalendarConnect() {
             className="gap-2"
           >
             {actionLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <ButtonLoader className="h-4 w-4" />
             ) : (
               <ExternalLink className="h-4 w-4" />
             )}

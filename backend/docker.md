@@ -50,6 +50,7 @@ curl http://localhost:8000/health
 - `ALLOWED_ORIGINS` - CORS origins (default: `http://localhost:3000`)
 - `ADMIN_PASSWORD` - Admin panel password (default: `admin123`)
 - `RELOAD` - Enable hot reload in dev (`true`/`false`, default: `false`)
+- `RUN_MIGRATIONS` - Run Alembic on container startup (`true`/`false`, default: `true`)
 
 ### Getting Credentials
 
@@ -122,6 +123,32 @@ docker-compose exec backend bash
 ### Run Migrations Manually
 ```bash
 docker-compose exec backend alembic upgrade head
+```
+
+### Consultation Draft Schema Runbook
+Use this whenever consultation draft errors suggest schema drift (for example, missing `consultations.draft_id`).
+
+```bash
+# 1) Verify current revision and head revision
+docker-compose exec backend alembic current
+docker-compose exec backend alembic heads
+
+# 2) Apply pending migrations
+docker-compose exec backend alembic upgrade head
+
+# 3) Re-check revision (should match head)
+docker-compose exec backend alembic current
+```
+
+Expected consultation draft architecture after migration:
+- `consultations.draft_id` exists
+- `consultation_drafts` table exists
+- legacy `consultations.draft_payload` column is removed
+
+Optional verification SQL:
+```bash
+docker-compose exec backend psql "$SUPABASE_DATABASE_URL" -c "SELECT column_name FROM information_schema.columns WHERE table_name = 'consultations' AND column_name IN ('draft_id', 'draft_payload');"
+docker-compose exec backend psql "$SUPABASE_DATABASE_URL" -c "SELECT to_regclass('public.consultation_drafts');"
 ```
 
 ### Check Database Connection

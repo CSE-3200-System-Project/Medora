@@ -16,6 +16,24 @@ class Medication(BaseModel):
     duration: str
     generic_name: Optional[str] = None
     prescribing_doctor: Optional[str] = None
+    dose_morning: Optional[bool] = None
+    dose_afternoon: Optional[bool] = None
+    dose_evening: Optional[bool] = None
+    dose_night: Optional[bool] = None
+    dose_morning_amount: Optional[str] = None
+    dose_afternoon_amount: Optional[str] = None
+    dose_evening_amount: Optional[str] = None
+    dose_night_amount: Optional[str] = None
+    meal_instruction: Optional[str] = None
+    drug_id: Optional[str] = None
+    brand_id: Optional[str] = None
+    display_name: Optional[str] = None
+    strength: Optional[str] = None
+    dosage_form: Optional[str] = None
+    status: Optional[str] = None
+    started_date: Optional[str] = None
+    stopped_date: Optional[str] = None
+    notes: Optional[str] = None
 
 class DrugAllergy(BaseModel):
     drug_name: str

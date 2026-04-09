@@ -1,8 +1,22 @@
-export type AppointmentStatus = "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED";
+export type AppointmentStatus =
+  | "PENDING"
+  | "CONFIRMED"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "CANCELLED_BY_PATIENT"
+  | "CANCELLED_BY_DOCTOR"
+  | "PENDING_ADMIN_REVIEW"
+  | "PENDING_DOCTOR_CONFIRMATION"
+  | "PENDING_PATIENT_CONFIRMATION"
+  | "RESCHEDULE_REQUESTED"
+  | "CANCEL_REQUESTED"
+  | "NO_SHOW";
 
 export type DoctorAppointment = {
   id: string;
+  doctor_id?: string | null;
   appointment_date: string;
+  slot_time?: string | null;
   status: AppointmentStatus;
   patient_name: string;
   patient_id?: string | null;
@@ -12,6 +26,9 @@ export type DoctorAppointment = {
   patient_phone?: string | null;
   reason?: string | null;
   notes?: string | null;
+  cancellation_reason_key?: string | null;
+  cancellation_reason_note?: string | null;
+  cancelled_at?: string | null;
   blood_group?: string | null;
   chronic_conditions?: string[];
   location?: string | null;

@@ -13,6 +13,7 @@ export function MobileViewportFix() {
 
     const root = document.documentElement;
     const body = document.body;
+    let rafId: number | null = null;
 
     const updateViewport = () => {
       const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
@@ -22,22 +23,37 @@ export function MobileViewportFix() {
       root.style.setProperty("--app-vh", `${viewportHeight * 0.01}px`);
       root.style.setProperty("--keyboard-inset-height", `${keyboardInset}px`);
 
-      body.classList.toggle("keyboard-open", keyboardInset > 0);
+      body.classList.toggle("keyboard-open", keyboardInset > 48);
     };
 
-    updateViewport();
+    const scheduleViewportUpdate = () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        updateViewport();
+      });
+    };
+
+    scheduleViewportUpdate();
 
     const visualViewport = window.visualViewport;
-    visualViewport?.addEventListener("resize", updateViewport);
-    visualViewport?.addEventListener("scroll", updateViewport);
-    window.addEventListener("resize", updateViewport, { passive: true });
-    window.addEventListener("orientationchange", updateViewport, { passive: true });
+    visualViewport?.addEventListener("resize", scheduleViewportUpdate);
+    visualViewport?.addEventListener("scroll", scheduleViewportUpdate);
+    window.addEventListener("resize", scheduleViewportUpdate, { passive: true });
+    window.addEventListener("orientationchange", scheduleViewportUpdate, { passive: true });
 
     return () => {
-      visualViewport?.removeEventListener("resize", updateViewport);
-      visualViewport?.removeEventListener("scroll", updateViewport);
-      window.removeEventListener("resize", updateViewport);
-      window.removeEventListener("orientationchange", updateViewport);
+      visualViewport?.removeEventListener("resize", scheduleViewportUpdate);
+      visualViewport?.removeEventListener("scroll", scheduleViewportUpdate);
+      window.removeEventListener("resize", scheduleViewportUpdate);
+      window.removeEventListener("orientationchange", scheduleViewportUpdate);
+
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, []);
 

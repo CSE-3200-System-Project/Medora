@@ -10,6 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AppBackground } from "@/components/ui/app-background";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import type { Medication } from "@/components/medicine";
 import type { Surgery } from "@/components/medical-history/surgery-manager";
 import type { Hospitalization } from "@/components/medical-history/hospitalization-manager";
@@ -33,7 +36,6 @@ import {
   Upload,
   AlertTriangle,
   ArrowRight,
-  Loader2,
   MessageSquare,
   X,
   ImageIcon,
@@ -46,6 +48,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
+import {
+  toBackendPatientMedication,
+  toPatientMedication,
+  type BackendPatientMedication,
+} from "@/lib/patient-medication";
 
 import { getMyAppointments } from "@/lib/appointment-actions";
 import { humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
@@ -64,12 +71,12 @@ import { uploadMedicalReport } from "@/lib/medical-report-upload";
 
 const MedicationManager = dynamic(
   () => import("@/components/medicine").then((module) => module.MedicationManager),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const SurgeryManager = dynamic(
   () => import("@/components/medical-history/surgery-manager").then((module) => module.SurgeryManager),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const HospitalizationManager = dynamic(
@@ -77,7 +84,7 @@ const HospitalizationManager = dynamic(
     import("@/components/medical-history/hospitalization-manager").then(
       (module) => module.HospitalizationManager,
     ),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const VaccinationManager = dynamic(
@@ -85,32 +92,32 @@ const VaccinationManager = dynamic(
     import("@/components/medical-history/vaccination-manager").then(
       (module) => module.VaccinationManager,
     ),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const MedicalTestSearch = dynamic(
   () => import("@/components/medical-test").then((module) => module.MedicalTestSearch),
-  { ssr: false, loading: () => <div className="skeleton h-10 w-full rounded-md" /> },
+  { ssr: false, loading: () => <CardSkeleton className="h-10 w-full rounded-md" /> },
 );
 
 const EnhancedMedicalHistoryTimeline = dynamic(
   () => import("@/components/medical-history/enhanced-medical-history-timeline").then((module) => module.EnhancedMedicalHistoryTimeline),
-  { loading: () => <div className="skeleton h-32 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const ConditionDistributionChart = dynamic(
   () => import("@/components/medical-history/condition-distribution-chart").then((module) => module.ConditionDistributionChart),
-  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-64 w-full rounded-lg" /> },
 );
 
 const PrescriptionHistoryChart = dynamic(
   () => import("@/components/medical-history/prescription-history-chart").then((module) => module.PrescriptionHistoryChart),
-  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-64 w-full rounded-lg" /> },
 );
 
 const VitalsSummaryCard = dynamic(
   () => import("@/components/medical-history/vitals-summary-card").then((module) => module.VitalsSummaryCard),
-  { loading: () => <div className="skeleton h-64 w-full rounded-lg" /> },
+  { loading: () => <CardSkeleton className="h-64 w-full rounded-lg" /> },
 );
 
 // Interface for medical test records
@@ -218,23 +225,7 @@ function PatientMedicalHistoryPage() {
           
           // Load medications
           const meds = data.medications || [];
-          const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-            if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
-            return {
-              id: crypto.randomUUID(),
-              drug_id: "",
-              display_name: med.name || "",
-              generic_name: med.generic_name || med.name || "",
-              strength: "",
-              dosage_form: "",
-              dosage: med.dosage || "",
-              frequency: med.frequency || "",
-              duration: med.duration || "",
-              status: "current" as const,
-              prescribing_doctor: med.prescribing_doctor || "",
-              notes: "",
-            };
-          });
+          const convertedMeds = meds.map((med: BackendPatientMedication) => toPatientMedication(med));
           setMedications(convertedMeds);
           
           // Load other medical history
@@ -282,19 +273,9 @@ function PatientMedicalHistoryPage() {
       setSaving(true);
       
       // Convert medications to backend format
-      const backendMedications = medications.map(med => {
-        const m: any = {
-          name: med.display_name,
-          dosage: med.dosage,
-          frequency: med.frequency,
-          duration: med.duration,
-          generic_name: med.generic_name || null,
-        }
-        if (med.prescribing_doctor && med.prescribing_doctor.trim()) {
-          m.prescribing_doctor = med.prescribing_doctor
-        }
-        return m
-      })
+      const backendMedications = medications.map((medication) =>
+        toBackendPatientMedication(medication),
+      );
       
       await updatePatientOnboarding({
         taking_meds: medications.length > 0 ? "yes" : "no",
@@ -310,23 +291,7 @@ function PatientMedicalHistoryPage() {
       const updatedData = await getPatientOnboardingData();
       if (updatedData) {
         const meds = updatedData.medications || [];
-        const convertedMeds = meds.map((med: { drug_id?: string; name?: string; generic_name?: string; dosage?: string; frequency?: string; duration?: string; prescribing_doctor?: string }) => {
-          if (med.drug_id) return { ...med, id: crypto.randomUUID() } as Medication;
-          return {
-            id: crypto.randomUUID(),
-            drug_id: "",
-            display_name: med.name || "",
-            generic_name: med.generic_name || med.name || "",
-            strength: "",
-            dosage_form: "",
-            dosage: med.dosage || "",
-            frequency: med.frequency || "",
-            duration: med.duration || "",
-            status: "current" as const,
-            prescribing_doctor: med.prescribing_doctor || "",
-            notes: "",
-          };
-        });
+        const convertedMeds = meds.map((med: BackendPatientMedication) => toPatientMedication(med));
         setMedications(convertedMeds);
         setSurgeries(updatedData.surgeries || []);
         setHospitalizations(updatedData.hospitalizations || []);
@@ -570,9 +535,7 @@ function PatientMedicalHistoryPage() {
       <AppBackground className="container-padding">
         <Navbar />
         <main className="container mx-auto py-8 pt-[var(--nav-content-offset)]">
-          <div className="flex items-center justify-center py-12">
-            <div className="skeleton w-8 h-8 rounded-full"></div>
-          </div>
+          <PageLoadingShell label="Loading medical history..." cardCount={4} />
         </main>
       </AppBackground>
     );
@@ -1256,8 +1219,11 @@ function PatientMedicalHistoryPage() {
                   </Button>
 
                   {reportDetailLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <div className="space-y-4 py-6">
+                      <div className="flex items-center justify-center">
+                        <MedoraLoader size="md" label="Loading report details..." />
+                      </div>
+                      <CardSkeleton />
                     </div>
                   ) : reportDetailError ? (
                     <Card className="border-destructive/50 bg-destructive/10">
@@ -1466,7 +1432,7 @@ function PatientMedicalHistoryPage() {
 
                         <div className="flex gap-3">
                           <Button onClick={handleReportUpload} disabled={!selectedFile || uploading} className="gap-2">
-                            {uploading && <Loader2 className="h-4 w-4 animate-spin" />}
+                            {uploading && <ButtonLoader className="h-4 w-4" />}
                             {uploading ? "Processing..." : "Upload & Extract"}
                           </Button>
                           <Button variant="outline" onClick={() => { setShowUpload(false); clearFile(); }}>Cancel</Button>
@@ -1487,8 +1453,12 @@ function PatientMedicalHistoryPage() {
 
                   {/* Loading */}
                   {reportsLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <div className="space-y-4 py-6">
+                      <div className="flex items-center justify-center">
+                        <MedoraLoader size="md" label="Loading reports..." />
+                      </div>
+                      <CardSkeleton />
+                      <CardSkeleton />
                     </div>
                   ) : reports.length === 0 ? (
                     <Card className="text-center py-12">
@@ -1662,8 +1632,8 @@ export default function MedicalHistoryPage() {
     <Suspense fallback={
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="skeleton w-8 h-8 rounded-full"></div>
+        <div className="min-h-dvh min-h-app py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading medical history..." cardCount={4} />
         </div>
       </AppBackground>
     }>

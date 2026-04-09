@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-04-03T15:00:00Z",
+  "summary": {
+    "total_requests": 4800,
+    "total_failures": 62,
+    "aggregate_error_rate": 0.0129,
+    "worst_p95_ms": 1180.4
+  },
+  "critical_endpoints": {
+    "/appointment/": {
+      "p95_ms": 980.2,
+      "rps": 58.3,
+      "error_rate": 0.01
+    },
+    "/ai/search": {
+      "p95_ms": 1180.4,
+      "rps": 35.9,
+      "error_rate": 0.018
+    },
+    "/upload/prescription/extract": {
+      "p95_ms": 2080.0,
+      "rps": 9.7,
+      "error_rate": 0.024
+    }
+  }
+}

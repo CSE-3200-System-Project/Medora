@@ -3,7 +3,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
-import { motion } from "framer-motion"
 
 interface Step {
   id: number
@@ -63,16 +62,11 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
               aria-current={isCurrent ? 'step' : undefined}
               aria-label={`Go to step ${step.id}: ${step.title}`}
             >
-              <motion.div
-                initial={false}
-                animate={{
-                  backgroundColor: isCompleted || isCurrent ? "var(--primary)" : "var(--background)",
-                  borderColor: isCompleted || isCurrent ? "var(--primary)" : "var(--border)",
-                  scale: isCurrent ? 1.1 : 1,
-                }}
+              <div
                 className={cn(
-                  "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-colors duration-300",
-                  isCompleted || isCurrent ? "border-primary bg-primary text-primary-foreground" : "bg-background border-border text-muted-foreground"
+                  "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all duration-300",
+                  isCompleted || isCurrent ? "border-primary bg-primary text-primary-foreground" : "bg-background border-border text-muted-foreground",
+                  isCurrent && "scale-110"
                 )}
               >
                 {isCompleted ? (
@@ -80,7 +74,7 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
                 ) : (
                   <span className="text-xs font-bold">{step.id}</span>
                 )}
-              </motion.div>
+              </div>
               <div className="absolute -bottom-8 w-32 text-center hidden md:block">
                 <span
                   className={cn(

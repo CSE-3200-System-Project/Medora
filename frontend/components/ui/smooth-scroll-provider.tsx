@@ -38,6 +38,13 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       : false;
 
     const skipPaths = [
+      "/login",
+      "/selection",
+      "/patient/register",
+      "/doctor/register",
+      "/forgot-password",
+      "/auth/reset-password",
+      "/onboarding/",
       "/patient/find-doctor",
       "/patient/doctor/",
       "/doctor/patient/",

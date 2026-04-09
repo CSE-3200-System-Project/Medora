@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { Select } from "@/components/ui/select-native";
 import {
   Table,
@@ -443,7 +445,12 @@ export function AdminAppointmentsClient({
         <div className="flex items-center justify-between mb-3 px-1">
           <p className="text-sm text-muted-foreground">
             {loading
-              ? "Loading..."
+              ? (
+                <span className="inline-flex items-center gap-2">
+                  <ButtonLoader className="h-4 w-4" />
+                  Loading appointments...
+                </span>
+              )
               : `${total} appointment${total !== 1 ? "s" : ""} found`}
           </p>
         </div>
@@ -451,8 +458,13 @@ export function AdminAppointmentsClient({
         {/* ---- Content ---- */}
         {loading ? (
           <Card className="bg-card/60 border-border/50">
-            <CardContent className="p-12 text-center">
-              <p className="text-muted-foreground">Loading appointments...</p>
+            <CardContent className="space-y-4 p-6">
+              <div className="flex items-center justify-center py-2">
+                <MedoraLoader size="md" label="Loading appointments..." />
+              </div>
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
             </CardContent>
           </Card>
         ) : appointments.length === 0 ? (

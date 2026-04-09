@@ -6,6 +6,8 @@ import { Plus, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { getAIClinicalInfo, type ClinicalInfoResponse } from "@/lib/ai-consultation-actions";
 
 type SuggestionType = "condition" | "test" | "medication";
@@ -93,9 +95,12 @@ export function AIAssistantPanel({ patientId, notes, clinicalContext, onInsertSu
       <CardContent className="card-padding pt-0 space-y-5">
         {loading ? (
           <div className="space-y-3">
-            <div className="skeleton h-20 w-full rounded-xl" />
-            <div className="skeleton h-20 w-full rounded-xl" />
-            <div className="skeleton h-12 w-full rounded-xl" />
+            <div className="flex items-center justify-center py-1">
+              <MedoraLoader size="sm" label="Loading AI suggestions..." />
+            </div>
+            <CardSkeleton className="h-20 rounded-xl" />
+            <CardSkeleton className="h-20 rounded-xl" />
+            <CardSkeleton className="h-12 rounded-xl" />
           </div>
         ) : null}
 

@@ -26,6 +26,7 @@ import {
   User,
 } from "lucide-react";
 import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 
 export default function PatientPrescriptionsPage() {
   const router = useRouter();
@@ -177,8 +178,12 @@ export default function PatientPrescriptionsPage() {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex justify-center items-center py-12">
-            <MedoraLoader size="lg" label="Loading prescriptions..." />
+          <div className="space-y-4 py-4">
+            <div className="flex justify-center py-2">
+              <MedoraLoader size="lg" label="Loading prescriptions..." />
+            </div>
+            <CardSkeleton />
+            <CardSkeleton />
           </div>
         )}
 

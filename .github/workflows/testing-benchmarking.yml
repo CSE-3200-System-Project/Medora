@@ -1,0 +1,117 @@
+name: Medora Testing and Benchmarking
+
+on:
+  pull_request:
+    paths:
+      - "backend/**"
+      - "ai_service/**"
+      - "tests/**"
+      - "run_tests.sh"
+      - "run_benchmarks.sh"
+      - ".github/workflows/testing-benchmarking.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - "ai_service/**"
+      - "tests/**"
+      - "run_tests.sh"
+      - "run_benchmarks.sh"
+      - ".github/workflows/testing-benchmarking.yml"
+  workflow_dispatch:
+
+jobs:
+  backend-tests:
+    name: Backend Unit + Integration + Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install backend and test deps
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -r tests/requirements-test.txt
+
+      - name: Run backend unit tests
+        run: MEDORA_TEST_TARGET=backend pytest -c tests/pytest.backend.ini tests/unit/backend
+
+      - name: Run backend integration and security tests
+        run: MEDORA_TEST_TARGET=backend pytest -c tests/pytest.backend.ini tests/integration/backend tests/security
+
+  ai-service-tests:
+    name: AI OCR Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install AI service and test deps
+        run: |
+          pip install -r ai_service/requirements.txt
+          pip install -r tests/requirements-test.txt
+
+      - name: Run AI service unit tests
+        run: MEDORA_TEST_TARGET=ai_service pytest -c tests/pytest.ai.ini tests/unit/ai_service
+
+  benchmark-regression:
+    name: Benchmark Regression Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: ${{ secrets.MEDORA_BENCHMARK_BASE_URL != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install benchmark deps
+        run: pip install -r tests/requirements-test.txt
+
+      - name: Run short locust benchmark
+        env:
+          MEDORA_BASE_URL: ${{ secrets.MEDORA_BENCHMARK_BASE_URL }}
+          MEDORA_PATIENT_TOKEN: ${{ secrets.MEDORA_PATIENT_TOKEN }}
+          MEDORA_DOCTOR_TOKEN: ${{ secrets.MEDORA_DOCTOR_TOKEN }}
+          MEDORA_DOCTOR_IDS: ${{ secrets.MEDORA_DOCTOR_ID }}
+        run: |
+          mkdir -p tests/benchmarks/reports/current
+          locust -f tests/locust/locustfile.py \
+            --host "$MEDORA_BASE_URL" \
+            --headless \
+            -u 30 \
+            -r 6 \
+            -t 2m
+
+      - name: Fail on >20% latency regression or rising error rate
+        run: |
+          python tests/scripts/benchmark_regression_guard.py \
+            --baseline tests/benchmarks/baselines/locust_baseline.json \
+            --current tests/benchmarks/reports/current/locust_summary.json \
+            --latency-regression-threshold 0.20 \
+            --error-rate-increase-threshold 0.01
+
+      - name: Upload benchmark reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: medora-benchmark-reports
+          path: tests/benchmarks/reports/current/

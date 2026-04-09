@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
 import { useMemo } from "react"
 import type { EChartsOption } from "echarts"
 import { useTheme } from "next-themes"
@@ -15,6 +14,8 @@ type MedicationTrendChartProps = {
   labels: string[]
   adherenceRate: number
   deltaPercent: number
+  title: string
+  subtitle: string
 }
 
 export function MedicationTrendChart({
@@ -22,6 +23,8 @@ export function MedicationTrendChart({
   labels,
   adherenceRate,
   deltaPercent,
+  title,
+  subtitle,
 }: MedicationTrendChartProps) {
   const { resolvedTheme } = useTheme()
 
@@ -89,19 +92,13 @@ export function MedicationTrendChart({
   const deltaLabel = deltaPercent > 0 ? `+${deltaPercent}%` : `${deltaPercent}%`
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: 0.08, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-      className="h-full"
-    >
+    <div className="h-full animate-fade-in-up card-hover">
       <Card className="h-full border-border/70 bg-card/95 shadow-sm">
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <CardTitle className="text-xl text-foreground">Medication Trend</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">Last 7 days adherence</p>
+              <CardTitle className="text-xl text-foreground">{title}</CardTitle>
+              <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
             </div>
             <div className="text-right">
               <p className="text-3xl font-bold text-primary">{adherenceRate}%</p>
@@ -110,16 +107,11 @@ export function MedicationTrendChart({
           </div>
         </CardHeader>
         <CardContent>
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.18 }}
-            className="h-42.5 w-full"
-          >
+          <div className="h-42.5 w-full animate-fade-in-up delay-3">
             <ReactECharts option={chartOption} style={{ width: "100%", height: "100%" }} />
-          </motion.div>
+          </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

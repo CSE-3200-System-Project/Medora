@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AppBackground } from "@/components/ui/app-background";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   User,
   Mail,
@@ -23,7 +24,6 @@ import {
   Pill,
   Shield,
   Edit,
-  Loader2,
   FileText,
   Users,
   Scale,
@@ -102,17 +102,23 @@ interface PatientData {
   emergency_contact_relation?: string;
 }
 
+interface AppointmentSummary {
+  appointment_date: string;
+}
+
 export default function PatientProfilePage() {
   const router = useRouter();
   const [patient, setPatient] = React.useState<PatientData | null>(null);
-  const [appointments, setAppointments] = React.useState<any[]>([]);
+  const [appointments, setAppointments] = React.useState<AppointmentSummary[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     loadPatientProfile();
   }, []);
 
   const loadPatientProfile = async () => {
+    setLoadError(null);
     try {
       const response = await fetchWithAuth('/api/auth/me');
       if (response?.ok) {
@@ -130,7 +136,7 @@ export default function PatientProfilePage() {
         // Fetch appointments
         try {
           const apps = await getMyAppointments();
-          if (Array.isArray(apps)) setAppointments(apps);
+          if (Array.isArray(apps)) setAppointments(apps as AppointmentSummary[]);
         } catch (e) {
           console.error("Failed to load appointments", e);
         }
@@ -141,9 +147,14 @@ export default function PatientProfilePage() {
         } else {
           setPatient(data);
         }
+      } else {
+        setPatient(null);
+        setLoadError("We couldn't verify your session while loading profile data.");
       }
     } catch (error) {
       console.error("Failed to load profile:", error);
+      setPatient(null);
+      setLoadError("Profile data couldn't be loaded. Check your connection and retry.");
     } finally {
       setLoading(false);
     }
@@ -188,12 +199,9 @@ export default function PatientProfilePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="skeleton h-12 w-12 rounded-full mx-auto mb-4"></div>
-            <p className="text-foreground font-semibold">Loading profile...</p>
-          </div>
-        </div>
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading profile..." cardCount={5} />
+        </main>
       </AppBackground>
     );
   }
@@ -202,11 +210,15 @@ export default function PatientProfilePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center min-h-dvh min-h-app">
           <div className="text-center">
             <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-            <p className="text-foreground mb-4">Failed to load profile</p>
-            <Button onClick={() => router.push('/login')} className="touch-target">Go to Login</Button>
+            <p className="text-foreground mb-2">Failed to load profile</p>
+            <p className="text-sm text-muted-foreground mb-4">{loadError ?? "Please try again."}</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button onClick={loadPatientProfile} variant="outline" className="touch-target">Retry</Button>
+              <Button onClick={() => router.push('/login')} className="touch-target">Go to Login</Button>
+            </div>
           </div>
         </div>
       </AppBackground>
@@ -215,6 +227,17 @@ export default function PatientProfilePage() {
 
   const chronicConditions = getChronicConditions();
   const age = patient.date_of_birth ? calculateAge(patient.date_of_birth) : null;
+  const profileCompletenessChecks = [
+    { label: "Date of birth", complete: !!patient.date_of_birth },
+    { label: "Gender", complete: !!patient.gender },
+    { label: "Blood group", complete: !!patient.blood_group },
+    { label: "Address details", complete: !!(patient.address && patient.city && patient.district) },
+    { label: "Height and weight", complete: !!(patient.height && patient.weight) },
+    { label: "Emergency contact", complete: !!(patient.emergency_contact_name && patient.emergency_contact_phone) },
+    { label: "Allergy details", complete: !!(patient.allergies || (patient.drug_allergies && patient.drug_allergies.length > 0)) },
+  ];
+  const missingProfileItems = profileCompletenessChecks.filter((item) => !item.complete);
+  const completionPercent = Math.round(((profileCompletenessChecks.length - missingProfileItems.length) / profileCompletenessChecks.length) * 100);
 
   return (
     <AppBackground className="container-padding animate-page-enter">
@@ -232,6 +255,37 @@ export default function PatientProfilePage() {
             Edit Profile
           </Button>
         </div>
+
+        {missingProfileItems.length > 0 && (
+          <Card className="mb-6 border-amber-300/60 bg-amber-100/30 dark:border-amber-700/60 dark:bg-amber-900/20">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Profile completion: {completionPercent}%</p>
+                  <p className="text-sm text-amber-900/90 dark:text-amber-100">
+                    {missingProfileItems.length} important section{missingProfileItems.length > 1 ? "s are" : " is"} missing.
+                    Complete them now to avoid care delays.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {missingProfileItems.slice(0, 5).map((item) => (
+                      <Badge key={item.label} variant="outline" className="border-amber-400/70 bg-transparent text-amber-900 dark:text-amber-100">
+                        {item.label}
+                      </Badge>
+                    ))}
+                    {missingProfileItems.length > 5 ? (
+                      <Badge variant="outline" className="border-amber-400/70 bg-transparent text-amber-900 dark:text-amber-100">
+                        +{missingProfileItems.length - 5} more
+                      </Badge>
+                    ) : null}
+                  </div>
+                </div>
+                <Button variant="outline" onClick={() => router.push('/onboarding/patient?mode=edit')} className="border-amber-500/60 bg-background/80 hover:bg-background">
+                  Complete Missing Data
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Profile Header Card */}
         <Card className="mb-6 overflow-hidden border-none shadow-lg">
@@ -287,7 +341,7 @@ export default function PatientProfilePage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium">{patient.email || 'Not provided'}</p>
+                  <p className="font-medium break-all">{patient.email || 'Not provided'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -296,7 +350,7 @@ export default function PatientProfilePage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium">{patient.phone || 'Not provided'}</p>
+                  <p className="font-medium break-all">{patient.phone || 'Not provided'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -305,7 +359,7 @@ export default function PatientProfilePage() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Address</p>
-                  <p className="font-medium">
+                  <p className="font-medium break-words">
                     {[patient.address, patient.city, patient.district, patient.country].filter(Boolean).join(', ') || 'Not provided'}
                   </p>
                 </div>
@@ -516,7 +570,7 @@ export default function PatientProfilePage() {
                   </div>
                   {appointments.length > 0 ? (
                     <div className="space-y-1">
-                      {appointments.slice(0, 2).map((app: any, i) => (
+                      {appointments.slice(0, 2).map((app, i) => (
                         <p key={i} className="text-xs text-muted-foreground">
                           • {new Date(app.appointment_date).toLocaleDateString()}
                         </p>

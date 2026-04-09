@@ -1,0 +1,23 @@
+{
+  "logIn": "লগ ইন",
+  "signUp": "সাইন আপ",
+  "profile": "প্রোফাইল",
+  "settings": "সেটিংস",
+  "logOut": "লগ আউট",
+  "loggingOut": "লগ আউট হচ্ছে...",
+  "toggleMenu": "মেনু টগল করুন",
+  "doctorMenu": {
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "patients": "রোগী",
+    "analytics": "অ্যানালিটিক্স"
+  },
+  "patientMenu": {
+    "findDoctor": "ডাক্তার খুঁজুন",
+    "analytics": "অ্যানালিটিক্স",
+    "appointments": "অ্যাপয়েন্টমেন্ট",
+    "findMedicine": "ওষুধ খুঁজুন",
+    "medicalHistory": "মেডিকেল ইতিহাস",
+    "labReports": "ল্যাব রিপোর্ট",
+    "privacyDataSharing": "গোপনীয়তা ও ডেটা শেয়ারিং"
+  }
+}

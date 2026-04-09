@@ -1,11 +1,10 @@
 "use client";
 
 import { memo } from "react";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart } from "recharts";
 
+import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import type { PrescriptionSafetyData } from "@/components/doctor/analytics/types";
-import { glassCardClass } from "@/components/doctor/analytics/shared";
-import { cn } from "@/lib/utils";
 
 type PrescriptionSafetyCardProps = {
   data: PrescriptionSafetyData;
@@ -16,28 +15,29 @@ const safetyChartColors = ["#0360D9", "#1379B1", "#B91C1C"];
 
 export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ data, isLoading = false }: PrescriptionSafetyCardProps) {
   if (isLoading) {
-    return <div className={cn(glassCardClass, "h-95 animate-pulse p-8")} />;
+    return <div className="h-40 animate-pulse rounded-lg bg-muted" />;
   }
 
   const chartData = [
-    { label: "Safe Interactions", value: data.safe },
-    { label: "Warnings flagged", value: data.warning },
-    { label: "Blocked Interactions", value: data.blocked },
+    { label: "Safe", value: data.safe },
+    { label: "Warnings", value: data.warning },
+    { label: "Blocked", value: data.blocked },
   ];
 
   return (
-    <section className={cn(glassCardClass, "flex h-full flex-col p-8")}>
-      <h3 className="mb-8 font-bold text-foreground">Prescription Safety Analysis</h3>
-
-      <div className="flex h-full flex-col items-center gap-8 md:flex-row">
-        <div className="relative h-48 w-48 shrink-0">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+    <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
+      {/* Chart */}
+      <div className="relative mx-auto h-40 w-40 shrink-0 sm:mx-0">
+        <SafeChartContainer
+          className="h-full w-full"
+          minHeight={160}
+          render={({ width, height }) => (
+            <PieChart width={width} height={height}>
               <Pie
                 data={chartData}
                 dataKey="value"
-                innerRadius={62}
-                outerRadius={86}
+                innerRadius={52}
+                outerRadius={72}
                 stroke="none"
                 paddingAngle={2}
               >
@@ -46,49 +46,47 @@ export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ dat
                 ))}
               </Pie>
             </PieChart>
-          </ResponsiveContainer>
-
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="text-3xl font-bold text-foreground">
-              {data.score.toFixed(1)}%
-            </span>
-            <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Safety Score</span>
-          </div>
-        </div>
-
-        <div className="w-full flex-1 space-y-4">
-          <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4">
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 rounded-full bg-primary" />
-              <span className="text-sm text-muted-foreground">Safe Interactions</span>
-            </div>
-            <span className="text-sm font-bold text-foreground">{data.safe}</span>
-          </div>
-
-          <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4">
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 rounded-full bg-primary-muted" />
-              <span className="text-sm text-muted-foreground">Warnings flagged</span>
-            </div>
-            <span className="text-sm font-bold text-primary-muted">{data.warning}</span>
-          </div>
-
-          <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4">
-            <div className="flex items-center gap-3">
-              <span className="h-3 w-3 rounded-full bg-destructive-muted" />
-              <span className="text-sm text-muted-foreground">Blocked Interactions</span>
-            </div>
-            <span className="text-sm font-bold text-destructive-muted">{data.blocked}</span>
-          </div>
-
-          <div className="flex items-center justify-between pt-2">
-            <p className="text-xs text-muted-foreground">
-              Override Rate: <span className="font-bold text-foreground">{data.overrideRate}%</span>
-            </p>
-            <span className="rounded px-2 py-1 text-xs font-bold text-emerald-600 uppercase bg-emerald-500/15 dark:text-emerald-400">Status: {data.status}</span>
-          </div>
+          )}
+        />
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
+          <span className="text-2xl font-bold tabular-nums text-foreground">{data.score.toFixed(1)}%</span>
+          <span className="text-xs font-medium text-muted-foreground">Safety score</span>
         </div>
       </div>
-    </section>
+
+      {/* Breakdown */}
+      <div className="flex-1 space-y-3">
+        <div className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+            <span className="text-sm text-muted-foreground">Safe Interactions</span>
+          </div>
+          <span className="text-sm font-semibold tabular-nums text-foreground">{data.safe}</span>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-primary-muted" />
+            <span className="text-sm text-muted-foreground">Warnings flagged</span>
+          </div>
+          <span className="text-sm font-semibold tabular-nums text-primary-muted">{data.warning}</span>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-destructive-muted" />
+            <span className="text-sm text-muted-foreground">Blocked</span>
+          </div>
+          <span className="text-sm font-semibold tabular-nums text-destructive-muted">{data.blocked}</span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-3">
+          <p className="text-sm text-muted-foreground">
+            Override rate: <span className="font-semibold tabular-nums text-foreground">{data.overrideRate}%</span>
+          </p>
+          <span className="rounded-md bg-emerald-500/12 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            {data.status}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 });

@@ -9,6 +9,8 @@ import { DoctorInformationSection } from "@/components/doctor/doctor-information
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
 import { MedoraLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 
 const AppointmentBookingPanel = dynamic(
   () =>
@@ -18,8 +20,9 @@ const AppointmentBookingPanel = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="rounded-2xl border border-border bg-card p-6">
+      <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
         <MedoraLoader size="sm" label="Loading booking panel..." />
+        <CardSkeleton />
       </div>
     ),
   },
@@ -53,8 +56,11 @@ export default function DoctorProfilePage() {
 
   if (loading) {
     return (
-      <AppBackground>
-        <MedoraLoader size="lg" label="Loading doctor profile..." fullScreen />
+      <AppBackground className="container-padding">
+        <Navbar />
+        <main className="mx-auto w-full max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
+          <PageLoadingShell label="Loading doctor profile..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }
@@ -62,7 +68,7 @@ export default function DoctorProfilePage() {
   if (error || !doctor) {
     return (
       <AppBackground>
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex min-h-dvh min-h-app items-center justify-center">
           <div className="text-center">
             <p className="mb-4 text-destructive">{error || "Doctor not found"}</p>
             <Link href="/patient/find-doctor" className="text-primary hover:underline">

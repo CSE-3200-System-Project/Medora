@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useT } from "@/i18n/client";
 
 interface VoiceTranscriptionReviewProps {
   text: string;
@@ -37,6 +38,7 @@ export function VoiceTranscriptionReview({
   onCancel,
   className
 }: VoiceTranscriptionReviewProps) {
+  const tVoice = useT("voice");
   // Map language codes to display names
   const getLanguageName = (code: string): string => {
     const languages: Record<string, string> = {
@@ -57,7 +59,7 @@ export function VoiceTranscriptionReview({
           color: "text-success",
           bgColor: "bg-success/10",
           borderColor: "border-success/30",
-          label: "Good quality",
+          label: tVoice("goodQuality"),
           message: null
         };
       case "medium":
@@ -66,8 +68,8 @@ export function VoiceTranscriptionReview({
           color: "text-yellow-600",
           bgColor: "bg-yellow-50",
           borderColor: "border-yellow-200",
-          label: "Review needed",
-          message: "We may not have understood clearly. Please review the text before searching."
+          label: tVoice("reviewNeeded"),
+          message: tVoice("reviewMessage")
         };
       case "low":
         return {
@@ -75,8 +77,8 @@ export function VoiceTranscriptionReview({
           color: "text-destructive",
           bgColor: "bg-destructive/10",
           borderColor: "border-destructive/30",
-          label: "Low confidence",
-          message: "The transcription quality is low. Please retry or edit the text carefully."
+          label: tVoice("lowConfidence"),
+          message: tVoice("lowConfidenceMessage")
         };
     }
   };
@@ -94,7 +96,7 @@ export function VoiceTranscriptionReview({
       {/* Header with badges */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-foreground">Detected from voice</span>
+          <span className="text-sm font-medium text-foreground">{tVoice("detectedFromVoice")}</span>
           <Badge variant="outline" className="text-xs">
             {getLanguageName(languageDetected)}
           </Badge>
@@ -123,14 +125,14 @@ export function VoiceTranscriptionReview({
       <Textarea
         value={text}
         onChange={(e) => onTextChange(e.target.value)}
-        placeholder="Transcribed text will appear here..."
+        placeholder={tVoice("transcriptionPlaceholder")}
         className={cn(
           "min-h-[80px] text-base bg-background resize-none",
           "focus:ring-2 focus:ring-primary/20"
         )}
       />
       <p className="text-xs text-muted-foreground">
-        You can edit the text above before searching.
+        {tVoice("editableHint")}
       </p>
 
       {/* Action buttons */}
@@ -141,20 +143,20 @@ export function VoiceTranscriptionReview({
           className="flex-1 min-w-[120px]"
         >
           <Check className="w-4 h-4 mr-2" />
-          Use This Text
+          {tVoice("useThisText")}
         </Button>
         <Button
           variant="outline"
           onClick={onRetry}
         >
           <RotateCcw className="w-4 h-4 mr-2" />
-          Try Again
+          {tVoice("tryAgain")}
         </Button>
         <Button
           variant="ghost"
           size="icon"
           onClick={onCancel}
-          title="Cancel"
+          title={tVoice("cancel")}
         >
           <X className="w-4 h-4" />
         </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { Clock, DollarSign, Briefcase } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
@@ -9,14 +9,9 @@ interface DoctorProfessionalDetailsCardProps {
   doctor: BackendDoctorProfile;
 }
 
-export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDetailsCardProps) {
+export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDetailsCardProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.35 }}
-    >
+    <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-2xl font-bold text-foreground">Professional Details</CardTitle>
@@ -83,7 +78,7 @@ export function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDeta
           </div>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
-}
+})
 

@@ -146,6 +146,16 @@ export async function verifyDoctor(doctorId: string, approved: boolean, notes?: 
 
 // Patients Management
 export async function getAllPatients(limit = 50, offset = 0) {
+  const fallback = {
+    success: false,
+    message: "Failed to fetch patients",
+    data: [],
+    patients: [],
+    total: 0,
+    limit,
+    offset,
+  };
+
   try {
     const headers = await getAdminHeaders();
     const response = await fetch(
@@ -158,14 +168,29 @@ export async function getAllPatients(limit = 50, offset = 0) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Patients fetch failed:", response.status, errorText);
-      throw new Error(`Failed to fetch patients: ${response.status}`);
+      console.error("Patients fetch failed:", {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText,
+      });
+      return {
+        ...fallback,
+        message: `Failed to fetch patients: ${response.status}`,
+      };
     }
 
-    return await response.json();
+    const payload = await response.json();
+    return {
+      ...fallback,
+      ...payload,
+      patients: Array.isArray(payload?.patients) ? payload.patients : [],
+      total: typeof payload?.total === "number" ? payload.total : 0,
+      success: payload?.success !== false,
+      message: payload?.message || "Patients fetched successfully",
+    };
   } catch (error) {
     console.error("Error fetching patients:", error);
-    throw error;
+    return fallback;
   }
 }
 

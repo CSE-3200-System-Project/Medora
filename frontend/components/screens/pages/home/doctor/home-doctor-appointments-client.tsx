@@ -1,29 +1,78 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { Download, CalendarDays } from "lucide-react";
 
 import { AppointmentCalendar } from "@/components/doctor/doctor-appointments/AppointmentCalendar";
-import { AppointmentDensityChart } from "@/components/doctor/doctor-appointments/AppointmentDensityChart";
 import { AppointmentListPanel } from "@/components/doctor/doctor-appointments/AppointmentListPanel";
 import { AppointmentModal } from "@/components/doctor/doctor-appointments/AppointmentModal";
-import { DailyWorkloadChart } from "@/components/doctor/doctor-appointments/DailyWorkloadChart";
+import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
+import { RescheduleResponseDialog } from "@/components/appointment/reschedule-response-dialog";
 import { ScheduleMetrics } from "@/components/doctor/doctor-appointments/ScheduleMetrics";
+
+const ChartSkeleton = () => (
+  <div className="h-56 animate-pulse rounded-xl border border-border/60 bg-card/95 p-4" />
+);
+
+const DailyWorkloadChart = dynamic(
+  () => import("@/components/doctor/doctor-appointments/DailyWorkloadChart").then((m) => m.DailyWorkloadChart),
+  { ssr: false, loading: ChartSkeleton },
+);
+
+const AppointmentDensityChart = dynamic(
+  () => import("@/components/doctor/doctor-appointments/AppointmentDensityChart").then((m) => m.AppointmentDensityChart),
+  { ssr: false, loading: ChartSkeleton },
+);
 import { DoctorAppointment, MetricCard } from "@/components/doctor/doctor-appointments/types";
 import { AppBackground } from "@/components/ui/app-background";
 import { Button } from "@/components/ui/button";
-import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Navbar } from "@/components/ui/navbar";
-import { getMyAppointments, syncAppointmentStatus, updateAppointment, requestRescheduleAppointment } from "@/lib/appointment-actions";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import {
+  cancelAppointment,
+  getMyAppointments,
+  syncAppointmentStatus,
+  updateAppointment,
+} from "@/lib/appointment-actions";
+import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { localDateKey } from "@/lib/utils";
+
+const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
+
+interface RescheduleHistoryItem {
+  id?: string;
+  requested_by_role?: string;
+  proposed_date?: string;
+  proposed_time?: string;
+  status?: string;
+}
+
+interface RescheduleHistoryPayload {
+  reschedule_requests?: RescheduleHistoryItem[];
+}
+
+interface RescheduleResponseState {
+  appointment: DoctorAppointment;
+  request: {
+    id: string;
+    proposed_date: string;
+    proposed_time: string;
+  } | null;
+}
 
 export default function DoctorAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
   const [doctorName, setDoctorName] = React.useState("Doctor");
+  const [doctorId, setDoctorId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedAppointment, setSelectedAppointment] = React.useState<DoctorAppointment | null>(null);
+  const [rescheduleTarget, setRescheduleTarget] = React.useState<DoctorAppointment | null>(null);
+  const [rescheduleResponseTarget, setRescheduleResponseTarget] = React.useState<RescheduleResponseState | null>(null);
+  const [rescheduleResponseLoading, setRescheduleResponseLoading] = React.useState(false);
+  const [rescheduleResponseError, setRescheduleResponseError] = React.useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [actionError, setActionError] = React.useState<string | null>(null);
 
@@ -44,6 +93,9 @@ export default function DoctorAppointmentsPage() {
       }
 
       const data = await response.json();
+      if (data?.id) {
+        setDoctorId(String(data.id));
+      }
       const fullName = `${data?.first_name || ""} ${data?.last_name || ""}`.trim();
       if (fullName) {
         setDoctorName(fullName);
@@ -76,6 +128,7 @@ export default function DoctorAppointmentsPage() {
     const now = Date.now();
     const upcoming = appointments
       .filter((item) => new Date(item.appointment_date).getTime() >= now)
+      .filter((item) => !isTerminalAppointmentStatus(item.status))
       .sort((a, b) => new Date(a.appointment_date).getTime() - new Date(b.appointment_date).getTime());
 
     return upcoming.slice(0, 8);
@@ -153,7 +206,7 @@ export default function DoctorAppointmentsPage() {
     const counts = [0, 0, 0, 0, 0, 0, 0];
 
     appointments.forEach((item) => {
-      if (item.status === "CANCELLED") {
+      if (isCancelledAppointmentStatus(item.status)) {
         return;
       }
       const date = new Date(item.appointment_date);
@@ -184,7 +237,7 @@ export default function DoctorAppointmentsPage() {
     const counts = bucketMeta.map(() => 0);
 
     appointments.forEach((item) => {
-      if (item.status === "CANCELLED") {
+      if (isCancelledAppointmentStatus(item.status)) {
         return;
       }
 
@@ -227,52 +280,106 @@ export default function DoctorAppointmentsPage() {
   }, [appointments]);
 
   const handleStatusUpdate = async (id: string, status: DoctorAppointment["status"]) => {
-    const previous = appointments;
     setActionError(null);
-    setAppointments((current) => current.map((item) => (item.id === id ? { ...item, status } : item)));
+    const isCancellation = isCancelledAppointmentStatus(status);
 
     try {
-      await updateAppointment(id, { status });
+      if (isCancellation) {
+        await cancelAppointment(id, {
+          reasonKey: "DOCTOR_UNAVAILABLE",
+        });
+      } else {
+        await updateAppointment(id, { status });
+      }
+      await loadAppointments();
     } catch {
-      setAppointments(previous);
       setActionError("Could not update appointment status. Please try again.");
     }
   };
 
-  const handleReschedule = async (id: string, newTime: string) => {
-    const target = appointments.find((item) => item.id === id);
-    if (!target) {
-      return;
-    }
-
-    const currentDate = new Date(target.appointment_date);
-    const [hours, minutes] = newTime.split(":").map(Number);
-    const rescheduledDate = new Date(currentDate);
-    rescheduledDate.setHours(hours, minutes, 0, 0);
-
-    const previous = appointments;
+  const handleRescheduleConfirm = async (
+    appointmentId: string,
+    newDate: string,
+    slotTime: string,
+    notes?: string,
+  ) => {
     setActionError(null);
-    setAppointments((current) =>
-      current.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              appointment_date: rescheduledDate.toISOString(),
-              status: "PENDING",
-              notes: `Rescheduled to ${newTime}`,
-            }
-          : item,
-      ),
-    );
 
     try {
-      // Request reschedule - sends notification to patient
-      await requestRescheduleAppointment(id, rescheduledDate.toISOString());
+      await requestReschedule({
+        appointment_id: appointmentId,
+        proposed_date: newDate,
+        proposed_time: slotTime,
+        reason: notes || "Doctor requested reschedule",
+      });
+      await loadAppointments();
+      setRescheduleTarget(null);
     } catch (error) {
-      setAppointments(previous);
       const errorMessage = error instanceof Error ? error.message : "Could not reschedule this appointment";
       setActionError(errorMessage);
+      throw error;
     }
+  };
+
+  const resolveIncomingRescheduleRequest = React.useCallback(async (appointment: DoctorAppointment) => {
+    const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
+    const requests = Array.isArray(history?.reschedule_requests) ? history.reschedule_requests : [];
+
+    const pendingPatientRequest = requests.find(
+      (request) =>
+        String(request.status || "").toLowerCase() === "pending" &&
+        String(request.requested_by_role || "").toLowerCase() === "patient",
+    );
+    const pendingRequest =
+      pendingPatientRequest ||
+      requests.find((request) => String(request.status || "").toLowerCase() === "pending");
+
+    if (!pendingRequest?.id || !pendingRequest.proposed_date || !pendingRequest.proposed_time) {
+      throw new Error("No pending reschedule request is available for this appointment.");
+    }
+
+    const requesterRole = String(pendingRequest.requested_by_role || "").toLowerCase();
+    if (requesterRole === "doctor") {
+      throw new Error("Waiting for patient response on your reschedule request.");
+    }
+
+    return {
+      id: String(pendingRequest.id),
+      proposed_date: String(pendingRequest.proposed_date).slice(0, 10),
+      proposed_time: String(pendingRequest.proposed_time),
+    };
+  }, []);
+
+  const handleRespondReschedule = async (appointment: DoctorAppointment) => {
+    setActionError(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(true);
+    setRescheduleResponseTarget({ appointment, request: null });
+
+    try {
+      const resolved = await resolveIncomingRescheduleRequest(appointment);
+      setRescheduleResponseTarget({ appointment, request: resolved });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unable to load this reschedule request.";
+      setActionError(errorMessage);
+      setRescheduleResponseError(errorMessage);
+      setRescheduleResponseTarget({ appointment, request: null });
+    } finally {
+      setRescheduleResponseLoading(false);
+    }
+  };
+
+  const handleRescheduleResponse = async (requestId: string, accept: boolean) => {
+    setActionError(null);
+    await respondToReschedule(
+      requestId,
+      accept,
+      accept ? "Accepted by doctor" : "Rejected by doctor",
+    );
+    await loadAppointments();
+    setRescheduleResponseTarget(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(false);
   };
 
   if (loading) {
@@ -280,9 +387,7 @@ export default function DoctorAppointmentsPage() {
       <AppBackground>
         <Navbar />
         <main className="mx-auto max-w-7xl px-4 pb-10 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center py-24">
-            <MedoraLoader size="lg" label="Loading schedule dashboard..." />
-          </div>
+          <PageLoadingShell label="Loading schedule dashboard..." cardCount={4} />
         </main>
       </AppBackground>
     );
@@ -352,7 +457,59 @@ export default function DoctorAppointmentsPage() {
         onOpenChange={setIsModalOpen}
         onApprove={(id) => handleStatusUpdate(id, "CONFIRMED")}
         onCancel={(id) => handleStatusUpdate(id, "CANCELLED")}
-        onReschedule={handleReschedule}
+        onRescheduleRequest={(appointment) => setRescheduleTarget(appointment)}
+        onRespondReschedule={handleRespondReschedule}
+      />
+
+      <RescheduleAppointmentDialog
+        open={!!rescheduleTarget}
+        onOpenChange={(open) => !open && setRescheduleTarget(null)}
+        appointment={
+          rescheduleTarget
+            ? {
+                id: rescheduleTarget.id,
+                doctor_id: rescheduleTarget.doctor_id || doctorId || undefined,
+                patient_name: rescheduleTarget.patient_name,
+                appointment_date: rescheduleTarget.appointment_date,
+                slot_time: rescheduleTarget.slot_time || null,
+                reason: rescheduleTarget.reason || undefined,
+              }
+            : null
+        }
+        onConfirm={handleRescheduleConfirm}
+        userRole="doctor"
+      />
+
+      <RescheduleResponseDialog
+        open={!!rescheduleResponseTarget}
+        onOpenChange={(open) => {
+          if (!open) {
+            setRescheduleResponseTarget(null);
+            setRescheduleResponseLoading(false);
+            setRescheduleResponseError(null);
+          }
+        }}
+        appointment={
+          rescheduleResponseTarget
+            ? {
+                id: rescheduleResponseTarget.appointment.id,
+                patient_name: rescheduleResponseTarget.appointment.patient_name,
+                appointment_date: rescheduleResponseTarget.appointment.appointment_date,
+                slot_time: rescheduleResponseTarget.appointment.slot_time || null,
+              }
+            : null
+        }
+        request={rescheduleResponseTarget?.request || null}
+        isResolving={rescheduleResponseLoading}
+        resolveError={rescheduleResponseError}
+        onAccept={(requestId) => handleRescheduleResponse(requestId, true)}
+        onReject={(requestId) => handleRescheduleResponse(requestId, false)}
+        messages={{
+          title: "Patient proposed a new time",
+          description: "Review the proposed schedule and accept or reject this reschedule request.",
+          currentTimeLabel: "Current appointment",
+          proposedTimeLabel: "Patient proposal",
+        }}
       />
     </AppBackground>
   );
@@ -362,36 +519,74 @@ function uniqueById(appointments: DoctorAppointment[]) {
   return appointments.filter((item, index, all) => index === all.findIndex((entry) => entry.id === item.id));
 }
 
-function normalizeAppointment(raw: any): DoctorAppointment | null {
-  const idValue = raw?.id;
-  const dateValue = raw?.appointment_date;
-  const patientName = raw?.patient_name;
+function toStringOrNull(value: unknown): string | null {
+  return typeof value === "string" ? value : null;
+}
+
+function normalizeAppointment(raw: unknown): DoctorAppointment | null {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+
+  const row = raw as Record<string, unknown>;
+  const idValue = toStringOrNull(row.id);
+  const dateValue = toStringOrNull(row.appointment_date);
+  const patientName = toStringOrNull(row.patient_name);
 
   if (!idValue || !dateValue || !patientName) {
     return null;
   }
 
-  const statusValue = String(raw?.status || "PENDING").toUpperCase();
-  const status = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"].includes(statusValue)
+  const statusValue = String(toStringOrNull(row.status) || "PENDING").toUpperCase();
+  const status = [
+    "PENDING",
+    "CONFIRMED",
+    "COMPLETED",
+    "CANCELLED",
+    "CANCELLED_BY_PATIENT",
+    "CANCELLED_BY_DOCTOR",
+    "PENDING_ADMIN_REVIEW",
+    "PENDING_DOCTOR_CONFIRMATION",
+    "PENDING_PATIENT_CONFIRMATION",
+    "RESCHEDULE_REQUESTED",
+    "CANCEL_REQUESTED",
+    "NO_SHOW",
+  ].includes(statusValue)
     ? (statusValue as DoctorAppointment["status"])
     : "PENDING";
 
   return {
     id: String(idValue),
+    doctor_id: toStringOrNull(row.doctor_id),
     appointment_date: String(dateValue),
+    slot_time: toStringOrNull(row.slot_time),
     status,
     patient_name: String(patientName),
-    patient_id: raw?.patient_id || null,
-    patient_ref: raw?.patient_ref || null,
-    patient_age: raw?.patient_age ?? null,
-    patient_gender: raw?.patient_gender ?? null,
-    patient_phone: raw?.patient_phone ?? null,
-    reason: raw?.reason ?? null,
-    notes: raw?.notes ?? null,
-    blood_group: raw?.blood_group ?? null,
-    chronic_conditions: Array.isArray(raw?.chronic_conditions) ? raw.chronic_conditions : [],
-    location: raw?.location ?? null,
+    patient_id: toStringOrNull(row.patient_id),
+    patient_ref: toStringOrNull(row.patient_ref),
+    patient_age: typeof row.patient_age === "number" ? row.patient_age : null,
+    patient_gender: toStringOrNull(row.patient_gender),
+    patient_phone: toStringOrNull(row.patient_phone),
+    reason: toStringOrNull(row.reason),
+    notes: toStringOrNull(row.notes),
+    cancellation_reason_key: toStringOrNull(row.cancellation_reason_key),
+    cancellation_reason_note: toStringOrNull(row.cancellation_reason_note),
+    cancelled_at: toStringOrNull(row.cancelled_at),
+    blood_group: toStringOrNull(row.blood_group),
+    chronic_conditions: Array.isArray(row.chronic_conditions)
+      ? row.chronic_conditions.filter((value): value is string => typeof value === "string")
+      : [],
+    location: toStringOrNull(row.location),
   };
+}
+
+function isCancelledAppointmentStatus(status: string) {
+  return CANCELLED_STATUSES.has(status.toUpperCase());
+}
+
+function isTerminalAppointmentStatus(status: string) {
+  const value = status.toUpperCase();
+  return isCancelledAppointmentStatus(value) || value === "COMPLETED" || value === "NO_SHOW";
 }
 
 function formatPercentDelta(current: number, previous: number) {

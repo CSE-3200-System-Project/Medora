@@ -13,6 +13,8 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
   Plus,
   Trash2,
@@ -20,7 +22,6 @@ import {
   CalendarOff,
   CalendarPlus,
   Clock,
-  Loader2,
   CheckCircle2,
 } from "lucide-react";
 import {
@@ -359,8 +360,12 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="space-y-4 py-6">
+        <div className="flex items-center justify-center">
+          <MedoraLoader size="md" label="Loading availability..." />
+        </div>
+        <CardSkeleton />
+        <CardSkeleton />
       </div>
     );
   }
@@ -560,7 +565,7 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
             >
               {saving ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <ButtonLoader className="h-4 w-4 mr-2" />
                   Saving...
                 </>
               ) : saveSuccess ? (

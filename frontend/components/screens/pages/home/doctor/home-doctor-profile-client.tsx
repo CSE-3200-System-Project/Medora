@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   MapPin,
   Clock,
@@ -26,22 +27,73 @@ import {
 import { getDoctorProfile } from "@/lib/auth-actions";
 import { useRouter } from "next/navigation";
 
+type DoctorLocation = {
+  name?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  availability?: string;
+};
+
+type DoctorWorkExperience = {
+  position?: string;
+  hospital?: string;
+  current?: boolean;
+  from_year?: string;
+  to_year?: string;
+};
+
+type DoctorEducation = {
+  degree?: string;
+  institution?: string;
+  year?: string;
+  country?: string;
+};
+
+type DoctorProfile = {
+  title?: string;
+  first_name?: string;
+  last_name?: string;
+  profile_photo_url?: string;
+  qualifications?: string;
+  speciality_name?: string;
+  specialization?: string;
+  years_of_experience?: string | number;
+  bmdc_verified?: boolean;
+  bmdc_number?: string;
+  email?: string;
+  phone?: string;
+  date_of_birth?: string;
+  gender?: string;
+  about?: string;
+  locations?: DoctorLocation[];
+  services?: string[];
+  sub_specializations?: string[];
+  work_experience?: DoctorWorkExperience[];
+  education?: DoctorEducation[];
+  languages_spoken?: string[];
+};
+
 export default function DoctorProfilePage() {
   const router = useRouter();
-  const [doctor, setDoctor] = React.useState<any>(null);
+  const [doctor, setDoctor] = React.useState<DoctorProfile | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [showAllServices, setShowAllServices] = React.useState(false);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     loadDoctorProfile();
   }, []);
 
   const loadDoctorProfile = async () => {
+    setLoadError(null);
     try {
       const data = await getDoctorProfile();
       setDoctor(data);
     } catch (error) {
       console.error("Failed to load profile:", error);
+      setDoctor(null);
+      setLoadError("Profile data couldn't be loaded. Check your connection and retry.");
     } finally {
       setLoading(false);
     }
@@ -49,13 +101,11 @@ export default function DoctorProfilePage() {
 
   if (loading) {
     return (
-      <AppBackground>
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-foreground font-semibold">Loading profile...</p>
-          </div>
-        </div>
+      <AppBackground className="container-padding">
+        <Navbar />
+        <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading profile..." cardCount={5} />
+        </main>
       </AppBackground>
     );
   }
@@ -63,8 +113,15 @@ export default function DoctorProfilePage() {
   if (!doctor) {
     return (
       <AppBackground>
-        <div className="flex items-center justify-center h-screen">
-          <p className="text-foreground">Failed to load profile</p>
+        <div className="flex items-center justify-center min-h-dvh min-h-app">
+          <div className="text-center">
+            <p className="text-foreground mb-2">Failed to load profile</p>
+            <p className="text-sm text-muted-foreground mb-4">{loadError ?? "Please try again."}</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button onClick={loadDoctorProfile} variant="outline">Retry</Button>
+              <Button onClick={() => router.push("/login")}>Go to Login</Button>
+            </div>
+          </div>
         </div>
       </AppBackground>
     );
@@ -73,6 +130,18 @@ export default function DoctorProfilePage() {
   const displayedServices = showAllServices
     ? doctor.services
     : doctor.services?.slice(0, 6);
+  const profileCompletenessChecks = [
+    { label: "Qualifications", complete: !!doctor.qualifications },
+    { label: "Specialization", complete: !!(doctor.speciality_name || doctor.specialization) },
+    { label: "Phone", complete: !!doctor.phone },
+    { label: "Professional bio", complete: !!doctor.about },
+    { label: "Practice location", complete: Array.isArray(doctor.locations) && doctor.locations.length > 0 },
+    { label: "Service list", complete: Array.isArray(doctor.services) && doctor.services.length > 0 },
+    { label: "Experience years", complete: !!doctor.years_of_experience },
+    { label: "BMDC number", complete: !!doctor.bmdc_number },
+  ];
+  const missingProfileItems = profileCompletenessChecks.filter((item) => !item.complete);
+  const completionPercent = Math.round(((profileCompletenessChecks.length - missingProfileItems.length) / profileCompletenessChecks.length) * 100);
 
   return (
     <AppBackground className="animate-page-enter">
@@ -98,6 +167,37 @@ export default function DoctorProfilePage() {
             Edit Profile
           </Button>
         </div>
+
+        {missingProfileItems.length > 0 && (
+          <Card className="mb-6 border-amber-300/60 bg-amber-100/30 dark:border-amber-700/60 dark:bg-amber-900/20">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Profile completion: {completionPercent}%</p>
+                  <p className="text-sm text-amber-900/90 dark:text-amber-100">
+                    {missingProfileItems.length} profile section{missingProfileItems.length > 1 ? "s are" : " is"} incomplete.
+                    Completing these increases discoverability and patient trust.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {missingProfileItems.slice(0, 5).map((item) => (
+                      <Badge key={item.label} variant="outline" className="border-amber-400/70 bg-transparent text-amber-900 dark:text-amber-100">
+                        {item.label}
+                      </Badge>
+                    ))}
+                    {missingProfileItems.length > 5 ? (
+                      <Badge variant="outline" className="border-amber-400/70 bg-transparent text-amber-900 dark:text-amber-100">
+                        +{missingProfileItems.length - 5} more
+                      </Badge>
+                    ) : null}
+                  </div>
+                </div>
+                <Button variant="outline" onClick={() => router.push("/onboarding/doctor?mode=edit")} className="border-amber-500/60 bg-background/80 hover:bg-background">
+                  Complete Missing Data
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="space-y-6">
           {/* Doctor Header Card */}
@@ -188,7 +288,7 @@ export default function DoctorProfilePage() {
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Email</p>
-                    <p className="text-foreground font-semibold">{doctor.email}</p>
+                    <p className="text-foreground font-semibold break-all">{doctor.email}</p>
                   </div>
                 </div>
               )}
@@ -197,7 +297,7 @@ export default function DoctorProfilePage() {
                   <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-xs text-foreground-muted font-semibold uppercase">Phone</p>
-                    <p className="text-foreground font-semibold">{doctor.phone}</p>
+                    <p className="text-foreground font-semibold break-all">{doctor.phone}</p>
                   </div>
                 </div>
               )}
@@ -248,7 +348,7 @@ export default function DoctorProfilePage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 pt-6">
-                {doctor.locations.map((location: any, index: number) => (
+                {doctor.locations.map((location, index) => (
                   <div
                     key={index}
                     className="pb-4 border-b border-primary/10 last:border-0 last:pb-0 bg-card/60 backdrop-blur-sm rounded-lg p-4"
@@ -345,7 +445,7 @@ export default function DoctorProfilePage() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-4">
-                  {doctor.work_experience.map((exp: any, index: number) => (
+                  {doctor.work_experience.map((exp, index) => (
                     <div
                       key={index}
                       className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-card/60 rounded-lg p-3"
@@ -379,7 +479,7 @@ export default function DoctorProfilePage() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-4">
-                  {doctor.education.map((edu: any, index: number) => (
+                  {doctor.education.map((edu, index) => (
                     <div
                       key={index}
                       className="flex items-start gap-3 pb-4 border-b border-border last:border-0 bg-card/60 rounded-lg p-3"
