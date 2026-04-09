@@ -118,7 +118,7 @@ export async function PatientHomeDashboard() {
             </Link>
           </Button>
           <Button className="min-w-37.5" asChild>
-            <Link href="/analytics">
+            <Link href="/patient/analytics">
               <ShieldPlus className="h-4 w-4" />
               Health Report
             </Link>
@@ -127,7 +127,7 @@ export async function PatientHomeDashboard() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <Link href="/analytics" className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
+        <Link href="/patient/analytics" className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
           <HealthScoreCard
             score={healthScore}
             maxScore={100}
@@ -137,7 +137,7 @@ export async function PatientHomeDashboard() {
           />
         </Link>
 
-        <Link href="/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
+        <Link href="/patient/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
           <MedicationTrendChart
             values={medicationTrend.values}
             labels={medicationTrend.labels}
@@ -175,7 +175,7 @@ export async function PatientHomeDashboard() {
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">AI Health Insights</h2>
-            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+            <Link href="/patient/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
               Full Analytics
             </Link>
           </div>
@@ -196,7 +196,7 @@ export async function PatientHomeDashboard() {
         <div className="xl:col-span-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-foreground">Quick Health Stats</h2>
-            <Link href="/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
+            <Link href="/patient/analytics" className="text-sm font-semibold text-primary hover:text-primary/80">
               View Details
             </Link>
           </div>

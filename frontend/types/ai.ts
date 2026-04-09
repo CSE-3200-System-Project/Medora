@@ -24,11 +24,51 @@ export interface ChoruiIntakeRequest {
   role_context?: ChoruiRoleContext;
 }
 
+export type ChoruiNavigationActionType = "navigate" | "clarify" | "suggest" | "undo" | "none";
+
+export interface ChoruiNavigationActionOption {
+  label: string;
+  canonical_intent: string;
+  route: string;
+}
+
+export interface ChoruiSuggestedRoute {
+  label: string;
+  route: string;
+  canonical_intent: string;
+}
+
+export interface ChoruiNavigationAction {
+  type: ChoruiNavigationActionType;
+  route?: string | null;
+  confidence: number;
+  requires_confirmation: boolean;
+  missing_params: string[];
+  options: ChoruiNavigationActionOption[];
+  reason?: string | null;
+  delay_ms?: number | null;
+}
+
+export interface ChoruiNavigationMemory {
+  pending_intent?: string | null;
+  missing_params: string[];
+  last_resolved_intent?: string | null;
+}
+
+export interface ChoruiNavigationMeta {
+  previous_route?: string | null;
+  last_navigation_route?: string | null;
+}
+
 export interface ChoruiIntakeResponse {
   reply: string;
   conversation_id: string;
   structured_data?: Partial<ChoruiStructuredData>;
   context_mode?: string;
+  action?: ChoruiNavigationAction | null;
+  suggested_routes?: ChoruiSuggestedRoute[];
+  memory?: ChoruiNavigationMemory | null;
+  navigation_meta?: ChoruiNavigationMeta | null;
 }
 
 export interface ChoruiConversationSummary {
