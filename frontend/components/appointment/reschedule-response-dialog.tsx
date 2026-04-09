@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { useAppI18n, useT } from "@/i18n/client";
 
 type RescheduleResponseMessages = {
   title: string;
@@ -41,6 +42,10 @@ const DEFAULT_MESSAGES: RescheduleResponseMessages = {
   rejecting: "Rejecting...",
 };
 
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
+
 interface RescheduleResponseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -67,10 +72,10 @@ interface RescheduleResponseDialogProps {
   messages?: Partial<RescheduleResponseMessages>;
 }
 
-function formatDateLabel(value: string) {
+function formatDateLabel(value: string, locale: string, naLabel: string) {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "N/A";
-  return date.toLocaleDateString("en-US", {
+  if (Number.isNaN(date.getTime())) return naLabel;
+  return date.toLocaleDateString(toIntlLocale(locale), {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -78,8 +83,8 @@ function formatDateLabel(value: string) {
   });
 }
 
-function formatTimeLabel(value?: string | null) {
-  if (!value) return "N/A";
+function formatTimeLabel(value: string | null | undefined, locale: string, naLabel: string) {
+  if (!value) return naLabel;
 
   const twelveHour = /^(\d{1,2}):([0-5]\d)\s*([AP]M)$/i.exec(value.trim());
   if (twelveHour) {
@@ -93,7 +98,7 @@ function formatTimeLabel(value?: string | null) {
   if (twentyFourHour) {
     const date = new Date();
     date.setHours(Number(twentyFourHour[1]), Number(twentyFourHour[2]), Number(twentyFourHour[3] || "0"), 0);
-    return date.toLocaleTimeString("en-US", {
+    return date.toLocaleTimeString(toIntlLocale(locale), {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
@@ -114,7 +119,28 @@ export function RescheduleResponseDialog({
   onReject,
   messages,
 }: RescheduleResponseDialogProps) {
-  const copy = React.useMemo(() => ({ ...DEFAULT_MESSAGES, ...(messages || {}) }), [messages]);
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+  const localizedDefaults = React.useMemo<RescheduleResponseMessages>(
+    () => ({
+      title: tCommon("patientAppointments.dialogs.rescheduleResponse.title"),
+      description: tCommon("patientAppointments.dialogs.rescheduleResponse.description"),
+      currentTimeLabel: tCommon("patientAppointments.dialogs.rescheduleResponse.currentTime"),
+      proposedTimeLabel: tCommon("patientAppointments.dialogs.rescheduleResponse.proposedTime"),
+      loadingRequest: tCommon("patientAppointments.dialogs.rescheduleResponse.loading"),
+      missingRequest: tCommon("patientAppointments.dialogs.rescheduleResponse.missing"),
+      cancel: tCommon("patientAppointments.dialogs.rescheduleResponse.close"),
+      accept: tCommon("patientAppointments.dialogs.rescheduleResponse.accept"),
+      reject: tCommon("patientAppointments.dialogs.rescheduleResponse.reject"),
+      accepting: tCommon("patientAppointments.dialogs.rescheduleResponse.accepting"),
+      rejecting: tCommon("patientAppointments.dialogs.rescheduleResponse.rejecting"),
+    }),
+    [tCommon],
+  );
+  const copy = React.useMemo(
+    () => ({ ...DEFAULT_MESSAGES, ...localizedDefaults, ...(messages || {}) }),
+    [localizedDefaults, messages],
+  );
   const [submitting, setSubmitting] = React.useState<"accept" | "reject" | null>(null);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
 
@@ -133,7 +159,11 @@ export function RescheduleResponseDialog({
       await onAccept(request.id);
       onOpenChange(false);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Failed to accept reschedule request");
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : tCommon("patientAppointments.dialogs.rescheduleResponse.failedAccept"),
+      );
     } finally {
       setSubmitting(null);
     }
@@ -147,19 +177,42 @@ export function RescheduleResponseDialog({
       await onReject(request.id);
       onOpenChange(false);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Failed to reject reschedule request");
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : tCommon("patientAppointments.dialogs.rescheduleResponse.failedReject"),
+      );
     } finally {
       setSubmitting(null);
     }
   };
 
-  const oldDateLabel = appointment ? formatDateLabel(appointment.appointment_date) : "N/A";
+  const oldDateLabel = appointment
+    ? formatDateLabel(appointment.appointment_date, locale, tCommon("patientAppointments.dialogs.rescheduleResponse.na"))
+    : tCommon("patientAppointments.dialogs.rescheduleResponse.na");
   const oldTimeLabel =
-    appointment?.slot_time || formatTimeLabel(appointment?.appointment_date ? new Date(appointment.appointment_date).toTimeString().slice(0, 8) : null);
+    appointment?.slot_time
+      ? formatTimeLabel(appointment.slot_time, locale, tCommon("patientAppointments.dialogs.rescheduleResponse.na"))
+      : formatTimeLabel(
+          appointment?.appointment_date
+            ? new Date(appointment.appointment_date).toTimeString().slice(0, 8)
+            : null,
+          locale,
+          tCommon("patientAppointments.dialogs.rescheduleResponse.na"),
+        );
   const counterpartyTitle = appointment?.doctor_title || appointment?.patient_title || "";
-  const counterpartyName = appointment?.doctor_name || appointment?.patient_name || "Counterparty";
-  const proposedDateLabel = request?.proposed_date ? formatDateLabel(request.proposed_date) : "N/A";
-  const proposedTimeLabel = formatTimeLabel(request?.proposed_time);
+  const counterpartyName =
+    appointment?.doctor_name ||
+    appointment?.patient_name ||
+    tCommon("patientAppointments.dialogs.rescheduleResponse.fallbackCounterparty");
+  const proposedDateLabel = request?.proposed_date
+    ? formatDateLabel(request.proposed_date, locale, tCommon("patientAppointments.dialogs.rescheduleResponse.na"))
+    : tCommon("patientAppointments.dialogs.rescheduleResponse.na");
+  const proposedTimeLabel = formatTimeLabel(
+    request?.proposed_time,
+    locale,
+    tCommon("patientAppointments.dialogs.rescheduleResponse.na"),
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -189,14 +242,14 @@ export function RescheduleResponseDialog({
               <div className="rounded-lg border border-border p-3">
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{copy.currentTimeLabel}</p>
                 <p className="mt-1 text-sm text-foreground">
-                  {oldDateLabel} at {oldTimeLabel}
+                  {oldDateLabel} {tCommon("patientAppointments.dialogs.rescheduleResponse.at")} {oldTimeLabel}
                 </p>
               </div>
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{copy.proposedTimeLabel}</p>
                 <p className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Calendar className="h-4 w-4 text-primary" />
-                  {proposedDateLabel} at {proposedTimeLabel}
+                  {proposedDateLabel} {tCommon("patientAppointments.dialogs.rescheduleResponse.at")} {proposedTimeLabel}
                 </p>
               </div>
             </div>

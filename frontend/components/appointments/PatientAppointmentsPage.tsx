@@ -27,8 +27,8 @@ import { Button } from "@/components/ui/button";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { cn, localDateKey } from "@/lib/utils";
 import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
+import { useAppI18n, useT } from "@/i18n/client";
 
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
 const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
 const UPCOMING_EXCLUDED_STATUSES = new Set([
   ...CANCELLED_STATUSES,
@@ -73,11 +73,15 @@ function toPatientId(raw?: string) {
   return `MED-${compact.slice(0, 4).padEnd(4, "0")}`;
 }
 
-function formatSummaryDate(date?: string) {
-  if (!date) return "Not available";
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
+
+function formatSummaryDate(date: string | undefined, locale: string, notAvailableLabel: string) {
+  if (!date) return notAvailableLabel;
   const value = new Date(date);
-  if (Number.isNaN(value.getTime())) return "Not available";
-  return value.toLocaleDateString("en-US", {
+  if (Number.isNaN(value.getTime())) return notAvailableLabel;
+  return value.toLocaleDateString(toIntlLocale(locale), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -140,12 +144,12 @@ function normalizeAppointments(raw: unknown[]): PatientAppointment[] {
     .filter((item): item is PatientAppointment => item !== null);
 }
 
-function buildMonthlyStats(appointments: PatientAppointment[]) {
+function buildMonthlyStats(appointments: PatientAppointment[], monthLabels: string[]) {
   const now = new Date();
   const currentMonthIndex = now.getMonth();
   const currentYear = now.getFullYear();
 
-  const stats = MONTH_LABELS.map((label, index) => {
+  const stats = monthLabels.map((label, index) => {
     const monthIndex = 4 + index;
     const value = appointments.filter((appointment) => {
       const date = new Date(appointment.appointment_date);
@@ -219,9 +223,33 @@ function hasInlineRescheduleData(appointment: PatientAppointment) {
 
 export default function PatientAppointmentsPage() {
   const router = useRouter();
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+  const defaultPatientName = tCommon("patientAppointments.page.defaults.patientName");
+  const rescheduleSentMessage = tCommon("patientAppointments.page.feedback.rescheduleSent");
+  const waitingDoctorMessage = tCommon("patientAppointments.page.feedback.waitingDoctor");
+  const rescheduleRequestMissingMessage = tCommon("patientAppointments.page.feedback.rescheduleRequestMissing");
+  const rescheduleLoadFailedMessage = tCommon("patientAppointments.page.feedback.rescheduleLoadFailed");
+  const rescheduleAcceptedMessage = tCommon("patientAppointments.page.feedback.rescheduleAccepted");
+  const rescheduleRejectedMessage = tCommon("patientAppointments.page.feedback.rescheduleRejected");
+  const cancelSuccessMessage = tCommon("patientAppointments.page.feedback.cancelSuccess");
+  const pendingDeletedMessage = tCommon("patientAppointments.page.feedback.pendingDeleted");
+  const pendingDeleteFailedMessage = tCommon("patientAppointments.page.feedback.pendingDeleteFailed");
+  const monthLabels = React.useMemo(
+    () => [
+      tCommon("patientAppointments.monthlyTrend.months.may"),
+      tCommon("patientAppointments.monthlyTrend.months.jun"),
+      tCommon("patientAppointments.monthlyTrend.months.jul"),
+      tCommon("patientAppointments.monthlyTrend.months.aug"),
+      tCommon("patientAppointments.monthlyTrend.months.sep"),
+      tCommon("patientAppointments.monthlyTrend.months.oct"),
+    ],
+    [tCommon],
+  );
+
   const [appointments, setAppointments] = React.useState<PatientAppointment[]>([]);
   const [patient, setPatient] = React.useState<PatientSummary>({
-    fullName: "Patient",
+    fullName: defaultPatientName,
     patientId: "MED-0000",
     avatarUrl: null,
   });
@@ -248,10 +276,10 @@ export default function PatientAppointmentsPage() {
       appointment_id: appointmentId,
       proposed_date: newDate,
       proposed_time: slotTime,
-      reason: notes || "Patient requested reschedule",
+      reason: notes || tCommon("patientAppointments.upcoming.reschedule"),
     });
     await reloadAppointments();
-    setActionFeedback({ type: "success", message: "Reschedule request sent successfully." });
+    setActionFeedback({ type: "success", message: rescheduleSentMessage });
   };
 
   const resolveRescheduleRequest = React.useCallback(async (appointment: PatientAppointment) => {
@@ -264,7 +292,7 @@ export default function PatientAppointmentsPage() {
           proposed_time: String(appointment.proposed_time),
         };
       }
-      throw new Error("Waiting for doctor's response on your reschedule request.");
+      throw new Error(waitingDoctorMessage);
     }
 
     const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
@@ -279,9 +307,9 @@ export default function PatientAppointmentsPage() {
     if (!pendingDoctorRequest?.id || !pendingDoctorRequest.proposed_date || !pendingDoctorRequest.proposed_time) {
       const hasPendingRequest = requests.some((request) => normalizeRequestStatus(request.status) === "pending");
       if (hasPendingRequest) {
-        throw new Error("Waiting for doctor's response on your reschedule request.");
+        throw new Error(waitingDoctorMessage);
       }
-      throw new Error("No pending doctor reschedule request is available for this appointment.");
+      throw new Error(rescheduleRequestMissingMessage);
     }
 
     return {
@@ -289,7 +317,7 @@ export default function PatientAppointmentsPage() {
       proposed_date: coerceIsoDate(pendingDoctorRequest.proposed_date),
       proposed_time: String(pendingDoctorRequest.proposed_time),
     };
-  }, []);
+  }, [rescheduleRequestMissingMessage, waitingDoctorMessage]);
 
   const handleRescheduleAction = async (appointment: PatientAppointment) => {
     const status = appointment.status.toUpperCase();
@@ -318,11 +346,11 @@ export default function PatientAppointmentsPage() {
       const message =
         error instanceof Error
           ? error.message
-          : "Unable to load this reschedule request. Please try again.";
+          : rescheduleLoadFailedMessage;
       setRescheduleResponseError(message);
       setRescheduleResponseTarget({ appointment, request: null });
       setActionFeedback({
-        type: message.toLowerCase().includes("waiting for doctor") ? "success" : "error",
+        type: message === waitingDoctorMessage ? "success" : "error",
         message,
       });
     } finally {
@@ -332,14 +360,18 @@ export default function PatientAppointmentsPage() {
 
   const handleRescheduleResponse = async (requestId: string, accept: boolean) => {
     setActionFeedback(null);
-    await respondToReschedule(requestId, accept, accept ? "Accepted by patient" : "Rejected by patient");
+    await respondToReschedule(
+      requestId,
+      accept,
+      accept ? tCommon("patientAppointments.dialogs.rescheduleResponse.accept") : tCommon("patientAppointments.dialogs.rescheduleResponse.reject"),
+    );
     await reloadAppointments();
     setRescheduleResponseTarget(null);
     setRescheduleResponseError(null);
     setRescheduleResponseLoading(false);
     setActionFeedback({
       type: "success",
-      message: accept ? "Reschedule request accepted." : "Reschedule request rejected.",
+      message: accept ? rescheduleAcceptedMessage : rescheduleRejectedMessage,
     });
   };
 
@@ -355,7 +387,7 @@ export default function PatientAppointmentsPage() {
     });
 
     await reloadAppointments();
-    setActionFeedback({ type: "success", message: "Appointment cancelled successfully." });
+    setActionFeedback({ type: "success", message: cancelSuccessMessage });
   };
 
   const handleDeletePending = async (appointmentId: string) => {
@@ -363,7 +395,7 @@ export default function PatientAppointmentsPage() {
       setActionFeedback(null);
       await deletePendingAppointmentRequest(appointmentId);
       await reloadAppointments();
-      setActionFeedback({ type: "success", message: "Pending request deleted." });
+      setActionFeedback({ type: "success", message: pendingDeletedMessage });
     } catch (error) {
       console.error("Failed to delete pending appointment request:", error);
       setActionFeedback({
@@ -371,7 +403,7 @@ export default function PatientAppointmentsPage() {
         message:
           error instanceof Error
             ? error.message
-            : "Failed to delete pending appointment request.",
+            : pendingDeleteFailedMessage,
       });
     }
   };
@@ -394,7 +426,7 @@ export default function PatientAppointmentsPage() {
 
         if (profileResponse?.ok) {
           const profileData = (await profileResponse.json()) as ProfileResponse;
-          const fullName = `${profileData.first_name || "Patient"} ${profileData.last_name || ""}`.trim();
+          const fullName = `${profileData.first_name || defaultPatientName} ${profileData.last_name || ""}`.trim();
 
           setPatient({
             fullName,
@@ -410,7 +442,7 @@ export default function PatientAppointmentsPage() {
     };
 
     load();
-  }, []);
+  }, [defaultPatientName]);
 
   const sortedAppointments = React.useMemo(() => sortByDateAsc(appointments), [appointments]);
 
@@ -431,8 +463,9 @@ export default function PatientAppointmentsPage() {
   const lastVisit = [...appointments]
     .filter((appointment) => new Date(appointment.appointment_date).getTime() < Date.now())
     .sort((a, b) => new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime())[0];
+  const summaryNotAvailableLabel = tCommon("patientAppointments.summary.notAvailable");
 
-  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments), [appointments]);
+  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments, monthLabels), [appointments, monthLabels]);
   const specialtyStats = React.useMemo(() => buildSpecialtyStats(appointments), [appointments]);
 
   const monthDate = React.useMemo(() => {
@@ -449,9 +482,9 @@ export default function PatientAppointmentsPage() {
       <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)] space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>          
-            <h1 className="mt-1 text-3xl font-semibold text-foreground">My Appointments</h1>
+            <h1 className="mt-1 text-3xl font-semibold text-foreground">{tCommon("patientAppointments.page.title")}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Comprehensive overview of your clinic visits and appointment history.
+              {tCommon("patientAppointments.page.subtitle")}
             </p>
           </div>
 
@@ -466,7 +499,7 @@ export default function PatientAppointmentsPage() {
                   range === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {key}
+                {tCommon(`patientAppointments.page.range.${key}`)}
               </button>
             ))}
           </div>
@@ -486,13 +519,13 @@ export default function PatientAppointmentsPage() {
         ) : null}
 
         {loading ? (
-          <PageLoadingShell label="Loading appointments..." cardCount={4} loaderSize="md" />
+          <PageLoadingShell label={tCommon("patientAppointments.page.loading")} cardCount={4} loaderSize="md" />
         ) : (
           <>
             <PatientAppointmentSummary
               patient={patient}
-              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date)}
-              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date)}
+              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date, locale, summaryNotAvailableLabel)}
+              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date, locale, summaryNotAvailableLabel)}
               onNewAppointment={() => router.push("/patient/find-doctor")}
             />
 
@@ -531,7 +564,7 @@ export default function PatientAppointmentsPage() {
             {!selectedDate && filteredUpcomingAppointments.length > 0 ? null : (
               <div className="flex justify-end">
                 <Button variant="outline" onClick={() => setSelectedDate(null)}>
-                  Show All Upcoming
+                  {tCommon("patientAppointments.page.showAllUpcoming")}
                 </Button>
               </div>
             )}
