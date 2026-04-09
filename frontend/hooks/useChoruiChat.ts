@@ -10,8 +10,14 @@ import {
   type ChoruiConversationHistoryResponse,
   type ChoruiConversationSummary,
   type ChoruiIntakeResponse,
+  type ChoruiNavigationAction,
+  type ChoruiNavigationActionOption,
+  type ChoruiNavigationActionType,
+  type ChoruiNavigationMemory,
+  type ChoruiNavigationMeta,
   type ChoruiMessage,
   type ChoruiRoleContext,
+  type ChoruiSuggestedRoute,
   type ChoruiStructuredData,
 } from "@/types/ai";
 
@@ -27,6 +33,14 @@ const MODE_WELCOME_MESSAGE: Record<ChoruiRoleContext, string> = {
   doctor:
     "Hello Doctor. I am Chorui, your workflow assistant. Ask general workflow questions anytime, and include a patient ID when you want record-linked intelligence.",
 };
+
+const CHORUI_NAVIGATION_ACTION_TYPES = new Set<ChoruiNavigationActionType>([
+  "navigate",
+  "clarify",
+  "suggest",
+  "undo",
+  "none",
+]);
 
 type AuthMeResponse = {
   id?: string;
@@ -70,6 +84,172 @@ function mergeStructuredData(
       typeof incoming.severity === "number"
         ? clampSeverity(incoming.severity)
         : previous.severity,
+  };
+}
+
+function normalizeActionType(value: unknown): ChoruiNavigationActionType {
+  const normalized = typeof value === "string" ? value.trim().toLowerCase() : "none";
+  if (CHORUI_NAVIGATION_ACTION_TYPES.has(normalized as ChoruiNavigationActionType)) {
+    return normalized as ChoruiNavigationActionType;
+  }
+  return "none";
+}
+
+function normalizeText(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => (typeof item === "string" ? item.trim() : ""))
+    .filter((item) => item.length > 0);
+}
+
+function normalizeConfidence(value: unknown, fallback = 0): number {
+  const parsed = typeof value === "number" ? value : Number(value ?? fallback);
+  if (Number.isNaN(parsed)) {
+    return fallback;
+  }
+
+  return Math.max(0, Math.min(1, Number(parsed.toFixed(2))));
+}
+
+function normalizeBoolean(value: unknown, fallback = false): boolean {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  return fallback;
+}
+
+function normalizeDelayMs(value: unknown): number | null {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    return null;
+  }
+
+  if (value < 0) {
+    return null;
+  }
+
+  return Math.round(value);
+}
+
+function normalizeRoute(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  return trimmed;
+}
+
+function normalizeActionOptions(value: unknown): ChoruiNavigationActionOption[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const options: ChoruiNavigationActionOption[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const record = item as Record<string, unknown>;
+    const label = normalizeText(record.label);
+    const canonicalIntent = normalizeText(record.canonical_intent);
+    const route = normalizeRoute(record.route);
+
+    if (!label || !canonicalIntent || !route) {
+      continue;
+    }
+
+    options.push({
+      label,
+      canonical_intent: canonicalIntent,
+      route,
+    });
+  }
+
+  return options;
+}
+
+function normalizeSuggestedRoutes(value: unknown): ChoruiSuggestedRoute[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const suggestions: ChoruiSuggestedRoute[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const record = item as Record<string, unknown>;
+    const label = normalizeText(record.label);
+    const canonicalIntent = normalizeText(record.canonical_intent);
+    const route = normalizeRoute(record.route);
+
+    if (!label || !canonicalIntent || !route) {
+      continue;
+    }
+
+    suggestions.push({
+      label,
+      canonical_intent: canonicalIntent,
+      route,
+    });
+  }
+
+  return suggestions;
+}
+
+function normalizeNavigationAction(value: unknown): ChoruiNavigationAction | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const record = value as Record<string, unknown>;
+  return {
+    type: normalizeActionType(record.type),
+    route: normalizeRoute(record.route),
+    confidence: normalizeConfidence(record.confidence, 0),
+    requires_confirmation: normalizeBoolean(record.requires_confirmation),
+    missing_params: normalizeStringArray(record.missing_params),
+    options: normalizeActionOptions(record.options),
+    reason: normalizeText(record.reason) || null,
+    delay_ms: normalizeDelayMs(record.delay_ms),
+  };
+}
+
+function normalizeNavigationMemory(value: unknown): ChoruiNavigationMemory | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const record = value as Record<string, unknown>;
+  return {
+    pending_intent: normalizeText(record.pending_intent) || null,
+    missing_params: normalizeStringArray(record.missing_params),
+    last_resolved_intent: normalizeText(record.last_resolved_intent) || null,
+  };
+}
+
+function normalizeNavigationMeta(value: unknown): ChoruiNavigationMeta | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const record = value as Record<string, unknown>;
+  return {
+    previous_route: normalizeRoute(record.previous_route),
+    last_navigation_route: normalizeRoute(record.last_navigation_route),
   };
 }
 
@@ -126,15 +306,27 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
   const [contextMode, setContextMode] = React.useState<string>(
     roleContext === "doctor" ? "doctor-general" : "patient-self"
   );
+  const [navigationAction, setNavigationAction] = React.useState<ChoruiNavigationAction | null>(null);
+  const [suggestedRoutes, setSuggestedRoutes] = React.useState<ChoruiSuggestedRoute[]>([]);
+  const [navigationMemory, setNavigationMemory] = React.useState<ChoruiNavigationMemory | null>(null);
+  const [navigationMeta, setNavigationMeta] = React.useState<ChoruiNavigationMeta | null>(null);
 
   const latestUserInputRef = React.useRef<string>("");
+
+  const clearNavigationState = React.useCallback(() => {
+    setNavigationAction(null);
+    setSuggestedRoutes([]);
+    setNavigationMemory(null);
+    setNavigationMeta(null);
+  }, []);
 
   const resetToWelcome = React.useCallback(() => {
     setConversationId("");
     setContextMode(roleContext === "doctor" ? "doctor-general" : "patient-self");
     setStructuredData(DEFAULT_CHORUI_STRUCTURED_DATA);
     setMessages([createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
-  }, [roleContext]);
+    clearNavigationState();
+  }, [clearNavigationState, roleContext]);
 
   const fetchConversationList = React.useCallback(async () => {
     const token = getCookieValue("session_token");
@@ -259,12 +451,13 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
         setConversationId(data.conversation_id || normalizedId);
         setContextMode(data.context_mode ?? (roleContext === "doctor" ? "doctor-general" : "patient-self"));
         setMessages(loadedMessages.length > 0 ? loadedMessages : [createMessage("ai", MODE_WELCOME_MESSAGE[roleContext])]);
+        clearNavigationState();
       } catch (loadError) {
         const message = loadError instanceof Error ? loadError.message : "Failed to load conversation";
         setError(message);
       }
     },
-    [loading, roleContext]
+    [clearNavigationState, loading, roleContext]
   );
 
   const startNewConversation = React.useCallback(() => {
@@ -338,6 +531,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     setInput("");
     setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
+    clearNavigationState();
 
     const historySnapshot = [...messages, userMessage];
 
@@ -382,15 +576,30 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
       }
       setStructuredData((prev) => mergeStructuredData(prev, data.structured_data));
       setContextMode(data.context_mode ?? contextMode);
+      setNavigationAction(normalizeNavigationAction(data.action));
+      setSuggestedRoutes(normalizeSuggestedRoutes(data.suggested_routes));
+      setNavigationMemory(normalizeNavigationMemory(data.memory));
+      setNavigationMeta(normalizeNavigationMeta(data.navigation_meta));
       void fetchConversationList();
     } catch (requestError) {
       const message = requestError instanceof Error ? requestError.message : "Unable to process intake message";
       setError(message);
       setMessages((prev) => [...prev, createMessage("ai", FALLBACK_AI_REPLY, true)]);
+      clearNavigationState();
     } finally {
       setLoading(false);
     }
-  }, [contextMode, conversationId, fetchConversationList, input, loading, messages, patientId, roleContext]);
+  }, [
+    clearNavigationState,
+    contextMode,
+    conversationId,
+    fetchConversationList,
+    input,
+    loading,
+    messages,
+    patientId,
+    roleContext,
+  ]);
 
   const retryLastMessage = React.useCallback(async () => {
     if (!latestUserInputRef.current || loading) {
@@ -477,6 +686,11 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     refreshConversations: fetchConversationList,
     roleContext,
     contextMode,
+    navigationAction,
+    suggestedRoutes,
+    navigationMemory,
+    navigationMeta,
+    clearNavigationState,
     disclaimer: CHORUI_DISCLAIMER,
   };
 }

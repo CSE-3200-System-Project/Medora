@@ -148,7 +148,7 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     } else if (role === "patient") {
       redirect("/patient/home");
     } else if (role === "admin") {
-      redirect("/admin/dashboard");
+      redirect("/admin");
     } else {
       redirect("/");
     }
