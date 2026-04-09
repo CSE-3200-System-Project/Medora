@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { humanizeAppointmentType, humanizeConsultationType, parseCompositeReason } from "@/lib/utils";
+import { formatAppointmentDateTime, humanizeAppointmentType, humanizeConsultationType, parseCompositeReason } from "@/lib/utils";
 
 type AppointmentModalProps = {
   appointment: DoctorAppointment | null;
@@ -20,7 +20,8 @@ type AppointmentModalProps = {
   onOpenChange: (open: boolean) => void;
   onApprove: (id: string) => void;
   onCancel: (id: string) => void;
-  onReschedule: (id: string, newTime: string) => void;
+  onRescheduleRequest: (appointment: DoctorAppointment) => void;
+  onRespondReschedule: (appointment: DoctorAppointment) => void;
 };
 
 export function AppointmentModal({
@@ -29,24 +30,16 @@ export function AppointmentModal({
   onOpenChange,
   onApprove,
   onCancel,
-  onReschedule,
+  onRescheduleRequest,
+  onRespondReschedule,
 }: AppointmentModalProps) {
-  const [showReschedule, setShowReschedule] = React.useState(false);
-  const [newTime, setNewTime] = React.useState("");
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      setShowReschedule(false);
-      setNewTime("");
-    }
-  }, [isOpen]);
-
   if (!appointment) {
     return null;
   }
 
-  const date = new Date(appointment.appointment_date);
+  const appointmentDateTime = formatAppointmentDateTime(appointment.appointment_date, appointment.slot_time);
   const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
+  const isCancelled = isCancelledStatus(appointment.status);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -62,12 +55,21 @@ export function AppointmentModal({
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Status:</span>
           <Badge variant={getStatusVariant(appointment.status)}>
-            {appointment.status}
+            {humanizeStatus(appointment.status)}
           </Badge>
         </div>
 
+        {isCancelled ? (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <p className="font-semibold">Cancellation reason</p>
+            <p className="mt-1">
+              {appointment.cancellation_reason_note || humanizeReasonKey(appointment.cancellation_reason_key)}
+            </p>
+          </div>
+        ) : null}
+
         <div className="space-y-3 text-sm">
-          <DetailRow label="Appointment Time" value={date.toLocaleString("en-US")} icon={<Clock3 className="h-4 w-4 text-primary" />} />
+          <DetailRow label="Appointment Time" value={appointmentDateTime} icon={<Clock3 className="h-4 w-4 text-primary" />} />
           <DetailRow
             label="Reason"
             value={`${humanizeConsultationType(consultationType)}${appointmentType ? ` | ${humanizeAppointmentType(appointmentType)}` : ""}`}
@@ -91,21 +93,9 @@ export function AppointmentModal({
           </div>
         </div>
 
-        {showReschedule ? (
-          <div className="rounded-xl border border-border/70 bg-surface/40 p-3">
-            <p className="mb-2 text-sm font-semibold">Select a new time</p>
-            <input
-              type="time"
-              value={newTime}
-              onChange={(event) => setNewTime(event.target.value)}
-              className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-            />
-          </div>
-        ) : null}
-
         <DialogFooter className="flex flex-wrap gap-2 sm:justify-start">
-          {/* Approve button - only for PENDING appointments */}
-          {appointment.status === "PENDING" && (
+          {/* Approve button - only for pending-style appointments */}
+          {canApprove(appointment.status) && (
             <Button
               onClick={() => {
                 onApprove(appointment.id);
@@ -117,8 +107,8 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Cancel button - for PENDING and CONFIRMED appointments */}
-          {(appointment.status === "PENDING" || appointment.status === "CONFIRMED") && (
+          {/* Cancel button - for confirmed lifecycle states */}
+          {canCancel(appointment.status) && (
             <Button
               variant="destructive"
               onClick={() => {
@@ -131,34 +121,30 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Reschedule button - for PENDING, CONFIRMED, and COMPLETED appointments */}
-          {(appointment.status === "PENDING" || appointment.status === "CONFIRMED" || appointment.status === "COMPLETED") && (
-            <>
-              {!showReschedule ? (
-                <Button
-                  variant="outline"
-                  onClick={() => setShowReschedule(true)}
-                  className="flex-1 sm:flex-none"
-                >
-                  Reschedule Appointment
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    if (!newTime) {
-                      return;
-                    }
-                    onReschedule(appointment.id, newTime);
-                    onOpenChange(false);
-                  }}
-                  disabled={!newTime}
-                  className="flex-1 sm:flex-none"
-                >
-                  Confirm New Time
-                </Button>
-              )}
-            </>
+          {/* Reschedule request - opens availability slot picker */}
+          {canReschedule(appointment.status) && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onRescheduleRequest(appointment);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Reschedule Appointment
+            </Button>
+          )}
+          {canRespondToReschedule(appointment.status) && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onRespondReschedule(appointment);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Accept / Reject Reschedule
+            </Button>
           )}
         </DialogFooter>
       </DialogContent>
@@ -179,18 +165,63 @@ function DetailRow({ label, value, icon }: { label: string; value: string; icon:
 }
 
 function getStatusVariant(status: string): "default" | "secondary" | "outline" | "destructive" {
-  switch (status) {
+  switch (status.toUpperCase()) {
     case "PENDING":
+    case "PENDING_ADMIN_REVIEW":
+    case "PENDING_DOCTOR_CONFIRMATION":
+    case "PENDING_PATIENT_CONFIRMATION":
       return "secondary";
     case "CONFIRMED":
+    case "RESCHEDULE_REQUESTED":
       return "default";
     case "COMPLETED":
       return "outline";
     case "CANCELLED":
+    case "CANCELLED_BY_PATIENT":
+    case "CANCELLED_BY_DOCTOR":
+    case "NO_SHOW":
+    case "CANCEL_REQUESTED":
       return "destructive";
     default:
       return "outline";
   }
+}
+
+function humanizeStatus(status: string) {
+  return status.replaceAll("_", " ");
+}
+
+function humanizeReasonKey(reasonKey?: string | null) {
+  if (!reasonKey) {
+    return "Not provided";
+  }
+  return reasonKey.replaceAll("_", " ").toLowerCase();
+}
+
+function isCancelledStatus(status: string) {
+  const value = status.toUpperCase();
+  return value === "CANCELLED" || value === "CANCELLED_BY_PATIENT" || value === "CANCELLED_BY_DOCTOR";
+}
+
+function canApprove(status: string) {
+  const value = status.toUpperCase();
+  return value === "PENDING" || value === "PENDING_ADMIN_REVIEW" || value === "PENDING_DOCTOR_CONFIRMATION";
+}
+
+function canCancel(status: string) {
+  const value = status.toUpperCase();
+  return (
+    value === "CONFIRMED" ||
+    value === "CANCEL_REQUESTED"
+  );
+}
+
+function canReschedule(status: string) {
+  return status.toUpperCase() === "CONFIRMED";
+}
+
+function canRespondToReschedule(status: string) {
+  return status.toUpperCase() === "RESCHEDULE_REQUESTED";
 }
 
 function extractLocation(appointment: DoctorAppointment) {

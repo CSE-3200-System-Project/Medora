@@ -2,11 +2,12 @@
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { CalendarCheck2, CheckCircle2, CircleDot, Loader2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { CalendarCheck2, CheckCircle2, CircleDot } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { localDateKey } from "@/lib/utils";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { localDateKey, toUtcIsoFromDateAndSlot } from "@/lib/utils";
 import { createAppointment } from "@/lib/appointment-actions";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
@@ -71,24 +72,6 @@ function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctor
       disabled: !isEnabled,
     };
   });
-}
-
-function parseDateTimeToIso(dateKey: string, slotTime: string) {
-  const date = new Date(`${dateKey}T00:00:00`);
-  const match = slotTime.match(/(\d{1,2})(?::(\d{2}))?\s?(AM|PM)/i);
-  if (!match) {
-    return date.toISOString();
-  }
-
-  let hours = Number(match[1]) % 12;
-  const minutes = Number(match[2] || "0");
-  const period = match[3].toUpperCase();
-  if (period === "PM") {
-    hours += 12;
-  }
-
-  date.setHours(hours, minutes, 0, 0);
-  return date.toISOString();
 }
 
 export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) {
@@ -189,7 +172,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
         doctor_id: doctor.profile_id,
         doctor_location_id: selectedLocation?.id,
         location_name: selectedLocation?.name,
-        appointment_date: parseDateTimeToIso(selectedDate, selectedSlot),
+        appointment_date: toUtcIsoFromDateAndSlot(selectedDate, selectedSlot),
         reason: visitReason.trim() || "New consultation",
         notes: `Slot: ${selectedSlot} | Location: ${selectedLocation?.name}`,
       });
@@ -216,11 +199,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
 
   return (
     <div className="space-y-3">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, delay: 0.05 }}
-      >
+      <div className="animate-fade-in-up">
         <Card className="overflow-hidden rounded-3xl border-border/70 shadow-xl shadow-primary/10">
           <div className="bg-primary px-5 py-4 text-primary-foreground sm:px-6">
             <h2 className="text-2xl font-bold leading-none">Book Appointment</h2>
@@ -282,9 +261,13 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             <section className="space-y-2.5">
               <h3 className="text-sm font-semibold text-foreground">3. Available Slots</h3>
               {loadingSlots ? (
-                <div className="flex items-center gap-2 rounded-xl border border-border bg-background p-3 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Fetching available slots...
+                <div className="space-y-2 rounded-xl border border-border bg-background p-3">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <ButtonLoader className="h-4 w-4" />
+                    Fetching available slots...
+                  </div>
+                  <CardSkeleton className="h-8" />
+                  <CardSkeleton className="h-8" />
                 </div>
               ) : (
                 <AppointmentSlotSelector
@@ -324,7 +307,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             >
               {submitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <ButtonLoader className="mr-2 h-4 w-4" />
                   Confirming...
                 </>
               ) : (
@@ -340,7 +323,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             </p>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       <Card className="rounded-2xl border border-primary/10 bg-primary/5">
         <CardContent className="p-3.5">

@@ -1,7 +1,7 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Bookmark, CheckCircle2, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +18,7 @@ function getDisplayName(doctor: BackendDoctorProfile) {
   return `${doctor.title ? `${doctor.title} ` : ""}${fullName}`.trim();
 }
 
-export function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProps) {
+export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProps) {
   const specialty = doctor.speciality_name || doctor.specialization || "Specialist";
   const subSpecialty = doctor.sub_specializations?.[0] || "Specialist in Patient Care";
   const experienceText = doctor.years_of_experience
@@ -27,12 +27,7 @@ export function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProp
   const successRate = "98%";
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      className="space-y-4"
-    >
+    <section className="space-y-4 animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 bg-background shadow-sm">
         <CardContent className="space-y-6 p-5 sm:p-6 lg:p-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -107,7 +102,7 @@ export function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProp
           </div>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
-}
+})
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { Hospital, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorLocation } from "@/components/doctor/doctor-profile/types";
@@ -37,14 +37,9 @@ function getTimeBlock(availability?: string | null) {
   return { days: "Schedule", time: availability };
 }
 
-export function DoctorPracticeLocations({ locations }: DoctorPracticeLocationsProps) {
+export const DoctorPracticeLocations = memo(function DoctorPracticeLocations({ locations }: DoctorPracticeLocationsProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.35, delay: 0.05 }}
-    >
+    <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-foreground">Practice Locations</CardTitle>
@@ -87,6 +82,6 @@ export function DoctorPracticeLocations({ locations }: DoctorPracticeLocationsPr
           })}
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
-}
+})

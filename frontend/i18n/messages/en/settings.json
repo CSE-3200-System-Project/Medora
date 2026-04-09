@@ -1,0 +1,8 @@
+{
+  "title": "Settings",
+  "loadingLabel": "Loading settings...",
+  "saveButton": "Save Settings",
+  "savingButton": "Saving...",
+  "preferredLanguage": "Preferred Language",
+  "resetDefaults": "Reset Defaults"
+}

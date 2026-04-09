@@ -53,11 +53,20 @@ from app.schemas.ai_orchestrator import (
     ChoruiConversationHistoryResponse,
     ChoruiConversationListResponse,
     ChoruiConversationMessage,
+    ChoruiNavigationAction,
+    ChoruiNavigationActionOption,
+    ChoruiNavigationMemory,
+    ChoruiNavigationMeta,
+    ChoruiSuggestedRoute,
     ChoruiConversationSummary,
     ChoruiIntakeSaveRequest,
     ChoruiIntakeSaveResponse,
 )
 from app.services.ai_orchestrator import AIExecutionResult, AIOrchestratorError, ai_orchestrator
+from app.services.chorui_intent_normalizer import (
+    normalize_chorui_navigation_intent,
+)
+from app.services.chorui_navigation_engine import resolve_chorui_navigation_engine
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -432,8 +441,10 @@ def _sanitize_chat_message(text: str) -> str:
 
 def _default_role_context(role: UserRole, requested_role_context: str | None) -> str:
     requested = (requested_role_context or "").strip().lower()
-    if requested in {"doctor", "patient"}:
+    if requested in {"doctor", "patient", "admin"}:
         return requested
+    if role == UserRole.ADMIN:
+        return "admin"
     if role == UserRole.DOCTOR:
         return "doctor"
     return "patient"
@@ -549,6 +560,74 @@ async def _persist_chorui_chat_message(
     await db.commit()
 
 
+def _build_chorui_navigation_action(
+    *,
+    role_context: str,
+    intent: str,
+    patient_id: str | None,
+    user_message: str,
+    intent_normalization: dict[str, Any] | None = None,
+) -> tuple[ChoruiNavigationAction, list[ChoruiSuggestedRoute], ChoruiNavigationMemory]:
+    normalized_payload = intent_normalization if isinstance(intent_normalization, dict) else {}
+    patient_route_id: str | None = None
+    if patient_id:
+        try:
+            patient_route_id = patient_ref_from_uuid(patient_id)
+        except Exception:
+            patient_route_id = patient_id
+
+    engine_result = resolve_chorui_navigation_engine(
+        message=user_message,
+        role_context=role_context,
+        raw_intent=intent,
+        intent_normalization=normalized_payload,
+        patient_id=patient_id,
+        patient_route_id=patient_route_id,
+    )
+
+    action_options = [
+        ChoruiNavigationActionOption(
+            label=option.label,
+            canonical_intent=option.canonical_intent,
+            route=option.route,
+        )
+        for option in engine_result.options
+    ]
+    suggested_routes = [
+        ChoruiSuggestedRoute(
+            label=suggestion.label,
+            route=suggestion.route,
+            canonical_intent=suggestion.canonical_intent,
+        )
+        for suggestion in engine_result.suggestions
+    ]
+    action = ChoruiNavigationAction(
+        type=engine_result.action,
+        route=engine_result.route,
+        confidence=engine_result.confidence,
+        requires_confirmation=engine_result.requires_confirmation,
+        missing_params=list(engine_result.missing_params),
+        options=action_options,
+        reason=engine_result.reason,
+        delay_ms=engine_result.delay_ms,
+    )
+    memory = ChoruiNavigationMemory(
+        pending_intent=engine_result.memory.pending_intent,
+        missing_params=list(engine_result.memory.missing_params),
+        last_resolved_intent=engine_result.memory.last_resolved_intent,
+    )
+    return action, suggested_routes, memory
+
+
+def _build_chorui_navigation_meta(action: ChoruiNavigationAction) -> ChoruiNavigationMeta:
+    if action.type == "navigate" and action.route:
+        return ChoruiNavigationMeta(
+            previous_route=None,
+            last_navigation_route=action.route,
+        )
+    return ChoruiNavigationMeta()
+
+
 async def _finalize_chorui_response(
     *,
     db: AsyncSession,
@@ -594,6 +673,37 @@ async def _finalize_chorui_response(
             )
 
     reply = _soften_assistant_tone(synthesized_reply)
+    intent_normalization_payload = (
+        structured_data.get("intent_normalization")
+        if isinstance(structured_data.get("intent_normalization"), dict)
+        else None
+    )
+    canonical_intent = ""
+    intent_mode = ""
+    if intent_normalization_payload:
+        canonical_intent = str(intent_normalization_payload.get("canonical_intent") or "").strip()
+        intent_mode = str(intent_normalization_payload.get("intent_mode") or "").strip().lower()
+
+    action, suggested_routes, memory = _build_chorui_navigation_action(
+        role_context=role_context,
+        intent=intent,
+        patient_id=patient_id,
+        user_message=user_message or str(structured_data.get("user_query") or ""),
+        intent_normalization=intent_normalization_payload,
+    )
+    navigation_meta = _build_chorui_navigation_meta(action)
+    logger.info(
+        "Chorui navigation action | role=%s intent=%s canonical=%s mode=%s type=%s route=%s confidence=%.2f reason=%s",
+        role_context,
+        intent,
+        canonical_intent,
+        intent_mode,
+        action.type,
+        action.route,
+        float(action.confidence),
+        action.reason,
+    )
+
     await _persist_chorui_chat_message(
         db,
         conversation_id=conversation_id,
@@ -612,6 +722,10 @@ async def _finalize_chorui_response(
         conversation_id=conversation_id,
         structured_data=structured_data,
         context_mode=context_mode,
+        action=action,
+        suggested_routes=suggested_routes,
+        memory=memory,
+        navigation_meta=navigation_meta,
     )
 
 
@@ -2387,6 +2501,7 @@ def _build_chorui_model_query(
     recent_prescriptions: list[dict[str, Any]] | None = None,
     appointment_history: list[dict[str, Any]] | None = None,
     lifestyle: dict[str, Any] | None = None,
+    ui_locale: str = "en",
     subject_tokens: dict[str, str] | None = None,
     rag_context: dict[str, Any] | None = None,
 ) -> str:
@@ -2394,6 +2509,7 @@ def _build_chorui_model_query(
         "role": str(getattr(role, "value", role)).lower(),
         "context_mode": context_mode,
         "query": message.strip()[:2000],
+        "ui_locale": ui_locale if ui_locale in {"en", "bn"} else "en",
     }
     if subject_tokens:
         payload["subject_tokens"] = subject_tokens
@@ -2434,7 +2550,8 @@ def _build_chorui_model_query(
         "Use only authorized Medora context below. "
         "Authorized access has already been verified server-side. "
         "Do not refuse due to privacy/local-mode concerns when record context is provided. "
-        "Give practical, concise workflow support with clear uncertainty and safety cautions.\n"
+        "Give practical, concise workflow support with clear uncertainty and safety cautions. "
+        "Respond in the requested ui_locale, but keep medical names, medicine names, diagnosis terms, and user-entered values exactly as provided.\n"
         + json.dumps(payload, ensure_ascii=False)
     )
 
@@ -2470,6 +2587,9 @@ async def _run_chorui_assistant(
             sharing_perms = inferred_sharing_perms
 
     role_context = _default_role_context(role, payload.role_context)
+    ui_locale = str(payload.ui_locale or "en").strip().lower()
+    if ui_locale not in {"en", "bn"}:
+        ui_locale = "en"
     conversation_id = await _resolve_conversation_id(
         db,
         user_id=user.id,
@@ -2495,6 +2615,7 @@ async def _run_chorui_assistant(
 
     intent = _classify_chorui_intent(payload.message, role, has_target_patient=bool(target_patient_id))
     normalized_message = _normalize_message(payload.message)
+    previous_intent: str | None = None
     if intent == "general" and _is_followup_message(normalized_message):
         previous_intent = await _get_last_non_general_user_intent(
             db,
@@ -2503,6 +2624,26 @@ async def _run_chorui_assistant(
         )
         if previous_intent:
             intent = previous_intent
+
+    pending_intent: str | None = None
+    pending_missing_params: list[str] = []
+    if role == UserRole.DOCTOR and not target_patient_id:
+        if intent in DOCTOR_PATIENT_SCOPED_INTENTS:
+            pending_intent = intent
+            pending_missing_params = ["id"]
+        elif previous_intent and previous_intent in DOCTOR_PATIENT_SCOPED_INTENTS:
+            pending_intent = previous_intent
+            pending_missing_params = ["id"]
+
+    normalized_intent = normalize_chorui_navigation_intent(
+        message=payload.message,
+        raw_intent=intent,
+        role_context=role_context,
+        context_mode=context_mode,
+        pending_intent=pending_intent,
+        pending_missing_params=pending_missing_params,
+        has_target_patient=bool(target_patient_id),
+    )
     medications = _safe_list((patient_context or {}).get("medications"))
     conditions = _safe_list((patient_context or {}).get("conditions"))
     allergies = _safe_list((patient_context or {}).get("allergies"))
@@ -2537,6 +2678,8 @@ async def _run_chorui_assistant(
 
     structured_data: dict[str, Any] = {
         "user_query": payload.message.strip()[:2000],
+        "raw_intent": intent,
+        "intent_normalization": normalized_intent.to_dict(),
         "symptoms": symptom_hints,
         "conditions": conditions,
         "medications": medications,
@@ -3256,6 +3399,7 @@ async def _run_chorui_assistant(
         recent_prescriptions=recent_prescriptions,
         appointment_history=appointment_history,
         lifestyle=lifestyle,
+        ui_locale=ui_locale,
         subject_tokens=subject_tokens,
         rag_context=rag_context,
     )

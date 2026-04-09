@@ -20,6 +20,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { MedoraLoader, ButtonLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import {
   getReminders,
   deleteReminder,
@@ -105,7 +106,7 @@ export default function PatientRemindersPage() {
     <>
       <Navbar />
       <AppBackground>
-        <div className="min-h-screen pt-[var(--nav-content-offset)] pb-8">
+        <div className="min-h-dvh min-h-app pt-[var(--nav-content-offset)] pb-8">
           {/* Header */}
           <div className="bg-background/80 backdrop-blur-md border-b border-border sticky top-16 z-10">
             <div className="container mx-auto px-4 py-4 max-w-4xl">
@@ -188,8 +189,12 @@ export default function PatientRemindersPage() {
 
             {/* Loading State */}
             {loading && (
-              <div className="flex items-center justify-center py-12">
-                <MedoraLoader size="lg" label="Loading reminders..." />
+              <div className="space-y-4 py-4">
+                <div className="flex justify-center py-2">
+                  <MedoraLoader size="lg" label="Loading reminders..." />
+                </div>
+                <CardSkeleton />
+                <CardSkeleton />
               </div>
             )}
 

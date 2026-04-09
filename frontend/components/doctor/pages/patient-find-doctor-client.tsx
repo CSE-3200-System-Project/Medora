@@ -11,17 +11,22 @@ import { SearchFilters } from "@/components/doctor/search-filters";
 import { PatientContextDisplay } from "@/components/doctor/patient-context-display";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
+import { Sparkles, AlertCircle, Activity, Stethoscope, Clock, Map, History, User, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
+import { MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 
 const MapView = dynamic(
   () => import("@/components/doctor/map-view").then((module) => module.MapView),
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full min-h-[320px] items-center justify-center rounded-2xl border border-border bg-card">
-        <Loader2 className="h-5 w-5 animate-spin text-primary" />
+      <div className="space-y-3 rounded-2xl border border-border bg-card p-4">
+        <div className="flex h-full min-h-[120px] items-center justify-center">
+          <MedoraLoader size="sm" label="Loading map..." />
+        </div>
+        <CardSkeleton className="h-40" />
       </div>
     ),
   },
@@ -144,18 +149,13 @@ function PreviouslyVisitedDoctors({
             <History className="w-4 h-4 text-primary" />
             <span className="font-semibold text-sm text-primary">Previously Visited</span>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="shrink-0 w-48 bg-card dark:bg-card rounded-xl p-3 animate-pulse">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-muted dark:bg-muted rounded-full" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-3 bg-muted dark:bg-muted rounded w-20" />
-                    <div className="h-2 bg-muted dark:bg-muted rounded w-16" />
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="mb-3 flex items-center justify-center">
+            <MedoraLoader size="sm" label="Loading recently visited doctors..." />
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <CardSkeleton className="h-24" />
+            <CardSkeleton className="h-24" />
+            <CardSkeleton className="h-24" />
           </div>
         </CardContent>
       </Card>
@@ -467,22 +467,12 @@ export default function FindDoctorPage() {
           <div className={`space-y-4 ${showMap ? 'hidden lg:block' : 'block'}`}>
             {loading ? (
               <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-card rounded-2xl border border-border/50 p-5 md:p-6">
-                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
-                      <div className="h-20 w-20 sm:h-24 sm:w-24 skeleton rounded-xl shrink-0 mx-auto sm:mx-0" />
-                      <div className="flex-1 space-y-3">
-                        <div className="h-5 skeleton rounded w-1/2 mx-auto sm:mx-0" />
-                        <div className="h-4 skeleton rounded w-2/3 mx-auto sm:mx-0" />
-                        <div className="h-4 skeleton rounded w-3/4 mx-auto sm:mx-0" />
-                        <div className="flex gap-2 mt-4 justify-center sm:justify-start">
-                          <div className="h-8 skeleton rounded w-20" />
-                          <div className="h-8 skeleton rounded w-24" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                <div className="flex items-center justify-center py-2">
+                  <MedoraLoader size="md" label="Loading doctors..." />
+                </div>
+                <CardSkeleton className="h-48" />
+                <CardSkeleton className="h-48" />
+                <CardSkeleton className="h-48" />
               </div>
             ) : doctors.length > 0 ? (
               <div className="stagger-enter space-y-4">

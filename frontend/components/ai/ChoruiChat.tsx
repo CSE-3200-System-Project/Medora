@@ -1,13 +1,201 @@
 "use client";
 
 import * as React from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AlertTriangle, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { ChoruiSummaryPanel } from "@/components/ai/ChoruiSummaryPanel";
 import { useChoruiChat } from "@/hooks/useChoruiChat";
-import type { ChoruiRoleContext } from "@/types/ai";
+import type { ChoruiNavigationAction, ChoruiRoleContext, ChoruiSuggestedRoute } from "@/types/ai";
+import { useT } from "@/i18n/client";
+
+const AUTO_NAVIGATION_CONFIDENCE = 0.85;
+const CONFIRM_NAVIGATION_CONFIDENCE = 0.6;
+const MIN_NAVIGATION_DELAY_MS = 300;
+const MAX_NAVIGATION_DELAY_MS = 800;
+const DEFAULT_NAVIGATION_DELAY_MS = 450;
+
+const SHARED_ALLOWED_ROUTES = new Set<string>(["/settings", "/notifications"]);
+
+type NavigationChoice = {
+  key: string;
+  label: string;
+  route: string;
+  canonicalIntent: string;
+};
+
+type NavigationValidationResult = {
+  isValid: boolean;
+  route: string | null;
+  reason: string;
+};
+
+function extractRoutePath(route: string): string {
+  return route.split("?")[0].split("#")[0] || route;
+}
+
+function normalizeRoute(route: string | null | undefined): string | null {
+  if (typeof route !== "string") {
+    return null;
+  }
+
+  const trimmed = route.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//")) {
+    return null;
+  }
+
+  const lowered = trimmed.toLowerCase();
+  if (lowered.includes("://") || lowered.startsWith("javascript:")) {
+    return null;
+  }
+
+  if (trimmed.includes("..") || /\s/.test(trimmed)) {
+    return null;
+  }
+
+  return trimmed;
+}
+
+function isRoleAllowedRoute(pathname: string, roleContext: ChoruiRoleContext): boolean {
+  if (pathname.startsWith("/admin")) {
+    return false;
+  }
+
+  if (SHARED_ALLOWED_ROUTES.has(pathname)) {
+    return true;
+  }
+
+  if (roleContext === "patient") {
+    return pathname === "/patient" || pathname.startsWith("/patient/");
+  }
+
+  return pathname === "/doctor" || pathname.startsWith("/doctor/");
+}
+
+function hasCompleteDynamicParams(pathname: string): boolean {
+  if (
+    pathname.includes("[") ||
+    pathname.includes("]") ||
+    pathname.includes("{") ||
+    pathname.includes("}")
+  ) {
+    return false;
+  }
+
+  if (pathname.startsWith("/doctor/patient/")) {
+    const patientId = pathname.split("/").filter(Boolean)[2] || "";
+    const lowered = patientId.toLowerCase();
+    if (!patientId || ["id", "undefined", "null", "unknown"].includes(lowered)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validateNavigationRoute(
+  route: string | null | undefined,
+  roleContext: ChoruiRoleContext
+): NavigationValidationResult {
+  const normalized = normalizeRoute(route);
+  if (!normalized) {
+    return {
+      isValid: false,
+      route: null,
+      reason: "invalid route format",
+    };
+  }
+
+  const pathname = extractRoutePath(normalized);
+  if (!isRoleAllowedRoute(pathname, roleContext)) {
+    return {
+      isValid: false,
+      route: normalized,
+      reason: "route blocked for current role",
+    };
+  }
+
+  if (!hasCompleteDynamicParams(pathname)) {
+    return {
+      isValid: false,
+      route: normalized,
+      reason: "route has unresolved dynamic parameters",
+    };
+  }
+
+  return {
+    isValid: true,
+    route: normalized,
+    reason: "ok",
+  };
+}
+
+function toNavigationLabel(route: string): string {
+  const pathname = extractRoutePath(route);
+  if (pathname === "/settings") {
+    return "Settings";
+  }
+  if (pathname === "/notifications") {
+    return "Notifications";
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
+  const last = segments[segments.length - 1] || "page";
+  return last
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function clampNavigationDelay(delayMs: number | null | undefined): number {
+  const parsed = typeof delayMs === "number" && !Number.isNaN(delayMs) ? Math.round(delayMs) : DEFAULT_NAVIGATION_DELAY_MS;
+  return Math.max(MIN_NAVIGATION_DELAY_MS, Math.min(MAX_NAVIGATION_DELAY_MS, parsed));
+}
+
+function buildNavigationChoices(
+  action: ChoruiNavigationAction | null,
+  suggestedRoutes: ChoruiSuggestedRoute[],
+  roleContext: ChoruiRoleContext
+): NavigationChoice[] {
+  const choices: NavigationChoice[] = [];
+  const seenRoutes = new Set<string>();
+
+  const pushChoice = (label: string, route: string, canonicalIntent: string) => {
+    const validation = validateNavigationRoute(route, roleContext);
+    if (!validation.isValid || !validation.route) {
+      return;
+    }
+
+    if (seenRoutes.has(validation.route)) {
+      return;
+    }
+
+    seenRoutes.add(validation.route);
+    choices.push({
+      key: `${canonicalIntent}-${validation.route}`,
+      label,
+      route: validation.route,
+      canonicalIntent,
+    });
+  };
+
+  for (const option of action?.options ?? []) {
+    pushChoice(option.label, option.route, option.canonical_intent);
+  }
+
+  for (const suggestion of suggestedRoutes) {
+    pushChoice(suggestion.label, suggestion.route, suggestion.canonical_intent);
+  }
+
+  return choices;
+}
 
 function formatChatTime(timestamp: string): string {
   const date = new Date(timestamp);
@@ -23,6 +211,7 @@ type ChoruiChatProps = {
 };
 
 export function ChoruiChat({ roleContext = "patient", defaultPatientId }: ChoruiChatProps) {
+  const tChorui = useT("chorui");
   const {
     messages,
     input,
@@ -43,12 +232,112 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     deletingConversationId,
     startNewConversation,
     contextMode,
+    navigationAction,
+    suggestedRoutes,
+    navigationMemory,
+    navigationMeta,
+    clearNavigationState,
   } = useChoruiChat({ roleContext, defaultPatientId });
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const isDoctorMode = roleContext === "doctor";
   const [historyOpen, setHistoryOpen] = React.useState(false);
+  const [navigationStatus, setNavigationStatus] = React.useState<string | null>(null);
+  const [navigationIssue, setNavigationIssue] = React.useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const [pendingConfirmation, setPendingConfirmation] = React.useState<{
+    route: string;
+    label: string;
+  } | null>(null);
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  const navigationTimerRef = React.useRef<number | null>(null);
+  const previousRouteRef = React.useRef<string | null>(null);
+  const lastNavigationRouteRef = React.useRef<string | null>(null);
+
+  const navigationChoices = React.useMemo(
+    () => buildNavigationChoices(navigationAction, suggestedRoutes, roleContext),
+    [navigationAction, roleContext, suggestedRoutes]
+  );
+
+  const cancelPendingNavigation = React.useCallback((statusMessage?: string | null) => {
+    if (navigationTimerRef.current) {
+      window.clearTimeout(navigationTimerRef.current);
+      navigationTimerRef.current = null;
+    }
+
+    setIsTransitioning(false);
+    setPendingConfirmation(null);
+
+    if (typeof statusMessage !== "undefined") {
+      setNavigationStatus(statusMessage);
+    }
+  }, []);
+
+  const executeNavigation = React.useCallback(
+    (
+      route: string,
+      options?: {
+        delayMs?: number;
+        statusMessage?: string;
+      }
+    ) => {
+      const validation = validateNavigationRoute(route, roleContext);
+      if (!validation.isValid || !validation.route) {
+        setNavigationIssue(`Navigation blocked: ${validation.reason}.`);
+        setIsTransitioning(false);
+        return false;
+      }
+
+      const safeRoute = validation.route;
+      if (navigationTimerRef.current) {
+        window.clearTimeout(navigationTimerRef.current);
+        navigationTimerRef.current = null;
+      }
+
+      setNavigationIssue(null);
+      setPendingConfirmation(null);
+
+      const delayMs = options?.delayMs ?? 0;
+      const navigateNow = () => {
+        navigationTimerRef.current = null;
+        setIsTransitioning(false);
+        setNavigationStatus(null);
+        clearNavigationState();
+
+        const currentPath = pathname || null;
+        if (currentPath && currentPath !== safeRoute) {
+          previousRouteRef.current = currentPath;
+        }
+        lastNavigationRouteRef.current = safeRoute;
+        router.push(safeRoute);
+      };
+
+      if (delayMs > 0) {
+        setIsTransitioning(true);
+        setNavigationStatus(options?.statusMessage ?? tChorui("takingYouTo", { label: toNavigationLabel(safeRoute) }));
+        navigationTimerRef.current = window.setTimeout(navigateNow, delayMs);
+        return true;
+      }
+
+      setNavigationStatus(options?.statusMessage ?? tChorui("opening", { label: toNavigationLabel(safeRoute) }));
+      navigateNow();
+      return true;
+    },
+    [clearNavigationState, pathname, roleContext, router, tChorui]
+  );
+
+  const handleChoiceNavigation = React.useCallback(
+    (choice: NavigationChoice) => {
+      void executeNavigation(choice.route, {
+        delayMs: 0,
+        statusMessage: tChorui("opening", { label: choice.label }),
+      });
+    },
+    [executeNavigation, tChorui]
+  );
 
   React.useEffect(() => {
     if (!scrollRef.current) {
@@ -61,6 +350,148 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     });
   }, [messages, loading]);
 
+  React.useEffect(() => {
+    return () => {
+      if (navigationTimerRef.current) {
+        window.clearTimeout(navigationTimerRef.current);
+        navigationTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const previousRouteValidation = validateNavigationRoute(navigationMeta?.previous_route, roleContext);
+    if (previousRouteValidation.isValid && previousRouteValidation.route) {
+      previousRouteRef.current = previousRouteValidation.route;
+    }
+
+    const lastRouteValidation = validateNavigationRoute(navigationMeta?.last_navigation_route, roleContext);
+    if (lastRouteValidation.isValid && lastRouteValidation.route) {
+      lastNavigationRouteRef.current = lastRouteValidation.route;
+    }
+  }, [navigationMeta, roleContext]);
+
+  React.useEffect(() => {
+    if (!navigationAction) {
+      return;
+    }
+
+    if (navigationAction.reason === "navigation_correction_detected") {
+      cancelPendingNavigation(tChorui("navigationCancelled"));
+      setNavigationIssue(null);
+      clearNavigationState();
+      return;
+    }
+
+    if (navigationAction.type === "undo") {
+      const undoCandidate =
+        navigationAction.route ||
+        navigationMeta?.previous_route ||
+        previousRouteRef.current ||
+        lastNavigationRouteRef.current;
+      const undoValidation = validateNavigationRoute(undoCandidate, roleContext);
+
+      if (!undoValidation.isValid || !undoValidation.route) {
+        setNavigationIssue("Unable to safely go back from this context. Please choose a safe destination below.");
+        setNavigationStatus(tChorui("safeOptions"));
+        setPendingConfirmation(null);
+        setIsTransitioning(false);
+        return;
+      }
+
+      setNavigationIssue(null);
+      setIsTransitioning(false);
+      setPendingConfirmation({
+        route: undoValidation.route,
+        label: toNavigationLabel(undoValidation.route),
+      });
+      setNavigationStatus("Do you want to go back to your previous page?");
+      return;
+    }
+
+    if (navigationAction.type === "clarify" || navigationAction.type === "suggest") {
+      const missingParamsText =
+        navigationAction.type === "clarify" && navigationAction.missing_params.length > 0
+          ? ` ${tChorui("iNeed", { value: navigationAction.missing_params.join(", ") })}`
+          : "";
+
+      setNavigationIssue(null);
+      setPendingConfirmation(null);
+      setIsTransitioning(false);
+      setNavigationStatus(
+        navigationAction.type === "clarify"
+          ? `${tChorui("needOneDetail")}${missingParamsText}`
+          : tChorui("safeOptions")
+      );
+      return;
+    }
+
+    if (navigationAction.type === "navigate") {
+      const routeValidation = validateNavigationRoute(navigationAction.route, roleContext);
+      if (!routeValidation.isValid || !routeValidation.route) {
+        setNavigationIssue(`I could not open that destination safely (${routeValidation.reason}).`);
+        setNavigationStatus(tChorui("safeOptions"));
+        setPendingConfirmation(null);
+        setIsTransitioning(false);
+        return;
+      }
+
+      const confidence = Number(navigationAction.confidence || 0);
+      const destinationLabel = toNavigationLabel(routeValidation.route);
+      const requiresConfirmation =
+        navigationAction.requires_confirmation ||
+        (confidence >= CONFIRM_NAVIGATION_CONFIDENCE && confidence < AUTO_NAVIGATION_CONFIDENCE);
+
+      if (confidence < CONFIRM_NAVIGATION_CONFIDENCE) {
+        setNavigationIssue(null);
+        setPendingConfirmation(null);
+        setIsTransitioning(false);
+        setNavigationStatus(tChorui("safeOptions"));
+        return;
+      }
+
+      if (requiresConfirmation) {
+        cancelPendingNavigation();
+        setNavigationIssue(null);
+        setPendingConfirmation({
+          route: routeValidation.route,
+          label: destinationLabel,
+        });
+        setNavigationStatus(`I can open ${destinationLabel}. Do you want me to continue?`);
+        return;
+      }
+
+      void executeNavigation(routeValidation.route, {
+        delayMs: clampNavigationDelay(navigationAction.delay_ms),
+        statusMessage: tChorui("takingYouTo", { label: destinationLabel }),
+      });
+      return;
+    }
+
+    if (navigationAction.type === "none") {
+      setNavigationIssue(null);
+      setPendingConfirmation(null);
+      setIsTransitioning(false);
+      if (navigationChoices.length > 0) {
+        setNavigationStatus(tChorui("chooseNext"));
+      } else if (navigationMemory?.pending_intent && navigationMemory.missing_params.length > 0) {
+        setNavigationStatus(tChorui("iNeed", { value: navigationMemory.missing_params.join(", ") }));
+      } else {
+        setNavigationStatus(null);
+      }
+    }
+  }, [
+    cancelPendingNavigation,
+    clearNavigationState,
+    executeNavigation,
+    navigationAction,
+    navigationChoices.length,
+    navigationMemory,
+    navigationMeta?.previous_route,
+    roleContext,
+    tChorui,
+  ]);
+
   return (
     <section className="relative rounded-3xl border border-border/70 bg-card/70 p-3 shadow-surface backdrop-blur-md md:p-4">
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-primary/10 via-transparent to-accent/20" />
@@ -70,14 +501,14 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
           <div className="mb-4 flex items-start justify-between gap-3">
             <div>
               <h1 className="text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-tight text-foreground" style={{ fontFamily: "var(--font-manrope)" }}>
-                {isDoctorMode ? "Chorui AI for Clinical Workflow" : "Tell us about your health"}
+                {isDoctorMode ? tChorui("titleDoctor") : tChorui("titlePatient")}
               </h1>
               <p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-inter)" }}>
                 {isDoctorMode
-                  ? "Summaries, context insights, and evidence-aware assistance for faster care coordination."
-                  : "We will organize it for your doctor."}
+                  ? tChorui("subtitleDoctor")
+                  : tChorui("subtitlePatient")}
               </p>
-              <p className="mt-2 text-xs text-muted-foreground/90">Mode: {contextMode}</p>
+              <p className="mt-2 text-xs text-muted-foreground/90">{tChorui("mode", { mode: contextMode })}</p>
             </div>
 
             <Button
@@ -86,7 +517,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
               size="icon"
               className="h-9 w-9 shrink-0 rounded-xl"
               onClick={() => setHistoryOpen(true)}
-              aria-label="Open conversation history"
+              aria-label={tChorui("openConversationHistory")}
             >
               <Menu className="h-4 w-4" />
             </Button>
@@ -95,7 +526,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
           {historyOpen ? (
             <div className="absolute inset-0 z-20 rounded-3xl border border-border/70 bg-background/95 p-3 backdrop-blur-sm md:p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h2 className="text-sm font-semibold text-foreground">Conversation History</h2>
+                <h2 className="text-sm font-semibold text-foreground">{tChorui("conversationHistory")}</h2>
                 <Button
                   type="button"
                   variant="ghost"
@@ -104,7 +535,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                   onClick={() => setHistoryOpen(false)}
                 >
                   <X className="h-4 w-4" />
-                  <span className="sr-only">Close history</span>
+                  <span className="sr-only">{tChorui("closeHistory")}</span>
                 </Button>
               </div>
 
@@ -124,7 +555,13 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
 
               <div className="no-scrollbar max-h-[70vh] space-y-2 overflow-y-auto pr-1">
                 {conversationsLoading ? (
-                  <p className="text-sm text-muted-foreground">Loading conversations...</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center py-2">
+                      <MedoraLoader size="sm" label="Loading conversations..." />
+                    </div>
+                    <CardSkeleton className="h-16" />
+                    <CardSkeleton className="h-16" />
+                  </div>
                 ) : conversations.length === 0 ? (
                   <p className="text-sm text-muted-foreground">No saved conversations yet.</p>
                 ) : (
@@ -226,10 +663,9 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                     <Brain className="h-4 w-4" />
                   </div>
                   <div className="rounded-2xl border border-border/60 bg-card/80 px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary [animation-delay:120ms]" />
-                      <span className="h-2 w-2 animate-pulse rounded-full bg-primary [animation-delay:240ms]" />
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <ButtonLoader className="h-4 w-4 text-primary" />
+                      Thinking...
                     </div>
                   </div>
                 </div>
@@ -241,6 +677,8 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
             className="mt-4"
             onSubmit={(event) => {
               event.preventDefault();
+              cancelPendingNavigation(null);
+              setNavigationIssue(null);
               void submitMessage();
             }}
           >
@@ -265,6 +703,64 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
               </Button>
             </div>
           </form>
+
+          {navigationStatus || navigationIssue || pendingConfirmation || navigationChoices.length > 0 ? (
+            <div className="mt-3 rounded-2xl border border-border/60 bg-background/65 p-3">
+              {navigationStatus ? (
+                <p className="text-xs text-foreground">{navigationStatus}</p>
+              ) : null}
+
+              {isTransitioning ? (
+                <p className="mt-1 text-[0.72rem] text-muted-foreground">Preparing safe navigation...</p>
+              ) : null}
+
+              {navigationIssue ? (
+                <p className="mt-2 text-xs text-destructive">{navigationIssue}</p>
+              ) : null}
+
+              {pendingConfirmation ? (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="medical"
+                    onClick={() => {
+                      void executeNavigation(pendingConfirmation.route, {
+                        delayMs: 0,
+                        statusMessage: tChorui("opening", { label: pendingConfirmation.label }),
+                      });
+                    }}
+                  >
+                    Yes, continue
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => cancelPendingNavigation("Navigation paused. Tell me where to go next.")}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              ) : null}
+
+              {navigationChoices.length > 0 ? (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {navigationChoices.map((choice) => (
+                    <Button
+                      key={choice.key}
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleChoiceNavigation(choice)}
+                    >
+                      {choice.label}
+                    </Button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
           {error ? (
             <div className="mt-3 flex items-start justify-between gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-3 text-xs text-foreground">

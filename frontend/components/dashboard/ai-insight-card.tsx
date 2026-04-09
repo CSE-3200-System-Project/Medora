@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { memo } from "react"
 import { Droplets, MoonStar, Pill, Activity } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
@@ -35,12 +35,12 @@ const toneStyles = {
   },
 }
 
-export function AIInsightCard({ iconName, title, description, tone = "info" }: AIInsightCardProps) {
+export const AIInsightCard = memo(function AIInsightCard({ iconName, title, description, tone = "info" }: AIInsightCardProps) {
   const Icon = ICON_MAP[iconName] ?? Activity
   const style = toneStyles[tone]
 
   return (
-    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+    <div className="card-hover">
       <Card className="border-border/70 bg-card/95 shadow-sm">
         <CardContent className="flex items-start gap-3 pt-4">
           <div className={`rounded-xl p-2.5 ${style.iconWrap}`}>
@@ -55,6 +55,6 @@ export function AIInsightCard({ iconName, title, description, tone = "info" }: A
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
-}
+})

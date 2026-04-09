@@ -12,8 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Bell, Clock, Loader2, CheckCircle2 } from "lucide-react";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { Bell, Clock, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createReminder, type ReminderType } from "@/lib/reminder-actions";
 
@@ -207,7 +207,7 @@ export function ReminderDialog({
               <Button onClick={handleSubmit} disabled={saving}>
                 {saving ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <ButtonLoader className="w-4 h-4 mr-2" />
                     Setting...
                   </>
                 ) : (
@@ -464,7 +464,7 @@ export function PrescriptionReminderDialog({
               <Button onClick={handleSubmit} disabled={saving}>
                 {saving ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <ButtonLoader className="w-4 h-4 mr-2" />
                     Setting...
                   </>
                 ) : (

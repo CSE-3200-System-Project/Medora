@@ -4,13 +4,15 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, Loader2, ShieldAlert } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Eye, EyeOff, KeyRound, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { createClient } from "@supabase/supabase-js";
 import { resetPassword } from "@/lib/auth-actions";
+import { useT } from "@/i18n/client";
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
@@ -22,6 +24,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 type PageState = "loading" | "form" | "success" | "error";
 
 export function ResetPasswordClient() {
+  const tAuth = useT("auth");
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [pageState, setPageState] = useState<PageState>("loading");
@@ -35,8 +38,8 @@ export function ResetPasswordClient() {
   const [countdown, setCountdown] = useState(5);
 
   const images = [
-    { src: doctorImg, alt: "Doctors Team", text: "Reset Your Password" },
-    { src: patientImg, alt: "Patient Care", text: "Secure & Protected" },
+    { src: doctorImg, alt: "Doctors Team", text: tAuth("resetPasswordHeroA") },
+    { src: patientImg, alt: "Patient Care", text: tAuth("resetPasswordHeroB") },
   ];
 
   // Image carousel
@@ -54,7 +57,7 @@ export function ResetPasswordClient() {
         const hash = window.location.hash;
         if (!hash) {
           setPageState("error");
-          setError("No recovery token found. Please request a new password reset link.");
+          setError(tAuth("noRecoveryToken"));
           return;
         }
 
@@ -64,7 +67,7 @@ export function ResetPasswordClient() {
 
         if (type !== "recovery" || !token) {
           setPageState("error");
-          setError("Invalid recovery link. Please request a new password reset link.");
+          setError(tAuth("invalidRecoveryLink"));
           return;
         }
 
@@ -79,7 +82,7 @@ export function ResetPasswordClient() {
 
         if (sessionError) {
           setPageState("error");
-          setError("This reset link has expired. Please request a new one.");
+          setError(tAuth("expiredRecoveryLink"));
           return;
         }
 
@@ -87,12 +90,12 @@ export function ResetPasswordClient() {
         setPageState("form");
       } catch {
         setPageState("error");
-        setError("Something went wrong. Please request a new password reset link.");
+        setError(tAuth("resetUnknownError"));
       }
     }
 
     handleRecovery();
-  }, []);
+  }, [tAuth]);
 
   // Success countdown redirect
   useEffect(() => {
@@ -119,10 +122,10 @@ export function ResetPasswordClient() {
   }, [pageState, router]);
 
   const validatePassword = (pw: string) => {
-    if (pw.length < 8) return "Password must be at least 8 characters";
-    if (!/[A-Z]/.test(pw)) return "Password must contain an uppercase letter";
-    if (!/[a-z]/.test(pw)) return "Password must contain a lowercase letter";
-    if (!/[0-9]/.test(pw)) return "Password must contain a number";
+    if (pw.length < 8) return tAuth("passwordRuleLength");
+    if (!/[A-Z]/.test(pw)) return tAuth("passwordRuleUpper");
+    if (!/[a-z]/.test(pw)) return tAuth("passwordRuleLower");
+    if (!/[0-9]/.test(pw)) return tAuth("passwordRuleNumber");
     return null;
   };
 
@@ -137,7 +140,7 @@ export function ResetPasswordClient() {
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(tAuth("passwordsDoNotMatch"));
       return;
     }
 
@@ -146,7 +149,7 @@ export function ResetPasswordClient() {
       await resetPassword(accessToken, password);
       setPageState("success");
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to reset password. Please try again.";
+      const msg = err instanceof Error ? err.message : tAuth("resetPasswordFailed");
       setError(msg);
     } finally {
       setLoading(false);
@@ -162,15 +165,15 @@ export function ResetPasswordClient() {
     if (/[0-9]/.test(password)) strength++;
     if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-    if (strength <= 2) return { label: "Weak", color: "bg-destructive", width: "w-1/3" };
-    if (strength <= 3) return { label: "Fair", color: "bg-yellow-500", width: "w-2/3" };
-    return { label: "Strong", color: "bg-success", width: "w-full" };
+    if (strength <= 2) return { label: tAuth("passwordStrengthWeak"), color: "bg-destructive", width: "w-1/3" };
+    if (strength <= 3) return { label: tAuth("passwordStrengthFair"), color: "bg-yellow-500", width: "w-2/3" };
+    return { label: tAuth("passwordStrengthStrong"), color: "bg-success", width: "w-full" };
   };
 
   const strength = passwordStrength();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
+    <div className="min-h-dvh min-h-app flex items-center justify-center bg-surface p-4 md:p-6 lg:p-8 animate-page-enter">
       <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col lg:flex-row min-h-150">
           {/* Left panel — image carousel */}
@@ -192,7 +195,7 @@ export function ResetPasswordClient() {
                   {images[currentImageIndex].text}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden sm:block">
-                  Create a strong, secure password for your Medora account.
+                  {tAuth("resetPasswordHeroDescription")}
                 </p>
               </div>
 
@@ -202,7 +205,7 @@ export function ResetPasswordClient() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"}`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    aria-label={tAuth("slideGoTo", { count: index + 1 })}
                   />
                 ))}
               </div>
@@ -221,8 +224,8 @@ export function ResetPasswordClient() {
                 {pageState === "loading" && (
                   <>
                     <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      <span>Verifying your reset link...</span>
+                      <MedoraLoader size="sm" />
+                      <span>{tAuth("verifyingResetLink")}</span>
                     </div>
                   </>
                 )}
@@ -232,20 +235,20 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-destructive/10 rounded-full flex items-center justify-center">
                       <ShieldAlert className="h-9 w-9 text-destructive" />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">Link Expired</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">{tAuth("linkExpired")}</h2>
                     <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg">
                       <p className="text-sm">{error}</p>
                     </div>
                     <div className="pt-4 space-y-3 w-full">
                       <Link href="/forgot-password" className="block">
                         <Button className="w-full" variant="default">
-                          Request New Reset Link
+                          {tAuth("requestNewResetLink")}
                         </Button>
                       </Link>
                       <Link href="/login" className="block">
                         <Button className="w-full" variant="outline">
                           <ArrowLeft className="h-4 w-4 mr-2" />
-                          Back to Sign In
+                          {tAuth("backToSignIn")}
                         </Button>
                       </Link>
                     </div>
@@ -257,9 +260,9 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center">
                       <KeyRound className="h-9 w-9 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">Set New Password</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">{tAuth("setNewPasswordTitle")}</h2>
                     <p className="text-muted-foreground">
-                      Choose a strong password to secure your account.
+                      {tAuth("setNewPasswordDescription")}
                     </p>
                   </>
                 )}
@@ -269,9 +272,9 @@ export function ResetPasswordClient() {
                     <div className="mx-auto mb-2 h-16 w-16 bg-success/10 rounded-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
                       <CheckCircle2 className="h-9 w-9 text-success" strokeWidth={2.5} />
                     </div>
-                    <h2 className="text-2xl font-bold tracking-tight">Password Reset Complete</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">{tAuth("resetCompleteTitle")}</h2>
                     <p className="text-muted-foreground">
-                      Your password has been successfully updated.
+                      {tAuth("resetCompleteDescription")}
                     </p>
                   </>
                 )}
@@ -287,12 +290,12 @@ export function ResetPasswordClient() {
 
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-2">
-                      <Label htmlFor="new-password">New Password</Label>
+                      <Label htmlFor="new-password">{tAuth("newPassword")}</Label>
                       <div className="relative">
                         <Input
                           id="new-password"
                           type={showPassword ? "text" : "password"}
-                          placeholder="Enter new password"
+                          placeholder={tAuth("newPasswordPlaceholder")}
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           required
@@ -313,19 +316,19 @@ export function ResetPasswordClient() {
                             <div className={`h-full ${strength.color} ${strength.width} rounded-full transition-all duration-300`} />
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            Password strength: <span className="font-medium">{strength.label}</span>
+                            {tAuth("passwordStrengthLabel", { value: strength.label })}
                           </p>
                         </div>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="confirm-password">Confirm Password</Label>
+                      <Label htmlFor="confirm-password">{tAuth("confirmPassword")}</Label>
                       <div className="relative">
                         <Input
                           id="confirm-password"
                           type={showConfirmPassword ? "text" : "password"}
-                          placeholder="Confirm new password"
+                          placeholder={tAuth("confirmPasswordPlaceholder")}
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           required
@@ -341,24 +344,24 @@ export function ResetPasswordClient() {
                         </button>
                       </div>
                       {confirmPassword && password !== confirmPassword && (
-                        <p className="text-xs text-destructive">Passwords do not match</p>
+                        <p className="text-xs text-destructive">{tAuth("passwordsDoNotMatch")}</p>
                       )}
                     </div>
 
                     <div className="rounded-lg bg-accent/50 p-3 space-y-1">
-                      <p className="text-xs font-medium text-foreground">Password requirements:</p>
+                      <p className="text-xs font-medium text-foreground">{tAuth("passwordRequirementsTitle")}</p>
                       <ul className="text-xs text-muted-foreground space-y-0.5">
                         <li className={password.length >= 8 ? "text-success" : ""}>
-                          {password.length >= 8 ? "\u2713" : "\u2022"} At least 8 characters
+                          {password.length >= 8 ? "\u2713" : "\u2022"} {tAuth("passwordRequirementLength")}
                         </li>
                         <li className={/[A-Z]/.test(password) ? "text-success" : ""}>
-                          {/[A-Z]/.test(password) ? "\u2713" : "\u2022"} One uppercase letter
+                          {/[A-Z]/.test(password) ? "\u2713" : "\u2022"} {tAuth("passwordRequirementUpper")}
                         </li>
                         <li className={/[a-z]/.test(password) ? "text-success" : ""}>
-                          {/[a-z]/.test(password) ? "\u2713" : "\u2022"} One lowercase letter
+                          {/[a-z]/.test(password) ? "\u2713" : "\u2022"} {tAuth("passwordRequirementLower")}
                         </li>
                         <li className={/[0-9]/.test(password) ? "text-success" : ""}>
-                          {/[0-9]/.test(password) ? "\u2713" : "\u2022"} One number
+                          {/[0-9]/.test(password) ? "\u2713" : "\u2022"} {tAuth("passwordRequirementNumber")}
                         </li>
                       </ul>
                     </div>
@@ -366,11 +369,11 @@ export function ResetPasswordClient() {
                     <Button type="submit" className="w-full" disabled={loading}>
                       {loading ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Resetting Password...
+                          <ButtonLoader className="h-4 w-4 mr-2" />
+                          {tAuth("resettingPassword")}
                         </>
                       ) : (
-                        "Reset Password"
+                        tAuth("resetPasswordCta")
                       )}
                     </Button>
                   </form>
@@ -378,7 +381,7 @@ export function ResetPasswordClient() {
                   <div className="text-center text-sm text-foreground">
                     <Link href="/login" className="font-medium text-primary hover:underline flex items-center justify-center gap-2">
                       <ArrowLeft size={16} />
-                      Back to Sign In
+                      {tAuth("backToSignIn")}
                     </Link>
                   </div>
                 </>
@@ -389,21 +392,20 @@ export function ResetPasswordClient() {
                   <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 shrink-0" />
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Password Updated!</p>
+                      <p className="text-sm font-medium">{tAuth("resetCompleteTitle")}</p>
                       <p className="text-xs text-success-muted/80 mt-1">
-                        You can now sign in with your new password
+                        {tAuth("resetCompleteDescription")}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground text-center">
-                    Redirecting to login in <span className="font-semibold text-primary">{countdown}</span>{" "}
-                    {countdown === 1 ? "second" : "seconds"}...
+                    {tAuth("redirectingIn", { count: countdown })}
                   </p>
 
                   <Link href="/login" className="block">
                     <Button className="w-full" variant="medical" size="lg">
-                      Continue to Login
+                      {tAuth("goToLoginNow")}
                     </Button>
                   </Link>
                 </div>

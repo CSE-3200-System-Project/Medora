@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { MapPin, Loader2 } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import {
   Map,
   MapMarker,
@@ -181,7 +182,7 @@ export function LocationPicker({
           disabled={isSearching}
         >
           {isSearching ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <ButtonLoader className="h-4 w-4" />
           ) : (
             "Search"
           )}

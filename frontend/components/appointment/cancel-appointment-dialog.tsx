@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/dialog";
 import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { XCircle, Clock, User, Calendar, Loader2 } from "lucide-react";
+import { XCircle, Clock, User, Calendar } from "lucide-react";
+import { useAppI18n, useT } from "@/i18n/client";
 
 interface CancelAppointmentDialogProps {
   open: boolean;
@@ -27,8 +29,43 @@ interface CancelAppointmentDialogProps {
     slot_time?: string | null;
     reason?: string;
   } | null;
-  onConfirm: (appointmentId: string, cancellationReason?: string) => Promise<void>;
+  onConfirm: (appointmentId: string, reasonKey: string, cancellationReason?: string) => Promise<void>;
   userRole?: 'patient' | 'doctor';
+  reasonOptions?: Array<{ key: string; label: string }>;
+  bufferMinutes?: number;
+}
+
+const DEFAULT_PATIENT_REASON_OPTIONS = [
+  { key: "SCHEDULE_CONFLICT", label: "Schedule conflict" },
+  { key: "PERSONAL_EMERGENCY", label: "Personal emergency" },
+  { key: "FEELING_BETTER", label: "Feeling better" },
+  { key: "TRANSPORT_ISSUE", label: "Transport issue" },
+  { key: "COST_CONCERN", label: "Cost concern" },
+  { key: "OTHER", label: "Other" },
+];
+
+const DEFAULT_DOCTOR_REASON_OPTIONS = [
+  { key: "DOCTOR_UNAVAILABLE", label: "Doctor unavailable" },
+  { key: "CLINIC_DELAY", label: "Clinic delay" },
+  { key: "DOUBLE_BOOKED", label: "Double booked" },
+  { key: "PERSONAL_EMERGENCY", label: "Personal emergency" },
+  { key: "OTHER", label: "Other" },
+];
+
+const REASON_TRANSLATION_KEYS: Record<string, string> = {
+  SCHEDULE_CONFLICT: "scheduleConflict",
+  PERSONAL_EMERGENCY: "personalEmergency",
+  FEELING_BETTER: "feelingBetter",
+  TRANSPORT_ISSUE: "transportIssue",
+  COST_CONCERN: "costConcern",
+  DOCTOR_UNAVAILABLE: "doctorUnavailable",
+  CLINIC_DELAY: "clinicDelay",
+  DOUBLE_BOOKED: "doubleBooked",
+  OTHER: "other",
+};
+
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
 }
 
 export function CancelAppointmentDialog({
@@ -37,16 +74,30 @@ export function CancelAppointmentDialog({
   appointment,
   onConfirm,
   userRole = 'patient',
+  reasonOptions,
+  bufferMinutes = 60,
 }: CancelAppointmentDialogProps) {
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
   const [cancellationReason, setCancellationReason] = React.useState("");
+  const roleDefaultOptions = userRole === "doctor" ? DEFAULT_DOCTOR_REASON_OPTIONS : DEFAULT_PATIENT_REASON_OPTIONS;
+  const options = reasonOptions && reasonOptions.length > 0 ? reasonOptions : roleDefaultOptions;
+  const [selectedReasonKey, setSelectedReasonKey] = React.useState(options[0]?.key || "OTHER");
   const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (open) {
+      setSelectedReasonKey(options[0]?.key || "OTHER");
+      setCancellationReason("");
+    }
+  }, [open, options]);
 
   const handleConfirm = async () => {
     if (!appointment) return;
     
     setLoading(true);
     try {
-      await onConfirm(appointment.id, cancellationReason || undefined);
+      await onConfirm(appointment.id, selectedReasonKey, cancellationReason || undefined);
       setCancellationReason("");
       onOpenChange(false);
     } catch (error) {
@@ -58,14 +109,28 @@ export function CancelAppointmentDialog({
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+    return date.toLocaleDateString(toIntlLocale(locale), {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const resolveReasonLabel = (optionKey: string, fallbackLabel: string) => {
+    const mappedKey = REASON_TRANSLATION_KEYS[optionKey];
+    if (!mappedKey) {
+      return fallbackLabel;
+    }
+    return tCommon(`patientAppointments.dialogs.cancel.reasons.${mappedKey}`);
   };
 
   const displayName = userRole === 'patient' 
-    ? `${appointment?.doctor_title || 'Dr.'} ${appointment?.doctor_name || 'Doctor'}`
-    : appointment?.patient_name || 'Patient';
+    ? `${appointment?.doctor_title || tCommon("patientAppointments.dialogs.cancel.fallbackDoctorPrefix")} ${appointment?.doctor_name || tCommon("patientAppointments.dialogs.cancel.fallbackDoctorName")}`.trim()
+    : appointment?.patient_name || tCommon("patientAppointments.dialogs.cancel.fallbackPatientName");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -73,10 +138,12 @@ export function CancelAppointmentDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-destructive">
             <XCircle className="w-5 h-5" />
-            Cancel Appointment
+            {tCommon("patientAppointments.dialogs.cancel.title")}
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to cancel this appointment? This action cannot be undone.
+            {tCommon("patientAppointments.dialogs.cancel.description", {
+              minutes: String(bufferMinutes),
+            })}
           </DialogDescription>
         </DialogHeader>
 
@@ -84,6 +151,7 @@ export function CancelAppointmentDialog({
           <div className="space-y-4">
             {/* Appointment Summary */}
             <div className="bg-accent/50 rounded-lg p-4">
+              <p className="text-xs text-muted-foreground mb-1">{tCommon("patientAppointments.dialogs.cancel.currentAppointment")}</p>
               <div className="flex items-center gap-2 mb-2">
                 <User className="w-4 h-4 text-primary" />
                 <p className="font-semibold text-foreground">{displayName}</p>
@@ -100,7 +168,7 @@ export function CancelAppointmentDialog({
               )}
               {appointment.reason && (
                 <div className="mt-2 border-t border-border/50 pt-2 text-sm text-muted-foreground">
-                  <p className="text-xs font-medium mb-1">Consultation</p>
+                  <p className="text-xs font-medium mb-1">{tCommon("patientAppointments.dialogs.cancel.consultation")}</p>
                   {(() => {
                     const { consultationType, appointmentType } = parseCompositeReason(appointment.reason || "");
                     const ct = humanizeConsultationType(consultationType);
@@ -113,14 +181,35 @@ export function CancelAppointmentDialog({
               )}
             </div>
 
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">{tCommon("patientAppointments.dialogs.cancel.reasonTitle")}</Label>
+              <div className="flex flex-wrap gap-2">
+                {options.map((option) => {
+                  const isSelected = selectedReasonKey === option.key;
+                  return (
+                    <Button
+                      key={option.key}
+                      type="button"
+                      variant={isSelected ? "default" : "outline"}
+                      size="sm"
+                      className="h-8"
+                      onClick={() => setSelectedReasonKey(option.key)}
+                    >
+                      {resolveReasonLabel(option.key, option.label)}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Cancellation Reason */}
             <div className="space-y-2">
               <Label htmlFor="cancellation-reason" className="text-sm font-medium">
-                Reason for cancellation (optional)
+                {tCommon("patientAppointments.dialogs.cancel.additionalDetails")}
               </Label>
               <Textarea
                 id="cancellation-reason"
-                placeholder="Let them know why you're cancelling..."
+                placeholder={tCommon("patientAppointments.dialogs.cancel.additionalPlaceholder")}
                 value={cancellationReason}
                 onChange={(e) => setCancellationReason(e.target.value)}
                 rows={3}
@@ -132,16 +221,16 @@ export function CancelAppointmentDialog({
 
         <DialogFooter className="gap-2 sm:gap-0">
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
-            Keep Appointment
+            {tCommon("patientAppointments.dialogs.cancel.keepAppointment")}
           </Button>
           <Button variant="destructive" onClick={handleConfirm} disabled={loading}>
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Cancelling...
+                <ButtonLoader className="w-4 h-4 mr-2" />
+                {tCommon("patientAppointments.dialogs.cancel.cancelling")}
               </>
             ) : (
-              "Cancel Appointment"
+              tCommon("patientAppointments.dialogs.cancel.cancelAppointment")
             )}
           </Button>
         </DialogFooter>

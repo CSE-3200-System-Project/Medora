@@ -1,7 +1,8 @@
 "use client";
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 
+import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type AppointmentDensityChartProps = {
@@ -17,9 +18,11 @@ export function AppointmentDensityChart({ data, deltaLabel }: AppointmentDensity
         <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">{deltaLabel}</p>
       </CardHeader>
       <CardContent>
-        <div className="h-56 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 12, right: 8, left: -24, bottom: 0 }}>
+        <SafeChartContainer
+          className="h-56 w-full"
+          minHeight={224}
+          render={({ width, height }) => (
+            <LineChart data={data} width={width} height={height} margin={{ top: 12, right: 8, left: -24, bottom: 0 }}>
               <XAxis dataKey="time" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
               <YAxis hide domain={[0, "dataMax + 3"]} />
               <Tooltip
@@ -35,8 +38,8 @@ export function AppointmentDensityChart({ data, deltaLabel }: AppointmentDensity
                 activeDot={{ r: 4, fill: "var(--primary)" }}
               />
             </LineChart>
-          </ResponsiveContainer>
-        </div>
+          )}
+        />
       </CardContent>
     </Card>
   );

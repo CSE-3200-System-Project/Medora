@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import func, select, update
 from sqlalchemy.orm import aliased
@@ -7,10 +8,16 @@ from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import VerificationStatus, UserRole, AccountStatus
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
+from typing import Any
+import re
+import uuid
+import logging
+from app.services.email_service import send_account_suspension_email
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 # Simple admin key for password-only access
 ADMIN_PASSWORD = "admin123"
@@ -52,6 +59,60 @@ class VerifyDoctorRequest(BaseModel):
     verification_method: str = "manual"
     notes: str | None = None
     approved: bool = True
+
+
+class UpdatePatientRequest(BaseModel):
+    action: str | None = None
+    reason: str | None = None
+    severity: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    phone: str | None = None
+    city: str | None = None
+    blood_group: str | None = None
+    onboarding_completed: bool | None = None
+
+
+class PatientBulkActionRequest(BaseModel):
+    action: str
+    patient_ids: list[str]
+    reason: str | None = None
+    severity: str | None = None
+
+
+class BanPatientRequest(BaseModel):
+    reason: str
+    severity: str | None = None
+
+
+class DeletePatientRequest(BaseModel):
+    reason: str
+    severity: str | None = None
+
+
+def _sanitize_reason(reason: str | None) -> str:
+    raw = (reason or "").strip()
+    # Collapse excessive whitespace and strip control characters.
+    sanitized = re.sub(r"[\x00-\x1f\x7f]+", " ", raw)
+    sanitized = re.sub(r"\s+", " ", sanitized).strip()
+    return sanitized[:1000]
+
+
+def _to_utc(dt: datetime | None) -> datetime | None:
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+class CreatePatientRequest(BaseModel):
+    name: str
+    email: str
+    phone: str | None = None
+    status: str = "active"
+    city: str | None = None
+    blood_group: str | None = None
 
 @router.get("/pending-doctors")
 async def get_pending_doctors(
@@ -191,7 +252,15 @@ async def get_admin_stats(
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.PENDING).label("pending"),
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CONFIRMED).label("confirmed"),
                 func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.COMPLETED).label("completed"),
-                func.count(Appointment.id).filter(Appointment.status == AppointmentStatus.CANCELLED).label("cancelled"),
+                func.count(Appointment.id).filter(
+                    Appointment.status.in_(
+                        [
+                            AppointmentStatus.CANCELLED,
+                            AppointmentStatus.CANCELLED_BY_PATIENT,
+                            AppointmentStatus.CANCELLED_BY_DOCTOR,
+                        ]
+                    )
+                ).label("cancelled"),
             )
         )
         appointment_stats = appointment_stats_result.one()
@@ -246,18 +315,18 @@ async def get_all_patients(
 ):
     """Get all patients with pagination"""
     try:
-        from app.db.models.patient import PatientProfile
-        
+        safe_limit = max(1, limit)
+        safe_offset = max(0, offset)
+
         result = await db.execute(
-            select(Profile, PatientProfile)
-            .join(PatientProfile, Profile.id == PatientProfile.profile_id, isouter=True)
-            .where(Profile.role == UserRole.PATIENT)
-            .limit(limit)
-            .offset(offset)
+            select(Profile)
+            .where(Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
+            .limit(safe_limit)
+            .offset(safe_offset)
         )
         
         patients = []
-        for profile, patient in result.all():
+        for profile in result.scalars().all():
             patients.append({
                 "id": profile.id,
                 "name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "No Name",
@@ -265,30 +334,559 @@ async def get_all_patients(
                 "phone": profile.phone,
                 "onboarding_completed": profile.onboarding_completed,
                 "created_at": profile.created_at.isoformat() if profile.created_at else None,
-                "blood_group": patient.blood_group if patient else None,
-                "city": patient.city if patient else None,
+                "blood_group": None,
+                "city": None,
                 "account_status": profile.status.value if profile.status else "active",
+                "ban_reason": profile.ban_reason,
+                "avatar_url": None,
+                "medical_reports_count": 0,
             })
         
         # Get total count
         count_result = await db.execute(
-            select(func.count(Profile.id)).where(Profile.role == UserRole.PATIENT)
+            select(func.count(Profile.id)).where(Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
         )
         total = count_result.scalar() or 0
 
         return {
+            "success": True,
+            "message": "Patients fetched successfully",
+            "data": patients,
             "patients": patients,
             "total": total,
-            "limit": limit,
-            "offset": offset
+            "limit": safe_limit,
+            "offset": safe_offset
         }
-    except Exception:
-        return {
-            "patients": [],
-            "total": 0,
-            "limit": limit,
-            "offset": offset
-        }
+    except Exception as error:
+        logger.exception("Failed to fetch patients list", extra={"limit": limit, "offset": offset})
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "message": "Failed to fetch patients",
+                "data": [],
+                "patients": [],
+                "total": 0,
+                "limit": max(1, limit),
+                "offset": max(0, offset),
+                "error": str(error),
+            },
+        )
+
+
+@router.post("/patients")
+async def create_patient(
+    payload: CreatePatientRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    from app.db.models.patient import PatientProfile
+
+    full_name = payload.name.strip()
+    if not full_name:
+        raise HTTPException(status_code=400, detail="Name is required")
+
+    if not payload.email or not payload.email.strip():
+        raise HTTPException(status_code=400, detail="Email is required")
+
+    email = payload.email.strip().lower()
+
+    existing_result = await db.execute(select(Profile).where(Profile.email == email))
+    if existing_result.scalar_one_or_none():
+        raise HTTPException(status_code=409, detail="Email already exists")
+
+    parts = [part for part in full_name.split() if part]
+    first_name = parts[0]
+    last_name = " ".join(parts[1:]) if len(parts) > 1 else "Patient"
+
+    requested_status = (payload.status or "active").lower()
+    if requested_status == "banned":
+        account_status = AccountStatus.banned
+    elif requested_status in {"suspended", "inactive"}:
+        account_status = AccountStatus.suspended
+    else:
+        account_status = AccountStatus.active
+
+    now = datetime.utcnow()
+    profile_id = str(uuid.uuid4())
+
+    profile = Profile(
+        id=profile_id,
+        role=UserRole.PATIENT,
+        status=account_status,
+        verification_status=VerificationStatus.verified,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        phone=payload.phone.strip() if payload.phone else None,
+        onboarding_completed=False,
+        created_at=now,
+        updated_at=now,
+    )
+
+    patient = PatientProfile(
+        profile_id=profile_id,
+        city=payload.city,
+        blood_group=payload.blood_group,
+        notifications=True,
+        created_at=now,
+        updated_at=now,
+    )
+
+    db.add(profile)
+    db.add(patient)
+    await db.commit()
+
+    return {
+        "id": profile_id,
+        "name": f"{first_name} {last_name}".strip(),
+        "email": email,
+        "phone": profile.phone,
+        "city": payload.city,
+        "blood_group": payload.blood_group,
+        "account_status": account_status.value,
+    }
+
+
+@router.get("/patients/{patient_id:uuid}")
+async def get_patient_by_id(
+    patient_id: uuid.UUID,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    from app.db.models.patient import PatientProfile
+    patient_id_str = str(patient_id)
+
+    result = await db.execute(
+        select(Profile, PatientProfile)
+        .join(PatientProfile, Profile.id == PatientProfile.profile_id, isouter=True)
+        .where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
+    )
+    row = result.first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    profile, patient = row
+    tests = patient.medical_tests if patient and isinstance(patient.medical_tests, list) else []
+    patient_data: dict[str, Any] = {}
+    if patient is not None:
+        for column in patient.__table__.columns:
+            key = column.name
+            value = getattr(patient, key)
+            if isinstance(value, (datetime,)):
+                patient_data[key] = value.isoformat()
+            elif hasattr(value, "isoformat") and value is not None:
+                patient_data[key] = value.isoformat()
+            else:
+                patient_data[key] = value
+
+    return {
+        "id": profile.id,
+        "name": f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "No Name",
+        "first_name": profile.first_name,
+        "last_name": profile.last_name,
+        "email": profile.email,
+        "phone": profile.phone,
+        "status": profile.status.value if profile.status else "active",
+        "ban_reason": profile.ban_reason,
+        "delete_reason": profile.delete_reason,
+        "banned_at": profile.banned_at.isoformat() if profile.banned_at else None,
+        "banned_by": profile.banned_by,
+        "onboarding_completed": profile.onboarding_completed,
+        "created_at": profile.created_at.isoformat() if profile.created_at else None,
+        "updated_at": profile.updated_at.isoformat() if profile.updated_at else None,
+        "medical_reports_count": len(tests),
+        "medical_tests": tests,
+        **patient_data,
+    }
+
+
+@router.put("/patients/{patient_id:uuid}")
+async def replace_patient_data(
+    patient_id: uuid.UUID,
+    payload: dict[str, Any],
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    from app.db.models.patient import PatientProfile
+    patient_id_str = str(patient_id)
+
+    result = await db.execute(
+        select(Profile, PatientProfile)
+        .join(PatientProfile, Profile.id == PatientProfile.profile_id, isouter=True)
+        .where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
+    )
+    row = result.first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    profile, patient = row
+    if patient is None:
+        patient = PatientProfile(profile_id=profile.id)
+        db.add(patient)
+
+    now = datetime.utcnow()
+
+    profile_fields = {column.name for column in Profile.__table__.columns}
+    patient_fields = {column.name for column in PatientProfile.__table__.columns}
+    readonly_profile_fields = {"id", "role", "verification_status", "created_at"}
+    readonly_patient_fields = {"profile_id", "created_at"}
+
+    for key, value in payload.items():
+        if key in profile_fields and key not in readonly_profile_fields:
+            setattr(profile, key, value)
+        if key in patient_fields and key not in readonly_patient_fields:
+            setattr(patient, key, value)
+
+    profile.updated_at = now
+    patient.updated_at = now
+    await db.commit()
+
+    return {"status": "success", "patient_id": patient_id_str}
+
+
+@router.get("/patients/stats")
+async def get_patient_stats(
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    total_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.status != AccountStatus.deleted,
+        )
+    )
+    active_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.status == AccountStatus.active,
+            Profile.onboarding_completed.is_(True),
+        )
+    )
+    incomplete_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.status != AccountStatus.banned,
+            Profile.onboarding_completed.is_(False),
+        )
+    )
+    banned_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.status == AccountStatus.banned,
+        )
+    )
+
+    return {
+        "total": total_result.scalar() or 0,
+        "active": active_result.scalar() or 0,
+        "incomplete": incomplete_result.scalar() or 0,
+        "banned": banned_result.scalar() or 0,
+    }
+
+
+@router.get("/patients/charts")
+async def get_patient_charts(
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    now = datetime.utcnow()
+    month_cursor = datetime(now.year, now.month, 1)
+    month_keys = []
+    month_labels = []
+    for step in range(5, -1, -1):
+        dt = month_cursor - timedelta(days=step * 30)
+        dt = datetime(dt.year, dt.month, 1)
+        key = dt.strftime("%Y-%m")
+        month_keys.append(key)
+        month_labels.append(dt.strftime("%b"))
+
+    created_rows = await db.execute(
+        select(Profile.created_at).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.created_at >= datetime.strptime(month_keys[0] + "-01", "%Y-%m-%d"),
+        )
+    )
+
+    growth_map = {key: 0 for key in month_keys}
+    for (created_at,) in created_rows.all():
+        if not created_at:
+            continue
+        key = created_at.strftime("%Y-%m")
+        if key in growth_map:
+            growth_map[key] += 1
+
+    stats = await get_patient_stats(db=db, admin_access=True)
+
+    growth = []
+    for index, key in enumerate(month_keys):
+        growth.append({
+            "key": key,
+            "label": month_labels[index],
+            "registrations": growth_map[key],
+        })
+
+    distribution = [
+        {"name": "Active", "value": stats["active"], "color": "#1D63D6"},
+        {"name": "Incomplete", "value": stats["incomplete"], "color": "#D97706"},
+        {"name": "Banned", "value": stats["banned"], "color": "#DC2626"},
+    ]
+
+    return {
+        "growth": growth,
+        "distribution": distribution,
+    }
+
+
+@router.get("/patients/insights")
+async def get_patient_insights(
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    now = datetime.now(timezone.utc)
+    day_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    todays_registrations_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.created_at >= day_start,
+        )
+    )
+
+    pending_reviews_result = await db.execute(
+        select(func.count(Profile.id)).where(
+            Profile.role == UserRole.PATIENT,
+            Profile.status != AccountStatus.banned,
+            Profile.onboarding_completed.is_(False),
+        )
+    )
+
+    recent_result = await db.execute(
+        select(Profile)
+        .where(Profile.role == UserRole.PATIENT)
+        .order_by(Profile.updated_at.desc())
+        .limit(10)
+    )
+    recent_profiles = recent_result.scalars().all()
+
+    activity = []
+    for profile in recent_profiles:
+        created_at = _to_utc(profile.created_at)
+        updated_at = _to_utc(profile.updated_at)
+        full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
+        if profile.status == AccountStatus.banned:
+            event_type = "account_banned"
+            message = f"{full_name} account was banned"
+        elif created_at and (now - created_at) <= timedelta(hours=24):
+            event_type = "registration"
+            message = f"New patient registration: {full_name}"
+        else:
+            event_type = "profile_updated"
+            message = f"{full_name} profile updated"
+
+        activity.append({
+            "id": profile.id,
+            "type": event_type,
+            "message": message,
+            "timestamp": (updated_at or created_at or now).isoformat(),
+        })
+
+    return {
+        "todaysRegistrations": todays_registrations_result.scalar() or 0,
+        "pendingReviews": pending_reviews_result.scalar() or 0,
+        "recentActivity": activity,
+    }
+
+
+@router.patch("/patients/{patient_id:uuid}")
+async def update_patient(
+    patient_id: uuid.UUID,
+    data: UpdatePatientRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    from app.db.models.patient import PatientProfile
+    patient_id_str = str(patient_id)
+
+    result = await db.execute(
+        select(Profile, PatientProfile)
+        .join(PatientProfile, Profile.id == PatientProfile.profile_id, isouter=True)
+        .where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
+    )
+    row = result.first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    profile, patient = row
+    now = datetime.utcnow()
+
+    if data.action:
+        action = data.action.lower()
+        reason = _sanitize_reason(data.reason)
+        if action in {"activate", "unban"}:
+            profile.status = AccountStatus.active
+            profile.ban_reason = None
+            profile.banned_at = None
+            profile.banned_by = None
+        elif action in {"deactivate", "suspend"}:
+            profile.status = AccountStatus.suspended
+        elif action == "ban":
+            if not reason:
+                raise HTTPException(status_code=400, detail="Reason is required for ban action")
+            profile.status = AccountStatus.banned
+            profile.ban_reason = reason
+            profile.banned_at = now
+            profile.banned_by = "admin_password_auth"
+
+    if data.first_name is not None:
+        profile.first_name = data.first_name
+    if data.last_name is not None:
+        profile.last_name = data.last_name
+    if data.phone is not None:
+        profile.phone = data.phone
+    if data.onboarding_completed is not None:
+        profile.onboarding_completed = data.onboarding_completed
+
+    if patient is None and any(value is not None for value in [data.city, data.blood_group]):
+        patient = PatientProfile(profile_id=profile.id)
+        db.add(patient)
+
+    if patient is not None:
+        if data.city is not None:
+            patient.city = data.city
+        if data.blood_group is not None:
+            patient.blood_group = data.blood_group
+        patient.updated_at = now
+
+    profile.updated_at = now
+    await db.commit()
+
+    return {"status": "success", "patient_id": patient_id_str}
+
+
+@router.patch("/patients/{patient_id:uuid}/ban")
+async def ban_patient(
+    patient_id: uuid.UUID,
+    payload: BanPatientRequest,
+    x_admin_user_id: str | None = Header(default=None),
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    patient_id_str = str(patient_id)
+    result = await db.execute(
+        select(Profile).where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
+    )
+    profile = result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    reason = _sanitize_reason(payload.reason)
+    if not reason:
+        raise HTTPException(status_code=400, detail="Reason is required")
+
+    now = datetime.utcnow()
+    profile.status = AccountStatus.banned
+    profile.ban_reason = reason
+    profile.banned_at = now
+    profile.banned_by = (x_admin_user_id or "admin_password_auth").strip()[:128]
+    profile.updated_at = now
+
+    await db.commit()
+
+    full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
+    send_account_suspension_email(to_email=profile.email or "", full_name=full_name, reason=reason)
+
+    return {"status": "banned", "patient_id": patient_id_str, "reason": reason}
+
+
+@router.delete("/patients/{patient_id:uuid}")
+async def delete_patient(
+    patient_id: uuid.UUID,
+    payload: DeletePatientRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    patient_id_str = str(patient_id)
+    result = await db.execute(
+        select(Profile).where(Profile.id == patient_id_str, Profile.role == UserRole.PATIENT)
+    )
+    profile = result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    reason = _sanitize_reason(payload.reason)
+    if not reason:
+        raise HTTPException(status_code=400, detail="Reason is required for delete action")
+
+    # Safe soft-delete/anonymize to avoid foreign key breakage with historical records.
+    profile.status = AccountStatus.deleted
+    profile.first_name = "Deleted"
+    profile.last_name = "Patient"
+    profile.email = f"deleted+{patient_id_str[:8]}@medora.local"
+    profile.phone = None
+    profile.onboarding_completed = False
+    profile.delete_reason = reason
+    profile.updated_at = datetime.utcnow()
+    await db.commit()
+
+    return {"status": "deleted", "patient_id": patient_id_str, "reason": reason}
+
+
+@router.post("/patients/bulk-action")
+async def bulk_patient_action(
+    payload: PatientBulkActionRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access = Depends(require_admin_access),
+):
+    if not payload.patient_ids:
+        raise HTTPException(status_code=400, detail="No patient IDs provided")
+
+    result = await db.execute(
+        select(Profile)
+        .where(Profile.role == UserRole.PATIENT, Profile.id.in_(payload.patient_ids))
+    )
+    profiles = result.scalars().all()
+    if not profiles:
+        return {"status": "success", "updated": 0}
+
+    now = datetime.utcnow()
+    action = payload.action.lower()
+    updated = 0
+
+    for profile in profiles:
+        reason = _sanitize_reason(payload.reason)
+        if action in {"activate", "unban"}:
+            profile.status = AccountStatus.active
+            profile.ban_reason = None
+            profile.banned_at = None
+            profile.banned_by = None
+        elif action in {"deactivate", "suspend"}:
+            profile.status = AccountStatus.suspended
+        elif action == "ban":
+            if not reason:
+                raise HTTPException(status_code=400, detail="Reason is required for bulk ban")
+            profile.status = AccountStatus.banned
+            profile.ban_reason = reason
+            profile.banned_at = now
+            profile.banned_by = "admin_password_auth"
+        elif action == "delete":
+            if not reason:
+                raise HTTPException(status_code=400, detail="Reason is required for bulk delete")
+            profile.status = AccountStatus.deleted
+            profile.first_name = "Deleted"
+            profile.last_name = "Patient"
+            profile.email = f"deleted+{profile.id[:8]}@medora.local"
+            profile.phone = None
+            profile.onboarding_completed = False
+            profile.delete_reason = reason
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported action: {payload.action}")
+
+        profile.updated_at = now
+        updated += 1
+
+    await db.commit()
+    return {"status": "success", "updated": updated, "action": payload.action}
 
 
 @router.get("/appointments")
@@ -406,6 +1004,12 @@ async def get_appointment_summary(
     today_end = today_start + timedelta(days=1)
     week_end = today_start + timedelta(days=7)
 
+    cancellation_statuses = [
+        ApptStatus.CANCELLED,
+        ApptStatus.CANCELLED_BY_PATIENT,
+        ApptStatus.CANCELLED_BY_DOCTOR,
+    ]
+
     result = await db.execute(
         select(
             func.count(Appointment.id).label("total"),
@@ -419,17 +1023,17 @@ async def get_appointment_summary(
             func.count(Appointment.id).filter(
                 Appointment.appointment_date >= today_start,
                 Appointment.appointment_date < today_end,
-                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+                Appointment.status.notin_([*cancellation_statuses, ApptStatus.NO_SHOW]),
             ).label("today"),
             func.count(Appointment.id).filter(
                 Appointment.appointment_date >= today_start,
                 Appointment.appointment_date < week_end,
-                Appointment.status.notin_([ApptStatus.CANCELLED, ApptStatus.NO_SHOW]),
+                Appointment.status.notin_([*cancellation_statuses, ApptStatus.NO_SHOW]),
             ).label("this_week"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.CONFIRMED).label("confirmed"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.PENDING).label("pending"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.COMPLETED).label("completed"),
-            func.count(Appointment.id).filter(Appointment.status == ApptStatus.CANCELLED).label("cancelled"),
+            func.count(Appointment.id).filter(Appointment.status.in_(cancellation_statuses)).label("cancelled"),
             func.count(Appointment.id).filter(Appointment.status == ApptStatus.NO_SHOW).label("no_show"),
         )
     )

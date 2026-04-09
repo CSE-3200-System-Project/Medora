@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
-import { MedoraLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { getPublicDoctorProfile } from "@/lib/auth-actions";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
 import { DoctorProfileHeader } from "@/components/doctor/doctor-profile/DoctorProfileHeader";
@@ -65,8 +65,11 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
 
   if (loading) {
     return (
-      <AppBackground>
-        <MedoraLoader size="lg" label="Loading doctor profile..." fullScreen />
+      <AppBackground className="container-padding">
+        <Navbar />
+        <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
+          <PageLoadingShell label="Loading doctor profile..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }

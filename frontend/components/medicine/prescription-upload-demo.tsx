@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, FileImage, FileText, Loader2, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle2, FileImage, FileText, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { useT } from "@/i18n/client";
 import { extractPrescriptionFromImage, PrescriptionExtractionResponse } from "@/lib/file-storage-actions";
 
 type EditableMedication = {
@@ -18,6 +20,7 @@ type EditableMedication = {
 };
 
 export function PrescriptionUploadDemo() {
+  const tCommon = useT("common");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -70,7 +73,7 @@ export function PrescriptionUploadDemo() {
     const hasPdfExtension = file.name.toLowerCase().endsWith(".pdf");
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "application/pdf"];
     if (!allowedTypes.includes(normalizedType) && !(hasPdfExtension && !normalizedType)) {
-      setError("Please upload a JPG, PNG, WEBP image, or PDF file.");
+      setError(tCommon("medicine.uploadDemo.invalidFile"));
       setSelectedFile(null);
       return;
     }
@@ -90,13 +93,21 @@ export function PrescriptionUploadDemo() {
       const parsed = await extractPrescriptionFromImage(selectedFile, { saveFile: false });
       const normalizedMedications = normalizeMedications(parsed);
       setMedications(normalizedMedications);
-      setExtractedText(buildOrderedExtractedText(parsed, normalizedMedications));
+      setExtractedText(
+        buildOrderedExtractedText(parsed, normalizedMedications, {
+          unknownMedicine: tCommon("medicine.uploadDemo.unknownMedicine"),
+          dosageLabel: tCommon("medicine.uploadDemo.dosageLabel"),
+          frequencyLabel: tCommon("medicine.uploadDemo.frequencyLabel"),
+          quantityLabel: tCommon("medicine.uploadDemo.quantityLabel"),
+          noReadable: tCommon("medicine.uploadDemo.noReadable"),
+        }),
+      );
       setConfidence(typeof parsed.confidence === "number" ? parsed.confidence : null);
     } catch (processingError: unknown) {
       if (processingError instanceof Error) {
         setError(processingError.message);
       } else {
-        setError("Extraction failed. Please try again.");
+        setError(tCommon("medicine.uploadDemo.extractionFailed"));
       }
     } finally {
       setIsProcessing(false);
@@ -130,10 +141,10 @@ export function PrescriptionUploadDemo() {
       <CardHeader className="border-b border-border/70 bg-linear-to-r from-primary/8 via-primary/4 to-transparent pb-4">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-foreground">
           <ScanText className="h-5 w-5 text-primary" />
-          Prescription Upload Demo
+          {tCommon("medicine.uploadDemo.title")}
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Upload a prescription image or PDF to extract readable text for medicine search assistance.
+          {tCommon("medicine.uploadDemo.subtitle")}
         </p>
       </CardHeader>
 
@@ -147,8 +158,8 @@ export function PrescriptionUploadDemo() {
               >
                 <UploadCloud className="h-7 w-7 text-primary" />
                 <div>
-                  <p className="text-sm font-medium text-foreground">Choose Prescription File</p>
-                  <p className="text-xs text-muted-foreground">PNG, JPG, WEBP, or PDF up to 15MB</p>
+                  <p className="text-sm font-medium text-foreground">{tCommon("medicine.uploadDemo.chooseFile")}</p>
+                  <p className="text-xs text-muted-foreground">{tCommon("medicine.uploadDemo.fileHint")}</p>
                 </div>
               </label>
               <input
@@ -161,7 +172,7 @@ export function PrescriptionUploadDemo() {
 
               <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <p className="truncate text-xs text-muted-foreground">
-                  {selectedFile ? selectedFile.name : "No file selected"}
+                  {selectedFile ? selectedFile.name : tCommon("medicine.uploadDemo.noFileSelected")}
                 </p>
                 <Button
                   type="button"
@@ -172,11 +183,11 @@ export function PrescriptionUploadDemo() {
                 >
                   {isProcessing ? (
                     <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Processing
+                      <ButtonLoader className="h-4 w-4" />
+                      {tCommon("medicine.uploadDemo.processing")}
                     </span>
                   ) : (
-                    "Extract Text"
+                    tCommon("medicine.uploadDemo.extractText")
                   )}
                 </Button>
               </div>
@@ -189,11 +200,11 @@ export function PrescriptionUploadDemo() {
                     <div className="h-full min-h-72 w-full bg-background p-2">
                       <div className="mb-2 flex items-center gap-2 rounded-md border border-border/60 bg-surface/40 px-3 py-2 text-xs text-muted-foreground">
                         <FileText className="h-4 w-4 text-primary" />
-                        PDF preview
+                        {tCommon("medicine.uploadDemo.pdfPreview")}
                       </div>
                       <iframe
                         src={previewUrl}
-                        title="Prescription PDF preview"
+                        title={tCommon("medicine.uploadDemo.pdfPreview")}
                         className="h-80 w-full rounded-md border border-border/60"
                       />
                     </div>
@@ -216,8 +227,8 @@ export function PrescriptionUploadDemo() {
                         <div className="h-2 animate-pulse rounded-full bg-primary/60 [animation-delay:200ms]" />
                       </div>
                       <div className="flex items-center gap-2 text-sm text-foreground">
-                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                        Reading prescription text...
+                        <ButtonLoader className="h-4 w-4 text-primary" />
+                        {tCommon("medicine.uploadDemo.readingText")}
                       </div>
                     </div>
                   )}
@@ -225,7 +236,7 @@ export function PrescriptionUploadDemo() {
               ) : (
                 <div className="flex min-h-72 flex-col items-center justify-center gap-2 px-4 text-center text-muted-foreground">
                   <FileImage className="h-10 w-10 text-primary/30" />
-                  <p className="text-sm">Preview will appear here after upload</p>
+                  <p className="text-sm">{tCommon("medicine.uploadDemo.previewPlaceholder")}</p>
                 </div>
               )}
             </div>
@@ -234,10 +245,10 @@ export function PrescriptionUploadDemo() {
           <section className="lg:col-span-6">
             <div className="min-h-112 rounded-2xl border border-border bg-background p-4 sm:p-5">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <h3 className="text-base font-semibold text-foreground">Extracted Text</h3>
+                <h3 className="text-base font-semibold text-foreground">{tCommon("medicine.uploadDemo.extractedText")}</h3>
                 {confidence !== null && (
                   <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                    {Math.round(confidence * 100)}% confidence
+                    {tCommon("medicine.uploadDemo.confidence", { count: Math.round(confidence * 100) })}
                   </span>
                 )}
               </div>
@@ -266,25 +277,25 @@ export function PrescriptionUploadDemo() {
                 <div className="flex min-h-60 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border/70 bg-muted/15 px-4 text-center">
                   <ShieldCheck className="h-8 w-8 text-primary/50" />
                   <p className="text-sm text-muted-foreground">
-                    Upload and process a prescription image to view extracted text here.
+                    {tCommon("medicine.uploadDemo.uploadToView")}
                   </p>
                 </div>
               )}
 
               <div className="mt-4 rounded-xl border border-border/60 bg-surface/20 p-3">
                 <div className="mb-3 flex items-center justify-between gap-2">
-                  <h4 className="text-sm font-semibold text-foreground">Medicine Review (Human Approval)</h4>
+                  <h4 className="text-sm font-semibold text-foreground">{tCommon("medicine.uploadDemo.reviewTitle")}</h4>
                   {isApproved && (
                     <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2 py-1 text-xs font-medium text-emerald-300">
                       <CheckCircle2 className="h-3.5 w-3.5" />
-                      Approved
+                      {tCommon("medicine.uploadDemo.approved")}
                     </span>
                   )}
                 </div>
 
                 {medications.length === 0 ? (
                   <p className="text-xs text-muted-foreground">
-                    No structured medicines detected yet. You can add rows manually after extraction.
+                    {tCommon("medicine.uploadDemo.noStructured")}
                   </p>
                 ) : (
                   <div className="space-y-2">
@@ -297,7 +308,7 @@ export function PrescriptionUploadDemo() {
                             size="icon-sm"
                             onClick={() => removeMedicationRow(index)}
                             className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                            aria-label={`Delete medicine row ${index + 1}`}
+                            aria-label={tCommon("medicine.uploadDemo.deleteRow", { count: index + 1 })}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -305,23 +316,23 @@ export function PrescriptionUploadDemo() {
                         <Input
                           value={medication.name}
                           onChange={(event) => updateMedicationField(index, "name", event.target.value)}
-                          placeholder="Medicine name"
+                          placeholder={tCommon("medicine.uploadDemo.medicineName")}
                         />
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                           <Input
                             value={medication.dosage}
                             onChange={(event) => updateMedicationField(index, "dosage", event.target.value)}
-                            placeholder="Dosage (e.g. 10 mg)"
+                            placeholder={tCommon("medicine.uploadDemo.dosagePlaceholder")}
                           />
                           <Input
                             value={medication.frequency}
                             onChange={(event) => updateMedicationField(index, "frequency", event.target.value)}
-                            placeholder="Frequency (e.g. 1+0+1)"
+                            placeholder={tCommon("medicine.uploadDemo.frequencyPlaceholder")}
                           />
                           <Input
                             value={medication.quantity}
                             onChange={(event) => updateMedicationField(index, "quantity", event.target.value)}
-                            placeholder="Quantity/Duration"
+                            placeholder={tCommon("medicine.uploadDemo.quantityPlaceholder")}
                           />
                         </div>
                       </div>
@@ -332,7 +343,7 @@ export function PrescriptionUploadDemo() {
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <Button type="button" variant="outline" size="sm" onClick={addMedicationRow}>
                     <Plus className="mr-1 h-4 w-4" />
-                    Add Medicine Row
+                    {tCommon("medicine.uploadDemo.addRow")}
                   </Button>
                   <Button
                     type="button"
@@ -341,7 +352,7 @@ export function PrescriptionUploadDemo() {
                     onClick={() => setIsApproved(true)}
                     disabled={medications.length === 0}
                   >
-                    Approve Structured List
+                    {tCommon("medicine.uploadDemo.approveList")}
                   </Button>
                 </div>
               </div>
@@ -365,16 +376,26 @@ function normalizeMedications(parsed: PrescriptionExtractionResponse): EditableM
 
 function buildOrderedExtractedText(
   parsed: PrescriptionExtractionResponse,
-  medications: EditableMedication[]
+  medications: EditableMedication[],
+  labels: {
+    unknownMedicine: string;
+    dosageLabel: string;
+    frequencyLabel: string;
+    quantityLabel: string;
+    noReadable: string;
+  }
 ): string {
+  const formatValueLabel = (template: string, value: string) =>
+    template.replace("{value}", value);
+
   if (medications.length > 0) {
     return medications
       .map((medication, index) => {
-        const header = `${index + 1}. ${medication.name || "Unknown Medicine"}`;
+        const header = `${index + 1}. ${medication.name || labels.unknownMedicine}`;
         const details = [
-          medication.dosage ? `   Dosage: ${medication.dosage}` : null,
-          medication.frequency ? `   Frequency: ${medication.frequency}` : null,
-          medication.quantity ? `   Quantity: ${medication.quantity}` : null,
+          medication.dosage ? `   ${formatValueLabel(labels.dosageLabel, medication.dosage)}` : null,
+          medication.frequency ? `   ${formatValueLabel(labels.frequencyLabel, medication.frequency)}` : null,
+          medication.quantity ? `   ${formatValueLabel(labels.quantityLabel, medication.quantity)}` : null,
         ]
           .filter(Boolean)
           .join("\n");
@@ -384,5 +405,5 @@ function buildOrderedExtractedText(
   }
 
   const fallbackText = (parsed.raw_text || parsed.extracted_text || "").trim();
-  return fallbackText || "No readable text detected.";
+  return fallbackText || labels.noReadable;
 }

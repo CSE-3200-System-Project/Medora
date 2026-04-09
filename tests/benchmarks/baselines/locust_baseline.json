@@ -1,0 +1,11 @@
+{
+  "requests": 2500,
+  "failures": 35,
+  "error_rate": 0.014,
+  "avg_response_time_ms": 420.0,
+  "p50_ms": 240.0,
+  "p95_ms": 1100.0,
+  "p99_ms": 1800.0,
+  "rps": 85.0,
+  "created_appointments": 140
+}

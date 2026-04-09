@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useMemo } from "react"
 import type { EChartsOption } from "echarts"
@@ -15,6 +14,11 @@ const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false })
 type HealthScoreCardProps = {
   score: number
   maxScore?: number
+  title: string
+  improvementMessage: string
+  activityTitle: string
+  nutritionTitle: string
+  viewDetailsLabel: string
   activityLabel: string
   nutritionLabel: string
   statusLabel: string
@@ -23,6 +27,11 @@ type HealthScoreCardProps = {
 export function HealthScoreCard({
   score,
   maxScore = 100,
+  title,
+  improvementMessage,
+  activityTitle,
+  nutritionTitle,
+  viewDetailsLabel,
   activityLabel,
   nutritionLabel,
   statusLabel,
@@ -84,41 +93,27 @@ export function HealthScoreCard({
   }, [maxScore, resolvedTheme, score])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-      className="h-full"
-    >
+    <div className="h-full animate-fade-in-up card-hover">
       <Card className="h-full border-border/70 bg-card/95 shadow-sm">
         <CardHeader className="pb-1">
-          <CardTitle className="text-xl text-foreground">Overall Health Score</CardTitle>
+          <CardTitle className="text-xl text-foreground">{title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-[190px_1fr]">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-              className="mx-auto h-46 w-46"
-            >
+            <div className="mx-auto h-46 w-46 animate-scale-in">
               <ReactECharts option={gaugeOption} style={{ width: "100%", height: "100%" }} />
-            </motion.div>
+            </div>
 
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Your health score has improved by <span className="font-semibold text-success-muted">+5%</span>{" "}
-                since last month. Keep up the good work.
-              </p>
+              <p className="text-sm text-muted-foreground">{improvementMessage}</p>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Activity</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{activityTitle}</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{activityLabel}</p>
                 </div>
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Nutrition</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{nutritionTitle}</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{nutritionLabel}</p>
                 </div>
               </div>
@@ -131,7 +126,7 @@ export function HealthScoreCard({
                   type="button"
                   className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                 >
-                  View details
+                  {viewDetailsLabel}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -139,6 +134,6 @@ export function HealthScoreCard({
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

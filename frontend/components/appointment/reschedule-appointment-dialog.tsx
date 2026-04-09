@@ -10,12 +10,14 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RefreshCw, Clock, User, Calendar, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { RefreshCw, Clock, User, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
-import { getDoctorBookedSlots } from "@/lib/appointment-actions";
+import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
+import { useAppI18n, useT } from "@/i18n/client";
 
 interface RescheduleAppointmentDialogProps {
   open: boolean;
@@ -36,9 +38,13 @@ interface RescheduleAppointmentDialogProps {
 
 interface TimeSlot {
   time: string;
-  is_booked: boolean;
-  is_past: boolean;
-  patient_name?: string | null;
+  available?: boolean;
+  is_available?: boolean;
+  is_past?: boolean;
+}
+
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
 }
 
 export function RescheduleAppointmentDialog({
@@ -48,6 +54,8 @@ export function RescheduleAppointmentDialog({
   onConfirm,
   userRole = 'patient',
 }: RescheduleAppointmentDialogProps) {
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = React.useState<string | null>(null);
   const [notes, setNotes] = React.useState("");
@@ -55,6 +63,7 @@ export function RescheduleAppointmentDialog({
   const [loadingSlots, setLoadingSlots] = React.useState(false);
   const [slots, setSlots] = React.useState<TimeSlot[]>([]);
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
 
   // Reset state when dialog opens
   React.useEffect(() => {
@@ -64,6 +73,7 @@ export function RescheduleAppointmentDialog({
       setNotes("");
       setSlots([]);
       setCurrentMonth(new Date());
+      setSubmitError(null);
     }
   }, [open]);
 
@@ -72,11 +82,14 @@ export function RescheduleAppointmentDialog({
     
     setLoadingSlots(true);
     setSelectedSlot(null);
+    setSubmitError(null);
     
     try {
       const dateStr = localDateKey(date);
-      const data = await getDoctorBookedSlots(appointment.doctor_id, dateStr);
-      setSlots(data.slots || []);
+      const data = await getAvailableSlots(appointment.doctor_id, dateStr);
+      const nextSlots: TimeSlot[] = (data?.slots || [])
+        .flatMap((group: { slots?: TimeSlot[] }) => group.slots || []);
+      setSlots(nextSlots);
     } catch (error) {
       console.error("Failed to fetch slots:", error);
       setSlots([]);
@@ -104,26 +117,38 @@ export function RescheduleAppointmentDialog({
     if (!appointment || !selectedDate || !selectedSlot) return;
 
     setLoading(true);
+    setSubmitError(null);
     try {
       const dateStr = localDateKey(selectedDate);
       await onConfirm(appointment.id, dateStr, selectedSlot, notes || undefined);
       onOpenChange(false);
     } catch (error) {
       console.error("Failed to reschedule appointment:", error);
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : tCommon("patientAppointments.dialogs.reschedule.failed"),
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  const formatDate = (value: string | Date) => {
+    const date = typeof value === "string" ? new Date(value) : value;
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+    return date.toLocaleDateString(toIntlLocale(locale), {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   };
 
   const displayName = userRole === 'patient' 
-    ? `${appointment?.doctor_title || 'Dr.'} ${appointment?.doctor_name || 'Doctor'}`
-    : appointment?.patient_name || 'Patient';
+    ? `${appointment?.doctor_title || tCommon("patientAppointments.dialogs.reschedule.fallbackDoctorPrefix")} ${appointment?.doctor_name || tCommon("patientAppointments.dialogs.reschedule.fallbackDoctorName")}`.trim()
+    : appointment?.patient_name || tCommon("patientAppointments.dialogs.reschedule.fallbackPatientName");
 
   // Calendar helpers
   const getDaysInMonth = (date: Date) => {
@@ -139,10 +164,38 @@ export function RescheduleAppointmentDialog({
   const { daysInMonth, startDay } = getDaysInMonth(currentMonth);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const dayNames = React.useMemo(
+    () => [
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.sun"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.mon"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.tue"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.wed"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.thu"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.fri"),
+      tCommon("patientAppointments.dialogs.reschedule.dayShort.sat"),
+    ],
+    [tCommon],
+  );
+  const monthNames = React.useMemo(
+    () => [
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.january"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.february"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.march"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.april"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.may"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.june"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.july"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.august"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.september"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.october"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.november"),
+      tCommon("patientAppointments.dialogs.reschedule.monthNames.december"),
+    ],
+    [tCommon],
+  );
 
   const renderCalendar = () => {
     const cells = [];
-    const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
     // Day headers
     dayNames.forEach((day, i) => {
@@ -186,19 +239,16 @@ export function RescheduleAppointmentDialog({
     return cells;
   };
 
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                      'July', 'August', 'September', 'October', 'November', 'December'];
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-primary">
             <RefreshCw className="w-5 h-5" />
-            Reschedule Appointment
+            {tCommon("patientAppointments.dialogs.reschedule.title")}
           </DialogTitle>
           <DialogDescription>
-            Select a new date and time for your appointment.
+            {tCommon("patientAppointments.dialogs.reschedule.description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -206,7 +256,7 @@ export function RescheduleAppointmentDialog({
           <div className="space-y-4">
             {/* Current Appointment Summary */}
             <div className="bg-accent/50 rounded-lg p-3">
-              <p className="text-xs text-muted-foreground mb-1">Current appointment</p>
+              <p className="text-xs text-muted-foreground mb-1">{tCommon("patientAppointments.dialogs.reschedule.currentAppointment")}</p>
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4 text-primary" />
                 <p className="font-medium text-sm text-foreground">{displayName}</p>
@@ -231,6 +281,7 @@ export function RescheduleAppointmentDialog({
                 <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                   className="p-1 hover:bg-accent rounded"
+                  aria-label={tCommon("patientAppointments.calendar.previousMonth")}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -240,6 +291,7 @@ export function RescheduleAppointmentDialog({
                 <button
                   onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                   className="p-1 hover:bg-accent rounded"
+                  aria-label={tCommon("patientAppointments.calendar.nextMonth")}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -253,35 +305,49 @@ export function RescheduleAppointmentDialog({
             {selectedDate && (
               <div className="space-y-2">
                 <Label className="text-sm font-medium">
-                  Select a time slot for {formatDate(selectedDate.toISOString())}
+                  {tCommon("patientAppointments.dialogs.reschedule.selectSlotFor", {
+                    date: formatDate(selectedDate),
+                  })}
                 </Label>
                 {loadingSlots ? (
                   <div className="flex items-center justify-center py-4">
-                    <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                    <ButtonLoader className="w-5 h-5 text-primary" />
                   </div>
                 ) : slots.length === 0 ? (
                   <p className="text-sm text-muted-foreground py-4 text-center">
-                    No available slots for this date
+                    {tCommon("patientAppointments.dialogs.reschedule.noSlots")}
                   </p>
                 ) : (
                   <div className="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto">
                     {slots.map((slot) => {
-                      const isAvailable = !slot.is_booked && !slot.is_past;
+                      const isAvailable = slot.available ?? slot.is_available ?? false;
+                      const isPast = Boolean(slot.is_past);
+                      const isUnavailable = !isAvailable;
                       const isSelected = selectedSlot === slot.time;
                       
                       return (
                         <button
                           key={slot.time}
                           onClick={() => isAvailable && setSelectedSlot(slot.time)}
-                          disabled={!isAvailable}
+                          disabled={isUnavailable}
+                          title={
+                            isPast
+                              ? tCommon("patientAppointments.dialogs.reschedule.pastSlotTitle")
+                              : isUnavailable
+                                ? tCommon("patientAppointments.dialogs.reschedule.unavailableSlotTitle")
+                                : ""
+                          }
                           className={`
                             p-2 text-sm rounded-lg border transition-colors
-                            ${!isAvailable ? 'bg-muted/50 text-muted-foreground/50 cursor-not-allowed border-border' : ''}
+                            ${isUnavailable ? 'border-border bg-muted text-muted-foreground cursor-not-allowed opacity-60' : ''}
                             ${isAvailable && !isSelected ? 'hover:border-primary hover:bg-primary/5 border-border' : ''}
                             ${isSelected ? 'bg-primary text-primary-foreground border-primary' : ''}
                           `}
                         >
-                          {slot.time}
+                          <span>{slot.time}</span>
+                          {isPast ? (
+                            <span className="block text-[10px] uppercase tracking-wide">{tCommon("patientAppointments.dialogs.reschedule.past")}</span>
+                          ) : null}
                         </button>
                       );
                     })}
@@ -290,14 +356,20 @@ export function RescheduleAppointmentDialog({
               </div>
             )}
 
+            {submitError ? (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {submitError}
+              </div>
+            ) : null}
+
             {/* Notes */}
             <div className="space-y-2">
               <Label htmlFor="reschedule-notes" className="text-sm font-medium">
-                Additional notes (optional)
+                {tCommon("patientAppointments.dialogs.reschedule.additionalNotes")}
               </Label>
               <Textarea
                 id="reschedule-notes"
-                placeholder="Any notes about the reschedule..."
+                placeholder={tCommon("patientAppointments.dialogs.reschedule.additionalPlaceholder")}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
@@ -309,7 +381,7 @@ export function RescheduleAppointmentDialog({
 
         <DialogFooter className="gap-2 sm:gap-0">
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
-            Cancel
+            {tCommon("patientAppointments.dialogs.reschedule.cancel")}
           </Button>
           <Button 
             onClick={handleConfirm} 
@@ -317,11 +389,11 @@ export function RescheduleAppointmentDialog({
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Rescheduling...
+                <ButtonLoader className="w-4 h-4 mr-2" />
+                {tCommon("patientAppointments.dialogs.reschedule.rescheduling")}
               </>
             ) : (
-              "Confirm Reschedule"
+              tCommon("patientAppointments.dialogs.reschedule.confirm")
             )}
           </Button>
         </DialogFooter>

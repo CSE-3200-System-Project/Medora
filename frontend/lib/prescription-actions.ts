@@ -22,7 +22,30 @@ async function parseErrorResponse(response: Response): Promise<string> {
     const text = await response.text();
     try {
       const json = JSON.parse(text);
-      return json.detail || json.message || `Error ${response.status}`;
+      if (typeof json?.detail === "string" && json.detail.trim().length > 0) {
+        return json.detail;
+      }
+
+      if (json?.detail && typeof json.detail === "object") {
+        const detail = json.detail as { message?: unknown; errors?: unknown };
+
+        if (typeof detail.message === "string" && detail.message.trim().length > 0) {
+          return detail.message;
+        }
+
+        if (Array.isArray(detail.errors) && detail.errors.length > 0) {
+          const firstError = detail.errors[0] as { msg?: unknown };
+          if (typeof firstError?.msg === "string" && firstError.msg.trim().length > 0) {
+            return firstError.msg;
+          }
+        }
+      }
+
+      if (typeof json?.message === "string" && json.message.trim().length > 0) {
+        return json.message;
+      }
+
+      return `Error ${response.status}`;
     } catch {
       // Not JSON, return as-is or generic error
       return text || `Error ${response.status}: ${response.statusText}`;
@@ -30,6 +53,99 @@ async function parseErrorResponse(response: Response): Promise<string> {
   } catch {
     return `Error ${response.status}: ${response.statusText}`;
   }
+}
+
+function normalizeOptionalText(value?: string | null): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function normalizeMedicationInput(
+  medication: MedicationPrescriptionInput
+): MedicationPrescriptionInput {
+  return {
+    ...medication,
+    medicine_name: medication.medicine_name?.trim() || "",
+    generic_name: normalizeOptionalText(medication.generic_name),
+    strength: normalizeOptionalText(medication.strength),
+    dose_morning_amount: normalizeOptionalText(medication.dose_morning_amount),
+    dose_afternoon_amount: normalizeOptionalText(medication.dose_afternoon_amount),
+    dose_evening_amount: normalizeOptionalText(medication.dose_evening_amount),
+    dose_night_amount: normalizeOptionalText(medication.dose_night_amount),
+    dosage_pattern: normalizeOptionalText(medication.dosage_pattern),
+    frequency_text: normalizeOptionalText(medication.frequency_text),
+    special_instructions: normalizeOptionalText(medication.special_instructions),
+    start_date: normalizeOptionalText(medication.start_date),
+    end_date: normalizeOptionalText(medication.end_date),
+  };
+}
+
+function normalizeTestInput(test: TestPrescriptionInput): TestPrescriptionInput {
+  return {
+    ...test,
+    test_name: test.test_name?.trim() || "",
+    test_type: normalizeOptionalText(test.test_type),
+    instructions: normalizeOptionalText(test.instructions),
+    preferred_lab: normalizeOptionalText(test.preferred_lab),
+    expected_date: normalizeOptionalText(test.expected_date),
+  };
+}
+
+function normalizeSurgeryInput(
+  surgery: SurgeryRecommendationInput
+): SurgeryRecommendationInput {
+  return {
+    ...surgery,
+    procedure_name: surgery.procedure_name?.trim() || "",
+    procedure_type: normalizeOptionalText(surgery.procedure_type),
+    reason: normalizeOptionalText(surgery.reason),
+    recommended_date: normalizeOptionalText(surgery.recommended_date),
+    pre_op_instructions: normalizeOptionalText(surgery.pre_op_instructions),
+    notes: normalizeOptionalText(surgery.notes),
+    preferred_facility: normalizeOptionalText(surgery.preferred_facility),
+  };
+}
+
+function normalizeDraftUpdateInput(
+  data: ConsultationDraftUpdateInput
+): ConsultationDraftUpdateInput {
+  return {
+    chief_complaint: normalizeOptionalText(data.chief_complaint),
+    diagnosis: normalizeOptionalText(data.diagnosis),
+    notes: normalizeOptionalText(data.notes),
+    prescription_type: data.prescription_type,
+    prescription_notes: normalizeOptionalText(data.prescription_notes),
+    medications: data.medications?.map((medication) => normalizeMedicationInput(medication)),
+    tests: data.tests?.map((test) => normalizeTestInput(test)),
+    surgeries: data.surgeries?.map((surgery) => normalizeSurgeryInput(surgery)),
+  };
+}
+
+type AddPrescriptionInput = {
+  type: PrescriptionType;
+  notes?: string;
+  rendered_prescription_html?: string;
+  rendered_prescription_snapshot?: FullPrescriptionResponse;
+  rendered_prescription_generated_at?: string;
+  medications?: MedicationPrescriptionInput[];
+  tests?: TestPrescriptionInput[];
+  surgeries?: SurgeryRecommendationInput[];
+};
+
+function normalizeAddPrescriptionInput(data: AddPrescriptionInput): AddPrescriptionInput {
+  return {
+    ...data,
+    notes: normalizeOptionalText(data.notes),
+    rendered_prescription_html: normalizeOptionalText(data.rendered_prescription_html),
+    rendered_prescription_generated_at: normalizeOptionalText(data.rendered_prescription_generated_at),
+    medications: data.medications?.map((medication) => normalizeMedicationInput(medication)),
+    tests: data.tests?.map((test) => normalizeTestInput(test)),
+    surgeries: data.surgeries?.map((surgery) => normalizeSurgeryInput(surgery)),
+  };
 }
 
 // ========== TYPES ==========
@@ -42,6 +158,7 @@ export type TestUrgency = "normal" | "urgent";
 export type SurgeryUrgency = "immediate" | "scheduled";
 export type MealInstruction = "before_meal" | "after_meal" | "with_meal" | "empty_stomach" | "any_time";
 export type DurationUnit = "days" | "weeks" | "months";
+export type DosageType = "pattern" | "frequency";
 
 export interface MedicationPrescription {
   id: string;
@@ -59,6 +176,9 @@ export interface MedicationPrescription {
   dose_evening_amount?: string;
   dose_night_amount?: string;
   frequency_per_day?: number;
+  dosage_type?: DosageType;
+  dosage_pattern?: string;
+  frequency_text?: string;
   duration_value?: number;
   duration_unit: DurationUnit;
   meal_instruction: MealInstruction;
@@ -111,6 +231,9 @@ export interface Prescription {
   accepted_at?: string;
   rejected_at?: string;
   added_to_history: boolean;
+  rendered_prescription_html?: string;
+  rendered_prescription_snapshot?: FullPrescriptionResponse;
+  rendered_prescription_generated_at?: string;
   doctor_name?: string;
   doctor_photo?: string;
   doctor_specialization?: string;
@@ -119,12 +242,75 @@ export interface Prescription {
   surgeries: SurgeryRecommendation[];
 }
 
+export interface FullPrescriptionDoctor {
+  name: string;
+  qualification?: string;
+  specialization?: string;
+  chamber_info?: string;
+  phone?: string;
+  address?: string;
+  registration_number?: string;
+  signature_url?: string;
+}
+
+export interface FullPrescriptionPatient {
+  name: string;
+  age?: number;
+  gender?: string;
+  blood_group?: string;
+  patient_id: string;
+}
+
+export interface FullPrescriptionConsultation {
+  date: string;
+  chief_complaint?: string;
+  diagnosis?: string;
+  notes?: string;
+}
+
+export interface FullPrescriptionMedication {
+  medicine_name: string;
+  strength?: string;
+  dosage_type: DosageType;
+  dosage_pattern?: string;
+  frequency_text?: string;
+  duration?: string;
+  route?: string;
+  meal_instruction?: string;
+  quantity?: number;
+}
+
+export interface FullPrescriptionTest {
+  test_name: string;
+  instructions?: string;
+  urgency?: string;
+}
+
+export interface FullPrescriptionProcedure {
+  procedure_name: string;
+  notes?: string;
+  reason?: string;
+  urgency?: string;
+}
+
+export interface FullPrescriptionResponse {
+  data_source?: "draft" | "prescription" | "snapshot";
+  snapshot_generated_at?: string;
+  doctor: FullPrescriptionDoctor;
+  patient: FullPrescriptionPatient;
+  consultation: FullPrescriptionConsultation;
+  medications: FullPrescriptionMedication[];
+  tests: FullPrescriptionTest[];
+  procedures: FullPrescriptionProcedure[];
+}
+
 export interface Consultation {
   id: string;
   doctor_id: string;
   patient_id: string;
   patient_ref?: string;
   appointment_id?: string;
+  draft_id?: string;
   chief_complaint?: string;
   diagnosis?: string;
   notes?: string;
@@ -138,6 +324,31 @@ export interface Consultation {
   patient_name?: string;
   patient_photo?: string;
   prescriptions?: Prescription[];
+}
+
+export interface ConsultationDraftPayload {
+  consultation_id: string;
+  draft_id?: string;
+  chief_complaint?: string;
+  diagnosis?: string;
+  notes?: string;
+  prescription_type?: PrescriptionType;
+  prescription_notes?: string;
+  medications: MedicationPrescriptionInput[];
+  tests: TestPrescriptionInput[];
+  surgeries: SurgeryRecommendationInput[];
+  updated_at?: string;
+}
+
+export interface ConsultationDraftUpdateInput {
+  chief_complaint?: string;
+  diagnosis?: string;
+  notes?: string;
+  prescription_type?: PrescriptionType;
+  prescription_notes?: string;
+  medications?: MedicationPrescriptionInput[];
+  tests?: TestPrescriptionInput[];
+  surgeries?: SurgeryRecommendationInput[];
 }
 
 export interface ConsultationListResponse {
@@ -245,6 +456,125 @@ export async function getConsultation(consultationId: string): Promise<Consultat
 }
 
 /**
+ * Get backend consultation draft payload.
+ */
+export async function getConsultationDraft(consultationId: string): Promise<ConsultationDraftPayload> {
+  const headers = await getAuthHeaders();
+
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/draft`, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to fetch consultation draft");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Get consultation draft payload by draft_id.
+ */
+export async function getConsultationDraftById(draftId: string): Promise<ConsultationDraftPayload> {
+  const headers = await getAuthHeaders();
+
+  const response = await fetch(`${BACKEND_URL}/consultation/drafts/${draftId}`, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to fetch consultation draft");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Persist consultation draft payload.
+ */
+export async function saveConsultationDraft(
+  consultationId: string,
+  data: ConsultationDraftUpdateInput
+): Promise<ConsultationDraftPayload> {
+  const headers = await getAuthHeaders();
+  const normalizedData = normalizeDraftUpdateInput(data);
+
+  const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/draft`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(normalizedData),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to save consultation draft");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Persist consultation draft payload by draft_id.
+ */
+export async function saveConsultationDraftById(
+  draftId: string,
+  data: ConsultationDraftUpdateInput
+): Promise<ConsultationDraftPayload> {
+  const headers = await getAuthHeaders();
+  const normalizedData = normalizeDraftUpdateInput(data);
+
+  const response = await fetch(`${BACKEND_URL}/consultation/drafts/${draftId}`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(normalizedData),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to save consultation draft");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Get consultation-level full prescription payload for preview/print.
+ */
+export async function getFullPrescriptionByConsultation(
+  consultationId: string,
+  draftId?: string
+): Promise<FullPrescriptionResponse> {
+  const headers = await getAuthHeaders();
+  const params = new URLSearchParams();
+  if (draftId) {
+    params.set("draft_id", draftId);
+  }
+  const queryString = params.toString();
+  const endpoint = queryString
+    ? `${BACKEND_URL}/consultation/${consultationId}/full?${queryString}`
+    : `${BACKEND_URL}/consultation/${consultationId}/full`;
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to fetch full prescription");
+  }
+
+  return await response.json();
+}
+
+/**
  * Update consultation notes/diagnosis
  */
 export async function updateConsultation(
@@ -306,6 +636,9 @@ export interface MedicationPrescriptionInput {
   dose_evening_amount?: string;
   dose_night_amount?: string;
   frequency_per_day?: number;
+  dosage_type?: DosageType;
+  dosage_pattern?: string;
+  frequency_text?: string;
   duration_value?: number;
   duration_unit?: DurationUnit;
   meal_instruction?: MealInstruction;
@@ -343,20 +676,15 @@ export interface SurgeryRecommendationInput {
  */
 export async function addPrescription(
   consultationId: string,
-  data: {
-    type: PrescriptionType;
-    notes?: string;
-    medications?: MedicationPrescriptionInput[];
-    tests?: TestPrescriptionInput[];
-    surgeries?: SurgeryRecommendationInput[];
-  }
+  data: AddPrescriptionInput
 ): Promise<Prescription> {
   const headers = await getAuthHeaders();
+  const normalizedData = normalizeAddPrescriptionInput(data);
 
   const response = await fetch(`${BACKEND_URL}/consultation/${consultationId}/prescription`, {
     method: "POST",
     headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify(normalizedData),
   });
 
   if (!response.ok) {

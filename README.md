@@ -1,696 +1,633 @@
 # Medora
 
-**A production-grade, AI-native healthcare platform built for Bangladesh.**
+## 1. Project Title & Tagline
+Medora is a production-grade, AI-native healthcare platform for Bangladesh that unifies patient records, verified doctor operations, and safety-first clinical assistance into one end-to-end digital care system.
 
-Medora is a full-stack digital healthcare system that connects patients, doctors, and administrators through intelligent workflows. It combines structured medical record management, real-time appointment scheduling, AI-assisted clinical decision support, computer vision prescription parsing, and voice transcription into a single, cohesive platform. Every layer of the system, from the progressive web app frontend to the microservice backend to the machine learning pipelines, is designed around one principle: safety-first healthcare delivery at scale.
+## 2. Executive Summary
+Medora is built for three primary stakeholders:
+- Patients who need trustworthy care access, structured health history, and continuity.
+- Doctors who need verified identity, clear patient context, and operational tooling.
+- Administrators who need controlled verification, oversight, and platform governance.
 
-This is not a prototype. Medora ships with 22 database models, 36 schema migrations, 24 API route modules, a multi-provider AI orchestration layer with PII anonymization, a custom-trained YOLO object detection model for prescription region extraction, real-time slot synchronization via PostgreSQL change streams, a background reminder dispatcher with timezone-aware scheduling, and a service worker with offline-first caching, background sync, and push notifications. It is built to run in production on Azure Container Apps with scale-to-zero economics.
+Why this system matters:
+- It removes workflow fragmentation across onboarding, appointments, consultations, reminders, and prescriptions.
+- It enforces role and consent boundaries in healthcare-sensitive flows.
+- It includes practical AI capabilities (doctor discovery, assistant chat, OCR parsing) with privacy and safety guardrails.
+- It is engineered for production operations, not just demos.
 
----
+Current repository scale indicators:
+- 26 backend route modules (`backend/app/routes`).
+- 194 route handlers (`@router.*` decorated endpoints).
+- 41 SQLAlchemy model classes (`backend/app/db/models`).
+- 47 Alembic migration files (`backend/alembic/versions`).
+- 20 frontend server action modules (`frontend/lib/*-actions.ts`).
+- 45 shared UI component files (`frontend/components/ui`).
 
-## Table of Contents
+## 3. Product Overview
+### Real-World Problem
+Healthcare journeys often break down across disconnected tools: appointment booking in one place, records in another, prescriptions in another, and no reliable continuity between patient and doctor.
 
-- [Architecture Overview](#architecture-overview)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Core Features](#core-features)
-  - [Patient Workflows](#patient-workflows)
-  - [Doctor Workflows](#doctor-workflows)
-  - [Admin Workflows](#admin-workflows)
-  - [Chorui AI Healthcare Assistant](#chorui-ai-healthcare-assistant)
-  - [Prescription OCR Pipeline](#prescription-ocr-pipeline)
-  - [AI-Assisted Doctor Discovery](#ai-assisted-doctor-discovery)
-- [Authentication and Authorization](#authentication-and-authorization)
-- [Database Architecture](#database-architecture)
-- [AI and Machine Learning](#ai-and-machine-learning)
-- [Progressive Web App](#progressive-web-app)
-- [Real-Time Features](#real-time-features)
-- [Design System](#design-system)
-- [API Reference](#api-reference)
-- [Deployment](#deployment)
-- [Local Development](#local-development)
-- [Environment Variables](#environment-variables)
-- [License](#license)
+### Limitations in Existing Solutions
+- Stale appointment slots due to delayed updates.
+- Poorly structured patient history capture.
+- Weak consent and audit visibility for sensitive data access.
+- OCR systems that fail on real prescriptions and mixed Bangla-English text.
+- AI features that are either generic chat wrappers or operationally unsafe.
 
----
+### How Medora Solves It
+Medora provides one cohesive stack with:
+- Role-based workflows for patient, doctor, and admin.
+- Structured onboarding and persistent medical context.
+- Realtime appointment state synchronization.
+- Consent-aware access and auditable interaction records.
+- AI as assistive intelligence with deterministic backend control.
+- A dedicated OCR service for document intelligence workloads.
 
-## Architecture Overview
+### High-Level Workflow
+1. Authentication and role context are established via Supabase + backend token verification.
+2. Middleware and backend guards enforce access boundaries and onboarding/verification gates.
+3. Business workflows execute through FastAPI route modules and typed schemas.
+4. AI operations are brokered via backend orchestrators and constrained payload shaping.
+5. Realtime and notification layers keep operational state synchronized.
 
-Medora follows a microservices architecture with clean separation between compute and data layers.
+## 4. Key Features (Grouped)
+### Core Features
+- Multi-role access model (`patient`, `doctor`, `admin`) with route protection.
+- Structured onboarding data capture and update/retrieval APIs.
+- Doctor verification gate before protected clinical access.
+- Appointment lifecycle support including pending, confirmed, reschedule, cancellation, and completion states.
+- Consultation and prescription issuance flows with medication/test/surgery constructs.
+- Patient medical history, consent, and record-sharing control surfaces.
 
+### Advanced Features
+- Realtime slot updates in booking/rescheduling via Supabase channel subscriptions.
+- Background reminder dispatcher with timezone-aware due window evaluation.
+- Notification subsystem supporting in-app and web push delivery.
+- Google Calendar OAuth integration paths for doctor schedule synchronization.
+- Offline-capable PWA behavior with route-specific caching and background sync queue.
+- Performance instrumentation and CI performance budget hooks.
+
+### Intelligent / AI Features
+- AI-assisted doctor search endpoint (`/ai/search`) with specialty extraction and ranking inputs.
+- Voice normalization endpoint (`/ai/normalize/voice`) using faster-whisper in backend ASR service.
+- Chorui assistant APIs with conversation history, context-aware intent routing, and structured outputs.
+- Provider-agnostic AI orchestration (Groq, Gemini, Cerebras) with schema-validated outputs.
+- PII anonymization helpers for AI input protection.
+- Prescription OCR and report OCR service endpoints with fallback OCR behavior and parsing pipelines.
+
+### System / Engineering Features
+- Async FastAPI + SQLAlchemy 2.x architecture with migration-managed schema evolution.
+- Split service boundary between core API and OCR-intensive AI service.
+- Lifecycle-managed background loops (reminder dispatcher and appointment hold sweeps).
+- Environment-driven behavior for provider selection, OCR tuning, and performance controls.
+- Mobile-first PWA runtime caching strategies with explicit TTL policies.
+
+## 5. System Architecture
+Medora follows a service-oriented architecture with explicit workload boundaries.
+
+```text
++----------------------+      HTTPS / Bearer Auth      +----------------------+
+| Frontend (Next.js)   | -----------------------------> | Backend (FastAPI)    |
+| PWA + Server Actions |                                | Core Business APIs    |
++----------+-----------+                                +----------+-----------+
+           |                                                       |
+           | Supabase Client + Realtime                            | Async SQLAlchemy
+           v                                                       v
++----------------------+                                +----------------------+
+| Supabase             | <----------------------------> | PostgreSQL (Supabase)|
+| Auth/Storage/Realtime|                                | RLS + Transactions   |
++----------------------+                                +----------------------+
+                                                           |
+                                                           | OCR delegation
+                                                           v
+                                                     +----------------------+
+                                                     | AI OCR Service       |
+                                                     | YOLO + Azure OCR     |
+                                                     +----------------------+
 ```
-                          +-------------------+
-                          |    Frontend (PWA)  |
-                          |  Next.js 16 + React 19  |
-                          +--------+----------+
-                                   |
-                     HTTPS (Bearer Token Auth)
-                                   |
-                  +----------------+----------------+
-                  |                                 |
-         +--------v--------+             +---------v---------+
-         |  Backend Service |             |  AI OCR Service   |
-         |  FastAPI (Core)  |             |  FastAPI + YOLO   |
-         |  Port 8000       |             |  Port 8001        |
-         +--------+---------+             +---------+---------+
-                  |                                 |
-                  |          +-----------+          |
-                  +--------->| Supabase  |<---------+
-                             |           |
-                             | PostgreSQL|
-                             | Storage   |
-                             | Auth      |
-                             | Realtime  |
-                             +-----------+
-```
 
-**Three-service pattern:**
+### Major Components and Responsibilities
+- Frontend (`frontend/`): application UI, role-aware navigation, server actions, PWA/service worker behavior, and realtime slot subscription logic.
+- Backend (`backend/app/`): auth verification, RBAC, onboarding, appointment orchestration, consultations, reminders, notifications, consent enforcement, AI endpoint routing.
+- AI OCR Service (`ai_service/app/`): image normalization, region detection, OCR extraction, parsing, and structured output generation.
+- Supabase layer: identity, storage, PostgreSQL persistence, and realtime stream events.
 
-| Service | Role | Scaling Profile |
-|---------|------|-----------------|
-| **Backend** | Authentication, RBAC, business logic, orchestration. Never loads ML models. | 0.5 vCPU, 1 GB RAM |
-| **AI Service** | Prescription OCR, YOLO detection, medicine matching, text parsing. | 1 vCPU, 2 GB RAM, 0-3 replicas |
-| **STT Service** | Speech-to-text via faster-whisper with int8 quantization. | 1-2 vCPU, 2-4 GB RAM |
+### Data Flow and Control Boundaries
+1. User action originates from Next.js pages/components or server actions.
+2. Backend validates bearer token and role context.
+3. Backend executes business logic using typed schemas and async data access.
+4. OCR requests are delegated to AI service endpoints and returned as structured payloads.
+5. State changes propagate to UI via API responses, realtime channels, and notifications.
 
-Services communicate through the backend as orchestrator. The AI and STT services never talk to each other directly. All three scale to zero when idle, keeping costs under control for development and low-traffic production environments.
+### Scalability Decisions Present in Codebase
+- AI OCR is isolated from core request paths to avoid OCR CPU spikes impacting core API latency.
+- Async database sessions and pooled connections enable high-concurrency I/O patterns.
+- Background dispatcher loops move time-based work out of user request critical paths.
+- Realtime channel subscriptions reduce stale slot conflicts compared to heavy polling.
 
-**Data layer:** Supabase provides PostgreSQL (with Row-Level Security), object storage for medical documents and images, JWT-based authentication, and real-time change streams for live slot updates.
+![System Architecture](./docs/architecture.png)
 
----
-
-## Technology Stack
-
+## 6. Technology Stack
 ### Frontend
-
 | Category | Technology |
-|----------|-----------|
-| Framework | Next.js 16.1.6 (App Router, Server Components) |
-| Language | TypeScript 5 (strict mode) |
-| UI Runtime | React 19.2.3 |
-| Styling | Tailwind CSS 4 with CSS custom properties |
-| Components | shadcn/ui (44 components) on Radix UI primitives |
-| Animation | Framer Motion 12, tw-animate-css |
+|---|---|
+| Framework | Next.js 16.1.6 |
+| Runtime | React 19.2.3 |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 4 |
+| Component Primitives | Radix UI + shadcn/ui |
+| Data Layer | TanStack React Query |
+| Animation | Framer Motion 12 |
+| PWA | Serwist 9.5.6 |
 | Charts | ECharts 6, Recharts 3 |
 | Maps | MapLibre GL 5.16 |
-| PWA | Serwist 9.5 (Service Worker, precaching, background sync) |
-| Smooth Scroll | Lenis 1.3 |
-| Icons | Lucide React |
-| Performance | Web Vitals RUM telemetry, Lighthouse CI |
 
 ### Backend
-
 | Category | Technology |
-|----------|-----------|
-| Framework | FastAPI 0.95+ (async) |
-| Runtime | Python 3.11, Uvicorn |
-| ORM | SQLAlchemy 2.0+ (async sessions via asyncpg) |
-| Migrations | Alembic (36 versioned migrations) |
-| Validation | Pydantic v2, pydantic-settings |
-| Auth | Supabase JWT with JWKS verification and 5-minute cache |
-| AI Providers | Groq, Google Gemini, Cerebras (provider-agnostic orchestrator) |
-| Voice | faster-whisper (small model, int8) |
-| Push | pywebpush (VAPID) |
-| Calendar | Google Calendar API (OAuth) |
-| Database | PostgreSQL via Supabase (asyncpg driver, pool size 10, overflow 20) |
+|---|---|
+| Framework | FastAPI |
+| Runtime | Python 3.11 + Uvicorn |
+| ORM | SQLAlchemy 2.x (async) |
+| Migrations | Alembic |
+| Validation | Pydantic v2 + pydantic-settings |
+| Auth Bridge | Supabase JWT verification |
+| ASR | faster-whisper |
+| Notifications | pywebpush |
 
-### AI OCR Service
-
+### Database
 | Category | Technology |
-|----------|-----------|
-| Detection | YOLO v8 (custom Yolo26s model, ONNX runtime) |
-| OCR | Azure AI Document Intelligence (prebuilt-read) |
-| Matching | PostgreSQL trigram similarity (pg_trgm) + RapidFuzz |
-| PDF Support | pypdfium2 |
-| Image Processing | Pillow with auto-contrast and adaptive JPEG compression |
+|---|---|
+| Primary | PostgreSQL (Supabase) |
+| Auth | Supabase Auth |
+| Storage | Supabase Storage |
+| Realtime | Supabase realtime streams |
 
-### Infrastructure
-
+### DevOps / Deployment
 | Category | Technology |
-|----------|-----------|
-| Compute | Azure Container Apps (Consumption Plan, scale-to-zero) |
-| Database | Supabase PostgreSQL |
-| Storage | Supabase Object Storage (S3-compatible) |
-| CI/CD | GitHub Actions (backend deploy, AI deploy, frontend perf budget) |
-| Containers | Docker (multi-stage, non-root, health checks) |
-| Registry | Azure Container Registry |
+|---|---|
+| Containerization | Docker |
+| Cloud Runtime | Azure Container Apps |
+| CI/CD | GitHub Actions |
+| Performance Gates | Lighthouse CI + bundle checks |
 
----
+### AI / ML
+| Category | Technology |
+|---|---|
+| LLM Providers | Groq, Gemini, Cerebras |
+| OCR Engine | Azure Document Intelligence |
+| Detection | YOLO ONNX runtime |
+| Fuzzy Matching | RapidFuzz |
+| Image/PDF Handling | Pillow, pypdfium2 |
 
-## Project Structure
+### Tools & Libraries
+- `@supabase/supabase-js`, `@supabase/ssr`
+- `class-variance-authority`, `tailwind-merge`
+- `lucide-react`
+- ESLint 9 + strict TypeScript configuration
 
-```
-medora/
-|
-+-- frontend/                    # Next.js 16 Progressive Web App
-|   +-- app/                     # App Router pages and layouts
-|   |   +-- (auth)/              # Login, registration, password reset
-|   |   +-- (onboarding)/        # Patient and doctor onboarding wizards
-|   |   +-- (home)/              # Authenticated routes (patient, doctor)
-|   |   +-- (admin)/             # Admin dashboard and management
-|   |   +-- api/                 # Lightweight API routes (auth, perf)
-|   |   +-- sw.ts                # Service worker source (Serwist)
-|   +-- components/              # Feature-organized component library
-|   |   +-- ui/                  # 44 shared UI components (shadcn/ui)
-|   |   +-- admin/               # Admin panels and verification
-|   |   +-- auth/                # Auth forms and flows
-|   |   +-- doctor/              # Doctor-specific interfaces
-|   |   +-- patient/             # Patient dashboard and records
-|   |   +-- ai/                  # Chorui AI chat interface
-|   |   +-- appointment/         # Booking and calendar components
-|   |   +-- prescription/        # Prescription display and management
-|   |   +-- medicine/            # Medicine search interface
-|   |   +-- onboarding/          # Multi-step onboarding wizards
-|   |   +-- landing/             # Public landing page
-|   +-- lib/                     # Server actions, utilities, services
-|   |   +-- *-actions.ts         # 17 server action modules (~4,000 lines)
-|   +-- hooks/                   # Client-side React hooks
-|   +-- types/                   # TypeScript type definitions
-|   +-- public/                  # Static assets, PWA manifest, icons
-|
-+-- backend/                     # FastAPI Core Service
-|   +-- app/
-|   |   +-- core/                # Config, security, dependencies
-|   |   +-- db/                  # Database session, base, Supabase client
-|   |   |   +-- models/          # 22 SQLAlchemy models + enums
-|   |   +-- routes/              # 24 route modules (14,000+ lines)
-|   |   +-- schemas/             # 18 Pydantic schema modules
-|   |   +-- services/            # 14 business logic services
-|   |   +-- main.py              # Application entry with lifespan
-|   +-- alembic/                 # Database migrations
-|   |   +-- versions/            # 36 migration scripts
-|   +-- context/                 # Architecture docs and PRDs
-|   +-- Dockerfile               # Multi-stage production image
-|   +-- docker-compose.yaml      # Local development setup
-|   +-- requirements.txt         # Python dependencies
-|
-+-- ai_service/                  # Prescription OCR Microservice
-|   +-- app/
-|   |   +-- main.py              # FastAPI entry point
-|   |   +-- pipeline.py          # OCR pipeline orchestration
-|   |   +-- yolo.py              # YOLO region detection
-|   |   +-- azure_ocr.py         # Azure Document Intelligence client
-|   |   +-- parser.py            # Prescription text parsing
-|   |   +-- matcher.py           # Medicine database matching
-|   |   +-- normalize.py         # Text normalization (Bangla + English)
-|   |   +-- db.py                # Medicine search repository
-|   |   +-- config.py            # 50+ configurable settings
-|   |   +-- schemas.py           # Request/response models
-|   +-- models/                  # YOLO ONNX model weights
-|   +-- deploy/                  # Azure Container Apps scripts
-|   +-- requirements.txt         # Python dependencies
-|
-+-- docs/                        # Architecture and feature documentation
-|   +-- chorui-ai-pipeline.md    # Chorui AI architecture spec
-|   +-- pwa-doc.md               # PWA implementation details
-|   +-- frontend-implementation-prd.md
-|   +-- backend-implementation-prd.md
-|
-+-- tasks/                       # Project tracking
-+-- .github/
-|   +-- workflows/               # CI/CD pipelines
-|   +-- copilot-instructions.md  # Development guidelines (763 lines)
-+-- CLAUDE.md                    # Design principles and brand guidelines
+## 7. Project Structure (Real)
+```text
+/root
+├── ai_service/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── pipeline.py
+│   │   ├── yolo.py
+│   │   ├── azure_ocr.py
+│   │   ├── parser.py
+│   │   ├── matcher.py
+│   │   ├── normalize.py
+│   │   ├── report_parser.py
+│   │   ├── report_schemas.py
+│   │   └── config.py
+│   ├── deploy/
+│   ├── models/
+│   └── requirements.txt
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── core/
+│   │   ├── db/
+│   │   │   └── models/
+│   │   ├── routes/
+│   │   ├── schemas/
+│   │   └── services/
+│   ├── alembic/
+│   │   └── versions/
+│   ├── context/
+│   ├── tests/
+│   ├── docker-compose.yaml
+│   ├── Dockerfile
+│   └── requirements.txt
+├── docs/
+│   ├── backend-implementation-prd.md
+│   ├── frontend-implementation-prd.md
+│   ├── chorui-ai-pipeline.md
+│   ├── pwa-doc.md
+│   └── diagrams/
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   │   └── ui/
+│   ├── hooks/
+│   ├── lib/
+│   ├── perf/
+│   ├── public/
+│   ├── proxy.ts
+│   ├── package.json
+│   └── next.config.ts
+├── tasks/
+├── CLAUDE.md
+├── LICENSE
+└── README.md
 ```
 
----
-
-## Core Features
-
-### Patient Workflows
-
-**Eight-Step Onboarding Wizard.** New patients complete a structured intake covering personal identity, physical metrics, chronic conditions, current medications, allergies, medical history (surgeries, hospitalizations, vaccinations), family history, lifestyle and mental health indicators, and preferences including language, notification channels, emergency contacts, and granular consent controls (storage, AI, doctor access, research participation).
-
-**Doctor Discovery.** Patients can search for doctors through a traditional filter interface (specialty, location, availability, gender, language) or through an AI-assisted flow where they describe their health concern in free-form Bangla, English, or mixed text. The system extracts symptoms, infers urgency, maps to medical specialties, and returns a ranked list of appropriate doctors with explanations.
-
-**Real-Time Appointment Booking.** Available time slots update in real time via Supabase PostgreSQL change streams. When another patient books a slot, the interface reflects the change immediately without polling. The booking flow includes conflict prevention, doctor confirmation gates, and automatic notification dispatch.
-
-**Prescription Management.** Patients view active and past prescriptions, accept or reject individual medication items, and track prescription history over time. Prescriptions issued by doctors include structured medication details, test orders, and surgical recommendations.
-
-**Health Metrics Tracking.** Blood pressure, weight, blood sugar, heart rate, sleep, and step count can be recorded manually or imported from devices. Tracking requires explicit health data consent, and patients control which doctors can access their metric history.
-
-**Medical History Timeline.** A longitudinal view of all visits, tests, conditions, medications, surgeries, and hospitalizations, providing patients and their authorized doctors with a complete clinical picture.
-
-**Reminders.** Configurable medication, appointment, and follow-up reminders delivered through push notifications, in-app alerts, and the background reminder dispatcher. Supports multiple daily times and timezone-aware scheduling (default: Asia/Dhaka).
-
-**Privacy and Access Controls.** Patients grant and revoke doctor access to their health records. Every access event is logged in an audit trail visible to the patient, including AI-assisted queries made by doctors.
-
-### Doctor Workflows
-
-**Credential Verification.** Doctors must be verified by an administrator (BMDC credential review) before accessing patient data or conducting consultations. The verification gate blocks all protected routes until approval.
-
-**Schedule Management.** Doctors configure weekly availability slots, set per-day appointment limits, and optionally sync their schedule with Google Calendar through OAuth integration.
-
-**Patient Management.** A searchable patient roster with access to authorized medical records. Doctors view a patient's full profile, conditions, medications, allergies, risk flags, and appointment history before or during consultation.
-
-**Consultation Interface.** A dedicated workspace for active consultations with integrated access to the patient's medical record, AI-assisted intake review, voice-to-text for symptom input, and structured prescription issuance (medications, lab tests, surgical recommendations).
-
-**Action Items.** A task management system for pending follow-ups, lab reviews, patient messages, and manual tasks. Each action carries a priority level (low, medium, high, urgent) and status tracking.
-
-**Analytics Dashboard.** Visual analytics including monthly revenue, weekly workload stress index (WSI), patient demographics, appointment completion rates, and practice trends. Built with ECharts and Recharts.
-
-### Admin Workflows
-
-**Doctor Verification Panel.** Review pending doctor registrations with BMDC credential details. Approve, reject, or request additional documentation.
-
-**Platform Oversight.** Dashboard with key metrics across appointments, users, and revenue. Manage doctor and patient accounts, view all system appointments, and access the audit log for compliance.
-
-**User Management.** Ban and unban users, review account status, and handle escalated safety concerns.
-
----
-
-### Chorui AI Healthcare Assistant
-
-Chorui is Medora's built-in AI healthcare assistant. It operates in two role-scoped modes with fundamentally different data access patterns.
-
-**Patient Mode.** Patients interact with Chorui to understand their own medical records. The assistant can summarize medications, explain conditions, surface allergy information, highlight risk flags, review surgical and hospitalization history, and provide upcoming appointment details. All responses are drawn from the patient's own authorized records stored in the database.
-
-**Doctor Mode.** Doctors use Chorui for general schedule queries (upcoming 7-day appointments, active patient list) and for patient-specific consultation support. When a doctor provides a patient ID, Chorui retrieves authorized patient data (medications, conditions, allergies, risk factors, history) to support clinical reasoning. Every doctor AI query is logged as a `view_ai_query` access event, and patients can review their AI access history for full transparency.
-
-**Safety Architecture:**
-
-- Chorui is assistive intelligence only. It never performs autonomous diagnosis, prescribing, or treatment recommendations.
-- Explicit safety guards block requests for diagnosis confirmation, dosage recommendations, and emergency treatment instructions. All such queries are redirected to licensed clinicians.
-- The system supports a strict-local retrieval mode (`CHORUI_PRIVACY_MODE=strict_local`) that operates entirely from database reads without making external API calls.
-- Conversation ownership is validated per user. If a conversation ID belongs to another user, access is denied. If the role context or patient scope changes mid-conversation, the server rotates to a new conversation thread.
-- PII is anonymized using stable hash tokens before any data reaches external AI providers.
-
-**Conversation Persistence.** Chat turns are stored in `chorui_chat_messages` with full metadata: conversation ID, user ID, patient ID, role context, sender, message text, classified intent, structured data extraction, context mode, IP address, and user agent. This enables multi-turn continuity, follow-up intent inference from prior conversation history, and complete audit trails.
-
-**Structured Data Extraction.** Beyond natural language responses, Chorui returns structured payloads including extracted symptoms, conditions, duration, and severity, which can feed into downstream clinical workflows.
-
----
-
-### Prescription OCR Pipeline
-
-The AI OCR service transforms prescription images into structured medication data through a multi-stage computer vision and NLP pipeline.
-
-```
-Input Image --> Input Normalization --> YOLO Region Detection --> Region Cropping
-    --> Azure OCR Text Extraction --> Prescription Parsing --> Medicine Matching
-    --> Structured Output with Confidence Scores
-```
-
-**Stage 1: Input Normalization.** Accepts images via file upload, URL, or base64 encoding. Detects and converts PDFs to PNG. Handles EXIF orientation correction and RGB normalization.
-
-**Stage 2: YOLO Region Detection.** A custom-trained Yolo26s model (ONNX format, 640x640 input) detects prescription regions with class labels: Medication, Lines, Frequency, Quantity, Dosage. Non-max suppression with 0.45 IOU threshold filters overlapping detections. If the primary input size yields insufficient confidence, the pipeline automatically retries at 832 and 960 pixel input sizes.
-
-**Stage 3: Region Cropping and Preprocessing.** Detected regions are cropped with configurable padding (12px default), then preprocessed for OCR: downscaled to max 2600px, converted to grayscale with auto-contrast, contrast-enhanced at 1.25x, and adaptively JPEG-compressed (quality 88 down to 40) to meet the 4MB Azure limit.
-
-**Stage 4: Azure OCR.** Azure AI Document Intelligence (prebuilt-read model) extracts text lines with confidence scores and polygon coordinates. The system maps polygons to bounding boxes and builds line-level results with page attribution.
-
-**Stage 5: Prescription Parsing.** OCR lines are grouped by vertical proximity (26px merge threshold) and parsed for medication attributes:
-
-- **Name:** Fuzzy matching against known medicine names, with fallback to candidate extraction (first 3 tokens after stripping noise prefixes like "Tab", "Cap", "Inj").
-- **Dosage:** Regex extraction for patterns like `5 mg`, `500ml`, `10 mcg`.
-- **Frequency:** Recognizes medical codes (OD, BD, TDS, QID, HS) and numeric patterns (1+0+1, 2-1-0).
-- **Quantity:** Duration parsing (10 days, 2 weeks, 3 months) including Bangla text support.
-
-**Stage 6: Medicine Matching.** Three-tier database matching against a medicine search index:
-
-1. Exact match (case-insensitive).
-2. PostgreSQL trigram similarity search (pg_trgm `%` operator).
-3. Fallback pattern match with fuzzy reranking via RapidFuzz.
-
-Confidence is computed as: `0.82 * base_score + 0.13 * length_similarity + 0.05 * dosage_overlap`.
-
-**Bangla Support.** The normalizer converts Bangla digits to ASCII, handles Bangla frequency and quantity terms, and processes mixed-script prescription text.
-
----
-
-### AI-Assisted Doctor Discovery
-
-Patients describe their health concern in free-form text (Bangla, English, Banglish, or mixed) and receive a ranked list of appropriate doctors.
-
-**Pipeline:**
-
-1. Patient input is sanitized and PII is stripped.
-2. An LLM (Groq, configurable provider) extracts structured medical intent: symptoms, duration, urgency level, and relevant specialties.
-3. LLM output is validated against a Pydantic schema with confidence gating.
-4. The backend performs all database queries: filtering doctors by extracted specialties, availability, location, and other criteria.
-5. Doctors are ranked using deterministic logic and returned with explanations.
-
-**Safety principles:** The LLM is a language interpreter, never a decision maker. It has no database access. All ranking and filtering is performed server-side. The patient always makes the final choice.
-
----
-
-## Authentication and Authorization
-
-**Identity Provider.** Supabase Auth with JWT tokens. JWKS-based local verification with 5-minute key cache and fallback to Supabase Auth API validation.
-
-**Session Management.** Cookie-based sessions with configurable expiry: 12-hour default, 30-day with "remember me". Cookies include `session_token`, `user_role`, `onboarding_completed`, `verification_status`, and `admin_access`.
-
-**Role-Based Access Control:**
-
-| Role | Access Scope |
-|------|-------------|
-| Patient | Own records, authorized doctors, appointment management, AI assistant (self-context only) |
-| Doctor | Authorized patient records (consent-gated), appointments, consultations, AI assistant (general + patient context) |
-| Admin | Doctor verification, user management, audit logs, platform metrics. Password-gated via `X-Admin-Password` header |
-
-**Middleware Enforcement.** Server-side route protection via Next.js middleware (`proxy.ts`) reads auth cookies and enforces:
-
-- Unauthenticated users are redirected to login.
-- Unverified doctors are redirected to the verification pending page.
-- Patients who have not completed onboarding are redirected to the onboarding wizard.
-- Admin routes require the `admin_access` flag.
-
-**Patient Data Access.** Doctors must have explicit patient consent to access health records. Every access event (including AI queries) is logged in `patient_access_logs` and visible to the patient through the privacy dashboard.
-
----
-
-## Database Architecture
-
-PostgreSQL via Supabase with async SQLAlchemy 2.0 sessions and asyncpg driver. Connection pool: 10 base, 20 overflow, 30-second timeout with pre-ping.
-
-### Models (22 total)
-
-**Identity:** `Profile`, `DoctorProfile`, `PatientProfile`
-
-**Scheduling:** `Appointment`, `AppointmentAudit`, `AppointmentRequest`, `DoctorAvailability`, `Reschedule`
-
-**Clinical:** `Consultation`, `Prescription`, `MedicationPrescription`, `TestPrescription`, `SurgeryRecommendation`, `MedicalTest`
-
-**Patient Health:** `HealthMetric`, `HealthDataConsent`, `Medicine`, `Reminder`, `ReminderDeliveryLog`
-
-**Doctor Operations:** `DoctorAction`, `Speciality`
-
-**Access and Notifications:** `PatientAccessLog`, `PatientDoctorAccess`, `Notification`, `OAuthToken`
-
-**AI and Media:** `MediaFile`, `AIInteraction`, `ChoruiChat`
-
-### Key Enums
-
-The domain model is encoded through comprehensive enum types: `UserRole` (admin, doctor, patient), `VerificationStatus` (unverified, pending, verified, rejected), `AppointmentStatus` (10 states including reschedule and cancellation flows), `PrescriptionType` (medication, test, surgery), `MealInstruction` (before_meal, after_meal, with_meal, empty_stomach, any_time), `TestUrgency` and `SurgeryUrgency` (normal through emergency), `MedicineType` (12 forms from tablet to suppository), `HealthMetricType` (8 vital signs), `DoctorActionPriority` (low through urgent), and `NotificationType` (20+ event categories).
-
-### Migrations
-
-36 Alembic migration scripts covering the full schema evolution: initial identity and consultation tables, comprehensive onboarding fields, appointment scheduling with status tracking, performance indexes, AI orchestrator tables, health metrics and consent tracking, and doctor action management.
-
----
-
-## AI and Machine Learning
-
-### AI Orchestrator (Backend)
-
-The backend includes a provider-agnostic AI orchestration layer (`ai_orchestrator.py`) that:
-
-- Supports Groq, Google Gemini, and Cerebras as interchangeable LLM providers.
-- Anonymizes PII using stable hash tokens before constructing prompts.
-- Validates all LLM outputs against Pydantic schemas with structured output enforcement.
-- Tracks execution metadata: latency, provider used, validation status, and feature-specific prompt versions.
-
-### Prescription OCR (AI Service)
-
-- Custom YOLO v8 model trained on prescription images, exported to ONNX for cross-platform inference.
-- Azure AI Document Intelligence for high-accuracy text extraction.
-- Multi-strategy medicine matching with trigram similarity and fuzzy reranking.
-- Configurable confidence thresholds, retry strategies, and fallback pipelines.
-
-### Voice Transcription (STT Service)
-
-- faster-whisper (small model) with int8 quantization for efficient CPU inference.
-- Greedy decoding with configurable max duration caps.
-- Supports Bangla and English transcription.
-- Integrated with the frontend via MediaRecorder API with echo cancellation and noise suppression.
-
----
-
-## Progressive Web App
-
-Medora ships as a fully installable PWA with offline-first capabilities.
-
-**Service Worker (Serwist 9.5):**
-
-| Strategy | Target | Cache Duration |
-|----------|--------|----------------|
-| CacheFirst | Static assets, fonts | 30 days |
-| StaleWhileRevalidate | Images, icons | 14 days |
-| StaleWhileRevalidate | API GET requests | 60-second TTL |
-| NetworkFirst | Page navigations | 3-second timeout, 24-hour fallback |
-
-**Background Sync.** Failed POST, PATCH, and PUT requests to `/api/*` are queued in a `medora-api-queue` with 24-hour retention and automatically retried when connectivity is restored.
-
-**Push Notifications.** VAPID-based web push through the service worker. Subscription management, notification display with badge and icon, and click-to-navigate handling.
-
-**Offline Support.** `useNetworkStatus` and `useOfflineCache` hooks provide network detection and localStorage-based caching with configurable expiration for offline-first data access.
-
-**Installation.** Full `manifest.json` with 9 icon sizes (72x72 to 512x512), standalone display mode, and `maskable any` icon purpose. Categories: health, medical.
-
-**Performance Monitoring.** Real User Monitoring via Web Vitals (CLS, FCP, INP, LCP, TTFB) sampled at 10% and beaconed to `/api/perf/vitals`. Lighthouse CI runs on every frontend PR for both mobile and desktop.
-
----
-
-## Real-Time Features
-
-**Appointment Slot Synchronization.** The `useRealtimeSlots` hook subscribes to Supabase PostgreSQL change streams on the `appointments` table, scoped to a specific doctor and date. INSERT, UPDATE, and DELETE events trigger immediate UI updates so patients always see current availability without page refresh.
-
-**Push Notifications.** Server-side events (appointment booked, prescription issued, reminder triggered, verification status change) dispatch web push notifications through `pywebpush`. The service worker handles display and click routing.
-
-**Background Reminder Dispatcher.** An async background loop in the backend checks for due reminders at configurable intervals (default: 300 seconds), resolves against the target timezone (default: Asia/Dhaka), and dispatches push notifications. Delivery is logged in `reminder_delivery_logs` for audit.
-
----
-
-## Design System
-
-Medora's visual identity is built on a medical-blue palette with strict light/dark theme parity.
-
-**Color Foundation:**
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| Primary | `#0360D9` | Core brand blue, primary actions |
-| Primary Muted | `#1379B1` | Secondary interactive elements |
-| Primary Light | `#A5CCFF` | Highlights, hover states |
-| Surface | `#E6F5FC` | Card backgrounds, containers |
-| Background | `#FFFFFF` / dark equivalent | Page backgrounds |
-| Success | `#39E039` | Confirmation states |
-| Destructive | `oklch(0.577 0.245 27.325)` | Error states, dangerous actions |
-| Border | `#D9D9D9` | Dividers, input borders |
-
-**Typography.** SF Pro Display as the primary typeface with system font fallback stack. Font-display: swap for fast rendering.
-
-**Spacing Scale.** 8-point grid: xs (4px), sm (8px), md (16px), lg (20px), xl (24px), 2xl (32px), 3xl (40px).
-
-**Motion.** Three-tier duration system: fast (0.25s), base (0.4s), slow (0.6s) with standard easing (cubic-bezier 0.4, 0, 0.2, 1). All animation is purposeful and performs well on low-end devices.
-
-**Accessibility.** Minimum 44px touch targets on mobile. Dark mode via `next-themes` with system preference detection.
-
-**Bilingual Support.** The platform is designed for both Bangla and English. Components, typography, and layouts accommodate both scripts without breaking hierarchy or spacing. Voice input supports mixed-language transcription.
-
----
-
-## API Reference
-
-### Backend Service (Port 8000)
-
-| Prefix | Module | Description |
-|--------|--------|-------------|
-| `/health` | health | System health check with DB connectivity |
-| `/auth` | auth | Signup (patient/doctor), login, JWT verification |
-| `/profile` | profile | User profile CRUD, avatar generation |
-| `/upload` | upload | File uploads to Supabase Storage, OCR trigger |
-| `/admin` | admin | Doctor verification, platform metrics |
-| `/doctor` | doctor | Doctor profile, specialties, availability |
-| `/specialities` | specialities | Medical specialty database |
-| `/appointment` | appointment | CRUD, scheduling, slot management |
-| `/ai` | ai_doctor_search | LLM-powered doctor matching |
-| `/ai` | ai_consultation | Clinical intake, note generation, Chorui chat |
-| `/medicine` | medicine | Medicine database search and lookup |
-| `/medical-test` | medical_test | Test records and ordering |
-| `/notifications` | notifications | Notification delivery and inbox management |
-| `/patient-access` | patient_access | Data access control and audit logs |
-| `/reminders` | reminders | Reminder CRUD with timezone support |
-| `/consultation` | consultation | Doctor-patient consultations, prescriptions |
-| `/availability` | availability | Doctor schedule lookup |
-| `/reschedule` | reschedule | Appointment reschedule requests |
-| `/oauth` | oauth | Google Calendar OAuth flow |
-| `/health-metrics` | health_metrics | Patient vital sign tracking |
-| `/doctor/actions` | doctor_actions | Doctor task and follow-up management |
-| `/patient` | patient_dashboard | Aggregated patient dashboard data |
-| `/health-data` | health_data_consent | Health data consent management |
-
-### AI OCR Service (Port 8001)
-
-**`POST /ocr/prescription`**
-
-Accepts a prescription image and returns structured medication data.
-
-Input (any of):
-- Multipart form-data with `file` field
-- JSON with `image_url`
-- JSON with base64-encoded `image_file`
-
-Query parameters:
-- `debug=true` for YOLO region and OCR line details
-
-Response:
-```json
-{
-  "medications": [
-    {
-      "name": "Carbizole",
-      "matched_term": "Carbimazole",
-      "drug_id": "DRG-001",
-      "brand_id": "BRD-042",
-      "dosage": "5 mg",
-      "frequency": "1+0+1",
-      "quantity": "10 days",
-      "confidence": 0.92
-    }
-  ],
-  "raw_text": "full OCR output text",
-  "meta": {
-    "model": "azure_prebuilt-read",
-    "model_type": "read",
-    "processing_time_ms": 320,
-    "detected_regions": 3,
-    "ocr_line_count": 18
-  }
-}
-```
-
----
-
-## Deployment
-
-### Production (Azure Container Apps)
-
-All three services deploy to Azure Container Apps on the Consumption Plan with scale-to-zero.
-
-GitHub Actions workflows handle CI/CD:
-
-- **`deploy-backend.yml`** triggers on pushes to `main` that modify `backend/`. Builds a Docker image, pushes to Azure Container Registry, and deploys to the `medora-backend` container app.
-- **`deploy-ai-ocr.yml`** triggers on pushes to `main` that modify `ai_service/`. Builds, pushes, deploys with health check verification (5 attempts, 8-second intervals). Configured for `westindia` region with 0-3 replicas, 1 vCPU, 2 GB memory.
-- **`performance-budget.yml`** runs Lighthouse CI (mobile and desktop) and bundle budget validation on frontend changes.
-
-### Docker Images
-
-**Backend** (`backend/Dockerfile`):
-- Base: `python:3.11-slim`
-- Non-root user: `appuser` (UID 1000)
-- Health check: `curl http://localhost:8000/health` (30-second interval)
-- Entrypoint: Database readiness check, Alembic migrations, Uvicorn startup
-
-**AI Service** (`ai_service/Dockerfile`):
-- Base: `python:3.11-slim`
-- System dependency: `libgomp1` (OpenMP for ONNX runtime)
-- Non-root user
-- Port: 8001
-
----
-
-## Local Development
-
+### Purpose of Major Directories
+- `frontend/`: interactive product experience, server actions, role UX, and PWA behavior.
+- `backend/`: domain APIs, security, orchestration, persistence, and background processing.
+- `ai_service/`: document intelligence and OCR extraction service.
+- `docs/`: implementation PRDs and architecture narratives.
+- `tasks/`: planning logs and change summaries.
+
+### Key Files and Responsibilities
+- `backend/app/main.py`: application composition, lifespan startup/shutdown tasks, route registration.
+- `backend/app/services/ai_orchestrator.py`: model-provider abstraction and output validation.
+- `backend/app/routes/ai_consultation.py`: Chorui assistant endpoints and context processing.
+- `backend/app/services/reminder_dispatcher.py`: due reminder scanning and dispatch orchestration.
+- `backend/app/services/push_service.py`: VAPID-based push delivery and failure management.
+- `frontend/app/sw.ts`: service worker caching policies, background sync queueing, push handlers.
+- `frontend/lib/use-realtime-slots.ts`: realtime appointment-slot subscription hook.
+- `ai_service/app/pipeline.py`: OCR pipeline controller across detection, OCR, and parsing.
+
+## 8. Core Workflows
+### A. User Onboarding Workflow
+1. User signs up via role-specific auth route.
+2. Backend creates profile + role-specific entity rows.
+3. Frontend middleware (`proxy.ts`) enforces onboarding completion rules.
+4. Patient onboarding data is progressively captured and patched to backend.
+5. Backend returns normalized onboarding payload for subsequent sessions.
+
+### B. Appointment Lifecycle Workflow
+1. Patient requests doctor slot from booking UI.
+2. Frontend realtime hook tracks slot changes for doctor/date context.
+3. Backend validates status and schedule constraints before commit.
+4. Appointment status transitions persist through controlled state tables.
+5. Reschedule, cancellation, and completion update downstream notifications and analytics.
+
+### C. Backend Processing Workflow (Reminders + Events)
+1. Reminder dispatcher loops at configured interval.
+2. Active reminders are converted into timezone-aware due windows.
+3. Due reminders create in-app notifications and delivery-log rows.
+4. Push dispatch attempts are made across active subscriptions.
+5. Failures increment counters; stale endpoints are deactivated.
+
+### D. AI Doctor Discovery Workflow
+1. User submits natural language symptom input.
+2. Backend sanitizes payload and invokes LLM extraction logic.
+3. Extracted specialties and severity cues are mapped to doctor candidates.
+4. Backend applies filters and ranking inputs from real data.
+5. Response returns doctor cards + explainability factors.
+
+### E. Chorui Assistant Workflow
+1. Assistant-chat request arrives with role context.
+2. Backend enforces consent/privacy and access constraints.
+3. Structured context is assembled and sanitized.
+4. AI orchestrator generates validated output or fallback response.
+5. Conversation turn is persisted for continuity and auditability.
+
+### F. OCR Pipeline Workflow
+1. Input accepted via file/image URL/base64.
+2. Input normalization handles orientation/type constraints.
+3. YOLO detects candidate prescription/report regions.
+4. OCR extraction runs (Azure primary, optional fallback paths).
+5. Parser normalizes dosage/frequency/quantity and returns structured output.
+
+## 9. Diagrams Section
+### Class Diagram
+![Class Diagram](./docs/class-diagram.png)
+
+### DFD
+![DFD](./docs/dfd.png)
+
+### Use Case Diagram
+![Use Case Diagram](./docs/use-case-diagram.png)
+
+### Activity Diagram
+![Activity Diagram](./docs/activity-diagram.png)
+
+### Architecture Diagram
+![Architecture Diagram](./docs/architecture.png)
+
+## 10. Screenshots
+### Landing Page
+![Screenshot](./docs/screens/screen1.png)
+
+### Dashboard
+![Screenshot](./docs/screens/screen2.png)
+
+### Key Features UI
+![Screenshot](./docs/screens/screen3.png)
+
+## 11. Demo / Walkthrough
+### Demo Link
+- Product walkthrough: `https://example.com/medora-demo`
+
+### Suggested Demo Sequence
+1. Auth + role resolution + route gating.
+2. Patient onboarding and profile persistence.
+3. AI doctor search from symptom narrative.
+4. Realtime slot update while booking.
+5. Consultation and reminder event flow.
+6. OCR prescription upload and structured extraction.
+
+## 12. Setup & Installation
 ### Prerequisites
-
-- Node.js 18+ and npm
+- Node.js 18+
+- npm 9+
 - Python 3.11+
-- A Supabase project (PostgreSQL, Auth, Storage)
-- Azure AI Document Intelligence credentials (for OCR)
-- A Groq API key (for AI features)
+- Supabase project with PostgreSQL/Auth/Storage configured
+- Azure AI Document Intelligence credentials
+- AI provider credentials (at least one of Groq/Gemini/Cerebras)
 
-### Frontend
+### Installation Steps
+#### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd Medora
+```
 
+#### 2. Frontend Dependencies
 ```bash
 cd frontend
 npm install
-npm run dev
+cd ..
 ```
 
-The frontend runs on `http://localhost:3000` with Turbopack for fast development builds.
-
-### Backend
-
+#### 3. Backend Environment
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate        # On Windows: venv\Scripts\activate
+python -m venv .venv
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+# Linux/macOS
+# source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # Configure your environment variables
+cd ..
+```
+
+#### 4. AI OCR Service Environment
+```bash
+cd ai_service
+python -m venv .venv
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+# Linux/macOS
+# source .venv/bin/activate
+pip install -r requirements.txt
+cd ..
+```
+
+#### 5. Configure Environment Files
+Create and configure:
+- `frontend/.env.local`
+- `backend/.env`
+- `ai_service/.env`
+
+#### 6. Apply Database Migrations
+```bash
+cd backend
+# Activate backend virtual environment first
+alembic upgrade head
+cd ..
+```
+
+#### 7. Run Services
+Backend:
+```bash
+cd backend
+# Activate backend virtual environment first
 uvicorn app.main:app --reload --port 8000
 ```
 
-Alembic migrations run automatically on startup when `RUN_MIGRATIONS=true`, or manually:
-
-```bash
-alembic upgrade head
-```
-
-### AI OCR Service
-
+AI OCR Service:
 ```bash
 cd ai_service
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# Activate ai_service virtual environment first
 uvicorn app.main:app --reload --port 8001
 ```
 
-### Docker Compose (Full Stack)
+Frontend:
+```bash
+cd frontend
+npm run dev
+```
 
+### Optional Docker Run
+Backend compose:
 ```bash
 cd backend
 docker-compose up --build
 ```
 
-This starts the backend service with environment variables from `.env`, volume mounts for hot reload, and JSON-file logging with rotation.
+### Health Checks
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8001/health
+```
 
----
-
-## Environment Variables
-
-### Frontend (`frontend/.env`)
-
+## 13. Environment Variables
+### Frontend (`frontend/.env.local`)
 | Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_BACKEND_URL` | Backend API base URL (default: `http://localhost:8000`) |
+|---|---|
+| `NEXT_PUBLIC_BACKEND_URL` | Backend API base URL |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public/anon key |
-| `NEXT_PUBLIC_RUM_SAMPLE_RATE` | Web Vitals sampling rate (default: 0.1) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
+| `NEXT_PUBLIC_PERF_API_CACHE_TTL` | Service worker API cache TTL |
+| `NEXT_PUBLIC_RUM_SAMPLE_RATE` | Web vitals sampling rate |
 
 ### Backend (`backend/.env`)
-
 | Variable | Description |
-|----------|-------------|
-| `SUPABASE_DATABASE_URL` | PostgreSQL async connection string |
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_KEY` | Supabase public/anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side) |
-| `GROQ_API_KEY` | Groq LLM API key |
-| `GROQ_MODEL` | LLM model selection |
-| `AI_PROVIDER` | AI provider: groq, gemini, or cerebras |
-| `AI_OCR_SERVICE_URL` | OCR microservice endpoint |
-| `AI_ID_HASH_SECRET` | PII anonymization secret |
-| `ADMIN_PASSWORD` | Admin panel authentication password |
-| `ALLOWED_ORIGINS` | Comma-separated CORS origins |
-| `FRONTEND_URL` | Frontend base URL |
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-| `WEB_PUSH_VAPID_PUBLIC_KEY` | VAPID public key for push |
-| `WEB_PUSH_VAPID_PRIVATE_KEY` | VAPID private key for push |
-| `REMINDER_DISPATCH_ENABLED` | Enable background reminder service |
-| `DEFAULT_REMINDER_TIMEZONE` | Timezone for reminders (default: Asia/Dhaka) |
-| `DB_POOL_SIZE` | Connection pool size (default: 10) |
-| `PRELOAD_WHISPER_ON_STARTUP` | Preload ASR model at boot |
-| `CHORUI_PRIVACY_MODE` | AI privacy mode: strict_local or augmented |
+|---|---|
+| `SUPABASE_DATABASE_URL` | Async SQLAlchemy connection string |
+| `SUPABASE_URL` | Supabase URL |
+| `SUPABASE_KEY` | Supabase key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service-role key for privileged writes |
+| `SUPABASE_STORAGE_BUCKET` | Bucket for uploads/documents |
+| `AI_PROVIDER` | `groq`, `gemini`, or `cerebras` |
+| `GROQ_API_KEY` | Groq API key |
+| `GEMINI_API_KEY` | Gemini API key |
+| `CEREBRAS_CLOUD_API_KEY` | Cerebras API key |
+| `GROQ_MODEL` | Groq model id |
+| `GEMINI_MODEL` | Gemini model id |
+| `CEREBRAS_CLOUD_MODEL` | Cerebras model id |
+| `AI_OCR_SERVICE_URL` | OCR service base URL |
+| `AI_ID_HASH_SECRET` | Stable tokenization secret for AI privacy |
+| `CHORUI_PRIVACY_MODE` | Assistant privacy mode policy |
+| `DEFAULT_REMINDER_TIMEZONE` | Default reminder timezone (e.g., Asia/Dhaka) |
+| `REMINDER_DISPATCH_ENABLED` | Enable/disable reminder background worker |
+| `REMINDER_DISPATCH_INTERVAL_SECONDS` | Reminder scan interval |
+| `WEB_PUSH_VAPID_PUBLIC_KEY` | Push public key |
+| `WEB_PUSH_VAPID_PRIVATE_KEY` | Push private key |
+| `WEB_PUSH_VAPID_SUBJECT` | Push subject claim |
+| `PRELOAD_WHISPER_ON_STARTUP` | ASR preload toggle |
+| `ALLOWED_ORIGINS` | CORS allowlist |
 
 ### AI OCR Service (`ai_service/.env`)
-
 | Variable | Description |
-|----------|-------------|
-| `MODEL_TYPE` | Pipeline mode: read, custom, or llm |
-| `AZURE_OCR_ENDPOINT` | Azure AI endpoint URL |
-| `AZURE_OCR_KEY` | Azure AI API key |
-| `YOLO_MODEL_PATH` | Path to ONNX model weights |
-| `DISABLE_MEDICINE_MATCHING` | Toggle database matching (default: true) |
-| `SUPABASE_DATABASE_URL` | PostgreSQL connection for medicine DB |
-| `MEDICINE_DB_TABLE` | Medicine search index table name |
-| `MEDICINE_MATCH_MIN_CONFIDENCE` | Minimum match confidence threshold |
+|---|---|
+| `MODEL_TYPE` | OCR mode (`read`, `custom`, `llm`) |
+| `AZURE_OCR_ENDPOINT` | Azure endpoint |
+| `AZURE_OCR_KEY` | Azure OCR key |
+| `AZURE_OCR_MODEL_ID` | Model identifier |
+| `AZURE_OCR_TIMEOUT_SECONDS` | OCR timeout |
+| `YOLO_MODEL_PATH` | ONNX model path |
+| `YOLO_INPUT_SIZE` | Detection input size |
+| `YOLO_CONFIDENCE_THRESHOLD` | Detection confidence threshold |
+| `YOLO_IOU_THRESHOLD` | Detection IoU threshold |
+| `YOLO_RETRY_INPUT_SIZES` | Retry sizes for low-confidence detections |
+| `DISABLE_MEDICINE_MATCHING` | Toggle DB-assisted medicine matching |
+| `SUPABASE_DATABASE_URL` | DB URL for medicine indexing/matching |
+| `MEDICINE_DB_TABLE` | Medicine source table |
+| `MEDICINE_MATCH_MIN_CONFIDENCE` | Match acceptance floor |
+| `OCR_MAX_UPLOAD_BYTES` | Max accepted upload size |
+| `OCR_MAX_IMAGE_BYTES` | OCR-processing image byte cap |
 
----
+## 14. API Overview
+### Backend Service (Port 8000)
+| Prefix | Purpose |
+|---|---|
+| `/health` | Service health + DB check |
+| `/auth` | Signup/login/session profile endpoints |
+| `/profile` | Onboarding and profile state |
+| `/upload` | File upload and OCR handoff integration |
+| `/admin` | Verification/moderation/admin ops |
+| `/doctor` | Doctor profile and operations |
+| `/specialities` | Specialty catalog APIs |
+| `/appointment` | Booking, slots, lifecycle transitions |
+| `/ai` | Doctor search + Chorui + AI utilities |
+| `/consultation` | Consultation workspace and outputs |
+| `/medicine` | Medicine search and lookups |
+| `/medical-test` | Test tracking/operations |
+| `/notifications` | In-app/push notification APIs |
+| `/patient-access` | Access sharing and logs |
+| `/reminders` | Reminder CRUD and schedules |
+| `/availability` | Doctor availability views |
+| `/reschedule` | Reschedule request/decision workflow |
+| `/oauth` | Calendar OAuth flow |
+| `/health-metrics` | Vital/health metric operations |
+| `/doctor/actions` | Doctor action item management |
+| `/patient` | Patient dashboard aggregation |
+| `/health-data` | Health-data consent APIs |
+| `/medical-reports` | Report-oriented endpoints |
+| `/patient-data-sharing` | Fine-grained patient sharing preferences |
 
-## License
+### AI OCR Service (Port 8001)
+| Endpoint | Purpose |
+|---|---|
+| `GET /health` | OCR service readiness and mode |
+| `POST /ocr/prescription` | Structured prescription extraction |
+| `POST /ocr/medical-report` | Structured medical report extraction |
 
-MIT License. Copyright (c) 2025 CSE-3200-System-Project.
+### Example Requests
+Login:
+```bash
+curl -X POST "http://localhost:8000/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"your-password"}'
+```
 
-See [LICENSE](LICENSE) for the full text.
+Patient onboarding patch:
+```bash
+curl -X PATCH "http://localhost:8000/profile/patient/onboarding" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"first_name":"Rahim","last_name":"Khan"}'
+```
+
+AI doctor search:
+```bash
+curl -X POST "http://localhost:8000/ai/search" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"user_text":"persistent cough and chest discomfort"}'
+```
+
+Voice normalization:
+```bash
+curl -X POST "http://localhost:8000/ai/normalize/voice" \
+  -H "Authorization: Bearer <token>" \
+  -F "audio_file=@voice.webm" \
+  -F "language_hint=auto"
+```
+
+Prescription OCR:
+```bash
+curl -X POST "http://localhost:8001/ocr/prescription?debug=true" \
+  -F "file=@prescription.jpg"
+```
+
+## 15. Scalability & Design Decisions
+### Why This Architecture Was Chosen
+- Service boundary between core API and OCR compute keeps core workflows stable under image-heavy load.
+- Async backend architecture supports concurrent appointment/notification workflows.
+- Realtime and background-worker primitives reduce user-facing state drift.
+- AI orchestration centralization enforces consistent prompting, validation, and privacy handling.
+
+### Key Trade-Offs
+- Multi-service coordination increases deployment and observability complexity.
+- OCR quality depends on both detection and OCR provider quality; fallback logic is essential.
+- Realtime subscriptions improve freshness but add state-sync complexity in UI clients.
+
+### Scalability Path
+- Introduce queue-backed async jobs for OCR and heavy assistant computations.
+- Add dedicated telemetry pipelines for latency/error-rate per endpoint/workflow.
+- Expand read model/caching strategy for high-volume doctor search and dashboard paths.
+- Introduce canary rollout controls for AI provider switching and prompt-version migration.
+
+### Current Deployment and CI/CD Model
+- Production deployment target is Azure Container Apps for backend and OCR services.
+- Repository CI/CD includes `.github/workflows/deploy-backend.yml`.
+- Repository CI/CD includes `.github/workflows/deploy-ai-ocr.yml`.
+- Repository CI/CD includes `.github/workflows/performance-budget.yml`.
+- Backend container image (`backend/Dockerfile`) uses `python:3.11-slim`, non-root execution (`appuser`), and health checks against `/health`.
+- AI OCR container image (`ai_service/Dockerfile`) uses `python:3.11-slim`, installs `libgomp1` for ONNX runtime support, and runs as non-root.
+
+## 16. Future Improvements / Roadmap
+- Publish formal architecture, sequence, and ER diagrams under `docs/diagrams`.
+- Expand integration tests for consent, RBAC, and appointment race-condition scenarios.
+- Add contract tests for server actions against backend schema evolution.
+- Add performance baselines and SLO tracking dashboards for critical paths.
+- Improve multilingual UX and healthcare-term normalization for Bangla/English hybrid usage.
+- Introduce richer audit analytics for patient data access transparency.
+- Externalize ASR into a dedicated microservice if throughput requirements grow.
+
+## 17. Contribution Guidelines
+### How to Contribute
+1. Fork repository and create a feature/fix branch.
+2. Keep scope small and aligned to a single workflow concern.
+3. Implement with tests and update docs for behavior or API changes.
+4. Run lint/build checks for touched services.
+5. Open PR with context, technical rationale, and verification notes.
+
+### Suggested Branching Strategy
+- `main`: stable branch.
+- `feature/<scope>-<topic>` for features.
+- `fix/<scope>-<topic>` for bug fixes.
+- `chore/<scope>-<topic>` for maintenance/docs/refactors.
+
+### Quality and Safety Expectations
+- Preserve privacy and consent semantics.
+- Do not introduce autonomous diagnosis/prescription logic.
+- Keep changes minimal, explicit, and testable.
+- Document schema/endpoint changes in PRs.
+
+### Local Validation Checklist Before PR
+- Backend imports and starts successfully.
+- Migrations apply cleanly.
+- Frontend builds and role-gated routes behave correctly.
+- Changed endpoints return typed schema-compatible responses.
+- PWA/service-worker changes are tested in at least one mobile browser profile.
+
+## 18. License
+This project is licensed under the MIT License.
+See `LICENSE` for full terms.

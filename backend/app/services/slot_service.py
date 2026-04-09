@@ -14,11 +14,17 @@ Core algorithm:
 from datetime import date, time, datetime, timedelta, timezone
 from typing import Optional
 import re
+import os
+import logging
 
 from sqlalchemy import select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models.appointment import Appointment, AppointmentStatus
+from app.db.models.appointment_request import (
+    AppointmentRescheduleRequest,
+    RescheduleRequestStatus,
+)
 from app.db.models.doctor import DoctorProfile
 from app.db.models.doctor_location import DoctorLocation
 from app.db.models.doctor_availability import (
@@ -27,6 +33,115 @@ from app.db.models.doctor_availability import (
     DoctorException,
     DoctorScheduleOverride,
 )
+
+
+logger = logging.getLogger(__name__)
+SLOT_DEBUG_LOGGING = os.getenv("SLOT_DEBUG_LOGGING", "0").strip().lower() in {"1", "true", "yes", "on"}
+
+
+NON_OCCUPYING_STATUSES = [
+    AppointmentStatus.CANCELLED,
+    AppointmentStatus.CANCELLED_BY_PATIENT,
+    AppointmentStatus.CANCELLED_BY_DOCTOR,
+    AppointmentStatus.NO_SHOW,
+]
+
+SLOT_OCCUPYING_STATUSES = [
+    AppointmentStatus.PENDING,
+    AppointmentStatus.CONFIRMED,
+    AppointmentStatus.PENDING_ADMIN_REVIEW,
+    AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
+    AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+    AppointmentStatus.RESCHEDULE_REQUESTED,
+    AppointmentStatus.CANCEL_REQUESTED,
+]
+
+
+def _active_slot_occupancy_condition(now_utc: datetime):
+    """Only appointments that currently occupy a slot should block availability."""
+    return and_(
+        Appointment.status.in_(SLOT_OCCUPYING_STATUSES),
+        or_(
+            Appointment.status != AppointmentStatus.PENDING,
+            Appointment.hold_expires_at.is_(None),
+            Appointment.hold_expires_at > now_utc,
+        ),
+    )
+
+
+async def _pending_reschedule_appointment_ids(
+    db: AsyncSession,
+    appointment_ids: list[str],
+) -> set[str]:
+    if not appointment_ids:
+        return set()
+
+    result = await db.execute(
+        select(AppointmentRescheduleRequest.appointment_id).where(
+            AppointmentRescheduleRequest.appointment_id.in_(appointment_ids),
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        )
+    )
+    return {appointment_id for appointment_id in result.scalars().all() if appointment_id}
+
+
+async def _filter_stale_reschedule_rows(
+    db: AsyncSession,
+    appointments: list[Appointment],
+) -> list[Appointment]:
+    """Ignore stale RESCHEDULE_REQUESTED rows that have no pending request."""
+    if not appointments:
+        return appointments
+
+    reschedule_requested_ids = [
+        appt.id
+        for appt in appointments
+        if appt.status == AppointmentStatus.RESCHEDULE_REQUESTED
+    ]
+    if not reschedule_requested_ids:
+        return appointments
+
+    pending_ids = await _pending_reschedule_appointment_ids(db, reschedule_requested_ids)
+    return [
+        appt
+        for appt in appointments
+        if appt.status != AppointmentStatus.RESCHEDULE_REQUESTED or appt.id in pending_ids
+    ]
+
+
+def _slot_label_from_appointment(appt: Appointment) -> str:
+    if appt.slot_time:
+        return _format_time_label(appt.slot_time).upper()
+    return appt.appointment_date.strftime("%I:%M %p").lstrip("0").upper()
+
+
+def _debug_slot_appointments(
+    *,
+    doctor_id: str,
+    target_date: date,
+    phase: str,
+    appointments: list[Appointment],
+) -> None:
+    if not SLOT_DEBUG_LOGGING:
+        return
+
+    payload = [
+        {
+            "id": appt.id,
+            "status": appt.status.value if hasattr(appt.status, "value") else str(appt.status),
+            "appointment_date": appt.appointment_date.isoformat() if appt.appointment_date else None,
+            "slot_time": appt.slot_time.isoformat() if appt.slot_time else None,
+            "label": _slot_label_from_appointment(appt),
+        }
+        for appt in appointments
+    ]
+    logger.info(
+        "slot-occupancy-debug phase=%s doctor_id=%s date=%s appointments=%s",
+        phase,
+        doctor_id,
+        target_date.isoformat(),
+        payload,
+    )
 
 
 # ── Slot categorization ──
@@ -287,28 +402,42 @@ async def get_available_slots(
     )
     end_of_day = start_of_day + timedelta(days=1)
 
+    now_utc = datetime.now(timezone.utc)
     booked_result = await db.execute(
         select(Appointment).where(
             Appointment.doctor_id == doctor_id,
             Appointment.appointment_date >= start_of_day,
             Appointment.appointment_date < end_of_day,
-            Appointment.status.notin_([
-                AppointmentStatus.CANCELLED,
-                AppointmentStatus.NO_SHOW,
-            ]),
+            _active_slot_occupancy_condition(now_utc),
         )
     )
     booked_appointments = booked_result.scalars().all()
+    _debug_slot_appointments(
+        doctor_id=doctor_id,
+        target_date=target_date,
+        phase="raw",
+        appointments=booked_appointments,
+    )
+    booked_appointments = await _filter_stale_reschedule_rows(db, booked_appointments)
+    _debug_slot_appointments(
+        doctor_id=doctor_id,
+        target_date=target_date,
+        phase="filtered",
+        appointments=booked_appointments,
+    )
 
     # Build set of booked slot times
     booked_times: set[str] = set()
     for appt in booked_appointments:
+        # Treat the canonical slot_time column as source-of-truth.
+        # Fall back to appointment_date/notes only for legacy rows that do not have slot_time.
         if appt.slot_time:
             booked_times.add(_format_time_label(appt.slot_time))
-        # Also check the datetime component
+            continue
+
         appt_time_label = appt.appointment_date.strftime("%I:%M %p").lstrip("0").upper()
         booked_times.add(appt_time_label)
-        # Parse from notes as fallback
+
         if appt.notes:
             note_match = re.search(
                 r"Slot:\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))",
@@ -316,12 +445,11 @@ async def get_available_slots(
                 re.IGNORECASE,
             )
             if note_match:
-                booked_times.add(
-                    _normalize_slot_label(note_match.group(1))
-                )
+                booked_times.add(_normalize_slot_label(note_match.group(1)))
 
     # 6. Mark past slots
     now = datetime.now(timezone.utc)
+    booked_labels_upper = {bt.upper() for bt in booked_times}
 
     # 7. Build categorized response
     groups: dict[str, list] = {}
@@ -329,7 +457,7 @@ async def get_available_slots(
 
     for slot_time in all_slots:
         label = _format_time_label(slot_time)
-        is_booked = label.upper() in {bt.upper() for bt in booked_times}
+        is_booked = label.upper() in booked_labels_upper
 
         slot_datetime = datetime(
             target_date.year,
@@ -378,6 +506,7 @@ async def is_slot_available(
     doctor_id: str,
     target_date: date,
     slot_time_val: time,
+    exclude_appointment_id: Optional[str] = None,
 ) -> bool:
     """Check if a specific slot is available (not booked, not in the past, not an exception)."""
     # Check exception
@@ -409,19 +538,29 @@ async def is_slot_available(
     )
     end_of_day = start_of_day + timedelta(days=1)
 
-    booked_result = await db.execute(
-        select(Appointment).where(
-            Appointment.doctor_id == doctor_id,
-            Appointment.appointment_date >= start_of_day,
-            Appointment.appointment_date < end_of_day,
-            Appointment.slot_time == slot_time_val,
-            Appointment.status.notin_([
-                AppointmentStatus.CANCELLED,
-                AppointmentStatus.NO_SHOW,
-            ]),
+    predicates = [
+        Appointment.doctor_id == doctor_id,
+        Appointment.appointment_date >= start_of_day,
+        Appointment.appointment_date < end_of_day,
+        Appointment.slot_time == slot_time_val,
+        _active_slot_occupancy_condition(datetime.now(timezone.utc)),
+    ]
+    if exclude_appointment_id:
+        predicates.append(Appointment.id != exclude_appointment_id)
+
+    booked_result = await db.execute(select(Appointment).where(*predicates))
+    booked_appointments = booked_result.scalars().all()
+    if not booked_appointments:
+        return True
+
+    booked_appointments = await _filter_stale_reschedule_rows(db, booked_appointments)
+    if booked_appointments:
+        _debug_slot_appointments(
+            doctor_id=doctor_id,
+            target_date=target_date,
+            phase="availability-blocked",
+            appointments=booked_appointments,
         )
-    )
-    if booked_result.scalar_one_or_none():
         return False
 
     return True

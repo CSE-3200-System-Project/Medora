@@ -1,0 +1,14 @@
+{
+  "common": {
+    "unexpected": "Something went wrong.",
+    "network": "Network request failed. Please try again."
+  },
+  "auth": {
+    "invalidToken": "Your session has expired. Please log in again.",
+    "accessDenied": "You do not have permission to perform this action.",
+    "loginFailed": "Login failed. Please check your credentials."
+  },
+  "notifications": {
+    "loadFailed": "Failed to load notifications"
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "save": "সংরক্ষণ করুন",
+  "cancel": "বাতিল",
+  "loading": "লোড হচ্ছে...",
+  "back": "পেছনে",
+  "english": "ইংরেজি",
+  "bangla": "বাংলা",
+  "patientHome": {
+    "title": "রোগীর স্বাস্থ্য সারসংক্ষেপ",
+    "defaultUserName": "রোগী",
+    "greeting": "শুভ দিন, {name}. আজকের লাইভ সারসংক্ষেপ দেখুন।",
+    "scheduleVisit": "ভিজিট নির্ধারণ করুন",
+    "healthReport": "স্বাস্থ্য প্রতিবেদন",
+    "sections": {
+      "upcomingAppointments": "আসন্ন অ্যাপয়েন্টমেন্ট",
+      "aiHealthInsights": "এআই স্বাস্থ্য ইনসাইট",
+      "quickHealthStats": "দ্রুত স্বাস্থ্য পরিসংখ্যান",
+      "seeAll": "সব দেখুন",
+      "fullAnalytics": "পূর্ণ অ্যানালিটিক্স",
+      "viewDetails": "বিস্তারিত দেখুন"
+    },
+    "healthScoreCard": {
+      "title": "সামগ্রিক স্বাস্থ্য স্কোর",
+      "improvementMessage": "গত মাসের তুলনায় আপনার স্বাস্থ্য স্কোর {delta} উন্নত হয়েছে। এই ধারাবাহিকতা বজায় রাখুন।",
+      "activity": "কার্যকলাপ",
+      "nutrition": "পুষ্টি",
+      "viewDetails": "বিস্তারিত দেখুন",
+      "status": {
+        "excellent": "চমৎকার",
+        "improving": "উন্নতি হচ্ছে",
+        "needsAttention": "মনোযোগ প্রয়োজন"
+      },
+      "activityLevels": {
+        "high": "উচ্চ",
+        "moderate": "মাঝারি",
+        "low": "কম"
+      },
+      "nutritionLevels": {
+        "balanced": "সুষম",
+        "needsReview": "পর্যালোচনা প্রয়োজন"
+      }
+    },
+    "medicationTrend": {
+      "title": "ওষুধ গ্রহণের প্রবণতা",
+      "subtitle": "গত ৭ দিনের অনুগত্য",
+      "weekdayShort": {
+        "mon": "সোম",
+        "tue": "মঙ্গল",
+        "wed": "বুধ",
+        "thu": "বৃহ",
+        "fri": "শুক্র",
+        "sat": "শনি",
+        "sun": "রবি"
+      }
+    },
+    "appointmentCard": {
+      "dateTime": "তারিখ ও সময়",
+      "location": "স্থান",
+      "generalConsultation": "সাধারণ পরামর্শ",
+      "medoraConsultation": "মেডোরা পরামর্শ",
+      "actionJoinVisit": "ভিজিটে যোগ দিন",
+      "actionManage": "ম্যানেজ করুন",
+      "status": {
+        "confirmed": "নিশ্চিত",
+        "pending": "অপেক্ষমাণ",
+        "cancelled": "বাতিল",
+        "completed": "সম্পন্ন"
+      }
+    },
+    "emptyStates": {
+      "noUpcomingAppointments": "কোনো আসন্ন অ্যাপয়েন্টমেন্ট নেই",
+      "scheduleClear": "আপনার সময়সূচি ফাঁকা",
+      "bookNow": "এখন বুক করুন",
+      "noInsights": "এখনও কোনো ইনসাইট নেই",
+      "startLogging": "ব্যক্তিগতকৃত ইনসাইট পেতে স্বাস্থ্য মেট্রিক্স এবং রিমাইন্ডার লগ করা শুরু করুন।",
+      "notAvailable": "প্রযোজ্য নয়"
+    },
+    "quickStats": {
+      "stepsToday": "আজকের পদক্ষেপ",
+      "avgSleep": "গড় ঘুম",
+      "bpmResting": "বিপিএম (বিশ্রাম)",
+      "bloodPressure": "রক্তচাপ"
+    },
+    "deviceSync": {
+      "title": "হেলথ ডিভাইস সিঙ্ক",
+      "lastSynced": "সর্বশেষ সিঙ্ক",
+      "noSyncYet": "এখনও সিঙ্ক হয়নি",
+      "manageDevices": "ডিভাইস ম্যানেজ করুন"
+    },
+    "insightTitles": {
+      "medicationAdherence": "ওষুধ গ্রহণের অনুগত্য",
+      "sleepMonitoring": "ঘুম পর্যবেক্ষণ",
+      "bloodPressureTracking": "রক্তচাপ পর্যবেক্ষণ"
+    }
+  },
+  "patientAppointments": {
+    "page": {
+      "title": "আমার অ্যাপয়েন্টমেন্ট",
+      "subtitle": "আপনার ক্লিনিক ভিজিট ও অ্যাপয়েন্টমেন্ট ইতিহাসের পূর্ণাঙ্গ সারসংক্ষেপ।",
+      "loading": "অ্যাপয়েন্টমেন্ট লোড হচ্ছে...",
+      "range": {
+        "month": "মাস",
+        "quarter": "ত্রৈমাসিক",
+        "year": "বছর"
+      },
+      "showAllUpcoming": "সব আসন্ন দেখুন",
+      "appointmentHistory": "অ্যাপয়েন্টমেন্ট ইতিহাস",
+      "feedback": {
+        "rescheduleSent": "রি-শিডিউল অনুরোধ সফলভাবে পাঠানো হয়েছে।",
+        "waitingDoctor": "আপনার রি-শিডিউল অনুরোধে ডাক্তারের উত্তরের জন্য অপেক্ষা করুন।",
+        "rescheduleRequestMissing": "এই অ্যাপয়েন্টমেন্টের জন্য কোনো অপেক্ষমাণ ডাক্তার রি-শিডিউল অনুরোধ নেই।",
+        "rescheduleLoadFailed": "এই রি-শিডিউল অনুরোধ লোড করা যায়নি। আবার চেষ্টা করুন।",
+        "rescheduleAccepted": "রি-শিডিউল অনুরোধ গ্রহণ করা হয়েছে।",
+        "rescheduleRejected": "রি-শিডিউল অনুরোধ প্রত্যাখ্যান করা হয়েছে।",
+        "cancelSuccess": "অ্যাপয়েন্টমেন্ট সফলভাবে বাতিল হয়েছে।",
+        "pendingDeleted": "অপেক্ষমাণ অনুরোধ মুছে ফেলা হয়েছে।",
+        "pendingDeleteFailed": "অপেক্ষমাণ অনুরোধ মুছতে ব্যর্থ হয়েছে।"
+      },
+      "defaults": {
+        "patientName": "রোগী",
+        "doctorName": "ডাক্তার",
+        "assignedDoctor": "নির্ধারিত ডাক্তার"
+      }
+    },
+    "summary": {
+      "patientId": "রোগী আইডি",
+      "next": "পরবর্তী",
+      "notAvailable": "উপলব্ধ নয়",
+      "lastVisit": "শেষ ভিজিট",
+      "newAppointment": "নতুন অ্যাপয়েন্টমেন্ট"
+    },
+    "heatmap": {
+      "title": "অ্যাপয়েন্টমেন্ট হিটম্যাপ",
+      "less": "কম",
+      "more": "বেশি",
+      "tooltipSingle": "{dateLabel}: {count} টি অ্যাপয়েন্টমেন্ট",
+      "tooltipPlural": "{dateLabel}: {count} টি অ্যাপয়েন্টমেন্ট",
+      "monthMarker": "{month} {day}"
+    },
+    "monthlyTrend": {
+      "title": "মাসিক প্রবণতা",
+      "subtitle": "গত ৬ মাসে ভিজিটের ঘনত্ব",
+      "months": {
+        "may": "মে",
+        "jun": "জুন",
+        "jul": "জুল",
+        "aug": "আগ",
+        "sep": "সেপ",
+        "oct": "অক্ট"
+      }
+    },
+    "specialtyDistribution": {
+      "title": "বিশেষত্ব বণ্টন",
+      "subtitle": "বিশেষজ্ঞ ভিজিটের ঘনত্ব",
+      "visits": "{count} ভিজিট",
+      "tooltip": "{name}: {count} ভিজিট",
+      "specialties": {
+        "generalPractice": "সাধারণ চিকিৎসা",
+        "cardiology": "কার্ডিওলজি",
+        "dermatology": "ডার্মাটোলজি",
+        "neurology": "নিউরোলজি"
+      }
+    },
+    "calendar": {
+      "title": "ক্যালেন্ডার",
+      "showingSelected": "নির্বাচিত তারিখের অ্যাপয়েন্টমেন্ট দেখানো হচ্ছে",
+      "showAll": "সব দেখুন",
+      "previousMonth": "পূর্বের মাস",
+      "nextMonth": "পরের মাস",
+      "past": "অতীত",
+      "dayShort": {
+        "sun": "র",
+        "mon": "স",
+        "tue": "ম",
+        "wed": "বু",
+        "thu": "বৃ",
+        "fri": "শু",
+        "sat": "শ"
+      },
+      "monthNames": {
+        "january": "জানুয়ারি",
+        "february": "ফেব্রুয়ারি",
+        "march": "মার্চ",
+        "april": "এপ্রিল",
+        "may": "মে",
+        "june": "জুন",
+        "july": "জুলাই",
+        "august": "আগস্ট",
+        "september": "সেপ্টেম্বর",
+        "october": "অক্টোবর",
+        "november": "নভেম্বর",
+        "december": "ডিসেম্বর"
+      },
+      "legend": {
+        "confirmed": "নিশ্চিত",
+        "pending": "অপেক্ষমাণ",
+        "completed": "সম্পন্ন",
+        "today": "আজ"
+      }
+    },
+    "upcoming": {
+      "title": "আসন্ন সময়সূচি",
+      "subtitleSelected": "নির্বাচিত তারিখের অ্যাপয়েন্টমেন্ট",
+      "subtitleUpcoming": "আপনার আসন্ন ক্লিনিক ভিজিট",
+      "empty": "এই ভিউতে কোনো আসন্ন অ্যাপয়েন্টমেন্ট পাওয়া যায়নি।",
+      "waiting": "ডাক্তারের নিশ্চিতকরণের অপেক্ষায়",
+      "expiresIn": "মেয়াদ শেষ হবে",
+      "expiringSoon": "ডাক্তার এখনো সাড়া দেননি। এই অনুরোধের মেয়াদ শিগগির শেষ হবে।",
+      "expired": "ডাক্তার সময়মতো নিশ্চিত না করায় অনুরোধটির মেয়াদ শেষ হয়েছে।",
+      "bookAgain": "আবার বুক করুন",
+      "deleteRequest": "অনুরোধ মুছুন",
+      "reschedule": "রি-শিডিউল",
+      "cancel": "বাতিল",
+      "consultationSuffix": "পরামর্শ",
+      "at": "এ",
+      "status": {
+        "confirmed": "নিশ্চিত",
+        "pending": "অপেক্ষমাণ",
+        "completed": "সম্পন্ন",
+        "cancelled": "বাতিল",
+        "cancelledByPatient": "রোগী দ্বারা বাতিল",
+        "cancelledByDoctor": "ডাক্তার দ্বারা বাতিল",
+        "pendingAdminReview": "অ্যাডমিন রিভিউ অপেক্ষমাণ",
+        "pendingDoctorConfirmation": "ডাক্তারের নিশ্চিতকরণ অপেক্ষমাণ",
+        "pendingPatientConfirmation": "রোগীর নিশ্চিতকরণ অপেক্ষমাণ",
+        "rescheduleRequested": "রি-শিডিউল অনুরোধ করা হয়েছে",
+        "cancelRequested": "বাতিলের অনুরোধ করা হয়েছে",
+        "noShow": "উপস্থিত হননি",
+        "expired": "মেয়াদোত্তীর্ণ"
+      }
+    },
+    "dialogs": {
+      "cancel": {
+        "title": "অ্যাপয়েন্টমেন্ট বাতিল করুন",
+        "description": "আপনি কি নিশ্চিতভাবে এই অ্যাপয়েন্টমেন্ট বাতিল করতে চান? অ্যাপয়েন্টমেন্ট সময়ের অন্তত {minutes} মিনিট আগে বাতিল করতে হবে।",
+        "currentAppointment": "বর্তমান অ্যাপয়েন্টমেন্ট",
+        "consultation": "পরামর্শ",
+        "reasonTitle": "বাতিলের কারণ",
+        "additionalDetails": "অতিরিক্ত তথ্য (ঐচ্ছিক)",
+        "additionalPlaceholder": "বাতিলের জন্য অতিরিক্ত তথ্য যোগ করুন...",
+        "keepAppointment": "অ্যাপয়েন্টমেন্ট রাখুন",
+        "cancelAppointment": "অ্যাপয়েন্টমেন্ট বাতিল করুন",
+        "cancelling": "বাতিল করা হচ্ছে...",
+        "fallbackDoctorPrefix": "ডা.",
+        "fallbackDoctorName": "ডাক্তার",
+        "fallbackPatientName": "রোগী",
+        "reasons": {
+          "scheduleConflict": "সময়সূচির সংঘর্ষ",
+          "personalEmergency": "ব্যক্তিগত জরুরি অবস্থা",
+          "feelingBetter": "শরীর ভালো লাগছে",
+          "transportIssue": "যাতায়াত সমস্যা",
+          "costConcern": "খরচের উদ্বেগ",
+          "doctorUnavailable": "ডাক্তার অনুপলব্ধ",
+          "clinicDelay": "ক্লিনিক বিলম্ব",
+          "doubleBooked": "ডাবল বুকড",
+          "other": "অন্যান্য"
+        }
+      },
+      "reschedule": {
+        "title": "অ্যাপয়েন্টমেন্ট রি-শিডিউল করুন",
+        "description": "অ্যাপয়েন্টমেন্টের নতুন তারিখ ও সময় নির্বাচন করুন।",
+        "currentAppointment": "বর্তমান অ্যাপয়েন্টমেন্ট",
+        "selectSlotFor": "{date} এর জন্য একটি সময় স্লট নির্বাচন করুন",
+        "noSlots": "এই তারিখে কোনো স্লট নেই",
+        "additionalNotes": "অতিরিক্ত নোট (ঐচ্ছিক)",
+        "additionalPlaceholder": "রি-শিডিউল সম্পর্কিত কোনো নোট...",
+        "cancel": "বাতিল",
+        "confirm": "রি-শিডিউল নিশ্চিত করুন",
+        "rescheduling": "রি-শিডিউল হচ্ছে...",
+        "failed": "অ্যাপয়েন্টমেন্ট রি-শিডিউল করা যায়নি",
+        "fallbackDoctorPrefix": "ডা.",
+        "fallbackDoctorName": "ডাক্তার",
+        "fallbackPatientName": "রোগী",
+        "past": "অতীত",
+        "pastSlotTitle": "অতীত স্লট",
+        "unavailableSlotTitle": "বুকড বা অনুপলব্ধ",
+        "dayShort": {
+          "sun": "র",
+          "mon": "স",
+          "tue": "ম",
+          "wed": "ব",
+          "thu": "ব",
+          "fri": "শ",
+          "sat": "শ"
+        },
+        "monthNames": {
+          "january": "জানুয়ারি",
+          "february": "ফেব্রুয়ারি",
+          "march": "মার্চ",
+          "april": "এপ্রিল",
+          "may": "মে",
+          "june": "জুন",
+          "july": "জুলাই",
+          "august": "আগস্ট",
+          "september": "সেপ্টেম্বর",
+          "october": "অক্টোবর",
+          "november": "নভেম্বর",
+          "december": "ডিসেম্বর"
+        }
+      },
+      "rescheduleResponse": {
+        "title": "ডাক্তার নতুন সময় প্রস্তাব করেছেন",
+        "description": "প্রস্তাবিত সময় দেখে গ্রহণ বা প্রত্যাখ্যান করুন।",
+        "currentTime": "বর্তমান অ্যাপয়েন্টমেন্ট",
+        "proposedTime": "প্রস্তাবিত অ্যাপয়েন্টমেন্ট",
+        "loading": "রি-শিডিউল অনুরোধের তথ্য লোড হচ্ছে...",
+        "missing": "এই অ্যাপয়েন্টমেন্টের জন্য রি-শিডিউল অনুরোধের তথ্য পাওয়া যায়নি।",
+        "close": "বন্ধ করুন",
+        "accept": "গ্রহণ করুন",
+        "reject": "প্রত্যাখ্যান করুন",
+        "accepting": "গ্রহণ করা হচ্ছে...",
+        "rejecting": "প্রত্যাখ্যান করা হচ্ছে...",
+        "failedAccept": "রি-শিডিউল অনুরোধ গ্রহণ করা যায়নি",
+        "failedReject": "রি-শিডিউল অনুরোধ প্রত্যাখ্যান করা যায়নি",
+        "fallbackCounterparty": "অন্য পক্ষ",
+        "na": "প্রযোজ্য নয়",
+        "at": "এ"
+      }
+    }
+  },
+  "medicine": {
+    "patientPage": {
+      "title": "ওষুধ খুঁজুন",
+      "subtitle": "ব্র্যান্ড বা জেনেরিক নামে ওষুধ খুঁজুন",
+      "awarenessWarning": "এই তথ্য শুধুমাত্র সাধারণ সচেতনতার জন্য। কোনো ওষুধ খাওয়ার আগে অবশ্যই আপনার ডাক্তারের পরামর্শ নিন।",
+      "loadingMedicines": "ওষুধ লোড হচ্ছে...",
+      "noMedicinesFound": "কোনো ওষুধ পাওয়া যায়নি",
+      "searchDifferent": "ভিন্ন নাম বা বানান দিয়ে আবার খুঁজে দেখুন",
+      "searchPromptTitle": "ওষুধ খুঁজুন",
+      "searchPromptSubtitle": "খোঁজা শুরু করতে অন্তত ২টি অক্ষর লিখুন",
+      "saveMedicationFailed": "ওষুধ সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।",
+      "redirectingMedicalHistory": "মেডিকেল হিস্ট্রিতে নেওয়া হচ্ছে...",
+      "loadingDetails": "বিস্তারিত লোড হচ্ছে..."
+    },
+    "doctorPage": {
+      "title": "মেডিসিন রেফারেন্স",
+      "subtitle": "প্রেসক্রিপশন রেফারেন্সের জন্য ব্র্যান্ড বা জেনেরিক নামে ওষুধ খুঁজুন",
+      "infoWarning": "ওষুধ ও উপলব্ধ ব্র্যান্ড রেফারেন্সের জন্য এই টুল ব্যবহার করুন। সবসময় চিকিৎসা নির্দেশিকা অনুযায়ী প্রেসক্রিপশন যাচাই করুন।"
+    },
+    "search": {
+      "placeholder": "নাম বা ব্র্যান্ড দিয়ে ওষুধ খুঁজুন...",
+      "filters": "ফিল্টার",
+      "clearAll": "সব মুছুন",
+      "dosageForm": "ডোজ ফর্ম",
+      "medicineType": "ওষুধের ধরন",
+      "allForms": "সব ফর্ম",
+      "allTypes": "সব ধরন",
+      "resultNone": "কোনো ওষুধ পাওয়া যায়নি",
+      "resultFound": "{count}টি ওষুধ পাওয়া গেছে",
+      "resultFoundPlural": "{count}টি ওষুধ পাওয়া গেছে"
+    },
+    "card": {
+      "brand": "ব্র্যান্ড"
+    },
+    "detailDrawer": {
+      "medicineIdentity": "ওষুধের পরিচিতি",
+      "genericName": "জেনেরিক নাম",
+      "strength": "শক্তি",
+      "dosageForm": "ডোজ ফর্ম",
+      "commonUses": "সাধারণ ব্যবহার",
+      "defaultDisclaimer": "এই তথ্য শুধুমাত্র সাধারণ সচেতনতার জন্য এবং এটি পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়। কোনো ওষুধ খাওয়ার আগে অবশ্যই আপনার ডাক্তারের পরামর্শ নিন।",
+      "availableBrands": "উপলব্ধ ব্র্যান্ড ({count})",
+      "addToMyMedications": "আমার ওষুধ তালিকায় যোগ করুন",
+      "close": "বন্ধ করুন"
+    },
+    "uploadDemo": {
+      "title": "প্রেসক্রিপশন আপলোড ডেমো",
+      "subtitle": "ওষুধ খোঁজার সহায়তার জন্য প্রেসক্রিপশনের ছবি বা PDF আপলোড করে পড়ারযোগ্য লেখা বের করুন।",
+      "chooseFile": "প্রেসক্রিপশন ফাইল নির্বাচন করুন",
+      "fileHint": "PNG, JPG, WEBP বা PDF (সর্বোচ্চ 15MB)",
+      "noFileSelected": "কোনো ফাইল নির্বাচন করা হয়নি",
+      "extractText": "লেখা বের করুন",
+      "processing": "প্রসেস হচ্ছে",
+      "pdfPreview": "PDF প্রিভিউ",
+      "readingText": "প্রেসক্রিপশনের লেখা পড়া হচ্ছে...",
+      "previewPlaceholder": "আপলোডের পর এখানে প্রিভিউ দেখা যাবে",
+      "extractedText": "বের করা লেখা",
+      "confidence": "{count}% নির্ভরযোগ্যতা",
+      "uploadToView": "বের করা লেখা দেখতে প্রেসক্রিপশনের ছবি আপলোড ও প্রসেস করুন।",
+      "reviewTitle": "ওষুধ পর্যালোচনা (মানব অনুমোদন)",
+      "approved": "অনুমোদিত",
+      "noStructured": "এখনও কোনো স্ট্রাকচারড ওষুধ শনাক্ত হয়নি। এক্সট্র্যাকশনের পর আপনি হাতে নতুন সারি যোগ করতে পারবেন।",
+      "addRow": "ওষুধের সারি যোগ করুন",
+      "approveList": "স্ট্রাকচারড তালিকা অনুমোদন করুন",
+      "deleteRow": "ওষুধের সারি {count} মুছুন",
+      "medicineName": "ওষুধের নাম",
+      "dosagePlaceholder": "ডোজ (যেমন 10 mg)",
+      "frequencyPlaceholder": "ফ্রিকোয়েন্সি (যেমন 1+0+1)",
+      "quantityPlaceholder": "পরিমাণ/সময়সীমা",
+      "invalidFile": "দয়া করে JPG, PNG, WEBP ছবি বা PDF ফাইল আপলোড করুন।",
+      "extractionFailed": "এক্সট্র্যাকশন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
+      "unknownMedicine": "অজানা ওষুধ",
+      "dosageLabel": "ডোজ: {value}",
+      "frequencyLabel": "ফ্রিকোয়েন্সি: {value}",
+      "quantityLabel": "পরিমাণ: {value}",
+      "noReadable": "পড়ারযোগ্য কোনো লেখা পাওয়া যায়নি।"
+    },
+    "addDialog": {
+      "addMedication": "ওষুধ যোগ করুন",
+      "editMedication": "ওষুধ সম্পাদনা করুন",
+      "updateMedication": "ওষুধ আপডেট করুন",
+      "step1Description": "একটি ওষুধ খুঁজে নির্বাচন করুন",
+      "step2Description": "ডোজ এবং দিনের বিভিন্ন সময়ের সূচি দিন",
+      "step3Description": "ঐচ্ছিক তথ্য যোগ করুন",
+      "searchMedicine": "ওষুধ খুঁজুন",
+      "searchPlaceholder": "ওষুধের নাম বা ব্র্যান্ড লিখুন...",
+      "change": "পরিবর্তন",
+      "searchingMedicines": "ওষুধ খোঁজা হচ্ছে...",
+      "resultsFound": "{count}টি ফলাফল পাওয়া গেছে",
+      "noMedicinesFor": "\"{query}\" এর জন্য কোনো ওষুধ পাওয়া যায়নি",
+      "dosage": "ডোজ",
+      "dosagePlaceholder": "যেমন: ১ ট্যাবলেট",
+      "duration": "সময়কাল",
+      "durationPlaceholder": "যেমন: ৭ দিন",
+      "mealInstruction": "খাবারের নির্দেশনা",
+      "status": "অবস্থা",
+      "currentlyTaking": "বর্তমানে গ্রহণ করছি",
+      "pastMedication": "পূর্বের ওষুধ",
+      "dosageSchedule": "ডোজ সূচি",
+      "storedFrequency": "সংরক্ষিত ফ্রিকোয়েন্সি ফরম্যাট",
+      "requiredFields": "আবশ্যক ক্ষেত্র",
+      "startedDate": "শুরুর তারিখ",
+      "stoppedDate": "বন্ধের তারিখ",
+      "prescribingDoctor": "প্রেসক্রাইব করা ডাক্তার",
+      "prescribingDoctorPlaceholder": "ডাক্তারের নাম",
+      "notes": "নোট",
+      "notesPlaceholder": "অতিরিক্ত নোট বা নির্দেশনা...",
+      "next": "পরবর্তী",
+      "validationRequired": "দয়া করে ওষুধ, ডোজ এবং অন্তত একটি ডোজ সময় পূরণ করুন",
+      "timeOfDay": {
+        "morning": "সকাল",
+        "afternoon": "দুপুর",
+        "evening": "সন্ধ্যা",
+        "night": "রাত"
+      },
+      "mealInstructions": {
+        "after_meal": "খাবারের পরে",
+        "before_meal": "খাবারের আগে",
+        "with_meal": "খাবারের সাথে",
+        "empty_stomach": "খালি পেটে",
+        "any_time": "যেকোনো সময়"
+      }
+    }
+  }
+}

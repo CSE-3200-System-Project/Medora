@@ -86,6 +86,7 @@ async def notify_appointment_cancelled(
     other_party_id: str,
     appt_date_str: str,
     cancelled_by_role: str,
+    cancellation_reason: Optional[str] = None,
 ) -> None:
     """Notify the other party about a cancellation."""
     if cancelled_by_role == "doctor":
@@ -94,6 +95,9 @@ async def notify_appointment_cancelled(
     else:
         message = f"{other_party_name} has cancelled the appointment on {appt_date_str}"
         action_url = "/doctor/appointments"
+
+    if cancellation_reason:
+        message = f"{message}. Reason: {cancellation_reason}"
 
     await create_notification(
         db=db,

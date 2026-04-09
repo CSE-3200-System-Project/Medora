@@ -5,7 +5,14 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { getPatientCalendarAppointments, syncAppointmentStatus } from "@/lib/appointment-actions";
+import {
+  cancelAppointment,
+  deletePendingAppointmentRequest,
+  getCancellationReasons,
+  getPatientCalendarAppointments,
+  syncAppointmentStatus,
+  type CancellationReasonOption,
+} from "@/lib/appointment-actions";
 import { AppointmentCalendar } from "@/components/appointments/AppointmentCalendar";
 import { AppointmentHeatmap } from "@/components/appointments/AppointmentHeatmap";
 import { MonthlyAppointmentTrend } from "@/components/appointments/MonthlyAppointmentTrend";
@@ -13,12 +20,21 @@ import { PatientAppointmentSummary } from "@/components/appointments/PatientAppo
 import { SpecialtyDistributionChart } from "@/components/appointments/SpecialtyDistributionChart";
 import { UpcomingAppointmentsList } from "@/components/appointments/UpcomingAppointmentsList";
 import { RescheduleAppointmentDialog } from "@/components/appointment/reschedule-appointment-dialog";
+import { CancelAppointmentDialog } from "@/components/appointment/cancel-appointment-dialog";
+import { RescheduleResponseDialog } from "@/components/appointment/reschedule-response-dialog";
 import type { PatientAppointment, PatientSummary } from "@/components/appointments/types";
 import { Button } from "@/components/ui/button";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { cn, localDateKey } from "@/lib/utils";
-import { requestReschedule } from "@/lib/availability-actions";
+import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
+import { useAppI18n, useT } from "@/i18n/client";
 
-const MONTH_LABELS = ["May", "Jun", "Jul", "Aug", "Sep", "Oct"];
+const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
+const UPCOMING_EXCLUDED_STATUSES = new Set([
+  ...CANCELLED_STATUSES,
+  "COMPLETED",
+  "NO_SHOW",
+]);
 
 type RangeKey = "month" | "quarter" | "year";
 
@@ -30,17 +46,42 @@ interface ProfileResponse {
   id?: string;
 }
 
+interface RescheduleHistoryItem {
+  id?: string;
+  requested_by_role?: string;
+  proposed_date?: string;
+  proposed_time?: string;
+  status?: string;
+}
+
+interface RescheduleHistoryPayload {
+  reschedule_requests?: RescheduleHistoryItem[];
+}
+
+interface RescheduleResponseState {
+  appointment: PatientAppointment;
+  request: {
+    id: string;
+    proposed_date: string;
+    proposed_time: string;
+  } | null;
+}
+
 function toPatientId(raw?: string) {
   if (!raw) return "MED-0000";
   const compact = raw.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
   return `MED-${compact.slice(0, 4).padEnd(4, "0")}`;
 }
 
-function formatSummaryDate(date?: string) {
-  if (!date) return "Not available";
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
+
+function formatSummaryDate(date: string | undefined, locale: string, notAvailableLabel: string) {
+  if (!date) return notAvailableLabel;
   const value = new Date(date);
-  if (Number.isNaN(value.getTime())) return "Not available";
-  return value.toLocaleDateString("en-US", {
+  if (Number.isNaN(value.getTime())) return notAvailableLabel;
+  return value.toLocaleDateString(toIntlLocale(locale), {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -49,35 +90,66 @@ function formatSummaryDate(date?: string) {
 
 function isUpcoming(appointment: PatientAppointment) {
   const status = appointment.status.toUpperCase();
-  if (status === "CANCELLED" || status === "COMPLETED" || status === "NO_SHOW") return false;
+  const holdExpiredCancellation =
+    (status === "CANCELLED" || status === "CANCELLED_BY_PATIENT" || status === "CANCELLED_BY_DOCTOR") &&
+    (appointment.cancellation_reason_key || "").toUpperCase() === "HOLD_EXPIRED";
+
+  if (holdExpiredCancellation) {
+    const appointmentTs = new Date(appointment.appointment_date).getTime();
+    const recentWindowMs = 24 * 60 * 60 * 1000;
+    return appointmentTs >= Date.now() - recentWindowMs;
+  }
+
+  if (UPCOMING_EXCLUDED_STATUSES.has(status)) return false;
   return new Date(appointment.appointment_date).getTime() >= Date.now();
 }
 
-function normalizeAppointments(raw: any[]): PatientAppointment[] {
-  return raw
-    .filter((item) => item?.id && item?.appointment_date)
-    .map((item) => ({
-      id: String(item.id),
-      title: item.title || null,
-      reason: item.reason || null,
-      doctor_id: item.doctor_id || null,
-      doctor_name: item.doctor_name || null,
-      doctor_title: item.doctor_title || null,
-      doctor_specialization: item.doctor_specialization || null,
-      doctor_photo_url: item.doctor_photo_url || null,
-      hospital_name: item.hospital_name || null,
-      appointment_date: item.appointment_date,
-      slot_time: item.slot_time || null,
-      status: item.status || "PENDING",
-    }));
+function asOptionalString(value: unknown) {
+  return typeof value === "string" ? value : null;
 }
 
-function buildMonthlyStats(appointments: PatientAppointment[]) {
+function normalizeAppointments(raw: unknown[]): PatientAppointment[] {
+  return raw
+    .map((item): PatientAppointment | null => {
+      if (!item || typeof item !== "object") return null;
+      const row = item as Record<string, unknown>;
+      const id = asOptionalString(row.id);
+      const appointmentDate = asOptionalString(row.appointment_date);
+      if (!id || !appointmentDate) return null;
+
+      return {
+        id,
+        title: asOptionalString(row.title),
+        reason: asOptionalString(row.reason),
+        doctor_id: asOptionalString(row.doctor_id),
+        doctor_name: asOptionalString(row.doctor_name),
+        doctor_title: asOptionalString(row.doctor_title),
+        doctor_specialization: asOptionalString(row.doctor_specialization),
+        doctor_photo_url: asOptionalString(row.doctor_photo_url),
+        hospital_name: asOptionalString(row.hospital_name),
+        appointment_date: appointmentDate,
+        slot_time: asOptionalString(row.slot_time),
+        status: asOptionalString(row.status) || "PENDING",
+        hold_expires_at: asOptionalString(row.hold_expires_at),
+        cancellation_reason_key: asOptionalString(row.cancellation_reason_key),
+        cancellation_reason_note: asOptionalString(row.cancellation_reason_note),
+        reschedule_request_id: asOptionalString(row.reschedule_request_id),
+        reschedule_requested_by_role:
+          asOptionalString(row.reschedule_requested_by_role) ||
+          asOptionalString(row.requested_by),
+        proposed_date: asOptionalString(row.proposed_date),
+        proposed_time: asOptionalString(row.proposed_time),
+      };
+    })
+    .filter((item): item is PatientAppointment => item !== null);
+}
+
+function buildMonthlyStats(appointments: PatientAppointment[], monthLabels: string[]) {
   const now = new Date();
   const currentMonthIndex = now.getMonth();
   const currentYear = now.getFullYear();
 
-  const stats = MONTH_LABELS.map((label, index) => {
+  const stats = monthLabels.map((label, index) => {
     const monthIndex = 4 + index;
     const value = appointments.filter((appointment) => {
       const date = new Date(appointment.appointment_date);
@@ -127,11 +199,57 @@ function sortByDateAsc(items: PatientAppointment[]) {
   );
 }
 
+function normalizeRole(value?: string | null) {
+  return (value || "").trim().toLowerCase();
+}
+
+function normalizeRequestStatus(value?: string | null) {
+  return (value || "").trim().toLowerCase();
+}
+
+function coerceIsoDate(value?: string | null) {
+  if (!value) return "";
+  const trimmed = value.trim();
+  return trimmed.includes("T") ? trimmed.slice(0, 10) : trimmed;
+}
+
+function hasInlineRescheduleData(appointment: PatientAppointment) {
+  return Boolean(
+    appointment.reschedule_request_id &&
+      appointment.proposed_date &&
+      appointment.proposed_time,
+  );
+}
+
 export default function PatientAppointmentsPage() {
   const router = useRouter();
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+  const defaultPatientName = tCommon("patientAppointments.page.defaults.patientName");
+  const rescheduleSentMessage = tCommon("patientAppointments.page.feedback.rescheduleSent");
+  const waitingDoctorMessage = tCommon("patientAppointments.page.feedback.waitingDoctor");
+  const rescheduleRequestMissingMessage = tCommon("patientAppointments.page.feedback.rescheduleRequestMissing");
+  const rescheduleLoadFailedMessage = tCommon("patientAppointments.page.feedback.rescheduleLoadFailed");
+  const rescheduleAcceptedMessage = tCommon("patientAppointments.page.feedback.rescheduleAccepted");
+  const rescheduleRejectedMessage = tCommon("patientAppointments.page.feedback.rescheduleRejected");
+  const cancelSuccessMessage = tCommon("patientAppointments.page.feedback.cancelSuccess");
+  const pendingDeletedMessage = tCommon("patientAppointments.page.feedback.pendingDeleted");
+  const pendingDeleteFailedMessage = tCommon("patientAppointments.page.feedback.pendingDeleteFailed");
+  const monthLabels = React.useMemo(
+    () => [
+      tCommon("patientAppointments.monthlyTrend.months.may"),
+      tCommon("patientAppointments.monthlyTrend.months.jun"),
+      tCommon("patientAppointments.monthlyTrend.months.jul"),
+      tCommon("patientAppointments.monthlyTrend.months.aug"),
+      tCommon("patientAppointments.monthlyTrend.months.sep"),
+      tCommon("patientAppointments.monthlyTrend.months.oct"),
+    ],
+    [tCommon],
+  );
+
   const [appointments, setAppointments] = React.useState<PatientAppointment[]>([]);
   const [patient, setPatient] = React.useState<PatientSummary>({
-    fullName: "Patient",
+    fullName: defaultPatientName,
     patientId: "MED-0000",
     avatarUrl: null,
   });
@@ -139,20 +257,154 @@ export default function PatientAppointmentsPage() {
   const [range, setRange] = React.useState<RangeKey>("month");
   const [loading, setLoading] = React.useState(true);
   const [rescheduleTarget, setRescheduleTarget] = React.useState<PatientAppointment | null>(null);
+  const [rescheduleResponseTarget, setRescheduleResponseTarget] = React.useState<RescheduleResponseState | null>(null);
+  const [rescheduleResponseLoading, setRescheduleResponseLoading] = React.useState(false);
+  const [rescheduleResponseError, setRescheduleResponseError] = React.useState<string | null>(null);
+  const [cancelTarget, setCancelTarget] = React.useState<PatientAppointment | null>(null);
+  const [cancelReasonOptions, setCancelReasonOptions] = React.useState<CancellationReasonOption[]>([]);
+  const [cancelBufferMinutes, setCancelBufferMinutes] = React.useState<number>(60);
+  const [actionFeedback, setActionFeedback] = React.useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  const reloadAppointments = React.useCallback(async () => {
+    const response = await getPatientCalendarAppointments();
+    setAppointments(normalizeAppointments(response?.appointments || []));
+  }, []);
 
   const handleRescheduleConfirm = async (appointmentId: string, newDate: string, slotTime: string, notes?: string) => {
+    setActionFeedback(null);
     await requestReschedule({
       appointment_id: appointmentId,
       proposed_date: newDate,
       proposed_time: slotTime,
-      reason: notes || "Patient requested reschedule",
+      reason: notes || tCommon("patientAppointments.upcoming.reschedule"),
     });
-    // Reload appointments
+    await reloadAppointments();
+    setActionFeedback({ type: "success", message: rescheduleSentMessage });
+  };
+
+  const resolveRescheduleRequest = React.useCallback(async (appointment: PatientAppointment) => {
+    if (hasInlineRescheduleData(appointment)) {
+      const requesterRole = normalizeRole(appointment.reschedule_requested_by_role || "");
+      if (!requesterRole || requesterRole === "doctor") {
+        return {
+          id: String(appointment.reschedule_request_id),
+          proposed_date: coerceIsoDate(appointment.proposed_date),
+          proposed_time: String(appointment.proposed_time),
+        };
+      }
+      throw new Error(waitingDoctorMessage);
+    }
+
+    const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
+    const requests = Array.isArray(history?.reschedule_requests) ? history!.reschedule_requests! : [];
+
+    const pendingDoctorRequest = requests.find(
+      (request) =>
+        normalizeRequestStatus(request.status) === "pending" &&
+        normalizeRole(request.requested_by_role) === "doctor",
+    );
+
+    if (!pendingDoctorRequest?.id || !pendingDoctorRequest.proposed_date || !pendingDoctorRequest.proposed_time) {
+      const hasPendingRequest = requests.some((request) => normalizeRequestStatus(request.status) === "pending");
+      if (hasPendingRequest) {
+        throw new Error(waitingDoctorMessage);
+      }
+      throw new Error(rescheduleRequestMissingMessage);
+    }
+
+    return {
+      id: String(pendingDoctorRequest.id),
+      proposed_date: coerceIsoDate(pendingDoctorRequest.proposed_date),
+      proposed_time: String(pendingDoctorRequest.proposed_time),
+    };
+  }, [rescheduleRequestMissingMessage, waitingDoctorMessage]);
+
+  const handleRescheduleAction = async (appointment: PatientAppointment) => {
+    const status = appointment.status.toUpperCase();
+
+    if (status === "CONFIRMED") {
+      setRescheduleTarget(appointment);
+      return;
+    }
+
+    if (status !== "RESCHEDULE_REQUESTED") {
+      return;
+    }
+
+    setActionFeedback(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(true);
+    setRescheduleResponseTarget({ appointment, request: null });
+
     try {
-      const response = await getPatientCalendarAppointments();
-      setAppointments(normalizeAppointments(response?.appointments || []));
+      const resolved = await resolveRescheduleRequest(appointment);
+      setRescheduleResponseTarget({
+        appointment,
+        request: resolved,
+      });
     } catch (error) {
-      console.error("Failed to reload appointments:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : rescheduleLoadFailedMessage;
+      setRescheduleResponseError(message);
+      setRescheduleResponseTarget({ appointment, request: null });
+      setActionFeedback({
+        type: message === waitingDoctorMessage ? "success" : "error",
+        message,
+      });
+    } finally {
+      setRescheduleResponseLoading(false);
+    }
+  };
+
+  const handleRescheduleResponse = async (requestId: string, accept: boolean) => {
+    setActionFeedback(null);
+    await respondToReschedule(
+      requestId,
+      accept,
+      accept ? tCommon("patientAppointments.dialogs.rescheduleResponse.accept") : tCommon("patientAppointments.dialogs.rescheduleResponse.reject"),
+    );
+    await reloadAppointments();
+    setRescheduleResponseTarget(null);
+    setRescheduleResponseError(null);
+    setRescheduleResponseLoading(false);
+    setActionFeedback({
+      type: "success",
+      message: accept ? rescheduleAcceptedMessage : rescheduleRejectedMessage,
+    });
+  };
+
+  const handleCancelConfirm = async (
+    appointmentId: string,
+    reasonKey: string,
+    cancellationReason?: string,
+  ) => {
+    setActionFeedback(null);
+    await cancelAppointment(appointmentId, {
+      reasonKey,
+      reasonNote: cancellationReason,
+    });
+
+    await reloadAppointments();
+    setActionFeedback({ type: "success", message: cancelSuccessMessage });
+  };
+
+  const handleDeletePending = async (appointmentId: string) => {
+    try {
+      setActionFeedback(null);
+      await deletePendingAppointmentRequest(appointmentId);
+      await reloadAppointments();
+      setActionFeedback({ type: "success", message: pendingDeletedMessage });
+    } catch (error) {
+      console.error("Failed to delete pending appointment request:", error);
+      setActionFeedback({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : pendingDeleteFailedMessage,
+      });
     }
   };
 
@@ -161,17 +413,20 @@ export default function PatientAppointmentsPage() {
       try {
         await syncAppointmentStatus();
 
-        const [appointmentResponse, profileResponse] = await Promise.all([
+        const [appointmentResponse, profileResponse, cancellationCatalog] = await Promise.all([
           getPatientCalendarAppointments(),
           fetchWithAuth("/api/auth/me"),
+          getCancellationReasons("patient").catch(() => ({ bufferMinutes: 60, reasons: [] })),
         ]);
 
         const normalizedAppointments = normalizeAppointments(appointmentResponse?.appointments || []);
         setAppointments(normalizedAppointments);
+        setCancelReasonOptions(cancellationCatalog.reasons || []);
+        setCancelBufferMinutes(cancellationCatalog.bufferMinutes || 60);
 
         if (profileResponse?.ok) {
           const profileData = (await profileResponse.json()) as ProfileResponse;
-          const fullName = `${profileData.first_name || "Patient"} ${profileData.last_name || ""}`.trim();
+          const fullName = `${profileData.first_name || defaultPatientName} ${profileData.last_name || ""}`.trim();
 
           setPatient({
             fullName,
@@ -187,7 +442,7 @@ export default function PatientAppointmentsPage() {
     };
 
     load();
-  }, []);
+  }, [defaultPatientName]);
 
   const sortedAppointments = React.useMemo(() => sortByDateAsc(appointments), [appointments]);
 
@@ -208,8 +463,9 @@ export default function PatientAppointmentsPage() {
   const lastVisit = [...appointments]
     .filter((appointment) => new Date(appointment.appointment_date).getTime() < Date.now())
     .sort((a, b) => new Date(b.appointment_date).getTime() - new Date(a.appointment_date).getTime())[0];
+  const summaryNotAvailableLabel = tCommon("patientAppointments.summary.notAvailable");
 
-  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments), [appointments]);
+  const monthlyStats = React.useMemo(() => buildMonthlyStats(appointments, monthLabels), [appointments, monthLabels]);
   const specialtyStats = React.useMemo(() => buildSpecialtyStats(appointments), [appointments]);
 
   const monthDate = React.useMemo(() => {
@@ -226,9 +482,9 @@ export default function PatientAppointmentsPage() {
       <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)] space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>          
-            <h1 className="mt-1 text-3xl font-semibold text-foreground">My Appointments</h1>
+            <h1 className="mt-1 text-3xl font-semibold text-foreground">{tCommon("patientAppointments.page.title")}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Comprehensive overview of your clinic visits and appointment history.
+              {tCommon("patientAppointments.page.subtitle")}
             </p>
           </div>
 
@@ -243,24 +499,33 @@ export default function PatientAppointmentsPage() {
                   range === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                {key}
+                {tCommon(`patientAppointments.page.range.${key}`)}
               </button>
             ))}
           </div>
         </div>
 
-        {loading ? (
-          <div className="grid gap-4">
-            <div className="h-28 rounded-2xl border border-border bg-card" />
-            <div className="h-36 rounded-2xl border border-border bg-card" />
-            <div className="h-80 rounded-2xl border border-border bg-card" />
+        {actionFeedback ? (
+          <div
+            className={cn(
+              "rounded-lg border px-4 py-3 text-sm",
+              actionFeedback.type === "success"
+                ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900/40 dark:bg-emerald-950/20 dark:text-emerald-300"
+                : "border-destructive/30 bg-destructive/10 text-destructive",
+            )}
+          >
+            {actionFeedback.message}
           </div>
+        ) : null}
+
+        {loading ? (
+          <PageLoadingShell label={tCommon("patientAppointments.page.loading")} cardCount={4} loaderSize="md" />
         ) : (
           <>
             <PatientAppointmentSummary
               patient={patient}
-              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date)}
-              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date)}
+              nextAppointmentLabel={formatSummaryDate(nextAppointment?.appointment_date, locale, summaryNotAvailableLabel)}
+              lastVisitLabel={formatSummaryDate(lastVisit?.appointment_date, locale, summaryNotAvailableLabel)}
               onNewAppointment={() => router.push("/patient/find-doctor")}
             />
 
@@ -282,14 +547,24 @@ export default function PatientAppointmentsPage() {
                 appointments={filteredUpcomingAppointments}
                 selectedDate={selectedDate}
                 onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
-                onRequestReschedule={setRescheduleTarget}
+                onRequestReschedule={handleRescheduleAction}
+                onRespondReschedule={handleRescheduleAction}
+                onRequestCancel={setCancelTarget}
+                onDeletePending={(appointment) => handleDeletePending(appointment.id)}
+                onBookAgain={(appointment) => {
+                  if (appointment.doctor_id) {
+                    router.push(`/patient/doctor/${appointment.doctor_id}`);
+                    return;
+                  }
+                  router.push("/patient/find-doctor");
+                }}
               />
             </section>
 
             {!selectedDate && filteredUpcomingAppointments.length > 0 ? null : (
               <div className="flex justify-end">
                 <Button variant="outline" onClick={() => setSelectedDate(null)}>
-                  Show All Upcoming
+                  {tCommon("patientAppointments.page.showAllUpcoming")}
                 </Button>
               </div>
             )}
@@ -310,6 +585,50 @@ export default function PatientAppointmentsPage() {
         } : null}
         onConfirm={handleRescheduleConfirm}
         userRole="patient"
+      />
+
+      <RescheduleResponseDialog
+        open={!!rescheduleResponseTarget}
+        onOpenChange={(open) => {
+          if (!open) {
+            setRescheduleResponseTarget(null);
+            setRescheduleResponseLoading(false);
+            setRescheduleResponseError(null);
+          }
+        }}
+        appointment={
+          rescheduleResponseTarget
+            ? {
+                id: rescheduleResponseTarget.appointment.id,
+                doctor_name: rescheduleResponseTarget.appointment.doctor_name || null,
+                doctor_title: rescheduleResponseTarget.appointment.doctor_title || null,
+                appointment_date: rescheduleResponseTarget.appointment.appointment_date,
+                slot_time: rescheduleResponseTarget.appointment.slot_time || null,
+              }
+            : null
+        }
+        request={rescheduleResponseTarget?.request || null}
+        isResolving={rescheduleResponseLoading}
+        resolveError={rescheduleResponseError}
+        onAccept={(requestId) => handleRescheduleResponse(requestId, true)}
+        onReject={(requestId) => handleRescheduleResponse(requestId, false)}
+      />
+
+      <CancelAppointmentDialog
+        open={!!cancelTarget}
+        onOpenChange={(open) => !open && setCancelTarget(null)}
+        appointment={cancelTarget ? {
+          id: cancelTarget.id,
+          doctor_name: cancelTarget.doctor_name || undefined,
+          doctor_title: cancelTarget.doctor_title || undefined,
+          appointment_date: cancelTarget.appointment_date,
+          slot_time: cancelTarget.slot_time,
+          reason: cancelTarget.reason || undefined,
+        } : null}
+        onConfirm={handleCancelConfirm}
+        userRole="patient"
+        reasonOptions={cancelReasonOptions}
+        bufferMinutes={cancelBufferMinutes}
       />
     </AppBackground>
   );

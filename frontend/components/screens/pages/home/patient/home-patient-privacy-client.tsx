@@ -7,13 +7,15 @@ import {
   CheckCircle, XCircle, RefreshCw, History,
   Building, Stethoscope, Settings2,
   ChevronDown, ChevronUp, ToggleLeft, ToggleRight,
-  Loader2
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AppBackground } from "@/components/ui/app-background"
 import { Navbar } from "@/components/ui/navbar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader"
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog"
+import { PageLoadingShell } from "@/components/ui/page-loading-shell"
+import { CardSkeleton } from "@/components/ui/skeleton-loaders"
 import { Switch } from "@/components/ui/switch"
 import {
   getMyAccessHistory,
@@ -275,14 +277,11 @@ export default function PatientPrivacyPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="flex items-center justify-center h-screen">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-            <p className="text-muted-foreground">Loading privacy settings...</p>
-          </div>
-        </div>
+        <main className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
+          <PageLoadingShell label="Loading privacy settings..." cardCount={4} />
+        </main>
       </AppBackground>
     )
   }
@@ -423,9 +422,14 @@ export default function PatientPrivacyPage() {
 
             {loadingSharingList ? (
               <Card>
-                <CardContent className="py-8 text-center">
-                  <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary mb-3" />
-                  <p className="text-muted-foreground">Loading your doctors...</p>
+                <CardContent className="space-y-4 py-6">
+                  <div className="flex justify-center py-1">
+                    <MedoraLoader size="sm" label="Loading your doctors..." />
+                  </div>
+                  <div className="grid gap-3">
+                    <CardSkeleton />
+                    <CardSkeleton />
+                  </div>
                 </CardContent>
               </Card>
             ) : patientDoctors.length === 0 ? (
@@ -517,7 +521,7 @@ export default function PatientPrivacyPage() {
                                 }
                               >
                                 {sharingLoading[`${doc.doctor_id}_bulk`] ? (
-                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                  <ButtonLoader className="w-3 h-3" />
                                 ) : (
                                   <ToggleRight className="w-3 h-3" />
                                 )}
@@ -534,7 +538,7 @@ export default function PatientPrivacyPage() {
                                 }
                               >
                                 {sharingLoading[`${doc.doctor_id}_bulk`] ? (
-                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                  <ButtonLoader className="w-3 h-3" />
                                 ) : (
                                   <ToggleLeft className="w-3 h-3" />
                                 )}
@@ -566,7 +570,7 @@ export default function PatientPrivacyPage() {
                                     </div>
                                     <div className="shrink-0 flex items-center gap-2">
                                       {isToggling && (
-                                        <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+                                        <ButtonLoader className="w-3 h-3 text-muted-foreground" />
                                       )}
                                       <Switch
                                         checked={isOn}

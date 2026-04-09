@@ -1,22 +1,26 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SmoothScrollProvider } from "@/components/ui/smooth-scroll-provider";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ToastProvider } from "@/components/ui/toast-provider";
 import { PWARegistration } from "@/components/pwa-registration";
 import { MobileViewportFix } from "@/components/ui/mobile-viewport-fix";
+import { AppI18nProvider } from "@/components/providers/app-i18n-provider";
+import { loadNamespacedMessages } from "@/i18n/message-loader";
+import { resolveServerLocale } from "@/i18n/locale";
+import { CORE_I18N_NAMESPACES } from "@/i18n/config";
 
 const APP_NAME = "Medora";
 const APP_DESCRIPTION = "AI-assisted healthcare platform for Bangladesh";
 
 const sfProDisplay = localFont({
   src: [
-    { path: "./fonts/SFPRODISPLAYREGULAR.otf", weight: "400", style: "normal" },
-    { path: "./fonts/SFPRODISPLAYBOLD.otf", weight: "700", style: "normal" },
+    { path: "./fonts/SFPRODISPLAYREGULAR.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/SFPRODISPLAYBOLD.woff2", weight: "700", style: "normal" },
   ],
   variable: "--sf-pro-display",
   display: "swap",
+  preload: true,
 });
 
 export const viewport: Viewport = {
@@ -46,24 +50,35 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const localeResolution = await resolveServerLocale();
+  const initialMessages = await loadNamespacedMessages(localeResolution.locale, CORE_I18N_NAMESPACES);
+
   return (
-    <html lang="en" className={sfProDisplay.variable} suppressHydrationWarning>
-      <body className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
-        <MobileViewportFix />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <SmoothScrollProvider>
+    <html lang={localeResolution.locale} className={sfProDisplay.variable} suppressHydrationWarning>
+      <head>
+        <meta name="darkreader-lock" />
+      </head>
+      <body suppressHydrationWarning className="antialiased min-h-dvh w-full overflow-x-hidden safe-area-inset safe-area-bottom">
+        <AppI18nProvider
+          initialLocale={localeResolution.locale}
+          initialLocaleSource={localeResolution.source}
+          initialMessages={initialMessages}
+          initialNamespaces={CORE_I18N_NAMESPACES}
+        >
+          <MobileViewportFix />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="min-h-dvh min-h-app w-full keyboard-safe-bottom">
               {children}
             </div>
-          </SmoothScrollProvider>
-          <ToastProvider />
-        </ThemeProvider>
-        <PWARegistration />
+            <ToastProvider />
+          </ThemeProvider>
+          <PWARegistration />
+        </AppI18nProvider>
       </body>
     </html>
   );

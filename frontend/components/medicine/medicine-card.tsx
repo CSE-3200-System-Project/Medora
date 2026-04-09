@@ -15,6 +15,7 @@ import {
   CircleDot,
   Sparkles,
 } from "lucide-react";
+import { useT } from "@/i18n/client";
 
 // Types
 export interface MedicineResult {
@@ -138,6 +139,8 @@ function getMedicineTypeStyle(type?: string): string {
  * Displays a medicine search result with icon, name, and metadata.
  */
 export function MedicineCard({ medicine, onClick }: MedicineCardProps) {
+  const tCommon = useT("common");
+
   return (
     <Card 
       className="overflow-hidden hover:shadow-md transition-all duration-200 border-border/50 cursor-pointer hover:border-primary/30 active:scale-[0.99]"
@@ -173,7 +176,7 @@ export function MedicineCard({ medicine, onClick }: MedicineCardProps) {
               {medicine.is_brand && (
                 <Badge variant="secondary" className="shrink-0 text-xs">
                   <Sparkles className="h-3 w-3 mr-1" />
-                  Brand
+                  {tCommon("medicine.card.brand")}
                 </Badge>
               )}
             </div>

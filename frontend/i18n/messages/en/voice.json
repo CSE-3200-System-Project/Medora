@@ -1,0 +1,13 @@
+{
+  "detectedFromVoice": "Detected from voice",
+  "goodQuality": "Good quality",
+  "reviewNeeded": "Review needed",
+  "lowConfidence": "Low confidence",
+  "reviewMessage": "We may not have understood clearly. Please review the text before searching.",
+  "lowConfidenceMessage": "The transcription quality is low. Please retry or edit the text carefully.",
+  "transcriptionPlaceholder": "Transcribed text will appear here...",
+  "editableHint": "You can edit the text above before searching.",
+  "useThisText": "Use This Text",
+  "tryAgain": "Try Again",
+  "cancel": "Cancel"
+}

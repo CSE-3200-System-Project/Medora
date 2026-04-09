@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AppBackground } from "@/components/ui/app-background";
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
+import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 
 type ScheduleReviewDoctor = {
   profile_id: string;
@@ -61,7 +63,7 @@ export function AdminScheduleReviewClient() {
   };
 
   return (
-    <AppBackground className="min-h-screen px-4 py-6 animate-page-enter">
+    <AppBackground className="min-h-dvh min-h-app px-4 py-6 animate-page-enter">
       <div className="max-w-4xl mx-auto">
         <Card>
           <CardHeader>
@@ -72,11 +74,25 @@ export function AdminScheduleReviewClient() {
               <div className="flex flex-col sm:flex-row gap-2">
                 <Input placeholder="Admin password" value={password} onChange={(e) => setPassword(e.target.value)} className="h-11" />
                 <Button onClick={fetchList} disabled={!password || loading} className="w-full sm:w-auto min-h-11">
-                  {loading ? "Loading..." : "Fetch"}
+                  {loading ? (
+                    <>
+                      <ButtonLoader className="h-4 w-4 mr-2" />
+                      Loading...
+                    </>
+                  ) : "Fetch"}
                 </Button>
               </div>
 
               <div className="space-y-2">
+                {loading ? (
+                  <div className="space-y-3 rounded-lg border border-border p-4">
+                    <div className="flex items-center justify-center">
+                      <MedoraLoader size="sm" label="Loading doctors..." />
+                    </div>
+                    <CardSkeleton className="h-16" />
+                    <CardSkeleton className="h-16" />
+                  </div>
+                ) : null}
                 {doctors.map((d) => (
                   <div key={d.profile_id} className="p-3 border rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="min-w-0">
@@ -104,7 +120,12 @@ export function AdminScheduleReviewClient() {
                   />
                   <div className="mt-3 flex flex-col sm:flex-row gap-2">
                     <Button onClick={applyFix} disabled={saving} className="w-full sm:w-auto min-h-11">
-                      {saving ? "Applying..." : "Apply Fix"}
+                      {saving ? (
+                        <>
+                          <ButtonLoader className="h-4 w-4 mr-2" />
+                          Applying...
+                        </>
+                      ) : "Apply Fix"}
                     </Button>
                     <Button variant="ghost" onClick={() => setSelected(null)} className="w-full sm:w-auto min-h-11">
                       Close

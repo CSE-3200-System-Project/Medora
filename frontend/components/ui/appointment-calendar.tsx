@@ -5,9 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 import { cn, localDateKey } from "@/lib/utils";
+import { useAppI18n, useT } from "@/i18n/client";
+
+interface CalendarAppointment {
+  appointment_date?: string;
+  date?: string;
+  appointmentDate?: string;
+  appointment_date_local?: string;
+  date_local?: string;
+  status?: string;
+}
 
 interface AppointmentCalendarProps {
-  appointments: any[];
+  appointments: CalendarAppointment[];
   selectedDate: string | null;
   onDateSelect: (date: string | null) => void;
   title?: string;
@@ -18,14 +28,23 @@ export function AppointmentCalendar({
   appointments,
   selectedDate,
   onDateSelect,
-  title = "Calendar",
+  title,
   className
 }: AppointmentCalendarProps) {
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+  const resolvedTitle = title || tCommon("patientAppointments.calendar.title");
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
-
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+  const localeTag = locale === "bn" ? "bn-BD" : "en-US";
+  const monthLabel = new Intl.DateTimeFormat(localeTag, { month: "long" }).format(currentMonth);
+  const dayShortLabels = [
+    tCommon("patientAppointments.calendar.dayShort.sun"),
+    tCommon("patientAppointments.calendar.dayShort.mon"),
+    tCommon("patientAppointments.calendar.dayShort.tue"),
+    tCommon("patientAppointments.calendar.dayShort.wed"),
+    tCommon("patientAppointments.calendar.dayShort.thu"),
+    tCommon("patientAppointments.calendar.dayShort.fri"),
+    tCommon("patientAppointments.calendar.dayShort.sat"),
   ];
 
   const getDaysInMonth = (date: Date) => {
@@ -56,7 +75,8 @@ export function AppointmentCalendar({
 
   const getAppointmentsForDate = (day: number) => {
     const dateStr = getDateString(day);
-    return appointments.filter(a => {
+    return appointments.filter((appointment) => {
+      const a = appointment;
       const apptDate = localDateKey(a.appointment_date || a.date || a.appointmentDate || a.appointment_date_local || a.date_local);
       return apptDate === dateStr;
     });
@@ -87,6 +107,8 @@ export function AppointmentCalendar({
       case 'COMPLETED':
         return 'bg-green-500';
       case 'CANCELLED':
+      case 'CANCELLED_BY_PATIENT':
+      case 'CANCELLED_BY_DOCTOR':
         return 'bg-red-500';
       case 'PENDING_ADMIN_REVIEW':
         return 'bg-orange-500';
@@ -187,7 +209,7 @@ export function AppointmentCalendar({
         <div className="flex items-center justify-between flex-wrap gap-3">
           <CardTitle className="text-lg flex items-center gap-2 text-foreground whitespace-nowrap">
             <CalendarIcon className="w-5 h-5 text-primary" />
-            {title}
+            {resolvedTitle}
           </CardTitle>
           <div className="flex items-center gap-2 whitespace-nowrap min-w-0">
             <Button
@@ -195,17 +217,19 @@ export function AppointmentCalendar({
               size="icon"
               onClick={handlePrevMonth}
               className="h-8 w-8 hover:bg-accent"
+              aria-label={tCommon("patientAppointments.calendar.previousMonth")}
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <span className="text-sm font-semibold min-w-0 text-center truncate">
-              {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+              {monthLabel} {currentMonth.getFullYear()}
             </span>
             <Button
               variant="ghost"
               size="icon"
               onClick={handleNextMonth}
               className="h-8 w-8 hover:bg-accent"
+              aria-label={tCommon("patientAppointments.calendar.nextMonth")}
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
@@ -215,7 +239,7 @@ export function AppointmentCalendar({
         {selectedDate && (
           <div className="mt-2 flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              Showing appointments for selected date
+              {tCommon("patientAppointments.calendar.showingSelected")}
             </p>
             <Button
               variant="ghost"
@@ -223,7 +247,7 @@ export function AppointmentCalendar({
               onClick={() => onDateSelect(null)}
               className="text-xs h-7"
             >
-              Show All
+              {tCommon("patientAppointments.calendar.showAll")}
             </Button>
           </div>
         )}
@@ -232,7 +256,7 @@ export function AppointmentCalendar({
       <CardContent className="p-4">
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => (
+          {dayShortLabels.map((day, idx) => (
               <div
                 key={idx}
                 className="text-center text-xs font-semibold text-foreground py-2"
@@ -251,19 +275,19 @@ export function AppointmentCalendar({
         <div className="mt-4 pt-4 border-t border-border/70 flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
-            <span className="text-muted-foreground leading-none">Confirmed</span>
+            <span className="text-muted-foreground leading-none">{tCommon("patientAppointments.calendar.legend.confirmed")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-            <span className="text-muted-foreground leading-none">Pending</span>
+            <span className="text-muted-foreground leading-none">{tCommon("patientAppointments.calendar.legend.pending")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-            <span className="text-muted-foreground leading-none">Completed</span>
+            <span className="text-muted-foreground leading-none">{tCommon("patientAppointments.calendar.legend.completed")}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded border-2 border-primary shrink-0" />
-            <span className="text-muted-foreground leading-none">Today</span>
+            <span className="text-muted-foreground leading-none">{tCommon("patientAppointments.calendar.legend.today")}</span>
           </div>
         </div>
       </CardContent>

@@ -12,12 +12,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { signupDoctor } from "@/lib/auth-actions";
 import { AppBackground } from "@/components/ui/app-background";
+import { useT } from "@/i18n/client";
 
 // Import images
 import doctorImg from "@/assets/images/doctors.jpg";
 import patientImg from "@/assets/images/patient.jpg";
 
 export default function DoctorRegister() {
+  const tAuth = useT("auth");
   const [submitted, setSubmitted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -26,16 +28,25 @@ export default function DoctorRegister() {
   const [loading, setLoading] = useState(false);
   
   const images = [
-    { src: doctorImg, alt: "Doctors Team", text: "Join Our Network of Specialists" },
-    { src: patientImg, alt: "Patient Care", text: "Provide Better Care to Patients" }
+    { src: doctorImg, alt: "Doctors Team", text: tAuth("doctorHeroA") },
+    { src: patientImg, alt: "Patient Care", text: tAuth("doctorHeroB") }
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [images.length]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,7 +61,7 @@ export default function DoctorRegister() {
     const confirmPassword = formData.get("confirmPassword") as string;
     
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(tAuth("passwordsDoNotMatch"));
       setLoading(false);
       return;
     }
@@ -62,7 +73,7 @@ export default function DoctorRegister() {
         setSubmitted(true);
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Registration failed. Please try again.";
+      const message = err instanceof Error ? err.message : tAuth("registrationFailed");
       setError(message);
     } finally {
       setLoading(false);
@@ -71,7 +82,7 @@ export default function DoctorRegister() {
 
   if (submitted) {
     return (
-      <AppBackground className="min-h-screen flex items-center justify-center p-4 animate-page-enter">
+      <AppBackground className="min-h-dvh min-h-app flex items-center justify-center p-4 sm:p-6 animate-page-enter">
         <Card className="max-w-md w-full">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-20 w-20 bg-green-100 rounded-full flex items-center justify-center">
@@ -79,24 +90,24 @@ export default function DoctorRegister() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <CardTitle className="text-2xl">Application Submitted</CardTitle>
+            <CardTitle className="text-2xl">{tAuth("registrationSubmitted")}</CardTitle>
             <CardDescription>
-              Thank you for registering. Your BM&DC number is under review.
+              {tAuth("verificationReview")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="bg-secondary/20 p-4 rounded-lg border border-secondary/50">
               <p className="text-sm text-secondary-foreground font-medium text-center">
-                Verification usually takes 24-48 hours.
+                {tAuth("verificationTimeline")}
               </p>
             </div>
             <p className="text-sm text-muted-foreground text-center">
-              Please verify your email to continue.
+              {tAuth("verifyEmailPrompt")}
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
             <Link href="/verify-email">
-              <Button>Verify Email</Button>
+              <Button>{tAuth("verifyEmailCta")}</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -105,15 +116,15 @@ export default function DoctorRegister() {
   }
 
   return (
-    <AppBackground className="min-h-screen flex items-center justify-center p-6 md:px-10 py-10 lg:p-16 animate-page-enter">
-      <Card className="w-full max-w-md lg:max-w-7xl mx-auto overflow-hidden p-0 gap-0 shadow-xl border-border">
-        <div className="flex flex-col lg:flex-row min-h-[600px]">
+    <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 animate-page-enter">
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border">
+        <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,48rem)]">
           {/* Left Side - Hero/Image */}
-          <div className="relative w-full lg:w-1/2 h-64 lg:h-auto bg-primary overflow-hidden shrink-0">
+          <div className="relative w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
             {images.map((img, index) => (
               <div 
                 key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                className={`absolute inset-0 transition-none xl:transition-opacity xl:duration-700 xl:ease-in-out ${
                   index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -121,6 +132,7 @@ export default function DoctorRegister() {
                   src={img.src}
                   alt={img.alt}
                   fill
+                  sizes="(max-width: 1279px) 100vw, 50vw"
                   className="object-cover"
                   priority={index === 0}
                 />
@@ -129,12 +141,12 @@ export default function DoctorRegister() {
 
             <div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
             
-            <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-6 md:p-12 text-center">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight transition-all duration-500">
+            <div className="relative z-10 h-full flex flex-col items-center justify-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
+              <h1 className="min-h-18 sm:min-h-21 text-2xl sm:text-3xl xl:text-4xl font-bold mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
                 {images[currentImageIndex].text}
               </h1>
-              <p className="text-sm sm:text-base text-white/90 mb-6 hidden sm:block">
-                Connect with millions of patients, manage your appointments efficiently, and grow your practice.
+              <p className="text-sm sm:text-base text-white/90 mb-6 hidden md:block">
+                {tAuth("doctorHeroDescription")}
               </p>
               
               <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-2">
@@ -145,7 +157,7 @@ export default function DoctorRegister() {
                     className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"
                     }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    aria-label={tAuth("slideGoTo", { count: index + 1 })}
                   />
                 ))}
               </div>
@@ -153,12 +165,12 @@ export default function DoctorRegister() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="w-full lg:w-1/2 bg-card p-6 lg:p-12">
-            <div className="space-y-6">
+          <div className="w-full xl:w-1/2 bg-card p-5 sm:p-6 md:p-8 xl:p-10">
+            <div className="space-y-5 sm:space-y-6">
               <div className="space-y-1 text-center lg:text-left">
-                <h2 className="text-2xl font-bold tracking-tight">Doctor Registration</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{tAuth("doctorRegisterTitle")}</h2>
                 <p className="text-muted-foreground">
-                  Enter your professional details to get verified.
+                  {tAuth("doctorRegisterSubtitle")}
                 </p>
               </div>
 
@@ -171,27 +183,27 @@ export default function DoctorRegister() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName">{tAuth("firstName")}</Label>
                     <Input name="firstName" id="firstName" placeholder="John" required className="w-full" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName">{tAuth("lastName")}</Label>
                     <Input name="lastName" id="lastName" placeholder="Doe" required className="w-full" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{tAuth("emailAddress")}</Label>
                   <Input name="email" id="email" type="email" placeholder="doctor@example.com" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone">{tAuth("phoneNumber")}</Label>
                   <Input name="phone" id="phone" type="tel" placeholder="+880 1XXX XXXXXX" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bmdc">BM&DC Registration Number</Label>
+                  <Label htmlFor="bmdc">{tAuth("bmdcRegistrationNumber")}</Label>
                   <div className="relative">
                     <Input name="bmdc" id="bmdc" className="w-full pl-16" placeholder="A-12345" required />
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -201,14 +213,14 @@ export default function DoctorRegister() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="document">Upload Document (BM&DC Certificate)</Label>
+                  <Label htmlFor="document">{tAuth("uploadBmdcDoc")}</Label>
                   <Input name="document" id="document" type="file" className="w-full cursor-pointer file:text-primary" />
-                  <p className="text-xs text-muted-foreground">Please upload a clear scan of your registration certificate.</p>
+                  <p className="text-xs text-muted-foreground">{tAuth("uploadBmdcDocHelp")}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{tAuth("password")}</Label>
                     <div className="relative">
                       <Input 
                         name="password"
@@ -229,7 +241,7 @@ export default function DoctorRegister() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword">{tAuth("confirmPassword")}</Label>
                     <div className="relative">
                       <Input 
                         name="confirmPassword"
@@ -254,12 +266,12 @@ export default function DoctorRegister() {
                 <div className="flex items-center space-x-2 pt-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms" className="text-sm font-normal text-foreground">
-                    I agree to the <Link href="#" className="font-medium text-primary hover:underline">Terms of Service</Link> and <Link href="#" className="font-medium text-primary hover:underline">Privacy Policy</Link>
+                    {tAuth("termsPrefix")} <Link href="#" className="font-medium text-primary hover:underline">{tAuth("termsOfService")}</Link> {tAuth("and")} <Link href="#" className="font-medium text-primary hover:underline">{tAuth("privacyPolicy")}</Link>
                   </Label>
                 </div>
 
                 <Button type="submit" className="w-full mt-4" disabled={loading}>
-                  {loading ? "Submitting..." : "Submit for Verification"}
+                  {loading ? tAuth("submitting") : tAuth("submitForVerification")}
                 </Button>
               </form>
 
@@ -267,9 +279,9 @@ export default function DoctorRegister() {
 
               <div className="flex flex-col space-y-2 text-center">
                 <div className="text-sm text-foreground">
-                  Already have an account?{' '}
+                  {tAuth("alreadyHaveAccount")}{" "}
                   <Link href="/login" className="font-medium text-primary hover:underline">
-                    Sign in
+                    {tAuth("signIn")}
                   </Link>
                 </div>
               </div>

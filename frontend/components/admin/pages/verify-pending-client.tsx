@@ -50,7 +50,7 @@ export function VerifyPendingClient() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-surface to-background flex items-center justify-center p-4">
+    <div className="min-h-dvh min-h-app bg-linear-to-br from-background via-surface to-background flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-card/50 border-border/50 backdrop-blur">
         <CardHeader className="text-center pb-6">
           <div className="flex justify-center mb-6">

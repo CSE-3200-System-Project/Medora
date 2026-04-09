@@ -3,6 +3,9 @@ import { buildDoctorAnalyticsData } from "@/components/doctor/analytics/build-an
 import { getDoctorAppointmentStats } from "@/lib/appointment-actions";
 import { getDoctorActions, getDoctorActionStats } from "@/lib/doctor-actions";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function DoctorAnalyticsPage() {
   let initialError: string | null = null;
   let initialData = null;

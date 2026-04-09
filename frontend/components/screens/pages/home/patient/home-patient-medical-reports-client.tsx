@@ -19,7 +19,8 @@ import {
   type MedicalReportListItem,
 } from "@/lib/medical-report-actions";
 import { uploadMedicalReport } from "@/lib/medical-report-upload";
-import { MedoraLoader } from "@/components/ui/medora-loader";
+import { ButtonLoader } from "@/components/ui/medora-loader";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   FileText,
   Upload,
@@ -27,7 +28,6 @@ import {
   AlertTriangle,
   Clock,
   ArrowRight,
-  Loader2,
   FlaskConical,
   MessageSquare,
   X,
@@ -148,11 +148,11 @@ export default function PatientMedicalReportsPage() {
 
   if (loading) {
     return (
-      <AppBackground>
+      <AppBackground className="container-padding">
         <Navbar />
-        <div className="pt-[var(--nav-content-offset)]">
-          <MedoraLoader />
-        </div>
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label="Loading reports..." cardCount={4} />
+        </main>
       </AppBackground>
     );
   }
@@ -273,9 +273,7 @@ export default function PatientMedicalReportsPage() {
                   disabled={!selectedFile || uploading}
                   className="gap-2"
                 >
-                  {uploading && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  )}
+                  {uploading && <ButtonLoader className="h-4 w-4" />}
                   {uploading ? "Processing..." : "Upload & Extract"}
                 </Button>
                 <Button

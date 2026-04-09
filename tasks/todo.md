@@ -1,3 +1,639 @@
+# Chorui Namespace Loading Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Identify why Chorui UI rendered i18n keys instead of translated strings
+- [x] Ensure route-specific namespaces auto-load in App i18n provider
+- [x] Preload chorui namespace in core server-loaded namespaces to avoid first-paint key fallback
+- [x] Run focused diagnostics and lint on i18n and Chorui files
+
+### Review
+- Root cause: `AppI18nProvider` never auto-called `ensureNamespaces(getNamespacesForPath(pathname))`, so route-only namespaces (like `chorui`) stayed unloaded and `useT("chorui")` returned fallback keys (e.g., `chorui.titlePatient`).
+- Added route namespace auto-loading effect in `frontend/components/providers/app-i18n-provider.tsx`.
+- Added `chorui` to `CORE_I18N_NAMESPACES` in `frontend/i18n/config.ts` so Chorui pages have translated strings on first render.
+- Validation: diagnostics clean for provider/config/layout; focused lint passed for provider/config/layout and Chorui hook/component files.
+
+# Chorui Hydration Timestamp Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce hydration mismatch source in Chorui chat timestamp render
+- [x] Remove non-deterministic SSR timestamp generation for initial welcome message
+- [x] Run focused diagnostics and lint for chat hook/component
+
+### Review
+- Root cause: `frontend/hooks/useChoruiChat.ts` initialized the first AI welcome message via `createMessage(...)`, which used `Date.now()`/`new Date()` during SSR and again during client hydration, producing different rendered minute text in `frontend/components/ai/ChoruiChat.tsx`.
+- Fix: added deterministic `createWelcomeMessage(...)` with stable ID and empty timestamp for the initial/reset fallback welcome message state; runtime user/AI messages still use real timestamps.
+- This removes server-client text drift at hydration while preserving message-time behavior for interactive chat events.
+- Validation: focused diagnostics reported no errors for `useChoruiChat.ts` and `ChoruiChat.tsx`; focused ESLint run completed without reported issues.
+
+# Medicine Add Dialog Translation Follow-up (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit add-medication dialog for remaining hardcoded text
+- [x] Localize all dialog step labels, placeholders, statuses, meal instructions, and action buttons
+- [x] Add EN/BN translation keys for medicine add-dialog flow in common messages
+- [x] Run focused diagnostics and lint checks for updated files
+
+### Review
+- Root cause: `frontend/components/medicine/add-medication-dialog.tsx` still had hardcoded English copy, so locale switching remained incomplete in the medicine flow.
+- Updated dialog to use `useT("common")` for all user-facing text across all 3 steps, including validation alert copy, search states, schedule labels, and CTA labels.
+- Added `medicine.addDialog` key groups to both `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` for full parity with existing medicine page translations.
+- Validation: focused diagnostics returned no errors for changed files; focused ESLint run on `components/medicine/add-medication-dialog.tsx` completed without reported issues.
+
+# Patient Find Medicine Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient find-medicine page and shared route components for hardcoded copy
+- [x] Add EN/BN medicine translation keys in common messages
+- [x] Localize patient page copy, search/filter panel, upload demo, and medicine detail drawer
+- [x] Align doctor find-medicine page with shared translated medicine keys
+- [x] Run focused lint and diagnostics on changed medicine files
+
+### Review
+- Root cause: patient find-medicine route still rendered hardcoded English text in page sections and shared components (`medicine-search`, `prescription-upload-demo`, `medicine-detail-drawer`, `medicine-card`).
+- Added a new `medicine` key group to `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page titles, warnings, search/filter text, upload-demo copy, drawer labels, and fallback error strings.
+- Updated patient and doctor route components to consume translation keys from `useT("common")` while preserving all existing behavior.
+- Updated upload extraction output builder to use localized labels for fallback medicine names and extracted field lines.
+- Validation: focused diagnostics reported no errors; focused lint passed for all changed medicine page/component files.
+
+# Patient Appointments Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient appointments page, charts, calendar, list, and dialogs for hardcoded strings
+- [x] Add EN/BN `patientAppointments` translation keys for page copy, statuses, charts, calendar, and dialogs
+- [x] Localize appointments page-level texts, range controls, loading states, and feedback messages
+- [x] Localize appointments child components (summary, heatmap, trend, specialty chart, calendar, upcoming list)
+- [x] Localize cancel, reschedule, and reschedule-response dialogs with locale-aware date/time formatting
+- [x] Run focused frontend lint and diagnostics on changed appointments files
+
+### Review
+- Root cause: the patient appointments flow still contained many hardcoded English strings across page UI, child components, and modal dialogs, so locale switching did not fully apply.
+- Added and wired `patientAppointments` keys in `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page labels, feedback copy, chart legends/tooltips, status labels, and all dialog content.
+- Updated `frontend/components/appointments/PatientAppointmentsPage.tsx` to use i18n for headings, range labels, loading text, action feedback copy, and summary fallbacks.
+- Updated appointments components (`PatientAppointmentSummary`, `AppointmentHeatmap`, `MonthlyAppointmentTrend`, `SpecialtyDistributionChart`, `AppointmentCalendar`, `UpcomingAppointmentsList`, `components/ui/appointment-calendar.tsx`) to use translated strings and locale-aware formatting.
+- Updated dialog components (`cancel-appointment-dialog.tsx`, `reschedule-appointment-dialog.tsx`, `reschedule-response-dialog.tsx`) to remove hardcoded text and respect active locale for visible date/time labels.
+- Validation: focused diagnostics for modified files reported no errors; focused lint passed for all touched appointments page/component/dialog files.
+
+# Patient Home Translation Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Audit patient home route and dashboard components for hardcoded strings
+- [x] Add EN/BN i18n keys for patient home content and patient/doctor navbar labels
+- [x] Update patient dashboard to resolve locale and render translated labels with safe fallbacks
+- [x] Pass translated copy into dashboard cards and localize date/time plus weekday labels
+- [x] Replace hardcoded patient and doctor navbar menu labels with nav i18n keys
+- [x] Run focused frontend lint and diagnostics on changed files
+
+### Review
+- Root cause: patient home dashboard and key navbar labels were hardcoded in English and were not wired to i18n message keys, so locale switching had no effect.
+- Added patient-home translations in common namespace (`frontend/i18n/messages/en/common.json`, `frontend/i18n/messages/bn/common.json`) and role-menu labels in nav namespace (`frontend/i18n/messages/en/nav.json`, `frontend/i18n/messages/bn/nav.json`).
+- Updated `frontend/components/dashboard/patient-home-dashboard.tsx` to load locale messages server-side and pass translated strings into dashboard cards.
+- Localized date and time formatting to active locale (`en-US` and `bn-BD`), translated known weekday and status labels, and preserved fallback values for missing data.
+- Updated `frontend/components/ui/navbar.tsx` to use i18n labels for doctor and patient menus across desktop and mobile navigation.
+- Validation: `npm run lint -- components/dashboard/patient-home-dashboard.tsx components/dashboard/health-score-card.tsx components/dashboard/medication-trend-chart.tsx components/dashboard/appointment-card.tsx components/dashboard/device-connection-card.tsx components/ui/navbar.tsx` passed; diagnostics reported no errors in changed files.
+
+# AI Navigation Phase 10 - Doctor Role Navigation Parity (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Verify doctor role context propagation from frontend Chorui page/hook to backend assistant route
+- [x] Expand doctor-only intent phrase mapping for analytics, patients, appointments, and schedule
+- [x] Add doctor implicit navigation suggestion mode for non-explicit prompts while keeping explicit prompts direct
+- [x] Keep role-safe routing constrained to doctor/shared registries (no patient fallback)
+- [x] Add focused regression tests for required doctor scenarios
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: doctor implicit prompts were either not normalized into doctor canonical intents (e.g., analytics) or were not converted into suggestion-mode navigation actions, so the UI often displayed explanation-only responses.
+- Confirmed role context is correctly propagated as `role_context: doctor` from `frontend/hooks/useChoruiChat.ts` and doctor page wiring (`ChoruiChat roleContext="doctor"`).
+- Added robust doctor phrase clusters in `backend/app/services/chorui_intent_normalizer.py` for:
+   - `doctor_analytics` (`show my analytics`, `analytics`, etc.)
+   - strengthened `doctor_patients`, `doctor_appointments`, and `doctor_schedule` phrase coverage.
+- Added doctor implicit suggestion logic in `backend/app/services/chorui_navigation_engine.py`:
+   - implicit prompts (`show my ...`, `my ...`) now return `action=suggest` with doctor route suggestions.
+   - explicit prompts (`open ...`, `take me to ...`, etc.) continue to return direct `action=navigate`.
+- Preserved patient behavior and existing architecture/memory systems by limiting new suggestion-mode rule to doctor intents only.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `27 passed`.
+
+# AI Navigation Phase 9 - Doctor Today Consultations Mapping Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce doctor-side phrase mismatch for "View today's consultations"
+- [x] Add doctor appointment phrase-cluster coverage for consultation wording
+- [x] Add normalization regression test for doctor consultation phrase to appointments intent
+- [x] Add engine regression test for `/doctor/appointments` route resolution
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: doctor utterance "View today's consultations" was not represented in doctor appointment phrase clusters, so intent resolution could drift to non-navigation conversational responses.
+- Added doctor appointment phrase variants in `backend/app/services/chorui_intent_normalizer.py` (including consultation phrasing with `today`).
+- Added regression tests in `backend/tests/test_chorui_intent_normalizer.py` and `backend/tests/test_chorui_navigation_engine.py` to guarantee canonical `doctor_appointments` mapping and route resolution to `/doctor/appointments`.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `21 passed`.
+
+# AI Navigation Phase 8 - Emergency Contact Profile Routing Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce patient phrase fallback for emergency-contact edit request
+- [x] Add patient profile phrase-cluster coverage for emergency-contact edit/update utterances
+- [x] Add regression test for truncated user phrase (`Edit my emergency contac`)
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: patient emergency-contact edit wording was not included in the normalizer phrase clusters, so canonical intent often remained `general`, leading to `action.type = "none"` in navigation flow.
+- Added emergency-contact/profile edit phrases to `backend/app/services/chorui_intent_normalizer.py` under `patient_profile` cluster.
+- Added regression coverage in `backend/tests/test_chorui_intent_normalizer.py` to assert `patient_profile` + `direct` mode for typo-truncated message input.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `19 passed`.
+
+# AI Navigation Phase 7 - Testing and Edge Cases (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Add backend tests for suggestion-mode action generation and recovery edge cases
+- [x] Expand normalization tests for suggestion-mode classification and ambiguity handling
+- [x] Run focused backend pytest for Chorui normalization/registry/engine suites
+- [x] Document validation outcomes and coverage gaps for frontend unit/integration/E2E scope
+
+### Review
+- Added suggestion-mode generation in `backend/app/services/chorui_navigation_engine.py` for broad patient medication intents so backend can return safe, non-forced route suggestions.
+- Expanded `backend/tests/test_chorui_navigation_engine.py` with coverage for medication suggestion mode and follow-up dynamic route resolution when patient ID is provided.
+- Expanded `backend/tests/test_chorui_intent_normalizer.py` with ambiguity-driven suggestion-mode behavior and pending follow-up without identifier handling.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `18 passed`.
+- Coverage gap noted: frontend currently has no unit-test framework/scripts configured in `frontend/package.json`, so frontend unit/integration/E2E assertions require separate test harness setup before adding automated UI action-policy tests.
+
+# AI Navigation Phase 6 - Frontend Navigation Execution (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend frontend AI response types with navigation action, suggestions, memory, and meta models
+- [x] Parse and expose navigation action metadata in `useChoruiChat` state
+- [x] Add role-safe route guard validation and confidence policy execution in `ChoruiChat`
+- [x] Add clarify/suggestion UI chips and medium-confidence confirmation handling
+- [x] Add transition-state UX and delay-based navigation execution with cancellation support
+- [x] Validate changed frontend files with diagnostics
+
+### Review
+- Extended frontend AI contract types in `frontend/types/ai.ts` for `action`, `suggested_routes`, `memory`, and `navigation_meta` while keeping reply/context fields backward-compatible.
+- Updated `frontend/hooks/useChoruiChat.ts` to parse and normalize navigation payloads from backend responses and expose them as hook state for UI execution.
+- Added defense-in-depth route guards in `frontend/components/ai/ChoruiChat.tsx` for role allowlist, route format checks, and dynamic parameter completeness before any navigation.
+- Implemented confidence-driven navigation policy in chat UI: high-confidence delayed auto-navigation, medium-confidence confirmation, and low-confidence clarify/suggestion guidance.
+- Added suggestion-chip actions, undo confirmation support, transition state messaging, and pending-navigation cancellation when users send a new instruction.
+- Validation status: frontend diagnostics are clean on changed TypeScript files; focused lint passed for `components/ai/ChoruiChat.tsx`, `hooks/useChoruiChat.ts`, and `types/ai.ts`.
+
+# AI Navigation Phase 5 - Navigation Engine Core Logic (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui navigation engine module to centralize action strategy resolution
+- [x] Move route/action decision logic out of route handler into reusable service function
+- [x] Keep registry-first canonical resolution while preserving raw-intent fallback behavior
+- [x] Include engine-level fallback metadata and in-memory intent state for pending/resolved flows
+- [x] Wire assistant response builder to use engine output for `action`, `memory`, and options
+- [x] Add focused navigation engine tests and execute runtime assertions for core scenarios
+
+### Review
+- Added `backend/app/services/chorui_navigation_engine.py` with `resolve_chorui_navigation_engine(...)` and structured result types for action, fallback, and memory state.
+- Refactored `backend/app/routes/ai_consultation.py` to delegate navigation decisions to the new engine while preserving existing response schema compatibility.
+- Engine now applies registry-first canonical resolution, dynamic param clarify handling, correction/admin blocking, and raw-intent fallback for backward safety.
+- Added focused tests in `backend/tests/test_chorui_navigation_engine.py` for canonical navigate, clarify missing id, correction none, raw fallback, and admin scope blocking.
+- Validation status: diagnostics clean on changed files; focused runtime assertions for engine scenarios passed.
+
+# AI Navigation Phase 4 - Route Registry Creation (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create centralized route registry module with explicit schema fields and governance notes
+- [x] Populate registry with patient/doctor/shared canonical intents and routes only
+- [x] Exclude admin routes by design and enforce role-scope filtering
+- [x] Add dynamic route resolution with parameter requirements for doctor patient flows
+- [x] Add unresolved-parameter fallback behavior (`/doctor/patients`) in route resolution
+- [x] Integrate assistant action builder with registry-first route resolution
+- [x] Add focused route registry tests and run runtime assertions for Phase 4 checks
+
+### Review
+- Added `backend/app/services/chorui_navigation_registry.py` with registry schema (`canonical_intent`, `role`, `route`, `requires_params`, `fallback_route`, `enabled`, `notes`) and governance metadata.
+- Registry now includes audited patient/doctor/shared routes and explicitly excludes admin scope.
+- Added `resolve_chorui_navigation_route(...)` that resolves templates, validates required params, and returns safe fallback metadata.
+- Updated `backend/app/routes/ai_consultation.py` to use registry-first canonical route resolution and emit clarify options with fallback route when params are missing.
+- Validation status: diagnostics are clean on changed files; focused runtime registry assertions passed.
+
+# AI Navigation Phase 3 - Intent Normalization Layer (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui intent normalization service with canonical taxonomy and deterministic output
+- [x] Add correction lexicon and follow-up/pending-memory signal handling to normalization logic
+- [x] Integrate normalizer into `/ai/assistant-chat` backend flow after existing classifier output
+- [x] Surface normalization metadata (`canonical_intent`, `confidence`, `ambiguity_candidates`, `missing_params`, `intent_mode`) in structured response data
+- [x] Update navigation action resolver to consume canonical intent before raw-intent fallbacks
+- [x] Add focused backend normalization tests and run runtime assertions for key scenarios
+
+### Review
+- Added `backend/app/services/chorui_intent_normalizer.py` to normalize natural-language phrases and classifier output into canonical intents.
+- The normalizer now merges classifier signal, phrase-cluster signal, role context, and pending-intent follow-up hints, while detecting correction intents.
+- Integrated normalization in `backend/app/routes/ai_consultation.py` so every assistant response includes intent normalization metadata inside `structured_data`.
+- Updated action resolution to prefer canonical intent mapping for patient/doctor routes, then fallback to existing Phase 2 raw mappings for backward safety.
+- Validation status: diagnostics are clean on changed files; focused runtime assertions for required phrase examples passed via Python snippet execution.
+
+# AI Navigation Phase 2 - Backend Action Contract (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend `ChoruiAssistantResponse` with optional navigation action contract fields
+- [x] Add backend action payload builder with patient/doctor scoped route mapping
+- [x] Exclude admin role from action generation (`action.type = "none"`)
+- [x] Keep fallback-safe behavior when route resolution fails (`action.type = "none"`)
+- [x] Validate touched backend files with diagnostics
+
+### Review
+- Added non-breaking response contract models in backend schema: `action`, `suggested_routes`, `memory`, and `navigation_meta`.
+- Added a Phase 2 action builder in the Chorui assistant flow that emits role-safe action metadata for high-confidence patient/doctor intents.
+- Added explicit admin exclusion at action generation level and updated role-context resolver to preserve `admin` context.
+- Preserved existing chat behavior: assistant replies and structured data flow remain unchanged when no navigation action is applicable.
+- Validation status: diagnostics report no errors in changed backend files.
+
+# Consultation Draft ID Architecture Migration (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add consultation draft entity model and relationship (`consultations.draft_id`)
+- [x] Add Alembic migration to move existing `draft_payload` data into `consultation_drafts`
+- [x] Refactor consultation draft routes and preview payload builder to use `draft_id`
+- [x] Add direct draft-by-id API support and keep consultation-based endpoints compatible
+- [x] Update frontend draft types/actions and consultation editor state to persist by `draft_id`
+- [x] Extend integration coverage for draft-id endpoints and preview flow
+- [x] Run focused backend diagnostics/tests for changed files
+
+### Review
+- Implemented normalized draft architecture with one-to-one `consultations.draft_id -> consultation_drafts.id` linkage and migration-backed payload transfer.
+- Added draft APIs for both consultation-id and draft-id paths, with canonical payload normalization and consistent error responses.
+- Updated frontend consultation workflow to hydrate/save by draft id, preserve unsaved edits, and avoid focus-based clobbering.
+- Validation status: changed-file diagnostics clean, backend compile clean, targeted frontend lint clean, focused integration test invocation skipped in local environment.
+
+# Consultation Draft Schema + Dataflow Production Incident (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Complete schema audit for consultation, draft, and prescription tables across models/migrations/routes/frontend contracts
+- [x] Harden draft migration chain (`c0nsult_draft_001` -> `c0nsult_draft_002`) for safe transition with existing payload data
+- [x] Enforce deterministic preview source resolution (no unsafe branch fallback mixing)
+- [x] Add compatibility normalization for legacy draft payload shapes and optional dates
+- [x] Replace silent exception handling in consultation draft/preview paths with structured logging + typed API errors
+- [x] Extend integration tests to cover save draft -> preview -> resume consultation round-trip
+- [x] Update migration/runbook docs to prevent schema drift (`alembic current/head` + upgrade path)
+- [x] Run focused diagnostics/tests on touched backend/frontend files and record blockers if environment prevents full run
+
+### Review
+- Root cause confirmed from runtime behavior and logs: API code expected `consultations.draft_id`, while live DB can remain behind at `c0nsult_draft_001` without migration execution.
+- Hardened `c0nsult_draft_002` to be safer across partially migrated environments, including legacy payload key/date normalization during transfer.
+- Full preview payload is now deterministic with explicit `data_source` (`draft` or `prescription`) and single-source shaping rules.
+- Draft read/save paths now normalize legacy payload shapes (`name` aliases and blank date fields) and return structured validation/DB error output.
+- Consultation UI now prevents unsaved local state loss when returning from preview or tab focus changes.
+- Validation status: diagnostics are clean on touched files; backend compile and targeted frontend lint are clean; focused backend integration test is skipped locally due environment dependencies.
+
+# Consultation = Saved = Preview Contract Unification (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Audit consultation form field set vs draft schema vs full preview response
+- [x] Remove preview key mismatches (`name` vs `medicine_name`/`test_name`/`procedure_name`)
+- [x] Add procedure `notes` and doctor `chamber_info` to full preview contract
+- [x] Persist doctor/patient identity snapshot into consultation draft payload
+- [x] Persist normalized medication preview fields (`dosage_pattern`, `frequency_text`, `duration`, `route`) in draft payload
+- [x] Ensure preview endpoint reads backend draft/persisted DB data only (no local/mock source)
+- [x] Align frontend preview types and rendering to canonical backend response keys
+- [x] Run focused diagnostics/lint/compile and integration test attempt
+
+### Review
+- Root mismatches were in response contract naming and missing procedure notes: consultation editor used `medicine_name`, `test_name`, `procedure_name`, while preview returned `name`, causing drift and brittle mapping.
+- Full preview API contract now uses canonical keys aligned with consultation input model: medications now expose `medicine_name`, tests expose `test_name`, and procedures expose `procedure_name` + `notes`.
+- Save draft now stores server-side doctor/patient identity snapshots plus normalized medication fields (dosage/frequency/duration/route), so saved consultation context is self-contained and stable.
+- Preview payload now prioritizes draft snapshot identity context when present, then falls back to current profile data, while remaining strictly backend-sourced.
+- Backend preview payload generation no longer injects placeholder identity or dosage text values (e.g., "Unknown ...", "As directed") as source data.
+- Frontend preview page and response typings were updated to consume the canonical keys directly.
+- Validation status:
+   - Changed-file diagnostics: clean.
+   - Focused frontend lint (`preview page`, `prescription-actions`): clean.
+   - Backend compile check: clean.
+   - Focused integration test executed but skipped due missing local Docker/Postgres daemon.
+
+# Consultation Draft 500 Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and confirm consultation draft payload validation failure path
+- [x] Harden backend draft save endpoint to return explicit 400 validation errors
+- [x] Normalize backend consultation schema date and text inputs for optional fields
+- [x] Normalize frontend outgoing draft and prescription payloads (trim text, drop blank dates)
+- [x] Improve frontend error parsing for structured backend validation responses
+- [x] Run focused diagnostics for changed backend/frontend files
+
+### Review
+- Root cause confirmed: blank-string optional date values from consultation editor payloads (e.g. expected_date/recommended_date/start_date/end_date) can fail request model parsing and bubble up as server-action failures.
+- Backend draft save route now parses JSON explicitly, validates with ConsultationDraftUpdate, and returns clear 400 errors for malformed or invalid payloads instead of opaque crash behavior.
+- Backend schemas now normalize blank optional date/text values and enforce trimmed required names for medication/test/procedure entries.
+- Frontend prescription action layer now sanitizes outgoing draft and add-prescription payloads so optional text/date fields are omitted when blank.
+- Frontend error parsing now extracts nested detail.message/detail.errors responses to show actionable validation feedback.
+- Validation status: diagnostics report no errors on changed files.
+
+# Manual Save Consultation Sync Flow (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Analyze consultation state, autosave, draft API, and preview data path
+- [x] Add manual Save Consultation as primary draft synchronization action
+- [x] Keep autosave as backup only (non-authoritative for preview gating)
+- [x] Block preview navigation when there are unsaved local changes
+- [x] Ensure consultation draft rehydration on load and on return focus from preview
+- [x] Enforce single-source full payload shaping in backend (no draft/persisted mixing)
+- [x] Run focused diagnostics/lint/compile validation
+
+### Review
+- Consultation page now tracks unsaved changes against the last manual save snapshot and requires explicit save before preview.
+- Save button behavior is upgraded from note-only semantics to full consultation draft synchronization (notes + medications + tests + procedures).
+- Preview flow now warns with "Please save before preview" and does not navigate while unsaved changes exist.
+- Autosave remains enabled only as backup persistence and no longer serves as preview authorization signal.
+- Backend full payload route now reads from one source at a time: `draft_payload` when present, otherwise persisted prescriptions, eliminating mixed-source responses.
+- Validation passed: file diagnostics clean, targeted frontend lint clean, backend route compile clean.
+- Focused integration test could execute collection but is skipped in this environment because Docker/Postgres is unavailable.
+
+# Consultation Preview Single Source Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Remove consultation page sessionStorage prefill fallback
+- [x] Resolve consultation from `consultation_id` query first, then fallback to active lookup
+- [x] Keep consultation hydration strictly backend draft + consultation endpoints
+- [x] Re-verify preview/full endpoint routing consistency
+- [x] Run focused frontend lint and diagnostics on changed files
+
+### Review
+- Removed legacy sessionStorage AI-prefill hydration from the consultation client to eliminate a second source of truth.
+- Updated consultation initial load to prefer `consultation_id` from query string and hydrate strictly via backend endpoints.
+- Preserved backend-draft autosave flow and preview backend fetch path (`/api/consultations/{id}/full`) as the single data source.
+- Validation: targeted frontend lint and file diagnostics passed on edited consultation and preview files.
+
+# Prescription Draft Persistence + Dosage/Preview Fix (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend consultation draft persistence (`draft_payload`) and migration
+- [x] Add backend draft APIs (save/load) and consultation-level full payload endpoint alias
+- [x] Update full prescription payload shaping to include draft-first data for doctor preview
+- [x] Add medication preview fields for optional `quantity` and `meal_instruction`
+- [x] Update consultation frontend to load draft on init and autosave all edits to backend
+- [x] Replace dosage schedule UI with Morning/Noon/Night (3 slots) and keep `dosage_pattern` generation (`1-0-1` style)
+- [x] Ensure consultation navigation flow persists data (Consultation → Preview → Back)
+- [x] Update preview route fetch path to `/api/consultations/{id}/full` and keep print/PDF flow intact
+- [x] Add/adjust focused integration tests for draft persistence and full payload correctness
+- [x] Run focused validation and capture review notes
+
+### Review
+- Added backend draft persistence on consultations via new `draft_payload` JSON column and migration `c0nsult_draft_001` (head now includes draft migration).
+- Added consultation draft APIs: `GET /consultation/{consultation_id}/draft` and `PATCH /consultation/{consultation_id}/draft` for draft load/autosave.
+- Added consultation-level full preview API alias `GET /consultation/{consultation_id}/full` and kept backward-compatible `GET /consultation/prescriptions/{consultation_id}/full`.
+- Updated full preview payload shaping to use draft-first data (consultation notes + medications/tests/procedures) when draft state exists.
+- Extended medication preview payload with optional `meal_instruction` and `quantity`, and updated preview rendering accordingly.
+- Updated consultation editor to backend-first flow: hydrate from backend draft on load, debounced autosave on every edit, manual save wired to draft API, preview/complete actions flush draft before navigation.
+- Replaced dosage editor schedule with 3 slots (Morning/Noon/Night), while preserving storage compatibility and generating `dosage_pattern` in `first-second-third` format.
+- Added frontend proxy route `/api/consultations/[consultation_id]/full` and switched preview page fetch to that route.
+- Added focused integration coverage in `tests/integration/backend/test_consultation_draft_preview.py` for draft save/read + full payload assertions.
+- Validation: editor diagnostics on changed files show no errors; focused frontend lint on modified files passed without warnings; Python compile checks passed on changed backend modules.
+- Test environment blockers: new focused backend integration test could not run due missing `factory` module in the current backend environment; `test_api_contracts.py` baseline check fails in this environment because `tests/benchmarks/baselines/schema_contract_snapshot.json` is missing.
+
+# Prescription Preview, Print, and Download System (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend full preview response schemas and endpoint payload shaping
+- [x] Add dual dosage fields support (`dosage_type`, `dosage_pattern`, `frequency_text`) with migration-safe model updates
+- [x] Implement `GET /consultation/prescriptions/{consultation_id}/full` with doctor/patient/consultation/medications/tests/procedures blocks
+- [x] Add frontend proxy endpoint at `/api/prescriptions/[consultation_id]/full`
+- [x] Build dedicated A4 prescription preview route `/prescription/preview/[consultation_id]`
+- [x] Implement print and PDF download actions scoped to prescription paper container
+- [x] Add "Preview Prescription" navigation from doctor consultation page
+- [x] Run focused validation (diagnostics/lint) and resolve feature-related issues
+
+### Review
+- Added new backend full-preview response models and endpoint `GET /consultation/prescriptions/{consultation_id}/full` that aggregates doctor, patient, consultation, medications, tests, and procedures.
+- Added dual dosage persistence support on medication records (`dosage_type`, `dosage_pattern`, `frequency_text`) and migration `pr3v13w_001` chained from current head.
+- Updated prescription creation and standard prescription responses so dosage mode fields are persisted and returned without breaking legacy schedule booleans.
+- Added frontend API proxy route `/api/prescriptions/[consultation_id]/full` that forwards authenticated requests using session token.
+- Built dedicated prescription preview page at `/prescription/preview/[consultation_id]` with paper-style A4 layout, print action (`window.print`), and PDF export using `html2pdf.js` scoped to the paper container.
+- Integrated consultation page with a new "Preview Prescription" button and dosage-mode aware medication validation/normalization.
+- Validation completed: backend Python compile checks passed, `get_errors` reported no diagnostics on changed files, Alembic heads confirms `pr3v13w_001` as current head.
+- Focused frontend lint run now passes with no errors across edited files; one existing warning remains for a missing hook dependency (`react-hooks/exhaustive-deps`) in the consultation client file.
+
+# README Overhaul (2026-04-04)
+
+## Status: completed
+
+### Todo
+- [x] Audit current README structure against required 18-section format
+- [x] Rewrite README with strict 18-section structure and verified repository facts
+- [x] Re-validate all claims against codebase (architecture, workflows, stack, structure)
+- [x] Finalize README polishing for investor/recruiter/contributor audience
+
+### Review
+- Rewrote `README.md` end-to-end using a strict 18-section layout covering architecture, workflows, stack, setup, API overview, design decisions, roadmap, contribution model, and license.
+- Removed generic and potentially misleading positioning by grounding claims in repository-verified implementation details (service boundaries, route modules, migrations, model classes, and workflow behavior).
+- Added mandatory placeholder sections for system diagrams, screenshots, and demo walkthrough to support presentation and documentation expansion.
+- Completed a second expansion pass to restore deep implementation detail (architecture internals, grouped feature depth, workflow narratives, endpoint breadth, deployment/operations context) while preserving the strict 18-section structure.
+
+# Frontend Mobile Performance Optimization Pass (2026-04-03)
+
+## Status: completed
+
+### Todo
+- [x] Measure baseline frontend performance with production build, Lighthouse mobile/desktop, and bundle budget checks
+- [x] Reduce above-the-fold rendering cost on `/`, `/login`, and `/selection` using mobile-first hero/media changes
+- [x] Lower global rendering overhead in shared layout/background layers and defer below-the-fold home sections
+- [x] Re-run build plus Lighthouse mobile/desktop and verify no new CLS regressions
+
+### Review
+- Home (`/`) and auth routes were still bottlenecked by above-the-fold LCP candidates and render delay, so the pass focused on mobile-first rendering simplification instead of broad refactors.
+- Updated landing hero behavior so desktop media rendering is viewport-gated and mobile hero copy is compact; home below-the-fold sections now use deferred rendering (`defer-content`) and global smooth-scroll wrapper overhead was removed.
+- Updated login flow to resolve `verified` server-side, remove suspense/search-param client indirection, keep desktop hero split stable, and simplify logo rendering behavior for mobile/desktop stability.
+- Updated selection cards to avoid eager mobile image work and use lightweight gradient-backed mobile presentation while preserving richer desktop media treatment.
+- Global background CSS was simplified for layout stability and lower mobile paint overhead; CLS regression from ambient pseudo layers was removed.
+- Validation results (latest run): mobile Lighthouse now reaches `80` on `/selection`, while `/` remains `75-77` and `/login` remains `78-79` (still below the configured `>=80` assertion). Desktop Lighthouse assertions pass after the CLS fix.
+- Bundle budget remains above repository baseline (`totalClientJsBytes` and `largestClientChunkBytes` regressions still failing), indicating additional cross-route JS reduction is still required beyond this targeted pass.
+
+# Appointment Response Validation + Doctor Chart Container Fix (2026-04-03)
+
+## Status: completed
+
+### Todo
+- [x] Identify and fix `/appointment/my-appointments` backend 500 caused by `slot_time` response validation mismatch
+- [x] Ensure `slot_time` stays schema-compatible (`time`) while preserving legacy note-based fallback parsing
+- [x] Remove doctor appointments Recharts `width(-1)/height(-1)` warnings by stabilizing chart mount dimensions
+- [x] Validate touched backend/frontend files with diagnostics and focused lint/compile checks
+
+### Review
+- Root cause of `/doctor/appointments` failure was `get_my_appointments` returning AM/PM strings (e.g. `11:30 AM`) for `slot_time` while `AppointmentResponse.slot_time` expects a proper `time` value.
+- Updated `backend/app/routes/appointment.py` to return `slot_time` as a canonical time object and parse legacy `Slot:` notes into `time` safely (invalid note values now fail closed to `None` instead of crashing response serialization).
+- Updated doctor appointments charts (`AppointmentDensityChart`, `DailyWorkloadChart`) to use measured `SafeChartContainer` rendering, eliminating Recharts negative-dimension mount warnings.
+- Updated patient upcoming appointment time-label rendering to use shared appointment-time formatting so both `HH:MM:SS` and `h:mm AM/PM` slot payloads display consistently.
+- Validation: no diagnostics errors in modified files, focused frontend ESLint passed for touched chart files, backend compile check passed for updated route module.
+
+# Appointment Timezone Consistency Fix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Trace and normalize appointment create payload/time extraction to remove client-timezone drift
+- [x] Canonicalize backend appointment datetime construction from selected slot for booking and reschedule acceptance
+- [x] Update doctor appointment UI to display canonical slot time (`slot_time`) with safe fallback
+- [x] Validate touched backend/frontend files with diagnostics and focused lint checks
+
+### Review
+- Frontend booking flows now create `appointment_date` via a timezone-agnostic date+slot conversion helper (`toUtcIsoFromDateAndSlot`) so selected slot labels no longer shift based on client/browser timezone.
+- Backend booking route now prioritizes parsing explicit `Slot:` labels from notes, then canonicalizes `appointment_date` from selected date + slot in `Asia/Dhaka` before converting to UTC.
+- Backend service now applies the same canonical appointment datetime construction for both new appointment creation and accepted reschedule transitions, preventing drift between booking and reschedule paths.
+- Doctor appointment card/modal now display canonical slot labels using `slot_time` first with safe datetime fallback to avoid doctor-facing mismatches like `10:30 PM -> 4:30 AM`.
+- Validation: editor diagnostics show no errors in all touched files; focused frontend ESLint run on changed files completed without lint errors.
+
+# Analytics Accordion + Navbar Loader + Frontend Perf Pass (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Trace accordion warning and isolate the controlled/uncontrolled root cause in doctor analytics
+- [x] Refactor deep-dive accordion state to a stable controlled value and reduce parent-level rerenders
+- [x] Optimize shared chart resize measurement and expensive specialty-chart calculations
+- [x] Fix navbar authenticated loader behavior so role navigation remains visible during route/tab transitions
+- [x] Validate changed files with diagnostics and focused lint checks
+
+### Review
+- Moved deep-dive accordion ownership into a memoized `DeepDiveSection` and normalized accordion state to a stable string value (`""` when collapsed), preventing Radix controlled/uncontrolled mode switching.
+- Reduced analytics interaction lag by avoiding whole-dashboard rerenders on accordion toggles and by simplifying `SafeChartContainer` resize handling to use `ResizeObserver` `contentRect` updates directly.
+- Optimized specialty distribution chart computation by memoizing `maxValue` and `bubblePoints` and enabling lazy ECharts updates (`notMerge` + `lazyUpdate`).
+- Updated navbar auth hydration flow to initialize from session cache synchronously, avoid aborted user fetch loops on remount, keep logout listener attached for cached sessions, and derive role fallback from pathname so desktop nav remains visible while user details are loading.
+- Validation: diagnostics report no errors in touched files; focused ESLint passed for all modified components. Bundle budget check still reports existing repository-wide regressions and was not introduced by this patch.
+
+# Doctor Analytics Layout + Chart Stability Hotfix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Audit current doctor analytics page composition and identify overlap root causes
+- [x] Fix chart container sizing lifecycle to stop Recharts width/height `-1` runtime warnings
+- [x] Stabilize dashboard section rendering order so tertiary content cannot visually overlap secondary cards
+- [x] Validate modified analytics files with diagnostics/lint
+
+### Review
+- Added a reusable `SafeChartContainer` that waits for valid measured dimensions before mounting chart trees.
+- Updated all doctor analytics Recharts surfaces (metrics sparkline, workload, revenue, demographics pie, prescription safety pie) to use guarded containers and explicit `minWidth`/`minHeight` props on `ResponsiveContainer`.
+- Simplified `DoctorAnalyticsDashboard` composition by removing dynamic wrappers and framer reveal wrappers around major sections, keeping the page in a stable normal-flow render path.
+- Ran focused ESLint on `components/doctor/analytics` and `app/(home)/doctor/analytics/page.tsx` with no lint errors returned.
+
+# Auth Carousel + Doctor Analytics Consistency Fix (2026-04-02)
+
+## Status: completed
+
+### Todo
+- [x] Audit auth carousel, auth card layout, and doctor analytics data/layout paths
+- [x] Fix login/signup image slider behavior and make image panel flush to card edge
+- [x] Resolve doctor analytics overlap/inconsistency issues with mobile-first responsive layout
+- [x] Align doctor analytics data mapping with backend-driven values and remove misleading static fallbacks
+- [x] Validate touched frontend/backend files and record review notes
+
+### Review
+- Auth slideshow now rotates on all viewport sizes (except reduced-motion users), and auth card responsive padding is fully removed (`p-0 sm:p-0`) so the hero image sits flush with the card border.
+- Doctor analytics UI was normalized to mobile-first responsive behavior across header controls, workload/revenue cards, heatmap, metrics grid, outcomes, safety, and actionable insights to prevent overlap/collision.
+- Analytics data mapping is now backend-driven from doctor actions + appointment stats, replacing hardcoded/demo figures with live-derived metrics, trends, heatmap, insights, and recommendations.
+- Analytics route is forced dynamic (`force-dynamic`, `revalidate = 0`) so dashboard values remain synchronized with backend/database updates.
+- Backend doctor stats now return true pending queue size via DB count (`pending_actions_count`) instead of preview-list length, improving frontend/backend consistency.
+- Validation completed with targeted diagnostics on touched files plus focused frontend lint run for updated auth/analytics surfaces.
+
+# Reschedule Acceptance Old-Slot Occupancy Root-Cause Fix (2026-03-31)
+
+## Status: completed
+
+### Todo
+- [x] Trace reschedule acceptance flow and confirm canonical write path
+- [x] Harden slot occupancy filtering to ignore stale reschedule blocker rows
+- [x] Align booking/reschedule conflict checks with the hardened availability source
+- [x] Add stale duplicate old-slot cleanup on reschedule accept
+- [x] Remove conflicting dual-source slot merge in booking UI and add realtime refresh
+- [x] Validate diagnostics on touched files and document review
+
+### Review
+- Identified root cause as slot occupancy drift between canonical appointment state and stale blocker candidates (notably stale `RESCHEDULE_REQUESTED` rows without pending requests), plus frontend dual-source slot merging that could preserve stale unavailability overlays.
+- Updated `slot_service` to filter stale reschedule blockers by verifying pending reschedule-request existence before treating `RESCHEDULE_REQUESTED` appointments as occupying.
+- Added optional temporary diagnostics in `slot_service` (`SLOT_DEBUG_LOGGING=1`) to log doctor/date occupancy candidates before and after filtering.
+- Updated appointment booking/reschedule conflict checks in `appointment_service` to use stale-safe slot availability checks.
+- Added reschedule-accept cleanup in `appointment_service` to auto-cancel stale duplicate old-slot rows for the same doctor+patient+day+slot context, with audit trail entries.
+- Fixed legacy booked-slots mapping so `is_booked` excludes purely past slots (`is_booked = !is_available && !is_past`).
+- Simplified booking panel slot state to rely on canonical available-slots response (removed conflicting booked-slots overlay) and added realtime refresh subscription for immediate slot state updates.
+
+# Appointment Cancellation + Slot Management Implementation (2026-04-01)
+
+## Status: completed
+
+### Todo
+- [x] Add backend lifecycle extensions for ownership-aware cancellation statuses and metadata
+- [x] Add backend cancellation policy enforcement and dedicated cancellation endpoint
+- [x] Update slot availability logic to reopen slots for both cancellation statuses
+- [x] Wire cancellation notifications with structured reason context
+- [x] Add frontend patient cancellation flow wiring with reason taxonomy support
+- [x] Update doctor appointment UI typing and status handling for expanded lifecycle states
+- [x] Validate touched backend/frontend files and update review notes
+
+### Review
+- Added ownership-aware cancellation statuses (`CANCELLED_BY_PATIENT`, `CANCELLED_BY_DOCTOR`) and cancellation metadata fields (`reason key/note`, actor, timestamp) across appointment model/schema/response payloads.
+- Implemented role-aware cancellation flow with dedicated endpoint (`PATCH /appointment/{id}/cancel`), backend reason catalog endpoint, reason-role validation, and strict 60-minute cancellation cutoff enforcement.
+- Updated lifecycle/state-machine + slot occupancy behavior so both new cancellation statuses are terminal and non-occupying, reopening availability and cleaning up calendar events consistently.
+- Wired patient and doctor frontend cancellation UX to the new flow, including reason taxonomy selection, updated status handling/typing, terminal-state filtering, and cancellation metadata display.
+- Expanded cancellation handling in admin stats/summary queries and completed diagnostics checks on touched backend/frontend files with no reported errors.
+
+# Admin Patients + i18n Runtime Stabilization (2026-03-31)
+
+## Status: completed
+
+### Todo
+- [x] Remove partial next-intl usage causing missing-config runtime crashes
+- [x] Add missing frontend admin patient API proxy routes used by admin patients page
+- [x] Align admin patient mutations with backend-required moderation payloads
+- [x] Fix backend admin patient charts/insights runtime import issue
+- [x] Validate frontend and backend diagnostics after patch
+
+### Review
+- Removed partial `next-intl` provider wiring from app root and replaced locale blocked-account page rendering with a shared non-i18n component to prevent runtime config/provider crashes.
+- Added missing admin patient API proxy surface in frontend (`/api/admin/patients`, `[id]`, `stats`, `charts`, `insights`, `bulk-action`) plus shared backend-call helper.
+- Harmonized moderation payload behavior by injecting default reasons for `ban`/`delete` actions in UI mutations and proxy routes.
+- Fixed backend admin charts/insights runtime import path by adding missing `timedelta` import in `backend/app/routes/admin.py`.
+- Validation completed: frontend production build passes (`npm run build`), diagnostics report no errors on touched frontend/backend files, and backend app import smoke test passes with `backend/.venv`.
+
 # Split Chorui AI Access Controls (2026-03-27)
 
 ## Status: completed

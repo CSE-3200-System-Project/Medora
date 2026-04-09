@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
 import { Stethoscope } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
@@ -9,7 +9,7 @@ interface DoctorSpecializationsCardProps {
   doctor: BackendDoctorProfile;
 }
 
-export function DoctorSpecializationsCard({ doctor }: DoctorSpecializationsCardProps) {
+export const DoctorSpecializationsCard = memo(function DoctorSpecializationsCard({ doctor }: DoctorSpecializationsCardProps) {
   // Only show if we have sub_specializations that are different from services
   const subSpecs = doctor.sub_specializations || [];
   const services = doctor.services || [];
@@ -23,12 +23,7 @@ export function DoctorSpecializationsCard({ doctor }: DoctorSpecializationsCardP
   }
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.35 }}
-    >
+    <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
@@ -49,6 +44,6 @@ export function DoctorSpecializationsCard({ doctor }: DoctorSpecializationsCardP
           </div>
         </CardContent>
       </Card>
-    </motion.section>
+    </section>
   );
-}
+})

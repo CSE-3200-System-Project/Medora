@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Calendar, MapPin } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -11,7 +10,9 @@ type AppointmentCardProps = {
   doctorName: string
   specialty: string
   dateTime: string
+  dateTimeLabel: string
   location: string
+  locationLabel: string
   avatarUrl?: string
   status?: string
   actionLabel: string
@@ -22,19 +23,16 @@ export function AppointmentCard({
   doctorName,
   specialty,
   dateTime,
+  dateTimeLabel,
   location,
+  locationLabel,
   avatarUrl,
   status,
   actionLabel,
   actionVariant = "default",
 }: AppointmentCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-    >
+    <div className="animate-fade-in-up card-hover">
       <Card className="border-border/70 bg-card/95 shadow-sm">
         <CardContent className="space-y-4 pt-5">
           <div className="flex items-center gap-3">
@@ -55,14 +53,14 @@ export function AppointmentCard({
 
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Date & Time</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{dateTimeLabel}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
                 <span>{dateTime}</span>
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Location</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{locationLabel}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 <span>{location}</span>
@@ -75,6 +73,6 @@ export function AppointmentCard({
           </Button>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   )
 }

@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { getDoctorPatients } from "@/lib/appointment-actions";
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { 
@@ -164,22 +165,7 @@ export default function DoctorPatientsPage() {
 
         {/* Patient List */}
         {loading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="rounded-2xl border-border/50">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 skeleton rounded-full" />
-                    <div className="flex-1 space-y-2">
-                      <div className="h-5 skeleton rounded w-40" />
-                      <div className="h-4 skeleton rounded w-32" />
-                      <div className="h-3 skeleton rounded w-24" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <PageLoadingShell label="Loading patients..." cardCount={4} loaderSize="md" />
         ) : patients.length === 0 ? (
           <Card className="rounded-2xl border-border/50">
             <CardContent className="p-12 text-center">

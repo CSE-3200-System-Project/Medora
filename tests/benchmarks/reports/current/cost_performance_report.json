@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-04-03T22:57:59.692572+00:00",
+  "assumptions": {
+    "monthly_api_requests": 2500000,
+    "monthly_ocr_requests": 250000,
+    "avg_api_latency_ms": 320.0,
+    "avg_ocr_latency_ms": 2400.0,
+    "api_vcpu_seconds_per_request": 0.08,
+    "ocr_vcpu_seconds_per_request": 0.85,
+    "vcpu_cost_per_second": 2.4e-05,
+    "gb_second_cost": 2.7e-06,
+    "api_memory_gb": 1.0,
+    "ocr_memory_gb": 2.0,
+    "report": "tests/benchmarks/reports/current/cost_performance_report.json"
+  },
+  "latency": {
+    "api_avg_ms": 320.0,
+    "ocr_avg_ms": 2400.0
+  },
+  "estimated_monthly_cost_usd": 11.59,
+  "api_cost_per_request_usd": 2.136e-06,
+  "ocr_cost_per_request_usd": 2.4990000000000003e-05,
+  "efficiency": {
+    "api_requests_per_dollar": 468164.7940074906,
+    "ocr_requests_per_dollar": 40016.00640256102
+  },
+  "recommendations": [
+    "Keep OCR service min replicas at 0 with aggressive scale-out only for burst windows.",
+    "Prioritize OCR queue batching during peak upload bursts to improve requests-per-dollar.",
+    "Apply stricter caching and prefiltering on /ai/search prompts to reduce LLM invocation volume."
+  ]
+}
