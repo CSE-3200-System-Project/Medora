@@ -1,3 +1,173 @@
+# AI Navigation Phase 10 - Doctor Role Navigation Parity (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Verify doctor role context propagation from frontend Chorui page/hook to backend assistant route
+- [x] Expand doctor-only intent phrase mapping for analytics, patients, appointments, and schedule
+- [x] Add doctor implicit navigation suggestion mode for non-explicit prompts while keeping explicit prompts direct
+- [x] Keep role-safe routing constrained to doctor/shared registries (no patient fallback)
+- [x] Add focused regression tests for required doctor scenarios
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: doctor implicit prompts were either not normalized into doctor canonical intents (e.g., analytics) or were not converted into suggestion-mode navigation actions, so the UI often displayed explanation-only responses.
+- Confirmed role context is correctly propagated as `role_context: doctor` from `frontend/hooks/useChoruiChat.ts` and doctor page wiring (`ChoruiChat roleContext="doctor"`).
+- Added robust doctor phrase clusters in `backend/app/services/chorui_intent_normalizer.py` for:
+   - `doctor_analytics` (`show my analytics`, `analytics`, etc.)
+   - strengthened `doctor_patients`, `doctor_appointments`, and `doctor_schedule` phrase coverage.
+- Added doctor implicit suggestion logic in `backend/app/services/chorui_navigation_engine.py`:
+   - implicit prompts (`show my ...`, `my ...`) now return `action=suggest` with doctor route suggestions.
+   - explicit prompts (`open ...`, `take me to ...`, etc.) continue to return direct `action=navigate`.
+- Preserved patient behavior and existing architecture/memory systems by limiting new suggestion-mode rule to doctor intents only.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `27 passed`.
+
+# AI Navigation Phase 9 - Doctor Today Consultations Mapping Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce doctor-side phrase mismatch for "View today's consultations"
+- [x] Add doctor appointment phrase-cluster coverage for consultation wording
+- [x] Add normalization regression test for doctor consultation phrase to appointments intent
+- [x] Add engine regression test for `/doctor/appointments` route resolution
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: doctor utterance "View today's consultations" was not represented in doctor appointment phrase clusters, so intent resolution could drift to non-navigation conversational responses.
+- Added doctor appointment phrase variants in `backend/app/services/chorui_intent_normalizer.py` (including consultation phrasing with `today`).
+- Added regression tests in `backend/tests/test_chorui_intent_normalizer.py` and `backend/tests/test_chorui_navigation_engine.py` to guarantee canonical `doctor_appointments` mapping and route resolution to `/doctor/appointments`.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `21 passed`.
+
+# AI Navigation Phase 8 - Emergency Contact Profile Routing Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce patient phrase fallback for emergency-contact edit request
+- [x] Add patient profile phrase-cluster coverage for emergency-contact edit/update utterances
+- [x] Add regression test for truncated user phrase (`Edit my emergency contac`)
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: patient emergency-contact edit wording was not included in the normalizer phrase clusters, so canonical intent often remained `general`, leading to `action.type = "none"` in navigation flow.
+- Added emergency-contact/profile edit phrases to `backend/app/services/chorui_intent_normalizer.py` under `patient_profile` cluster.
+- Added regression coverage in `backend/tests/test_chorui_intent_normalizer.py` to assert `patient_profile` + `direct` mode for typo-truncated message input.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `19 passed`.
+
+# AI Navigation Phase 7 - Testing and Edge Cases (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Add backend tests for suggestion-mode action generation and recovery edge cases
+- [x] Expand normalization tests for suggestion-mode classification and ambiguity handling
+- [x] Run focused backend pytest for Chorui normalization/registry/engine suites
+- [x] Document validation outcomes and coverage gaps for frontend unit/integration/E2E scope
+
+### Review
+- Added suggestion-mode generation in `backend/app/services/chorui_navigation_engine.py` for broad patient medication intents so backend can return safe, non-forced route suggestions.
+- Expanded `backend/tests/test_chorui_navigation_engine.py` with coverage for medication suggestion mode and follow-up dynamic route resolution when patient ID is provided.
+- Expanded `backend/tests/test_chorui_intent_normalizer.py` with ambiguity-driven suggestion-mode behavior and pending follow-up without identifier handling.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `18 passed`.
+- Coverage gap noted: frontend currently has no unit-test framework/scripts configured in `frontend/package.json`, so frontend unit/integration/E2E assertions require separate test harness setup before adding automated UI action-policy tests.
+
+# AI Navigation Phase 6 - Frontend Navigation Execution (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend frontend AI response types with navigation action, suggestions, memory, and meta models
+- [x] Parse and expose navigation action metadata in `useChoruiChat` state
+- [x] Add role-safe route guard validation and confidence policy execution in `ChoruiChat`
+- [x] Add clarify/suggestion UI chips and medium-confidence confirmation handling
+- [x] Add transition-state UX and delay-based navigation execution with cancellation support
+- [x] Validate changed frontend files with diagnostics
+
+### Review
+- Extended frontend AI contract types in `frontend/types/ai.ts` for `action`, `suggested_routes`, `memory`, and `navigation_meta` while keeping reply/context fields backward-compatible.
+- Updated `frontend/hooks/useChoruiChat.ts` to parse and normalize navigation payloads from backend responses and expose them as hook state for UI execution.
+- Added defense-in-depth route guards in `frontend/components/ai/ChoruiChat.tsx` for role allowlist, route format checks, and dynamic parameter completeness before any navigation.
+- Implemented confidence-driven navigation policy in chat UI: high-confidence delayed auto-navigation, medium-confidence confirmation, and low-confidence clarify/suggestion guidance.
+- Added suggestion-chip actions, undo confirmation support, transition state messaging, and pending-navigation cancellation when users send a new instruction.
+- Validation status: frontend diagnostics are clean on changed TypeScript files; focused lint passed for `components/ai/ChoruiChat.tsx`, `hooks/useChoruiChat.ts`, and `types/ai.ts`.
+
+# AI Navigation Phase 5 - Navigation Engine Core Logic (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui navigation engine module to centralize action strategy resolution
+- [x] Move route/action decision logic out of route handler into reusable service function
+- [x] Keep registry-first canonical resolution while preserving raw-intent fallback behavior
+- [x] Include engine-level fallback metadata and in-memory intent state for pending/resolved flows
+- [x] Wire assistant response builder to use engine output for `action`, `memory`, and options
+- [x] Add focused navigation engine tests and execute runtime assertions for core scenarios
+
+### Review
+- Added `backend/app/services/chorui_navigation_engine.py` with `resolve_chorui_navigation_engine(...)` and structured result types for action, fallback, and memory state.
+- Refactored `backend/app/routes/ai_consultation.py` to delegate navigation decisions to the new engine while preserving existing response schema compatibility.
+- Engine now applies registry-first canonical resolution, dynamic param clarify handling, correction/admin blocking, and raw-intent fallback for backward safety.
+- Added focused tests in `backend/tests/test_chorui_navigation_engine.py` for canonical navigate, clarify missing id, correction none, raw fallback, and admin scope blocking.
+- Validation status: diagnostics clean on changed files; focused runtime assertions for engine scenarios passed.
+
+# AI Navigation Phase 4 - Route Registry Creation (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create centralized route registry module with explicit schema fields and governance notes
+- [x] Populate registry with patient/doctor/shared canonical intents and routes only
+- [x] Exclude admin routes by design and enforce role-scope filtering
+- [x] Add dynamic route resolution with parameter requirements for doctor patient flows
+- [x] Add unresolved-parameter fallback behavior (`/doctor/patients`) in route resolution
+- [x] Integrate assistant action builder with registry-first route resolution
+- [x] Add focused route registry tests and run runtime assertions for Phase 4 checks
+
+### Review
+- Added `backend/app/services/chorui_navigation_registry.py` with registry schema (`canonical_intent`, `role`, `route`, `requires_params`, `fallback_route`, `enabled`, `notes`) and governance metadata.
+- Registry now includes audited patient/doctor/shared routes and explicitly excludes admin scope.
+- Added `resolve_chorui_navigation_route(...)` that resolves templates, validates required params, and returns safe fallback metadata.
+- Updated `backend/app/routes/ai_consultation.py` to use registry-first canonical route resolution and emit clarify options with fallback route when params are missing.
+- Validation status: diagnostics are clean on changed files; focused runtime registry assertions passed.
+
+# AI Navigation Phase 3 - Intent Normalization Layer (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui intent normalization service with canonical taxonomy and deterministic output
+- [x] Add correction lexicon and follow-up/pending-memory signal handling to normalization logic
+- [x] Integrate normalizer into `/ai/assistant-chat` backend flow after existing classifier output
+- [x] Surface normalization metadata (`canonical_intent`, `confidence`, `ambiguity_candidates`, `missing_params`, `intent_mode`) in structured response data
+- [x] Update navigation action resolver to consume canonical intent before raw-intent fallbacks
+- [x] Add focused backend normalization tests and run runtime assertions for key scenarios
+
+### Review
+- Added `backend/app/services/chorui_intent_normalizer.py` to normalize natural-language phrases and classifier output into canonical intents.
+- The normalizer now merges classifier signal, phrase-cluster signal, role context, and pending-intent follow-up hints, while detecting correction intents.
+- Integrated normalization in `backend/app/routes/ai_consultation.py` so every assistant response includes intent normalization metadata inside `structured_data`.
+- Updated action resolution to prefer canonical intent mapping for patient/doctor routes, then fallback to existing Phase 2 raw mappings for backward safety.
+- Validation status: diagnostics are clean on changed files; focused runtime assertions for required phrase examples passed via Python snippet execution.
+
+# AI Navigation Phase 2 - Backend Action Contract (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend `ChoruiAssistantResponse` with optional navigation action contract fields
+- [x] Add backend action payload builder with patient/doctor scoped route mapping
+- [x] Exclude admin role from action generation (`action.type = "none"`)
+- [x] Keep fallback-safe behavior when route resolution fails (`action.type = "none"`)
+- [x] Validate touched backend files with diagnostics
+
+### Review
+- Added non-breaking response contract models in backend schema: `action`, `suggested_routes`, `memory`, and `navigation_meta`.
+- Added a Phase 2 action builder in the Chorui assistant flow that emits role-safe action metadata for high-confidence patient/doctor intents.
+- Added explicit admin exclusion at action generation level and updated role-context resolver to preserve `admin` context.
+- Preserved existing chat behavior: assistant replies and structured data flow remain unchanged when no navigation action is applicable.
+- Validation status: diagnostics report no errors in changed backend files.
+
 # Consultation Draft ID Architecture Migration (2026-04-08)
 
 ## Status: completed
