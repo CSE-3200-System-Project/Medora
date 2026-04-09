@@ -12,6 +12,7 @@ import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Pill, Search, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { getPatientOnboardingData, updatePatientOnboarding } from "@/lib/auth-actions";
 import { toBackendPatientMedication } from "@/lib/patient-medication";
+import { useT } from "@/i18n/client";
 import {
   getMedicineDetails,
   searchMedicines,
@@ -21,6 +22,7 @@ import {
 } from "@/lib/medicine-actions";
 
 export function PatientFindMedicineClient() {
+  const tCommon = useT("common");
   const [results, setResults] = useState<MedicineResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,7 +92,7 @@ export function PatientFindMedicineClient() {
       setTimeout(() => setShowSuccess(false), 3000);
     } catch (error) {
       console.error("Error saving medication:", error);
-      alert("Failed to save medication. Please try again.");
+      alert(tCommon("medicine.patientPage.saveMedicationFailed"));
     }
   };
 
@@ -103,7 +105,7 @@ export function PatientFindMedicineClient() {
           <Alert className="bg-success/10 border-success shadow-lg min-w-75">
             <CheckCircle2 className="h-4 w-4 text-success" />
             <AlertDescription className="text-success font-medium">
-              Redirecting to Medical History...
+              {tCommon("medicine.patientPage.redirectingMedicalHistory")}
             </AlertDescription>
           </Alert>
         </div>
@@ -112,17 +114,17 @@ export function PatientFindMedicineClient() {
       <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Find Medicine
+            {tCommon("medicine.patientPage.title")}
           </h1>
           <p className="text-sm md:text-base text-muted-foreground">
-            Search medicines by brand or generic name
+            {tCommon("medicine.patientPage.subtitle")}
           </p>
         </div>
 
         <Alert className="mb-6 bg-amber-50 border-amber-200">
           <AlertTriangle className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800 text-sm">
-            This information is for general awareness only. Always consult your doctor before taking any medication.
+            {tCommon("medicine.patientPage.awarenessWarning")}
           </AlertDescription>
         </Alert>
 
@@ -140,7 +142,7 @@ export function PatientFindMedicineClient() {
           {loading ? (
             <div className="space-y-3">
               <div className="flex justify-center py-2">
-                <MedoraLoader size="md" label="Loading medicines..." />
+                <MedoraLoader size="md" label={tCommon("medicine.patientPage.loadingMedicines")} />
               </div>
               {[1, 2, 3].map((i) => (
                 <Card key={i} className="animate-pulse">
@@ -160,17 +162,17 @@ export function PatientFindMedicineClient() {
           ) : searchQuery.length >= 2 && results.length === 0 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">No medicines found</p>
+              <p className="text-muted-foreground mb-1">{tCommon("medicine.patientPage.noMedicinesFound")}</p>
               <p className="text-sm text-muted-foreground">
-                Try searching with a different name or spelling
+                {tCommon("medicine.patientPage.searchDifferent")}
               </p>
             </div>
           ) : searchQuery.length < 2 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Pill className="h-12 w-12 text-primary/30 mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">Search for medicines</p>
+              <p className="text-muted-foreground mb-1">{tCommon("medicine.patientPage.searchPromptTitle")}</p>
               <p className="text-sm text-muted-foreground">
-                Enter at least 2 characters to start searching
+                {tCommon("medicine.patientPage.searchPromptSubtitle")}
               </p>
             </div>
           ) : (
@@ -202,7 +204,7 @@ export function PatientFindMedicineClient() {
       {drawerOpen && detailLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-background rounded-xl p-6 flex flex-col items-center gap-3">
-            <MedoraLoader size="md" label="Loading details..." />
+            <MedoraLoader size="md" label={tCommon("medicine.patientPage.loadingDetails")} />
           </div>
         </div>
       )}

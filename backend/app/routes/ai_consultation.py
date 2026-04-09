@@ -2501,6 +2501,7 @@ def _build_chorui_model_query(
     recent_prescriptions: list[dict[str, Any]] | None = None,
     appointment_history: list[dict[str, Any]] | None = None,
     lifestyle: dict[str, Any] | None = None,
+    ui_locale: str = "en",
     subject_tokens: dict[str, str] | None = None,
     rag_context: dict[str, Any] | None = None,
 ) -> str:
@@ -2508,6 +2509,7 @@ def _build_chorui_model_query(
         "role": str(getattr(role, "value", role)).lower(),
         "context_mode": context_mode,
         "query": message.strip()[:2000],
+        "ui_locale": ui_locale if ui_locale in {"en", "bn"} else "en",
     }
     if subject_tokens:
         payload["subject_tokens"] = subject_tokens
@@ -2548,7 +2550,8 @@ def _build_chorui_model_query(
         "Use only authorized Medora context below. "
         "Authorized access has already been verified server-side. "
         "Do not refuse due to privacy/local-mode concerns when record context is provided. "
-        "Give practical, concise workflow support with clear uncertainty and safety cautions.\n"
+        "Give practical, concise workflow support with clear uncertainty and safety cautions. "
+        "Respond in the requested ui_locale, but keep medical names, medicine names, diagnosis terms, and user-entered values exactly as provided.\n"
         + json.dumps(payload, ensure_ascii=False)
     )
 
@@ -2584,6 +2587,9 @@ async def _run_chorui_assistant(
             sharing_perms = inferred_sharing_perms
 
     role_context = _default_role_context(role, payload.role_context)
+    ui_locale = str(payload.ui_locale or "en").strip().lower()
+    if ui_locale not in {"en", "bn"}:
+        ui_locale = "en"
     conversation_id = await _resolve_conversation_id(
         db,
         user_id=user.id,
@@ -3393,6 +3399,7 @@ async def _run_chorui_assistant(
         recent_prescriptions=recent_prescriptions,
         appointment_history=appointment_history,
         lifestyle=lifestyle,
+        ui_locale=ui_locale,
         subject_tokens=subject_tokens,
         rag_context=rag_context,
     )
