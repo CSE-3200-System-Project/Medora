@@ -3,6 +3,85 @@ import type { FullPrescriptionResponse } from "@/lib/prescription-actions";
 type BuildClinicalPrescriptionDocumentOptions = {
   consultationId: string;
   generatedAtIso?: string;
+  labels?: Partial<ClinicalPrescriptionDocumentLabels>;
+};
+
+type ClinicalPrescriptionDocumentLabels = {
+  brandSub: string;
+  providerChamber: string;
+  contact: string;
+  title: string;
+  patientInformation: string;
+  providerInformation: string;
+  name: string;
+  patientId: string;
+  ageGender: string;
+  bloodGroup: string;
+  practitioner: string;
+  qualification: string;
+  specialization: string;
+  registrationNumber: string;
+  prescribedMedications: string;
+  medicineStrength: string;
+  dosage: string;
+  route: string;
+  duration: string;
+  laboratoryInvestigations: string;
+  scheduledProcedures: string;
+  clinicalObservations: string;
+  chiefComplaint: string;
+  diagnosis: string;
+  notes: string;
+  digitalHash: string;
+  generatedVia: string;
+  physicianSign: string;
+  printDate: string;
+  qty: string;
+  noMedication: string;
+  noTests: string;
+  noProcedures: string;
+  asDirected: string;
+  asAdvised: string;
+  na: string;
+};
+
+const DEFAULT_LABELS: ClinicalPrescriptionDocumentLabels = {
+  brandSub: "Advanced Medical Systems",
+  providerChamber: "Provider Chamber",
+  contact: "Contact",
+  title: "Clinical Prescription",
+  patientInformation: "Patient Information",
+  providerInformation: "Provider Information",
+  name: "Name",
+  patientId: "Patient ID",
+  ageGender: "Age / Gender",
+  bloodGroup: "Blood Group",
+  practitioner: "Practitioner",
+  qualification: "Qualification",
+  specialization: "Specialization",
+  registrationNumber: "Reg. No",
+  prescribedMedications: "Prescribed Medications",
+  medicineStrength: "Medicine Name + Strength",
+  dosage: "Dosage",
+  route: "Route",
+  duration: "Duration",
+  laboratoryInvestigations: "Laboratory Investigations",
+  scheduledProcedures: "Scheduled Procedures",
+  clinicalObservations: "Clinical Observations and Notes",
+  chiefComplaint: "Chief Complaint",
+  diagnosis: "Diagnosis",
+  notes: "Notes",
+  digitalHash: "Digital Authentication Hash",
+  generatedVia: "Generated via Medora Clinical EMR. Timestamp: {value}",
+  physicianSign: "Physician Signature and Stamp",
+  printDate: "Print Date: {value}",
+  qty: "Qty",
+  noMedication: "No medications prescribed.",
+  noTests: "No tests requested.",
+  noProcedures: "No procedures advised.",
+  asDirected: "As directed",
+  asAdvised: "As advised",
+  na: "N/A",
 };
 
 function escapeHtml(value: unknown): string {
@@ -18,16 +97,14 @@ function escapeHtml(value: unknown): string {
 function formatDateTime(value?: string): string {
   if (!value) return "N/A";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return escapeHtml(value);
-  return escapeHtml(
-    date.toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  );
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 function buildDigitalHash(seed: string): string {
@@ -53,6 +130,11 @@ export function buildClinicalPrescriptionDocumentHtml(
   data: FullPrescriptionResponse,
   options: BuildClinicalPrescriptionDocumentOptions
 ): string {
+  const labels: ClinicalPrescriptionDocumentLabels = {
+    ...DEFAULT_LABELS,
+    ...(options.labels || {}),
+  };
+
   const generatedAtIso = options.generatedAtIso || new Date().toISOString();
   const documentHash = buildDigitalHash(`${options.consultationId}:${data.consultation?.date || ""}`);
 
@@ -60,7 +142,7 @@ export function buildClinicalPrescriptionDocumentHtml(
     data.medications.length === 0
       ? `
         <tr>
-          <td colspan="4" class="mcrx-empty-row">No medications prescribed.</td>
+          <td colspan="4" class="mcrx-empty-row">${escapeHtml(labels.noMedication)}</td>
         </tr>
       `
       : data.medications
@@ -68,15 +150,15 @@ export function buildClinicalPrescriptionDocumentHtml(
             const nameStrength = `${escapeHtml(medication.medicine_name)}${
               medication.strength ? ` ${escapeHtml(medication.strength)}` : ""
             }`;
-            const dosage = escapeHtml(medication.dosage_pattern || medication.frequency_text || "As directed");
-            const route = escapeHtml(medication.route || "As directed");
+            const dosage = escapeHtml(medication.dosage_pattern || medication.frequency_text || labels.asDirected);
+            const route = escapeHtml(medication.route || labels.asDirected);
             const meal = medication.meal_instruction
               ? `<div class="mcrx-subline">${escapeHtml(titleCaseWords(medication.meal_instruction))}</div>`
               : "";
-            const duration = escapeHtml(medication.duration || "As advised");
+            const duration = escapeHtml(medication.duration || labels.asAdvised);
             const quantity =
               typeof medication.quantity === "number"
-                ? `<div class="mcrx-subline">Qty: ${escapeHtml(medication.quantity)}</div>`
+                ? `<div class="mcrx-subline">${escapeHtml(labels.qty)}: ${escapeHtml(medication.quantity)}</div>`
                 : "";
 
             return `
@@ -92,7 +174,7 @@ export function buildClinicalPrescriptionDocumentHtml(
 
   const testsHtml =
     data.tests.length === 0
-      ? `<p class="mcrx-muted">No tests requested.</p>`
+      ? `<p class="mcrx-muted">${escapeHtml(labels.noTests)}</p>`
       : data.tests
           .map(
             (test) => `
@@ -107,7 +189,7 @@ export function buildClinicalPrescriptionDocumentHtml(
 
   const proceduresHtml =
     data.procedures.length === 0
-      ? `<p class="mcrx-muted">No procedures advised.</p>`
+      ? `<p class="mcrx-muted">${escapeHtml(labels.noProcedures)}</p>`
       : data.procedures
           .map(
             (procedure) => `
@@ -355,46 +437,46 @@ export function buildClinicalPrescriptionDocumentHtml(
       <header class="mcrx-header">
         <div>
           <p class="mcrx-brand">Medora Clinical</p>
-          <p class="mcrx-brand-sub">Advanced Medical Systems</p>
+          <p class="mcrx-brand-sub">${escapeHtml(labels.brandSub)}</p>
         </div>
         <div class="mcrx-provider">
-          <p class="mcrx-label">Provider Chamber</p>
-          <p class="mcrx-value">${escapeHtml(data.doctor.name || "N/A")}</p>
+          <p class="mcrx-label">${escapeHtml(labels.providerChamber)}</p>
+          <p class="mcrx-value">${escapeHtml(data.doctor.name || labels.na)}</p>
           <p class="mcrx-sub">${escapeHtml(data.doctor.chamber_info || data.doctor.address || "")}</p>
           ${data.doctor.address && data.doctor.address !== data.doctor.chamber_info ? `<p class="mcrx-sub">${escapeHtml(data.doctor.address)}</p>` : ""}
-          ${data.doctor.phone ? `<p class="mcrx-sub">Contact: ${escapeHtml(data.doctor.phone)}</p>` : ""}
+          ${data.doctor.phone ? `<p class="mcrx-sub">${escapeHtml(labels.contact)}: ${escapeHtml(data.doctor.phone)}</p>` : ""}
         </div>
       </header>
 
-      <section class="mcrx-title">Clinical Prescription</section>
+      <section class="mcrx-title">${escapeHtml(labels.title)}</section>
 
       <section class="mcrx-grid">
         <div>
-          <p class="mcrx-col-title">Patient Information</p>
-          <p><strong>Name:</strong> ${escapeHtml(data.patient.name || "N/A")}</p>
-          <p><strong>Patient ID:</strong> ${escapeHtml(data.patient.patient_id || "N/A")}</p>
-          <p><strong>Age / Gender:</strong> ${escapeHtml(data.patient.age ?? "N/A")} / ${escapeHtml(data.patient.gender || "N/A")}</p>
-          <p><strong>Blood Group:</strong> ${escapeHtml(data.patient.blood_group || "N/A")}</p>
+          <p class="mcrx-col-title">${escapeHtml(labels.patientInformation)}</p>
+          <p><strong>${escapeHtml(labels.name)}:</strong> ${escapeHtml(data.patient.name || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.patientId)}:</strong> ${escapeHtml(data.patient.patient_id || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.ageGender)}:</strong> ${escapeHtml(data.patient.age ?? labels.na)} / ${escapeHtml(data.patient.gender || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.bloodGroup)}:</strong> ${escapeHtml(data.patient.blood_group || labels.na)}</p>
         </div>
         <div>
-          <p class="mcrx-col-title">Provider Information</p>
-          <p><strong>Practitioner:</strong> ${escapeHtml(data.doctor.name || "N/A")}</p>
-          <p><strong>Qualification:</strong> ${escapeHtml(data.doctor.qualification || "N/A")}</p>
-          <p><strong>Specialization:</strong> ${escapeHtml(data.doctor.specialization || "N/A")}</p>
-          <p><strong>Reg. No:</strong> ${escapeHtml(data.doctor.registration_number || "N/A")}</p>
+          <p class="mcrx-col-title">${escapeHtml(labels.providerInformation)}</p>
+          <p><strong>${escapeHtml(labels.practitioner)}:</strong> ${escapeHtml(data.doctor.name || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.qualification)}:</strong> ${escapeHtml(data.doctor.qualification || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.specialization)}:</strong> ${escapeHtml(data.doctor.specialization || labels.na)}</p>
+          <p><strong>${escapeHtml(labels.registrationNumber)}:</strong> ${escapeHtml(data.doctor.registration_number || labels.na)}</p>
         </div>
       </section>
 
       <section>
-        <p class="mcrx-section-label">Prescribed Medications</p>
+        <p class="mcrx-section-label">${escapeHtml(labels.prescribedMedications)}</p>
         <div class="mcrx-table-wrap">
           <table class="mcrx-table">
             <thead>
               <tr>
-                <th>Medicine Name + Strength</th>
-                <th>Dosage</th>
-                <th>Route</th>
-                <th>Duration</th>
+                <th>${escapeHtml(labels.medicineStrength)}</th>
+                <th>${escapeHtml(labels.dosage)}</th>
+                <th>${escapeHtml(labels.route)}</th>
+                <th>${escapeHtml(labels.duration)}</th>
               </tr>
             </thead>
             <tbody>${medicationsHtml}</tbody>
@@ -404,35 +486,34 @@ export function buildClinicalPrescriptionDocumentHtml(
 
       <section class="mcrx-dual-grid">
         <div class="mcrx-panel">
-          <p class="mcrx-section-label">Laboratory Investigations</p>
+          <p class="mcrx-section-label">${escapeHtml(labels.laboratoryInvestigations)}</p>
           ${testsHtml}
         </div>
         <div class="mcrx-panel">
-          <p class="mcrx-section-label">Scheduled Procedures</p>
+          <p class="mcrx-section-label">${escapeHtml(labels.scheduledProcedures)}</p>
           ${proceduresHtml}
         </div>
       </section>
 
       <section class="mcrx-notes">
-        <p><strong>Clinical Observations and Notes</strong></p>
-        <p><strong>Chief Complaint:</strong> ${escapeHtml(data.consultation.chief_complaint || "N/A")}</p>
-        <p><strong>Diagnosis:</strong> ${escapeHtml(data.consultation.diagnosis || "N/A")}</p>
-        <p><strong>Notes:</strong> ${escapeHtml(data.consultation.notes || "N/A")}</p>
+        <p><strong>${escapeHtml(labels.clinicalObservations)}</strong></p>
+        <p><strong>${escapeHtml(labels.chiefComplaint)}:</strong> ${escapeHtml(data.consultation.chief_complaint || labels.na)}</p>
+        <p><strong>${escapeHtml(labels.diagnosis)}:</strong> ${escapeHtml(data.consultation.diagnosis || labels.na)}</p>
+        <p><strong>${escapeHtml(labels.notes)}:</strong> ${escapeHtml(data.consultation.notes || labels.na)}</p>
       </section>
 
       <footer class="mcrx-footer">
         <div>
-          <p class="mcrx-hash-label">Digital Authentication Hash</p>
+          <p class="mcrx-hash-label">${escapeHtml(labels.digitalHash)}</p>
           <p class="mcrx-hash-value">${escapeHtml(documentHash)}</p>
-          <p>Generated via Medora Clinical EMR. Timestamp: ${formatDateTime(data.consultation.date)}</p>
+          <p>${escapeHtml(labels.generatedVia.replace("{value}", formatDateTime(data.consultation.date)))}</p>
         </div>
         <div class="mcrx-sign">
-          <p class="mcrx-sign-name">${escapeHtml(data.doctor.name || "N/A")}</p>
-          <p>Physician Signature and Stamp</p>
-          <p>Print Date: ${formatDateTime(generatedAtIso)}</p>
+          <p class="mcrx-sign-name">${escapeHtml(data.doctor.name || labels.na)}</p>
+          <p>${escapeHtml(labels.physicianSign)}</p>
+          <p>${escapeHtml(labels.printDate.replace("{value}", formatDateTime(generatedAtIso)))}</p>
         </div>
       </footer>
     </article>
   `;
 }
-
