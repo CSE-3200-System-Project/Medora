@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { PatientAppointment } from "@/components/appointments/types";
+import { useT } from "@/i18n/client";
 
 const AppointmentCalendarCore = dynamic(
   () => import("@/components/ui/appointment-calendar").then((mod) => mod.AppointmentCalendar),
@@ -18,12 +19,14 @@ interface AppointmentCalendarProps {
 }
 
 export function AppointmentCalendar({ appointments, selectedDate, onDateSelect }: AppointmentCalendarProps) {
+  const tCommon = useT("common");
+
   return (
     <AppointmentCalendarCore
       appointments={appointments}
       selectedDate={selectedDate}
       onDateSelect={onDateSelect}
-      title="Calendar"
+      title={tCommon("patientAppointments.calendar.title")}
       className="h-full"
     />
   );

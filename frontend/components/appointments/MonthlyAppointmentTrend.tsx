@@ -3,6 +3,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
 
@@ -17,6 +18,7 @@ interface MonthlyAppointmentTrendProps {
 }
 
 export function MonthlyAppointmentTrend({ stats }: MonthlyAppointmentTrendProps) {
+  const tCommon = useT("common");
   const [isDark, setIsDark] = React.useState(false);
 
   React.useEffect(() => {
@@ -84,8 +86,8 @@ export function MonthlyAppointmentTrend({ stats }: MonthlyAppointmentTrendProps)
 
   return (
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
-      <h3 className="text-lg font-semibold text-foreground">Monthly Trend</h3>
-      <p className="mt-1 text-sm text-muted-foreground">Visit frequency over the last 6 months</p>
+      <h3 className="text-lg font-semibold text-foreground">{tCommon("patientAppointments.monthlyTrend.title")}</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{tCommon("patientAppointments.monthlyTrend.subtitle")}</p>
       <div className="mt-4 h-55">
         <ReactECharts option={option} style={{ width: "100%", height: "100%" }} />
       </div>

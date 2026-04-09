@@ -10,7 +10,9 @@ type AppointmentCardProps = {
   doctorName: string
   specialty: string
   dateTime: string
+  dateTimeLabel: string
   location: string
+  locationLabel: string
   avatarUrl?: string
   status?: string
   actionLabel: string
@@ -21,7 +23,9 @@ export function AppointmentCard({
   doctorName,
   specialty,
   dateTime,
+  dateTimeLabel,
   location,
+  locationLabel,
   avatarUrl,
   status,
   actionLabel,
@@ -49,14 +53,14 @@ export function AppointmentCard({
 
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Date & Time</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{dateTimeLabel}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
                 <span>{dateTime}</span>
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Location</p>
+              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{locationLabel}</p>
               <div className="flex items-center gap-1.5 text-foreground">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 <span>{location}</span>

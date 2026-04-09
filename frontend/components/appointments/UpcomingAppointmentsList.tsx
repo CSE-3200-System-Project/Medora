@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { PatientAppointment } from "@/components/appointments/types";
-import { formatAppointmentTime } from "@/lib/utils";
+import { useAppI18n, useT } from "@/i18n/client";
 
 interface UpcomingAppointmentsListProps {
   appointments: PatientAppointment[];
@@ -41,17 +41,6 @@ type SoftHoldMessages = {
 
 const SOFT_HOLD_WARNING_MS = 3 * 60 * 1000;
 
-const HOLD_MESSAGES: SoftHoldMessages = {
-  waiting: "Waiting for doctor confirmation",
-  expiresIn: "Expires in",
-  expiringSoon: "Doctor hasn't responded yet. This request will expire soon.",
-  expired: "This request expired because the doctor didn't confirm in time.",
-  bookAgain: "Book Again",
-  deleteRequest: "Delete Request",
-  reschedule: "Reschedule",
-  cancel: "Cancel",
-};
-
 function statusVariant(status: string): "success" | "warning" | "destructive" {
   const value = status.toUpperCase();
   if (value === "CONFIRMED") return "success";
@@ -82,23 +71,88 @@ function specialtyIcon(specialty?: string | null) {
   return <CalendarClock className="h-4 w-4 text-primary" />;
 }
 
-function formatDateLabel(isoDate: string) {
-  return new Date(isoDate).toLocaleDateString("en-US", {
+function formatDateLabelForLocale(isoDate: string, localeTag: string) {
+  return new Date(isoDate).toLocaleDateString(localeTag, {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
 }
 
-function formatTimeLabel(isoDate: string, slotTime?: string | null) {
-  return formatAppointmentTime(isoDate, slotTime);
+function formatTimeLabel(isoDate: string, slotTime: string | null | undefined, localeTag: string) {
+  const source = (slotTime || "").trim();
+
+  const parseWithReference = (hour: number, minute: number) => {
+    const reference = new Date(isoDate);
+    if (Number.isNaN(reference.getTime())) {
+      const now = new Date();
+      now.setHours(hour, minute, 0, 0);
+      return now;
+    }
+    reference.setHours(hour, minute, 0, 0);
+    return reference;
+  };
+
+  if (source) {
+    const twelveHour = /^(\d{1,2}):([0-5]\d)\s*([AP]M)$/i.exec(source);
+    if (twelveHour) {
+      const rawHour = Number(twelveHour[1]);
+      const minute = Number(twelveHour[2]);
+      const suffix = twelveHour[3].toUpperCase();
+      const hour24 = suffix === "PM" ? (rawHour % 12) + 12 : rawHour % 12;
+      return parseWithReference(hour24, minute).toLocaleTimeString(localeTag, {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    const twentyFourHour = /^([01]?\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/.exec(source);
+    if (twentyFourHour) {
+      const hour = Number(twentyFourHour[1]);
+      const minute = Number(twentyFourHour[2]);
+      return parseWithReference(hour, minute).toLocaleTimeString(localeTag, {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    }
+
+    return source;
+  }
+
+  const value = new Date(isoDate);
+  if (Number.isNaN(value.getTime())) return "";
+
+  return value.toLocaleTimeString(localeTag, {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
 }
 
-function appointmentTitle(appointment: PatientAppointment) {
+function appointmentTitle(appointment: PatientAppointment, consultationSuffix: string) {
   if (appointment.title && appointment.title.trim().length > 0) return appointment.title;
   if (appointment.reason && appointment.reason.trim().length > 0) return appointment.reason;
   const specialty = appointment.doctor_specialization || "General";
-  return `${specialty} Consultation`;
+  return `${specialty} ${consultationSuffix}`;
+}
+
+function statusKeyFromStatus(status: string) {
+  const value = status.toUpperCase();
+  if (value === "CONFIRMED") return "confirmed";
+  if (value === "PENDING") return "pending";
+  if (value === "COMPLETED") return "completed";
+  if (value === "CANCELLED") return "cancelled";
+  if (value === "CANCELLED_BY_PATIENT") return "cancelledByPatient";
+  if (value === "CANCELLED_BY_DOCTOR") return "cancelledByDoctor";
+  if (value === "PENDING_ADMIN_REVIEW") return "pendingAdminReview";
+  if (value === "PENDING_DOCTOR_CONFIRMATION") return "pendingDoctorConfirmation";
+  if (value === "PENDING_PATIENT_CONFIRMATION") return "pendingPatientConfirmation";
+  if (value === "RESCHEDULE_REQUESTED") return "rescheduleRequested";
+  if (value === "CANCEL_REQUESTED") return "cancelRequested";
+  if (value === "NO_SHOW") return "noShow";
+  return null;
 }
 
 function formatRemaining(remainingMs: number) {
@@ -160,7 +214,20 @@ export function UpcomingAppointmentsList({
   onBookAgain,
   messages,
 }: UpcomingAppointmentsListProps) {
-  const holdMessages = React.useMemo(() => ({ ...HOLD_MESSAGES, ...(messages || {}) }), [messages]);
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+  const localeTag = locale === "bn" ? "bn-BD" : "en-US";
+  const defaultHoldMessages = React.useMemo<SoftHoldMessages>(() => ({
+    waiting: tCommon("patientAppointments.upcoming.waiting"),
+    expiresIn: tCommon("patientAppointments.upcoming.expiresIn"),
+    expiringSoon: tCommon("patientAppointments.upcoming.expiringSoon"),
+    expired: tCommon("patientAppointments.upcoming.expired"),
+    bookAgain: tCommon("patientAppointments.upcoming.bookAgain"),
+    deleteRequest: tCommon("patientAppointments.upcoming.deleteRequest"),
+    reschedule: tCommon("patientAppointments.upcoming.reschedule"),
+    cancel: tCommon("patientAppointments.upcoming.cancel"),
+  }), [tCommon]);
+  const holdMessages = React.useMemo(() => ({ ...defaultHoldMessages, ...(messages || {}) }), [defaultHoldMessages, messages]);
   const [nowMs, setNowMs] = React.useState(() => Date.now());
 
   React.useEffect(() => {
@@ -175,21 +242,23 @@ export function UpcomingAppointmentsList({
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Upcoming Schedule</h3>
+          <h3 className="text-lg font-semibold text-foreground">{tCommon("patientAppointments.upcoming.title")}</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            {selectedDate ? "Appointments for selected date" : "Your upcoming clinic visits"}
+            {selectedDate
+              ? tCommon("patientAppointments.upcoming.subtitleSelected")
+              : tCommon("patientAppointments.upcoming.subtitleUpcoming")}
           </p>
         </div>
 
         <Button variant="link" className="px-0 h-auto" onClick={onViewHistory}>
-          Appointment History
+          {tCommon("patientAppointments.page.appointmentHistory")}
         </Button>
       </div>
 
       <div className="mt-4 space-y-4">
         {appointments.length === 0 ? (
           <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
-            No upcoming appointments found for this view.
+            {tCommon("patientAppointments.upcoming.empty")}
           </div>
         ) : (
           appointments.map((appointment) => {
@@ -197,6 +266,15 @@ export function UpcomingAppointmentsList({
             const backendHoldExpired = isBackendHoldExpired(appointment);
             const showExpiredState = softHoldState.isExpired || backendHoldExpired;
             const canDeletePending = softHoldState.isPending && !showExpiredState;
+            const statusKey = statusKeyFromStatus(appointment.status);
+            const badgeLabel = showExpiredState
+              ? tCommon("patientAppointments.upcoming.status.expired")
+              : statusKey
+              ? tCommon(`patientAppointments.upcoming.status.${statusKey}`)
+              : appointment.status;
+            const doctorPrefix = tCommon("patientAppointments.dialogs.cancel.fallbackDoctorPrefix");
+            const assignedDoctor = tCommon("patientAppointments.page.defaults.assignedDoctor");
+            const consultationSuffix = tCommon("patientAppointments.upcoming.consultationSuffix");
 
             return (
               <div key={appointment.id} className="flex flex-col gap-3 rounded-xl border border-border bg-background/50 p-3 sm:flex-row sm:items-center sm:justify-between">
@@ -206,9 +284,9 @@ export function UpcomingAppointmentsList({
                   </div>
 
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-foreground">{appointmentTitle(appointment)}</p>
+                    <p className="truncate text-sm font-semibold text-foreground">{appointmentTitle(appointment, consultationSuffix)}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      Dr. {appointment.doctor_name || "Assigned Doctor"}
+                      {doctorPrefix} {appointment.doctor_name || assignedDoctor}
                       {appointment.doctor_specialization ? ` | ${appointment.doctor_specialization}` : ""}
                     </p>
 
@@ -248,12 +326,12 @@ export function UpcomingAppointmentsList({
 
                 <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-center">
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-foreground">{formatDateLabel(appointment.appointment_date)}</p>
-                    <p className="text-xs text-muted-foreground">{formatTimeLabel(appointment.appointment_date, appointment.slot_time)}</p>
+                    <p className="text-sm font-semibold text-foreground">{formatDateLabelForLocale(appointment.appointment_date, localeTag)}</p>
+                    <p className="text-xs text-muted-foreground">{formatTimeLabel(appointment.appointment_date, appointment.slot_time, localeTag)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant={showExpiredState ? "destructive" : statusVariant(appointment.status)} className="uppercase tracking-wide">
-                      {showExpiredState ? "EXPIRED" : appointment.status}
+                      {badgeLabel}
                     </Badge>
                     {onRequestReschedule && appointment.status.toUpperCase() === "CONFIRMED" && (
                       <Button

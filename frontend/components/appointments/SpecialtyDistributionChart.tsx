@@ -3,6 +3,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
 
@@ -26,7 +27,17 @@ function colorFor(name: string) {
   return SPECIALTY_COLORS[name] || "#1D4ED8";
 }
 
+function specialtyKey(name: string) {
+  const normalized = name.trim().toLowerCase();
+  if (normalized === "general practice") return "generalPractice";
+  if (normalized === "cardiology") return "cardiology";
+  if (normalized === "dermatology") return "dermatology";
+  if (normalized === "neurology") return "neurology";
+  return null;
+}
+
 export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChartProps) {
+  const tCommon = useT("common");
   const [isDark, setIsDark] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,6 +54,15 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
   }, []);
 
   const maxValue = React.useMemo(() => Math.max(1, ...stats.map((item) => item.value)), [stats]);
+
+  const displayName = React.useCallback(
+    (name: string) => {
+      const key = specialtyKey(name);
+      if (!key) return name;
+      return tCommon(`patientAppointments.specialtyDistribution.specialties.${key}`);
+    },
+    [tCommon],
+  );
 
   const bubblePoints = React.useMemo(
     () =>
@@ -64,7 +84,7 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
           },
           label: {
             show: true,
-            formatter: `${item.name}\n${item.value} Visits`,
+              formatter: `${displayName(item.name)}\n${tCommon("patientAppointments.specialtyDistribution.visits", { count: item.value })}`,
             color: isDark ? "#d8e6ff" : "#17345a",
             fontSize: 10,
             fontWeight: 600,
@@ -72,7 +92,7 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
           },
         };
       }),
-    [stats, maxValue, isDark],
+    [stats, maxValue, isDark, displayName, tCommon],
   );
 
   const option = React.useMemo(
@@ -88,7 +108,10 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
         borderWidth: 1,
         textStyle: { color: isDark ? "#d8e6ff" : "#1e3a63" },
         formatter: (params: { data: { name: string; value: [number, number, number, number] } }) =>
-          `${params.data.name}: ${params.data.value[3]} visits`,
+          tCommon("patientAppointments.specialtyDistribution.tooltip", {
+            name: displayName(params.data.name),
+            count: params.data.value[3],
+          }),
       },
       series: [
         {
@@ -101,13 +124,13 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
         },
       ],
     }),
-    [bubblePoints, isDark],
+    [bubblePoints, isDark, displayName, tCommon],
   );
 
   return (
     <Card className="rounded-2xl border border-border bg-card shadow-sm p-4 md:p-6 h-full">
-      <h3 className="text-lg font-semibold text-foreground">Specialty Distribution</h3>
-      <p className="mt-1 text-sm text-muted-foreground">Frequency of specialist interactions</p>
+      <h3 className="text-lg font-semibold text-foreground">{tCommon("patientAppointments.specialtyDistribution.title")}</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{tCommon("patientAppointments.specialtyDistribution.subtitle")}</p>
 
       <div className="mt-4 h-55">
         <ReactECharts option={option} style={{ width: "100%", height: "100%" }} notMerge lazyUpdate />
@@ -117,7 +140,7 @@ export function SpecialtyDistributionChart({ stats }: SpecialtyDistributionChart
         {stats.map((item) => (
           <span key={item.name} className="inline-flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full" style={{ backgroundColor: colorFor(item.name) }} />
-            {item.name}
+            {displayName(item.name)}
           </span>
         ))}
       </div>
