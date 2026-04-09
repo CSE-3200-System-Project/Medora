@@ -1,0 +1,14 @@
+{
+  "ariaLabel": "Notifications",
+  "title": "Notifications",
+  "markAllRead": "Mark all read",
+  "empty": "No notifications yet",
+  "viewAll": "View all notifications",
+  "failedToLoad": "Failed to load notifications",
+  "time": {
+    "justNow": "Just now",
+    "minutesAgo": "{count}m ago",
+    "hoursAgo": "{count}h ago",
+    "daysAgo": "{count}d ago"
+  }
+}
