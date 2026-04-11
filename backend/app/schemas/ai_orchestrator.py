@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -15,13 +15,42 @@ class ChoruiAssistantRequest(BaseModel):
     patient_id: str | None = None
     history: list[ChoruiHistoryMessage] = Field(default_factory=list)
     role_context: str | None = Field(default=None, max_length=32)
+    ui_locale: Literal["en", "bn"] | None = Field(default=None)
     prompt_version: str = "v1"
 
 
-class ChoruiNavigationSuggestion(BaseModel):
-    label: str = Field(..., min_length=1, max_length=120)
-    path: str = Field(..., min_length=1, max_length=256)
-    description: str | None = Field(default=None, max_length=240)
+class ChoruiNavigationActionOption(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    canonical_intent: str = Field(..., min_length=1, max_length=80)
+    route: str = Field(..., min_length=1, max_length=240)
+
+
+class ChoruiSuggestedRoute(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    route: str = Field(..., min_length=1, max_length=240)
+    canonical_intent: str = Field(..., min_length=1, max_length=80)
+
+
+class ChoruiNavigationAction(BaseModel):
+    type: Literal["navigate", "clarify", "suggest", "undo", "none"] = "none"
+    route: str | None = Field(default=None, max_length=240)
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    requires_confirmation: bool = False
+    missing_params: list[str] = Field(default_factory=list)
+    options: list[ChoruiNavigationActionOption] = Field(default_factory=list)
+    reason: str | None = Field(default=None, max_length=240)
+    delay_ms: int | None = Field(default=None, ge=0, le=5000)
+
+
+class ChoruiNavigationMemory(BaseModel):
+    pending_intent: str | None = Field(default=None, max_length=80)
+    missing_params: list[str] = Field(default_factory=list)
+    last_resolved_intent: str | None = Field(default=None, max_length=80)
+
+
+class ChoruiNavigationMeta(BaseModel):
+    previous_route: str | None = Field(default=None, max_length=240)
+    last_navigation_route: str | None = Field(default=None, max_length=240)
 
 
 class ChoruiAssistantResponse(BaseModel):
@@ -29,7 +58,10 @@ class ChoruiAssistantResponse(BaseModel):
     conversation_id: str
     structured_data: dict[str, Any] = Field(default_factory=dict)
     context_mode: str = "general"
-    navigation: list[ChoruiNavigationSuggestion] = Field(default_factory=list)
+    action: ChoruiNavigationAction | None = None
+    suggested_routes: list[ChoruiSuggestedRoute] = Field(default_factory=list)
+    memory: ChoruiNavigationMemory | None = None
+    navigation_meta: ChoruiNavigationMeta | None = None
 
 
 class ChoruiConversationSummary(BaseModel):

@@ -9,9 +9,16 @@ import { Card, CardContent } from "@/components/ui/card"
 type DeviceConnectionCardProps = {
   title: string
   lastSynced: string
+  lastSyncedLabel: string
+  manageDevicesLabel: string
 }
 
-export const DeviceConnectionCard = memo(function DeviceConnectionCard({ title, lastSynced }: DeviceConnectionCardProps) {
+export const DeviceConnectionCard = memo(function DeviceConnectionCard({
+  title,
+  lastSynced,
+  lastSyncedLabel,
+  manageDevicesLabel,
+}: DeviceConnectionCardProps) {
   return (
     <div className="card-hover">
       <Card className="overflow-hidden border border-border/70 bg-background text-foreground shadow-md dark:bg-card dark:text-card-foreground">
@@ -21,13 +28,15 @@ export const DeviceConnectionCard = memo(function DeviceConnectionCard({ title, 
           </div>
 
           <p className="text-lg font-semibold">{title}</p>
-          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">Last synced: {lastSynced}</p>
+          <p className="mt-1 text-sm text-muted-foreground dark:text-muted-foreground">
+            {lastSyncedLabel}: {lastSynced}
+          </p>
 
           <Button
             variant="ghost"
             className="mt-4 h-9 min-h-9 rounded-md border border-border bg-card px-3 text-xs font-semibold tracking-wide text-foreground hover:bg-card/80 hover:text-foreground dark:border-border dark:bg-muted dark:text-foreground dark:hover:bg-muted/80"
           >
-            Manage Devices
+            {manageDevicesLabel}
           </Button>
         </CardContent>
       </Card>

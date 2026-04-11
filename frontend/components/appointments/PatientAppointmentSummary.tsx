@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { PatientSummary } from "@/components/appointments/types";
+import { useT } from "@/i18n/client";
 
 interface PatientAppointmentSummaryProps {
   patient: PatientSummary;
@@ -19,6 +20,7 @@ export function PatientAppointmentSummary({
   lastVisitLabel,
   onNewAppointment,
 }: PatientAppointmentSummaryProps) {
+  const tCommon = useT("common");
   const initials = patient.fullName
     .split(" ")
     .map((part) => part[0])
@@ -39,18 +41,18 @@ export function PatientAppointmentSummary({
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-xl md:text-2xl font-semibold text-foreground truncate">{patient.fullName}</h2>
               <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs text-muted-foreground">
-                Patient ID: {patient.patientId}
+                {tCommon("patientAppointments.summary.patientId")}: {patient.patientId}
               </span>
             </div>
 
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <CalendarDays className="h-4 w-4 text-primary" />
-                Next: {nextAppointmentLabel}
+                {tCommon("patientAppointments.summary.next")}: {nextAppointmentLabel}
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Clock3 className="h-4 w-4 text-primary" />
-                Last Visit: {lastVisitLabel}
+                {tCommon("patientAppointments.summary.lastVisit")}: {lastVisitLabel}
               </span>
             </div>
           </div>
@@ -58,7 +60,7 @@ export function PatientAppointmentSummary({
 
         <Button variant="medical" className="w-full md:w-auto" onClick={onNewAppointment}>
           <Plus className="h-4 w-4" />
-          New Appointment
+          {tCommon("patientAppointments.summary.newAppointment")}
         </Button>
       </div>
     </Card>

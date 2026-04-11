@@ -46,3 +46,6 @@ jobs:
 
       - name: Lighthouse CI (Desktop)
         run: npm run perf:lhci:desktop
+
+      - name: Frontend Web Vitals Regression Guard
+        run: node ../tests/performance/frontend_perf_guard.mjs

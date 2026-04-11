@@ -10,7 +10,6 @@ import {
   Scissors, 
   Sun, 
   Cloud, 
-  Moon, 
   Star,
   Clock,
   AlertTriangle,
@@ -21,12 +20,10 @@ import {
 import { 
   MedicationPrescriptionInput, 
   TestPrescriptionInput, 
-  SurgeryRecommendationInput,
-  PrescriptionType 
+  SurgeryRecommendationInput
 } from "@/lib/prescription-actions";
 
 interface PrescriptionReviewProps {
-  type: PrescriptionType;
   medications: MedicationPrescriptionInput[];
   tests: TestPrescriptionInput[];
   surgeries: SurgeryRecommendationInput[];
@@ -51,15 +48,33 @@ const getMedicineTypeLabel = (type: string) => {
   return type.charAt(0).toUpperCase() + type.slice(1);
 };
 
-export function PrescriptionReview({
-  medications,
-  tests,
-  surgeries,
-  notes,
-  attachmentPreviewUrl,
-  attachmentName,
-  attachmentKind,
-}: PrescriptionReviewProps) {
+const getMedicationDosageDisplay = (med: MedicationPrescriptionInput) => {
+  if (med.dosage_pattern) {
+    return med.dosage_pattern;
+  }
+
+  if (med.frequency_text) {
+    return med.frequency_text;
+  }
+
+  const morning = med.dose_morning ? (med.dose_morning_amount || "1") : "0";
+  const afternoon = med.dose_afternoon ? (med.dose_afternoon_amount || "1") : "0";
+  const evening = med.dose_evening
+    ? (med.dose_evening_amount || "1")
+    : (med.dose_night ? (med.dose_night_amount || "1") : "0");
+
+  if (med.dose_morning || med.dose_afternoon || med.dose_evening || med.dose_night) {
+    return `${morning}-${afternoon}-${evening}`;
+  }
+
+  if (med.frequency_per_day) {
+    return `${med.frequency_per_day} times daily`;
+  }
+
+  return "As directed";
+};
+
+export function PrescriptionReview({ medications, tests, surgeries, notes }: PrescriptionReviewProps) {
   // Check if ANY type has content (not just the active type)
   const hasMedications = medications.length > 0;
   const hasTests = tests.length > 0;
@@ -130,6 +145,9 @@ export function PrescriptionReview({
                     {med.generic_name && (
                       <p className="text-sm text-muted-foreground">{med.generic_name}</p>
                     )}
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Dosage: {getMedicationDosageDisplay(med)}
+                    </p>
                   </div>
                   <div className="flex gap-1">
                     <Badge variant="secondary" className="text-xs">
@@ -141,7 +159,7 @@ export function PrescriptionReview({
                   </div>
                 </div>
 
-                {/* Dosage Schedule */}
+                {/* Dosage Schedule (pattern mode visualization) */}
                 <div className="flex flex-wrap gap-2 mb-2">
                   {med.dose_morning && (
                     <div className="flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-2 py-1 rounded-lg text-xs">
@@ -152,19 +170,13 @@ export function PrescriptionReview({
                   {med.dose_afternoon && (
                     <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-lg text-xs">
                       <Cloud className="w-3 h-3" />
-                      <span>Afternoon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
+                      <span>Noon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
                     </div>
                   )}
-                  {med.dose_evening && (
-                    <div className="flex items-center gap-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-lg text-xs">
-                      <Moon className="w-3 h-3" />
-                      <span>Evening {med.dose_evening_amount && `(${med.dose_evening_amount})`}</span>
-                    </div>
-                  )}
-                  {med.dose_night && (
+                  {(med.dose_evening || med.dose_night) && (
                     <div className="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-lg text-xs">
                       <Star className="w-3 h-3" />
-                      <span>Night {med.dose_night_amount && `(${med.dose_night_amount})`}</span>
+                      <span>Night {(med.dose_evening_amount || med.dose_night_amount) && `(${med.dose_evening_amount || med.dose_night_amount})`}</span>
                     </div>
                   )}
                 </div>

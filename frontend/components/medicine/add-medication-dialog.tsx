@@ -39,6 +39,7 @@ import {
   type MealInstructionValue,
   type PatientMedication,
 } from "@/lib/patient-medication";
+import { useT } from "@/i18n/client";
 
 // Types
 interface MedicineResult {
@@ -66,12 +67,12 @@ const DEFAULT_SCHEDULE: DoseSchedule = {
   dose_night_amount: "1",
 };
 
-const MEAL_INSTRUCTION_OPTIONS: Array<{ value: MealInstructionValue; label: string }> = [
-  { value: "after_meal", label: "After Meal" },
-  { value: "before_meal", label: "Before Meal" },
-  { value: "with_meal", label: "With Meal" },
-  { value: "empty_stomach", label: "Empty Stomach" },
-  { value: "any_time", label: "Any Time" },
+const MEAL_INSTRUCTION_VALUES: MealInstructionValue[] = [
+  "after_meal",
+  "before_meal",
+  "with_meal",
+  "empty_stomach",
+  "any_time",
 ];
 
 function hasAtLeastOneDose(schedule: DoseSchedule) {
@@ -98,6 +99,7 @@ export function AddMedicationDialog({
   prefilledMedicine,
   editingMedication,
 }: AddMedicationDialogProps) {
+  const tCommon = useT("common");
   const [step, setStep] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<MedicineResult[]>([]);
@@ -124,6 +126,15 @@ export function AddMedicationDialog({
     prescribing_doctor: "",
     notes: "",
   });
+
+  const mealInstructionOptions = React.useMemo(
+    () =>
+      MEAL_INSTRUCTION_VALUES.map((value) => ({
+        value,
+        label: tCommon(`medicine.addDialog.mealInstructions.${value}`),
+      })),
+    [tCommon],
+  );
 
   // Initialize with prefilled medicine or editing medication
   useEffect(() => {
@@ -281,7 +292,7 @@ export function AddMedicationDialog({
   const handleSave = async () => {
     const hasDoseSchedule = hasAtLeastOneDose(formData);
     if (!selectedMedicine || !formData.dosage || !hasDoseSchedule) {
-      alert("Please fill in medicine, dosage, and at least one dose time");
+      alert(tCommon("medicine.addDialog.validationRequired"));
       return;
     }
 
@@ -318,12 +329,14 @@ export function AddMedicationDialog({
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl sm:text-2xl">
-            {editingMedication ? "Edit Medication" : "Add Medication"}
+            {editingMedication
+              ? tCommon("medicine.addDialog.editMedication")
+              : tCommon("medicine.addDialog.addMedication")}
           </DialogTitle>
           <DialogDescription>
-            {step === 1 && "Search and select a medicine"}
-            {step === 2 && "Enter dosage and day-part schedule details"}
-            {step === 3 && "Add optional information"}
+            {step === 1 && tCommon("medicine.addDialog.step1Description")}
+            {step === 2 && tCommon("medicine.addDialog.step2Description")}
+            {step === 3 && tCommon("medicine.addDialog.step3Description")}
           </DialogDescription>
         </DialogHeader>
 
@@ -359,11 +372,11 @@ export function AddMedicationDialog({
           {step === 1 && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="search">Search Medicine</Label>
+                <Label htmlFor="search">{tCommon("medicine.addDialog.searchMedicine")}</Label>
                 <div>
                   <Input
                     id="search"
-                    placeholder="Type medicine name or brand..."
+                    placeholder={tCommon("medicine.addDialog.searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     autoFocus
@@ -397,7 +410,7 @@ export function AddMedicationDialog({
                       size="sm"
                       onClick={() => setSelectedMedicine(null)}
                     >
-                      Change
+                      {tCommon("medicine.addDialog.change")}
                     </Button>
                   </div>
                 </Card>
@@ -406,14 +419,14 @@ export function AddMedicationDialog({
               {/* Search Results */}
               {searchLoading && (
                 <div className="flex items-center justify-center py-8">
-                  <MedoraLoader size="sm" label="Searching medicines..." />
+                  <MedoraLoader size="sm" label={tCommon("medicine.addDialog.searchingMedicines")} />
                 </div>
               )}
 
               {searchResults.length > 0 && (
                 <div className="space-y-2 max-h-[300px] overflow-y-auto">
                   <p className="text-sm text-muted-foreground">
-                    {searchResults.length} results found
+                    {tCommon("medicine.addDialog.resultsFound", { count: searchResults.length })}
                   </p>
                   {searchResults.map((medicine) => (
                     <Card
@@ -448,7 +461,9 @@ export function AddMedicationDialog({
 
               {!searchLoading && searchQuery.length >= 2 && searchResults.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
-                  <p className="text-sm">No medicines found for &quot;{searchQuery}&quot;</p>
+                  <p className="text-sm">
+                    {tCommon("medicine.addDialog.noMedicinesFor", { query: searchQuery })}
+                  </p>
                 </div>
               )}
             </div>
@@ -478,11 +493,11 @@ export function AddMedicationDialog({
                 <div className="space-y-2">
                   <Label htmlFor="dosage" className="flex items-center gap-2">
                     <Pill className="w-4 h-4" />
-                    Dosage <span className="text-destructive">*</span>
+                    {tCommon("medicine.addDialog.dosage")} <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="dosage"
-                    placeholder="e.g., 1 tablet"
+                    placeholder={tCommon("medicine.addDialog.dosagePlaceholder")}
                     value={formData.dosage}
                     onChange={(e) =>
                       setFormData({ ...formData, dosage: e.target.value })
@@ -491,10 +506,10 @@ export function AddMedicationDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="duration">Duration</Label>
+                  <Label htmlFor="duration">{tCommon("medicine.addDialog.duration")}</Label>
                   <Input
                     id="duration"
-                    placeholder="e.g., 7 days"
+                    placeholder={tCommon("medicine.addDialog.durationPlaceholder")}
                     value={formData.duration}
                     onChange={(e) =>
                       setFormData({ ...formData, duration: e.target.value })
@@ -503,7 +518,7 @@ export function AddMedicationDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="meal_instruction">Meal Instructions</Label>
+                  <Label htmlFor="meal_instruction">{tCommon("medicine.addDialog.mealInstruction")}</Label>
                   <select
                     id="meal_instruction"
                     value={formData.meal_instruction}
@@ -515,7 +530,7 @@ export function AddMedicationDialog({
                     }
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
-                    {MEAL_INSTRUCTION_OPTIONS.map((option) => (
+                    {mealInstructionOptions.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
@@ -524,7 +539,7 @@ export function AddMedicationDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
+                  <Label htmlFor="status">{tCommon("medicine.addDialog.status")}</Label>
                   <select
                     id="status"
                     value={formData.status}
@@ -536,15 +551,15 @@ export function AddMedicationDialog({
                     }
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
-                    <option value="current">Currently Taking</option>
-                    <option value="past">Past Medication</option>
+                    <option value="current">{tCommon("medicine.addDialog.currentlyTaking")}</option>
+                    <option value="past">{tCommon("medicine.addDialog.pastMedication")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label>
-                  Dosage Schedule <span className="text-destructive">*</span>
+                  {tCommon("medicine.addDialog.dosageSchedule")} <span className="text-destructive">*</span>
                 </Label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <button
@@ -558,7 +573,7 @@ export function AddMedicationDialog({
                     )}
                   >
                     <Sun className={cn("mb-1 h-5 w-5", formData.dose_morning ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">Morning</span>
+                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.morning")}</span>
                     {formData.dose_morning && (
                       <Input
                         value={formData.dose_morning_amount}
@@ -581,7 +596,7 @@ export function AddMedicationDialog({
                     )}
                   >
                     <Cloud className={cn("mb-1 h-5 w-5", formData.dose_afternoon ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">Afternoon</span>
+                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.afternoon")}</span>
                     {formData.dose_afternoon && (
                       <Input
                         value={formData.dose_afternoon_amount}
@@ -604,7 +619,7 @@ export function AddMedicationDialog({
                     )}
                   >
                     <Moon className={cn("mb-1 h-5 w-5", formData.dose_evening ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">Evening</span>
+                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.evening")}</span>
                     {formData.dose_evening && (
                       <Input
                         value={formData.dose_evening_amount}
@@ -627,7 +642,7 @@ export function AddMedicationDialog({
                     )}
                   >
                     <Star className={cn("mb-1 h-5 w-5", formData.dose_night ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">Night</span>
+                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.night")}</span>
                     {formData.dose_night && (
                       <Input
                         value={formData.dose_night_amount}
@@ -640,13 +655,13 @@ export function AddMedicationDialog({
                   </button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Stored frequency format: <span className="font-mono">{formData.frequency}</span>
+                  {tCommon("medicine.addDialog.storedFrequency")}: <span className="font-mono">{formData.frequency}</span>
                 </p>
               </div>
 
               <div className="pt-2">
                 <p className="text-xs text-muted-foreground">
-                  <span className="text-destructive">*</span> Required fields
+                  <span className="text-destructive">*</span> {tCommon("medicine.addDialog.requiredFields")}
                 </p>
               </div>
             </div>
@@ -659,7 +674,7 @@ export function AddMedicationDialog({
                 <div className="space-y-2">
                   <Label htmlFor="started_date" className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    Started Date
+                    {tCommon("medicine.addDialog.startedDate")}
                   </Label>
                   <Input
                     id="started_date"
@@ -673,7 +688,7 @@ export function AddMedicationDialog({
 
                 {formData.status === "past" && (
                   <div className="space-y-2">
-                    <Label htmlFor="stopped_date">Stopped Date</Label>
+                    <Label htmlFor="stopped_date">{tCommon("medicine.addDialog.stoppedDate")}</Label>
                     <Input
                       id="stopped_date"
                       type="date"
@@ -688,11 +703,11 @@ export function AddMedicationDialog({
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="prescribing_doctor" className="flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    Prescribing Doctor
+                    {tCommon("medicine.addDialog.prescribingDoctor")}
                   </Label>
                   <Input
                     id="prescribing_doctor"
-                    placeholder="Doctor's name"
+                    placeholder={tCommon("medicine.addDialog.prescribingDoctorPlaceholder")}
                     value={formData.prescribing_doctor}
                     onChange={(e) =>
                       setFormData({
@@ -707,11 +722,11 @@ export function AddMedicationDialog({
               <div className="space-y-2">
                 <Label htmlFor="notes" className="flex items-center gap-2">
                   <FileText className="w-4 h-4" />
-                  Notes
+                  {tCommon("medicine.addDialog.notes")}
                 </Label>
                 <Textarea
                   id="notes"
-                  placeholder="Any additional notes or instructions..."
+                  placeholder={tCommon("medicine.addDialog.notesPlaceholder")}
                   rows={3}
                   value={formData.notes}
                   onChange={(e) =>
@@ -732,7 +747,7 @@ export function AddMedicationDialog({
               className="w-full sm:w-auto"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
-              Back
+              {tCommon("back")}
             </Button>
           )}
 
@@ -742,7 +757,7 @@ export function AddMedicationDialog({
               disabled={!canProceed()}
               className="w-full sm:w-auto sm:ml-auto"
             >
-              Next
+              {tCommon("medicine.addDialog.next")}
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
@@ -752,7 +767,9 @@ export function AddMedicationDialog({
               className="w-full sm:w-auto sm:ml-auto"
             >
               {saving && <ButtonLoader className="w-4 h-4 mr-2" />}
-              {editingMedication ? "Update Medication" : "Add Medication"}
+              {editingMedication
+                ? tCommon("medicine.addDialog.updateMedication")
+                : tCommon("medicine.addDialog.addMedication")}
             </Button>
           )}
         </DialogFooter>

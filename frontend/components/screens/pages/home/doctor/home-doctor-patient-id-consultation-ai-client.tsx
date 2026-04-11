@@ -14,6 +14,12 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/ui/navbar";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  getDoctorActiveConsultations,
+  saveConsultationDraft,
+  startConsultation,
+} from "@/lib/prescription-actions";
+import { handleUnauthorized } from "@/lib/auth-utils";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 
 interface PatientInfo {
@@ -27,16 +33,39 @@ interface PatientInfo {
 
 type SuggestionType = "condition" | "test" | "medication";
 
-interface AIConsultationPrefill {
-  chiefComplaint: string;
-  diagnosis: string;
-  notes: string;
-  selectedMedications: string[];
-  selectedTests: string[];
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
 }
 
-function getPrefillStorageKey(patientId: string): string {
-  return `medora:consultation-ai-prefill:${patientId}`;
+function isAuthErrorMessage(message: string): boolean {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("invalid or expired token")
+    || normalized.includes("authentication required")
+    || normalized.includes("not authenticated")
+    || normalized.includes("unauthorized")
+  );
+}
+
+function normalizeConsultationId(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const lowered = trimmed.toLowerCase();
+  if (lowered === "undefined" || lowered === "null") {
+    return null;
+  }
+
+  return trimmed;
 }
 
 export default function ConsultationAIPreStepPage() {
@@ -53,7 +82,19 @@ export default function ConsultationAIPreStepPage() {
   const [notes, setNotes] = React.useState("");
   const [selectedMedications, setSelectedMedications] = React.useState<string[]>([]);
   const [selectedTests, setSelectedTests] = React.useState<string[]>([]);
+  const [continuing, setContinuing] = React.useState(false);
   const clinicalContext = [chiefComplaint, diagnosis, notes].filter((value) => value.trim()).join("\n");
+
+  const handleAuthError = React.useCallback((error: unknown): boolean => {
+    const message = getErrorMessage(error, "");
+    if (!isAuthErrorMessage(message)) {
+      return false;
+    }
+
+    setError("Session expired. Redirecting to login...");
+    handleUnauthorized();
+    return true;
+  }, []);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -75,11 +116,16 @@ export default function ConsultationAIPreStepPage() {
           gender: patientData.gender,
           blood_group: patientData.blood_group,
         });
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (!isMounted) {
           return;
         }
-        setError(err.message || "Failed to load patient data");
+
+        if (handleAuthError(err)) {
+          return;
+        }
+
+        setError(getErrorMessage(err, "Failed to load patient data"));
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -91,7 +137,7 @@ export default function ConsultationAIPreStepPage() {
     return () => {
       isMounted = false;
     };
-  }, [patientId]);
+  }, [patientId, handleAuthError]);
 
   const handleInsertSuggestion = React.useCallback(
     (suggestion: { type: SuggestionType; text: string; confidence: number }) => {
@@ -129,20 +175,80 @@ export default function ConsultationAIPreStepPage() {
     setSelectedTests((prev) => prev.filter((item) => item !== name));
   };
 
-  const continueToConsultation = () => {
-    const payload: AIConsultationPrefill = {
-      chiefComplaint,
-      diagnosis,
-      notes,
-      selectedMedications,
-      selectedTests,
+  const continueToConsultation = async () => {
+    const resolveConsultationId = async (): Promise<string> => {
+      try {
+        const startedConsultation = await startConsultation({ patient_id: patientId });
+        const startedConsultationId = normalizeConsultationId(startedConsultation?.id);
+        if (startedConsultationId) {
+          return startedConsultationId;
+        }
+        throw new Error("Consultation ID is missing.");
+      } catch (error: unknown) {
+        const message = getErrorMessage(error, "Unable to create consultation");
+        if (!message.includes("Active consultation already exists")) {
+          throw error;
+        }
+
+        const activeConsultations = await getDoctorActiveConsultations();
+        const existingConsultation = activeConsultations.consultations.find(
+          (consultation) => consultation.patient_ref === patientId || consultation.patient_id === patientId
+        );
+        const existingConsultationId = normalizeConsultationId(existingConsultation?.id);
+
+        if (!existingConsultationId) {
+          throw new Error("Unable to load the existing consultation for this patient.");
+        }
+
+        return existingConsultationId;
+      }
     };
 
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(getPrefillStorageKey(patientId), JSON.stringify(payload));
-    }
+    try {
+      setContinuing(true);
+      setError(null);
 
-    router.push(`/doctor/patient/${patientId}/consultation?from=ai`);
+      const consultationId = await resolveConsultationId();
+      const draftMedications = selectedMedications
+        .map((name) => name.trim())
+        .filter((name) => name.length > 0)
+        .map((medicine_name) => ({
+          medicine_name,
+          dose_morning: true,
+          dosage_type: "pattern" as const,
+          dosage_pattern: "1-0-0",
+          duration_value: 7,
+          duration_unit: "days" as const,
+          meal_instruction: "after_meal" as const,
+        }));
+
+      const draftTests = selectedTests
+        .map((name) => name.trim())
+        .filter((name) => name.length > 0)
+        .map((test_name) => ({
+          test_name,
+          urgency: "normal" as const,
+        }));
+
+      await saveConsultationDraft(consultationId, {
+        chief_complaint: chiefComplaint.trim() || undefined,
+        diagnosis: diagnosis.trim() || undefined,
+        notes: notes.trim() || undefined,
+        prescription_type: draftMedications.length ? "medication" : draftTests.length ? "test" : undefined,
+        medications: draftMedications,
+        tests: draftTests,
+      });
+
+      router.push(`/doctor/patient/${patientId}/consultation?from=ai&consultation_id=${consultationId}`);
+    } catch (error: unknown) {
+      if (handleAuthError(error)) {
+        return;
+      }
+
+      setError(getErrorMessage(error, "Unable to continue to consultation"));
+    } finally {
+      setContinuing(false);
+    }
   };
 
   if (loading) {
@@ -326,8 +432,8 @@ export default function ConsultationAIPreStepPage() {
               </CardContent>
             </Card>
 
-            <Button variant="medical" className="w-full" onClick={continueToConsultation}>
-              Continue To Consultation
+            <Button variant="medical" className="w-full" onClick={() => void continueToConsultation()} disabled={continuing}>
+              {continuing ? "Preparing consultation..." : "Continue To Consultation"}
             </Button>
           </div>
 
