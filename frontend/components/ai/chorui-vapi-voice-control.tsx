@@ -20,10 +20,7 @@ type ChoruiVapiVoiceControlProps = {
   patientId?: string;
 };
 
-type VapiClient = Pick<Vapi, "start" | "stop" | "on" | "getDailyCallObject"> & {
-  off?: (event: string, handler: (...args: unknown[]) => void) => void;
-  removeListener?: (event: string, handler: (...args: unknown[]) => void) => void;
-};
+type VapiClient = Pick<Vapi, "start" | "stop" | "on" | "off" | "getDailyCallObject">;
 
 type VapiListeners = {
   handleCallStart: () => void;

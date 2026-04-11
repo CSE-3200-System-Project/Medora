@@ -401,6 +401,22 @@ export async function startConsultation(data: {
 
   if (!response.ok) {
     const errorMessage = await parseErrorResponse(response);
+
+    if (response.status === 400 && errorMessage.includes("Active consultation already exists")) {
+      try {
+        const activeConsultations = await getDoctorActiveConsultations();
+        const existingConsultation = activeConsultations.consultations.find(
+          (consultation) => consultation.patient_id === data.patient_id || consultation.patient_ref === data.patient_id
+        );
+
+        if (existingConsultation) {
+          return existingConsultation;
+        }
+      } catch {
+        // Fall through to the original error if fallback lookup fails.
+      }
+    }
+
     throw new Error(errorMessage || "Failed to start consultation");
   }
 

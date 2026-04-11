@@ -202,6 +202,35 @@ function normalizeSuggestedRoutes(value: unknown): ChoruiSuggestedRoute[] {
   return suggestions;
 }
 
+function sanitizeNavigationList(value: unknown): ChoruiNavigationSuggestion[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const suggestions: ChoruiNavigationSuggestion[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const record = item as Record<string, unknown>;
+    const label = normalizeText(record.label);
+    const path = normalizeRoute(record.path) || normalizeRoute(record.route);
+    const description = normalizeText(record.description);
+    if (!label || !path) {
+      continue;
+    }
+
+    suggestions.push({
+      label,
+      path,
+      description: description || null,
+    });
+  }
+
+  return suggestions;
+}
+
 function normalizeNavigationAction(value: unknown): ChoruiNavigationAction | null {
   if (!value || typeof value !== "object") {
     return null;

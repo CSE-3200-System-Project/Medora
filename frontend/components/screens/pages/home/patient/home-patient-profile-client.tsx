@@ -409,6 +409,50 @@ export default function PatientProfilePage() {
             </CardContent>
           </Card>
 
+          {/* Care & Monitoring - Quick Access */}
+          <Card hoverable className="border-border/50 shadow-md lg:col-span-2">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Activity className="h-5 w-5 text-primary" />
+                Care & Monitoring
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Prescriptions Card */}
+                <button
+                  onClick={() => router.push('/patient/prescriptions')}
+                  className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-900/10 rounded-lg border border-blue-200/60 dark:border-blue-800/40 hover:shadow-md dark:hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-700 transition-all text-left"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-blue-500/10 rounded-lg">
+                      <Pill className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-blue-900 dark:text-blue-300">Prescriptions</p>
+                      <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">Access your current and past prescriptions</p>
+                    </div>
+                  </div>
+                </button>
+                {/* Reminders Card */}
+                <button
+                  onClick={() => router.push('/patient/reminders')}
+                  className="p-4 bg-gradient-to-br from-amber-50 to-amber-100/50 dark:from-amber-900/20 dark:to-amber-900/10 rounded-lg border border-amber-200/60 dark:border-amber-800/40 hover:shadow-md dark:hover:shadow-lg hover:border-amber-300 dark:hover:border-amber-700 transition-all text-left"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-amber-500/10 rounded-lg">
+                      <Bell className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-amber-900 dark:text-amber-300">Reminders</p>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">Manage your medication and follow-up reminders</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Medical Conditions */}
           <Card hoverable className="border-border/50 shadow-md">
             <CardHeader className="pb-4">
@@ -515,7 +559,7 @@ export default function PatientProfilePage() {
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <FileText className="h-5 w-5 text-primary" />
-                  Medical History
+                  Medical History & Care
                 </CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')} className="touch-target">
                   View All
@@ -523,9 +567,9 @@ export default function PatientProfilePage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Surgeries */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Surgeries</p>
@@ -544,7 +588,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
                 {/* Hospitalizations */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Hospitalizations</p>
@@ -563,7 +607,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
                 {/* Recent Visits */}
-                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50">
+                <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/appointments')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4 text-primary" />
                     <p className="font-medium text-sm">Recent Visits</p>
@@ -582,6 +626,22 @@ export default function PatientProfilePage() {
                   ) : (
                     <p className="text-xs text-muted-foreground">No visits recorded</p>
                   )}
+                </div>
+                {/* Prescriptions */}
+                <div className="p-4 bg-blue-50/50 dark:bg-blue-900/15 rounded-lg border border-blue-200/50 dark:border-blue-800/50 hover:bg-blue-100/50 dark:hover:bg-blue-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/prescriptions')}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Pill className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    <p className="font-medium text-sm text-blue-900 dark:text-blue-300">Prescriptions</p>
+                  </div>
+                  <p className="text-xs text-blue-700 dark:text-blue-400">View all your active and past prescriptions</p>
+                </div>
+                {/* Reminders */}
+                <div className="p-4 bg-amber-50/50 dark:bg-amber-900/15 rounded-lg border border-amber-200/50 dark:border-amber-800/50 hover:bg-amber-100/50 dark:hover:bg-amber-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/reminders')}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Bell className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    <p className="font-medium text-sm text-amber-900 dark:text-amber-300">Reminders</p>
+                  </div>
+                  <p className="text-xs text-amber-700 dark:text-amber-400">Manage your medicine and follow-up reminders</p>
                 </div>
               </div>
             </CardContent>

@@ -1,3 +1,82 @@
+# Consultation Complete + History Detail Loading Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Fix 500 on `PATCH /consultation/{consultation_id}/complete` caused by response-model mismatch
+- [x] Ensure completed consultation screen hydrates medicines/tests/procedures from persisted prescriptions when draft is absent
+- [x] Enable loading exact selected prescription details from doctor history card clicks
+- [x] Propagate `prescription_id` query through preview page and API proxy to backend full-payload endpoint
+- [x] Validate changed backend/frontend files with diagnostics
+
+### Review
+- Root cause 1: duplicate complete route handlers existed; the matched handler for `/{consultation_id}/complete` returned draft payload while declared as `ConsultationResponse`, triggering FastAPI `ResponseValidationError`.
+- Fix 1: updated the matched `complete_consultation` handler to execute real completion logic and return `build_consultation_response(...)`.
+- Root cause 2: consultation detail hydration relied on draft payload even for completed consultations where `draft_id` is intentionally cleared after issuing prescription; this produced empty medication/test/procedure sections.
+- Fix 2: in consultation client hydration, when draft is unavailable, fallback now populates form state from `consultation.prescriptions` payload (including notes/type from latest prescription).
+- Root cause 3: past prescription click opened consultation-level preview without targeting the clicked prescription.
+- Fix 3: history card now navigates with `prescription_id`, preview page forwards it, and backend full-preview endpoint supports filtering by selected prescription and corresponding snapshot.
+- Validation: diagnostics report no errors in touched files.
+
+# Consultation Start + Prescription Insert Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and trace consultation start failure path for active consultation collisions
+- [x] Fix add-prescription query type mismatch causing PostgreSQL varchar/uuid operator errors
+- [x] Make consultation start idempotent when an active consultation already exists for the same doctor-patient pair
+- [x] Add server-action fallback to reuse active consultation instead of surfacing hard failure
+- [x] Validate edited files with diagnostics and capture review notes
+
+### Review
+- Root cause 1: `add_prescription` in `backend/app/routes/consultation.py` compared `Consultation.id` (varchar) against a UUID-typed path param, producing PostgreSQL `operator does not exist: character varying = uuid` and blocking prescription creation.
+- Fix 1: normalized path UUID to string (`consultation_id_str`) and used string comparison in the consultation lookup query before creating the prescription.
+- Root cause 2: starting consultation for a patient with an already open consultation returned a hard error (`Active consultation already exists...`), which propagated through server actions and surfaced as 500 in Next logs.
+- Fix 2: `start_consultation` now returns the existing open consultation response instead of throwing, making the endpoint idempotent for duplicate start attempts.
+- Hardening: `frontend/lib/prescription-actions.ts` now includes a fallback in `startConsultation` that fetches doctor active consultations and returns the matching one when backend responds with that active-consultation message.
+- Validation: diagnostics report no errors in touched backend/frontend files.
+
+# Doctor Patient Records + Loader Normalization (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Analyze and fix broken skeleton/loader rendering on doctor patient details screen
+- [x] Correct layout/token inconsistencies causing UI breakage on that screen
+- [x] Extend doctor patient-access payload with consultation and prescription history for this doctor-patient pair
+- [x] Add "Past Consultations & Prescriptions" section in doctor patient records (marked area) with click-through actions
+- [x] Validate with diagnostics/build and document review notes
+
+### Review
+- Root UI gap cause: doctor patient details page had no left-column content below Lifestyle while right-column history continued, creating a large dead area in the exact region marked in the screenshot.
+- Added a new doctor-facing "Past Consultations & Prescriptions" panel under Lifestyle with click-through actions to consultation detail (`/doctor/patient/{id}/consultation?consultation_id=...`) and prescription preview (`/prescription/preview/{consultation_id}`).
+- Backend `GET /patient-access/patient/{patient_id}` now includes `consultation_history` and `prescription_history` scoped to this doctor-patient pair.
+- Privacy guard updated so these new fields are controlled by `can_view_prescriptions` and redacted when not shared.
+- Loader normalization: replaced the generic loading shell on doctor patient details with a structure-aware skeleton (`DoctorPatientRecordSkeleton`) to prevent layout jank and broken visual rhythm during load.
+- Validation: diagnostics report no errors in all touched files; frontend production build succeeds with expected pre-existing dynamic cookie route warnings.
+
+# Consultation Performance + Theme Consistency Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Measure and summarize baseline consultation latency and refresh bottlenecks from runtime logs
+- [x] Fix consultation autosave loop and overlapping draft save calls
+- [x] Reduce duplicate unread-count requests caused by multiple notification dropdown mounts
+- [x] Align consultation prescription review colors to theme tokens for stable dark/light palettes
+- [x] Fix prescription preview i18n formatting warnings and configure default i18n time zone
+- [x] Run focused frontend validation and record before/after outcomes
+
+### Review
+- Baseline from runtime logs: repeated `saveConsultationDraftById` calls were occurring despite no new edits, often costing about 2.5s to 5.9s each and creating perceived refresh slowness.
+- Root cause in consultation flow: silent autosaves did not refresh the saved snapshot marker, so `requiresManualSave` stayed true and the autosave loop kept retriggering.
+- Fixed in `frontend/components/screens/pages/home/doctor/home-doctor-patient-id-consultation-client.tsx` by preventing overlapping silent saves, always updating the saved draft snapshot after successful persistence, extending debounce from 1000ms to 2200ms, and throttling focus-triggered re-hydration.
+- Reduced duplicate unread requests in `frontend/components/ui/notification-dropdown.tsx` using a shared 30s unread-count cache plus in-flight request dedupe.
+- Stabilized light/dark palette behavior by replacing hardcoded mixed color classes with theme tokens in `frontend/components/prescription/PrescriptionReview.tsx` and `frontend/app/(home)/prescription/preview/[consultation_id]/page.tsx`.
+- Resolved i18n warning sources by adding placeholder values for `generatedVia` and `printDate`, and setting default timezone (`Asia/Dhaka`) in `frontend/components/providers/app-i18n-provider.tsx`.
+- Validation: targeted diagnostics for changed files reported no errors; production frontend build succeeded (`npm run build` in `frontend`) with expected dynamic-route warnings due cookie-based rendering.
+
 # Chorui Namespace Loading Fix (2026-04-10)
 
 ## Status: completed

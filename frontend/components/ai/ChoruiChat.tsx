@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AlertTriangle, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
+import { AlertTriangle, ArrowRight, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ import { ChoruiVapiVoiceControl } from "@/components/ai/chorui-vapi-voice-contro
 import { useChoruiChat } from "@/hooks/useChoruiChat";
 import type { ChoruiNavigationAction, ChoruiRoleContext, ChoruiSuggestedRoute } from "@/types/ai";
 import { useT } from "@/i18n/client";
+import { formatMeridiemTime, formatShortDateTime } from "@/lib/utils";
 
 const AUTO_NAVIGATION_CONFIDENCE = 0.85;
 const CONFIRM_NAVIGATION_CONFIDENCE = 0.6;

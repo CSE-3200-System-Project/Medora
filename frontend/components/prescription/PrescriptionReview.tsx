@@ -74,7 +74,15 @@ const getMedicationDosageDisplay = (med: MedicationPrescriptionInput) => {
   return "As directed";
 };
 
-export function PrescriptionReview({ medications, tests, surgeries, notes }: PrescriptionReviewProps) {
+export function PrescriptionReview({
+  medications,
+  tests,
+  surgeries,
+  notes,
+  attachmentPreviewUrl,
+  attachmentName,
+  attachmentKind,
+}: PrescriptionReviewProps) {
   // Check if ANY type has content (not just the active type)
   const hasMedications = medications.length > 0;
   const hasTests = tests.length > 0;
@@ -162,19 +170,19 @@ export function PrescriptionReview({ medications, tests, surgeries, notes }: Pre
                 {/* Dosage Schedule (pattern mode visualization) */}
                 <div className="flex flex-wrap gap-2 mb-2">
                   {med.dose_morning && (
-                    <div className="flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 rounded-lg bg-warning/15 px-2 py-1 text-xs text-warning">
                       <Sun className="w-3 h-3" />
                       <span>Morning {med.dose_morning_amount && `(${med.dose_morning_amount})`}</span>
                     </div>
                   )}
                   {med.dose_afternoon && (
-                    <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 rounded-lg bg-primary/10 px-2 py-1 text-xs text-primary">
                       <Cloud className="w-3 h-3" />
                       <span>Noon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
                     </div>
                   )}
                   {(med.dose_evening || med.dose_night) && (
-                    <div className="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-lg text-xs">
+                    <div className="flex items-center gap-1 rounded-lg bg-secondary px-2 py-1 text-xs text-secondary-foreground">
                       <Star className="w-3 h-3" />
                       <span>Night {(med.dose_evening_amount || med.dose_night_amount) && `(${med.dose_evening_amount || med.dose_night_amount})`}</span>
                     </div>
@@ -210,16 +218,16 @@ export function PrescriptionReview({ medications, tests, surgeries, notes }: Pre
 
       {/* Tests Review - Show if there are any tests */}
       {hasTests && (
-        <Card className="rounded-xl bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800">
+        <Card className="rounded-xl border-secondary/60 bg-secondary/35">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <FlaskConical className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              <FlaskConical className="w-5 h-5 text-secondary-foreground" />
               Medical Tests ({tests.length})
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {tests.map((test, index) => (
-              <div key={index} className="bg-card dark:bg-card rounded-lg p-4 border dark:border-border">
+              <div key={index} className="rounded-lg border bg-card p-4">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{test.test_name}</h4>
                   <div className="flex gap-1">
@@ -263,16 +271,16 @@ export function PrescriptionReview({ medications, tests, surgeries, notes }: Pre
 
       {/* Surgeries Review - Show if there are any surgeries */}
       {hasSurgeries && (
-        <Card className="rounded-xl bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800">
+        <Card className="rounded-xl border-destructive/25 bg-destructive/5">
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Scissors className="w-5 h-5 text-red-600 dark:text-red-400" />
+              <Scissors className="w-5 h-5 text-destructive" />
               Procedures ({surgeries.length})
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {surgeries.map((surgery, index) => (
-              <div key={index} className="bg-card dark:bg-card rounded-lg p-4 border dark:border-border">
+              <div key={index} className="rounded-lg border bg-card p-4">
                 <div className="flex items-start justify-between mb-2">
                   <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
                   <div className="flex gap-1">
