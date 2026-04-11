@@ -34,7 +34,7 @@ import {
   SurgeryRecommendationInput,
   PrescriptionType,
 } from "@/lib/prescription-actions";
-import { extractPrescriptionFromImage } from "@/lib/file-storage-actions";
+import { extractPrescriptionFromImage, uploadMediaFile } from "@/lib/file-storage-actions";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 import {
   User,
@@ -113,6 +113,7 @@ export default function ConsultationPage() {
   const [ocrAttachmentPreviewUrl, setOcrAttachmentPreviewUrl] = React.useState<string | null>(null);
   const [ocrAttachmentName, setOcrAttachmentName] = React.useState<string>("");
   const [ocrAttachmentKind, setOcrAttachmentKind] = React.useState<"image" | "pdf" | null>(null);
+  const [ocrAttachmentFile, setOcrAttachmentFile] = React.useState<File | null>(null);
   const [ocrDetectedMedicines, setOcrDetectedMedicines] = React.useState<OcrDetectedMedication[]>([]);
 
   const parseDoseSchedule = React.useCallback((frequencyText: string | undefined) => {
@@ -330,7 +331,7 @@ export default function ConsultationPage() {
       setSubmitting(true);
       setError(null);
 
-      await addPrescription(consultation.id, {
+      const createdPrescription = await addPrescription(consultation.id, {
         type: prescriptionType,
         notes: prescriptionNotes,
         medications: hasMedications ? medications : undefined,
@@ -338,10 +339,39 @@ export default function ConsultationPage() {
         surgeries: hasSurgeries ? surgeries : undefined,
       });
 
+      let attachmentUploadWarning: string | null = null;
+      if (ocrAttachmentFile) {
+        try {
+          await uploadMediaFile({
+            file: ocrAttachmentFile,
+            category: "prescription_image",
+            entityType: "prescription_attachment",
+            entityId: createdPrescription.id,
+            visibility: "public",
+          });
+        } catch (uploadError: any) {
+          attachmentUploadWarning = uploadError?.message || "Prescription was sent, but attachment upload failed.";
+        }
+      }
+
+      if (ocrAttachmentPreviewUrl) {
+        URL.revokeObjectURL(ocrAttachmentPreviewUrl);
+      }
+
       setMedications([]);
       setTests([]);
       setSurgeries([]);
       setPrescriptionNotes("");
+      setOcrAttachmentPreviewUrl(null);
+      setOcrAttachmentName("");
+      setOcrAttachmentKind(null);
+      setOcrAttachmentFile(null);
+      setOcrDetectedMedicines([]);
+
+      if (attachmentUploadWarning) {
+        setSuccess(attachmentUploadWarning);
+        setTimeout(() => setSuccess(null), 4500);
+      }
 
       setShowSuccessDialog(true);
     } catch (err: any) {
@@ -372,6 +402,7 @@ export default function ConsultationPage() {
       });
       setOcrAttachmentName(file.name);
       setOcrAttachmentKind(isPdf ? "pdf" : "image");
+      setOcrAttachmentFile(file);
 
       const extracted = await extractPrescriptionFromImage(file, { saveFile: false });
       const detectedMedicines = (extracted.medications || [])
@@ -791,6 +822,9 @@ export default function ConsultationPage() {
                     tests={tests}
                     surgeries={surgeries}
                     notes={prescriptionNotes}
+                    attachmentPreviewUrl={ocrAttachmentPreviewUrl}
+                    attachmentName={ocrAttachmentName}
+                    attachmentKind={ocrAttachmentKind}
                   />
                 </div>
 

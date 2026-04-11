@@ -1,3 +1,36 @@
+# Prescription Fetch + Preview Attachment Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Trace root cause of patient prescription load failure returning "Consultation not found"
+- [x] Fix consultation route matching conflict so patient prescription routes resolve correctly
+- [x] Persist doctor-side prescription preview attachments and link them to created prescriptions
+- [x] Expose patient-safe prescription attachment retrieval and render preview/download in patient prescription detail UI
+- [x] Validate touched backend/frontend files and add review notes
+
+### Review
+- Fixed backend route collision by constraining consultation-id routes to UUID path converters, so `/consultation/patient/prescriptions` no longer gets intercepted by `/{consultation_id}/prescriptions`.
+- Added backend patient attachment endpoint at `/consultation/patient/prescription/{prescription_id}/attachments` backed by `media_files` entity links (`entity_type=prescription_attachment`).
+- Updated doctor consultation flow to upload selected OCR attachment after prescription creation and bind it to the created prescription ID.
+- Updated patient prescription details UI to fetch linked attachments, preview images/PDFs, and provide open/download controls.
+- Validation passed via diagnostics on all modified backend/frontend files (no new file-level errors in touched files).
+
+# Dark Mode Color System Refresh (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Audit current dark mode tokens and identify bland/low-contrast areas
+- [x] Design a richer dark palette anchored to Medora medical-blue identity
+- [x] Apply updated dark tokens in global theme variables
+- [x] Review semantic consistency and accessibility-oriented contrast
+
+### Review
+- Refreshed dark-mode token set with deeper oceanic base tones, brighter primary blue, and subtle teal/amber support glows for a more premium and less flat look.
+- Updated semantic/supporting tokens (muted, warning, destructive, border, card, sidebar, calendar) to stay cohesive with the new palette while preserving readability.
+- Updated dark chart palette using OKLCH values for perceptually balanced contrast and cleaner category separation on dark surfaces.
+
 # Vapi Krisp Sample-Rate System-Wide Fix (2026-04-10)
 
 ## Status: completed

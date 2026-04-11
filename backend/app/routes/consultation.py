@@ -33,6 +33,7 @@ from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.patient import PatientProfile
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
+from app.db.models.media_file import MediaFile
 from app.schemas.consultation import (
     ConsultationCreate,
     ConsultationUpdate,
@@ -50,6 +51,7 @@ from app.schemas.consultation import (
     SurgeryRecommendationResponse,
     PrescriptionReject,
 )
+from app.schemas.upload import MediaFileResponse
 from app.services.doctor_action_service import (
     create_consultation_completed_action,
     create_prescription_issued_action,
@@ -424,13 +426,14 @@ async def get_doctor_consultation_history(
     return {"consultations": response_list, "total": total}
 
 
-@router.get("/{consultation_id}", response_model=ConsultationWithPrescriptions)
+@router.get("/{consultation_id:uuid}", response_model=ConsultationWithPrescriptions)
 async def get_consultation(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Get a specific consultation with all prescriptions."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
         select(Consultation)
         .options(
@@ -440,7 +443,7 @@ async def get_consultation(
             selectinload(Consultation.prescriptions).selectinload(Prescription.tests),
             selectinload(Consultation.prescriptions).selectinload(Prescription.surgeries),
         )
-        .where(Consultation.id == consultation_id)
+        .where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -470,16 +473,17 @@ async def get_consultation(
     return response
 
 
-@router.patch("/{consultation_id}", response_model=ConsultationResponse)
+@router.patch("/{consultation_id:uuid}", response_model=ConsultationResponse)
 async def update_consultation(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     data: ConsultationUpdate,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Update consultation notes/diagnosis. Only the doctor can update."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id)
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -506,15 +510,16 @@ async def update_consultation(
     return build_consultation_response(consultation)
 
 
-@router.patch("/{consultation_id}/complete", response_model=ConsultationResponse)
+@router.patch("/{consultation_id:uuid}/complete", response_model=ConsultationResponse)
 async def complete_consultation(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Complete a consultation. Only the doctor can complete."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id)
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -558,9 +563,9 @@ async def complete_consultation(
 
 # ========== PRESCRIPTION ROUTES (DOCTOR) ==========
 
-@router.post("/{consultation_id}/prescription", response_model=PrescriptionResponse)
+@router.post("/{consultation_id:uuid}/prescription", response_model=PrescriptionResponse)
 async def add_prescription(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     data: PrescriptionCreate,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
@@ -571,8 +576,9 @@ async def add_prescription(
     """
     import traceback
     try:
+        consultation_id_str = str(consultation_id)
         result = await db.execute(
-            select(Consultation).where(Consultation.id == consultation_id)
+            select(Consultation).where(Consultation.id == consultation_id_str)
         )
         consultation = result.scalar_one_or_none()
         
@@ -607,7 +613,7 @@ async def add_prescription(
 
         prescription = Prescription(
             id=str(uuid.uuid4()),
-            consultation_id=consultation_id,
+            consultation_id=consultation_id_str,
             doctor_id=user.id,
             patient_id=consultation.patient_id,
             type=resolved_type,
@@ -720,7 +726,7 @@ async def add_prescription(
             action_url=f"/patient/prescriptions/{prescription.id}",
             metadata={
                 "prescription_id": prescription.id,
-                "consultation_id": consultation_id,
+                "consultation_id": consultation_id_str,
                 "doctor_id": user.id,
                 "type": data.type.value,
                 "items": items_text,
@@ -756,15 +762,16 @@ async def add_prescription(
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
 
-@router.get("/{consultation_id}/prescriptions", response_model=PrescriptionListResponse)
+@router.get("/{consultation_id:uuid}/prescriptions", response_model=PrescriptionListResponse)
 async def get_consultation_prescriptions(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Get all prescriptions for a consultation."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id)
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -781,7 +788,7 @@ async def get_consultation_prescriptions(
             selectinload(Prescription.tests),
             selectinload(Prescription.surgeries),
         )
-        .where(Prescription.consultation_id == consultation_id)
+        .where(Prescription.consultation_id == consultation_id_str)
         .order_by(Prescription.created_at.desc())
     )
     prescriptions = result.scalars().all()
@@ -921,6 +928,39 @@ async def get_patient_prescription(
     doctor_profile = result.scalar_one_or_none()
     
     return build_prescription_response(prescription, doctor_profile)
+
+
+@router.get("/patient/prescription/{prescription_id}/attachments", response_model=list[MediaFileResponse])
+async def get_patient_prescription_attachments(
+    prescription_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Return uploaded attachment metadata linked to a patient prescription."""
+    await get_patient_profile(db, user.id)
+
+    prescription_result = await db.execute(
+        select(Prescription).where(Prescription.id == prescription_id)
+    )
+    prescription = prescription_result.scalar_one_or_none()
+
+    if not prescription:
+        raise HTTPException(status_code=404, detail="Prescription not found")
+
+    if prescription.patient_id != user.id:
+        raise HTTPException(status_code=403, detail="You don't have access to this prescription")
+
+    files_result = await db.execute(
+        select(MediaFile)
+        .where(
+            MediaFile.entity_type == "prescription_attachment",
+            MediaFile.entity_id == prescription_id,
+            MediaFile.deleted_at.is_(None),
+        )
+        .order_by(MediaFile.created_at.desc())
+    )
+    files = files_result.scalars().all()
+    return [MediaFileResponse.model_validate(item) for item in files]
 
 
 @router.post("/patient/prescription/{prescription_id}/accept")

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -30,6 +31,9 @@ interface PrescriptionReviewProps {
   tests: TestPrescriptionInput[];
   surgeries: SurgeryRecommendationInput[];
   notes?: string;
+  attachmentPreviewUrl?: string | null;
+  attachmentName?: string;
+  attachmentKind?: "image" | "pdf" | null;
 }
 
 const getMealInstructionLabel = (instruction: string) => {
@@ -47,7 +51,15 @@ const getMedicineTypeLabel = (type: string) => {
   return type.charAt(0).toUpperCase() + type.slice(1);
 };
 
-export function PrescriptionReview({ type, medications, tests, surgeries, notes }: PrescriptionReviewProps) {
+export function PrescriptionReview({
+  medications,
+  tests,
+  surgeries,
+  notes,
+  attachmentPreviewUrl,
+  attachmentName,
+  attachmentKind,
+}: PrescriptionReviewProps) {
   // Check if ANY type has content (not just the active type)
   const hasMedications = medications.length > 0;
   const hasTests = tests.length > 0;
@@ -72,6 +84,33 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
         <Info className="w-5 h-5 text-primary" />
         Prescription Preview
       </h3>
+
+      {attachmentPreviewUrl && (
+        <Card className="rounded-xl border-border/70 bg-card/70">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Attachment Preview</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {attachmentName ? <p className="text-sm text-muted-foreground truncate">{attachmentName}</p> : null}
+            {attachmentKind === "pdf" ? (
+              <iframe
+                src={attachmentPreviewUrl}
+                title="Prescription attachment preview"
+                className="h-64 w-full rounded-lg border border-border/60 bg-background"
+              />
+            ) : (
+              <Image
+                src={attachmentPreviewUrl}
+                alt={attachmentName || "Prescription attachment preview"}
+                width={1200}
+                height={900}
+                className="h-64 w-full rounded-lg border border-border/60 bg-background object-contain"
+                unoptimized
+              />
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Medications Review - Show if there are any medications */}
       {hasMedications && (
@@ -148,7 +187,7 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
 
                 {med.special_instructions && (
                   <p className="text-sm text-muted-foreground mt-2 italic">
-                    "{med.special_instructions}"
+                    {med.special_instructions}
                   </p>
                 )}
               </div>
@@ -201,7 +240,7 @@ export function PrescriptionReview({ type, medications, tests, surgeries, notes 
 
                 {test.instructions && (
                   <p className="text-sm text-muted-foreground mt-2 italic">
-                    "{test.instructions}"
+                    {test.instructions}
                   </p>
                 )}
               </div>
