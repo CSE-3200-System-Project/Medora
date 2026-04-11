@@ -11,6 +11,7 @@ import {
   type ChoruiConversationSummary,
   type ChoruiIntakeResponse,
   type ChoruiMessage,
+  type ChoruiNavigationSuggestion,
   type ChoruiRoleContext,
   type ChoruiStructuredData,
 } from "@/types/ai";
@@ -73,14 +74,46 @@ function mergeStructuredData(
   };
 }
 
-function createMessage(role: "ai" | "user", content: string, failed = false): ChoruiMessage {
+function createMessage(
+  role: "ai" | "user",
+  content: string,
+  failed = false,
+  navigation?: ChoruiNavigationSuggestion[] | null,
+): ChoruiMessage {
   return {
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     role,
     content,
     timestamp: new Date().toISOString(),
     failed,
+    navigation: navigation && navigation.length > 0 ? navigation : undefined,
   };
+}
+
+function sanitizeNavigationList(value: unknown): ChoruiNavigationSuggestion[] | undefined {
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  const cleaned: ChoruiNavigationSuggestion[] = [];
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") {
+      continue;
+    }
+    const entry = raw as Record<string, unknown>;
+    const label = typeof entry.label === "string" ? entry.label.trim() : "";
+    const path = typeof entry.path === "string" ? entry.path.trim() : "";
+    if (!label || !path) {
+      continue;
+    }
+    const description =
+      typeof entry.description === "string" && entry.description.trim().length > 0
+        ? entry.description.trim()
+        : undefined;
+    cleaned.push({ label, path, description });
+  }
+
+  return cleaned.length > 0 ? cleaned : undefined;
 }
 
 async function parseError(response: Response): Promise<string> {
@@ -253,6 +286,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
               role: item.role === "ai" ? "ai" : "user",
               content: item.content,
               timestamp: item.timestamp,
+              navigation: sanitizeNavigationList(item.structured_data?.navigation),
             }))
           : [];
 
@@ -376,7 +410,11 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
           ? data.reply.trim()
           : "Thank you. I have updated the intake summary. Please continue with any additional details.";
 
-      setMessages((prev) => [...prev, createMessage("ai", aiReply)]);
+      const navigationForMessage =
+        sanitizeNavigationList(data.navigation) ??
+        sanitizeNavigationList(data.structured_data?.navigation);
+
+      setMessages((prev) => [...prev, createMessage("ai", aiReply, false, navigationForMessage)]);
       if (typeof data.conversation_id === "string" && data.conversation_id.trim().length > 0) {
         setConversationId(data.conversation_id.trim());
       }
@@ -459,6 +497,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     messages,
     input,
     setInput,
+    patientId,
     loading,
     error,
     saving,

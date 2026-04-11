@@ -78,6 +78,7 @@ export interface DoctorPatientAssistantSummaryResponse {
 export interface PatientPrescriptionAssistantSummaryResponse {
   ai_generated: boolean;
   summary: Record<string, unknown>;
+  plain_text_summary: string;
   highlight_points: string[];
   cautions: string[];
   assistant_boundary: string;

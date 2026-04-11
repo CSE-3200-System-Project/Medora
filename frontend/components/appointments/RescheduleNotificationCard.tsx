@@ -5,7 +5,7 @@ import { Calendar, Clock, Check, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { respondToRescheduleRequest } from "@/lib/appointment-actions";
-import { Badge } from "@/components/ui/badge";
+import { formatLongDateTime } from "@/lib/utils";
 
 interface RescheduleNotificationCardProps {
   notification: {
@@ -19,7 +19,7 @@ interface RescheduleNotificationCardProps {
       proposed_date?: string;
       proposed_time?: string;
       doctor_id?: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
   };
   doctorName: string;
@@ -42,16 +42,7 @@ export function RescheduleNotificationCard({
   const proposedTime = notification.data?.proposed_time;
   const proposedDateTime = proposedDate && proposedTime ? `${proposedDate}T${proposedTime}` : null;
 
-  const newAppointmentTime = proposedDateTime
-    ? new Date(proposedDateTime).toLocaleString("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : null;
+  const newAppointmentTime = proposedDateTime ? formatLongDateTime(proposedDateTime) : null;
 
   const handleAccept = async () => {
     if (!rescheduleRequestId) {
@@ -138,7 +129,7 @@ export function RescheduleNotificationCard({
         {newAppointmentTime && (
           <div className="rounded-lg border border-amber-200/60 bg-card p-3 dark:border-amber-900/40 dark:bg-background">
             <div className="flex items-start gap-3">
-              <Clock className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
               <div className="flex-1">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
                   Proposed Date & Time

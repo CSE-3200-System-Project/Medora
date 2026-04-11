@@ -24,6 +24,7 @@ import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { getMetricTrends, getTodayMetrics, logHealthMetric, type HealthMetricTrendPoint } from "@/lib/health-metrics-actions";
 import { listMyConsents, revokeHealthDataConsent, type HealthDataConsent } from "@/lib/health-data-consent-actions";
 import { getReminders } from "@/lib/reminder-actions";
+import { formatMeridiemTime } from "@/lib/utils";
 
 const WEEKDAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const REMINDER_POLL_VISIBLE_MS = 10 * 60_000;
@@ -817,7 +818,7 @@ function formatTimeFromHHMM(value: string): string {
   const minutes = parsed % 60;
   const date = new Date();
   date.setHours(hours, minutes, 0, 0);
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return formatMeridiemTime(date);
 }
 
 function getComputedStatus(scheduledMinutes: number, nowMinutes: number): MedicationStatus {

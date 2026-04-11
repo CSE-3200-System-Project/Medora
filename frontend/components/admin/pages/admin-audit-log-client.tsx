@@ -24,6 +24,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { getAuditLogs } from "@/lib/admin-actions";
+import { formatMeridiemTime, formatShortDateTime } from "@/lib/utils";
 
 type AuditLog = {
   id: string;
@@ -248,7 +249,7 @@ export function AdminAuditLogClient({
                       </p>
                     )}
                     <p className="text-xs text-muted-foreground">
-                      {new Date(log.timestamp).toLocaleString()}
+                      {formatShortDateTime(log.timestamp)}
                     </p>
                   </CardContent>
                 </Card>
@@ -285,7 +286,7 @@ export function AdminAuditLogClient({
                             {new Date(log.timestamp).toLocaleDateString()}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {new Date(log.timestamp).toLocaleTimeString()}
+                            {formatMeridiemTime(log.timestamp)}
                           </p>
                         </TableCell>
                         <TableCell>{getActionBadge(log.action_type)}</TableCell>

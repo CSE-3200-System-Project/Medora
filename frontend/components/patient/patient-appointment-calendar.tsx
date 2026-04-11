@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, User, MapPin, Clock } from "lucide-react";
-import { cn, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
+import { cn, formatMeridiemTime, localDateKey, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -154,7 +154,7 @@ export function PatientAppointmentCalendar({
     
     return {
       date: `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
-      time: slotTime || date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+      time: slotTime || formatMeridiemTime(date)
     };
   };
 

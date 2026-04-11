@@ -16,8 +16,8 @@ export default function SelectionPage() {
         {/* Floating Logo - Centered at top */}
         <div className="absolute top-4 left-0 right-0 flex justify-center z-20 lg:top-8">
           <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-card/95 rounded-full p-3 shadow-xl border-4 border-white/30">
-            <Image src={medoraDarkLogo} alt="Medora" fill sizes="96px" className="object-contain p-1 dark:hidden" loading="eager" fetchPriority="high" />
-            <Image src={medoraLightLogo} alt="Medora" fill sizes="96px" className="hidden object-contain p-1 dark:block" loading="eager" fetchPriority="high" />
+            <Image src={medoraDarkLogo} alt="Medora" fill sizes="96px" className="object-contain p-1 dark:hidden" />
+            <Image src={medoraLightLogo} alt="Medora" fill sizes="96px" className="hidden object-contain p-1 dark:block" />
           </div>
         </div>
 

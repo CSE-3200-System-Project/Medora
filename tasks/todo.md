@@ -1,3 +1,94 @@
+# Vapi Krisp Sample-Rate System-Wide Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Trace Krisp sample-rate failure source in Vapi/Daily integration
+- [x] Add shared microphone normalization helper for 48k/44.1k fallback
+- [x] Apply shared Vapi audio fallback across doctor-search, Chorui, and prescription voice components
+- [x] Validate touched files with focused lint and TypeScript checks
+
+### Review
+- Added `frontend/lib/vapi-audio.ts` to normalize mic tracks through `AudioContext` and consistently disable smart denoising overrides.
+- Updated all three Vapi UI entry points to create Vapi instances with normalized `audioSource` tracks, release resources on teardown, and show consistent Krisp sample-rate fallback messaging.
+- This removes per-component drift and makes voice startup behavior consistent across doctor search, Chorui chat, and prescription voice summary.
+- Validation passed: focused ESLint on all touched files and `npx tsc --noEmit` in frontend.
+
+# Chorui Hydration + Vapi Doctor Search Reliability Fix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Trace hydration mismatch on Chorui AI chat timestamp rendering
+- [x] Replace locale-sensitive time rendering with deterministic helpers across direct source usages
+- [x] Fix doctor-search Vapi startup sequencing and assistant fallback/retry behavior
+- [x] Harden Chorui/prescription Vapi start options against Krisp sample-rate failure
+- [x] Run focused frontend lint/diagnostics for touched files
+
+### Review
+- Replaced direct `toLocaleTimeString` rendering in app source with shared deterministic helpers to remove SSR/client meridiem-case drift and reduce hydration mismatch risk.
+- Updated Chorui chat timestamp rendering to use deterministic formatters and hydration-safe rendering on dynamic time labels.
+- Fixed `ai-search-vapi-assistant.tsx` startup guard (removed incorrect pre-existing-client requirement) and added assistant-not-found retry fallback from doctor-search assistant ID to shared assistant ID.
+- Added smart denoising disable on Chorui and prescription Vapi starts plus clearer Krisp sample-rate guidance for unsupported microphone formats.
+- Validation: focused ESLint passes on core touched files; two large legacy files still contain unrelated pre-existing lint/style diagnostics.
+
+# Navbar Hydration + Vapi Doctor Search Hotfix (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Trace hydration mismatch in patient find-doctor flow
+- [x] Make navbar initial render deterministic for SSR hydration
+- [x] Fix doctor-search Vapi assistant ID misconfiguration in frontend env
+- [x] Harden Vapi doctor-search component with misconfiguration and error handling
+- [x] Run focused frontend validation
+
+### Review
+- Root cause of hydration mismatch was navbar role/home-link logic reading browser state during initial render, causing server `href="/"` and client `href="/patient/home"` divergence.
+- Updated navbar to initialize user/loading state without browser-derived values and use pathname-derived role fallback for stable SSR/client markup.
+- Fixed local `frontend/.env` where `NEXT_PUBLIC_VAPI_DOCTOR_SEARCH_ASSISTANT_ID` incorrectly pointed to the Vapi public key.
+- Added guardrails in `ai-search-vapi-assistant.tsx` so a doctor-search assistant ID matching the public key is flagged immediately with clear UI error messaging and safer fallback behavior.
+
+# Vapi Doctor Search + Prescription Voice + Reminder Emails (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Integrate Vapi tool handling into AI doctor search flow
+- [x] Add subtle speaking/listening visual cues for Vapi voice sessions
+- [x] Improve patient prescription summarization (brief + medication schedule details)
+- [x] Add patient-side Vapi voice prescription explanation flow
+- [x] Add 15-minute email reminders for appointments and reminder schedules
+- [x] Document full integration and audit steps
+- [x] Run backend/frontend validation for all touched files
+
+### Review
+- Added doctor-search Vapi tool webhook endpoint (`POST /ai/vapi/tools/doctor-search`) that reuses existing AI doctor search logic and returns voice-friendly summaries.
+- Added dedicated doctor-search and prescription voice assistant frontend components with subtle speaking indicators and transcript handoff.
+- Enhanced patient prescription assistant response with `plain_text_summary` and richer medication schedule details (name, schedule, quantity, meal/duration metadata).
+- Integrated patient prescription text brief + voice summary controls in the prescription details UI.
+- Added reminder lead-time config (`REMINDER_LEAD_MINUTES`) and extended dispatcher/email flow for 15-minute appointment and item reminder emails.
+- Published full audit documentation at `docs/vapi-ai-audit-guide.md` and linked from `docs/vapi-voice-integration.md`.
+- Validation completed: focused frontend ESLint passes, frontend type-check (`npx tsc --noEmit`) passes, and backend diagnostics show no errors in changed backend files.
+
+# Vapi Voice Integration for Chorui AI (2026-04-10)
+
+## Status: completed
+
+### Todo
+- [x] Add backend Vapi settings and env placeholders with blank credentials
+- [x] Add backend Vapi tool webhook route that delegates to existing Chorui AI logic
+- [x] Add frontend Vapi web SDK integration and voice control in existing Chorui chat UI
+- [x] Add Vapi setup guide for assistant/tool wiring without exposing secrets
+- [x] Run focused validation (backend compile + frontend lint/type checks on touched files)
+
+### Review
+- Added backend Vapi placeholders in `backend/app/core/config.py` and `backend/.env.example` with blank credential values.
+- Added `POST /ai/vapi/tools/chorui` in `backend/app/routes/ai_consultation.py` that parses Vapi tool calls, verifies session token, optionally enforces shared secret, and reuses existing `_run_chorui_assistant` logic.
+- Installed `@vapi-ai/web`, added `frontend/components/ai/chorui-vapi-voice-control.tsx`, and integrated voice control into existing `ChoruiChat` without changing current text-chat behavior.
+- Added `frontend/.env.example` with Vapi placeholders and created `docs/vapi-voice-integration.md` for dashboard/tool wiring instructions.
+- Validation passed: backend `py_compile`, frontend `tsc --noEmit`, focused eslint for touched frontend files, and diagnostics checks all report clean for edited files.
+
 # Frontend Mobile Performance Optimization Pass (2026-04-03)
 
 ## Status: completed
