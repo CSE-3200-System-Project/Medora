@@ -181,7 +181,10 @@ _CATEGORY_TO_RESPONSE_KEYS: dict[str, frozenset[str]] = {
     "can_view_health_metrics": frozenset({
         "height", "weight",
     }),
-    "can_view_prescriptions": frozenset(set()),  # prescriptions are a separate resource
+    "can_view_prescriptions": frozenset({
+        "consultation_history",
+        "prescription_history",
+    }),
 }
 
 # Emergency contact is always visible (safety-critical)

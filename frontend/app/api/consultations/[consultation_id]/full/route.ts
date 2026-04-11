@@ -18,9 +18,13 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     const { consultation_id: consultationId } = await context.params;
     const draftId = request.nextUrl.searchParams.get("draft_id");
+    const prescriptionId = request.nextUrl.searchParams.get("prescription_id");
     const backendUrl = new URL(`${BACKEND_URL}/consultation/${consultationId}/full`);
     if (draftId) {
       backendUrl.searchParams.set("draft_id", draftId);
+    }
+    if (prescriptionId) {
+      backendUrl.searchParams.set("prescription_id", prescriptionId);
     }
 
     const response = await fetch(backendUrl.toString(), {

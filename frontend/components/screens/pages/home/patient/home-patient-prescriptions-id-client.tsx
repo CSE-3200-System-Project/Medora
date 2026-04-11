@@ -11,11 +11,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   getPatientPrescription,
-  getPatientPrescriptionAttachments,
   acceptPrescription,
   rejectPrescription,
   Prescription,
-  PrescriptionAttachment,
 } from "@/lib/prescription-actions";
 import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document";
 import { downloadPrescriptionPdfFromElement } from "@/lib/prescription-document-export";
@@ -35,6 +33,13 @@ import {
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { PrescriptionVapiVoiceSummary } from "@/components/ai/prescription-vapi-voice-summary";
+
+type AssistantMedicationPlanItem = {
+  name: string;
+  schedule: string;
+  quantity: string | number | null;
+};
 
 function resolveErrorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error && error.message) {
@@ -76,12 +81,39 @@ export default function PatientPrescriptionDetailPage() {
     return "";
   }, [prescription]);
 
+  const assistantMedicationPlan = React.useMemo<AssistantMedicationPlanItem[]>(() => {
+    const rawPlan = assistantSummary?.summary?.["medication_plan"];
+    if (!Array.isArray(rawPlan)) {
+      return [];
+    }
+
+    return rawPlan
+      .map((item) => {
+        if (!item || typeof item !== "object") {
+          return null;
+        }
+
+        const payload = item as Record<string, unknown>;
+        const name = typeof payload.name === "string" ? payload.name.trim() : "";
+        const schedule = typeof payload.schedule === "string" ? payload.schedule.trim() : "";
+        if (!name || !schedule) {
+          return null;
+        }
+
+        const quantity =
+          typeof payload.quantity === "number" || typeof payload.quantity === "string"
+            ? payload.quantity
+            : null;
+
+        return { name, schedule, quantity };
+      })
+      .filter((item): item is AssistantMedicationPlanItem => item !== null);
+  }, [assistantSummary]);
+
   const loadPrescription = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      setAttachmentsError(null);
-      setAttachmentsLoading(true);
       const data = await getPatientPrescription(prescriptionId);
       setPrescription(data);
     } catch (err: unknown) {

@@ -22,7 +22,7 @@
 
 type DailyInputSettingsUpdater = {
   updateInputSettings: (settings: {
-    audio?: { processor?: { type: string } };
+    audio?: { processor?: { type: "none" | "noise-cancellation" } };
   }) => Promise<unknown>;
 };
 

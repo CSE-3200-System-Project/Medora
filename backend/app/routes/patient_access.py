@@ -10,6 +10,7 @@ Endpoints for:
 from fastapi import APIRouter, Depends, HTTPException, Query, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, or_, func
+from sqlalchemy.orm import selectinload
 from app.core.dependencies import get_db
 from app.core.patient_reference import patient_ref_from_uuid, resolve_doctor_patient_identifier
 from app.routes.auth import get_current_user_token
@@ -17,6 +18,7 @@ from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.patient import PatientProfile
 from app.db.models.appointment import Appointment, AppointmentStatus
+from app.db.models.consultation import Consultation, Prescription
 from app.db.models.patient_access import PatientAccessLog, PatientDoctorAccess, AccessType, AccessStatus
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
 from app.core.data_sharing_guard import (
@@ -283,6 +285,100 @@ async def get_patient_for_doctor(
         }
         for appt in appointments
     ]
+
+    # Get doctor-specific consultation history for this patient
+    consultations_result = await db.execute(
+        select(Consultation)
+        .options(selectinload(Consultation.prescriptions))
+        .where(
+            and_(
+                Consultation.doctor_id == doctor_id,
+                Consultation.patient_id == resolved_patient_id,
+            )
+        )
+        .order_by(Consultation.consultation_date.desc())
+        .limit(20)
+    )
+    consultations = consultations_result.scalars().all()
+
+    consultation_history: list[dict] = []
+    consultation_date_by_id: dict[str, str | None] = {}
+    for consultation in consultations:
+        consultation_date = (
+            consultation.consultation_date.isoformat()
+            if consultation.consultation_date
+            else None
+        )
+        consultation_date_by_id[consultation.id] = consultation_date
+
+        latest_prescription = (
+            max(
+                consultation.prescriptions or [],
+                key=lambda item: item.created_at.timestamp() if item.created_at else 0.0,
+            )
+            if consultation.prescriptions
+            else None
+        )
+
+        consultation_history.append(
+            {
+                "id": consultation.id,
+                "consultation_date": consultation_date,
+                "chief_complaint": consultation.chief_complaint,
+                "diagnosis": consultation.diagnosis,
+                "status": (
+                    consultation.status.value
+                    if hasattr(consultation.status, "value")
+                    else str(consultation.status)
+                ),
+                "prescription_count": len(consultation.prescriptions or []),
+                "latest_prescription_id": latest_prescription.id if latest_prescription else None,
+                "latest_prescription_status": (
+                    latest_prescription.status.value
+                    if latest_prescription and hasattr(latest_prescription.status, "value")
+                    else (str(latest_prescription.status) if latest_prescription else None)
+                ),
+            }
+        )
+
+    # Get doctor-specific prescription history for this patient
+    prescriptions_result = await db.execute(
+        select(Prescription)
+        .options(
+            selectinload(Prescription.medications),
+            selectinload(Prescription.tests),
+            selectinload(Prescription.surgeries),
+        )
+        .where(
+            and_(
+                Prescription.doctor_id == doctor_id,
+                Prescription.patient_id == resolved_patient_id,
+            )
+        )
+        .order_by(Prescription.created_at.desc())
+        .limit(20)
+    )
+    prescriptions = prescriptions_result.scalars().all()
+
+    prescription_history = [
+        {
+            "id": prescription.id,
+            "consultation_id": prescription.consultation_id,
+            "consultation_date": consultation_date_by_id.get(prescription.consultation_id),
+            "type": prescription.type.value if hasattr(prescription.type, "value") else str(prescription.type),
+            "status": (
+                prescription.status.value
+                if hasattr(prescription.status, "value")
+                else str(prescription.status)
+            ),
+            "created_at": prescription.created_at.isoformat() if prescription.created_at else None,
+            "notes": prescription.notes,
+            "medication_count": len(prescription.medications or []),
+            "test_count": len(prescription.tests or []),
+            "surgery_count": len(prescription.surgeries or []),
+        }
+        for prescription in prescriptions
+    ]
     
     # Build the full response, then filter based on sharing preferences
     full_response = {
@@ -372,6 +468,10 @@ async def get_patient_for_doctor(
 
         # Appointment History (with this doctor only)
         "appointment_history": appointment_history,
+
+        # Doctor-specific records for this patient
+        "consultation_history": consultation_history,
+        "prescription_history": prescription_history,
 
         # Meta
         "access_timestamp": datetime.utcnow().isoformat()

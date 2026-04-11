@@ -39,6 +39,7 @@ type AppI18nContextValue = {
 };
 
 const AppI18nContext = React.createContext<AppI18nContextValue | null>(null);
+const APP_DEFAULT_TIME_ZONE = "Asia/Dhaka";
 
 function uniqueNamespaces(namespaces: readonly I18nNamespace[]): I18nNamespace[] {
   return Array.from(new Set(namespaces)) as I18nNamespace[];
@@ -165,6 +166,7 @@ export function AppI18nProvider({
       <NextIntlClientProvider
         locale={locale}
         messages={messages}
+        timeZone={APP_DEFAULT_TIME_ZONE}
         onError={(error) => {
           if (process.env.NODE_ENV !== "production") {
             console.warn("[i18n] Message error:", error.message);

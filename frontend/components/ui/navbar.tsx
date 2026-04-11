@@ -29,7 +29,6 @@ import { NotificationDropdown } from "@/components/ui/notification-dropdown";
 import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { ButtonLoader } from "@/components/ui/medora-loader";
-import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { useT } from "@/i18n/client";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
@@ -261,7 +260,16 @@ export function Navbar() {
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-none justify-center">
           {loading ? (
-            <CardSkeleton className="h-8 w-64 rounded-full" />
+            <div
+              role="status"
+              aria-live="polite"
+              aria-label="Loading navigation"
+              className="flex h-8 items-center gap-3"
+            >
+              <div className="skeleton h-2.5 w-16 rounded-full" />
+              <div className="skeleton h-2.5 w-20 rounded-full" />
+              <div className="skeleton h-2.5 w-16 rounded-full" />
+            </div>
           ) : effectiveRole === "doctor" ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/appointments") && "text-primary font-semibold")}>
@@ -299,7 +307,10 @@ export function Navbar() {
         {/* RIGHT: Actions */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-3 lg:gap-4">
           {loading ? (
-            <CardSkeleton className="h-8 w-24 rounded-full" />
+            <div className="flex h-9 items-center gap-3">
+              <div className="skeleton h-9 w-9 rounded-full" />
+              <div className="skeleton h-3 w-24 rounded-full" />
+            </div>
           ) : !user ? (
             <>
               <Button variant="ghost" asChild className="text-foreground/80 hover:bg-accent hover:text-foreground">
@@ -408,10 +419,19 @@ export function Navbar() {
                 }}
               >
                 {loading ? (
-                  <div className="space-y-3 px-2">
-                    <CardSkeleton className="h-12 rounded" />
-                    <CardSkeleton className="h-12 rounded" />
-                    <CardSkeleton className="h-12 rounded" />
+                  <div className="space-y-3 px-2" role="status" aria-live="polite" aria-label="Loading menu items">
+                    <div className="flex items-center gap-3 rounded-xl border border-border/50 px-3 py-3">
+                      <div className="skeleton h-5 w-5 rounded" />
+                      <div className="skeleton h-3 w-28 rounded-full" />
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl border border-border/50 px-3 py-3">
+                      <div className="skeleton h-5 w-5 rounded" />
+                      <div className="skeleton h-3 w-24 rounded-full" />
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl border border-border/50 px-3 py-3">
+                      <div className="skeleton h-5 w-5 rounded" />
+                      <div className="skeleton h-3 w-32 rounded-full" />
+                    </div>
                   </div>
                 ) : !user ? (
                   <>

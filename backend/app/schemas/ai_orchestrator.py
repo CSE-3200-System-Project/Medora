@@ -31,6 +31,12 @@ class ChoruiSuggestedRoute(BaseModel):
     canonical_intent: str = Field(..., min_length=1, max_length=80)
 
 
+class ChoruiNavigationSuggestion(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    path: str = Field(..., min_length=1, max_length=240)
+    description: str | None = Field(default=None, max_length=240)
+
+
 class ChoruiNavigationAction(BaseModel):
     type: Literal["navigate", "clarify", "suggest", "undo", "none"] = "none"
     route: str | None = Field(default=None, max_length=240)

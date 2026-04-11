@@ -31,6 +31,39 @@ interface NotificationDropdownProps {
 
 const NOTIFICATION_POLL_VISIBLE_MS = 600_000;
 const NOTIFICATION_POLL_HIDDEN_MS = 3_600_000;
+const UNREAD_COUNT_CACHE_TTL_MS = 30_000;
+
+let unreadCountCache = 0;
+let unreadCountCacheExpiresAt = 0;
+let unreadCountInFlight: Promise<number> | null = null;
+
+function updateUnreadCountCache(count: number) {
+  unreadCountCache = count;
+  unreadCountCacheExpiresAt = Date.now() + UNREAD_COUNT_CACHE_TTL_MS;
+}
+
+async function loadUnreadCountWithCache(forceRefresh: boolean = false): Promise<number> {
+  const now = Date.now();
+
+  if (!forceRefresh && now < unreadCountCacheExpiresAt) {
+    return unreadCountCache;
+  }
+
+  if (unreadCountInFlight) {
+    return unreadCountInFlight;
+  }
+
+  unreadCountInFlight = getUnreadCount()
+    .then((count) => {
+      updateUnreadCountCache(count);
+      return count;
+    })
+    .finally(() => {
+      unreadCountInFlight = null;
+    });
+
+  return unreadCountInFlight;
+}
 
 // Icon mapping for notification types
 const notificationIcons: Record<NotificationType, React.ElementType> = {
@@ -121,8 +154,8 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
   const [loading, setLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const fetchUnreadCount = React.useCallback(async () => {
-    const count = await getUnreadCount();
+  const fetchUnreadCount = React.useCallback(async (forceRefresh: boolean = false) => {
+    const count = await loadUnreadCountWithCache(forceRefresh);
     setUnreadCount(count);
   }, []);
 
@@ -132,6 +165,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
       const data = await getNotifications(10, 0, false);
       setNotifications(data.notifications);
       setUnreadCount(data.unread_count);
+      updateUnreadCountCache(data.unread_count);
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
       toast.error(
@@ -174,11 +208,11 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        fetchUnreadCount();
+        void fetchUnreadCount(true);
       }
     };
 
-    poll();
+    void poll();
     document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
@@ -193,7 +227,11 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
   const handleNotificationClick = async (notification: Notification) => {
     // Immediately update UI - reduce count before API call for responsive feel
     if (!notification.is_read) {
-      setUnreadCount((prev) => Math.max(0, prev - 1));
+      setUnreadCount((prev) => {
+        const next = Math.max(0, prev - 1);
+        updateUnreadCountCache(next);
+        return next;
+      });
       setNotifications((prev) =>
         prev.map((n) => (n.id === notification.id ? { ...n, is_read: true } : n))
       );
@@ -217,6 +255,7 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
     await markAllNotificationsAsRead();
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
+    updateUnreadCountCache(0);
   };
 
   const handleDelete = async (e: React.MouseEvent, notificationId: string) => {
@@ -226,7 +265,11 @@ export function NotificationDropdown({ className }: NotificationDropdownProps) {
     // Update unread count if deleted notification was unread
     const deletedNotification = notifications.find((n) => n.id === notificationId);
     if (deletedNotification && !deletedNotification.is_read) {
-      setUnreadCount((prev) => Math.max(0, prev - 1));
+      setUnreadCount((prev) => {
+        const next = Math.max(0, prev - 1);
+        updateUnreadCountCache(next);
+        return next;
+      });
     }
   };
 
