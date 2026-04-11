@@ -12,9 +12,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   getPatientPrescription,
+  getPatientPrescriptionAttachments,
   acceptPrescription,
   rejectPrescription,
   Prescription,
+  PrescriptionAttachment,
 } from "@/lib/prescription-actions";
 import {
   getPatientPrescriptionAssistantSummary,
@@ -39,6 +41,8 @@ import {
   Utensils,
   Building2,
   DollarSign,
+  Download,
+  ExternalLink,
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
@@ -88,6 +92,19 @@ function getAssistantMedicationPlan(summary: Record<string, unknown> | undefined
   return items;
 }
 
+function formatAttachmentSize(fileSize: number): string {
+  if (!Number.isFinite(fileSize) || fileSize <= 0) {
+    return "Unknown size";
+  }
+  if (fileSize < 1024) {
+    return `${fileSize} B`;
+  }
+  if (fileSize < 1024 * 1024) {
+    return `${(fileSize / 1024).toFixed(1)} KB`;
+  }
+  return `${(fileSize / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export default function PatientPrescriptionDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -102,6 +119,9 @@ export default function PatientPrescriptionDetailPage() {
   const [assistantSummary, setAssistantSummary] = React.useState<PatientPrescriptionAssistantSummaryResponse | null>(null);
   const [assistantLoading, setAssistantLoading] = React.useState(false);
   const [assistantError, setAssistantError] = React.useState<string | null>(null);
+  const [attachments, setAttachments] = React.useState<PrescriptionAttachment[]>([]);
+  const [attachmentsLoading, setAttachmentsLoading] = React.useState(false);
+  const [attachmentsError, setAttachmentsError] = React.useState<string | null>(null);
 
   const assistantMedicationPlan = React.useMemo(
     () => getAssistantMedicationPlan(assistantSummary?.summary),
@@ -112,11 +132,26 @@ export default function PatientPrescriptionDetailPage() {
     try {
       setLoading(true);
       setError(null);
+      setAttachmentsError(null);
+      setAttachmentsLoading(true);
       const data = await getPatientPrescription(prescriptionId);
       setPrescription(data);
+
+      try {
+        const attachmentData = await getPatientPrescriptionAttachments(prescriptionId);
+        setAttachments(attachmentData);
+      } catch (attachmentError: unknown) {
+        console.error("Failed to load prescription attachments:", attachmentError);
+        setAttachments([]);
+        setAttachmentsError(getErrorMessage(attachmentError, "Failed to load attached prescription documents"));
+      } finally {
+        setAttachmentsLoading(false);
+      }
     } catch (error: unknown) {
       console.error("Failed to load prescription:", error);
       setError(getErrorMessage(error, "Failed to load prescription"));
+      setAttachments([]);
+      setAttachmentsLoading(false);
     } finally {
       setLoading(false);
     }
@@ -418,6 +453,114 @@ export default function PatientPrescriptionDetailPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Prescription Attachments */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <FileText className="h-5 w-5 text-primary" />
+              Prescription Documents
+            </CardTitle>
+            <CardDescription>
+              Uploaded prescription image/PDF attachments linked by your doctor.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {attachmentsLoading ? <p className="text-sm text-muted-foreground">Loading attached documents...</p> : null}
+
+            {!attachmentsLoading && !attachmentsError && attachments.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-border/60 bg-surface/30 p-4 text-sm text-muted-foreground">
+                No prescription document has been attached yet.
+              </div>
+            ) : null}
+
+            {attachmentsError ? (
+              <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+                {attachmentsError}
+              </div>
+            ) : null}
+
+            {attachments.map((attachment) => {
+              const attachmentUrl = (attachment.public_url || "").trim();
+              const contentType = (attachment.content_type || "").toLowerCase();
+              const isPdf = contentType.includes("pdf") || (attachment.file_extension || "").toLowerCase() === "pdf";
+              const isImage = contentType.startsWith("image/");
+              const displayName = attachment.original_file_name || attachment.file_name;
+
+              return (
+                <div key={attachment.id} className="rounded-xl border border-border/70 bg-card/70 p-3">
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-foreground">{displayName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {contentType || "Unknown type"} • {formatAttachmentSize(attachment.file_size)}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      {attachmentUrl ? (
+                        <Button asChild size="sm" variant="outline">
+                          <a href={attachmentUrl} target="_blank" rel="noreferrer">
+                            <ExternalLink className="mr-1 h-4 w-4" />
+                            Open
+                          </a>
+                        </Button>
+                      ) : (
+                        <Button size="sm" variant="outline" disabled>
+                          <ExternalLink className="mr-1 h-4 w-4" />
+                          Open
+                        </Button>
+                      )}
+                      {attachmentUrl ? (
+                        <Button asChild size="sm" variant="outline">
+                          <a href={attachmentUrl} download={displayName}>
+                            <Download className="mr-1 h-4 w-4" />
+                            Download
+                          </a>
+                        </Button>
+                      ) : (
+                        <Button size="sm" variant="outline" disabled>
+                          <Download className="mr-1 h-4 w-4" />
+                          Download
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+
+                  {attachmentUrl && isPdf ? (
+                    <iframe
+                      src={attachmentUrl}
+                      title={`Prescription attachment ${displayName}`}
+                      className="h-72 w-full rounded-lg border border-border/60 bg-background"
+                    />
+                  ) : null}
+
+                  {attachmentUrl && isImage ? (
+                    <Image
+                      src={attachmentUrl}
+                      alt={displayName}
+                      width={1400}
+                      height={1000}
+                      className="h-72 w-full rounded-lg border border-border/60 bg-background object-contain"
+                      unoptimized
+                    />
+                  ) : null}
+
+                  {!attachmentUrl ? (
+                    <div className="rounded-lg border border-dashed border-border/60 bg-surface/20 p-4 text-xs text-muted-foreground">
+                      Attachment link is unavailable.
+                    </div>
+                  ) : null}
+
+                  {attachmentUrl && !isPdf && !isImage ? (
+                    <div className="rounded-lg border border-dashed border-border/60 bg-surface/20 p-4 text-xs text-muted-foreground">
+                      Preview is not available for this file type. Use Open or Download.
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
 
         {/* Medications */}
         {prescription.medications && prescription.medications.length > 0 && (
