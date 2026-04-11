@@ -80,8 +80,8 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = React.useState(false);
-  const [user, setUser] = React.useState<UserData | null>(() => readCachedUser());
-  const [loading, setLoading] = React.useState<boolean>(() => hasSessionToken() && readCachedUser() === null);
+  const [user, setUser] = React.useState<UserData | null>(null);
+  const [loading, setLoading] = React.useState(true);
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
@@ -194,7 +194,7 @@ export function Navbar() {
     : "";
 
   const inferredRole = inferRoleFromPath(pathname);
-  const effectiveRole = user?.role?.toLowerCase() ?? (hasSessionToken() ? inferredRole : null);
+  const effectiveRole = loading ? null : user?.role?.toLowerCase() ?? inferredRole;
 
   // Compute role-aware home path
   const homePath =
@@ -241,8 +241,6 @@ export function Navbar() {
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="object-contain dark:hidden"
-              loading="eager"
-              fetchPriority="high"
             />
             <Image
               src={medoraLightLogo}
@@ -250,15 +248,15 @@ export function Navbar() {
               fill
               sizes="(max-width: 640px) 40px, (max-width: 768px) 48px, 56px"
               className="hidden object-contain dark:block"
-              loading="eager"
-              fetchPriority="high"
             />
           </div>
         </Link>
 
         {/* CENTER: Desktop Menu */}
         <div className="hidden md:flex flex-none justify-center">
-          {effectiveRole === "doctor" ? (
+          {loading ? (
+            <CardSkeleton className="h-8 w-64 rounded-full" />
+          ) : effectiveRole === "doctor" ? (
             <nav className="flex items-center gap-5 lg:gap-8 text-base font-medium text-foreground">
               <Link href="/doctor/appointments" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/appointments") && "text-primary font-semibold")}>
                 Appointments
@@ -289,8 +287,6 @@ export function Navbar() {
               </Link>
               
             </nav>
-          ) : loading ? (
-            <CardSkeleton className="h-8 w-64 rounded-full" />
           ) : null}
         </div>
 

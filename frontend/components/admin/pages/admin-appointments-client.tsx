@@ -39,6 +39,7 @@ import {
   getAppointmentSummary,
 } from "@/lib/admin-actions";
 import {
+  formatMeridiemTime,
   parseCompositeReason,
   humanizeConsultationType,
   humanizeAppointmentType,
@@ -506,12 +507,7 @@ export function AdminAppointmentsClient({
                               ).toLocaleDateString()}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {new Date(
-                                apt.appointment_date
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              {formatMeridiemTime(apt.appointment_date)}
                               {apt.duration_minutes
                                 ? ` (${apt.duration_minutes}m)`
                                 : ""}
@@ -643,12 +639,7 @@ export function AdminAppointmentsClient({
                               ).toLocaleDateString()}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {new Date(
-                                apt.appointment_date
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              {formatMeridiemTime(apt.appointment_date)}
                               {apt.duration_minutes
                                 ? ` (${apt.duration_minutes}m)`
                                 : ""}

@@ -41,6 +41,7 @@ import {
   CATEGORY_LABELS,
   CATEGORY_DESCRIPTIONS,
 } from "@/lib/patient-data-sharing-types"
+import { formatMeridiemTime } from "@/lib/utils"
 
 interface AccessHistoryItem {
   id: string
@@ -750,7 +751,7 @@ export default function PatientPrivacyPage() {
                             {new Date(item.accessed_at).toLocaleDateString()}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {new Date(item.accessed_at).toLocaleTimeString()}
+                            {formatMeridiemTime(item.accessed_at)}
                           </p>
                         </div>
                       </div>

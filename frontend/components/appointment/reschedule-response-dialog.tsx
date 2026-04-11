@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { formatMeridiemTime } from "@/lib/utils";
 
 type RescheduleResponseMessages = {
   title: string;
@@ -93,11 +94,7 @@ function formatTimeLabel(value?: string | null) {
   if (twentyFourHour) {
     const date = new Date();
     date.setHours(Number(twentyFourHour[1]), Number(twentyFourHour[2]), Number(twentyFourHour[3] || "0"), 0);
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
+    return formatMeridiemTime(date);
   }
 
   return value;

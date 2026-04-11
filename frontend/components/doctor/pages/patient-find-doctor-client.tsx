@@ -23,7 +23,7 @@ const MapView = dynamic(
     ssr: false,
     loading: () => (
       <div className="space-y-3 rounded-2xl border border-border bg-card p-4">
-        <div className="flex h-full min-h-[120px] items-center justify-center">
+        <div className="flex h-full min-h-30 items-center justify-center">
           <MedoraLoader size="sm" label="Loading map..." />
         </div>
         <CardSkeleton className="h-40" />
@@ -32,8 +32,109 @@ const MapView = dynamic(
   },
 );
 
+function getCookieValue(name: string): string {
+  if (typeof document === "undefined") {
+    return "";
+  }
+
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[2]) : "";
+}
+
+type Doctor = {
+  profile_id: string;
+  first_name: string;
+  last_name: string;
+  title?: string;
+  specialization: string;
+  qualifications?: string;
+  years_of_experience?: number;
+  hospital_name?: string;
+  hospital_address?: string;
+  hospital_city?: string;
+  hospital_latitude?: number;
+  hospital_longitude?: number;
+  chamber_name?: string;
+  chamber_address?: string;
+  chamber_city?: string;
+  chamber_latitude?: number;
+  chamber_longitude?: number;
+  consultation_fee?: number;
+  profile_photo_url?: string;
+  visiting_hours?: string;
+  consultation_mode?: string;
+  score?: number;
+  reason?: string;
+  distance_km?: number;
+  latitude?: number;
+  longitude?: number;
+};
+
+type AIAnalysisTag = {
+  name: string;
+};
+
+type AIAnalysisData = {
+  symptoms?: AIAnalysisTag[];
+  specialties?: AIAnalysisTag[];
+  severity?: string;
+  language_detected?: string;
+  error?: string | null;
+};
+
+type PatientContextFactor = {
+  category: string;
+  value: string;
+  influence: string;
+};
+
+type PreviouslyVisitedDoctor = {
+  doctor_id?: string;
+  profile_id?: string;
+  photo_url?: string;
+  first_name?: string;
+  last_name?: string;
+  title?: string;
+  specialization?: string;
+  last_visit?: string;
+};
+
+type UserLocation = {
+  latitude: number;
+  longitude: number;
+};
+
+type DoctorSearchFilters = {
+  mode?: string;
+  prompt?: string;
+  location?: string | null;
+  consultation_mode?: string | null;
+  user_location?: UserLocation | null;
+  query?: string;
+  speciality_id?: string;
+  city?: string;
+  gender?: string;
+};
+
+type DoctorSearchResponse = {
+  doctors: Doctor[];
+  total?: number;
+  medical_intent?: AIAnalysisData;
+  patient_context_factors?: PatientContextFactor[];
+  ambiguity?: string;
+};
+
+function isUserLocation(value: unknown): value is UserLocation {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.latitude === "number" && typeof candidate.longitude === "number";
+}
+
 // AI Analysis summary component
-function AIAnalysisSummary({ analysis }: { analysis: any }) {
+function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
   if (!analysis || analysis.error) return null;
 
   const symptoms = analysis.symptoms || [];
@@ -64,7 +165,7 @@ function AIAnalysisSummary({ analysis }: { analysis: any }) {
                 <span className="font-medium">Symptoms Detected</span>
               </div>
               <div className="flex flex-wrap gap-1">
-                {symptoms.slice(0, 4).map((s: any, i: number) => (
+                {symptoms.slice(0, 4).map((s, i: number) => (
                   <Badge key={i} variant="secondary" className="text-xs">
                     {s.name}
                   </Badge>
@@ -81,7 +182,7 @@ function AIAnalysisSummary({ analysis }: { analysis: any }) {
                 <span className="font-medium">Specialties</span>
               </div>
               <div className="flex flex-wrap gap-1">
-                {specialties.map((s: any, i: number) => (
+                {specialties.map((s, i: number) => (
                   <Badge key={i} variant="secondary" className="text-xs">
                     {s.name}
                   </Badge>
@@ -137,7 +238,7 @@ function PreviouslyVisitedDoctors({
   loading,
   onDoctorClick 
 }: { 
-  doctors: any[]; 
+  doctors: PreviouslyVisitedDoctor[]; 
   loading: boolean;
   onDoctorClick?: (doctorId: string) => void;
 }) {
@@ -206,7 +307,7 @@ function PreviouslyVisitedDoctors({
                     {doc.specialization}
                   </p>
                   <p className="text-xs text-primary/70 mt-0.5">
-                    Last: {new Date(doc.last_visit).toLocaleDateString()}
+                    Last: {doc.last_visit ? new Date(doc.last_visit).toLocaleDateString() : "Recently"}
                   </p>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -222,53 +323,25 @@ function PreviouslyVisitedDoctors({
 
 export default function FindDoctorPage() {
   const router = useRouter();
-  type Doctor = {
-    profile_id: string;
-    first_name: string;
-    last_name: string;
-    title?: string;
-    specialization: string;
-    qualifications?: string;
-    years_of_experience?: number;
-    hospital_name?: string;
-    hospital_address?: string;
-    hospital_city?: string;
-    hospital_latitude?: number;
-    hospital_longitude?: number;
-    chamber_name?: string;
-    chamber_address?: string;
-    chamber_city?: string;
-    chamber_latitude?: number;
-    chamber_longitude?: number;
-    consultation_fee?: number;
-    profile_photo_url?: string;
-    visiting_hours?: string;
-    consultation_mode?: string;
-    score?: number;
-    reason?: string;
-    distance_km?: number;
-    latitude?: number;
-    longitude?: number;
-  };
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [hasFilters, setHasFilters] = useState(false);
-  const [aiAnalysis, setAiAnalysis] = useState<any>(null);
-  const [patientContextFactors, setPatientContextFactors] = useState<any[]>([]);
+  const [aiAnalysis, setAiAnalysis] = useState<AIAnalysisData | null>(null);
+  const [patientContextFactors, setPatientContextFactors] = useState<PatientContextFactor[]>([]);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
-  const [previouslyVisited, setPreviouslyVisited] = useState<any[]>([]);
+  const [previouslyVisited, setPreviouslyVisited] = useState<PreviouslyVisitedDoctor[]>([]);
   const [loadingPrevious, setLoadingPrevious] = useState(true);
 
   // Fetch previously visited doctors on mount
   useEffect(() => {
     const loadPreviouslyVisited = async () => {
       try {
-        const data = await getPreviouslyVisitedDoctors();
-        setPreviouslyVisited(data.doctors || []);
+        const data = (await getPreviouslyVisitedDoctors()) as { doctors?: PreviouslyVisitedDoctor[] };
+        setPreviouslyVisited(Array.isArray(data.doctors) ? data.doctors : []);
       } catch (error) {
         console.error("Failed to load previously visited doctors:", error);
       } finally {
@@ -282,7 +355,7 @@ export default function FindDoctorPage() {
     router.push(`/patient/doctor/${doctorId}`);
   };
 
-  const fetchDoctors = async (searchFilters: any = {}) => {
+  const fetchDoctors = async (searchFilters: DoctorSearchFilters = {}) => {
     setLoading(true);
     setAiAnalysis(null);
     setShowAmbiguityPrompt(false);
@@ -294,27 +367,36 @@ export default function FindDoctorPage() {
 
       if (searchFilters.mode === 'ai') {
          url = `${backendUrl}/ai/search`;
-         const payload: any = {
-            user_text: searchFilters.prompt,
-            location: searchFilters.location || null,
-            consultation_mode: searchFilters.consultation_mode || null
+        const sessionToken = getCookieValue("session_token");
+      const payload: {
+        user_text: string;
+        location: string | null;
+        consultation_mode: string | null;
+        user_location?: UserLocation;
+      } = {
+        user_text: typeof searchFilters.prompt === "string" ? searchFilters.prompt : "",
+        location: typeof searchFilters.location === "string" ? searchFilters.location : null,
+        consultation_mode: typeof searchFilters.consultation_mode === "string" ? searchFilters.consultation_mode : null
          };
          
          // Include user coordinates for distance-based ranking
-         if (searchFilters.user_location) {
+      if (isUserLocation(searchFilters.user_location)) {
            payload.user_location = searchFilters.user_location;
          }
 
          options = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(sessionToken ? { Authorization: `Bearer ${sessionToken}` } : {}),
+          },
             body: JSON.stringify(payload)
          };
       } else {
         const params = new URLSearchParams();
         Object.entries(searchFilters).forEach(([key, value]) => {
-            if (value && key !== 'mode' && key !== 'user_location') {
-              params.append(key, value as string);
+            if (typeof value === "string" && value && key !== 'mode' && key !== 'user_location') {
+              params.append(key, value);
             }
         });
         url = `${url}?${params.toString()}`;
@@ -322,7 +404,7 @@ export default function FindDoctorPage() {
       
       const res = await fetch(url, options);
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as DoctorSearchResponse;
         
         if (searchFilters.mode === 'ai') {
           if (data.medical_intent) {
@@ -330,7 +412,7 @@ export default function FindDoctorPage() {
           }
           
           // Capture patient context factors from AI search response
-          if (data.patient_context_factors && data.patient_context_factors.length > 0) {
+          if (Array.isArray(data.patient_context_factors) && data.patient_context_factors.length > 0) {
             setPatientContextFactors(data.patient_context_factors);
           } else {
             setPatientContextFactors([]);
@@ -363,13 +445,21 @@ export default function FindDoctorPage() {
     fetchDoctors();
   }, []);
 
-  const handleSearch = (newFilters: Record<string, any>) => {
+  const handleSearch = (newFilters: Record<string, unknown>) => {
     // Capture user location if provided
-    if (newFilters.user_location) {
+    if (isUserLocation(newFilters.user_location)) {
       setUserLocation(newFilters.user_location);
     }
-    fetchDoctors(newFilters);
-    const hasActiveFilters = Object.values(newFilters).some(value => value && value !== '');
+    fetchDoctors(newFilters as DoctorSearchFilters);
+    const hasActiveFilters = Object.values(newFilters).some((value) => {
+      if (value === null || value === undefined) {
+        return false;
+      }
+      if (typeof value === "string") {
+        return value.trim() !== "";
+      }
+      return true;
+    });
     setHasFilters(hasActiveFilters);
   };
 
@@ -385,7 +475,7 @@ export default function FindDoctorPage() {
     <AppBackground>
       <Navbar />
       
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset) animate-page-enter">
         {/* Header Section */}
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Find a Doctor</h1>
@@ -498,7 +588,7 @@ export default function FindDoctorPage() {
           
           {/* Mobile: Toggleable full-width map */}
           {showMap && (
-            <div className="lg:hidden fixed inset-0 z-40 bg-background pt-[var(--nav-content-offset)]">
+            <div className="lg:hidden fixed inset-0 z-40 bg-background pt-(--nav-content-offset)">
               <div className="h-full w-full p-4">
                 <div className="h-full w-full rounded-2xl overflow-hidden">
                   <MapView doctors={doctors} userLocation={userLocation} />

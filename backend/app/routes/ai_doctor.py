@@ -3,7 +3,7 @@ import math
 import asyncio
 import time
 import logging
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, desc
 from typing import List, Optional, Tuple
@@ -24,7 +24,8 @@ from app.schemas.ai_search import (
     AIDoctorSearchRequest, 
     AIDoctorSearchResponse, 
     AIDoctorResult,
-    PatientContextFactor
+    PatientContextFactor,
+    UserLocation,
 )
 
 from groq import Groq
@@ -48,6 +49,154 @@ client = Groq(api_key=settings.GROQ_API_KEY)
 SPECIALTY_CACHE_TTL_SECONDS = max(60, settings.PERF_API_CACHE_TTL)
 _all_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
 _available_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
+VAPI_DOCTOR_SEARCH_TOOL_NAMES = {"search_doctors_ai", "find_doctor", "ai_doctor_search"}
+
+
+def _safe_vapi_text(value: object, *, max_length: int = 5000) -> str:
+    if value is None:
+        return ""
+    return str(value).strip()[:max_length]
+
+
+def _safe_vapi_dict(value: object) -> dict:
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            return {}
+    return {}
+
+
+def _extract_vapi_tool_calls(payload: dict) -> list[dict]:
+    message = payload.get("message")
+    if not isinstance(message, dict):
+        return []
+
+    tool_calls: list[dict] = []
+
+    raw_calls = message.get("toolCallList")
+    if isinstance(raw_calls, list):
+        for item in raw_calls:
+            if not isinstance(item, dict):
+                continue
+            tool_calls.append(
+                {
+                    "id": _safe_vapi_text(item.get("id"), max_length=128),
+                    "name": _safe_vapi_text(item.get("name"), max_length=128),
+                    "arguments": _safe_vapi_dict(item.get("arguments")),
+                }
+            )
+
+    wrapped_calls = message.get("toolWithToolCallList")
+    if isinstance(wrapped_calls, list):
+        for wrapped in wrapped_calls:
+            if not isinstance(wrapped, dict):
+                continue
+            tool_call = wrapped.get("toolCall")
+            if not isinstance(tool_call, dict):
+                continue
+            function_payload = tool_call.get("function")
+            function_dict = function_payload if isinstance(function_payload, dict) else {}
+            tool_calls.append(
+                {
+                    "id": _safe_vapi_text(tool_call.get("id"), max_length=128),
+                    "name": _safe_vapi_text(
+                        function_dict.get("name") or wrapped.get("name"),
+                        max_length=128,
+                    ),
+                    "arguments": _safe_vapi_dict(function_dict.get("parameters")),
+                }
+            )
+
+    return tool_calls
+
+
+def _extract_vapi_metadata(payload: dict) -> dict:
+    message = payload.get("message")
+    if not isinstance(message, dict):
+        return {}
+    call = message.get("call")
+    if not isinstance(call, dict):
+        return {}
+    metadata = call.get("metadata")
+    if not isinstance(metadata, dict):
+        return {}
+    return metadata
+
+
+def _extract_vapi_token(arguments: dict, metadata: dict, authorization_header: str | None) -> str:
+    candidates = [
+        arguments.get("session_token"),
+        arguments.get("auth_token"),
+        arguments.get("token"),
+        metadata.get("session_token"),
+        metadata.get("auth_token"),
+        metadata.get("medora_session_token"),
+        authorization_header,
+    ]
+    for candidate in candidates:
+        token = _safe_vapi_text(candidate, max_length=8000)
+        if not token:
+            continue
+        if token.lower().startswith("bearer "):
+            token = token.split(" ", 1)[1].strip()
+        if token:
+            return token
+    return ""
+
+
+def _extract_vapi_user_location(arguments: dict, metadata: dict) -> UserLocation | None:
+    user_location = arguments.get("user_location")
+    if not isinstance(user_location, dict):
+        user_location = metadata.get("user_location") if isinstance(metadata.get("user_location"), dict) else None
+
+    latitude = None
+    longitude = None
+    if isinstance(user_location, dict):
+        latitude = user_location.get("latitude")
+        longitude = user_location.get("longitude")
+    else:
+        latitude = arguments.get("latitude") or metadata.get("latitude")
+        longitude = arguments.get("longitude") or metadata.get("longitude")
+
+    try:
+        if latitude is None or longitude is None:
+            return None
+        return UserLocation(latitude=float(latitude), longitude=float(longitude))
+    except Exception:
+        return None
+
+
+def _build_vapi_doctor_search_summary(response: AIDoctorSearchResponse) -> str:
+    if not response.doctors:
+        if (response.ambiguity or "").lower() == "high":
+            return (
+                "I need a bit more detail to find the right doctor. "
+                "Please describe your main symptom, how long it has been happening, and urgency."
+            )
+        return "I could not find matching doctors right now. Please try a different symptom description or location."
+
+    top_doctors = response.doctors[:3]
+    lines: list[str] = [f"I found {len(response.doctors)} matching doctors. Here are the top options."]
+
+    for index, doctor in enumerate(top_doctors, start=1):
+        name = f"Dr. {doctor.first_name} {doctor.last_name}".strip()
+        specialty = doctor.specialization
+        reason = _safe_vapi_text(doctor.reason, max_length=180)
+        distance_text = f", {doctor.distance_km:.1f} kilometer away" if doctor.distance_km is not None else ""
+        lines.append(f"{index}. {name}, {specialty}{distance_text}. {reason}")
+
+    medical_intent = response.medical_intent or {}
+    severity = _safe_vapi_text(medical_intent.get("severity"), max_length=20).lower()
+    if severity == "high":
+        lines.append("Your symptoms were marked high urgency. Seek immediate in-person medical care if symptoms are worsening.")
+
+    lines.append("You can now open doctor profiles and book the best fit.")
+    return " ".join(lines)
 
 
 async def get_optional_user(authorization: Optional[str] = Header(None)):
@@ -579,6 +728,97 @@ RULES:
         },
         patient_context_factors=patient_context_factors if patient_context_factors else None
     )
+
+
+@router.post("/vapi/tools/doctor-search")
+async def vapi_doctor_search_tool(
+    payload: dict,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    configured_secret = _safe_vapi_text(settings.VAPI_TOOL_SHARED_SECRET, max_length=256)
+    if configured_secret:
+        provided_secret = _safe_vapi_text(request.headers.get("x-vapi-tool-secret"), max_length=256)
+        if provided_secret != configured_secret:
+            raise HTTPException(status_code=401, detail="Invalid Vapi tool secret")
+
+    tool_calls = _extract_vapi_tool_calls(payload)
+    if not tool_calls:
+        return {"received": True}
+
+    metadata = _extract_vapi_metadata(payload)
+    authorization_header = request.headers.get("authorization")
+    results: list[dict] = []
+
+    for tool_call in tool_calls:
+        tool_call_id = _safe_vapi_text(tool_call.get("id"), max_length=128) or str(int(time.time() * 1000))
+        tool_name = _safe_vapi_text(tool_call.get("name"), max_length=128).lower()
+        if tool_name and tool_name not in VAPI_DOCTOR_SEARCH_TOOL_NAMES:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Unsupported tool name. Use search_doctors_ai for Medora doctor search.",
+                }
+            )
+            continue
+
+        arguments = _safe_vapi_dict(tool_call.get("arguments"))
+        user_text = _safe_vapi_text(
+            arguments.get("user_text")
+            or arguments.get("message")
+            or arguments.get("query")
+            or metadata.get("user_text")
+            or metadata.get("message"),
+            max_length=2500,
+        )
+        if not user_text:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Missing symptom description. Please provide a message describing the health concern.",
+                }
+            )
+            continue
+
+        session_token = _extract_vapi_token(arguments, metadata, authorization_header)
+        auth_header = f"Bearer {session_token}" if session_token else None
+
+        location = _safe_vapi_text(arguments.get("location") or metadata.get("location"), max_length=120) or None
+        consultation_mode = _safe_vapi_text(
+            arguments.get("consultation_mode") or metadata.get("consultation_mode"),
+            max_length=64,
+        ) or None
+        user_location = _extract_vapi_user_location(arguments, metadata)
+
+        search_request = AIDoctorSearchRequest(
+            user_text=user_text,
+            location=location,
+            consultation_mode=consultation_mode,
+            user_location=user_location,
+        )
+
+        try:
+            search_response = await ai_doctor_search(
+                request=search_request,
+                authorization=auth_header,
+                db=db,
+            )
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": _build_vapi_doctor_search_summary(search_response),
+                }
+            )
+        except Exception as exc:
+            logger.warning("Vapi doctor search tool failed: %s", exc)
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "I could not complete doctor search right now. Please try again in a moment.",
+                }
+            )
+
+    return {"results": results}
 
 
 # ============================================================================

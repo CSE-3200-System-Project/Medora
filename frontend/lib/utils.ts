@@ -5,6 +5,57 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+const SHORT_MONTH_NAMES = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+]
+
+const LONG_MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+]
+
+const SHORT_WEEKDAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const LONG_WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+function asValidDate(value: Date | string | number) {
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return null
+  }
+  return date
+}
+
+export function formatMeridiemTime(value: Date | string | number) {
+  const date = asValidDate(value)
+  if (!date) return ''
+
+  const hours24 = date.getHours()
+  const hour12 = hours24 % 12 || 12
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const period = hours24 >= 12 ? 'PM' : 'AM'
+
+  return `${String(hour12).padStart(2, '0')}:${minutes} ${period}`
+}
+
+export function formatShortDateTime(value: Date | string | number) {
+  const date = asValidDate(value)
+  if (!date) return ''
+
+  const weekday = SHORT_WEEKDAY_NAMES[date.getDay()]
+  const month = SHORT_MONTH_NAMES[date.getMonth()]
+  return `${weekday}, ${month} ${date.getDate()}, ${date.getFullYear()} ${formatMeridiemTime(date)}`
+}
+
+export function formatLongDateTime(value: Date | string | number) {
+  const date = asValidDate(value)
+  if (!date) return ''
+
+  const weekday = LONG_WEEKDAY_NAMES[date.getDay()]
+  const month = LONG_MONTH_NAMES[date.getMonth()]
+  return `${weekday}, ${month} ${date.getDate()}, ${date.getFullYear()} ${formatMeridiemTime(date)}`
+}
+
 /**
  * Returns a local date key in YYYY-MM-DD for a given Date or ISO date string.
  * This avoids timezone shifts caused by toISOString().
@@ -92,11 +143,7 @@ export function formatAppointmentTime(appointmentIso: string, slotTime?: string 
   const value = new Date(appointmentIso)
   if (Number.isNaN(value.getTime())) return ''
 
-  return value.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  })
+  return formatMeridiemTime(value)
 }
 
 export function formatAppointmentDateTime(appointmentIso: string, slotTime?: string | null) {

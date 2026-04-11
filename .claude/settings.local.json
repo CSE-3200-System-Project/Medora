@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls c:/Code/System-Project/Medora/frontend/types/ai*)"
+    ]
+  }
+}

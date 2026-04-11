@@ -32,7 +32,6 @@ import {
   AlertCircle,
   ArrowLeft,
   Calendar,
-  User,
   Sunrise,
   Sun,
   Sunset,
@@ -40,10 +39,54 @@ import {
   Utensils,
   Building2,
   DollarSign,
-  AlertTriangle,
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { PrescriptionVapiVoiceSummary } from "@/components/ai/prescription-vapi-voice-summary";
+
+type AssistantMedicationPlanItem = {
+  name: string;
+  schedule: string;
+  quantity?: number | string | null;
+};
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+}
+
+function getAssistantMedicationPlan(summary: Record<string, unknown> | undefined): AssistantMedicationPlanItem[] {
+  if (!summary) {
+    return [];
+  }
+
+  const rawPlan = summary["medication_plan"];
+  if (!Array.isArray(rawPlan)) {
+    return [];
+  }
+
+  const items: AssistantMedicationPlanItem[] = [];
+  for (const rawItem of rawPlan) {
+    if (!rawItem || typeof rawItem !== "object") {
+      continue;
+    }
+    const item = rawItem as Record<string, unknown>;
+    const name = typeof item.name === "string" ? item.name.trim() : "";
+    const schedule = typeof item.schedule === "string" ? item.schedule.trim() : "";
+    if (!name) {
+      continue;
+    }
+    items.push({
+      name,
+      schedule: schedule || "as directed",
+      quantity: item.quantity as number | string | null | undefined,
+    });
+  }
+
+  return items;
+}
 
 export default function PatientPrescriptionDetailPage() {
   const params = useParams();
@@ -60,23 +103,28 @@ export default function PatientPrescriptionDetailPage() {
   const [assistantLoading, setAssistantLoading] = React.useState(false);
   const [assistantError, setAssistantError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    loadPrescription();
-  }, [prescriptionId]);
+  const assistantMedicationPlan = React.useMemo(
+    () => getAssistantMedicationPlan(assistantSummary?.summary),
+    [assistantSummary]
+  );
 
-  const loadPrescription = async () => {
+  const loadPrescription = React.useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await getPatientPrescription(prescriptionId);
       setPrescription(data);
-    } catch (err: any) {
-      console.error("Failed to load prescription:", err);
-      setError(err.message || "Failed to load prescription");
+    } catch (error: unknown) {
+      console.error("Failed to load prescription:", error);
+      setError(getErrorMessage(error, "Failed to load prescription"));
     } finally {
       setLoading(false);
     }
-  };
+  }, [prescriptionId]);
+
+  React.useEffect(() => {
+    loadPrescription();
+  }, [loadPrescription]);
 
   const handleAccept = async () => {
     try {
@@ -85,8 +133,8 @@ export default function PatientPrescriptionDetailPage() {
       await acceptPrescription(prescriptionId);
       // Refetch prescription to get updated status
       await loadPrescription();
-    } catch (err: any) {
-      setError(err.message || "Failed to accept prescription");
+    } catch (error: unknown) {
+      setError(getErrorMessage(error, "Failed to accept prescription"));
     } finally {
       setActionLoading(false);
     }
@@ -105,8 +153,8 @@ export default function PatientPrescriptionDetailPage() {
       // Refetch prescription to get updated status
       await loadPrescription();
       setShowRejectForm(false);
-    } catch (err: any) {
-      setError(err.message || "Failed to reject prescription");
+    } catch (error: unknown) {
+      setError(getErrorMessage(error, "Failed to reject prescription"));
     } finally {
       setActionLoading(false);
     }
@@ -118,8 +166,8 @@ export default function PatientPrescriptionDetailPage() {
       setAssistantError(null);
       const response = await getPatientPrescriptionAssistantSummary(prescriptionId);
       setAssistantSummary(response);
-    } catch (err: any) {
-      setAssistantError(err?.message || "Failed to load summary");
+    } catch (error: unknown) {
+      setAssistantError(getErrorMessage(error, "Failed to load summary"));
     } finally {
       setAssistantLoading(false);
     }
@@ -182,21 +230,6 @@ export default function PatientPrescriptionDetailPage() {
         return "Any Time";
       default:
         return instruction;
-    }
-  };
-
-  const getDosageTimeIcon = (time: string) => {
-    switch (time) {
-      case "morning":
-        return <Sunrise className="h-4 w-4 text-orange-500" />;
-      case "afternoon":
-        return <Sun className="h-4 w-4 text-yellow-500" />;
-      case "evening":
-        return <Sunset className="h-4 w-4 text-purple-500" />;
-      case "night":
-        return <Moon className="h-4 w-4 text-blue-500" />;
-      default:
-        return null;
     }
   };
 
@@ -283,6 +316,29 @@ export default function PatientPrescriptionDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {assistantError ? <p className="text-sm text-destructive">{assistantError}</p> : null}
+
+              {assistantSummary?.plain_text_summary ? (
+                <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                  <h4 className="text-sm font-semibold text-foreground mb-1">Brief Summary</h4>
+                  <p className="text-sm text-foreground leading-relaxed">{assistantSummary.plain_text_summary}</p>
+                </div>
+              ) : null}
+
+              <PrescriptionVapiVoiceSummary prescriptionId={prescriptionId} />
+
+              {assistantMedicationPlan.length > 0 ? (
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">Medication Names and Schedule</h4>
+                  <ul className="space-y-1">
+                    {assistantMedicationPlan.map((item) => (
+                      <li key={`${item.name}-${item.schedule}`} className="text-sm text-foreground">
+                        - {item.name}: {item.schedule}
+                        {item.quantity !== undefined && item.quantity !== null && item.quantity !== "" ? `, quantity ${item.quantity}` : ""}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               {assistantSummary?.highlight_points?.length ? (
                 <div>

@@ -20,7 +20,7 @@ import { resolveAvatarUrl } from "@/lib/avatar";
 import { getPatientForDoctor } from "@/lib/patient-access-actions"
 import { getDoctorPatientAssistantSummary, type DoctorPatientAssistantSummaryResponse } from "@/lib/ai-consultation-actions"
 import { getPatientHealthForDoctor, type PatientHealthOverview } from "@/lib/health-data-consent-actions"
-import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
+import { formatShortDateTime, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
 
 interface PatientData {
   id: string
@@ -852,7 +852,7 @@ export default function DoctorPatientViewPage() {
                       <div className="p-1.5 rounded-full bg-muted">
                         <Clock className="w-3 h-3" />
                       </div>
-                      Accessed at: {new Date(patient.access_timestamp).toLocaleString()}
+                      Accessed at: {formatShortDateTime(patient.access_timestamp)}
                     </div>
                     <p className="text-xs text-muted-foreground mt-2 pl-7">
                       Patient has been notified of this access.

@@ -1,12 +1,19 @@
 export type ChoruiMessageRole = "ai" | "user";
 export type ChoruiRoleContext = "patient" | "doctor";
 
+export interface ChoruiNavigationSuggestion {
+  label: string;
+  path: string;
+  description?: string | null;
+}
+
 export interface ChoruiMessage {
   id: string;
   role: ChoruiMessageRole;
   content: string;
   timestamp: string;
   failed?: boolean;
+  navigation?: ChoruiNavigationSuggestion[];
 }
 
 export interface ChoruiStructuredData {
@@ -27,8 +34,11 @@ export interface ChoruiIntakeRequest {
 export interface ChoruiIntakeResponse {
   reply: string;
   conversation_id: string;
-  structured_data?: Partial<ChoruiStructuredData>;
+  structured_data?: Partial<ChoruiStructuredData> & {
+    navigation?: ChoruiNavigationSuggestion[];
+  };
   context_mode?: string;
+  navigation?: ChoruiNavigationSuggestion[];
 }
 
 export interface ChoruiConversationSummary {
@@ -47,6 +57,9 @@ export interface ChoruiConversationMessage {
   role: ChoruiMessageRole;
   content: string;
   timestamp: string;
+  structured_data?: {
+    navigation?: ChoruiNavigationSuggestion[];
+  } & Record<string, unknown>;
 }
 
 export interface ChoruiConversationHistoryResponse {

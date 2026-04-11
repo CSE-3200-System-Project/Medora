@@ -55,7 +55,7 @@ import {
 } from "@/lib/patient-medication";
 
 import { getMyAppointments } from "@/lib/appointment-actions";
-import { humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
+import { formatMeridiemTime, humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
 import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-tab-accents";
 
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
@@ -1165,7 +1165,7 @@ function PatientMedicalHistoryPage() {
                             <div className="mb-1 flex flex-wrap items-center gap-2">
                              <Calendar className="h-4 w-4 text-primary" />
                              <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
-                             <span className="text-muted-foreground text-sm">{new Date(app.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                              <span className="text-muted-foreground text-sm">{formatMeridiemTime(app.appointment_date)}</span>
                           </div>
                           <div className="text-lg font-semibold">
                             {app.doctor_title ? `${app.doctor_title} ` : 'Dr.'}{app.doctor_name || app.doctor || 'Doctor'}
