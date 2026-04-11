@@ -14,6 +14,8 @@ type MedicationTrendChartProps = {
   labels: string[]
   adherenceRate: number
   deltaPercent: number
+  title: string
+  subtitle: string
 }
 
 export function MedicationTrendChart({
@@ -21,6 +23,8 @@ export function MedicationTrendChart({
   labels,
   adherenceRate,
   deltaPercent,
+  title,
+  subtitle,
 }: MedicationTrendChartProps) {
   const { resolvedTheme } = useTheme()
 
@@ -93,8 +97,8 @@ export function MedicationTrendChart({
         <CardHeader>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <CardTitle className="text-xl text-foreground">Medication Trend</CardTitle>
-              <p className="mt-1 text-sm text-muted-foreground">Last 7 days adherence</p>
+              <CardTitle className="text-xl text-foreground">{title}</CardTitle>
+              <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
             </div>
             <div className="text-right">
               <p className="text-3xl font-bold text-primary">{adherenceRate}%</p>

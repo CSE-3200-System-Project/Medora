@@ -14,6 +14,11 @@ const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false })
 type HealthScoreCardProps = {
   score: number
   maxScore?: number
+  title: string
+  improvementMessage: string
+  activityTitle: string
+  nutritionTitle: string
+  viewDetailsLabel: string
   activityLabel: string
   nutritionLabel: string
   statusLabel: string
@@ -22,6 +27,11 @@ type HealthScoreCardProps = {
 export function HealthScoreCard({
   score,
   maxScore = 100,
+  title,
+  improvementMessage,
+  activityTitle,
+  nutritionTitle,
+  viewDetailsLabel,
   activityLabel,
   nutritionLabel,
   statusLabel,
@@ -86,7 +96,7 @@ export function HealthScoreCard({
     <div className="h-full animate-fade-in-up card-hover">
       <Card className="h-full border-border/70 bg-card/95 shadow-sm">
         <CardHeader className="pb-1">
-          <CardTitle className="text-xl text-foreground">Overall Health Score</CardTitle>
+          <CardTitle className="text-xl text-foreground">{title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-[190px_1fr]">
@@ -95,18 +105,15 @@ export function HealthScoreCard({
             </div>
 
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Your health score has improved by <span className="font-semibold text-success-muted">+5%</span>{" "}
-                since last month. Keep up the good work.
-              </p>
+              <p className="text-sm text-muted-foreground">{improvementMessage}</p>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Activity</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{activityTitle}</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{activityLabel}</p>
                 </div>
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Nutrition</p>
+                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{nutritionTitle}</p>
                   <p className="mt-1 text-base font-semibold text-foreground">{nutritionLabel}</p>
                 </div>
               </div>
@@ -119,7 +126,7 @@ export function HealthScoreCard({
                   type="button"
                   className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                 >
-                  View details
+                  {viewDetailsLabel}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>

@@ -1,0 +1,40 @@
+{
+  "baseline": {
+    "requests": 2500,
+    "failures": 35,
+    "error_rate": 0.014,
+    "avg_response_time_ms": 420.0,
+    "p50_ms": 240.0,
+    "p95_ms": 1100.0,
+    "p99_ms": 1800.0,
+    "rps": 85.0,
+    "created_appointments": 140
+  },
+  "current": {
+    "generated_at": "2026-04-03T15:00:00Z",
+    "summary": {
+      "total_requests": 4800,
+      "total_failures": 62,
+      "aggregate_error_rate": 0.0129,
+      "worst_p95_ms": 1180.4
+    },
+    "critical_endpoints": {
+      "/appointment/": {
+        "p95_ms": 980.2,
+        "rps": 58.3,
+        "error_rate": 0.01
+      },
+      "/ai/search": {
+        "p95_ms": 1180.4,
+        "rps": 35.9,
+        "error_rate": 0.018
+      },
+      "/upload/prescription/extract": {
+        "p95_ms": 2080.0,
+        "rps": 9.7,
+        "error_rate": 0.024
+      }
+    }
+  },
+  "violations": []
+}

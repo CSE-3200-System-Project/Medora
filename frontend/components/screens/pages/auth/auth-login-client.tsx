@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { login } from "@/lib/auth-actions";
 import { toast } from "@/lib/notify";
 import { AppBackground } from "@/components/ui/app-background";
+import { useT } from "@/i18n/client";
 
 const AdminDialog = lazy(() => import("./admin-dialog"));
 
@@ -22,13 +23,13 @@ import medoraLogoDark from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLogoLight from "@/assets/images/Medora-Logo-Light.png";
 
 const LOGIN_HERO_IMAGES = [
-  { src: doctorImg, alt: "Doctors Team", text: "Welcome Back to Medora" },
-  { src: patientImg, alt: "Patient Care", text: "Your Health, Our Priority" },
+  { src: doctorImg, alt: "Doctors Team", textKey: "loginHeroWelcome" },
+  { src: patientImg, alt: "Patient Care", textKey: "loginHeroPriority" },
 ] as const;
 
 function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: boolean }) {
+  const tAuth = useT("auth");
   const { theme, systemTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -37,13 +38,10 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
   const [showAdminDialog, setShowAdminDialog] = useState(false);
   const [showVerifiedMessage, setShowVerifiedMessage] = useState(initiallyVerified);
   const activeImage = LOGIN_HERO_IMAGES[currentImageIndex] ?? LOGIN_HERO_IMAGES[0];
+  const isPrimaryHeroImage = currentImageIndex === 0;
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   const medoraLogo = currentTheme === "dark" ? medoraLogoLight : medoraLogoDark;
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -69,13 +67,13 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
       return;
     }
 
-    toast.success("Email verified successfully. You can now sign in.");
+    toast.success(tAuth("emailVerifiedToast"));
     const hideTimer = setTimeout(() => {
       setShowVerifiedMessage(false);
     }, 5000);
 
     return () => clearTimeout(hideTimer);
-  }, [initiallyVerified]);
+  }, [initiallyVerified, tAuth]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,8 +83,17 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
     const formData = new FormData(e.currentTarget);
 
     try {
-      await login(formData, rememberMe);
-      // If we reach here, login was successful and redirect happened
+      const result = await login(formData, rememberMe);
+      if (result?.success === false) {
+        const fallback = tAuth("signInFailedTitle");
+        setError(result.error || fallback);
+        toast.error(result.error || fallback, {
+          title: tAuth("signInFailedTitle"),
+        });
+        setLoading(false);
+        return;
+      }
+      // If redirect succeeds, Next throws NEXT_REDIRECT and navigation occurs.
     } catch (err: unknown) {
       // Don't show NEXT_REDIRECT errors to user - these are internal Next.js redirects
       if (
@@ -98,9 +105,9 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
         // Redirect is happening, don't show error
         return;
       }
-      const message = err instanceof Error ? err.message : "Login failed. Please check your credentials.";
+      const message = err instanceof Error ? err.message : tAuth("signInFailedTitle");
       setError(message);
-      toast.error(message, { title: "Sign in failed" });
+      toast.error(message, { title: tAuth("signInFailedTitle") });
       setLoading(false);
     }
   };
@@ -111,7 +118,7 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
       <button
         onClick={() => setShowAdminDialog(true)}
         className="fixed top-3 right-3 sm:top-4 sm:right-4 size-11 sm:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
-        aria-label="Admin Access"
+        aria-label={tAuth("adminAccess")}
       >
         <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
       </button>
@@ -126,8 +133,9 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                 fill
                 sizes="(max-width: 1279px) 1px, 50vw"
                 className="object-cover"
-                loading="lazy"
-                fetchPriority="low"
+                priority={isPrimaryHeroImage}
+                loading={isPrimaryHeroImage ? "eager" : "lazy"}
+                fetchPriority={isPrimaryHeroImage ? "high" : "low"}
                 decoding="async"
               />
             </div>
@@ -137,10 +145,10 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
             <div className="relative z-10 h-full flex flex-col items-center text-white p-5 sm:p-6 md:p-8 xl:p-12 text-center">
               <div className="flex-1 flex flex-col items-center justify-center w-full">
                 <h1 className="min-h-18 sm:min-h-21 text-2xl sm:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 leading-tight transition-none xl:transition-all xl:duration-500">
-                  {activeImage.text}
+                  {tAuth(activeImage.textKey)}
                 </h1>
                 <p className="text-sm sm:text-base text-white/90 hidden md:block">
-                  Access your dashboard, manage appointments, and stay connected with your healthcare journey.
+                  {tAuth("loginHeroDescription")}
                 </p>
               </div>
 
@@ -152,7 +160,7 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                     className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex ? "w-8 bg-card" : "w-2 bg-card/50"
                     }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    aria-label={tAuth("slideGoTo", { count: index + 1 })}
                   />
                 ))}
               </div>
@@ -175,9 +183,9 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                      fetchPriority="high"
                    />
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight">Sign in to your account</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{tAuth("signInToAccount")}</h2>
                 <p className="text-muted-foreground">
-                  Enter your email and password to access your account
+                  {tAuth("signInDescription")}
                 </p>
               </div>
 
@@ -189,23 +197,23 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
 
               {showVerifiedMessage && (
                 <div className="bg-success/10 border border-success/30 text-success-muted px-4 py-3 rounded-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <CheckCircle2 className="h-5 w-5 shrink-0" />
+                    <CheckCircle2 className="h-5 w-5 shrink-0" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Email Verified Successfully!</p>
-                    <p className="text-xs text-success-muted/80 mt-1">You can now login to your account</p>
+                    <p className="text-sm font-medium">{tAuth("emailVerifiedTitle")}</p>
+                    <p className="text-xs text-success-muted/80 mt-1">{tAuth("emailVerifiedDescription")}</p>
                   </div>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{tAuth("emailAddress")}</Label>
                   <Input name="email" id="email" type="email" placeholder="name@example.com" required className="w-full" />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{tAuth("password")}</Label>
                   </div>
                   <div className="relative">
                     <Input 
@@ -229,25 +237,25 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Checkbox id="remember" checked={rememberMe} onCheckedChange={(checked) => setRememberMe(Boolean(checked))} />
-                    <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
+                    <Label htmlFor="remember" className="text-sm font-normal">{tAuth("rememberMe")}</Label>
                   </div>
                   <Link 
                     href="/forgot-password" 
                     className="text-sm font-medium text-primary hover:underline"
                   >
-                    Forgot password?
+                    {tAuth("forgotPasswordQuestion")}
                   </Link>
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Signing in..." : "Sign In"}
+                  {loading ? tAuth("signingIn") : tAuth("signInCta")}
                 </Button>
               </form>
 
               <div className="text-center text-sm text-foreground">
-                New to Medora?{' '}
+                {tAuth("newToMedora")}{" "}
                 <Link href="/selection" className="font-medium text-primary hover:underline">
-                  Sign up here
+                  {tAuth("signUpHere")}
                 </Link>
               </div>
             </div>

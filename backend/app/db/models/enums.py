@@ -100,6 +100,11 @@ class DurationUnit(str, enum.Enum):
     AS_NEEDED = "as_needed"
 
 
+class DosageType(str, enum.Enum):
+    PATTERN = "pattern"
+    FREQUENCY = "frequency"
+
+
 class HealthMetricType(str, enum.Enum):
     STEPS = "steps"
     SLEEP_HOURS = "sleep_hours"

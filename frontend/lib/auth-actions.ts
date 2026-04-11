@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL =
+  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "http://localhost:8000";
 
 const SHORT_SESSION_MAX_AGE_SECONDS = 60 * 60 * 12;
 const REMEMBER_ME_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
@@ -64,8 +67,19 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      const detail = errorData?.detail;
+      let detail: unknown;
+      try {
+        const contentType = response.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const errorData = await response.json();
+          detail = errorData?.detail;
+        } else {
+          detail = await response.text();
+        }
+      } catch {
+        detail = null;
+      }
+
       const isBanned = typeof detail === "object" && detail?.code === "ACCOUNT_BANNED";
       if (response.status === 403 && isBanned) {
         const cookieStore = await cookies();
@@ -79,8 +93,17 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
         redirect("/account-blocked");
       }
 
-      const message = typeof detail === "string" ? detail : detail?.message;
-      throw new Error(message || "Login failed");
+      const message =
+        typeof detail === "string"
+          ? detail
+          : typeof detail === "object" && detail !== null
+            ? (detail as { message?: string }).message
+            : null;
+
+      return {
+        success: false,
+        error: message || "Login failed",
+      } as const;
     }
 
     const data = await response.json();
@@ -125,7 +148,7 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
     } else if (role === "patient") {
       redirect("/patient/home");
     } else if (role === "admin") {
-      redirect("/admin/dashboard");
+      redirect("/admin");
     } else {
       redirect("/");
     }
@@ -135,7 +158,10 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
         throw error;
     }
     console.error(error);
-    throw error;
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Login failed. Please try again.",
+    } as const;
   }
 }
 

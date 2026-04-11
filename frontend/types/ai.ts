@@ -29,6 +29,43 @@ export interface ChoruiIntakeRequest {
   patient_id?: string;
   history: ChoruiMessage[];
   role_context?: ChoruiRoleContext;
+  ui_locale?: "en" | "bn";
+}
+
+export type ChoruiNavigationActionType = "navigate" | "clarify" | "suggest" | "undo" | "none";
+
+export interface ChoruiNavigationActionOption {
+  label: string;
+  canonical_intent: string;
+  route: string;
+}
+
+export interface ChoruiSuggestedRoute {
+  label: string;
+  route: string;
+  canonical_intent: string;
+}
+
+export interface ChoruiNavigationAction {
+  type: ChoruiNavigationActionType;
+  route?: string | null;
+  confidence: number;
+  requires_confirmation: boolean;
+  missing_params: string[];
+  options: ChoruiNavigationActionOption[];
+  reason?: string | null;
+  delay_ms?: number | null;
+}
+
+export interface ChoruiNavigationMemory {
+  pending_intent?: string | null;
+  missing_params: string[];
+  last_resolved_intent?: string | null;
+}
+
+export interface ChoruiNavigationMeta {
+  previous_route?: string | null;
+  last_navigation_route?: string | null;
 }
 
 export interface ChoruiIntakeResponse {
@@ -38,7 +75,10 @@ export interface ChoruiIntakeResponse {
     navigation?: ChoruiNavigationSuggestion[];
   };
   context_mode?: string;
-  navigation?: ChoruiNavigationSuggestion[];
+  action?: ChoruiNavigationAction | null;
+  suggested_routes?: ChoruiSuggestedRoute[];
+  memory?: ChoruiNavigationMemory | null;
+  navigation_meta?: ChoruiNavigationMeta | null;
 }
 
 export interface ChoruiConversationSummary {

@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Pill, Search, Info } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
+import { useT } from "@/i18n/client";
 import {
   getMedicineDetails,
   searchMedicines,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/medicine-actions";
 
 export function DoctorFindMedicineClient() {
+  const tCommon = useT("common");
   const [results, setResults] = useState<MedicineResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,17 +63,17 @@ export function DoctorFindMedicineClient() {
       <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         <div className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-            Medicine Reference
+            {tCommon("medicine.doctorPage.title")}
           </h1>
           <p className="text-muted-foreground">
-            Search medicines by brand or generic name for prescription reference
+            {tCommon("medicine.doctorPage.subtitle")}
           </p>
         </div>
 
         <Alert className="mb-6 bg-blue-50 border-blue-200">
           <Info className="h-4 w-4 text-blue-600" />
           <AlertDescription className="text-blue-800 text-sm">
-            Use this tool to reference medicines and their available brands. Always verify prescriptions according to medical guidelines.
+            {tCommon("medicine.doctorPage.infoWarning")}
           </AlertDescription>
         </Alert>
 
@@ -85,7 +87,7 @@ export function DoctorFindMedicineClient() {
           {loading ? (
             <div className="space-y-3">
               <div className="flex justify-center py-2">
-                <MedoraLoader size="md" label="Loading medicines..." />
+                <MedoraLoader size="md" label={tCommon("medicine.patientPage.loadingMedicines")} />
               </div>
               {[1, 2, 3].map((i) => (
                 <Card key={i} className="animate-pulse">
@@ -105,17 +107,17 @@ export function DoctorFindMedicineClient() {
           ) : searchQuery.length >= 2 && results.length === 0 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">No medicines found</p>
+              <p className="text-muted-foreground mb-1">{tCommon("medicine.patientPage.noMedicinesFound")}</p>
               <p className="text-sm text-muted-foreground">
-                Try searching with a different name or spelling
+                {tCommon("medicine.patientPage.searchDifferent")}
               </p>
             </div>
           ) : searchQuery.length < 2 ? (
             <div className="text-center py-12 bg-card rounded-2xl border border-border">
               <Pill className="h-12 w-12 text-primary/30 mx-auto mb-4" />
-              <p className="text-muted-foreground mb-1">Search for medicines</p>
+              <p className="text-muted-foreground mb-1">{tCommon("medicine.patientPage.searchPromptTitle")}</p>
               <p className="text-sm text-muted-foreground">
-                Enter at least 2 characters to start searching
+                {tCommon("medicine.patientPage.searchPromptSubtitle")}
               </p>
             </div>
           ) : (
@@ -143,7 +145,7 @@ export function DoctorFindMedicineClient() {
       {drawerOpen && detailLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-background rounded-xl p-6 flex flex-col items-center gap-3">
-            <MedoraLoader size="md" label="Loading details..." />
+            <MedoraLoader size="md" label={tCommon("medicine.patientPage.loadingDetails")} />
           </div>
         </div>
       )}

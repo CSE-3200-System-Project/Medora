@@ -1,0 +1,6 @@
+{"id":"rx-001","text":"Napa 500mg 1+0+1 5 days","ground_truth":{"name":"Napa","dosage":"500mg","frequency":"1+0+1","quantity":"5 days"}}
+{"id":"rx-002","text":"Metformin 500mg BD 30 days","ground_truth":{"name":"Metformin","dosage":"500mg","frequency":"BD","quantity":"30 days"}}
+{"id":"rx-003","text":"Amlodipine 5mg OD continue","ground_truth":{"name":"Amlodipine","dosage":"5mg","frequency":"OD","quantity":"continue"}}
+{"id":"rx-004","text":"Losartan 50mg 1+1+0 10 days","ground_truth":{"name":"Losartan","dosage":"50mg","frequency":"1+1+0","quantity":"10 days"}}
+{"id":"rx-005","text":"Napa 650mg OD ৭ days","ground_truth":{"name":"Napa","dosage":"650mg","frequency":"OD","quantity":"7 days"}}
+{"id":"rx-006","text":"Omeprazole 20mg 1+0+1 ১৪ days","ground_truth":{"name":"Omeprazole","dosage":"20mg","frequency":"1+0+1","quantity":"14 days"}}

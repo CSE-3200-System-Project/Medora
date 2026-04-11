@@ -1,126 +1,473 @@
-# Prescription Fetch + Preview Attachment Fix (2026-04-11)
+# Chorui Namespace Loading Fix (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Trace root cause of patient prescription load failure returning "Consultation not found"
-- [x] Fix consultation route matching conflict so patient prescription routes resolve correctly
-- [x] Persist doctor-side prescription preview attachments and link them to created prescriptions
-- [x] Expose patient-safe prescription attachment retrieval and render preview/download in patient prescription detail UI
-- [x] Validate touched backend/frontend files and add review notes
+- [x] Identify why Chorui UI rendered i18n keys instead of translated strings
+- [x] Ensure route-specific namespaces auto-load in App i18n provider
+- [x] Preload chorui namespace in core server-loaded namespaces to avoid first-paint key fallback
+- [x] Run focused diagnostics and lint on i18n and Chorui files
 
 ### Review
-- Fixed backend route collision by constraining consultation-id routes to UUID path converters, so `/consultation/patient/prescriptions` no longer gets intercepted by `/{consultation_id}/prescriptions`.
-- Added backend patient attachment endpoint at `/consultation/patient/prescription/{prescription_id}/attachments` backed by `media_files` entity links (`entity_type=prescription_attachment`).
-- Updated doctor consultation flow to upload selected OCR attachment after prescription creation and bind it to the created prescription ID.
-- Updated patient prescription details UI to fetch linked attachments, preview images/PDFs, and provide open/download controls.
-- Validation passed via diagnostics on all modified backend/frontend files (no new file-level errors in touched files).
+- Root cause: `AppI18nProvider` never auto-called `ensureNamespaces(getNamespacesForPath(pathname))`, so route-only namespaces (like `chorui`) stayed unloaded and `useT("chorui")` returned fallback keys (e.g., `chorui.titlePatient`).
+- Added route namespace auto-loading effect in `frontend/components/providers/app-i18n-provider.tsx`.
+- Added `chorui` to `CORE_I18N_NAMESPACES` in `frontend/i18n/config.ts` so Chorui pages have translated strings on first render.
+- Validation: diagnostics clean for provider/config/layout; focused lint passed for provider/config/layout and Chorui hook/component files.
 
-# Dark Mode Color System Refresh (2026-04-11)
+# Chorui Hydration Timestamp Fix (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Audit current dark mode tokens and identify bland/low-contrast areas
-- [x] Design a richer dark palette anchored to Medora medical-blue identity
-- [x] Apply updated dark tokens in global theme variables
-- [x] Review semantic consistency and accessibility-oriented contrast
+- [x] Reproduce hydration mismatch source in Chorui chat timestamp render
+- [x] Remove non-deterministic SSR timestamp generation for initial welcome message
+- [x] Run focused diagnostics and lint for chat hook/component
 
 ### Review
-- Refreshed dark-mode token set with deeper oceanic base tones, brighter primary blue, and subtle teal/amber support glows for a more premium and less flat look.
-- Updated semantic/supporting tokens (muted, warning, destructive, border, card, sidebar, calendar) to stay cohesive with the new palette while preserving readability.
-- Updated dark chart palette using OKLCH values for perceptually balanced contrast and cleaner category separation on dark surfaces.
+- Root cause: `frontend/hooks/useChoruiChat.ts` initialized the first AI welcome message via `createMessage(...)`, which used `Date.now()`/`new Date()` during SSR and again during client hydration, producing different rendered minute text in `frontend/components/ai/ChoruiChat.tsx`.
+- Fix: added deterministic `createWelcomeMessage(...)` with stable ID and empty timestamp for the initial/reset fallback welcome message state; runtime user/AI messages still use real timestamps.
+- This removes server-client text drift at hydration while preserving message-time behavior for interactive chat events.
+- Validation: focused diagnostics reported no errors for `useChoruiChat.ts` and `ChoruiChat.tsx`; focused ESLint run completed without reported issues.
 
-# Vapi Krisp Sample-Rate System-Wide Fix (2026-04-10)
+# Medicine Add Dialog Translation Follow-up (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Trace Krisp sample-rate failure source in Vapi/Daily integration
-- [x] Add shared microphone normalization helper for 48k/44.1k fallback
-- [x] Apply shared Vapi audio fallback across doctor-search, Chorui, and prescription voice components
-- [x] Validate touched files with focused lint and TypeScript checks
+- [x] Audit add-medication dialog for remaining hardcoded text
+- [x] Localize all dialog step labels, placeholders, statuses, meal instructions, and action buttons
+- [x] Add EN/BN translation keys for medicine add-dialog flow in common messages
+- [x] Run focused diagnostics and lint checks for updated files
 
 ### Review
-- Added `frontend/lib/vapi-audio.ts` to normalize mic tracks through `AudioContext` and consistently disable smart denoising overrides.
-- Updated all three Vapi UI entry points to create Vapi instances with normalized `audioSource` tracks, release resources on teardown, and show consistent Krisp sample-rate fallback messaging.
-- This removes per-component drift and makes voice startup behavior consistent across doctor search, Chorui chat, and prescription voice summary.
-- Validation passed: focused ESLint on all touched files and `npx tsc --noEmit` in frontend.
+- Root cause: `frontend/components/medicine/add-medication-dialog.tsx` still had hardcoded English copy, so locale switching remained incomplete in the medicine flow.
+- Updated dialog to use `useT("common")` for all user-facing text across all 3 steps, including validation alert copy, search states, schedule labels, and CTA labels.
+- Added `medicine.addDialog` key groups to both `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` for full parity with existing medicine page translations.
+- Validation: focused diagnostics returned no errors for changed files; focused ESLint run on `components/medicine/add-medication-dialog.tsx` completed without reported issues.
 
-# Chorui Hydration + Vapi Doctor Search Reliability Fix (2026-04-10)
+# Patient Find Medicine Translation Fix (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Trace hydration mismatch on Chorui AI chat timestamp rendering
-- [x] Replace locale-sensitive time rendering with deterministic helpers across direct source usages
-- [x] Fix doctor-search Vapi startup sequencing and assistant fallback/retry behavior
-- [x] Harden Chorui/prescription Vapi start options against Krisp sample-rate failure
-- [x] Run focused frontend lint/diagnostics for touched files
+- [x] Audit patient find-medicine page and shared route components for hardcoded copy
+- [x] Add EN/BN medicine translation keys in common messages
+- [x] Localize patient page copy, search/filter panel, upload demo, and medicine detail drawer
+- [x] Align doctor find-medicine page with shared translated medicine keys
+- [x] Run focused lint and diagnostics on changed medicine files
 
 ### Review
-- Replaced direct `toLocaleTimeString` rendering in app source with shared deterministic helpers to remove SSR/client meridiem-case drift and reduce hydration mismatch risk.
-- Updated Chorui chat timestamp rendering to use deterministic formatters and hydration-safe rendering on dynamic time labels.
-- Fixed `ai-search-vapi-assistant.tsx` startup guard (removed incorrect pre-existing-client requirement) and added assistant-not-found retry fallback from doctor-search assistant ID to shared assistant ID.
-- Added smart denoising disable on Chorui and prescription Vapi starts plus clearer Krisp sample-rate guidance for unsupported microphone formats.
-- Validation: focused ESLint passes on core touched files; two large legacy files still contain unrelated pre-existing lint/style diagnostics.
+- Root cause: patient find-medicine route still rendered hardcoded English text in page sections and shared components (`medicine-search`, `prescription-upload-demo`, `medicine-detail-drawer`, `medicine-card`).
+- Added a new `medicine` key group to `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page titles, warnings, search/filter text, upload-demo copy, drawer labels, and fallback error strings.
+- Updated patient and doctor route components to consume translation keys from `useT("common")` while preserving all existing behavior.
+- Updated upload extraction output builder to use localized labels for fallback medicine names and extracted field lines.
+- Validation: focused diagnostics reported no errors; focused lint passed for all changed medicine page/component files.
 
-# Navbar Hydration + Vapi Doctor Search Hotfix (2026-04-10)
+# Patient Appointments Translation Fix (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Trace hydration mismatch in patient find-doctor flow
-- [x] Make navbar initial render deterministic for SSR hydration
-- [x] Fix doctor-search Vapi assistant ID misconfiguration in frontend env
-- [x] Harden Vapi doctor-search component with misconfiguration and error handling
-- [x] Run focused frontend validation
+- [x] Audit patient appointments page, charts, calendar, list, and dialogs for hardcoded strings
+- [x] Add EN/BN `patientAppointments` translation keys for page copy, statuses, charts, calendar, and dialogs
+- [x] Localize appointments page-level texts, range controls, loading states, and feedback messages
+- [x] Localize appointments child components (summary, heatmap, trend, specialty chart, calendar, upcoming list)
+- [x] Localize cancel, reschedule, and reschedule-response dialogs with locale-aware date/time formatting
+- [x] Run focused frontend lint and diagnostics on changed appointments files
 
 ### Review
-- Root cause of hydration mismatch was navbar role/home-link logic reading browser state during initial render, causing server `href="/"` and client `href="/patient/home"` divergence.
-- Updated navbar to initialize user/loading state without browser-derived values and use pathname-derived role fallback for stable SSR/client markup.
-- Fixed local `frontend/.env` where `NEXT_PUBLIC_VAPI_DOCTOR_SEARCH_ASSISTANT_ID` incorrectly pointed to the Vapi public key.
-- Added guardrails in `ai-search-vapi-assistant.tsx` so a doctor-search assistant ID matching the public key is flagged immediately with clear UI error messaging and safer fallback behavior.
+- Root cause: the patient appointments flow still contained many hardcoded English strings across page UI, child components, and modal dialogs, so locale switching did not fully apply.
+- Added and wired `patientAppointments` keys in `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` covering page labels, feedback copy, chart legends/tooltips, status labels, and all dialog content.
+- Updated `frontend/components/appointments/PatientAppointmentsPage.tsx` to use i18n for headings, range labels, loading text, action feedback copy, and summary fallbacks.
+- Updated appointments components (`PatientAppointmentSummary`, `AppointmentHeatmap`, `MonthlyAppointmentTrend`, `SpecialtyDistributionChart`, `AppointmentCalendar`, `UpcomingAppointmentsList`, `components/ui/appointment-calendar.tsx`) to use translated strings and locale-aware formatting.
+- Updated dialog components (`cancel-appointment-dialog.tsx`, `reschedule-appointment-dialog.tsx`, `reschedule-response-dialog.tsx`) to remove hardcoded text and respect active locale for visible date/time labels.
+- Validation: focused diagnostics for modified files reported no errors; focused lint passed for all touched appointments page/component/dialog files.
 
-# Vapi Doctor Search + Prescription Voice + Reminder Emails (2026-04-10)
+# Patient Home Translation Fix (2026-04-10)
 
 ## Status: completed
 
 ### Todo
-- [x] Integrate Vapi tool handling into AI doctor search flow
-- [x] Add subtle speaking/listening visual cues for Vapi voice sessions
-- [x] Improve patient prescription summarization (brief + medication schedule details)
-- [x] Add patient-side Vapi voice prescription explanation flow
-- [x] Add 15-minute email reminders for appointments and reminder schedules
-- [x] Document full integration and audit steps
-- [x] Run backend/frontend validation for all touched files
+- [x] Audit patient home route and dashboard components for hardcoded strings
+- [x] Add EN/BN i18n keys for patient home content and patient/doctor navbar labels
+- [x] Update patient dashboard to resolve locale and render translated labels with safe fallbacks
+- [x] Pass translated copy into dashboard cards and localize date/time plus weekday labels
+- [x] Replace hardcoded patient and doctor navbar menu labels with nav i18n keys
+- [x] Run focused frontend lint and diagnostics on changed files
 
 ### Review
-- Added doctor-search Vapi tool webhook endpoint (`POST /ai/vapi/tools/doctor-search`) that reuses existing AI doctor search logic and returns voice-friendly summaries.
-- Added dedicated doctor-search and prescription voice assistant frontend components with subtle speaking indicators and transcript handoff.
-- Enhanced patient prescription assistant response with `plain_text_summary` and richer medication schedule details (name, schedule, quantity, meal/duration metadata).
-- Integrated patient prescription text brief + voice summary controls in the prescription details UI.
-- Added reminder lead-time config (`REMINDER_LEAD_MINUTES`) and extended dispatcher/email flow for 15-minute appointment and item reminder emails.
-- Published full audit documentation at `docs/vapi-ai-audit-guide.md` and linked from `docs/vapi-voice-integration.md`.
-- Validation completed: focused frontend ESLint passes, frontend type-check (`npx tsc --noEmit`) passes, and backend diagnostics show no errors in changed backend files.
+- Root cause: patient home dashboard and key navbar labels were hardcoded in English and were not wired to i18n message keys, so locale switching had no effect.
+- Added patient-home translations in common namespace (`frontend/i18n/messages/en/common.json`, `frontend/i18n/messages/bn/common.json`) and role-menu labels in nav namespace (`frontend/i18n/messages/en/nav.json`, `frontend/i18n/messages/bn/nav.json`).
+- Updated `frontend/components/dashboard/patient-home-dashboard.tsx` to load locale messages server-side and pass translated strings into dashboard cards.
+- Localized date and time formatting to active locale (`en-US` and `bn-BD`), translated known weekday and status labels, and preserved fallback values for missing data.
+- Updated `frontend/components/ui/navbar.tsx` to use i18n labels for doctor and patient menus across desktop and mobile navigation.
+- Validation: `npm run lint -- components/dashboard/patient-home-dashboard.tsx components/dashboard/health-score-card.tsx components/dashboard/medication-trend-chart.tsx components/dashboard/appointment-card.tsx components/dashboard/device-connection-card.tsx components/ui/navbar.tsx` passed; diagnostics reported no errors in changed files.
 
-# Vapi Voice Integration for Chorui AI (2026-04-10)
+# AI Navigation Phase 10 - Doctor Role Navigation Parity (2026-04-09)
 
 ## Status: completed
 
 ### Todo
-- [x] Add backend Vapi settings and env placeholders with blank credentials
-- [x] Add backend Vapi tool webhook route that delegates to existing Chorui AI logic
-- [x] Add frontend Vapi web SDK integration and voice control in existing Chorui chat UI
-- [x] Add Vapi setup guide for assistant/tool wiring without exposing secrets
-- [x] Run focused validation (backend compile + frontend lint/type checks on touched files)
+- [x] Verify doctor role context propagation from frontend Chorui page/hook to backend assistant route
+- [x] Expand doctor-only intent phrase mapping for analytics, patients, appointments, and schedule
+- [x] Add doctor implicit navigation suggestion mode for non-explicit prompts while keeping explicit prompts direct
+- [x] Keep role-safe routing constrained to doctor/shared registries (no patient fallback)
+- [x] Add focused regression tests for required doctor scenarios
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
 
 ### Review
-- Added backend Vapi placeholders in `backend/app/core/config.py` and `backend/.env.example` with blank credential values.
-- Added `POST /ai/vapi/tools/chorui` in `backend/app/routes/ai_consultation.py` that parses Vapi tool calls, verifies session token, optionally enforces shared secret, and reuses existing `_run_chorui_assistant` logic.
-- Installed `@vapi-ai/web`, added `frontend/components/ai/chorui-vapi-voice-control.tsx`, and integrated voice control into existing `ChoruiChat` without changing current text-chat behavior.
-- Added `frontend/.env.example` with Vapi placeholders and created `docs/vapi-voice-integration.md` for dashboard/tool wiring instructions.
-- Validation passed: backend `py_compile`, frontend `tsc --noEmit`, focused eslint for touched frontend files, and diagnostics checks all report clean for edited files.
+- Root cause: doctor implicit prompts were either not normalized into doctor canonical intents (e.g., analytics) or were not converted into suggestion-mode navigation actions, so the UI often displayed explanation-only responses.
+- Confirmed role context is correctly propagated as `role_context: doctor` from `frontend/hooks/useChoruiChat.ts` and doctor page wiring (`ChoruiChat roleContext="doctor"`).
+- Added robust doctor phrase clusters in `backend/app/services/chorui_intent_normalizer.py` for:
+   - `doctor_analytics` (`show my analytics`, `analytics`, etc.)
+   - strengthened `doctor_patients`, `doctor_appointments`, and `doctor_schedule` phrase coverage.
+- Added doctor implicit suggestion logic in `backend/app/services/chorui_navigation_engine.py`:
+   - implicit prompts (`show my ...`, `my ...`) now return `action=suggest` with doctor route suggestions.
+   - explicit prompts (`open ...`, `take me to ...`, etc.) continue to return direct `action=navigate`.
+- Preserved patient behavior and existing architecture/memory systems by limiting new suggestion-mode rule to doctor intents only.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `27 passed`.
+
+# AI Navigation Phase 9 - Doctor Today Consultations Mapping Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce doctor-side phrase mismatch for "View today's consultations"
+- [x] Add doctor appointment phrase-cluster coverage for consultation wording
+- [x] Add normalization regression test for doctor consultation phrase to appointments intent
+- [x] Add engine regression test for `/doctor/appointments` route resolution
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: doctor utterance "View today's consultations" was not represented in doctor appointment phrase clusters, so intent resolution could drift to non-navigation conversational responses.
+- Added doctor appointment phrase variants in `backend/app/services/chorui_intent_normalizer.py` (including consultation phrasing with `today`).
+- Added regression tests in `backend/tests/test_chorui_intent_normalizer.py` and `backend/tests/test_chorui_navigation_engine.py` to guarantee canonical `doctor_appointments` mapping and route resolution to `/doctor/appointments`.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `21 passed`.
+
+# AI Navigation Phase 8 - Emergency Contact Profile Routing Fix (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce patient phrase fallback for emergency-contact edit request
+- [x] Add patient profile phrase-cluster coverage for emergency-contact edit/update utterances
+- [x] Add regression test for truncated user phrase (`Edit my emergency contac`)
+- [x] Run focused backend pytest for Chorui normalizer/engine/registry suites
+
+### Review
+- Root cause: patient emergency-contact edit wording was not included in the normalizer phrase clusters, so canonical intent often remained `general`, leading to `action.type = "none"` in navigation flow.
+- Added emergency-contact/profile edit phrases to `backend/app/services/chorui_intent_normalizer.py` under `patient_profile` cluster.
+- Added regression coverage in `backend/tests/test_chorui_intent_normalizer.py` to assert `patient_profile` + `direct` mode for typo-truncated message input.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `19 passed`.
+
+# AI Navigation Phase 7 - Testing and Edge Cases (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Add backend tests for suggestion-mode action generation and recovery edge cases
+- [x] Expand normalization tests for suggestion-mode classification and ambiguity handling
+- [x] Run focused backend pytest for Chorui normalization/registry/engine suites
+- [x] Document validation outcomes and coverage gaps for frontend unit/integration/E2E scope
+
+### Review
+- Added suggestion-mode generation in `backend/app/services/chorui_navigation_engine.py` for broad patient medication intents so backend can return safe, non-forced route suggestions.
+- Expanded `backend/tests/test_chorui_navigation_engine.py` with coverage for medication suggestion mode and follow-up dynamic route resolution when patient ID is provided.
+- Expanded `backend/tests/test_chorui_intent_normalizer.py` with ambiguity-driven suggestion-mode behavior and pending follow-up without identifier handling.
+- Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `18 passed`.
+- Coverage gap noted: frontend currently has no unit-test framework/scripts configured in `frontend/package.json`, so frontend unit/integration/E2E assertions require separate test harness setup before adding automated UI action-policy tests.
+
+# AI Navigation Phase 6 - Frontend Navigation Execution (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend frontend AI response types with navigation action, suggestions, memory, and meta models
+- [x] Parse and expose navigation action metadata in `useChoruiChat` state
+- [x] Add role-safe route guard validation and confidence policy execution in `ChoruiChat`
+- [x] Add clarify/suggestion UI chips and medium-confidence confirmation handling
+- [x] Add transition-state UX and delay-based navigation execution with cancellation support
+- [x] Validate changed frontend files with diagnostics
+
+### Review
+- Extended frontend AI contract types in `frontend/types/ai.ts` for `action`, `suggested_routes`, `memory`, and `navigation_meta` while keeping reply/context fields backward-compatible.
+- Updated `frontend/hooks/useChoruiChat.ts` to parse and normalize navigation payloads from backend responses and expose them as hook state for UI execution.
+- Added defense-in-depth route guards in `frontend/components/ai/ChoruiChat.tsx` for role allowlist, route format checks, and dynamic parameter completeness before any navigation.
+- Implemented confidence-driven navigation policy in chat UI: high-confidence delayed auto-navigation, medium-confidence confirmation, and low-confidence clarify/suggestion guidance.
+- Added suggestion-chip actions, undo confirmation support, transition state messaging, and pending-navigation cancellation when users send a new instruction.
+- Validation status: frontend diagnostics are clean on changed TypeScript files; focused lint passed for `components/ai/ChoruiChat.tsx`, `hooks/useChoruiChat.ts`, and `types/ai.ts`.
+
+# AI Navigation Phase 5 - Navigation Engine Core Logic (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui navigation engine module to centralize action strategy resolution
+- [x] Move route/action decision logic out of route handler into reusable service function
+- [x] Keep registry-first canonical resolution while preserving raw-intent fallback behavior
+- [x] Include engine-level fallback metadata and in-memory intent state for pending/resolved flows
+- [x] Wire assistant response builder to use engine output for `action`, `memory`, and options
+- [x] Add focused navigation engine tests and execute runtime assertions for core scenarios
+
+### Review
+- Added `backend/app/services/chorui_navigation_engine.py` with `resolve_chorui_navigation_engine(...)` and structured result types for action, fallback, and memory state.
+- Refactored `backend/app/routes/ai_consultation.py` to delegate navigation decisions to the new engine while preserving existing response schema compatibility.
+- Engine now applies registry-first canonical resolution, dynamic param clarify handling, correction/admin blocking, and raw-intent fallback for backward safety.
+- Added focused tests in `backend/tests/test_chorui_navigation_engine.py` for canonical navigate, clarify missing id, correction none, raw fallback, and admin scope blocking.
+- Validation status: diagnostics clean on changed files; focused runtime assertions for engine scenarios passed.
+
+# AI Navigation Phase 4 - Route Registry Creation (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create centralized route registry module with explicit schema fields and governance notes
+- [x] Populate registry with patient/doctor/shared canonical intents and routes only
+- [x] Exclude admin routes by design and enforce role-scope filtering
+- [x] Add dynamic route resolution with parameter requirements for doctor patient flows
+- [x] Add unresolved-parameter fallback behavior (`/doctor/patients`) in route resolution
+- [x] Integrate assistant action builder with registry-first route resolution
+- [x] Add focused route registry tests and run runtime assertions for Phase 4 checks
+
+### Review
+- Added `backend/app/services/chorui_navigation_registry.py` with registry schema (`canonical_intent`, `role`, `route`, `requires_params`, `fallback_route`, `enabled`, `notes`) and governance metadata.
+- Registry now includes audited patient/doctor/shared routes and explicitly excludes admin scope.
+- Added `resolve_chorui_navigation_route(...)` that resolves templates, validates required params, and returns safe fallback metadata.
+- Updated `backend/app/routes/ai_consultation.py` to use registry-first canonical route resolution and emit clarify options with fallback route when params are missing.
+- Validation status: diagnostics are clean on changed files; focused runtime registry assertions passed.
+
+# AI Navigation Phase 3 - Intent Normalization Layer (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Create dedicated Chorui intent normalization service with canonical taxonomy and deterministic output
+- [x] Add correction lexicon and follow-up/pending-memory signal handling to normalization logic
+- [x] Integrate normalizer into `/ai/assistant-chat` backend flow after existing classifier output
+- [x] Surface normalization metadata (`canonical_intent`, `confidence`, `ambiguity_candidates`, `missing_params`, `intent_mode`) in structured response data
+- [x] Update navigation action resolver to consume canonical intent before raw-intent fallbacks
+- [x] Add focused backend normalization tests and run runtime assertions for key scenarios
+
+### Review
+- Added `backend/app/services/chorui_intent_normalizer.py` to normalize natural-language phrases and classifier output into canonical intents.
+- The normalizer now merges classifier signal, phrase-cluster signal, role context, and pending-intent follow-up hints, while detecting correction intents.
+- Integrated normalization in `backend/app/routes/ai_consultation.py` so every assistant response includes intent normalization metadata inside `structured_data`.
+- Updated action resolution to prefer canonical intent mapping for patient/doctor routes, then fallback to existing Phase 2 raw mappings for backward safety.
+- Validation status: diagnostics are clean on changed files; focused runtime assertions for required phrase examples passed via Python snippet execution.
+
+# AI Navigation Phase 2 - Backend Action Contract (2026-04-09)
+
+## Status: completed
+
+### Todo
+- [x] Extend `ChoruiAssistantResponse` with optional navigation action contract fields
+- [x] Add backend action payload builder with patient/doctor scoped route mapping
+- [x] Exclude admin role from action generation (`action.type = "none"`)
+- [x] Keep fallback-safe behavior when route resolution fails (`action.type = "none"`)
+- [x] Validate touched backend files with diagnostics
+
+### Review
+- Added non-breaking response contract models in backend schema: `action`, `suggested_routes`, `memory`, and `navigation_meta`.
+- Added a Phase 2 action builder in the Chorui assistant flow that emits role-safe action metadata for high-confidence patient/doctor intents.
+- Added explicit admin exclusion at action generation level and updated role-context resolver to preserve `admin` context.
+- Preserved existing chat behavior: assistant replies and structured data flow remain unchanged when no navigation action is applicable.
+- Validation status: diagnostics report no errors in changed backend files.
+
+# Consultation Draft ID Architecture Migration (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add consultation draft entity model and relationship (`consultations.draft_id`)
+- [x] Add Alembic migration to move existing `draft_payload` data into `consultation_drafts`
+- [x] Refactor consultation draft routes and preview payload builder to use `draft_id`
+- [x] Add direct draft-by-id API support and keep consultation-based endpoints compatible
+- [x] Update frontend draft types/actions and consultation editor state to persist by `draft_id`
+- [x] Extend integration coverage for draft-id endpoints and preview flow
+- [x] Run focused backend diagnostics/tests for changed files
+
+### Review
+- Implemented normalized draft architecture with one-to-one `consultations.draft_id -> consultation_drafts.id` linkage and migration-backed payload transfer.
+- Added draft APIs for both consultation-id and draft-id paths, with canonical payload normalization and consistent error responses.
+- Updated frontend consultation workflow to hydrate/save by draft id, preserve unsaved edits, and avoid focus-based clobbering.
+- Validation status: changed-file diagnostics clean, backend compile clean, targeted frontend lint clean, focused integration test invocation skipped in local environment.
+
+# Consultation Draft Schema + Dataflow Production Incident (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Complete schema audit for consultation, draft, and prescription tables across models/migrations/routes/frontend contracts
+- [x] Harden draft migration chain (`c0nsult_draft_001` -> `c0nsult_draft_002`) for safe transition with existing payload data
+- [x] Enforce deterministic preview source resolution (no unsafe branch fallback mixing)
+- [x] Add compatibility normalization for legacy draft payload shapes and optional dates
+- [x] Replace silent exception handling in consultation draft/preview paths with structured logging + typed API errors
+- [x] Extend integration tests to cover save draft -> preview -> resume consultation round-trip
+- [x] Update migration/runbook docs to prevent schema drift (`alembic current/head` + upgrade path)
+- [x] Run focused diagnostics/tests on touched backend/frontend files and record blockers if environment prevents full run
+
+### Review
+- Root cause confirmed from runtime behavior and logs: API code expected `consultations.draft_id`, while live DB can remain behind at `c0nsult_draft_001` without migration execution.
+- Hardened `c0nsult_draft_002` to be safer across partially migrated environments, including legacy payload key/date normalization during transfer.
+- Full preview payload is now deterministic with explicit `data_source` (`draft` or `prescription`) and single-source shaping rules.
+- Draft read/save paths now normalize legacy payload shapes (`name` aliases and blank date fields) and return structured validation/DB error output.
+- Consultation UI now prevents unsaved local state loss when returning from preview or tab focus changes.
+- Validation status: diagnostics are clean on touched files; backend compile and targeted frontend lint are clean; focused backend integration test is skipped locally due environment dependencies.
+
+# Consultation = Saved = Preview Contract Unification (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Audit consultation form field set vs draft schema vs full preview response
+- [x] Remove preview key mismatches (`name` vs `medicine_name`/`test_name`/`procedure_name`)
+- [x] Add procedure `notes` and doctor `chamber_info` to full preview contract
+- [x] Persist doctor/patient identity snapshot into consultation draft payload
+- [x] Persist normalized medication preview fields (`dosage_pattern`, `frequency_text`, `duration`, `route`) in draft payload
+- [x] Ensure preview endpoint reads backend draft/persisted DB data only (no local/mock source)
+- [x] Align frontend preview types and rendering to canonical backend response keys
+- [x] Run focused diagnostics/lint/compile and integration test attempt
+
+### Review
+- Root mismatches were in response contract naming and missing procedure notes: consultation editor used `medicine_name`, `test_name`, `procedure_name`, while preview returned `name`, causing drift and brittle mapping.
+- Full preview API contract now uses canonical keys aligned with consultation input model: medications now expose `medicine_name`, tests expose `test_name`, and procedures expose `procedure_name` + `notes`.
+- Save draft now stores server-side doctor/patient identity snapshots plus normalized medication fields (dosage/frequency/duration/route), so saved consultation context is self-contained and stable.
+- Preview payload now prioritizes draft snapshot identity context when present, then falls back to current profile data, while remaining strictly backend-sourced.
+- Backend preview payload generation no longer injects placeholder identity or dosage text values (e.g., "Unknown ...", "As directed") as source data.
+- Frontend preview page and response typings were updated to consume the canonical keys directly.
+- Validation status:
+   - Changed-file diagnostics: clean.
+   - Focused frontend lint (`preview page`, `prescription-actions`): clean.
+   - Backend compile check: clean.
+   - Focused integration test executed but skipped due missing local Docker/Postgres daemon.
+
+# Consultation Draft 500 Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and confirm consultation draft payload validation failure path
+- [x] Harden backend draft save endpoint to return explicit 400 validation errors
+- [x] Normalize backend consultation schema date and text inputs for optional fields
+- [x] Normalize frontend outgoing draft and prescription payloads (trim text, drop blank dates)
+- [x] Improve frontend error parsing for structured backend validation responses
+- [x] Run focused diagnostics for changed backend/frontend files
+
+### Review
+- Root cause confirmed: blank-string optional date values from consultation editor payloads (e.g. expected_date/recommended_date/start_date/end_date) can fail request model parsing and bubble up as server-action failures.
+- Backend draft save route now parses JSON explicitly, validates with ConsultationDraftUpdate, and returns clear 400 errors for malformed or invalid payloads instead of opaque crash behavior.
+- Backend schemas now normalize blank optional date/text values and enforce trimmed required names for medication/test/procedure entries.
+- Frontend prescription action layer now sanitizes outgoing draft and add-prescription payloads so optional text/date fields are omitted when blank.
+- Frontend error parsing now extracts nested detail.message/detail.errors responses to show actionable validation feedback.
+- Validation status: diagnostics report no errors on changed files.
+
+# Manual Save Consultation Sync Flow (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Analyze consultation state, autosave, draft API, and preview data path
+- [x] Add manual Save Consultation as primary draft synchronization action
+- [x] Keep autosave as backup only (non-authoritative for preview gating)
+- [x] Block preview navigation when there are unsaved local changes
+- [x] Ensure consultation draft rehydration on load and on return focus from preview
+- [x] Enforce single-source full payload shaping in backend (no draft/persisted mixing)
+- [x] Run focused diagnostics/lint/compile validation
+
+### Review
+- Consultation page now tracks unsaved changes against the last manual save snapshot and requires explicit save before preview.
+- Save button behavior is upgraded from note-only semantics to full consultation draft synchronization (notes + medications + tests + procedures).
+- Preview flow now warns with "Please save before preview" and does not navigate while unsaved changes exist.
+- Autosave remains enabled only as backup persistence and no longer serves as preview authorization signal.
+- Backend full payload route now reads from one source at a time: `draft_payload` when present, otherwise persisted prescriptions, eliminating mixed-source responses.
+- Validation passed: file diagnostics clean, targeted frontend lint clean, backend route compile clean.
+- Focused integration test could execute collection but is skipped in this environment because Docker/Postgres is unavailable.
+
+# Consultation Preview Single Source Hardening (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Remove consultation page sessionStorage prefill fallback
+- [x] Resolve consultation from `consultation_id` query first, then fallback to active lookup
+- [x] Keep consultation hydration strictly backend draft + consultation endpoints
+- [x] Re-verify preview/full endpoint routing consistency
+- [x] Run focused frontend lint and diagnostics on changed files
+
+### Review
+- Removed legacy sessionStorage AI-prefill hydration from the consultation client to eliminate a second source of truth.
+- Updated consultation initial load to prefer `consultation_id` from query string and hydrate strictly via backend endpoints.
+- Preserved backend-draft autosave flow and preview backend fetch path (`/api/consultations/{id}/full`) as the single data source.
+- Validation: targeted frontend lint and file diagnostics passed on edited consultation and preview files.
+
+# Prescription Draft Persistence + Dosage/Preview Fix (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend consultation draft persistence (`draft_payload`) and migration
+- [x] Add backend draft APIs (save/load) and consultation-level full payload endpoint alias
+- [x] Update full prescription payload shaping to include draft-first data for doctor preview
+- [x] Add medication preview fields for optional `quantity` and `meal_instruction`
+- [x] Update consultation frontend to load draft on init and autosave all edits to backend
+- [x] Replace dosage schedule UI with Morning/Noon/Night (3 slots) and keep `dosage_pattern` generation (`1-0-1` style)
+- [x] Ensure consultation navigation flow persists data (Consultation → Preview → Back)
+- [x] Update preview route fetch path to `/api/consultations/{id}/full` and keep print/PDF flow intact
+- [x] Add/adjust focused integration tests for draft persistence and full payload correctness
+- [x] Run focused validation and capture review notes
+
+### Review
+- Added backend draft persistence on consultations via new `draft_payload` JSON column and migration `c0nsult_draft_001` (head now includes draft migration).
+- Added consultation draft APIs: `GET /consultation/{consultation_id}/draft` and `PATCH /consultation/{consultation_id}/draft` for draft load/autosave.
+- Added consultation-level full preview API alias `GET /consultation/{consultation_id}/full` and kept backward-compatible `GET /consultation/prescriptions/{consultation_id}/full`.
+- Updated full preview payload shaping to use draft-first data (consultation notes + medications/tests/procedures) when draft state exists.
+- Extended medication preview payload with optional `meal_instruction` and `quantity`, and updated preview rendering accordingly.
+- Updated consultation editor to backend-first flow: hydrate from backend draft on load, debounced autosave on every edit, manual save wired to draft API, preview/complete actions flush draft before navigation.
+- Replaced dosage editor schedule with 3 slots (Morning/Noon/Night), while preserving storage compatibility and generating `dosage_pattern` in `first-second-third` format.
+- Added frontend proxy route `/api/consultations/[consultation_id]/full` and switched preview page fetch to that route.
+- Added focused integration coverage in `tests/integration/backend/test_consultation_draft_preview.py` for draft save/read + full payload assertions.
+- Validation: editor diagnostics on changed files show no errors; focused frontend lint on modified files passed without warnings; Python compile checks passed on changed backend modules.
+- Test environment blockers: new focused backend integration test could not run due missing `factory` module in the current backend environment; `test_api_contracts.py` baseline check fails in this environment because `tests/benchmarks/baselines/schema_contract_snapshot.json` is missing.
+
+# Prescription Preview, Print, and Download System (2026-04-08)
+
+## Status: completed
+
+### Todo
+- [x] Add backend full preview response schemas and endpoint payload shaping
+- [x] Add dual dosage fields support (`dosage_type`, `dosage_pattern`, `frequency_text`) with migration-safe model updates
+- [x] Implement `GET /consultation/prescriptions/{consultation_id}/full` with doctor/patient/consultation/medications/tests/procedures blocks
+- [x] Add frontend proxy endpoint at `/api/prescriptions/[consultation_id]/full`
+- [x] Build dedicated A4 prescription preview route `/prescription/preview/[consultation_id]`
+- [x] Implement print and PDF download actions scoped to prescription paper container
+- [x] Add "Preview Prescription" navigation from doctor consultation page
+- [x] Run focused validation (diagnostics/lint) and resolve feature-related issues
+
+### Review
+- Added new backend full-preview response models and endpoint `GET /consultation/prescriptions/{consultation_id}/full` that aggregates doctor, patient, consultation, medications, tests, and procedures.
+- Added dual dosage persistence support on medication records (`dosage_type`, `dosage_pattern`, `frequency_text`) and migration `pr3v13w_001` chained from current head.
+- Updated prescription creation and standard prescription responses so dosage mode fields are persisted and returned without breaking legacy schedule booleans.
+- Added frontend API proxy route `/api/prescriptions/[consultation_id]/full` that forwards authenticated requests using session token.
+- Built dedicated prescription preview page at `/prescription/preview/[consultation_id]` with paper-style A4 layout, print action (`window.print`), and PDF export using `html2pdf.js` scoped to the paper container.
+- Integrated consultation page with a new "Preview Prescription" button and dosage-mode aware medication validation/normalization.
+- Validation completed: backend Python compile checks passed, `get_errors` reported no diagnostics on changed files, Alembic heads confirms `pr3v13w_001` as current head.
+- Focused frontend lint run now passes with no errors across edited files; one existing warning remains for a missing hook dependency (`react-hooks/exhaustive-deps`) in the consultation client file.
+
+# README Overhaul (2026-04-04)
+
+## Status: completed
+
+### Todo
+- [x] Audit current README structure against required 18-section format
+- [x] Rewrite README with strict 18-section structure and verified repository facts
+- [x] Re-validate all claims against codebase (architecture, workflows, stack, structure)
+- [x] Finalize README polishing for investor/recruiter/contributor audience
+
+### Review
+- Rewrote `README.md` end-to-end using a strict 18-section layout covering architecture, workflows, stack, setup, API overview, design decisions, roadmap, contribution model, and license.
+- Removed generic and potentially misleading positioning by grounding claims in repository-verified implementation details (service boundaries, route modules, migrations, model classes, and workflow behavior).
+- Added mandatory placeholder sections for system diagrams, screenshots, and demo walkthrough to support presentation and documentation expansion.
+- Completed a second expansion pass to restore deep implementation detail (architecture internals, grouped feature depth, workflow narratives, endpoint breadth, deployment/operations context) while preserving the strict 18-section structure.
 
 # Frontend Mobile Performance Optimization Pass (2026-04-03)
 

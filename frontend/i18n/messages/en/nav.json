@@ -1,0 +1,23 @@
+{
+  "logIn": "Log in",
+  "signUp": "Sign up",
+  "profile": "Profile",
+  "settings": "Settings",
+  "logOut": "Log out",
+  "loggingOut": "Logging out...",
+  "toggleMenu": "Toggle menu",
+  "doctorMenu": {
+    "appointments": "Appointments",
+    "patients": "Patients",
+    "analytics": "Analytics"
+  },
+  "patientMenu": {
+    "findDoctor": "Find Doctor",
+    "analytics": "Analytics",
+    "appointments": "Appointments",
+    "findMedicine": "Find Medicine",
+    "medicalHistory": "Medical History",
+    "labReports": "Lab Reports",
+    "privacyDataSharing": "Privacy & Data Sharing"
+  }
+}
