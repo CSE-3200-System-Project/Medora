@@ -113,6 +113,22 @@ VAPI_SUPPORTED_TOOL_NAMES = {
     "chorui_chat",
     "summarize_prescription",
     "explain_prescription",
+    "navigate_medora",
+    "navigate",
+    "get_upcoming_appointments",
+    "find_patient",
+    "get_voice_context",
+    "end_voice_call",
+}
+
+# Tools that the Vapi server webhook treats as navigation/UI actions the
+# client is expected to execute locally. The server returns a spoken result
+# while the Medora frontend also listens for the same tool-call on the Vapi
+# `message` stream and performs the actual router.push / UI action.
+VAPI_CLIENT_ACTION_TOOL_NAMES = {
+    "navigate_medora",
+    "navigate",
+    "end_voice_call",
 }
 
 
@@ -4135,6 +4151,240 @@ async def chorui_assistant_chat(
     return await _run_chorui_assistant(payload, user, db, request)
 
 
+def _format_vapi_appointment_line(appointment: Appointment) -> str:
+    try:
+        when_label = _format_datetime_label(appointment.appointment_date)
+    except Exception:
+        when_label = "soon"
+    status_label = _format_status_label(getattr(appointment, "status", None))
+    reason = str(getattr(appointment, "reason", "") or "").strip()
+    base = f"{when_label} ({status_label})"
+    if reason:
+        return f"{base} — {reason[:80]}"
+    return base
+
+
+async def _handle_vapi_upcoming_appointments(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not find your Medora profile for this voice session."
+
+    limit_raw = arguments.get("limit") or arguments.get("count") or 5
+    try:
+        limit = max(1, min(10, int(limit_raw)))
+    except Exception:
+        limit = 5
+
+    if role == UserRole.PATIENT:
+        appointments = await _get_upcoming_patient_appointments(
+            db, patient_id=vapi_user.id, limit=limit
+        )
+        if not appointments:
+            return "You have no upcoming appointments on your Medora calendar."
+        lines = [_format_vapi_appointment_line(appt) for appt in appointments]
+        return "Here are your upcoming appointments: " + "; ".join(lines)
+
+    if role == UserRole.DOCTOR:
+        appointments = await _get_upcoming_doctor_schedule(
+            db, doctor_id=vapi_user.id, limit=limit
+        )
+        if not appointments:
+            return "Your Medora schedule is clear for the next few days."
+        lines = [_format_vapi_appointment_line(appt) for appt in appointments]
+        return "Here is what is on your upcoming schedule: " + "; ".join(lines)
+
+    return "Appointment lookup is only available for patient and doctor voice sessions."
+
+
+async def _handle_vapi_find_patient(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role != UserRole.DOCTOR:
+        return "Patient search is only available for doctor voice sessions."
+
+    await _require_doctor_ai_assistance_enabled(db, vapi_user.id)
+
+    query_text = _safe_vapi_text(
+        arguments.get("query")
+        or arguments.get("name")
+        or arguments.get("criteria")
+        or arguments.get("message"),
+        max_length=160,
+    )
+    if not query_text:
+        return "Tell me the patient name, id, or condition to look for."
+
+    matches = await _search_doctor_patients_by_criteria(
+        db, doctor_id=vapi_user.id, criteria_text=query_text, limit=5
+    )
+    if not matches:
+        return f"I could not find any of your active patients matching '{query_text}'."
+
+    fragments: list[str] = []
+    for match in matches[:5]:
+        name = str(match.get("display_name") or "Patient")
+        patient_ref = str(match.get("patient_ref") or "")
+        conditions = match.get("conditions") or []
+        condition_summary = (
+            f" — conditions: {', '.join(conditions[:3])}" if conditions else ""
+        )
+        ref_suffix = f" (ref {patient_ref})" if patient_ref else ""
+        fragments.append(f"{name}{ref_suffix}{condition_summary}")
+
+    return "I found these matches: " + "; ".join(fragments)
+
+
+async def _handle_vapi_get_context(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not find your Medora profile for this voice session."
+
+    role_label = "doctor" if role == UserRole.DOCTOR else "patient"
+    current_route = _safe_vapi_text(
+        arguments.get("current_route")
+        or metadata.get("current_route")
+        or metadata.get("medora_current_route"),
+        max_length=160,
+    )
+    current_page = _safe_vapi_text(
+        arguments.get("current_page")
+        or metadata.get("current_page_label")
+        or metadata.get("medora_current_page_label"),
+        max_length=160,
+    )
+    locale = _safe_vapi_text(
+        arguments.get("locale")
+        or metadata.get("locale")
+        or metadata.get("medora_locale"),
+        max_length=16,
+    ) or "en"
+
+    parts: list[str] = [f"Signed-in Medora {role_label}"]
+    if current_page:
+        parts.append(f"currently viewing {current_page}")
+    elif current_route:
+        parts.append(f"current route is {current_route}")
+    parts.append(f"UI language is {locale}")
+
+    if role == UserRole.PATIENT:
+        upcoming = await _get_upcoming_patient_appointments(
+            db, patient_id=vapi_user.id, limit=1
+        )
+        if upcoming:
+            next_appt = upcoming[0]
+            when_label = _format_datetime_label(next_appt.appointment_date)
+            parts.append(f"next appointment {when_label}")
+    elif role == UserRole.DOCTOR:
+        upcoming = await _get_upcoming_doctor_schedule(
+            db, doctor_id=vapi_user.id, limit=1
+        )
+        if upcoming:
+            when_label = _format_datetime_label(upcoming[0].appointment_date)
+            parts.append(f"next consultation {when_label}")
+
+    return "Voice context — " + "; ".join(parts) + "."
+
+
+async def _handle_vapi_navigate(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+    request: Request,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not verify your Medora profile for this voice session."
+
+    destination_request = _safe_vapi_text(
+        arguments.get("destination")
+        or arguments.get("target")
+        or arguments.get("page")
+        or arguments.get("route")
+        or arguments.get("message")
+        or arguments.get("query"),
+        max_length=200,
+    )
+    if not destination_request:
+        registry = _navigation_registry_for_role(role)
+        labels = [str(entry.get("label", "")).strip() for entry in registry]
+        labels = [label for label in labels if label]
+        return (
+            "Tell me where you want to go. I can take you to: "
+            + ", ".join(labels[:10])
+            + "."
+        )
+
+    explicit_route = _safe_vapi_text(arguments.get("route"), max_length=240)
+    if explicit_route and explicit_route.startswith("/"):
+        label_hint = destination_request or explicit_route
+        return f"Opening {label_hint} now."
+
+    # Reuse the Chorui natural-language navigation matcher.
+    entries = _match_navigation_entries(
+        role=role, message=destination_request, limit=3
+    )
+    if entries:
+        top = entries[0]
+        top_label = str(top.get("label", "")).strip() or "that page"
+        return f"Opening {top_label} now."
+
+    # Fall back to the full Chorui pipeline so confidence + suggestions flow through.
+    patient_identifier = _extract_vapi_patient_identifier(arguments, metadata)
+    conversation_id = _extract_vapi_conversation_id(arguments, {})
+    chorui_payload = ChoruiAssistantRequest(
+        message=destination_request,
+        conversation_id=conversation_id,
+        patient_id=patient_identifier,
+        history=[],
+        role_context=_extract_vapi_role_context(arguments, metadata) or None,
+    )
+    try:
+        chorui_response = await _run_chorui_assistant(
+            chorui_payload, vapi_user, db, request
+        )
+    except HTTPException as exc:
+        detail = (
+            exc.detail
+            if isinstance(exc.detail, str)
+            else "I could not resolve that destination right now."
+        )
+        return detail
+
+    action = chorui_response.action
+    if action and action.type == "navigate" and action.route:
+        tail = action.route.strip("/").split("/")[-1].replace("-", " ") or "that page"
+        return f"Opening {tail.title()} now."
+    if action and action.type in {"clarify", "suggest"} and chorui_response.suggested_routes:
+        suggestion_labels = [
+            route.label for route in chorui_response.suggested_routes[:3]
+        ]
+        return (
+            "I am not sure which page you mean. You can say: "
+            + ", ".join(suggestion_labels)
+            + "."
+        )
+    return chorui_response.reply
+
+
 @router.post("/vapi/tools/chorui")
 async def chorui_vapi_tool_webhook(
     payload: dict[str, Any],
@@ -4190,6 +4440,104 @@ async def chorui_vapi_tool_webhook(
                 {
                     "toolCallId": tool_call_id,
                     "result": "Voice session authentication failed. Please sign in again and restart voice chat.",
+                }
+            )
+            continue
+
+        if tool_name in {"navigate_medora", "navigate"}:
+            try:
+                nav_text = await _handle_vapi_navigate(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                    request=request,
+                )
+                results.append({"toolCallId": tool_call_id, "result": nav_text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Navigation failed."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi navigation tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not open that page right now. Please try again.",
+                    }
+                )
+            continue
+
+        if tool_name == "get_upcoming_appointments":
+            try:
+                text = await _handle_vapi_upcoming_appointments(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to load appointments right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi upcoming appointments tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not load your upcoming appointments right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "find_patient":
+            try:
+                text = await _handle_vapi_find_patient(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to search patients right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi patient search tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not run that patient search right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "get_voice_context":
+            try:
+                text = await _handle_vapi_get_context(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to fetch your voice context right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi voice context tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not read your Medora context right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "end_voice_call":
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Okay, ending our voice session. Tap Start Voice any time to continue.",
                 }
             )
             continue

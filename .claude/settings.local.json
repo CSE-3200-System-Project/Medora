@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls c:/Code/System-Project/Medora/frontend/types/ai*)"
+      "Bash(ls c:/Code/System-Project/Medora/frontend/types/ai*)",
+      "Bash(xargs ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(python -m py_compile app/routes/ai_consultation.py)",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }

@@ -20,15 +20,139 @@
  * by swapping the Daily input processor to `none` at runtime.
  */
 
+type DailyAudioProcessor = {
+  type: "none" | "noise-cancellation";
+} & Record<string, unknown>;
+
+type DailyInputSettings = {
+  audio?: {
+    processor?: DailyAudioProcessor;
+  } & Record<string, unknown>;
+} & Record<string, unknown>;
+
 type DailyInputSettingsUpdater = {
-  updateInputSettings: (settings: {
-    audio?: { processor?: { type: "none" | "noise-cancellation" } };
-  }) => Promise<unknown>;
+  updateInputSettings: (settings: DailyInputSettings) => Promise<unknown>;
 };
 
 type VapiLike = {
-  getDailyCallObject?: () => DailyInputSettingsUpdater | null | undefined;
+  getDailyCallObject?: () => unknown;
 };
+
+type VapiCallStartProgressEvent = {
+  stage?: string;
+  status?: string;
+};
+
+const KRISP_GUARD_FLAG = "__medoraKrispGuardInstalled";
+
+type PatchableDailyCall = {
+  updateInputSettings?: (settings: DailyInputSettings) => unknown;
+  [KRISP_GUARD_FLAG]?: boolean;
+};
+
+function patchUpdateInputSettings(call: unknown): void {
+  if (!call || typeof call !== "object") {
+    return;
+  }
+
+  const target = call as PatchableDailyCall;
+  if (target[KRISP_GUARD_FLAG]) {
+    return;
+  }
+
+  const original = target.updateInputSettings;
+  if (typeof original !== "function") {
+    return;
+  }
+
+  const boundOriginal = original.bind(target);
+
+  target.updateInputSettings = function patchedUpdateInputSettings(
+    settings: DailyInputSettings,
+  ): unknown {
+    const processorType = settings?.audio?.processor?.type;
+    if (processorType && processorType !== "none") {
+      const audio = settings.audio ?? {};
+      const processor = audio.processor ?? {};
+      const safeSettings: DailyInputSettings = {
+        ...settings,
+        audio: {
+          ...audio,
+          processor: { ...processor, type: "none" },
+        },
+      };
+      return boundOriginal(safeSettings);
+    }
+    return boundOriginal(settings);
+  } as PatchableDailyCall["updateInputSettings"];
+
+  try {
+    Object.defineProperty(target, KRISP_GUARD_FLAG, {
+      value: true,
+      writable: false,
+      enumerable: false,
+      configurable: true,
+    });
+  } catch {
+    target[KRISP_GUARD_FLAG] = true;
+  }
+}
+
+/**
+ * Prevent Vapi from enabling Daily's Krisp noise-cancellation processor.
+ *
+ * Vapi calls `dailyCall.updateInputSettings({ audio: { processor: { type: 'noise-cancellation' }}})`
+ * during its `audio-processing-setup` stage. On machines where the OS exposes
+ * the mic at an unsupported sample rate (e.g. 192 kHz on Windows), Krisp
+ * fails with `KrispInitError: NOT_SUPPORTED_SAMPLE_RATE` and Daily ejects the
+ * participant, killing the call. There is no constructor option to opt out,
+ * so we hot-patch `updateInputSettings` on the Daily call object as soon as
+ * it exists and rewrite any non-`none` processor request to `none`.
+ *
+ * Safe to call before `vapi.start()`. We listen for the
+ * `daily-call-object-creation` progress event (emitted synchronously right
+ * after Vapi creates the call object, well before stage 7 applies the
+ * processor) and install the patch then. We also try immediately in case
+ * the call object is already available.
+ */
+export function installVapiKrispGuard(vapi: unknown): void {
+  if (!vapi || typeof vapi !== "object") {
+    return;
+  }
+
+  const target = vapi as {
+    on?: (event: string, listener: (...args: unknown[]) => void) => unknown;
+    getDailyCallObject?: () => unknown;
+  };
+
+  const tryPatch = () => {
+    try {
+      const call = target.getDailyCallObject?.();
+      if (call) {
+        patchUpdateInputSettings(call);
+      }
+    } catch {
+      // Best-effort – the guard must never throw inside the Vapi flow.
+    }
+  };
+
+  try {
+    target.on?.("call-start-progress", (...args: unknown[]) => {
+      const event = args[0] as VapiCallStartProgressEvent | undefined;
+      if (
+        event?.stage === "daily-call-object-creation" &&
+        event?.status === "completed"
+      ) {
+        tryPatch();
+      }
+    });
+  } catch {
+    // If the SDK ever stops emitting this event we still have the
+    // immediate-attempt fallback below.
+  }
+
+  tryPatch();
+}
 
 export type VapiAudioResources = {
   sourceStream: MediaStream;
@@ -201,12 +325,17 @@ export function withVapiAudioFallback(
  */
 export async function disableDailyKrispProcessor(vapi: VapiLike): Promise<void> {
   const dailyCall = vapi.getDailyCallObject?.();
-  if (!dailyCall) {
+  if (!dailyCall || typeof dailyCall !== "object") {
+    return;
+  }
+
+  const updater = (dailyCall as DailyInputSettingsUpdater).updateInputSettings;
+  if (typeof updater !== "function") {
     return;
   }
 
   try {
-    await dailyCall.updateInputSettings({
+    await updater.call(dailyCall, {
       audio: {
         processor: { type: "none" },
       },
