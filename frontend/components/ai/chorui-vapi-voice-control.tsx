@@ -2,25 +2,36 @@
 
 import * as React from "react";
 import Vapi from "@vapi-ai/web";
-import { Loader2, Mic, MicOff, Volume2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Loader2, Mic, MicOff, Navigation, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   createVapiAudioResources,
   disableDailyKrispProcessor,
+  installVapiKrispGuard,
   isKrispSampleRateError,
   KRISP_SAMPLE_RATE_ERROR_MESSAGE,
   releaseVapiAudioResources,
   withVapiAudioFallback,
   type VapiAudioResources,
 } from "@/lib/vapi-audio";
+import {
+  buildMedoraAssistantOverrides,
+  extractVapiToolCalls,
+  MEDORA_CLIENT_ACTION_TOOLS,
+  resolveVapiNavigation,
+  type MedoraRoleContext,
+  type VapiToolCall,
+} from "@/lib/vapi-tools";
+import { useAppI18n } from "@/i18n/client";
 
 type ChoruiVapiVoiceControlProps = {
-  roleContext: "patient" | "doctor";
+  roleContext: MedoraRoleContext;
   patientId?: string;
 };
 
-type VapiClient = Pick<Vapi, "start" | "stop" | "on" | "off" | "getDailyCallObject">;
+type VapiClient = Pick<Vapi, "start" | "stop" | "send" | "on" | "off" | "getDailyCallObject">;
 
 type VapiListeners = {
   handleCallStart: () => void;
@@ -29,6 +40,12 @@ type VapiListeners = {
   handleSpeechEnd: () => void;
   handleError: (error: unknown) => void;
   handleMessage: (message: unknown) => void;
+};
+
+type VoiceAction = {
+  label: string;
+  route?: string;
+  timestamp: number;
 };
 
 function readCookieValue(name: string): string {
@@ -88,15 +105,78 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
   const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || "";
   const isConfigured = Boolean(publicKey && assistantId);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const { locale } = useAppI18n();
+
   const vapiRef = React.useRef<VapiClient | null>(null);
   const listenersRef = React.useRef<VapiListeners | null>(null);
   const audioResourcesRef = React.useRef<VapiAudioResources | null>(null);
+  const pathnameRef = React.useRef(pathname);
 
   const [isConnecting, setIsConnecting] = React.useState(false);
   const [isActive, setIsActive] = React.useState(false);
   const [isAssistantSpeaking, setIsAssistantSpeaking] = React.useState(false);
   const [voiceError, setVoiceError] = React.useState<string>("");
   const [lastTranscript, setLastTranscript] = React.useState<string>("");
+  const [lastAction, setLastAction] = React.useState<VoiceAction | null>(null);
+
+  React.useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
+  // Send route updates to VAPI when the user navigates while voice is active
+  React.useEffect(() => {
+    const instance = vapiRef.current;
+    if (!instance || !isActive) return;
+
+    try {
+      instance.send({
+        type: "add-message",
+        message: {
+          role: "system",
+          content: `[Medora context update] User navigated to ${pathname}.`,
+        },
+      });
+    } catch {
+      // Best-effort: call may have ended between the check and send.
+    }
+  }, [pathname, isActive]);
+
+  const handleClientToolCall = React.useCallback(
+    (toolCall: VapiToolCall) => {
+      const name = toolCall.name;
+
+      if (name === "navigate_medora" || name === "navigate") {
+        const resolved = resolveVapiNavigation(toolCall.arguments, roleContext);
+        if (resolved) {
+          setLastAction({
+            label: `Navigating to ${resolved.label}`,
+            route: resolved.route,
+            timestamp: Date.now(),
+          });
+          router.push(resolved.route);
+        }
+        return;
+      }
+
+      if (name === "end_voice_call") {
+        setLastAction({
+          label: "Ending voice session",
+          timestamp: Date.now(),
+        });
+        const instance = vapiRef.current;
+        if (instance) {
+          try {
+            instance.stop();
+          } catch {
+            // Handled by call-end event.
+          }
+        }
+      }
+    },
+    [roleContext, router],
+  );
 
   const detachVapiListeners = React.useCallback(() => {
     const instance = vapiRef.current;
@@ -149,9 +229,6 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
         setIsConnecting(false);
         setIsActive(false);
         setIsAssistantSpeaking(false);
-        // Release microphone + AudioContext and drop the Vapi instance so
-        // the next "Start Voice" click re-acquires a fresh 48 kHz audio
-        // source (required because the track was consumed by Daily).
         releaseVapiAudioResources(audioResourcesRef.current);
         audioResourcesRef.current = null;
         detachVapiListeners();
@@ -169,9 +246,6 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
       const handleError = (error: unknown) => {
         const message = getVapiErrorMessage(error);
         if (isKrispSampleRateError(message)) {
-          // Best-effort: disable Krisp at runtime so the call can keep going
-          // instead of being ejected by Daily. We still surface the message so
-          // the user understands what happened if this race is lost.
           void disableDailyKrispProcessor(instance);
         }
         setIsConnecting(false);
@@ -184,6 +258,13 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
         const transcript = getMessageTranscript(message);
         if (transcript) {
           setLastTranscript(transcript);
+        }
+
+        const toolCalls = extractVapiToolCalls(message);
+        for (const call of toolCalls) {
+          if (MEDORA_CLIENT_ACTION_TOOLS.has(call.name)) {
+            handleClientToolCall(call);
+          }
         }
       };
 
@@ -203,7 +284,7 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
       instance.on("error", handleError);
       instance.on("message", handleMessage);
     },
-    [detachVapiListeners],
+    [detachVapiListeners, handleClientToolCall],
   );
 
   const createVapiClient = React.useCallback(async (): Promise<VapiClient> => {
@@ -211,9 +292,6 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
       return vapiRef.current;
     }
 
-    // Resample the microphone to 48 kHz before Daily/Krisp touches it.
-    // Without this, high sample-rate devices (192 kHz) trip Krisp and Daily
-    // immediately ejects the participant.
     const resources = await createVapiAudioResources();
     audioResourcesRef.current = resources;
 
@@ -223,6 +301,7 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     const instance = new Vapi(publicKey, undefined, undefined, dailyCallObject);
     vapiRef.current = instance;
     attachVapiListeners(instance);
+    installVapiKrispGuard(instance);
     return instance;
   }, [attachVapiListeners, publicKey]);
 
@@ -247,27 +326,25 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     }
 
     setVoiceError("");
+    setLastAction(null);
     setIsConnecting(true);
 
     const sessionToken = readCookieValue("session_token");
+    const currentRoute = pathnameRef.current || "/";
+
+    const overrides = buildMedoraAssistantOverrides({
+      roleContext,
+      patientId: patientId || "",
+      sessionToken,
+      currentRoute,
+      locale: locale || "en",
+    });
 
     try {
       const vapiClient = await createVapiClient();
       const startResult = await vapiClient.start(
         assistantId,
-        withVapiAudioFallback({
-          variableValues: {
-            medora_role_context: roleContext,
-            medora_patient_id: patientId || "",
-            medora_session_token: sessionToken,
-          },
-          metadata: {
-            role_context: roleContext,
-            patient_id: patientId || "",
-            session_token: sessionToken,
-            source: "medora-chorui-voice",
-          },
-        }),
+        withVapiAudioFallback(overrides) as Parameters<typeof vapiClient.start>[1],
       );
 
       if (startResult === null) {
@@ -294,6 +371,7 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     isActive,
     isConfigured,
     isConnecting,
+    locale,
     patientId,
     roleContext,
   ]);
@@ -343,10 +421,10 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
             isActive ? (
               <>
                 <Volume2 className="h-3.5 w-3.5 text-primary" />
-                {isAssistantSpeaking ? "AI is speaking" : "AI is listening"}
+                {isAssistantSpeaking ? "Chorui is speaking" : "Chorui is listening"}
               </>
             ) : (
-              "Start Vapi voice for hands-free Chorui chat."
+              "Start Chorui voice — ask anything, navigate, check appointments."
             )
           ) : (
             "Set NEXT_PUBLIC_VAPI_PUBLIC_KEY and NEXT_PUBLIC_VAPI_ASSISTANT_ID to enable voice."
@@ -363,6 +441,14 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
       </div>
 
       {lastTranscript ? <p className="mt-2 line-clamp-2 text-xs text-foreground/80">{lastTranscript}</p> : null}
+
+      {lastAction ? (
+        <div className="mt-2 flex items-center gap-1.5 text-xs text-primary">
+          <Navigation className="h-3 w-3" />
+          <span>{lastAction.label}</span>
+        </div>
+      ) : null}
+
       {voiceError ? <p className="mt-2 text-xs text-destructive">{voiceError}</p> : null}
     </div>
   );

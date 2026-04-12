@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   createVapiAudioResources,
   disableDailyKrispProcessor,
+  installVapiKrispGuard,
   isKrispSampleRateError,
   KRISP_SAMPLE_RATE_ERROR_MESSAGE,
   releaseVapiAudioResources,
@@ -256,6 +257,7 @@ export function AIDoctorSearchVapiAssistant({
     const instance = new Vapi(publicKey, undefined, undefined, dailyCallObject);
     vapiRef.current = instance;
     attachVapiListeners(instance);
+    installVapiKrispGuard(instance);
     return instance;
   }, [attachVapiListeners, publicKey]);
 
