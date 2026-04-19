@@ -44,6 +44,11 @@ class Settings(BaseSettings):
     VAPI_PUBLIC_KEY: str | None = None
     VAPI_TOOL_SHARED_SECRET: str | None = None
 
+    GOOGLE_CLIENT_ID: str | None = None
+    GOOGLE_CLIENT_SECRET: str | None = None
+    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/oauth/google/callback"
+    FRONTEND_URL: str = "http://localhost:3000"
+
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True
 

@@ -1,3 +1,38 @@
+# Google Calendar OAuth DB + Config Fix (2026-04-17)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce backend failure path for Google Calendar status/connect endpoints
+- [x] Identify why `google_email` model column existed in code but not in live DB schema
+- [x] Repair Alembic revision graph so OAuth column migration is reachable from the active head
+- [x] Apply migrations in existing backend venv and verify `UserOAuthToken` ORM select works
+- [x] Ensure OAuth client credentials are read from backend `.env` via settings to avoid false 503 configuration errors
+
+### Review
+- Root cause 1: Alembic had two heads (`e6890bb2c807` and `oauth_001`); DB was on `e6890bb2c807`, so `oauth_001` (which adds `google_email`, `google_sub`, `google_profile`) never ran.
+- Fix 1: added merge migration `oauth_002` joining `e6890bb2c807` and `oauth_001`, then ran `alembic upgrade head`; migration output confirmed `sched_004 -> oauth_001` and merge to `oauth_002`.
+- Root cause 2: OAuth route/service relied on `os.getenv(...)` directly, which can miss values present in `.env` when not exported to process env, causing `/oauth/google/connect` to return 503 despite configured `.env` values.
+- Fix 2: added Google OAuth settings fields to `app/core/config.py` and switched OAuth route/service to use `settings.*` values loaded from `.env`.
+- Validation: `alembic current` now reports `oauth_002 (head)` and an ORM probe query against `UserOAuthToken` executes successfully (`oauth_token_select_ok`).
+
+# Google OAuth PKCE Callback Persistence Fix (2026-04-17)
+
+## Status: completed
+
+### Todo
+- [x] Trace Google callback failure after connect (`invalid_grant: Missing code verifier`)
+- [x] Confirm authorization URL includes PKCE challenge and callback exchange lacked persisted verifier
+- [x] Persist PKCE `code_verifier` keyed by OAuth `state` between connect and callback
+- [x] Use unique per-attempt state token and pass callback state into token exchange
+- [x] Restart backend runtime and validate patched callback path with focused probe
+
+### Review
+- Root cause: Google auth URL generation included PKCE (`code_challenge`), but callback token exchange created a fresh flow instance without reusing the original `code_verifier`, causing Google token endpoint to reject code exchange.
+- Fix 1: added an in-memory state-keyed PKCE verifier cache in `backend/app/services/google_calendar_service.py`; connect stores verifier, callback pops and reapplies verifier before `fetch_token`.
+- Fix 2: updated route state handling in `backend/app/routes/oauth.py` to use `user_id:nonce` state for each connect request and preserve callback mapping to `user_id`.
+- Validation: focused probe confirmed state-based exchange path (`pkce_state_exchange_ok=True`), and backend was restarted with uvicorn reload from `backend/` so live runtime uses new logic.
+
 # Consultation Complete + History Detail Loading Fix (2026-04-11)
 
 ## Status: completed
