@@ -5,7 +5,7 @@
 > **These rules are NON-NEGOTIABLE and apply to EVERY task.**
 
 ### Claude Rules
-
+DONT KEEP CREATING VIRTUAL PYTHON ENVIRONMENTS. The user has already set up a Python environment for the backend. Always use the existing environment. Do not create, recreate, or auto-configure new environments unless explicitly asked by the user.
 1. **PLAN FIRST**: Think through the problem, read the codebase for relevant files, and write a plan to `tasks/todo.md`.
 2. **TODO TRACKING**: The plan should have a list of todo items that you can check off as you complete them.
 3. **VERIFY BEFORE WORK**: Before you begin working, check in with me and I will verify the plan.

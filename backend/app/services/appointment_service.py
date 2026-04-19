@@ -995,39 +995,64 @@ async def sync_calendar_on_status_change(
     """
     Sync Google Calendar events based on appointment status changes.
     Called after a status transition - best-effort, never raises.
+    Enhanced to sync to both patient and doctor calendars.
     """
     try:
         from app.services import google_calendar_service
 
         doctor_id = appointment.doctor_id
+        patient_id = appointment.patient_id
 
         if new_status == AppointmentStatus.CONFIRMED:
+            # Get doctor profile
             doctor_result = await db.execute(
                 select(Profile).where(Profile.id == doctor_id)
             )
             doctor_profile = doctor_result.scalar_one_or_none()
 
+            # Get patient profile
             patient_result = await db.execute(
-                select(Profile).where(Profile.id == appointment.patient_id)
+                select(Profile).where(Profile.id == patient_id)
             )
             patient_profile = patient_result.scalar_one_or_none()
 
             doctor_name = f"{doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
             patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
 
-            event_id = await google_calendar_service.create_calendar_event(
+            # Sync to doctor's calendar
+            doctor_event_id = await google_calendar_service.sync_appointment_to_calendar(
                 db=db,
                 user_id=doctor_id,
+                appointment_id=appointment.id,
                 summary=f"Appointment with {patient_name}",
-                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}",
+                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
                 start_datetime=appointment.appointment_date,
                 duration_minutes=appointment.duration_minutes or 30,
             )
-            if event_id:
-                appointment.google_event_id = event_id
+
+            # Sync to patient's calendar
+            patient_event_id = await google_calendar_service.sync_appointment_to_calendar(
+                db=db,
+                user_id=patient_id,
+                appointment_id=appointment.id,
+                summary=f"Appointment with {doctor_name}",
+                description=f"Doctor: {doctor_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
+                start_datetime=appointment.appointment_date,
+                duration_minutes=appointment.duration_minutes or 30,
+            )
+
+            # Store doctor's event ID (primary owner)
+            if doctor_event_id:
+                appointment.google_event_id = doctor_event_id
                 await db.flush()
 
+            logger.info(
+                f"Calendar sync completed for appointment {appointment.id}: "
+                f"doctor_event={doctor_event_id}, patient_event={patient_event_id}"
+            )
+
         elif new_status in NON_OCCUPYING_STATUSES:
+            # Delete doctor's calendar event
             if appointment.google_event_id:
                 await google_calendar_service.delete_calendar_event(
                     db=db,
