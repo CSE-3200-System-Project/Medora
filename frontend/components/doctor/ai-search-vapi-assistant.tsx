@@ -39,7 +39,23 @@ type AIDoctorSearchVapiAssistantProps = {
   consultationMode?: string;
   userLocation?: UserLocation | null;
   onTranscriptDetected: (text: string) => void;
+  languageNotice?: string;
 };
+
+const AI_VOICE_COPY = {
+  assistantNotFound: "Voice assistant configuration is invalid. Please try again later.",
+  stopAssistantFailed: "Unable to stop the voice assistant cleanly.",
+  startAssistantFailed: "Unable to start the voice assistant. Please try again.",
+  invalidAssistantConfig: "Doctor-search assistant setup is invalid. Please contact support.",
+  notConfiguredHint: "Voice assistant is not configured yet. Add Vapi environment variables.",
+  misconfiguredHint: "Doctor-search assistant ID is misconfigured. Check your Vapi settings.",
+  connecting: "Connecting...",
+  stopVoiceAgent: "Stop Voice Assistant",
+  startVoiceAgent: "Start Voice Assistant",
+  aiSpeaking: "AI is speaking...",
+  aiListening: "AI is listening...",
+  useVoiceAgentHint: "Use voice to describe your symptoms naturally.",
+} as const;
 
 function getCookieValue(name: string): string {
   if (typeof document === "undefined") {
@@ -97,7 +113,7 @@ function getVapiErrorMessage(error: unknown): string {
     }
   }
 
-  return "Unable to start AI voice assistant.";
+  return "Unable to start the AI voice assistant.";
 }
 
 function isAssistantNotFoundError(message: string): boolean {
@@ -113,6 +129,7 @@ export function AIDoctorSearchVapiAssistant({
   consultationMode,
   userLocation,
   onTranscriptDetected,
+  languageNotice,
 }: AIDoctorSearchVapiAssistantProps) {
   const publicKey = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || "";
   const fallbackAssistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || "";
@@ -137,6 +154,30 @@ export function AIDoctorSearchVapiAssistant({
   const [isActive, setIsActive] = React.useState(false);
   const [isAssistantSpeaking, setIsAssistantSpeaking] = React.useState(false);
   const [voiceError, setVoiceError] = React.useState<string>("");
+
+  const renderVoiceError = React.useCallback(
+    (message: string) => {
+      if (!message) {
+        return "";
+      }
+
+      const normalized = message.trim().toLowerCase();
+      if (normalized.includes("assistant") && normalized.includes("not found")) {
+        return AI_VOICE_COPY.assistantNotFound;
+      }
+      if (normalized.includes("unable to stop voice assistant")) {
+        return AI_VOICE_COPY.stopAssistantFailed;
+      }
+      if (isKrispSampleRateError(message)) {
+        return AI_VOICE_COPY.startAssistantFailed;
+      }
+
+      return message;
+    },
+    [],
+  );
+
+  const displayedVoiceError = renderVoiceError(voiceError);
 
   const detachVapiListeners = React.useCallback(() => {
     const instance = vapiRef.current;
@@ -269,14 +310,12 @@ export function AIDoctorSearchVapiAssistant({
 
   const startVoiceAssistant = React.useCallback(async () => {
     if (isDoctorSearchAssistantMisconfigured && !fallbackAssistantId) {
-      setVoiceError(
-        "NEXT_PUBLIC_VAPI_DOCTOR_SEARCH_ASSISTANT_ID is set to the Vapi public key. Use a Vapi assistant ID.",
-      );
+      setVoiceError(AI_VOICE_COPY.invalidAssistantConfig);
       return;
     }
 
     if (!isConfigured || !primaryAssistantId) {
-      setVoiceError("Vapi doctor-search assistant is not configured.");
+      setVoiceError(AI_VOICE_COPY.notConfiguredHint);
       return;
     }
 
@@ -334,7 +373,7 @@ export function AIDoctorSearchVapiAssistant({
       setIsAssistantSpeaking(false);
 
       if (isKrispSampleRateError(message)) {
-        setVoiceError(KRISP_SAMPLE_RATE_ERROR_MESSAGE);
+        setVoiceError(message);
       } else {
         setVoiceError(message);
       }
@@ -365,7 +404,7 @@ export function AIDoctorSearchVapiAssistant({
     try {
       instance.stop();
     } catch {
-      setVoiceError("Unable to stop voice assistant cleanly.");
+      setVoiceError(AI_VOICE_COPY.stopAssistantFailed);
     } finally {
       setIsConnecting(false);
       setIsActive(false);
@@ -375,6 +414,10 @@ export function AIDoctorSearchVapiAssistant({
 
   return (
     <div className="rounded-xl border border-primary/20 bg-background/70 p-3">
+      {languageNotice ? (
+        <p className="mb-2 text-[11px] text-muted-foreground">{languageNotice}</p>
+      ) : null}
+
       <div className="flex flex-wrap items-center gap-2">
         <Button
           type="button"
@@ -393,17 +436,23 @@ export function AIDoctorSearchVapiAssistant({
           {isConnecting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
           {!isConnecting && isActive ? <MicOff className="mr-2 h-4 w-4" /> : null}
           {!isConnecting && !isActive ? <Mic className="mr-2 h-4 w-4" /> : null}
-          {isConnecting ? "Connecting..." : isActive ? "Stop Voice Agent" : "Start Voice Agent"}
+          {isConnecting
+            ? AI_VOICE_COPY.connecting
+            : isActive
+              ? AI_VOICE_COPY.stopVoiceAgent
+              : AI_VOICE_COPY.startVoiceAgent}
         </Button>
 
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           {isActive ? (
             <>
               <Volume2 className="h-3.5 w-3.5 text-primary" />
-              {isAssistantSpeaking ? "AI is speaking" : "AI is listening"}
+              {isAssistantSpeaking
+                ? AI_VOICE_COPY.aiSpeaking
+                : AI_VOICE_COPY.aiListening}
             </>
           ) : (
-            "Use Vapi voice agent for AI doctor search"
+            AI_VOICE_COPY.useVoiceAgentHint
           )}
         </div>
 
@@ -416,15 +465,15 @@ export function AIDoctorSearchVapiAssistant({
         ) : null}
       </div>
 
-      {voiceError ? <p className="mt-2 text-xs text-destructive">{voiceError}</p> : null}
+      {voiceError ? <p className="mt-2 text-xs text-destructive">{displayedVoiceError}</p> : null}
       {isDoctorSearchAssistantMisconfigured ? (
         <p className="mt-2 text-xs text-destructive">
-          NEXT_PUBLIC_VAPI_DOCTOR_SEARCH_ASSISTANT_ID must be a Vapi assistant ID, not the public key.
+          {AI_VOICE_COPY.misconfiguredHint}
         </p>
       ) : null}
       {!isConfigured ? (
         <p className="mt-2 text-xs text-muted-foreground">
-          Set NEXT_PUBLIC_VAPI_PUBLIC_KEY and NEXT_PUBLIC_VAPI_DOCTOR_SEARCH_ASSISTANT_ID to enable doctor-search voice agent.
+          {AI_VOICE_COPY.notConfiguredHint}
         </p>
       ) : null}
     </div>

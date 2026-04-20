@@ -6,19 +6,37 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { useT } from "@/i18n/client";
 
 interface VoiceTranscriptionReviewProps {
   text: string;
   confidence: number;
   confidenceLevel: "high" | "medium" | "low";
   languageDetected: string;
+  languageNotice?: string;
   onTextChange: (text: string) => void;
   onConfirm: () => void;
   onRetry: () => void;
   onCancel: () => void;
   className?: string;
 }
+
+const REVIEW_COPY = {
+  detectedFromVoice: "Detected from voice",
+  languageBangla: "Bangla",
+  languageEnglish: "English",
+  languageHindi: "Hindi",
+  languageMixed: "Mixed",
+  goodQuality: "Good quality",
+  reviewNeeded: "Review needed",
+  reviewMessage: "Please review and adjust this text before search.",
+  lowConfidence: "Low confidence",
+  lowConfidenceMessage: "Audio clarity was low. Edit the text or record again.",
+  transcriptionPlaceholder: "Transcribed text",
+  editableHint: "You can edit this text before searching.",
+  useThisText: "Use This Text",
+  tryAgain: "Try Again",
+  cancel: "Cancel",
+} as const;
 
 /**
  * Transcription review component that allows users to:
@@ -32,20 +50,20 @@ export function VoiceTranscriptionReview({
   confidence,
   confidenceLevel,
   languageDetected,
+  languageNotice,
   onTextChange,
   onConfirm,
   onRetry,
   onCancel,
   className
 }: VoiceTranscriptionReviewProps) {
-  const tVoice = useT("voice");
   // Map language codes to display names
   const getLanguageName = (code: string): string => {
     const languages: Record<string, string> = {
-      'bn': 'Bangla',
-      'en': 'English',
-      'hi': 'Hindi',
-      'mixed': 'Mixed'
+      bn: REVIEW_COPY.languageBangla,
+      en: REVIEW_COPY.languageEnglish,
+      hi: REVIEW_COPY.languageHindi,
+      mixed: REVIEW_COPY.languageMixed,
     };
     return languages[code] || code;
   };
@@ -59,7 +77,7 @@ export function VoiceTranscriptionReview({
           color: "text-success",
           bgColor: "bg-success/10",
           borderColor: "border-success/30",
-          label: tVoice("goodQuality"),
+          label: REVIEW_COPY.goodQuality,
           message: null
         };
       case "medium":
@@ -68,8 +86,8 @@ export function VoiceTranscriptionReview({
           color: "text-yellow-600",
           bgColor: "bg-yellow-50",
           borderColor: "border-yellow-200",
-          label: tVoice("reviewNeeded"),
-          message: tVoice("reviewMessage")
+          label: REVIEW_COPY.reviewNeeded,
+          message: REVIEW_COPY.reviewMessage
         };
       case "low":
         return {
@@ -77,8 +95,8 @@ export function VoiceTranscriptionReview({
           color: "text-destructive",
           bgColor: "bg-destructive/10",
           borderColor: "border-destructive/30",
-          label: tVoice("lowConfidence"),
-          message: tVoice("lowConfidenceMessage")
+          label: REVIEW_COPY.lowConfidence,
+          message: REVIEW_COPY.lowConfidenceMessage
         };
     }
   };
@@ -93,10 +111,14 @@ export function VoiceTranscriptionReview({
       config.borderColor,
       className
     )}>
+      {languageNotice ? (
+        <p className="text-[11px] text-muted-foreground">{languageNotice}</p>
+      ) : null}
+
       {/* Header with badges */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-foreground">{tVoice("detectedFromVoice")}</span>
+          <span className="text-sm font-medium text-foreground">{REVIEW_COPY.detectedFromVoice}</span>
           <Badge variant="outline" className="text-xs">
             {getLanguageName(languageDetected)}
           </Badge>
@@ -125,14 +147,14 @@ export function VoiceTranscriptionReview({
       <Textarea
         value={text}
         onChange={(e) => onTextChange(e.target.value)}
-        placeholder={tVoice("transcriptionPlaceholder")}
+        placeholder={REVIEW_COPY.transcriptionPlaceholder}
         className={cn(
           "min-h-[80px] text-base bg-background resize-none",
           "focus:ring-2 focus:ring-primary/20"
         )}
       />
       <p className="text-xs text-muted-foreground">
-        {tVoice("editableHint")}
+        {REVIEW_COPY.editableHint}
       </p>
 
       {/* Action buttons */}
@@ -143,20 +165,20 @@ export function VoiceTranscriptionReview({
           className="flex-1 min-w-[120px]"
         >
           <Check className="w-4 h-4 mr-2" />
-          {tVoice("useThisText")}
+          {REVIEW_COPY.useThisText}
         </Button>
         <Button
           variant="outline"
           onClick={onRetry}
         >
           <RotateCcw className="w-4 h-4 mr-2" />
-          {tVoice("tryAgain")}
+          {REVIEW_COPY.tryAgain}
         </Button>
         <Button
           variant="ghost"
           size="icon"
           onClick={onCancel}
-          title={tVoice("cancel")}
+          title={REVIEW_COPY.cancel}
         >
           <X className="w-4 h-4" />
         </Button>

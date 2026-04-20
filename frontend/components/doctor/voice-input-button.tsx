@@ -7,6 +7,15 @@ import { ButtonLoader } from "@/components/ui/medora-loader";
 import { cn } from "@/lib/utils";
 import { VoiceRecorderState } from "@/lib/use-voice-recorder";
 
+const VOICE_BUTTON_COPY = {
+  stopRecording: "Stop recording",
+  recording: "Recording...",
+  processing: "Processing...",
+  unavailable: "Voice input unavailable",
+  clickToSpeak: "Click to speak",
+  startVoice: "Start voice input",
+} as const;
+
 interface VoiceInputButtonProps {
   state: VoiceRecorderState;
   duration: number;
@@ -46,7 +55,7 @@ export function VoiceInputButton({
           size="icon"
           onClick={onStopRecording}
           className="relative h-11 w-11"
-          aria-label="Stop recording"
+          aria-label={VOICE_BUTTON_COPY.stopRecording}
         >
           <Square className="w-4 h-4 fill-current" />
           {/* Pulse animation */}
@@ -55,7 +64,7 @@ export function VoiceInputButton({
         <div className="flex flex-col text-sm">
           <span className="text-destructive font-medium flex items-center gap-1">
             <span className="w-2 h-2 bg-destructive rounded-full animate-pulse" />
-            Recording...
+            {VOICE_BUTTON_COPY.recording}
           </span>
           <span className="text-muted-foreground text-xs">
             {formatDuration(duration)} / 1:00
@@ -73,7 +82,7 @@ export function VoiceInputButton({
         size="icon"
         disabled
         className={cn("h-11 w-11", className)}
-        aria-label="Processing"
+        aria-label={VOICE_BUTTON_COPY.processing}
       >
         <ButtonLoader className="w-5 h-5" />
       </Button>
@@ -88,8 +97,8 @@ export function VoiceInputButton({
         size="icon"
         disabled
         className={cn("h-11 w-11 opacity-50", className)}
-        title={error || "Voice input not supported"}
-        aria-label="Voice input unavailable"
+        title={error || VOICE_BUTTON_COPY.unavailable}
+        aria-label={VOICE_BUTTON_COPY.unavailable}
       >
         <MicOff className="w-5 h-5 text-muted-foreground" />
       </Button>
@@ -106,8 +115,8 @@ export function VoiceInputButton({
         "h-11 w-11 hover:bg-primary/10 hover:border-primary hover:text-primary transition-colors",
         className
       )}
-      title="Click to speak your symptoms"
-      aria-label="Start voice input"
+      title={VOICE_BUTTON_COPY.clickToSpeak}
+      aria-label={VOICE_BUTTON_COPY.startVoice}
     >
       <Mic className="w-5 h-5" />
     </Button>
