@@ -1,3 +1,21 @@
+# Patient Find Doctor Bangla Localization (2026-04-18)
+
+## Status: completed
+
+### Todo
+- [x] Audit and list all hardcoded UI strings in patient find-doctor flow (standard + AI mode)
+- [x] Localize all find-doctor page/component strings using existing next-intl hooks and namespaces
+- [x] Localize doctor profile page (from find-doctor navigation), including appointment booking panel and states
+- [x] Add matching EN/BN translation keys in existing message files following established key structure
+- [x] Validate no mixed-language UI remains in Bangla mode for target scope and update review notes
+
+### Review
+- Reused existing next-intl architecture (`useT`, existing `common` namespace) without introducing any new translation system.
+- Localized user-facing strings across patient find-doctor flow: page header/states, search filters, AI mode labels/hints, voice input states/errors, AI analysis panel, patient context card, doctor cards, map labels/routes/states, mobile filter sheet labels.
+- Localized doctor profile route reached from find-doctor: page-level loading/error/share/breadcrumb labels, profile header/about/qualification/specialization/professional/location cards, and booking panel states including location/date/slots/reason/summary/support copy.
+- Added full EN/BN key parity in `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` under `findDoctor.*` and `doctorProfile.*`.
+- Validation performed: diagnostics report no errors in touched TSX and JSON files; automated key existence check confirms no missing EN/BN keys for all referenced `findDoctor.*` and `doctorProfile.*` paths.
+
 # Consultation Complete + History Detail Loading Fix (2026-04-11)
 
 ## Status: completed

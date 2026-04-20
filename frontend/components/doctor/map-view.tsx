@@ -17,6 +17,7 @@ import {
   MapRoute,
   MarkerLabel,
 } from "@/components/ui/map-lazy";
+import { useT } from "@/i18n/client";
 
 interface Doctor {
   profile_id: string;
@@ -72,18 +73,31 @@ const ROUTE_CACHE_TTL_MS = 5 * 60 * 1000;
 const routeCache = new Map<string, { data: RouteData[]; ts: number }>();
 
 // Format duration from seconds
-function formatDuration(seconds: number): string {
+function formatDuration(
+  seconds: number,
+  tCommon: (key: string, values?: Record<string, string | number | Date>) => string,
+): string {
   const mins = Math.round(seconds / 60);
-  if (mins < 60) return `${mins} min`;
+  if (mins < 60) {
+    return tCommon("findDoctor.map.durationMinutes", { count: mins });
+  }
   const hours = Math.floor(mins / 60);
   const remainingMins = mins % 60;
-  return `${hours}h ${remainingMins}m`;
+  return tCommon("findDoctor.map.durationHoursMinutes", {
+    hours,
+    minutes: remainingMins,
+  });
 }
 
 // Format distance from meters
-function formatDistance(meters: number): string {
-  if (meters < 1000) return `${Math.round(meters)} m`;
-  return `${(meters / 1000).toFixed(1)} km`;
+function formatDistance(
+  meters: number,
+  tCommon: (key: string, values?: Record<string, string | number | Date>) => string,
+): string {
+  if (meters < 1000) {
+    return tCommon("findDoctor.map.distanceMeters", { count: Math.round(meters) });
+  }
+  return tCommon("findDoctor.map.distanceKm", { count: (meters / 1000).toFixed(1) });
 }
 
 // Fetch routes from OSRM API
@@ -178,10 +192,12 @@ function ChamberMarkerIcon({ isSelected }: { isSelected?: boolean }) {
 // Location popup content
 function LocationPopupContent({ 
   location,
-  onGetDirections 
+  onGetDirections,
+  tCommon,
 }: { 
   location: DoctorLocation;
   onGetDirections: () => void;
+  tCommon: (key: string, values?: Record<string, string | number | Date>) => string;
 }) {
   const { doctor, type, name, address, city } = location;
   
@@ -208,7 +224,7 @@ function LocationPopupContent({
         variant={type === 'hospital' ? 'destructive' : 'default'}
         className="mb-2 text-xs"
       >
-        {type === 'hospital' ? 'Hospital' : 'Chamber'}
+        {type === 'hospital' ? tCommon("findDoctor.map.hospital") : tCommon("findDoctor.map.chamber")}
       </Badge>
       
       <div className="space-y-2 text-xs text-muted-foreground mb-3">
@@ -235,7 +251,7 @@ function LocationPopupContent({
             <span className="font-medium text-foreground">
               ৳{doctor.consultation_fee}
             </span>
-            <span>consultation fee</span>
+            <span>{tCommon("findDoctor.map.consultationFee")}</span>
           </div>
         )}
       </div>
@@ -246,7 +262,7 @@ function LocationPopupContent({
         onClick={onGetDirections}
       >
         <Navigation className="h-3 w-3 mr-1.5" />
-        Get Directions
+        {tCommon("findDoctor.map.getDirections")}
       </Button>
     </div>
   );
@@ -258,6 +274,7 @@ export function MapView({
   userLocation,
   onDoctorSelect 
 }: MapViewProps) {
+  const tCommon = useT("common");
   const [selectedLocation, setSelectedLocation] = useState<DoctorLocation | null>(null);
   const [routes, setRoutes] = useState<RouteData[]>([]);
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
@@ -273,7 +290,7 @@ export function MapView({
       if (doctor.hospital_latitude && doctor.hospital_longitude) {
         locations.push({
           type: 'hospital',
-          name: doctor.hospital_name || 'Hospital',
+          name: doctor.hospital_name || tCommon("findDoctor.map.hospital"),
           address: doctor.hospital_address,
           city: doctor.hospital_city,
           latitude: doctor.hospital_latitude,
@@ -286,7 +303,7 @@ export function MapView({
       if (doctor.chamber_latitude && doctor.chamber_longitude) {
         locations.push({
           type: 'chamber',
-          name: doctor.chamber_name || 'Chamber',
+          name: doctor.chamber_name || tCommon("findDoctor.map.chamber"),
           address: doctor.chamber_address,
           city: doctor.chamber_city,
           latitude: doctor.chamber_latitude,
@@ -307,7 +324,7 @@ export function MapView({
         if (hasHospitalData) {
           locations.push({
             type: 'hospital',
-            name: doctor.hospital_name || 'Hospital',
+            name: doctor.hospital_name || tCommon("findDoctor.map.hospital"),
             address: doctor.hospital_address,
             city: doctor.hospital_city,
             latitude: doctor.latitude,
@@ -317,7 +334,7 @@ export function MapView({
         } else if (hasChamberData) {
           locations.push({
             type: 'chamber',
-            name: doctor.chamber_name || 'Chamber',
+            name: doctor.chamber_name || tCommon("findDoctor.map.chamber"),
             address: doctor.chamber_address,
             city: doctor.chamber_city,
             latitude: doctor.latitude,
@@ -328,7 +345,7 @@ export function MapView({
           // Fallback: treat as hospital location
           locations.push({
             type: 'hospital',
-            name: doctor.hospital_name || doctor.chamber_name || 'Clinic',
+            name: doctor.hospital_name || doctor.chamber_name || tCommon("findDoctor.map.clinic"),
             address: doctor.hospital_address || doctor.chamber_address,
             city: doctor.hospital_city || doctor.chamber_city,
             latitude: doctor.latitude,
@@ -340,7 +357,7 @@ export function MapView({
     });
     
     return locations;
-  }, [doctors]);
+  }, [doctors, tCommon]);
 
   // Calculate map center - prioritize patient location, then doctor locations
   const mapCenter = React.useMemo(() => {
@@ -363,7 +380,7 @@ export function MapView({
   // Handle get directions
   const handleGetDirections = async (location: DoctorLocation) => {
     if (!userLocation) {
-      setRouteError("Enable location services to get directions.");
+      setRouteError(tCommon("findDoctor.map.enableLocation"));
       return;
     }
 
@@ -385,7 +402,7 @@ export function MapView({
     setIsLoadingRoutes(false);
     
     if (routesData.length === 0) {
-      setRouteError("Unable to find a route right now. Please try again.");
+      setRouteError(tCommon("findDoctor.map.routeUnavailable"));
     }
   };
 
@@ -417,7 +434,7 @@ export function MapView({
       <div className={`w-full h-full min-h-[400px] bg-surface rounded-2xl border border-border flex items-center justify-center p-6 ${className}`}>
         <div className="text-center">
           <MapPin className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-          <p className="text-muted-foreground">No doctors to display on map</p>
+          <p className="text-muted-foreground">{tCommon("findDoctor.map.noDoctorsTitle")}</p>
         </div>
       </div>
     );
@@ -462,7 +479,7 @@ export function MapView({
               </div>
             </MarkerContent>
             <MarkerLabel position="top" className="text-xs font-medium">
-              You
+              {tCommon("findDoctor.map.you")}
             </MarkerLabel>
           </MapMarker>
         )}
@@ -492,7 +509,7 @@ export function MapView({
                 {location.doctor.title} {location.doctor.first_name} {location.doctor.last_name}
                 <br />
                 <span className="text-[10px] opacity-80">
-                  {location.type === 'hospital' ? 'Hospital' : 'Chamber'}
+                  {location.type === 'hospital' ? tCommon("findDoctor.map.hospital") : tCommon("findDoctor.map.chamber")}
                 </span>
               </MarkerTooltip>
               
@@ -500,6 +517,7 @@ export function MapView({
                 <LocationPopupContent 
                   location={location}
                   onGetDirections={() => handleGetDirections(location)}
+                  tCommon={tCommon}
                 />
               </MarkerPopup>
             </MapMarker>
@@ -523,7 +541,7 @@ export function MapView({
       {routes.length > 0 && (
         <div className="absolute top-3 left-3 flex flex-col gap-2 bg-background/95 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-border max-w-[280px]">
           <div className="flex items-center justify-between mb-1">
-            <span className="font-semibold text-sm">Route Options</span>
+            <span className="font-semibold text-sm">{tCommon("findDoctor.map.routeOptions")}</span>
             <Button 
               size="sm" 
               variant="ghost" 
@@ -548,16 +566,16 @@ export function MapView({
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span className="font-medium text-sm">
-                    {formatDuration(route.duration)}
+                    {formatDuration(route.duration, tCommon)}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs opacity-80">
                   <Route className="w-3 h-3" />
-                  {formatDistance(route.distance)}
+                  {formatDistance(route.distance, tCommon)}
                 </div>
                 {isFastest && (
                   <Badge variant="default" className="text-[10px] px-1.5 py-0.5 ml-auto bg-success text-primary-foreground">
-                    Fastest
+                    {tCommon("findDoctor.map.fastest")}
                   </Badge>
                 )}
               </Button>
@@ -570,7 +588,7 @@ export function MapView({
       {isLoadingRoutes && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
           <div className="space-y-3 rounded-lg border border-border bg-background/95 px-4 py-3 shadow-lg">
-            <MedoraLoader size="sm" label="Finding best routes..." />
+            <MedoraLoader size="sm" label={tCommon("findDoctor.map.findingRoutes")} />
             <CardSkeleton className="h-6 w-56" />
           </div>
         </div>
@@ -582,7 +600,10 @@ export function MapView({
           <span className="font-medium text-primary">
             {allLocations.length}
           </span>
-          {' '}location{allLocations.length !== 1 ? 's' : ''} shown
+          {" "}
+          {allLocations.length === 1
+            ? tCommon("findDoctor.map.locationsShownOne")
+            : tCommon("findDoctor.map.locationsShownMany")}
         </div>
       )}
 
