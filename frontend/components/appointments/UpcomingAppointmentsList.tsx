@@ -14,6 +14,7 @@ interface UpcomingAppointmentsListProps {
   onViewHistory: () => void;
   onRequestReschedule?: (appointment: PatientAppointment) => void;
   onRespondReschedule?: (appointment: PatientAppointment) => void;
+  onWithdrawReschedule?: (appointment: PatientAppointment) => void;
   onRequestCancel?: (appointment: PatientAppointment) => void;
   onDeletePending?: (appointment: PatientAppointment) => void;
   onBookAgain?: (appointment: PatientAppointment) => void;
@@ -36,6 +37,7 @@ type SoftHoldMessages = {
   bookAgain: string;
   deleteRequest: string;
   reschedule: string;
+  withdrawReschedule: string;
   cancel: string;
 };
 
@@ -209,6 +211,7 @@ export function UpcomingAppointmentsList({
   onViewHistory,
   onRequestReschedule,
   onRespondReschedule,
+  onWithdrawReschedule,
   onRequestCancel,
   onDeletePending,
   onBookAgain,
@@ -225,6 +228,7 @@ export function UpcomingAppointmentsList({
     bookAgain: tCommon("patientAppointments.upcoming.bookAgain"),
     deleteRequest: tCommon("patientAppointments.upcoming.deleteRequest"),
     reschedule: tCommon("patientAppointments.upcoming.reschedule"),
+    withdrawReschedule: tCommon("patientAppointments.upcoming.withdrawReschedule"),
     cancel: tCommon("patientAppointments.upcoming.cancel"),
   }), [tCommon]);
   const holdMessages = React.useMemo(() => ({ ...defaultHoldMessages, ...(messages || {}) }), [defaultHoldMessages, messages]);
@@ -266,6 +270,17 @@ export function UpcomingAppointmentsList({
             const backendHoldExpired = isBackendHoldExpired(appointment);
             const showExpiredState = softHoldState.isExpired || backendHoldExpired;
             const canDeletePending = softHoldState.isPending && !showExpiredState;
+            const isRescheduleRequested = appointment.status.toUpperCase() === "RESCHEDULE_REQUESTED";
+            const requesterRole = (appointment.reschedule_requested_by_role || "").toUpperCase();
+            const canWithdrawReschedule =
+              Boolean(onWithdrawReschedule) &&
+              isRescheduleRequested &&
+              requesterRole === "PATIENT" &&
+              Boolean(appointment.reschedule_request_id);
+            const canRespondReschedule =
+              Boolean(onRespondReschedule) &&
+              isRescheduleRequested &&
+              !canWithdrawReschedule;
             const statusKey = statusKeyFromStatus(appointment.status);
             const badgeLabel = showExpiredState
               ? tCommon("patientAppointments.upcoming.status.expired")
@@ -344,15 +359,25 @@ export function UpcomingAppointmentsList({
                         {holdMessages.reschedule}
                       </Button>
                     )}
-                    {onRespondReschedule && appointment.status.toUpperCase() === "RESCHEDULE_REQUESTED" && (
+                    {canRespondReschedule && (
                       <Button
                         variant="ghost"
                         size="sm"
                         className="h-7 px-2 text-xs text-muted-foreground hover:text-primary"
-                        onClick={() => onRespondReschedule(appointment)}
+                        onClick={() => onRespondReschedule?.(appointment)}
                       >
                         <RefreshCw className="h-3 w-3 mr-1" />
                         {holdMessages.reschedule}
+                      </Button>
+                    )}
+                    {canWithdrawReschedule && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                        onClick={() => onWithdrawReschedule?.(appointment)}
+                      >
+                        {holdMessages.withdrawReschedule}
                       </Button>
                     )}
                     {onDeletePending && canDeletePending && (

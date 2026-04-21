@@ -26,7 +26,7 @@ import type { PatientAppointment, PatientSummary } from "@/components/appointmen
 import { Button } from "@/components/ui/button";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { cn, localDateKey } from "@/lib/utils";
-import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
+import { getRescheduleHistory, requestReschedule, respondToReschedule, withdrawRescheduleRequest } from "@/lib/availability-actions";
 import { useAppI18n, useT } from "@/i18n/client";
 
 const CANCELLED_STATUSES = new Set(["CANCELLED", "CANCELLED_BY_PATIENT", "CANCELLED_BY_DOCTOR"]);
@@ -52,6 +52,7 @@ interface RescheduleHistoryItem {
   proposed_date?: string;
   proposed_time?: string;
   status?: string;
+  admin_approval_status?: string | null;
 }
 
 interface RescheduleHistoryPayload {
@@ -139,6 +140,7 @@ function normalizeAppointments(raw: unknown[]): PatientAppointment[] {
           asOptionalString(row.requested_by),
         proposed_date: asOptionalString(row.proposed_date),
         proposed_time: asOptionalString(row.proposed_time),
+        reschedule_admin_approval_status: asOptionalString(row.reschedule_admin_approval_status),
       };
     })
     .filter((item): item is PatientAppointment => item !== null);
@@ -228,10 +230,13 @@ export default function PatientAppointmentsPage() {
   const defaultPatientName = tCommon("patientAppointments.page.defaults.patientName");
   const rescheduleSentMessage = tCommon("patientAppointments.page.feedback.rescheduleSent");
   const waitingDoctorMessage = tCommon("patientAppointments.page.feedback.waitingDoctor");
+  const waitingAdminRescheduleMessage = tCommon("patientAppointments.page.feedback.waitingAdminReschedule");
   const rescheduleRequestMissingMessage = tCommon("patientAppointments.page.feedback.rescheduleRequestMissing");
   const rescheduleLoadFailedMessage = tCommon("patientAppointments.page.feedback.rescheduleLoadFailed");
   const rescheduleAcceptedMessage = tCommon("patientAppointments.page.feedback.rescheduleAccepted");
   const rescheduleRejectedMessage = tCommon("patientAppointments.page.feedback.rescheduleRejected");
+  const rescheduleWithdrawnMessage = tCommon("patientAppointments.page.feedback.rescheduleWithdrawn");
+  const rescheduleWithdrawFailedMessage = tCommon("patientAppointments.page.feedback.rescheduleWithdrawFailed");
   const cancelSuccessMessage = tCommon("patientAppointments.page.feedback.cancelSuccess");
   const pendingDeletedMessage = tCommon("patientAppointments.page.feedback.pendingDeleted");
   const pendingDeleteFailedMessage = tCommon("patientAppointments.page.feedback.pendingDeleteFailed");
@@ -285,7 +290,11 @@ export default function PatientAppointmentsPage() {
   const resolveRescheduleRequest = React.useCallback(async (appointment: PatientAppointment) => {
     if (hasInlineRescheduleData(appointment)) {
       const requesterRole = normalizeRole(appointment.reschedule_requested_by_role || "");
+      const inlineAdminStatus = normalizeRequestStatus(appointment.reschedule_admin_approval_status);
       if (!requesterRole || requesterRole === "doctor") {
+        if (inlineAdminStatus && inlineAdminStatus !== "approved") {
+          throw new Error(waitingAdminRescheduleMessage);
+        }
         return {
           id: String(appointment.reschedule_request_id),
           proposed_date: coerceIsoDate(appointment.proposed_date),
@@ -304,6 +313,10 @@ export default function PatientAppointmentsPage() {
         normalizeRole(request.requested_by_role) === "doctor",
     );
 
+    if (pendingDoctorRequest && (pendingDoctorRequest.admin_approval_status || "PENDING").toUpperCase() !== "APPROVED") {
+      throw new Error(waitingAdminRescheduleMessage);
+    }
+
     if (!pendingDoctorRequest?.id || !pendingDoctorRequest.proposed_date || !pendingDoctorRequest.proposed_time) {
       const hasPendingRequest = requests.some((request) => normalizeRequestStatus(request.status) === "pending");
       if (hasPendingRequest) {
@@ -317,7 +330,30 @@ export default function PatientAppointmentsPage() {
       proposed_date: coerceIsoDate(pendingDoctorRequest.proposed_date),
       proposed_time: String(pendingDoctorRequest.proposed_time),
     };
-  }, [rescheduleRequestMissingMessage, waitingDoctorMessage]);
+  }, [rescheduleRequestMissingMessage, waitingDoctorMessage, waitingAdminRescheduleMessage]);
+
+  const resolveOwnPendingRescheduleRequest = React.useCallback(async (appointment: PatientAppointment) => {
+    if (
+      appointment.reschedule_request_id &&
+      normalizeRole(appointment.reschedule_requested_by_role) === "patient"
+    ) {
+      return { id: String(appointment.reschedule_request_id) };
+    }
+
+    const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
+    const requests = Array.isArray(history?.reschedule_requests) ? history!.reschedule_requests! : [];
+    const pendingOwnRequest = requests.find(
+      (request) =>
+        normalizeRequestStatus(request.status) === "pending" &&
+        normalizeRole(request.requested_by_role) === "patient",
+    );
+
+    if (!pendingOwnRequest?.id) {
+      throw new Error(rescheduleRequestMissingMessage);
+    }
+
+    return { id: String(pendingOwnRequest.id) };
+  }, [rescheduleRequestMissingMessage]);
 
   const handleRescheduleAction = async (appointment: PatientAppointment) => {
     const status = appointment.status.toUpperCase();
@@ -373,6 +409,22 @@ export default function PatientAppointmentsPage() {
       type: "success",
       message: accept ? rescheduleAcceptedMessage : rescheduleRejectedMessage,
     });
+  };
+
+  const handleWithdrawReschedule = async (appointment: PatientAppointment) => {
+    setActionFeedback(null);
+    try {
+      const resolved = await resolveOwnPendingRescheduleRequest(appointment);
+      await withdrawRescheduleRequest(resolved.id, "Withdrawn by patient");
+      await reloadAppointments();
+      setActionFeedback({ type: "success", message: rescheduleWithdrawnMessage });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : rescheduleWithdrawFailedMessage;
+      setActionFeedback({ type: "error", message });
+    }
   };
 
   const handleCancelConfirm = async (
@@ -549,6 +601,7 @@ export default function PatientAppointmentsPage() {
                 onViewHistory={() => router.push("/patient/medical-history?tab=visits")}
                 onRequestReschedule={handleRescheduleAction}
                 onRespondReschedule={handleRescheduleAction}
+                onWithdrawReschedule={handleWithdrawReschedule}
                 onRequestCancel={setCancelTarget}
                 onDeletePending={(appointment) => handleDeletePending(appointment.id)}
                 onBookAgain={(appointment) => {

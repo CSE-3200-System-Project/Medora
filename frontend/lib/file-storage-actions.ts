@@ -23,6 +23,20 @@ export type UploadMediaResponse = {
   file: MediaFileRecord;
 };
 
+export type PrescriptionOCRMeta = {
+  model: string;
+  model_type: string;
+  processing_time_ms: number;
+  detected_regions: number;
+  ocr_line_count: number;
+  yolo_avg_confidence?: number | null;
+  yolo_min_confidence?: number | null;
+  yolo_max_confidence?: number | null;
+  ocr_avg_confidence?: number | null;
+  ocr_min_confidence?: number | null;
+  ocr_max_confidence?: number | null;
+};
+
 export type PrescriptionExtractionResponse = {
   extracted_text: string;
   confidence: number;
@@ -34,6 +48,7 @@ export type PrescriptionExtractionResponse = {
     quantity?: string | null;
     confidence: number;
   }>;
+  meta?: PrescriptionOCRMeta | null;
   file?: MediaFileRecord | null;
 };
 

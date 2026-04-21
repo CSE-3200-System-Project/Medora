@@ -303,15 +303,32 @@ export async function overrideAppointmentStatus(
         method: "POST",
         headers,
         body: JSON.stringify({
-          new_status: newStatus,
+          status: newStatus,
           notes: notes || undefined,
         }),
       }
     );
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || "Failed to override status");
+      const error = await response.json().catch(() => null);
+      const detail = error && typeof error === "object" ? (error as { detail?: unknown }).detail : null;
+
+      let message = "Failed to override status";
+      if (typeof detail === "string" && detail.trim()) {
+        message = detail;
+      } else if (Array.isArray(detail)) {
+        const firstDetail = detail[0];
+        if (
+          firstDetail &&
+          typeof firstDetail === "object" &&
+          "msg" in firstDetail &&
+          typeof (firstDetail as { msg?: unknown }).msg === "string"
+        ) {
+          message = String((firstDetail as { msg: string }).msg);
+        }
+      }
+
+      throw new Error(message);
     }
 
     return await response.json();
@@ -319,6 +336,131 @@ export async function overrideAppointmentStatus(
     console.error("Error overriding appointment status:", error);
     throw error;
   }
+}
+
+// ========== APPOINTMENT APPROVAL WORKFLOW ==========
+
+export async function getPendingAppointments(limit = 50, offset = 0) {
+  try {
+    const headers = await getAdminHeaders();
+    const res = await fetch(
+      `${BACKEND_URL}/admin/appointments/pending-review?limit=${limit}&offset=${offset}`,
+      { headers, cache: "no-store" }
+    );
+    if (!res.ok) throw new Error("Failed to fetch pending appointments");
+    return await res.json();
+  } catch (e) {
+    console.error("Error fetching pending appointments:", e);
+    return { appointments: [], total: 0 };
+  }
+}
+
+export async function adminApproveAppointment(appointmentId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/appointments/${appointmentId}/approve`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to approve appointment");
+  }
+  return await res.json();
+}
+
+export async function adminRejectAppointment(appointmentId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/appointments/${appointmentId}/reject`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to reject appointment");
+  }
+  return await res.json();
+}
+
+export async function getPendingRescheduleRequests(limit = 50, offset = 0) {
+  try {
+    const headers = await getAdminHeaders();
+    const res = await fetch(
+      `${BACKEND_URL}/admin/reschedule-requests?limit=${limit}&offset=${offset}`,
+      { headers, cache: "no-store" }
+    );
+    if (!res.ok) throw new Error("Failed to fetch reschedule requests");
+    return await res.json();
+  } catch (e) {
+    console.error("Error fetching reschedule requests:", e);
+    return { requests: [], total: 0 };
+  }
+}
+
+export async function adminApproveReschedule(requestId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/reschedule-requests/${requestId}/approve`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to approve reschedule");
+  }
+  return await res.json();
+}
+
+export async function adminRejectReschedule(requestId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/reschedule-requests/${requestId}/reject`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to reject reschedule");
+  }
+  return await res.json();
+}
+
+export async function getPendingCancellationRequests(limit = 50, offset = 0) {
+  try {
+    const headers = await getAdminHeaders();
+    const res = await fetch(
+      `${BACKEND_URL}/admin/cancellation-requests?limit=${limit}&offset=${offset}`,
+      { headers, cache: "no-store" }
+    );
+    if (!res.ok) throw new Error("Failed to fetch cancellation requests");
+    return await res.json();
+  } catch (e) {
+    console.error("Error fetching cancellation requests:", e);
+    return { requests: [], total: 0 };
+  }
+}
+
+export async function adminApproveCancellation(requestId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/cancellation-requests/${requestId}/approve`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to approve cancellation");
+  }
+  return await res.json();
+}
+
+export async function adminRejectCancellation(requestId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const res = await fetch(
+    `${BACKEND_URL}/admin/cancellation-requests/${requestId}/reject`,
+    { method: "POST", headers, body: JSON.stringify({ notes }) }
+  );
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to reject cancellation");
+  }
+  return await res.json();
 }
 
 // Ban user

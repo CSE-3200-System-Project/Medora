@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 import json
 from typing import Any
@@ -149,6 +150,38 @@ def _safe_vapi_dict(value: Any) -> dict[str, Any]:
         except Exception:
             return {}
     return {}
+
+
+# Voice replies are spoken by Vapi's TTS. Long replies cost more seconds of
+# synthesis *and* sound unnatural, so we trim orchestrator replies to the
+# first couple of sentences before handing them back to the voice layer. The
+# on-screen Chorui panel always shows the full reply; voice gets the short form.
+VAPI_VOICE_REPLY_MAX_CHARS = 500
+VAPI_VOICE_REPLY_MAX_SENTENCES = 3
+# Hard ceiling on how long we wait for the orchestrator before Vapi gets an
+# apology line instead of a silent timeout. Keep below Vapi's own tool-call
+# deadline (~20s) with headroom.
+VAPI_ASK_CHORUI_TIMEOUT_SECONDS = 12.0
+
+
+def _shape_reply_for_voice(reply: str) -> str:
+    text = (reply or "").strip()
+    if not text:
+        return "I could not find an answer for that right now."
+
+    # Strip markdown emphasis / bullets / code fences that TTS reads awkwardly.
+    text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
+    text = re.sub(r"[*_`#>]+", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    if len(sentences) > VAPI_VOICE_REPLY_MAX_SENTENCES:
+        text = " ".join(sentences[:VAPI_VOICE_REPLY_MAX_SENTENCES]).strip()
+
+    if len(text) > VAPI_VOICE_REPLY_MAX_CHARS:
+        text = text[: VAPI_VOICE_REPLY_MAX_CHARS - 1].rstrip() + "…"
+
+    return text
 
 
 def _extract_vapi_tool_calls(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -4606,16 +4639,32 @@ async def chorui_vapi_tool_webhook(
         )
 
         try:
-            chorui_response = await _run_chorui_assistant(chorui_payload, vapi_user, db, request)
+            chorui_response = await asyncio.wait_for(
+                _run_chorui_assistant(chorui_payload, vapi_user, db, request),
+                timeout=VAPI_ASK_CHORUI_TIMEOUT_SECONDS,
+            )
             results.append(
                 {
                     "toolCallId": tool_call_id,
-                    "result": chorui_response.reply,
+                    "result": _shape_reply_for_voice(chorui_response.reply),
+                }
+            )
+        except asyncio.TimeoutError:
+            logger.warning(
+                "ask_chorui orchestrator exceeded %.1fs — returning voice apology",
+                VAPI_ASK_CHORUI_TIMEOUT_SECONDS,
+            )
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "That's taking longer than expected. Could you ask again in a moment?",
                 }
             )
         except HTTPException as exc:
             detail = exc.detail if isinstance(exc.detail, str) else "Unable to process request right now."
-            results.append({"toolCallId": tool_call_id, "result": detail})
+            results.append(
+                {"toolCallId": tool_call_id, "result": _shape_reply_for_voice(detail)},
+            )
         except Exception:
             logger.exception("Unexpected error while processing Vapi tool call")
             results.append(

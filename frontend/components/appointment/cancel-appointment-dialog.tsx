@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { XCircle, Clock, User, Calendar } from "lucide-react";
+import { XCircle, Clock, User, Calendar, ShieldAlert } from "lucide-react";
 import { useAppI18n, useT } from "@/i18n/client";
 
 interface CancelAppointmentDialogProps {
@@ -179,6 +179,13 @@ export function CancelAppointmentDialog({
                   })()}
                 </div>
               )}
+            </div>
+
+            <div className="flex items-start gap-2 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3 text-xs text-orange-700 dark:text-orange-300">
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>
+                This cancellation will be reviewed by an administrator before it&apos;s finalized. The appointment will remain on the calendar until then.
+              </p>
             </div>
 
             <div className="space-y-2">

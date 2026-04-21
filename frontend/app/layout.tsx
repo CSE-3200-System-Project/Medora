@@ -24,7 +24,10 @@ const sfProDisplay = localFont({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0360D9",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#FFFFFF" },
+  ],
   width: "device-width",
   initialScale: 1,
   minimumScale: 1,

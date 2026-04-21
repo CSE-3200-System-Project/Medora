@@ -35,7 +35,7 @@ import {
   syncAppointmentStatus,
   updateAppointment,
 } from "@/lib/appointment-actions";
-import { getRescheduleHistory, requestReschedule, respondToReschedule } from "@/lib/availability-actions";
+import { getRescheduleHistory, requestReschedule, respondToReschedule, withdrawRescheduleRequest } from "@/lib/availability-actions";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { localDateKey } from "@/lib/utils";
 
@@ -47,6 +47,7 @@ interface RescheduleHistoryItem {
   proposed_date?: string;
   proposed_time?: string;
   status?: string;
+  admin_approval_status?: string | null;
 }
 
 interface RescheduleHistoryPayload {
@@ -322,6 +323,24 @@ export default function DoctorAppointmentsPage() {
   };
 
   const resolveIncomingRescheduleRequest = React.useCallback(async (appointment: DoctorAppointment) => {
+    if (appointment.reschedule_request_id && appointment.proposed_date && appointment.proposed_time) {
+      const adminStatus = String(appointment.reschedule_admin_approval_status || "PENDING").toUpperCase();
+      if (adminStatus !== "APPROVED") {
+        throw new Error("This reschedule request is awaiting admin review.");
+      }
+
+      const requesterRole = String(appointment.reschedule_requested_by_role || "").toLowerCase();
+      if (requesterRole === "doctor") {
+        throw new Error("Waiting for patient response on your reschedule request.");
+      }
+
+      return {
+        id: String(appointment.reschedule_request_id),
+        proposed_date: String(appointment.proposed_date).slice(0, 10),
+        proposed_time: String(appointment.proposed_time),
+      };
+    }
+
     const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
     const requests = Array.isArray(history?.reschedule_requests) ? history.reschedule_requests : [];
 
@@ -338,6 +357,11 @@ export default function DoctorAppointmentsPage() {
       throw new Error("No pending reschedule request is available for this appointment.");
     }
 
+    const adminStatus = String(pendingRequest.admin_approval_status || "PENDING").toUpperCase();
+    if (adminStatus !== "APPROVED") {
+      throw new Error("This reschedule request is awaiting admin review.");
+    }
+
     const requesterRole = String(pendingRequest.requested_by_role || "").toLowerCase();
     if (requesterRole === "doctor") {
       throw new Error("Waiting for patient response on your reschedule request.");
@@ -348,6 +372,29 @@ export default function DoctorAppointmentsPage() {
       proposed_date: String(pendingRequest.proposed_date).slice(0, 10),
       proposed_time: String(pendingRequest.proposed_time),
     };
+  }, []);
+
+  const resolveOwnPendingRescheduleRequest = React.useCallback(async (appointment: DoctorAppointment) => {
+    if (
+      appointment.reschedule_request_id &&
+      String(appointment.reschedule_requested_by_role || "").toLowerCase() === "doctor"
+    ) {
+      return { id: String(appointment.reschedule_request_id) };
+    }
+
+    const history = (await getRescheduleHistory(appointment.id)) as RescheduleHistoryPayload | null;
+    const requests = Array.isArray(history?.reschedule_requests) ? history.reschedule_requests : [];
+    const pendingOwnRequest = requests.find(
+      (request) =>
+        String(request.status || "").toLowerCase() === "pending" &&
+        String(request.requested_by_role || "").toLowerCase() === "doctor",
+    );
+
+    if (!pendingOwnRequest?.id) {
+      throw new Error("No pending reschedule request is available to withdraw.");
+    }
+
+    return { id: String(pendingOwnRequest.id) };
   }, []);
 
   const handleRespondReschedule = async (appointment: DoctorAppointment) => {
@@ -380,6 +427,19 @@ export default function DoctorAppointmentsPage() {
     setRescheduleResponseTarget(null);
     setRescheduleResponseError(null);
     setRescheduleResponseLoading(false);
+  };
+
+  const handleWithdrawReschedule = async (appointment: DoctorAppointment) => {
+    setActionError(null);
+
+    try {
+      const resolved = await resolveOwnPendingRescheduleRequest(appointment);
+      await withdrawRescheduleRequest(resolved.id, "Withdrawn by doctor");
+      await loadAppointments();
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unable to withdraw this reschedule request.";
+      setActionError(errorMessage);
+    }
   };
 
   if (loading) {
@@ -459,6 +519,7 @@ export default function DoctorAppointmentsPage() {
         onCancel={(id) => handleStatusUpdate(id, "CANCELLED")}
         onRescheduleRequest={(appointment) => setRescheduleTarget(appointment)}
         onRespondReschedule={handleRespondReschedule}
+        onWithdrawReschedule={handleWithdrawReschedule}
       />
 
       <RescheduleAppointmentDialog
@@ -572,6 +633,11 @@ function normalizeAppointment(raw: unknown): DoctorAppointment | null {
     cancellation_reason_key: toStringOrNull(row.cancellation_reason_key),
     cancellation_reason_note: toStringOrNull(row.cancellation_reason_note),
     cancelled_at: toStringOrNull(row.cancelled_at),
+    reschedule_request_id: toStringOrNull(row.reschedule_request_id),
+    reschedule_requested_by_role: toStringOrNull(row.reschedule_requested_by_role),
+    proposed_date: toStringOrNull(row.proposed_date),
+    proposed_time: toStringOrNull(row.proposed_time),
+    reschedule_admin_approval_status: toStringOrNull(row.reschedule_admin_approval_status),
     blood_group: toStringOrNull(row.blood_group),
     chronic_conditions: Array.isArray(row.chronic_conditions)
       ? row.chronic_conditions.filter((value): value is string => typeof value === "string")

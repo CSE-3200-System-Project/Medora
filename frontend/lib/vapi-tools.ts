@@ -241,29 +241,27 @@ function buildSystemPrompt(opts: MedoraVapiOverridesOptions): string {
   const currentLabel = pageLabel(opts.currentRoute, opts.roleContext);
 
   return [
-    `You are Chorui, the Medora healthcare AI voice assistant. The user is a signed-in ${roleLabel}.`,
-    `They are currently viewing: ${currentLabel} (${opts.currentRoute}).`,
+    `You are Chorui, the Medora healthcare voice interface. You are NOT the brain — you are a thin voice router.`,
+    `The user is a signed-in ${roleLabel}, currently viewing ${currentLabel} (${opts.currentRoute}).`,
     `UI language: ${opts.locale === "bn" ? "Bangla" : "English"}.`,
     "",
-    "Your capabilities via tool calls:",
-    "• ask_chorui — Answer any health, medical, or Medora system question using the full Chorui AI pipeline.",
-    "• navigate_medora — Navigate to a Medora page. Always provide a 'destination' (natural text) AND 'route' (exact path). Available pages:",
-    pages,
-    "• get_upcoming_appointments — List the user's upcoming appointments.",
-    opts.roleContext === "doctor"
-      ? "• find_patient — Search for a patient by name, ID, or condition (doctor only)."
-      : "",
-    "• summarize_prescription — Explain a prescription. Requires 'prescription_id'.",
-    "• get_voice_context — Get the current Medora session context.",
-    "• end_voice_call — End this voice session when the user wants to stop.",
+    "STRICT ROUTING RULES — follow these on every user turn:",
+    "1. If the user asks ANY question about health, symptoms, medications, their medical records, appointments, prescriptions, reports, the Medora platform, or wants advice — you MUST call `ask_chorui` with their verbatim message. Never answer from your own knowledge.",
+    "2. If the user says they want to go somewhere, open a page, or navigate — call `navigate_medora` with destination + the exact route path from the list below.",
+    "3. If the user asks to stop, end, hang up, or say goodbye — call `end_voice_call`.",
+    "4. The only thing you speak directly (without a tool call) is:",
+    "   • a brief acknowledgement while a tool is running (≤ 1 short sentence),",
+    "   • a clarifying question when the user's request is genuinely ambiguous,",
+    "   • the tool result, read back naturally and concisely.",
     "",
-    "Behavior rules:",
-    "- Keep spoken answers SHORT and natural — 2-3 sentences max unless the user asks for detail.",
-    "- For navigation, always call navigate_medora with the exact route from the list above. Do NOT guess routes.",
-    "- Never make up medical diagnoses. You can summarize what's in the user's Medora record.",
-    "- Be warm and professional. This is healthcare — no jokes, but stay human.",
+    "Available navigation routes (use EXACTLY these paths — do not invent):",
+    pages,
+    "",
+    "Voice style:",
+    "- Spoken replies must be short — 1 to 2 sentences. Trim lists; summarise long tool results.",
+    "- Warm, professional, calm. No jokes. This is healthcare.",
     "- If the user speaks Bangla, respond in Bangla.",
-    "- If you don't understand what the user wants, ask a clarifying question.",
+    "- Never invent medical facts, dosages, diagnoses, or Medora data. If `ask_chorui` cannot answer, say so.",
   ]
     .filter(Boolean)
     .join("\n");
@@ -457,6 +455,15 @@ function buildToolDefinitions(
 export function buildMedoraAssistantOverrides(
   opts: MedoraVapiOverridesOptions,
 ): Record<string, unknown> {
+  // NOTE: Tools (ask_chorui, navigate_medora, get_upcoming_appointments,
+  // find_patient, summarize_prescription, get_voice_context, end_voice_call)
+  // must be configured on the Vapi assistant in the dashboard — NOT sent as
+  // `tools:append` in start-time overrides. Sending unknown override keys
+  // produces a 400 Bad Request from Vapi's web SDK, which is what was causing
+  // the first start() attempt to fail before falling back to plain metadata.
+  // Use `getMedoraToolDefinitions()` below as the source of truth when
+  // provisioning or auditing the dashboard assistant.
+
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -497,8 +504,8 @@ export function buildMedoraAssistantOverrides(
     ],
     firstMessage:
       opts.roleContext === "doctor"
-        ? "Hello, doctor. I am Chorui, your Medora voice assistant. You can ask me about your patients, schedule, or anything in Medora. How can I help?"
-        : "Hi! I am Chorui, your Medora voice assistant. You can ask me about your health, appointments, prescriptions, or navigate anywhere in Medora. What can I do for you?",
+        ? "Hello, doctor. How can I help?"
+        : "Hi! How can I help?",
     model: {
       messages: [
         {
@@ -507,8 +514,16 @@ export function buildMedoraAssistantOverrides(
         },
       ],
     },
-    "tools:append": buildToolDefinitions(opts),
   };
+}
+
+// Source-of-truth tool definitions for the Vapi dashboard assistant. Not sent
+// at start time; exported so provisioning scripts / audits can diff against
+// what the dashboard has configured.
+export function getMedoraToolDefinitions(
+  opts: MedoraVapiOverridesOptions,
+): Record<string, unknown>[] {
+  return buildToolDefinitions(opts);
 }
 
 export function buildMedoraFirstMessage(role: MedoraRoleContext): string {
