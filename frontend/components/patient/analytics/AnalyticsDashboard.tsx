@@ -25,20 +25,21 @@ import { getMetricTrends, getTodayMetrics, logHealthMetric, type HealthMetricTre
 import { listMyConsents, revokeHealthDataConsent, type HealthDataConsent } from "@/lib/health-data-consent-actions";
 import { getReminders } from "@/lib/reminder-actions";
 import { formatMeridiemTime } from "@/lib/utils";
+import { useAppI18n, useT } from "@/i18n/client";
 
-const WEEKDAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"] as const;
 const REMINDER_POLL_VISIBLE_MS = 10 * 60_000;
 const REMINDER_POLL_HIDDEN_MS = 60 * 60_000;
 
-type DateRangeOption = { label: string; days: number; key: string };
+type DateRangeOption = { labelKey: string; days: number; key: string };
 const DATE_RANGE_OPTIONS: DateRangeOption[] = [
-  { label: "7 Days", days: 7, key: "7d" },
-  { label: "14 Days", days: 14, key: "14d" },
-  { label: "1 Month", days: 30, key: "30d" },
-  { label: "3 Months", days: 90, key: "90d" },
-  { label: "6 Months", days: 180, key: "6mo" },
-  { label: "1 Year", days: 365, key: "1yr" },
-  { label: "2 Years", days: 730, key: "2yr" },
+  { labelKey: "analytics.dateRanges.sevenDays", days: 7, key: "7d" },
+  { labelKey: "analytics.dateRanges.fourteenDays", days: 14, key: "14d" },
+  { labelKey: "analytics.dateRanges.oneMonth", days: 30, key: "30d" },
+  { labelKey: "analytics.dateRanges.threeMonths", days: 90, key: "90d" },
+  { labelKey: "analytics.dateRanges.sixMonths", days: 180, key: "6mo" },
+  { labelKey: "analytics.dateRanges.oneYear", days: 365, key: "1yr" },
+  { labelKey: "analytics.dateRanges.twoYears", days: 730, key: "2yr" },
 ];
 
 type DailyDoseSummary = {
@@ -49,18 +50,56 @@ type DailyDoseSummary = {
 
 type MetricCardConfig = {
   key: "steps" | "sleep_hours" | "heart_rate" | "blood_pressure_systolic";
-  label: string;
+  labelKey: string;
+  unitKey: string;
   unit: string;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
+  inputPlaceholderKey: string;
   normalRange?: { min: number; max: number };
 };
 
 const METRIC_CARDS: MetricCardConfig[] = [
-  { key: "steps", label: "Steps", unit: "steps", icon: Footprints, color: "text-emerald-500", normalRange: { min: 5000, max: 15000 } },
-  { key: "sleep_hours", label: "Sleep", unit: "hrs", icon: MoonStar, color: "text-indigo-400", normalRange: { min: 7, max: 9 } },
-  { key: "heart_rate", label: "Heart Rate", unit: "bpm", icon: Heart, color: "text-rose-400", normalRange: { min: 60, max: 100 } },
-  { key: "blood_pressure_systolic", label: "Blood Pressure", unit: "mmHg", icon: Waves, color: "text-sky-400", normalRange: { min: 90, max: 130 } },
+  {
+    key: "steps",
+    labelKey: "analytics.metricCards.steps.label",
+    unitKey: "analytics.metricCards.steps.unit",
+    unit: "steps",
+    inputPlaceholderKey: "analytics.metricCards.steps.placeholder",
+    icon: Footprints,
+    color: "text-emerald-500",
+    normalRange: { min: 5000, max: 15000 },
+  },
+  {
+    key: "sleep_hours",
+    labelKey: "analytics.metricCards.sleep.label",
+    unitKey: "analytics.metricCards.sleep.unit",
+    unit: "hrs",
+    inputPlaceholderKey: "analytics.metricCards.sleep.placeholder",
+    icon: MoonStar,
+    color: "text-indigo-400",
+    normalRange: { min: 7, max: 9 },
+  },
+  {
+    key: "heart_rate",
+    labelKey: "analytics.metricCards.heartRate.label",
+    unitKey: "analytics.metricCards.heartRate.unit",
+    unit: "bpm",
+    inputPlaceholderKey: "analytics.metricCards.heartRate.placeholder",
+    icon: Heart,
+    color: "text-rose-400",
+    normalRange: { min: 60, max: 100 },
+  },
+  {
+    key: "blood_pressure_systolic",
+    labelKey: "analytics.metricCards.bloodPressure.label",
+    unitKey: "analytics.metricCards.bloodPressure.unit",
+    unit: "mmHg",
+    inputPlaceholderKey: "analytics.metricCards.bloodPressure.placeholder",
+    icon: Waves,
+    color: "text-sky-400",
+    normalRange: { min: 90, max: 130 },
+  },
 ];
 
 export type AnalyticsReminder = {
@@ -75,6 +114,8 @@ type AnalyticsDashboardProps = {
   initialReminders?: AnalyticsReminder[];
   initialLoadError?: string | null;
 };
+
+type TranslateFn = ReturnType<typeof useT>;
 
 /* ---- Mini sparkline SVG ---- */
 function Sparkline({ points, color }: { points: HealthMetricTrendPoint[]; color: string }) {
@@ -124,24 +165,24 @@ function getTrendDirection(points: HealthMetricTrendPoint[]): "up" | "down" | "f
   return "flat";
 }
 
-function TrendBadge({ direction }: { direction: "up" | "down" | "flat" }) {
+function TrendBadge({ direction, tCommon }: { direction: "up" | "down" | "flat"; tCommon: TranslateFn }) {
   if (direction === "up") {
     return (
       <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[0.65rem] font-semibold text-emerald-500">
-        <TrendingUp className="h-3 w-3" /> Up
+        <TrendingUp className="h-3 w-3" /> {tCommon("analytics.trend.up")}
       </span>
     );
   }
   if (direction === "down") {
     return (
       <span className="inline-flex items-center gap-0.5 rounded-full bg-rose-500/10 px-1.5 py-0.5 text-[0.65rem] font-semibold text-rose-500">
-        <TrendingDown className="h-3 w-3" /> Down
+        <TrendingDown className="h-3 w-3" /> {tCommon("analytics.trend.down")}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-0.5 rounded-full bg-muted px-1.5 py-0.5 text-[0.65rem] font-semibold text-muted-foreground">
-      <Minus className="h-3 w-3" /> Stable
+      <Minus className="h-3 w-3" /> {tCommon("analytics.trend.stable")}
     </span>
   );
 }
@@ -150,6 +191,8 @@ export default function AnalyticsDashboard({
   initialReminders = [],
   initialLoadError = null,
 }: AnalyticsDashboardProps) {
+  const tCommon = useT("common");
+  const { locale } = useAppI18n();
   const [reminders, setReminders] = React.useState<AnalyticsReminder[]>(initialReminders);
   const [loadError, setLoadError] = React.useState<string | null>(initialLoadError);
   const [statusOverrides, setStatusOverrides] = React.useState<Record<string, MedicationStatus>>({});
@@ -190,7 +233,7 @@ export default function AnalyticsDashboard({
         setReminders(nextReminders);
         setLoadError(null);
       } catch {
-        if (!isDisposed) setLoadError("Unable to refresh live reminders right now.");
+        if (!isDisposed) setLoadError(tCommon("analytics.errors.refreshRemindersFailed"));
       }
     };
 
@@ -215,7 +258,7 @@ export default function AnalyticsDashboard({
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.clearInterval(clockInterval);
     };
-  }, []);
+  }, [tCommon]);
 
   const loadMetricData = React.useCallback(async () => {
     setMetricsLoading(true);
@@ -273,9 +316,11 @@ export default function AnalyticsDashboard({
       await revokeHealthDataConsent(consentId);
       setConsents((prev) => prev.map((c) => (c.id === consentId ? { ...c, is_active: false, revoked_at: new Date().toISOString() } : c)));
     } catch {
-      setLoadError("Failed to revoke consent.");
+      setLoadError(tCommon("analytics.errors.revokeConsentFailed"));
     }
   };
+
+  const selectedRangeLabel = tCommon(selectedRange.labelKey);
 
   const medications = React.useMemo(() => {
     const currentDate = new Date(clock);
@@ -367,8 +412,8 @@ export default function AnalyticsDashboard({
     const recentDays = dailySummaries.slice(-13).map((item) => ({
       id: formatDateId(item.date),
       dayNumber: item.date.getDate(),
-      weekday: WEEKDAY_SHORT[item.date.getDay()],
-      displayDate: formatDisplayDate(item.date),
+      weekday: tCommon(`analytics.weekdays.${WEEKDAY_KEYS[item.date.getDay()]}`),
+      displayDate: formatDisplayDate(item.date, locale),
       level: getHeatLevel(item),
     }));
 
@@ -376,20 +421,20 @@ export default function AnalyticsDashboard({
     recentDays.push({
       id: `${formatDateId(futureDate)}-future`,
       dayNumber: futureDate.getDate(),
-      weekday: WEEKDAY_SHORT[futureDate.getDay()],
-      displayDate: formatDisplayDate(futureDate),
+      weekday: tCommon(`analytics.weekdays.${WEEKDAY_KEYS[futureDate.getDay()]}`),
+      displayDate: formatDisplayDate(futureDate, locale),
       level: "future",
     });
 
     return recentDays;
-  }, [dailySummaries]);
+  }, [dailySummaries, locale, tCommon]);
 
   const missedDoseData = React.useMemo<MissedDosePoint[]>(() => {
     return dailySummaries.map((item) => ({
-      label: `${item.date.getDate()} ${WEEKDAY_SHORT[item.date.getDay()]}`,
+      label: `${item.date.getDate()} ${tCommon(`analytics.weekdays.${WEEKDAY_KEYS[item.date.getDay()]}`)}`,
       missed: Math.max(0, item.total - item.taken),
     }));
-  }, [dailySummaries]);
+  }, [dailySummaries, tCommon]);
 
   const takeMedication = (id: string) => setStatusOverrides((c) => ({ ...c, [id]: "taken" }));
   const skipMedication = (id: string) => setStatusOverrides((c) => ({ ...c, [id]: "skipped" }));
@@ -415,7 +460,7 @@ export default function AnalyticsDashboard({
       setMetricField(valueKey, "");
       await loadMetricData();
     } catch {
-      setLoadError("Unable to save health metric right now.");
+      setLoadError(tCommon("analytics.errors.saveMetricFailed"));
     }
   };
 
@@ -432,7 +477,7 @@ export default function AnalyticsDashboard({
       setMetricField("blood_pressure_diastolic", "");
       await loadMetricData();
     } catch {
-      setLoadError("Unable to save blood pressure right now.");
+      setLoadError(tCommon("analytics.errors.saveBloodPressureFailed"));
     }
   };
 
@@ -444,12 +489,12 @@ export default function AnalyticsDashboard({
           {/* Header */}
           <section className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">Patient / Reminders</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">{tCommon("analytics.header.breadcrumb")}</p>
               <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                Health &amp; Medication Analytics
+                {tCommon("analytics.header.title")}
               </h1>
               <p className="mt-0.5 text-sm text-muted-foreground">
-                Real-time health tracking, adherence summary, and trend insights.
+                {tCommon("analytics.header.subtitle")}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -464,7 +509,7 @@ export default function AnalyticsDashboard({
                       : "border-border/60 bg-card/80 text-muted-foreground hover:border-primary/30 hover:text-foreground"
                   }`}
                 >
-                  {opt.label}
+                  {tCommon(opt.labelKey)}
                 </button>
               ))}
             </div>
@@ -483,9 +528,12 @@ export default function AnalyticsDashboard({
           <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {METRIC_CARDS.map((card) => {
               const Icon = card.icon;
+              const label = tCommon(card.labelKey);
+              const unit = tCommon(card.unitKey);
               const todayData = todayMetricSummary[card.key];
               const points = trendData[card.key] ?? [];
               const trend = getTrendDirection(points);
+              const periodAverage = trendSummary[card.key] ?? tCommon("analytics.shared.notAvailable");
               const isInRange =
                 todayData && card.normalRange
                   ? todayData.raw >= card.normalRange.min && todayData.raw <= card.normalRange.max
@@ -500,9 +548,9 @@ export default function AnalyticsDashboard({
                         <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-muted/70 ${card.color}`}>
                           <Icon className="h-4 w-4" />
                         </div>
-                        <span className="text-sm font-semibold text-foreground">{card.label}</span>
+                        <span className="text-sm font-semibold text-foreground">{label}</span>
                       </div>
-                      <TrendBadge direction={trend} />
+                      <TrendBadge direction={trend} tCommon={tCommon} />
                     </div>
 
                     {/* Value */}
@@ -510,10 +558,10 @@ export default function AnalyticsDashboard({
                       <span className="text-2xl font-bold tabular-nums text-foreground">
                         {todayData?.value?.split(" ")[0] ?? "--"}
                       </span>
-                      <span className="text-xs text-muted-foreground">{card.unit}</span>
+                      <span className="text-xs text-muted-foreground">{unit}</span>
                       {isInRange !== null && (
                         <span className={`ml-auto text-[0.65rem] font-medium ${isInRange ? "text-emerald-500" : "text-amber-500"}`}>
-                          {isInRange ? "Normal" : "Check"}
+                          {isInRange ? tCommon("analytics.metricCards.normal") : tCommon("analytics.metricCards.check")}
                         </span>
                       )}
                     </div>
@@ -523,13 +571,13 @@ export default function AnalyticsDashboard({
                       {points.length >= 2 ? (
                         <Sparkline points={points} color={card.color} />
                       ) : (
-                        <div className="flex h-full items-center text-xs text-muted-foreground/60">No trend data yet</div>
+                        <div className="flex h-full items-center text-xs text-muted-foreground/60">{tCommon("analytics.metricCards.noTrendData")}</div>
                       )}
                     </div>
 
                     {/* Period average */}
                     <p className="text-[0.7rem] text-muted-foreground">
-                      {selectedRange.label} avg: <span className="font-medium text-foreground/80">{trendSummary[card.key] ?? "N/A"}</span>
+                      {tCommon("analytics.metricCards.periodAverage", { range: selectedRangeLabel, value: periodAverage })}
                     </p>
 
                     {/* Input */}
@@ -539,20 +587,20 @@ export default function AnalyticsDashboard({
                           <input
                             className="h-9 rounded-lg border border-border bg-background px-2.5 text-sm outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20"
                             inputMode="numeric"
-                            placeholder="Sys"
+                            placeholder={tCommon("analytics.metricCards.bloodPressure.sys")}
                             value={metricValues.blood_pressure_systolic}
                             onChange={(e) => setMetricField("blood_pressure_systolic", e.target.value)}
                           />
                           <input
                             className="h-9 rounded-lg border border-border bg-background px-2.5 text-sm outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20"
                             inputMode="numeric"
-                            placeholder="Dia"
+                            placeholder={tCommon("analytics.metricCards.bloodPressure.dia")}
                             value={metricValues.blood_pressure_diastolic}
                             onChange={(e) => setMetricField("blood_pressure_diastolic", e.target.value)}
                           />
                         </div>
                         <Button size="sm" className="h-8 w-full text-xs" onClick={() => void submitBloodPressure()} disabled={metricsLoading}>
-                          Log BP
+                          {tCommon("analytics.metricCards.logBloodPressure")}
                         </Button>
                       </div>
                     ) : (
@@ -560,12 +608,12 @@ export default function AnalyticsDashboard({
                         <input
                           className="h-9 w-full rounded-lg border border-border bg-background px-2.5 text-sm outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20"
                           inputMode="numeric"
-                          placeholder={`Log ${card.label.toLowerCase()}`}
+                          placeholder={tCommon(card.inputPlaceholderKey)}
                           value={metricValues[card.key] ?? ""}
                           onChange={(e) => setMetricField(card.key, e.target.value)}
                         />
                         <Button size="sm" className="h-9 px-4 text-xs" onClick={() => void submitMetric(card.key, card.unit, card.key)} disabled={metricsLoading}>
-                          Log
+                          {tCommon("analytics.shared.log")}
                         </Button>
                       </div>
                     )}
@@ -601,15 +649,15 @@ export default function AnalyticsDashboard({
               total: medications.length,
               due: medications.filter((item) => item.status === "due" || item.status === "snoozed").length,
               skipped: medications.filter((item) => item.status === "skipped").length,
-            })}
+            }, tCommon)}
           />
 
           {/* Detailed Health Metrics Breakdown */}
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <Activity className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold text-foreground">Detailed Health Metrics</h2>
-              <span className="ml-auto text-xs text-muted-foreground">{selectedRange.label} overview</span>
+              <h2 className="text-lg font-semibold text-foreground">{tCommon("analytics.details.title")}</h2>
+              <span className="ml-auto text-xs text-muted-foreground">{tCommon("analytics.details.overview", { range: selectedRangeLabel })}</span>
             </div>
 
             {METRIC_CARDS.map((card) => {
@@ -624,7 +672,8 @@ export default function AnalyticsDashboard({
               const latest = values[values.length - 1];
               const totalEntries = points.reduce((s, p) => s + p.entries, 0);
               const trend = getTrendDirection(points);
-              const unit = card.unit;
+              const label = tCommon(card.labelKey);
+              const unit = tCommon(card.unitKey);
 
               return (
                 <Card key={card.key} className="border-border/60 bg-card/95 shadow-sm">
@@ -635,29 +684,31 @@ export default function AnalyticsDashboard({
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-semibold text-foreground">{card.label}</h3>
-                          <TrendBadge direction={trend} />
+                          <h3 className="text-sm font-semibold text-foreground">{label}</h3>
+                          <TrendBadge direction={trend} tCommon={tCommon} />
                         </div>
-                        <p className="text-xs text-muted-foreground">{totalEntries} entries over {selectedRange.label.toLowerCase()}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {tCommon("analytics.details.entriesOverRange", { count: totalEntries, range: selectedRangeLabel })}
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold tabular-nums text-foreground">{latest?.toFixed(1)} <span className="text-xs font-normal text-muted-foreground">{unit}</span></p>
-                        <p className="text-[0.65rem] text-muted-foreground">latest</p>
+                        <p className="text-[0.65rem] text-muted-foreground">{tCommon("analytics.details.latest")}</p>
                       </div>
                     </div>
 
                     {/* Stats row */}
                     <div className="grid grid-cols-3 gap-3 rounded-lg bg-muted/40 p-3">
                       <div className="text-center">
-                        <p className="text-xs text-muted-foreground">Min</p>
+                        <p className="text-xs text-muted-foreground">{tCommon("analytics.details.min")}</p>
                         <p className="text-sm font-semibold tabular-nums text-foreground">{min.toFixed(1)} {unit}</p>
                       </div>
                       <div className="text-center border-x border-border/40">
-                        <p className="text-xs text-muted-foreground">Avg</p>
+                        <p className="text-xs text-muted-foreground">{tCommon("analytics.details.avg")}</p>
                         <p className="text-sm font-semibold tabular-nums text-foreground">{avg.toFixed(1)} {unit}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-xs text-muted-foreground">Max</p>
+                        <p className="text-xs text-muted-foreground">{tCommon("analytics.details.max")}</p>
                         <p className="text-sm font-semibold tabular-nums text-foreground">{max.toFixed(1)} {unit}</p>
                       </div>
                     </div>
@@ -670,12 +721,12 @@ export default function AnalyticsDashboard({
                     {/* Normal range indicator */}
                     {card.normalRange && (
                       <div className="mt-2 flex items-center gap-2 text-xs">
-                        <span className="text-muted-foreground">Normal range:</span>
+                        <span className="text-muted-foreground">{tCommon("analytics.details.normalRange")}</span>
                         <span className="font-medium text-foreground/80">{card.normalRange.min} - {card.normalRange.max} {unit}</span>
                         {avg >= card.normalRange.min && avg <= card.normalRange.max ? (
-                          <span className="ml-auto rounded-full bg-emerald-500/10 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-500">Within range</span>
+                          <span className="ml-auto rounded-full bg-emerald-500/10 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-500">{tCommon("analytics.details.withinRange")}</span>
                         ) : (
-                          <span className="ml-auto rounded-full bg-amber-500/10 px-2 py-0.5 text-[0.65rem] font-semibold text-amber-500">Outside range</span>
+                          <span className="ml-auto rounded-full bg-amber-500/10 px-2 py-0.5 text-[0.65rem] font-semibold text-amber-500">{tCommon("analytics.details.outsideRange")}</span>
                         )}
                       </div>
                     )}
@@ -688,7 +739,7 @@ export default function AnalyticsDashboard({
               <Card className="border-border/60 bg-card/95">
                 <CardContent className="py-8 text-center">
                   <Activity className="mx-auto h-8 w-8 text-muted-foreground/40" />
-                  <p className="mt-2 text-sm text-muted-foreground">No health metric data yet. Log metrics above to see detailed breakdowns.</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{tCommon("analytics.details.noMetricData")}</p>
                 </CardContent>
               </Card>
             )}
@@ -698,16 +749,16 @@ export default function AnalyticsDashboard({
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold text-foreground">Health Data Sharing</h2>
+              <h2 className="text-lg font-semibold text-foreground">{tCommon("analytics.dataSharing.title")}</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              Control which doctors can view your health metrics for better diagnosis. You can revoke access at any time.
+              {tCommon("analytics.dataSharing.subtitle")}
             </p>
 
             {consentsLoading ? (
               <div className="space-y-3 rounded-xl border border-border/60 bg-card/80 p-4">
                 <div className="flex justify-center py-1">
-                  <MedoraLoader size="md" label="Loading data sharing status..." />
+                  <MedoraLoader size="md" label={tCommon("analytics.dataSharing.loading") } />
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">
                   <CardSkeleton />
@@ -721,9 +772,9 @@ export default function AnalyticsDashboard({
                     <UserCheck className="h-5 w-5 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">No doctors have access yet</p>
+                    <p className="text-sm font-medium text-foreground">{tCommon("analytics.dataSharing.emptyTitle")}</p>
                     <p className="text-xs text-muted-foreground">
-                      Visit a doctor&apos;s profile or consultation page to share your health data with them.
+                      {tCommon("analytics.dataSharing.emptySubtitle")}
                     </p>
                   </div>
                 </CardContent>
@@ -742,11 +793,11 @@ export default function AnalyticsDashboard({
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-medium text-foreground">{consent.doctor_name || "Doctor"}</p>
+                          <p className="truncate text-sm font-medium text-foreground">{consent.doctor_name || tCommon("analytics.dataSharing.doctorFallback")}</p>
                           <p className="text-xs text-muted-foreground">
                             {consent.is_active
-                              ? `Shared since ${new Date(consent.granted_at).toLocaleDateString()}`
-                              : "Access revoked"}
+                              ? tCommon("analytics.dataSharing.sharedSince", { date: new Date(consent.granted_at).toLocaleDateString(getLocaleTag(locale)) })
+                              : tCommon("analytics.dataSharing.accessRevoked")}
                           </p>
                         </div>
                       </div>
@@ -757,7 +808,7 @@ export default function AnalyticsDashboard({
                           className="shrink-0 text-xs text-destructive border-destructive/30 hover:bg-destructive/10"
                           onClick={() => void handleRevokeConsent(consent.id)}
                         >
-                          Revoke
+                          {tCommon("analytics.dataSharing.revoke")}
                         </Button>
                       )}
                     </CardContent>
@@ -776,17 +827,17 @@ export default function AnalyticsDashboard({
               <BellRing className="h-5 w-5 text-primary" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-foreground">Medication Due</p>
+              <p className="text-sm font-semibold text-foreground">{tCommon("analytics.dueAlert.title")}</p>
               <p className="mt-1 text-sm text-foreground">
                 {dueMedication.name} {dueMedication.dose}
               </p>
-              <p className="text-xs text-muted-foreground">Take now</p>
+              <p className="text-xs text-muted-foreground">{tCommon("analytics.dueAlert.takeNow")}</p>
               <div className="mt-2 flex gap-2">
                 <Button size="sm" onClick={() => takeMedication(dueMedication.id)}>
-                  Take
+                  {tCommon("analytics.medicationItem.take")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => snoozeMedication(dueMedication.id)}>
-                  Snooze
+                  {tCommon("analytics.dueAlert.snooze")}
                 </Button>
               </div>
             </div>
@@ -831,19 +882,26 @@ function getMondayBasedDayIndex(currentDate: Date): number {
   return currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1;
 }
 
-function buildInsightMessage({ total, due, skipped }: { total: number; due: number; skipped: number }): string {
-  if (total === 0) return "No active medication reminders for today yet. Add reminders from Medical History to start live analytics tracking.";
-  if (skipped > 0) return `${skipped} reminder${skipped > 1 ? "s" : ""} already missed today. Consider adjusting reminder times for better adherence.`;
-  if (due > 0) return `${due} dose${due > 1 ? "s are" : " is"} due right now. Complete them to improve today's adherence score.`;
-  return "Great progress. All upcoming reminders are on track for today.";
+function buildInsightMessage(
+  { total, due, skipped }: { total: number; due: number; skipped: number },
+  tCommon: TranslateFn,
+): string {
+  if (total === 0) return tCommon("analytics.insight.empty");
+  if (skipped > 0) return tCommon("analytics.insight.skipped", { count: skipped });
+  if (due > 0) return tCommon("analytics.insight.due", { count: due });
+  return tCommon("analytics.insight.onTrack");
 }
 
 function formatDateId(date: Date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
-function formatDisplayDate(date: Date) {
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+function formatDisplayDate(date: Date, locale: string) {
+  return date.toLocaleDateString(getLocaleTag(locale), { month: "short", day: "numeric" });
+}
+
+function getLocaleTag(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
 }
 
 function getHeatLevel(day: DailyDoseSummary): HeatmapDay["level"] {

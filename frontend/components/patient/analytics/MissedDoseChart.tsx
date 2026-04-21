@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 export type MissedDosePoint = {
   label: string;
@@ -15,12 +16,14 @@ type MissedDoseChartProps = {
 };
 
 export function MissedDoseChart({ data }: MissedDoseChartProps) {
+  const tCommon = useT("common");
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3 pb-2">
-        <CardTitle className="text-xl">Missed Dose Trend</CardTitle>
+        <CardTitle className="text-xl">{tCommon("analytics.missedDoseChart.title")}</CardTitle>
         <Badge variant="secondary" className="rounded-full">
-          Last 30 days
+          {tCommon("analytics.missedDoseChart.last30Days")}
         </Badge>
       </CardHeader>
       <CardContent>
