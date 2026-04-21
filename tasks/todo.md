@@ -259,6 +259,31 @@
 
 # AI Navigation Phase 7 - Testing and Edge Cases (2026-04-09)
 
+# Patient Navigation + Medical History + Analytics + Profile + Settings Localization (2026-04-21)
+
+## Status: in-progress (awaiting plan verification)
+
+### Todo
+- [ ] Audit all target pages/components for user-facing hardcoded strings and map them to existing/new keys
+- [ ] Localize Patient Medical History page shell and all tab labels/states (timeline, medications, tests, surgeries, hospitalizations, vaccinations, visits, reports)
+- [ ] Localize all Medical History child components (timeline filters/cards/groups, managers, charts, dialogs/modals, report upload/detail/list states)
+- [ ] Localize Patient Analytics page and child components (cards, badges, tooltips, inputs, CTA text, alerts, loading/empty/error states)
+- [ ] Localize Patient Profile page and all section labels/cards/CTAs/empty/error/loading states
+- [ ] Localize remaining hardcoded Settings page copy using existing settings/common namespaces
+- [ ] Localize remaining navigation/menu text in navbar for loading states and mobile drawer labels
+- [ ] Add EN/BN translation key parity in existing namespaces (`common.*`, `settings.*`, `nav.*`) without changing translation architecture
+- [ ] Run focused diagnostics to ensure no missing keys/fallbacks in touched files
+
+### Review
+- Phase 1 scan found extensive hardcoded strings in the requested scope, primarily in:
+   - `frontend/components/medical-history/pages/patient-medical-history-client.tsx`
+   - `frontend/components/medical-history/*.tsx` (timeline filters/cards/groups, surgery/hospitalization/vaccination managers, summary/chart cards)
+   - `frontend/components/patient/analytics/*.tsx`
+   - `frontend/components/screens/pages/home/patient/home-patient-profile-client.tsx`
+   - `frontend/components/screens/pages/home/settings/home-settings-client.tsx`
+- `frontend/components/ui/navbar.tsx` is mostly localized via `nav.*`, but still contains a few hardcoded user-facing strings (loading aria labels, app name text in mobile sheet title).
+- Existing i18n architecture is already suitable (`useT` + namespaces in `common`, `nav`, `settings`), so implementation can reuse it directly without introducing new translation logic.
+
 ## Status: completed
 
 ### Todo

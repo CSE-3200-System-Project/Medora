@@ -1,4 +1,8 @@
 {
+  "appName": "Medora",
+  "userFallback": "ব্যবহারকারী",
+  "loadingNavigation": "নেভিগেশন লোড হচ্ছে",
+  "loadingMenuItems": "মেনু আইটেম লোড হচ্ছে",
   "logIn": "লগ ইন",
   "signUp": "সাইন আপ",
   "profile": "প্রোফাইল",
