@@ -101,15 +101,18 @@ export function normalizeMealInstruction(value?: string | null): MealInstruction
 }
 
 function buildScheduleFromAmounts(amounts: [string, string, string, string]): DoseSchedule {
+  const mergedNightAmount = amounts[3] !== "0" ? amounts[3] : amounts[2];
+  const hasNight = amounts[3] !== "0" || amounts[2] !== "0";
   return {
     dose_morning: amounts[0] !== "0",
     dose_afternoon: amounts[1] !== "0",
-    dose_evening: amounts[2] !== "0",
-    dose_night: amounts[3] !== "0",
+    // Legacy compatibility: evening is deprecated and merged into night.
+    dose_evening: false,
+    dose_night: hasNight,
     dose_morning_amount: amounts[0] === "0" ? "1" : normalizeDoseAmount(amounts[0]),
     dose_afternoon_amount: amounts[1] === "0" ? "1" : normalizeDoseAmount(amounts[1]),
-    dose_evening_amount: amounts[2] === "0" ? "1" : normalizeDoseAmount(amounts[2]),
-    dose_night_amount: amounts[3] === "0" ? "1" : normalizeDoseAmount(amounts[3]),
+    dose_evening_amount: "1",
+    dose_night_amount: mergedNightAmount === "0" ? "1" : normalizeDoseAmount(mergedNightAmount),
   };
 }
 
@@ -127,6 +130,14 @@ export function parseDoseScheduleFromFrequency(frequency?: string | null): DoseS
       parts[1] ?? "0",
       parts[2] ?? "0",
       parts[3] ?? "0",
+    ]);
+  }
+  if (parts.length === 3 && parts.every((part) => /^(\d+(\.\d+)?)$/.test(part))) {
+    return buildScheduleFromAmounts([
+      parts[0] ?? "0",
+      parts[1] ?? "0",
+      parts[2] ?? "0",
+      "0",
     ]);
   }
 
@@ -157,8 +168,8 @@ export function parseDoseScheduleFromFrequency(frequency?: string | null): DoseS
   return {
     dose_morning,
     dose_afternoon,
-    dose_evening,
-    dose_night,
+    dose_evening: false,
+    dose_night: dose_night || dose_evening,
     dose_morning_amount: "1",
     dose_afternoon_amount: "1",
     dose_evening_amount: "1",
@@ -168,32 +179,32 @@ export function parseDoseScheduleFromFrequency(frequency?: string | null): DoseS
 
 export function buildFrequencyFromDoseSchedule(schedule: DoseSchedule): string {
   const morning = schedule.dose_morning ? normalizeDoseAmount(schedule.dose_morning_amount) : "0";
-  const afternoon = schedule.dose_afternoon ? normalizeDoseAmount(schedule.dose_afternoon_amount) : "0";
-  const evening = schedule.dose_evening ? normalizeDoseAmount(schedule.dose_evening_amount) : "0";
-  const night = schedule.dose_night ? normalizeDoseAmount(schedule.dose_night_amount) : "0";
-  return [morning, afternoon, evening, night].join("+");
+  const noon = schedule.dose_afternoon ? normalizeDoseAmount(schedule.dose_afternoon_amount) : "0";
+  const night = (schedule.dose_night || schedule.dose_evening)
+    ? normalizeDoseAmount(schedule.dose_night_amount || schedule.dose_evening_amount)
+    : "0";
+  // New format: Morning+Noon+Night
+  return [morning, noon, night].join("+");
 }
 
 export function toPatientMedication(medication: BackendPatientMedication): PatientMedication {
   const parsedSchedule = parseDoseScheduleFromFrequency(medication.frequency);
   const dose_morning = medication.dose_morning ?? parsedSchedule.dose_morning;
   const dose_afternoon = medication.dose_afternoon ?? parsedSchedule.dose_afternoon;
-  const dose_evening = medication.dose_evening ?? parsedSchedule.dose_evening;
-  const dose_night = medication.dose_night ?? parsedSchedule.dose_night;
+  const dose_night = medication.dose_night ?? medication.dose_evening ?? parsedSchedule.dose_night;
 
   const schedule: DoseSchedule = {
     dose_morning,
     dose_afternoon,
-    dose_evening,
+    dose_evening: false,
     dose_night,
     dose_morning_amount:
       medication.dose_morning_amount ?? parsedSchedule.dose_morning_amount,
     dose_afternoon_amount:
       medication.dose_afternoon_amount ?? parsedSchedule.dose_afternoon_amount,
-    dose_evening_amount:
-      medication.dose_evening_amount ?? parsedSchedule.dose_evening_amount,
+    dose_evening_amount: "1",
     dose_night_amount:
-      medication.dose_night_amount ?? parsedSchedule.dose_night_amount,
+      medication.dose_night_amount ?? medication.dose_evening_amount ?? parsedSchedule.dose_night_amount,
   };
 
   const fallbackName = medication.display_name || medication.name || "";
@@ -218,11 +229,11 @@ export function toPatientMedication(medication: BackendPatientMedication): Patie
     notes: medication.notes || undefined,
     dose_morning: schedule.dose_morning,
     dose_afternoon: schedule.dose_afternoon,
-    dose_evening: schedule.dose_evening,
+    dose_evening: false,
     dose_night: schedule.dose_night,
     dose_morning_amount: schedule.dose_morning_amount,
     dose_afternoon_amount: schedule.dose_afternoon_amount,
-    dose_evening_amount: schedule.dose_evening_amount,
+    dose_evening_amount: "1",
     dose_night_amount: schedule.dose_night_amount,
     meal_instruction: normalizeMealInstruction(medication.meal_instruction),
   };
@@ -232,12 +243,12 @@ export function toBackendPatientMedication(medication: PatientMedication): Backe
   const schedule: DoseSchedule = {
     dose_morning: Boolean(medication.dose_morning),
     dose_afternoon: Boolean(medication.dose_afternoon),
-    dose_evening: Boolean(medication.dose_evening),
-    dose_night: Boolean(medication.dose_night),
+    dose_evening: false,
+    dose_night: Boolean(medication.dose_night || medication.dose_evening),
     dose_morning_amount: normalizeDoseAmount(medication.dose_morning_amount),
     dose_afternoon_amount: normalizeDoseAmount(medication.dose_afternoon_amount),
-    dose_evening_amount: normalizeDoseAmount(medication.dose_evening_amount),
-    dose_night_amount: normalizeDoseAmount(medication.dose_night_amount),
+    dose_evening_amount: "1",
+    dose_night_amount: normalizeDoseAmount(medication.dose_night_amount || medication.dose_evening_amount),
   };
 
   const frequency = buildFrequencyFromDoseSchedule(schedule);
@@ -250,11 +261,11 @@ export function toBackendPatientMedication(medication: PatientMedication): Backe
     prescribing_doctor: medication.prescribing_doctor || null,
     dose_morning: schedule.dose_morning,
     dose_afternoon: schedule.dose_afternoon,
-    dose_evening: schedule.dose_evening,
+    dose_evening: false,
     dose_night: schedule.dose_night,
     dose_morning_amount: schedule.dose_morning_amount,
     dose_afternoon_amount: schedule.dose_afternoon_amount,
-    dose_evening_amount: schedule.dose_evening_amount,
+    dose_evening_amount: "1",
     dose_night_amount: schedule.dose_night_amount,
     meal_instruction: normalizeMealInstruction(medication.meal_instruction),
     drug_id: medication.drug_id || null,
@@ -284,13 +295,10 @@ export function formatDoseScheduleSummary(medication: {
     entries.push(`Morning (${normalizeDoseAmount(medication.dose_morning_amount)})`);
   }
   if (medication.dose_afternoon) {
-    entries.push(`Afternoon (${normalizeDoseAmount(medication.dose_afternoon_amount)})`);
+    entries.push(`Noon (${normalizeDoseAmount(medication.dose_afternoon_amount)})`);
   }
-  if (medication.dose_evening) {
-    entries.push(`Evening (${normalizeDoseAmount(medication.dose_evening_amount)})`);
-  }
-  if (medication.dose_night) {
-    entries.push(`Night (${normalizeDoseAmount(medication.dose_night_amount)})`);
+  if (medication.dose_night || medication.dose_evening) {
+    entries.push(`Night (${normalizeDoseAmount(medication.dose_night_amount || medication.dose_evening_amount)})`);
   }
   return entries.length > 0 ? entries.join(", ") : "As directed";
 }
@@ -298,4 +306,34 @@ export function formatDoseScheduleSummary(medication: {
 export function humanizeMealInstruction(mealInstruction?: string | null): string {
   const normalized = normalizeMealInstruction(mealInstruction);
   return normalized.replaceAll("_", " ");
+}
+
+export function extractDurationDays(duration?: string | null): number | null {
+  const raw = String(duration ?? "").trim().toLowerCase();
+  if (!raw) return null;
+  const match = raw.match(/(\d+(\.\d+)?)/);
+  if (!match) return null;
+  const value = Number(match[1]);
+  if (!Number.isFinite(value) || value <= 0) return null;
+
+  if (raw.includes("month")) return Math.round(value * 30);
+  if (raw.includes("week")) return Math.round(value * 7);
+  return Math.round(value);
+}
+
+export function computeExpiryDate(startDate?: string | null, duration?: string | null): string | null {
+  const days = extractDurationDays(duration);
+  if (!days) return null;
+
+  const base = new Date(String(startDate || "").trim());
+  if (Number.isNaN(base.getTime())) return null;
+  const expiry = new Date(base);
+  expiry.setDate(expiry.getDate() + days);
+  return expiry.toISOString();
+}
+
+export function isMedicationExpired(medication: Pick<PatientMedication, "started_date" | "duration" | "dose_night" | "dose_evening">): boolean {
+  const expiryIso = computeExpiryDate(medication.started_date, medication.duration);
+  if (!expiryIso) return false;
+  return new Date(expiryIso).getTime() < Date.now();
 }

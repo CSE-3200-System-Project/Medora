@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AppBackground } from "@/components/ui/app-background";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { useAppI18n, useT } from "@/i18n/client";
 import {
   User,
   Mail,
@@ -108,6 +109,8 @@ interface AppointmentSummary {
 
 export default function PatientProfilePage() {
   const router = useRouter();
+  const tCommon = useT("common");
+  const { locale } = useAppI18n();
   const [patient, setPatient] = React.useState<PatientData | null>(null);
   const [appointments, setAppointments] = React.useState<AppointmentSummary[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -149,12 +152,12 @@ export default function PatientProfilePage() {
         }
       } else {
         setPatient(null);
-        setLoadError("We couldn't verify your session while loading profile data.");
+        setLoadError(tCommon("patientProfile.errors.sessionVerifyFailed"));
       }
     } catch (error) {
       console.error("Failed to load profile:", error);
       setPatient(null);
-      setLoadError("Profile data couldn't be loaded. Check your connection and retry.");
+      setLoadError(tCommon("patientProfile.errors.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -200,7 +203,7 @@ export default function PatientProfilePage() {
       <AppBackground className="container-padding">
         <Navbar />
         <main className="mx-auto max-w-6xl py-8 pt-[var(--nav-content-offset)]">
-          <PageLoadingShell label="Loading profile..." cardCount={5} />
+          <PageLoadingShell label={tCommon("patientProfile.loading")} cardCount={5} />
         </main>
       </AppBackground>
     );
@@ -213,11 +216,11 @@ export default function PatientProfilePage() {
         <div className="flex items-center justify-center min-h-dvh min-h-app">
           <div className="text-center">
             <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-            <p className="text-foreground mb-2">Failed to load profile</p>
-            <p className="text-sm text-muted-foreground mb-4">{loadError ?? "Please try again."}</p>
+            <p className="text-foreground mb-2">{tCommon("patientProfile.errorTitle")}</p>
+            <p className="text-sm text-muted-foreground mb-4">{loadError ?? tCommon("patientProfile.retryHint")}</p>
             <div className="flex flex-wrap justify-center gap-2">
-              <Button onClick={loadPatientProfile} variant="outline" className="touch-target">Retry</Button>
-              <Button onClick={() => router.push('/login')} className="touch-target">Go to Login</Button>
+              <Button onClick={loadPatientProfile} variant="outline" className="touch-target">{tCommon("patientProfile.actions.retry")}</Button>
+              <Button onClick={() => router.push('/login')} className="touch-target">{tCommon("patientProfile.actions.goToLogin")}</Button>
             </div>
           </div>
         </div>
@@ -228,13 +231,13 @@ export default function PatientProfilePage() {
   const chronicConditions = getChronicConditions();
   const age = patient.date_of_birth ? calculateAge(patient.date_of_birth) : null;
   const profileCompletenessChecks = [
-    { label: "Date of birth", complete: !!patient.date_of_birth },
-    { label: "Gender", complete: !!patient.gender },
-    { label: "Blood group", complete: !!patient.blood_group },
-    { label: "Address details", complete: !!(patient.address && patient.city && patient.district) },
-    { label: "Height and weight", complete: !!(patient.height && patient.weight) },
-    { label: "Emergency contact", complete: !!(patient.emergency_contact_name && patient.emergency_contact_phone) },
-    { label: "Allergy details", complete: !!(patient.allergies || (patient.drug_allergies && patient.drug_allergies.length > 0)) },
+    { label: tCommon("patientProfile.completeness.dateOfBirth"), complete: !!patient.date_of_birth },
+    { label: tCommon("patientProfile.completeness.gender"), complete: !!patient.gender },
+    { label: tCommon("patientProfile.completeness.bloodGroup"), complete: !!patient.blood_group },
+    { label: tCommon("patientProfile.completeness.addressDetails"), complete: !!(patient.address && patient.city && patient.district) },
+    { label: tCommon("patientProfile.completeness.heightWeight"), complete: !!(patient.height && patient.weight) },
+    { label: tCommon("patientProfile.completeness.emergencyContact"), complete: !!(patient.emergency_contact_name && patient.emergency_contact_phone) },
+    { label: tCommon("patientProfile.completeness.allergyDetails"), complete: !!(patient.allergies || (patient.drug_allergies && patient.drug_allergies.length > 0)) },
   ];
   const missingProfileItems = profileCompletenessChecks.filter((item) => !item.complete);
   const completionPercent = Math.round(((profileCompletenessChecks.length - missingProfileItems.length) / profileCompletenessChecks.length) * 100);
@@ -247,12 +250,12 @@ export default function PatientProfilePage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">My Profile</h1>
-            <p className="text-muted-foreground mt-1">Manage your personal and medical information</p>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">{tCommon("patientProfile.title")}</h1>
+            <p className="text-muted-foreground mt-1">{tCommon("patientProfile.subtitle")}</p>
           </div>
           <Button variant="medical" size="lg" onClick={() => router.push('/onboarding/patient?mode=edit')} className="touch-target">
             <Edit className="h-4 w-4 mr-2" />
-            Edit Profile
+            {tCommon("patientProfile.actions.editProfile")}
           </Button>
         </div>
 
@@ -261,10 +264,9 @@ export default function PatientProfilePage() {
             <CardContent className="p-4 sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Profile completion: {completionPercent}%</p>
+                  <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">{tCommon("patientProfile.completeness.progress", { percent: completionPercent })}</p>
                   <p className="text-sm text-amber-900/90 dark:text-amber-100">
-                    {missingProfileItems.length} important section{missingProfileItems.length > 1 ? "s are" : " is"} missing.
-                    Complete them now to avoid care delays.
+                    {tCommon("patientProfile.completeness.missingSummary", { count: missingProfileItems.length })}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {missingProfileItems.slice(0, 5).map((item) => (
@@ -274,13 +276,13 @@ export default function PatientProfilePage() {
                     ))}
                     {missingProfileItems.length > 5 ? (
                       <Badge variant="outline" className="border-amber-400/70 bg-transparent text-amber-900 dark:text-amber-100">
-                        +{missingProfileItems.length - 5} more
+                        {tCommon("patientProfile.completeness.more", { count: missingProfileItems.length - 5 })}
                       </Badge>
                     ) : null}
                   </div>
                 </div>
                 <Button variant="outline" onClick={() => router.push('/onboarding/patient?mode=edit')} className="border-amber-500/60 bg-background/80 hover:bg-background">
-                  Complete Missing Data
+                  {tCommon("patientProfile.actions.completeMissingData")}
                 </Button>
               </div>
             </CardContent>
@@ -310,7 +312,7 @@ export default function PatientProfilePage() {
                   )}
                   {age && (
                     <Badge variant="outline" className="font-medium">
-                      {age} years old
+                      {tCommon("patientProfile.ageYears", { age })}
                     </Badge>
                   )}
                   {patient.blood_group && (
@@ -331,7 +333,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <User className="h-5 w-5 text-primary" />
-                Contact Information
+                {tCommon("patientProfile.sections.contactInfo")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -340,8 +342,8 @@ export default function PatientProfilePage() {
                   <Mail className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium break-all">{patient.email || 'Not provided'}</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.email")}</p>
+                  <p className="font-medium break-all">{patient.email || tCommon("patientProfile.notProvided")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -349,8 +351,8 @@ export default function PatientProfilePage() {
                   <Phone className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium break-all">{patient.phone || 'Not provided'}</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.phone")}</p>
+                  <p className="font-medium break-all">{patient.phone || tCommon("patientProfile.notProvided")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -358,9 +360,9 @@ export default function PatientProfilePage() {
                   <MapPin className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Address</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.address")}</p>
                   <p className="font-medium break-words">
-                    {[patient.address, patient.city, patient.district, patient.country].filter(Boolean).join(', ') || 'Not provided'}
+                    {[patient.address, patient.city, patient.district, patient.country].filter(Boolean).join(', ') || tCommon("patientProfile.notProvided")}
                   </p>
                 </div>
               </div>
@@ -372,35 +374,35 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Activity className="h-5 w-5 text-primary" />
-                Physical Information
+                {tCommon("patientProfile.sections.physicalInfo")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Ruler className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Height</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.height")}</p>
                   <p className="text-xl font-bold text-foreground">
                     {patient.height ? `${patient.height} cm` : '--'}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Scale className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Weight</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.weight")}</p>
                   <p className="text-xl font-bold text-foreground">
                     {patient.weight ? `${patient.weight} kg` : '--'}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Calendar className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Date of Birth</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.dateOfBirth")}</p>
                   <p className="text-sm font-bold text-foreground">
-                    {patient.date_of_birth ? new Date(patient.date_of_birth).toLocaleDateString() : '--'}
+                    {patient.date_of_birth ? new Date(patient.date_of_birth).toLocaleDateString(locale === "bn" ? "bn-BD" : "en-US") : '--'}
                   </p>
                 </div>
                 <div className="p-4 bg-surface dark:bg-muted/30 rounded-xl text-center">
                   <Users className="h-5 w-5 text-primary mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Marital Status</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.maritalStatus")}</p>
                   <p className="text-sm font-bold text-foreground capitalize">
                     {patient.marital_status || '--'}
                   </p>
@@ -414,7 +416,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Activity className="h-5 w-5 text-primary" />
-                Care & Monitoring
+                {tCommon("patientProfile.sections.careMonitoring")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -429,8 +431,8 @@ export default function PatientProfilePage() {
                       <Pill className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
-                      <p className="font-semibold text-blue-900 dark:text-blue-300">Prescriptions</p>
-                      <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">Access your current and past prescriptions</p>
+                      <p className="font-semibold text-blue-900 dark:text-blue-300">{tCommon("patientProfile.cards.prescriptions.title")}</p>
+                      <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">{tCommon("patientProfile.cards.prescriptions.subtitle")}</p>
                     </div>
                   </div>
                 </button>
@@ -444,8 +446,8 @@ export default function PatientProfilePage() {
                       <Bell className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                     </div>
                     <div>
-                      <p className="font-semibold text-amber-900 dark:text-amber-300">Reminders</p>
-                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">Manage your medication and follow-up reminders</p>
+                      <p className="font-semibold text-amber-900 dark:text-amber-300">{tCommon("patientProfile.cards.reminders.title")}</p>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">{tCommon("patientProfile.cards.reminders.subtitle")}</p>
                     </div>
                   </div>
                 </button>
@@ -458,7 +460,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Heart className="h-5 w-5 text-primary" />
-                Medical Conditions
+                {tCommon("patientProfile.sections.medicalConditions")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -471,21 +473,21 @@ export default function PatientProfilePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No chronic conditions reported</p>
+                <p className="text-muted-foreground text-sm">{tCommon("patientProfile.empty.noChronicConditions")}</p>
               )}
               {/* Current Medications */}
               {patient.medications && patient.medications.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-border/50">
                   <p className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                     <Pill className="h-4 w-4 text-primary" />
-                    Current Medications
+                    {tCommon("patientProfile.sections.currentMedications")}
                   </p>
                   <div className="space-y-1">
                     {patient.medications.slice(0, 3).map((med, i) => (
-                      <p key={i} className="text-sm text-muted-foreground">• {med.name || med.display_name || 'Unknown medication'}</p>
+                      <p key={i} className="text-sm text-muted-foreground">• {med.name || med.display_name || tCommon("patientProfile.unknownMedication")}</p>
                     ))}
                     {patient.medications.length > 3 && (
-                      <p className="text-xs text-primary mt-2">+{patient.medications.length - 3} more</p>
+                      <p className="text-xs text-primary mt-2">{tCommon("patientProfile.completeness.more", { count: patient.medications.length - 3 })}</p>
                     )}
                   </div>
                 </div>
@@ -498,7 +500,7 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <AlertCircle className="h-5 w-5 text-destructive" />
-                Allergies
+                {tCommon("patientProfile.sections.allergies")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -518,7 +520,7 @@ export default function PatientProfilePage() {
                   )}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No allergies reported</p>
+                <p className="text-muted-foreground text-sm">{tCommon("patientProfile.empty.noAllergies")}</p>
               )}
             </CardContent>
           </Card>
@@ -528,27 +530,27 @@ export default function PatientProfilePage() {
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Shield className="h-5 w-5 text-primary" />
-                Emergency Contact
+                {tCommon("patientProfile.sections.emergencyContact")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               {patient.emergency_contact_name ? (
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Name</p>
+                    <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.name")}</p>
                     <p className="font-medium">{patient.emergency_contact_name}</p>
                   </div>
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Relation</p>
-                    <p className="font-medium capitalize">{patient.emergency_contact_relation || 'Not specified'}</p>
+                    <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.relation")}</p>
+                    <p className="font-medium capitalize">{patient.emergency_contact_relation || tCommon("patientProfile.notSpecified")}</p>
                   </div>
                   <div className="flex-1 p-4 bg-surface dark:bg-muted/30 rounded-xl">
-                    <p className="text-sm text-muted-foreground">Phone</p>
-                    <p className="font-medium">{patient.emergency_contact_phone || 'Not provided'}</p>
+                    <p className="text-sm text-muted-foreground">{tCommon("patientProfile.fields.phone")}</p>
+                    <p className="font-medium">{patient.emergency_contact_phone || tCommon("patientProfile.notProvided")}</p>
                   </div>
                 </div>
               ) : (
-                <p className="text-muted-foreground text-sm">No emergency contact added</p>
+                <p className="text-muted-foreground text-sm">{tCommon("patientProfile.empty.noEmergencyContact")}</p>
               )}
             </CardContent>
           </Card>
@@ -559,10 +561,10 @@ export default function PatientProfilePage() {
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <FileText className="h-5 w-5 text-primary" />
-                  Medical History & Care
+                  {tCommon("patientProfile.sections.medicalHistoryCare")}
                 </CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => router.push('/patient/medical-history')} className="touch-target">
-                  View All
+                  {tCommon("patientProfile.actions.viewAll")}
                 </Button>
               </div>
             </CardHeader>
@@ -572,7 +574,7 @@ export default function PatientProfilePage() {
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Surgeries</p>
+                    <p className="font-medium text-sm">{tCommon("patientProfile.sections.surgeries")}</p>
                   </div>
                   {patient.surgeries && patient.surgeries.length > 0 ? (
                     <div className="space-y-1">
@@ -580,18 +582,18 @@ export default function PatientProfilePage() {
                         <p key={i} className="text-xs text-muted-foreground">• {s.name} ({s.year})</p>
                       ))}
                       {patient.surgeries.length > 2 && (
-                        <p className="text-xs text-primary">+{patient.surgeries.length - 2} more</p>
+                        <p className="text-xs text-primary">{tCommon("patientProfile.completeness.more", { count: patient.surgeries.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No surgeries recorded</p>
+                    <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noSurgeries")}</p>
                   )}
                 </div>
                 {/* Hospitalizations */}
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/medical-history')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Hospital className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Hospitalizations</p>
+                    <p className="font-medium text-sm">{tCommon("patientProfile.sections.hospitalizations")}</p>
                   </div>
                   {patient.hospitalizations && patient.hospitalizations.length > 0 ? (
                     <div className="space-y-1">
@@ -599,49 +601,49 @@ export default function PatientProfilePage() {
                         <p key={i} className="text-xs text-muted-foreground">• {h.reason} ({h.year})</p>
                       ))}
                       {patient.hospitalizations.length > 2 && (
-                        <p className="text-xs text-primary">+{patient.hospitalizations.length - 2} more</p>
+                        <p className="text-xs text-primary">{tCommon("patientProfile.completeness.more", { count: patient.hospitalizations.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No hospitalizations recorded</p>
+                    <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noHospitalizations")}</p>
                   )}
                 </div>
                 {/* Recent Visits */}
                 <div className="p-4 bg-surface/50 dark:bg-muted/20 rounded-lg border border-border/50 hover:bg-surface/80 dark:hover:bg-muted/30 cursor-pointer transition-colors" onClick={() => router.push('/patient/appointments')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Calendar className="h-4 w-4 text-primary" />
-                    <p className="font-medium text-sm">Recent Visits</p>
+                    <p className="font-medium text-sm">{tCommon("patientProfile.sections.recentVisits")}</p>
                   </div>
                   {appointments.length > 0 ? (
                     <div className="space-y-1">
                       {appointments.slice(0, 2).map((app, i) => (
                         <p key={i} className="text-xs text-muted-foreground">
-                          • {new Date(app.appointment_date).toLocaleDateString()}
+                          • {new Date(app.appointment_date).toLocaleDateString(locale === "bn" ? "bn-BD" : "en-US")}
                         </p>
                       ))}
                       {appointments.length > 2 && (
-                        <p className="text-xs text-primary">+{appointments.length - 2} more</p>
+                        <p className="text-xs text-primary">{tCommon("patientProfile.completeness.more", { count: appointments.length - 2 })}</p>
                       )}
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No visits recorded</p>
+                    <p className="text-xs text-muted-foreground">{tCommon("patientProfile.empty.noVisits")}</p>
                   )}
                 </div>
                 {/* Prescriptions */}
                 <div className="p-4 bg-blue-50/50 dark:bg-blue-900/15 rounded-lg border border-blue-200/50 dark:border-blue-800/50 hover:bg-blue-100/50 dark:hover:bg-blue-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/prescriptions')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Pill className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    <p className="font-medium text-sm text-blue-900 dark:text-blue-300">Prescriptions</p>
+                    <p className="font-medium text-sm text-blue-900 dark:text-blue-300">{tCommon("patientProfile.cards.prescriptions.title")}</p>
                   </div>
-                  <p className="text-xs text-blue-700 dark:text-blue-400">View all your active and past prescriptions</p>
+                  <p className="text-xs text-blue-700 dark:text-blue-400">{tCommon("patientProfile.cards.prescriptions.quickAction")}</p>
                 </div>
                 {/* Reminders */}
                 <div className="p-4 bg-amber-50/50 dark:bg-amber-900/15 rounded-lg border border-amber-200/50 dark:border-amber-800/50 hover:bg-amber-100/50 dark:hover:bg-amber-900/25 cursor-pointer transition-colors" onClick={() => router.push('/patient/reminders')}>
                   <div className="flex items-center gap-2 mb-2">
                     <Bell className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-                    <p className="font-medium text-sm text-amber-900 dark:text-amber-300">Reminders</p>
+                    <p className="font-medium text-sm text-amber-900 dark:text-amber-300">{tCommon("patientProfile.cards.reminders.title")}</p>
                   </div>
-                  <p className="text-xs text-amber-700 dark:text-amber-400">Manage your medicine and follow-up reminders</p>
+                  <p className="text-xs text-amber-700 dark:text-amber-400">{tCommon("patientProfile.cards.reminders.quickAction")}</p>
                 </div>
               </div>
             </CardContent>
@@ -656,7 +658,7 @@ export default function PatientProfilePage() {
             onClick={() => router.push('/patient/find-doctor')}
           >
             <Users className="h-6 w-6 text-primary" />
-            <span>Find Doctors</span>
+            <span>{tCommon("patientProfile.quickActions.findDoctors")}</span>
           </Button>
           <Button 
             variant="outline" 
@@ -664,7 +666,7 @@ export default function PatientProfilePage() {
             onClick={() => router.push('/patient/appointments')}
           >
             <Calendar className="h-6 w-6 text-primary" />
-            <span>My Appointments</span>
+            <span>{tCommon("patientProfile.quickActions.myAppointments")}</span>
           </Button>
           <Button 
             variant="outline" 
@@ -672,7 +674,7 @@ export default function PatientProfilePage() {
             onClick={() => router.push("/patient/medical-history")}
           >
             <FileText className="h-6 w-6 text-primary" />
-            <span>Medical History</span>
+            <span>{tCommon("patientProfile.quickActions.medicalHistory")}</span>
           </Button>
           <Button 
             variant="outline" 
@@ -680,7 +682,7 @@ export default function PatientProfilePage() {
             onClick={() => router.push("/patient/prescriptions")}
           >
             <Pill className="h-6 w-6 text-primary" />
-            <span>Prescriptions</span>
+            <span>{tCommon("patientProfile.quickActions.prescriptions")}</span>
           </Button>
           <Button 
             variant="outline" 
@@ -688,7 +690,7 @@ export default function PatientProfilePage() {
             onClick={() => router.push("/patient/reminders")}
           >
             <Bell className="h-6 w-6 text-amber-500" />
-            <span>Reminders</span>
+            <span>{tCommon("patientProfile.quickActions.reminders")}</span>
           </Button>
         </div>
       </main>
