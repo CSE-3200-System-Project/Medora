@@ -328,6 +328,51 @@ export async function respondToReschedule(
   return response.json();
 }
 
+export async function withdrawRescheduleRequest(
+  requestId: string,
+  responseNote?: string,
+) {
+  const headers = await authHeaders();
+
+  const response = await fetch(
+    `${BACKEND_URL}/appointment/reschedule-requests/${requestId}/withdraw`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ response_note: responseNote }),
+    }
+  );
+
+  if (!response.ok && response.status === 404) {
+    const compatResponse = await fetch(
+      `${BACKEND_URL}/reschedule/${requestId}/withdraw`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ response_note: responseNote }),
+      }
+    );
+
+    if (!compatResponse.ok) {
+      const compatError = await compatResponse.json().catch(() => null);
+      throw new Error(readErrorDetail(compatError, "Failed to withdraw reschedule request"));
+    }
+
+    revalidatePath("/patient/appointments");
+    revalidatePath("/doctor/appointments");
+    return compatResponse.json();
+  }
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(readErrorDetail(error, "Failed to withdraw reschedule request"));
+  }
+
+  revalidatePath("/patient/appointments");
+  revalidatePath("/doctor/appointments");
+  return response.json();
+}
+
 export async function getRescheduleHistory(appointmentId: string) {
   const headers = await authHeaders();
 

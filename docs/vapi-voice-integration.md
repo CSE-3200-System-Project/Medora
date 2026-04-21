@@ -14,9 +14,11 @@ The Chorui voice assistant mirrors all text-chat capabilities via a hybrid serve
 
 3. **Dynamic assistant overrides**: At call start, the frontend injects `assistantOverrides` with:
    - `variableValues` / `metadata`: role, patient_id, session_token, current route, locale.
-   - `model.messages`: a system prompt listing all available Medora pages and tool descriptions for the user's role.
-   - `tools:append`: all Medora tool definitions appended to whatever's configured in the VAPI dashboard.
+   - `model.messages`: a strict system prompt forcing the Vapi model to route every health/medical/Medora question through `ask_chorui` instead of answering itself.
+   - `firstMessage`: short greeting.
    - `clientMessages`: includes `tool-calls` so the frontend can intercept tool invocations.
+
+   **Tools are NOT sent as overrides.** They must be configured on the Vapi dashboard assistant (keyed by `NEXT_PUBLIC_VAPI_ASSISTANT_ID`). Earlier versions sent `tools:append`, which Vapi's web SDK rejects as an unknown key — that was the `POST https://api.vapi.ai/call/web 400` you may see in logs. The fallback path swallowed it and started without tools.
 
 ## Supported tools
 
@@ -56,29 +58,33 @@ VAPI_TOOL_SHARED_SECRET=
 
 ## Vapi dashboard setup
 
-### Minimal setup (tools auto-appended)
+Tools must be configured on the dashboard assistant. The frontend only injects per-session context at start time.
 
-The frontend now auto-appends all Medora tool definitions via `assistantOverrides["tools:append"]` at call start. You only need to:
+1. Create an assistant in the Vapi dashboard.
+2. **Model** — to keep cost down, use the cheapest tool-capable model available on your plan (e.g. `gpt-4o-mini` on OpenAI, or Vapi's fast/low-cost model). The Vapi model is a thin router here — the real AI work happens in our orchestrator via `ask_chorui`, so reasoning quality on the Vapi side is not important. Avoid GPT-4 class models on this assistant.
+3. **Transcriber** — any supported model; Deepgram Nova is a good cost/latency balance.
+4. **Voice** — any supported voice. TTS is billed per second, so the short replies produced by the backend's voice-shaping (≤ 3 sentences) keep cost in check.
+5. Set the assistant's **Server URL** to: `https://<your-backend-domain>/ai/vapi/tools/chorui`.
+6. If using a shared secret, add request header: `x-vapi-tool-secret: <same-value-as-backend-env>`.
+7. Under **Tools** / **Functions**, create these function tools pointing at the same Server URL:
+   1. **ask_chorui** — params: `message` (string, required). This is the main tool — it routes the user's verbatim question into Medora's own AI orchestrator.
+   2. **navigate_medora** — params: `destination` (string, required), `route` (string, optional).
+   3. **get_upcoming_appointments** — params: `limit` (number, optional).
+   4. **summarize_prescription** — params: `prescription_id` (string, required).
+   5. **find_patient** (doctor-only assistant) — params: `query` (string, required).
+   6. **get_voice_context** — no params.
+   7. **end_voice_call** — no params (set `async: true`).
+8. Copy the assistant ID into `NEXT_PUBLIC_VAPI_ASSISTANT_ID`.
+9. Copy your Vapi public key into `NEXT_PUBLIC_VAPI_PUBLIC_KEY`.
 
-1. Create an assistant in VAPI dashboard.
-2. Set the assistant's **Server URL** to: `https://<your-backend-domain>/ai/vapi/tools/chorui`
-3. If using shared secret, add request header: `x-vapi-tool-secret: <same-value-as-backend-env>`
-4. Copy the assistant ID into `NEXT_PUBLIC_VAPI_ASSISTANT_ID`.
-5. Copy your VAPI public key into `NEXT_PUBLIC_VAPI_PUBLIC_KEY`.
+The system prompt and first message can be left minimal in the dashboard — the frontend overrides them at start time with role-aware, router-strict instructions. Source-of-truth tool definitions live in `frontend/lib/vapi-tools.ts` (`getMedoraToolDefinitions`) so you can diff the dashboard against code.
 
-The system prompt, tools, first message, and client message config are all injected at call start — no need to configure them in the dashboard.
+### Cost & reliability notes
 
-### Manual setup (if tools:append doesn't work)
-
-If your VAPI plan doesn't support `tools:append` overrides, manually create these function tools in the dashboard, all pointing to the same Server URL:
-
-1. **ask_chorui** — params: `message` (string, required)
-2. **navigate_medora** — params: `destination` (string, required), `route` (string, optional)
-3. **get_upcoming_appointments** — params: `limit` (number, optional)
-4. **summarize_prescription** — params: `prescription_id` (string, required)
-5. **find_patient** (doctor only) — params: `query` (string, required)
-6. **get_voice_context** — no params
-7. **end_voice_call** — no params (set async: true)
+- **Pick a cheap Vapi model.** The Vapi LLM only routes to `ask_chorui`. Any token spend on the Vapi side beyond that is waste.
+- **Keep voice replies short.** The backend webhook already trims orchestrator replies to ≤ 3 sentences / 500 chars before handing them to Vapi's TTS (`_shape_reply_for_voice` in `ai_consultation.py`). The full reply still shows in the on-screen Chorui panel.
+- **Timeouts.** The `ask_chorui` webhook branch wraps the orchestrator in a 12s `asyncio.wait_for`. If the orchestrator stalls, Vapi gets a spoken apology instead of a silent hang. Same pattern on `/ai/vapi/tools/doctor-search`.
+- **Two brains, one system.** Keep the Vapi model prompt strict ("you are a router, not an answerer") — the `buildSystemPrompt` in `frontend/lib/vapi-tools.ts` does this. If the Vapi model ever starts answering directly, tighten the prompt further or move to an even smaller router model.
 
 ## How auth/context flows
 

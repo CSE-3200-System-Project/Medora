@@ -8,6 +8,14 @@ for user authentication and account linking.
 Requires: google-auth, google-auth-oauthlib, google-api-python-client
 """
 
+import os
+
+# Google always returns "userinfo.email"/"userinfo.profile" in token response
+# even when "email"/"profile" aliases were requested. oauthlib treats this as
+# a fatal scope mismatch unless we relax the check. Must be set BEFORE oauthlib imports.
+os.environ.setdefault("OAUTHLIB_RELAX_TOKEN_SCOPE", "1")
+os.environ.setdefault("OAUTHLIB_INSECURE_TRANSPORT", os.environ.get("OAUTHLIB_INSECURE_TRANSPORT", "0"))
+
 import logging
 from datetime import datetime, timedelta
 from typing import Optional
@@ -83,9 +91,22 @@ async def get_authorization_url(state: str | None = None) -> str:
 
 
 async def exchange_code_for_tokens(code: str, state: str | None = None) -> dict:
-    """Exchange authorization code for access + refresh tokens."""
+    """Exchange authorization code for access + refresh tokens.
+
+    Defensively tolerates scope-change warnings from oauthlib (Google returns
+    userinfo.* URIs instead of the short email/profile aliases we request).
+    """
+    # Ensure relaxed scope checking even if env wasn't set at import time.
+    os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "1"
+
     flow = _get_google_flow()
-    flow.fetch_token(code=code)
+    try:
+        flow.fetch_token(code=code)
+    except Warning as w:  # oauthlib.oauth2.rfc6749.errors.Warning is Exception-based
+        # Only swallow the well-known scope-change warning; re-raise anything else.
+        if "scope has changed" not in str(w).lower():
+            raise
+        logger.warning("Ignoring Google OAuth scope-change warning: %s", w)
     credentials = flow.credentials
     return {
         "access_token": credentials.token,

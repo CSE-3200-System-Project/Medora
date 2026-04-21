@@ -4,8 +4,9 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import { fetchWithAuth } from "@/lib/auth-utils";
-import { Menu, User, Settings, LogOut, FileText, Calendar, Shield, Activity, Users, FlaskConical } from "lucide-react";
+import { Menu, User, LogOut, FileText, Calendar, Shield, Activity, Users, FlaskConical, Pill, Sun, Moon, Settings } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,6 @@ import { NotificationDropdown } from "@/components/ui/notification-dropdown";
 import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { ButtonLoader } from "@/components/ui/medora-loader";
-import { useT } from "@/i18n/client";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
@@ -42,6 +42,27 @@ interface UserData {
   role: string;
   profile_photo_url?: string;
 }
+
+const NAV_LABELS: Record<string, string> = {
+  "logIn": "Log in",
+  "signUp": "Sign up",
+  "profile": "Profile",
+  "settings": "Settings",
+  "logOut": "Log out",
+  "loggingOut": "Logging out...",
+  "toggleMenu": "Toggle menu",
+  "doctorMenu.appointments": "Appointments",
+  "doctorMenu.patients": "Patients",
+  "doctorMenu.analytics": "Analytics",
+  "doctorMenu.findMedicine": "Find Medicine",
+  "patientMenu.findDoctor": "Find Doctor",
+  "patientMenu.analytics": "Analytics",
+  "patientMenu.appointments": "Appointments",
+  "patientMenu.findMedicine": "Find Medicine",
+  "patientMenu.medicalHistory": "Medical History",
+  "patientMenu.labReports": "Lab Reports",
+  "patientMenu.privacyDataSharing": "Privacy & Data Sharing",
+};
 
 const USER_CACHE_KEY = "medora:user-cache:v1";
 const USER_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -77,15 +98,17 @@ function inferRoleFromPath(pathname: string) {
 }
 
 export function Navbar() {
-  const tNav = useT("nav");
+  const tNav = React.useCallback((key: string) => NAV_LABELS[key] ?? key, []);
   const pathname = usePathname();
   const router = useRouter();
+  const { resolvedTheme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [user, setUser] = React.useState<UserData | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [hasToken, setHasToken] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [themeMounted, setThemeMounted] = React.useState(false);
 
   React.useEffect(() => {
     let isMounted = true;
@@ -154,6 +177,10 @@ export function Navbar() {
   }, []);
 
   React.useEffect(() => {
+    setThemeMounted(true);
+  }, []);
+
+  React.useEffect(() => {
     let frameId = 0;
     const handleScroll = () => {
       if (frameId) return;
@@ -194,6 +221,13 @@ export function Navbar() {
     return `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
   };
 
+  const currentTheme = themeMounted ? resolvedTheme : "light";
+  const isDarkMode = currentTheme === "dark";
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
+  };
+  const themeToggleLabel = isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode";
+
   const resolvedAvatarUrl = user
     ? resolveAvatarUrl(user.profile_photo_url, `${user.email || ""}${user.first_name || ""}${user.last_name || ""}`)
     : "";
@@ -215,6 +249,7 @@ export function Navbar() {
     !!user &&
     (user.role?.toLowerCase() === "patient" || user.role?.toLowerCase() === "doctor") &&
     !pathname.includes("/chorui-ai");
+  const showSettingsLink = user?.role?.toLowerCase() === "patient" || user?.role?.toLowerCase() === "doctor";
   const isActivePath = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
@@ -277,6 +312,9 @@ export function Navbar() {
               </Link>
               <Link href="/doctor/patients" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/patients") && "text-primary font-semibold")}>
                 {tNav("doctorMenu.patients")}
+              </Link>
+              <Link href="/doctor/find-medicine" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/find-medicine") && "text-primary font-semibold")}>
+                {tNav("doctorMenu.findMedicine")}
               </Link>
               <Link href="/doctor/analytics" className={cn("transition-colors hover:text-primary py-2", isActivePath("/doctor/analytics") && "text-primary font-semibold")}>
                 {tNav("doctorMenu.analytics")}
@@ -352,11 +390,24 @@ export function Navbar() {
                       <span>{tNav("profile")}</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
-                    <Link href="/settings">
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>{tNav("settings")}</span>
-                    </Link>
+                  {showSettingsLink && (
+                    <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
+                      <Link href="/settings">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>{tNav("settings")}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem
+                    onClick={toggleTheme}
+                    className="focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                  >
+                    {isDarkMode ? (
+                      <Sun className="mr-2 h-4 w-4 text-amber-500" />
+                    ) : (
+                      <Moon className="mr-2 h-4 w-4 text-indigo-500" />
+                    )}
+                    <span>{themeToggleLabel}</span>
                   </DropdownMenuItem>
                   {user.role?.toLowerCase() === 'patient' && (
                     <DropdownMenuItem asChild className="focus:bg-primary-more-light focus:text-primary cursor-pointer">
@@ -455,6 +506,9 @@ export function Navbar() {
                           <Link href="/doctor/patients" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Users className="h-5 w-5 text-primary" /> {tNav("doctorMenu.patients")}
                           </Link>
+                          <Link href="/doctor/find-medicine" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
+                            <Pill className="h-5 w-5 text-primary" /> {tNav("doctorMenu.findMedicine")}
+                          </Link>
                           <Link href="/doctor/analytics" className="flex items-center gap-2 rounded-xl border border-border/60 px-3 py-3 text-base font-medium text-foreground hover:bg-accent/60 hover:text-primary transition-colors">
                             <Activity className="h-5 w-5 text-primary" /> {tNav("doctorMenu.analytics")}
                           </Link>
@@ -501,9 +555,23 @@ export function Navbar() {
                         <Link href={user.role?.toLowerCase() === 'doctor' ? '/doctor/profile' : '/patient/profile'} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
                           <User className="h-4 w-4" /> {tNav("profile")}
                         </Link>
-                        <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
-                          <Settings className="h-4 w-4" /> {tNav("settings")}
-                        </Link>
+                        {showSettingsLink && (
+                          <Link href="/settings" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary px-2 py-2 rounded-md hover:bg-primary-more-light transition-colors">
+                            <Settings className="h-4 w-4" /> {tNav("settings")}
+                          </Link>
+                        )}
+                        <Button
+                          variant="ghost"
+                          onClick={toggleTheme}
+                          className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-accent/80"
+                        >
+                          {isDarkMode ? (
+                            <Sun className="mr-2 h-4 w-4 text-amber-500" />
+                          ) : (
+                            <Moon className="mr-2 h-4 w-4 text-indigo-500" />
+                          )}
+                          {themeToggleLabel}
+                        </Button>
                         <Button 
                           variant="ghost" 
                           onClick={handleLogout}

@@ -34,7 +34,7 @@ export function MedoraLoader({
     <div
       className={cn(
         "flex flex-col items-center justify-center gap-3",
-        fullScreen && "fixed inset-0 z-[70] min-h-dvh bg-background/80 backdrop-blur-sm",
+        fullScreen && "fixed inset-0 z-70 min-h-dvh bg-background/80 backdrop-blur-sm",
         className
       )}
     >
@@ -76,9 +76,9 @@ interface ButtonLoaderProps {
  */
 export function ButtonLoader({ className }: ButtonLoaderProps) {
   return (
-    <div
+    <span
       className={cn(
-        "h-4 w-4 rounded-full border-2 border-current/30 border-t-current animate-spin",
+        "inline-block h-4 w-4 rounded-full border-2 border-current/30 border-t-current animate-spin",
         className
       )}
       style={{ animationDuration: "0.8s" }}

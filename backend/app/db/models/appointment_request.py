@@ -19,6 +19,12 @@ class RescheduleRequestStatus(str, enum.Enum):
     REJECTED = "rejected"
 
 
+class AdminApprovalStatus(str, enum.Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+
 class RequestedByRole(str, enum.Enum):
     PATIENT = "patient"
     DOCTOR = "doctor"
@@ -98,6 +104,15 @@ class AppointmentRescheduleRequest(Base):
     response_note: Mapped[str | None] = mapped_column(Text, nullable=True)
     expires_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
+    # Admin mediation: the other party can only respond once admin approves.
+    admin_approval_status: Mapped[AdminApprovalStatus] = mapped_column(
+        Enum(AdminApprovalStatus, values_callable=lambda x: [e.value for e in x]),
+        default=AdminApprovalStatus.PENDING,
+        nullable=False,
+    )
+    admin_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    admin_decided_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
@@ -106,3 +121,40 @@ class AppointmentRescheduleRequest(Base):
     appointment = relationship("Appointment", backref="reschedule_requests")
     requested_by = relationship("Profile", foreign_keys=[requested_by_id])
     responded_by = relationship("Profile", foreign_keys=[responded_by_id])
+
+
+class AppointmentCancellationRequest(Base):
+    """Admin-mediated cancellation request. Party requests, admin approves/rejects."""
+
+    __tablename__ = "appointment_cancellation_requests"
+
+    id: Mapped[str] = mapped_column(
+        String, primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    appointment_id: Mapped[str] = mapped_column(
+        String, ForeignKey("appointments.id"), nullable=False, index=True
+    )
+    requested_by_id: Mapped[str] = mapped_column(
+        String, ForeignKey("profiles.id"), nullable=False
+    )
+    requested_by_role: Mapped[RequestedByRole] = mapped_column(
+        Enum(RequestedByRole, values_callable=lambda x: [e.value for e in x]),
+        nullable=False,
+    )
+    reason_key: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    reason_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    admin_approval_status: Mapped[AdminApprovalStatus] = mapped_column(
+        Enum(AdminApprovalStatus, values_callable=lambda x: [e.value for e in x]),
+        default=AdminApprovalStatus.PENDING,
+        nullable=False,
+    )
+    admin_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    admin_decided_at: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    created_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+
+    appointment = relationship("Appointment", backref="cancellation_requests")
+    requested_by = relationship("Profile", foreign_keys=[requested_by_id])

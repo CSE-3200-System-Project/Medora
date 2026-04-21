@@ -1,3 +1,80 @@
+# Reschedule Admin Approval Override + Notification Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Backend: Route admin override `RESCHEDULE_REQUESTED -> CONFIRMED` through reschedule admin-approval service so `admin_approval_status` is updated
+- [x] Backend: Prevent generic appointment-confirmed event from firing for reschedule admin approval path
+- [x] Frontend: Clarify admin appointments override action label for reschedule rows so it reflects approval intent
+- [x] Validation: Run focused checks for touched backend/frontend files
+- [x] Update review summary with root cause and behavior change
+
+### Review
+- Root cause: admin appointments UI used the generic override endpoint/action ("Confirm") for rows in `RESCHEDULE_REQUESTED`, so backend ran a normal status transition instead of the reschedule admin-decision workflow. That left `appointment_reschedule_requests.admin_approval_status` unchanged and emitted generic `appointment.confirmed` notifications.
+- Backend fix: `POST /admin/appointments/{appointment_id}/override-status` now intercepts `RESCHEDULE_REQUESTED -> CONFIRMED` and routes it through `appointment_service.admin_approve_reschedule_request(...)`, including row lock checks for latest pending request, FK-safe admin actor resolution, and explicit early response.
+- Backend behavior correction: that reschedule path now emits reschedule-specific events/notifications (counterparty response request + requester approved notice) instead of generic "appointment confirmed".
+- Frontend fix: admin appointments status override now labels confirm action as `Approve Reschedule` on reschedule rows and sends clearer approval note text, reducing accidental misuse and matching backend intent.
+- Validation: `python -m py_compile backend/app/routes/admin.py backend/app/services/appointment_service.py` passed; `npm run lint -- components/admin/pages/admin-appointments-client.tsx lib/admin-actions.ts` passed with one warning only (`getAuthHeaders` unused in `frontend/lib/admin-actions.ts`).
+
+# Reschedule Approval Notifications + Slot Hold + Withdraw Flow (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Backend: Hold proposed slots for pending reschedule requests in availability checks
+- [x] Backend: Notify both requester and counterparty on admin-approved and accepted reschedule milestones
+- [x] Backend: Add requester withdraw endpoint/service for pending reschedule requests
+- [x] Backend: Expose pending reschedule metadata in appointment payloads used by patient/doctor UIs
+- [x] Frontend: Add withdraw reschedule action and wire role-aware accept/respond/withdraw UX on patient and doctor appointment screens
+- [x] Validate touched files and update review summary
+
+### Review
+- Root cause confirmed: admin approval only notified the non-requester, accepted flow only notified requester, and there was no requester-withdraw path; this made reschedules appear stuck in `RESCHEDULE_REQUESTED` when counterpart action never arrived.
+- Backend fix 1: slot availability now treats non-expired pending reschedule proposals as held slots to prevent double-booking of proposed times (`slot_service` in both slot list generation and direct slot availability checks).
+- Backend fix 2: event notifications now support dual-target behavior; admin approval sends to both requester and counterparty, and accepted reschedule sends confirmation to both participants.
+- Backend fix 3: added requester withdrawal flow (`withdraw_reschedule_request`) plus canonical and compatibility endpoints so requester can cancel pending reschedule negotiation and return appointment to `CONFIRMED`.
+- Backend fix 4: appointment payloads now include latest pending reschedule metadata (`reschedule_request_id`, requester role, proposed date/time, admin approval status) for both doctor and patient appointment feeds.
+- Frontend fix 1: added `withdrawRescheduleRequest(...)` action with canonical + compatibility fallback.
+- Frontend fix 2: patient upcoming list now shows a dedicated withdraw action when the patient is the requester; otherwise it keeps accept/reject flow for incoming requests.
+- Frontend fix 3: doctor modal now shows withdraw action for doctor-requested reschedules and keeps accept/reject for incoming patient requests.
+- Validation: backend syntax check passed (`python -m py_compile` on touched backend files) and focused frontend lint passed on touched files.
+
+# Admin Appointment Audit FK + Markup Warning Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Replace hardcoded admin actor IDs in appointment admin routes with a valid profile-backed actor ID
+- [x] Ensure a system admin profile exists for password-only admin flows before writing audit or responder FKs
+- [x] Fix invalid paragraph nesting warning in admin appointments UI
+- [x] Validate touched files for errors and summarize review notes
+
+### Review
+- Root cause 1: password-only admin endpoints wrote literal `"admin"` into profile-backed FK fields (`appointment_audit_logs.performed_by_id` and reschedule responder/admin actor fields), causing integrity failures when no profile with ID `admin` existed.
+- Fix 1: added `_get_admin_actor_profile_id(...)` in `backend/app/routes/admin.py` to ensure a system admin profile row exists and return a FK-safe actor ID.
+- Fix 2: replaced all hardcoded appointment admin actor writes in admin routes (approve/reject/override plus reschedule and cancellation decisions) with the resolved profile-backed actor ID.
+- Root cause 2: inline loading UI used `ButtonLoader` (a `<div>`) inside paragraph content in the admin appointments page, triggering React DOM nesting warnings.
+- Fix 3: switched `ButtonLoader` root element to `<span>` for valid inline markup.
+- Validation: backend syntax check passed (`python -m py_compile app/routes/admin.py`); targeted frontend lint passed (`npm run lint -- components/ui/medora-loader.tsx`); diagnostics show no backend errors in touched route file.
+
+# Admin Appointment Override Status Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and trace admin override failure from frontend server action to backend route
+- [x] Fix request payload mismatch causing backend validation rejection
+- [x] Improve frontend error parsing to avoid opaque `[object Object]` failures
+- [x] Add backend compatibility support for legacy `new_status` payload key
+- [x] Capture review summary and changed behavior
+
+### Review
+- Root cause: `frontend/lib/admin-actions.ts` sent `{ new_status: ... }` while `POST /admin/appointments/{id}/override-status` expected `status`, so FastAPI returned a structured validation error object and frontend surfaced it as `Error: [object Object]`.
+- Fix 1: updated override action payload to send `status`.
+- Fix 2: hardened override error handling to extract string messages from FastAPI `detail` payloads whether `detail` is a string or validation list.
+- Fix 3: added backend backward compatibility in `OverrideStatusRequest` to accept either `status` or `new_status`, then normalized to a single `requested_status` path.
+- Outcome: admin override calls now match API contract and should succeed for valid state transitions; invalid transitions now return readable error messages.
+
 # Google Calendar OAuth DB + Config Fix (2026-04-17)
 
 ## Status: completed

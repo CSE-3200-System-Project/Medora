@@ -22,6 +22,7 @@ type AppointmentModalProps = {
   onCancel: (id: string) => void;
   onRescheduleRequest: (appointment: DoctorAppointment) => void;
   onRespondReschedule: (appointment: DoctorAppointment) => void;
+  onWithdrawReschedule: (appointment: DoctorAppointment) => void;
 };
 
 export function AppointmentModal({
@@ -32,6 +33,7 @@ export function AppointmentModal({
   onCancel,
   onRescheduleRequest,
   onRespondReschedule,
+  onWithdrawReschedule,
 }: AppointmentModalProps) {
   if (!appointment) {
     return null;
@@ -107,7 +109,7 @@ export function AppointmentModal({
             </Button>
           )}
 
-          {/* Cancel button - for confirmed lifecycle states */}
+          {/* Cancel/decline button - for confirmed & pending-confirmation states */}
           {canCancel(appointment.status) && (
             <Button
               variant="destructive"
@@ -117,7 +119,7 @@ export function AppointmentModal({
               }}
               className="flex-1 sm:flex-none"
             >
-              Cancel Appointment
+              {isDecline(appointment.status) ? "Decline Appointment" : "Cancel Appointment"}
             </Button>
           )}
 
@@ -134,7 +136,7 @@ export function AppointmentModal({
               Reschedule Appointment
             </Button>
           )}
-          {canRespondToReschedule(appointment.status) && (
+          {canRespondToReschedule(appointment.status, appointment.reschedule_requested_by_role) && (
             <Button
               variant="outline"
               onClick={() => {
@@ -144,6 +146,18 @@ export function AppointmentModal({
               className="flex-1 sm:flex-none"
             >
               Accept / Reject Reschedule
+            </Button>
+          )}
+          {canWithdrawReschedule(appointment.status, appointment.reschedule_requested_by_role) && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                onWithdrawReschedule(appointment);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Withdraw Reschedule Request
             </Button>
           )}
         </DialogFooter>
@@ -205,23 +219,34 @@ function isCancelledStatus(status: string) {
 
 function canApprove(status: string) {
   const value = status.toUpperCase();
-  return value === "PENDING" || value === "PENDING_ADMIN_REVIEW" || value === "PENDING_DOCTOR_CONFIRMATION";
+  return value === "PENDING" || value === "PENDING_DOCTOR_CONFIRMATION";
 }
 
 function canCancel(status: string) {
   const value = status.toUpperCase();
-  return (
-    value === "CONFIRMED" ||
-    value === "CANCEL_REQUESTED"
-  );
+  return value === "CONFIRMED" || value === "PENDING_DOCTOR_CONFIRMATION";
+}
+
+function isDecline(status: string) {
+  return status.toUpperCase() === "PENDING_DOCTOR_CONFIRMATION";
 }
 
 function canReschedule(status: string) {
   return status.toUpperCase() === "CONFIRMED";
 }
 
-function canRespondToReschedule(status: string) {
-  return status.toUpperCase() === "RESCHEDULE_REQUESTED";
+function canRespondToReschedule(status: string, requestedByRole?: string | null) {
+  if (status.toUpperCase() !== "RESCHEDULE_REQUESTED") {
+    return false;
+  }
+  return (requestedByRole || "").toLowerCase() !== "doctor";
+}
+
+function canWithdrawReschedule(status: string, requestedByRole?: string | null) {
+  return (
+    status.toUpperCase() === "RESCHEDULE_REQUESTED" &&
+    (requestedByRole || "").toLowerCase() === "doctor"
+  );
 }
 
 function extractLocation(appointment: DoctorAppointment) {

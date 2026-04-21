@@ -50,6 +50,10 @@ SPECIALTY_CACHE_TTL_SECONDS = max(60, settings.PERF_API_CACHE_TTL)
 _all_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
 _available_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
 VAPI_DOCTOR_SEARCH_TOOL_NAMES = {"search_doctors_ai", "find_doctor", "ai_doctor_search"}
+# Hard ceiling on how long the doctor-search pipeline can take before Vapi
+# gets a spoken apology instead of a silent hang. Stays under Vapi's own
+# tool-call deadline with headroom.
+VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS = 12.0
 
 
 def _safe_vapi_text(value: object, *, max_length: int = 5000) -> str:
@@ -798,15 +802,29 @@ async def vapi_doctor_search_tool(
         )
 
         try:
-            search_response = await ai_doctor_search(
-                request=search_request,
-                authorization=auth_header,
-                db=db,
+            search_response = await asyncio.wait_for(
+                ai_doctor_search(
+                    request=search_request,
+                    authorization=auth_header,
+                    db=db,
+                ),
+                timeout=VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS,
             )
             results.append(
                 {
                     "toolCallId": tool_call_id,
                     "result": _build_vapi_doctor_search_summary(search_response),
+                }
+            )
+        except asyncio.TimeoutError:
+            logger.warning(
+                "Vapi doctor search exceeded %.1fs — returning voice apology",
+                VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS,
+            )
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Searching is taking longer than usual. Please ask again in a moment.",
                 }
             )
         except Exception as exc:

@@ -1,6 +1,7 @@
 """Appointment reschedule negotiation endpoints (compatibility wrappers)."""
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,6 +14,10 @@ from app.schemas.availability import RescheduleRequestCreate, RescheduleRespondR
 from app.services import appointment_service
 
 router = APIRouter()
+
+
+class RescheduleWithdrawRequest(BaseModel):
+    response_note: str | None = Field(default=None, max_length=1000)
 
 
 @router.post("/request", status_code=status.HTTP_201_CREATED)
@@ -59,7 +64,7 @@ async def create_reschedule_request(
         )
     except ValueError as error:
         detail = str(error)
-        status_code = 409 if "not available" in detail.lower() else 400
+        status_code = 409 if ("not available" in detail.lower() or "held by another pending" in detail.lower()) else 400
         raise HTTPException(status_code=status_code, detail=detail)
 
     await db.commit()
@@ -125,6 +130,56 @@ async def respond_to_reschedule(
     }
 
 
+@router.post("/{request_id}/withdraw")
+async def withdraw_reschedule_request(
+    request_id: str,
+    data: RescheduleWithdrawRequest,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Compatibility wrapper for requester-withdrawal of pending reschedule requests."""
+    user_id = user.id
+
+    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = profile_result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    role_str = str(profile.role).upper()
+    if "PATIENT" in role_str:
+        requester_role = "patient"
+    elif "DOCTOR" in role_str:
+        requester_role = "doctor"
+    else:
+        raise HTTPException(status_code=403, detail="Only doctor or patient can withdraw")
+
+    try:
+        reschedule = await appointment_service.withdraw_reschedule_request(
+            db,
+            reschedule_request_id=request_id,
+            requester_id=user_id,
+            requester_role=requester_role,
+            response_note=data.response_note,
+        )
+    except ValueError as error:
+        detail = str(error)
+        if "not found" in detail.lower():
+            raise HTTPException(status_code=404, detail=detail)
+        if "only the requester" in detail.lower() or "not authorized" in detail.lower():
+            raise HTTPException(status_code=403, detail=detail)
+        raise HTTPException(status_code=400, detail=detail)
+
+    await db.commit()
+
+    return {
+        "id": reschedule.id,
+        "appointment_id": reschedule.appointment_id,
+        "status": reschedule.status.value,
+        "responded_at": reschedule.responded_at.isoformat() if reschedule.responded_at else None,
+        "response_note": reschedule.response_note,
+    }
+
+
 @router.get("/appointment/{appointment_id}")
 async def get_reschedule_history(
     appointment_id: str,
@@ -165,6 +220,7 @@ async def get_reschedule_history(
                 "proposed_time": req.proposed_time.isoformat(),
                 "reason": req.reason,
                 "status": req.status.value,
+                "admin_approval_status": req.admin_approval_status.value if req.admin_approval_status else None,
                 "created_at": req.created_at.isoformat() if req.created_at else None,
                 "responded_by_id": req.responded_by_id,
                 "responded_at": req.responded_at.isoformat() if req.responded_at else None,

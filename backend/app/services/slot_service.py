@@ -109,6 +109,64 @@ async def _filter_stale_reschedule_rows(
     ]
 
 
+async def is_slot_held_by_pending_reschedule(
+    db: AsyncSession,
+    doctor_id: str,
+    target_date: date,
+    slot_time_val: time,
+    exclude_appointment_id: Optional[str] = None,
+) -> bool:
+    """Return True when a pending reschedule request already holds the proposed slot."""
+    now_utc = datetime.now(timezone.utc)
+
+    predicates = [
+        Appointment.doctor_id == doctor_id,
+        AppointmentRescheduleRequest.proposed_date == target_date,
+        AppointmentRescheduleRequest.proposed_time == slot_time_val,
+        AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        or_(
+            AppointmentRescheduleRequest.expires_at.is_(None),
+            AppointmentRescheduleRequest.expires_at > now_utc,
+        ),
+        _active_slot_occupancy_condition(now_utc),
+    ]
+    if exclude_appointment_id:
+        predicates.append(Appointment.id != exclude_appointment_id)
+
+    result = await db.execute(
+        select(AppointmentRescheduleRequest.id)
+        .join(Appointment, Appointment.id == AppointmentRescheduleRequest.appointment_id)
+        .where(*predicates)
+        .limit(1)
+    )
+    return result.scalar_one_or_none() is not None
+
+
+async def _pending_reschedule_hold_labels_for_date(
+    db: AsyncSession,
+    doctor_id: str,
+    target_date: date,
+) -> set[str]:
+    """Collect slot labels held by non-expired pending reschedule requests for a date."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(AppointmentRescheduleRequest.proposed_time)
+        .join(Appointment, Appointment.id == AppointmentRescheduleRequest.appointment_id)
+        .where(
+            Appointment.doctor_id == doctor_id,
+            AppointmentRescheduleRequest.proposed_date == target_date,
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+            or_(
+                AppointmentRescheduleRequest.expires_at.is_(None),
+                AppointmentRescheduleRequest.expires_at > now_utc,
+            ),
+            _active_slot_occupancy_condition(now_utc),
+        )
+    )
+    held_times = result.scalars().all()
+    return {_format_time_label(slot_time) for slot_time in held_times if slot_time}
+
+
 def _slot_label_from_appointment(appt: Appointment) -> str:
     if appt.slot_time:
         return _format_time_label(appt.slot_time).upper()
@@ -447,6 +505,14 @@ async def get_available_slots(
             if note_match:
                 booked_times.add(_normalize_slot_label(note_match.group(1)))
 
+    # Pending reschedule proposals also hold their proposed slots until resolved/expired.
+    held_slot_labels = await _pending_reschedule_hold_labels_for_date(
+        db,
+        doctor_id=doctor_id,
+        target_date=target_date,
+    )
+    booked_times.update(held_slot_labels)
+
     # 6. Mark past slots
     now = datetime.now(timezone.utc)
     booked_labels_upper = {bt.upper() for bt in booked_times}
@@ -530,6 +596,15 @@ async def is_slot_available(
         tzinfo=timezone.utc,
     )
     if slot_datetime < datetime.now(timezone.utc):
+        return False
+
+    if await is_slot_held_by_pending_reschedule(
+        db,
+        doctor_id,
+        target_date,
+        slot_time_val,
+        exclude_appointment_id=exclude_appointment_id,
+    ):
         return False
 
     # Check for existing booking

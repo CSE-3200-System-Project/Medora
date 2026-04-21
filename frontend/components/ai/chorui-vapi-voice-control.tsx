@@ -100,9 +100,18 @@ function getVapiErrorMessage(error: unknown): string {
   return "Unable to start voice call.";
 }
 
+function isAssistantNotFoundError(message: string): boolean {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("assistant") &&
+    (normalized.includes("not found") || normalized.includes("not_found") || normalized.includes("does not exist"))
+  );
+}
+
 export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoiceControlProps) {
   const publicKey = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || "";
   const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || "";
+  const isAssistantIdMisconfigured = Boolean(assistantId) && assistantId === publicKey;
   const isConfigured = Boolean(publicKey && assistantId);
 
   const router = useRouter();
@@ -305,6 +314,14 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     return instance;
   }, [attachVapiListeners, publicKey]);
 
+  const createPlainVapiClient = React.useCallback((): VapiClient => {
+    const instance = new Vapi(publicKey);
+    vapiRef.current = instance;
+    attachVapiListeners(instance);
+    installVapiKrispGuard(instance);
+    return instance;
+  }, [attachVapiListeners, publicKey]);
+
   React.useEffect(() => {
     if (!isConfigured) {
       disposeVapiClient(true);
@@ -316,6 +333,13 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
   }, [disposeVapiClient, isConfigured]);
 
   const startVoice = React.useCallback(async () => {
+    if (isAssistantIdMisconfigured) {
+      setVoiceError(
+        "NEXT_PUBLIC_VAPI_ASSISTANT_ID is set to the Vapi public key. Use a Vapi assistant ID.",
+      );
+      return;
+    }
+
     if (!isConfigured || !assistantId) {
       setVoiceError("Vapi is not configured. Add public key and assistant ID to env.");
       return;
@@ -341,14 +365,64 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     });
 
     try {
-      const vapiClient = await createVapiClient();
-      const startResult = await vapiClient.start(
-        assistantId,
-        withVapiAudioFallback(overrides) as Parameters<typeof vapiClient.start>[1],
-      );
+      let vapiClient = await createVapiClient();
+      const fullOptions = withVapiAudioFallback(overrides) as Parameters<typeof vapiClient.start>[1];
+      const safeFallbackOptions = withVapiAudioFallback({
+        metadata: {
+          source: "medora-chorui-voice",
+          role_context: roleContext,
+          patient_id: patientId || "",
+          session_token: sessionToken,
+          current_route: currentRoute,
+          locale: locale || "en",
+        },
+        variableValues: {
+          medora_role_context: roleContext,
+          medora_patient_id: patientId || "",
+          medora_session_token: sessionToken,
+          medora_current_route: currentRoute,
+          medora_locale: locale || "en",
+        },
+      }) as Parameters<typeof vapiClient.start>[1];
+
+      const attemptErrors: string[] = [];
+      let startResult: unknown = null;
+      const startAttempts: Array<Parameters<typeof vapiClient.start>[1] | undefined> = [
+        fullOptions,
+        safeFallbackOptions,
+        undefined,
+      ];
+
+      for (const attemptOptions of startAttempts) {
+        try {
+          startResult =
+            typeof attemptOptions === "undefined"
+              ? await vapiClient.start(assistantId)
+              : await vapiClient.start(assistantId, attemptOptions);
+          break;
+        } catch (attemptError) {
+          const message = getVapiErrorMessage(attemptError);
+          attemptErrors.push(message);
+
+          if (isAssistantNotFoundError(message)) {
+            throw attemptError;
+          }
+        }
+      }
 
       if (startResult === null) {
-        throw new Error("Voice call did not start.");
+        disposeVapiClient(false);
+        vapiClient = createPlainVapiClient();
+
+        try {
+          startResult = await vapiClient.start(assistantId);
+        } catch (finalError) {
+          const finalMessage = getVapiErrorMessage(finalError);
+          attemptErrors.push(finalMessage);
+          throw new Error(
+            `Unable to start voice call. Attempts failed: ${attemptErrors.filter(Boolean).join(" | ")}`,
+          );
+        }
       }
     } catch (error) {
       const message = getVapiErrorMessage(error);
@@ -366,9 +440,11 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     }
   }, [
     assistantId,
+    createPlainVapiClient,
     createVapiClient,
     disposeVapiClient,
     isActive,
+    isAssistantIdMisconfigured,
     isConfigured,
     isConnecting,
     locale,

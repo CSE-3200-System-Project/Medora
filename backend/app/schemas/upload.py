@@ -45,6 +45,12 @@ class PrescriptionOCRMeta(BaseModel):
     processing_time_ms: int
     detected_regions: int
     ocr_line_count: int
+    yolo_avg_confidence: Optional[float] = None
+    yolo_min_confidence: Optional[float] = None
+    yolo_max_confidence: Optional[float] = None
+    ocr_avg_confidence: Optional[float] = None
+    ocr_min_confidence: Optional[float] = None
+    ocr_max_confidence: Optional[float] = None
 
 
 class PrescriptionExtractionResponse(BaseModel):
