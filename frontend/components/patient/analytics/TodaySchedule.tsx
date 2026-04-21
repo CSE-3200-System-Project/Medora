@@ -2,6 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MedicationItem, MedicationTimelineItem } from "@/components/patient/analytics/MedicationTimelineItem";
+import { useT } from "@/i18n/client";
 
 type TodayScheduleProps = {
   medications: MedicationItem[];
@@ -11,16 +12,18 @@ type TodayScheduleProps = {
 };
 
 export function TodaySchedule({ medications, onTake, onSkip, onRemind }: TodayScheduleProps) {
+  const tCommon = useT("common");
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3 pb-2">
-        <CardTitle className="text-xl">Today&apos;s Schedule</CardTitle>
+        <CardTitle className="text-xl">{tCommon("analytics.todaySchedule.title")}</CardTitle>
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label="Previous day">
+          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label={tCommon("analytics.todaySchedule.previousDay") }>
             <ChevronLeft className="h-4 w-4" />
           </button>
-          <span>Today</span>
-          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label="Next day">
+          <span>{tCommon("analytics.todaySchedule.today")}</span>
+          <button type="button" className="rounded-md p-1 hover:bg-accent" aria-label={tCommon("analytics.todaySchedule.nextDay") }>
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>

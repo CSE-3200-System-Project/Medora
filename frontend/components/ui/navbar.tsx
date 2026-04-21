@@ -190,8 +190,8 @@ export function Navbar() {
   };
 
   const getUserDisplayName = () => {
-    if (!user) return 'User';
-    return `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User';
+    if (!user) return tNav("userFallback");
+    return `${user.first_name || ''} ${user.last_name || ''}`.trim() || tNav("userFallback");
   };
 
   const resolvedAvatarUrl = user
@@ -263,7 +263,7 @@ export function Navbar() {
             <div
               role="status"
               aria-live="polite"
-              aria-label="Loading navigation"
+              aria-label={tNav("loadingNavigation")}
               className="flex h-8 items-center gap-3"
             >
               <div className="skeleton h-2.5 w-16 rounded-full" />
@@ -405,7 +405,7 @@ export function Navbar() {
                       <Image src={medoraDarkLogo} alt="Medora" fill className="object-contain dark:hidden" />
                       <Image src={medoraLightLogo} alt="Medora" fill className="hidden object-contain dark:block" />
                     </div>
-                    <span>Medora</span>
+                    <span>{tNav("appName")}</span>
                   </Link>
                 </SheetTitle>
               </SheetHeader>
@@ -419,7 +419,7 @@ export function Navbar() {
                 }}
               >
                 {loading ? (
-                  <div className="space-y-3 px-2" role="status" aria-live="polite" aria-label="Loading menu items">
+                  <div className="space-y-3 px-2" role="status" aria-live="polite" aria-label={tNav("loadingMenuItems")}>
                     <div className="flex items-center gap-3 rounded-xl border border-border/50 px-3 py-3">
                       <div className="skeleton h-5 w-5 rounded" />
                       <div className="skeleton h-3 w-28 rounded-full" />
