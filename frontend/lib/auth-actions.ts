@@ -108,6 +108,8 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
           ? detail
           : typeof detailRecord?.message === "string"
             ? detailRecord.message
+          : typeof detailRecord?.message === "string"
+            ? detailRecord.message
             : null;
 
       return {
