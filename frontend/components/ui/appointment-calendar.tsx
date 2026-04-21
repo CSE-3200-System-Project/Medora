@@ -104,7 +104,6 @@ export function AppointmentCalendar({
   };
 
   const getStatusColor = (status?: string) => {
-  const getStatusColor = (status?: string) => {
     switch (status?.toUpperCase()) {
       case 'CONFIRMED':
         return 'bg-blue-500';
