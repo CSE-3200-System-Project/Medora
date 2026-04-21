@@ -9,13 +9,21 @@ from typing import List
 
 from app.core.dependencies import get_db
 from app.db.models.medical_test import MedicalTest
+from app.db.models.patient import PatientProfile
+from app.routes.auth import get_current_user_token
 from app.schemas.medical_test import (
     MedicalTestResult,
     MedicalTestSearchResponse,
     MedicalTestDetailResponse,
+    PatientMedicalTestPatchRequest,
+    PatientMedicalTestPatchResponse,
 )
 
 router = APIRouter()
+
+
+def _normalize_test_value(value: str | None) -> str:
+    return (value or "").strip().lower()
 
 
 @router.get("/search", response_model=MedicalTestSearchResponse)
@@ -139,3 +147,82 @@ async def get_medical_test_detail(
         is_active=test.is_active,
         created_at=test.created_at,
     )
+
+
+@router.patch("/patient/tests", response_model=PatientMedicalTestPatchResponse)
+async def patch_patient_medical_test(
+    payload: PatientMedicalTestPatchRequest,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Upsert a patient's medical test lifecycle using the existing patient_profiles.medical_tests JSON field.
+    Completion state is derived by result/status and persists in onboarding data.
+    """
+    test_name = (payload.test_name or "").strip()
+    test_date = (payload.test_date or "").strip()
+    if not test_name or not test_date:
+        raise HTTPException(status_code=400, detail="test_name and test_date are required")
+
+    result = await db.execute(select(PatientProfile).where(PatientProfile.profile_id == user.id))
+    patient = result.scalar_one_or_none()
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient profile not found")
+
+    tests = patient.medical_tests if isinstance(patient.medical_tests, list) else []
+    tests = [dict(item) for item in tests if isinstance(item, dict)]
+
+    target_index = None
+    for index, item in enumerate(tests):
+        if (
+            _normalize_test_value(str(item.get("test_name", ""))) == _normalize_test_value(test_name)
+            and _normalize_test_value(str(item.get("test_date", ""))) == _normalize_test_value(test_date)
+        ):
+            target_index = index
+            break
+
+    effective_status = payload.status
+    if payload.result is not None and str(payload.result).strip():
+        effective_status = "completed"
+    if effective_status is None:
+        effective_status = "pending"
+
+    if target_index is None:
+        next_item = {
+            "test_name": test_name,
+            "test_date": test_date,
+            "test_id": None,
+            "result": (payload.result or "").strip(),
+            "notes": (payload.notes or "").strip(),
+            "status": effective_status,
+            "prescribing_doctor": (payload.prescribing_doctor or "").strip(),
+            "hospital_lab": (payload.hospital_lab or "").strip(),
+        }
+        tests.insert(0, next_item)
+    else:
+        existing = tests[target_index]
+        if payload.prescribing_doctor is not None:
+            existing["prescribing_doctor"] = payload.prescribing_doctor.strip()
+        if payload.hospital_lab is not None:
+            existing["hospital_lab"] = payload.hospital_lab.strip()
+        if payload.notes is not None:
+            existing["notes"] = payload.notes.strip()
+        if payload.result is not None:
+            existing["result"] = payload.result.strip()
+
+        existing["status"] = effective_status
+        tests[target_index] = existing
+        next_item = existing
+
+    patient.medical_tests = tests
+    patient.has_medical_tests = len(tests) > 0
+    db.add(patient)
+    await db.commit()
+
+    return PatientMedicalTestPatchResponse(
+        message="Medical test updated",
+        test=next_item,
+    )
+    role_value = getattr(user.role, "value", user.role)
+    if str(role_value).lower() != "patient":
+        raise HTTPException(status_code=403, detail="Only patients can update medical tests")

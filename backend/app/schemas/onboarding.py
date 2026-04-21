@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 
 # === Shared Sub-Models ===
 
@@ -63,7 +63,7 @@ class MedicalTestRecord(BaseModel):
     result_value: Optional[str] = None  # Numeric value if applicable
     result_unit: Optional[str] = None  # Unit of measurement
     normal_range: Optional[str] = None  # Reference range
-    status: Optional[str] = None  # normal, abnormal, critical
+    status: Optional[Literal["pending", "completed", "skipped"]] = None
     prescribing_doctor: Optional[str] = None  # Doctor who prescribed
     hospital_lab: Optional[str] = None  # Hospital/Lab where test was done
     notes: Optional[str] = None  # Additional notes
