@@ -14,6 +14,8 @@ import uuid
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.appointment_audit import AppointmentAuditLog
 from app.db.models.appointment_request import (
+    AdminApprovalStatus,
+    AppointmentCancellationRequest,
     AppointmentRescheduleRequest,
     RescheduleRequestStatus,
     RequestedByRole,
@@ -291,6 +293,7 @@ async def _emit_domain_event(
     actor_role: str,
     reschedule_request: Optional[AppointmentRescheduleRequest] = None,
     reason: Optional[str] = None,
+    notify_target: Optional[str] = None,
 ) -> None:
     actor_role_norm = (actor_role or "unknown").lower()
     actor_name = await _profile_name(db, actor_id, "User")
@@ -302,6 +305,7 @@ async def _emit_domain_event(
         "appointment_id": appointment.id,
         "reschedule_request_id": reschedule_request.id if reschedule_request else None,
         "actor_role": actor_role_norm,
+        "notify_target": notify_target,
         "proposed_date": reschedule_request.proposed_date.isoformat() if reschedule_request else None,
         "proposed_time": reschedule_request.proposed_time.isoformat() if reschedule_request else None,
         "reason": reason,
@@ -314,11 +318,16 @@ async def _emit_domain_event(
     action_url = "/patient/appointments"
 
     if event_name == "appointment.created":
+        # New bookings now land in PENDING_ADMIN_REVIEW; doctor is notified only after admin approval.
+        # We notify the patient that their request is under review.
         notification_type = NotificationType.APPOINTMENT_BOOKED
-        title = "New Appointment Request"
-        message = f"{patient_name} requested an appointment on {schedule_label}"
-        notify_user_id = appointment.doctor_id
-        action_url = "/doctor/appointments"
+        title = "Appointment Request Submitted"
+        message = (
+            f"Your appointment request with Dr. {doctor_name} on {schedule_label} "
+            "has been submitted and is awaiting admin review."
+        )
+        notify_user_id = appointment.patient_id
+        action_url = "/patient/appointments"
 
     elif event_name == "appointment.confirmed":
         notification_type = NotificationType.APPOINTMENT_CONFIRMED
@@ -353,29 +362,101 @@ async def _emit_domain_event(
             message = f"{message}. Reason: {reason}"
 
     elif event_name == "reschedule.requested" and reschedule_request:
+        # Admin-mediated: requester is notified that their request is awaiting admin review.
         notification_type = NotificationType.APPOINTMENT_RESCHEDULE_REQUEST
-        title = "Appointment Reschedule Request"
-        if reschedule_request.requested_by_id == appointment.doctor_id:
-            notify_user_id = appointment.patient_id
-            action_url = "/patient/appointments"
-            requester_label = f"Dr. {doctor_name}"
-        else:
-            notify_user_id = appointment.doctor_id
-            action_url = "/doctor/appointments"
-            requester_label = patient_name
+        title = "Reschedule Request Submitted"
         message = (
-            f"{requester_label} proposed rescheduling to "
-            f"{reschedule_request.proposed_date.isoformat()} at {reschedule_request.proposed_time.strftime('%I:%M %p')}"
+            "Your reschedule request has been submitted and is awaiting admin review."
+        )
+        notify_user_id = reschedule_request.requested_by_id
+        action_url = (
+            "/patient/appointments"
+            if reschedule_request.requested_by_id == appointment.patient_id
+            else "/doctor/appointments"
         )
         if reason:
-            message = f"{message}. Reason: {reason}"
+            message = f"{message} Reason: {reason}"
+
+    elif event_name == "reschedule.admin_approved" and reschedule_request:
+        # Admin approved; notify either requester or counterparty based on notify_target.
+        notification_type = NotificationType.APPOINTMENT_RESCHEDULE_REQUEST
+        requester_is_doctor = reschedule_request.requested_by_id == appointment.doctor_id
+        counterparty_id = appointment.patient_id if requester_is_doctor else appointment.doctor_id
+        counterparty_action_url = "/patient/appointments" if counterparty_id == appointment.patient_id else "/doctor/appointments"
+        requester_action_url = (
+            "/patient/appointments"
+            if reschedule_request.requested_by_id == appointment.patient_id
+            else "/doctor/appointments"
+        )
+
+        if (notify_target or "counterparty").lower() == "requester":
+            notify_user_id = reschedule_request.requested_by_id
+            action_url = requester_action_url
+            title = "Reschedule Request Approved by Admin"
+            waiting_on_label = patient_name if requester_is_doctor else f"Dr. {doctor_name}"
+            message = (
+                f"Admin approved your request to reschedule to "
+                f"{reschedule_request.proposed_date.isoformat()} at "
+                f"{reschedule_request.proposed_time.strftime('%I:%M %p')}. "
+                f"Waiting for {waiting_on_label} to respond."
+            )
+        else:
+            notify_user_id = counterparty_id
+            action_url = counterparty_action_url
+            title = "Reschedule Request Awaiting Your Response"
+            requester_label = f"Dr. {doctor_name}" if requester_is_doctor else patient_name
+            message = (
+                f"Admin approved {requester_label}'s request to reschedule to "
+                f"{reschedule_request.proposed_date.isoformat()} at "
+                f"{reschedule_request.proposed_time.strftime('%I:%M %p')}. Please confirm or reject."
+            )
+
+    elif event_name == "reschedule.admin_rejected" and reschedule_request:
+        notification_type = NotificationType.APPOINTMENT_RESCHEDULE_REJECTED
+        title = "Reschedule Request Rejected by Admin"
+        notify_user_id = reschedule_request.requested_by_id
+        action_url = (
+            "/patient/appointments"
+            if reschedule_request.requested_by_id == appointment.patient_id
+            else "/doctor/appointments"
+        )
+        message = "Admin rejected your reschedule request."
+        if reason:
+            message = f"{message} Reason: {reason}"
 
     elif event_name == "reschedule.accepted" and reschedule_request:
         notification_type = NotificationType.APPOINTMENT_RESCHEDULE_ACCEPTED
+        requester_id = reschedule_request.requested_by_id
+        counterparty_id = appointment.patient_id if requester_id == appointment.doctor_id else appointment.doctor_id
+        requester_action_url = "/patient/appointments" if requester_id == appointment.patient_id else "/doctor/appointments"
+        counterparty_action_url = "/patient/appointments" if counterparty_id == appointment.patient_id else "/doctor/appointments"
         title = "Reschedule Request Accepted"
-        notify_user_id = reschedule_request.requested_by_id
-        action_url = "/patient/appointments" if reschedule_request.requested_by_id == appointment.patient_id else "/doctor/appointments"
-        message = f"{actor_name} accepted the reschedule request"
+
+        if (notify_target or "requester").lower() == "counterparty":
+            notify_user_id = counterparty_id
+            action_url = counterparty_action_url
+            message = f"Reschedule confirmed. The appointment is now set for {schedule_label}."
+        else:
+            notify_user_id = requester_id
+            action_url = requester_action_url
+            message = f"{actor_name} accepted your reschedule request. The appointment is now set for {schedule_label}."
+
+    elif event_name == "reschedule.withdrawn" and reschedule_request:
+        notification_type = NotificationType.APPOINTMENT_RESCHEDULE_REJECTED
+        requester_id = reschedule_request.requested_by_id
+        counterparty_id = appointment.patient_id if requester_id == appointment.doctor_id else appointment.doctor_id
+        requester_action_url = "/patient/appointments" if requester_id == appointment.patient_id else "/doctor/appointments"
+        counterparty_action_url = "/patient/appointments" if counterparty_id == appointment.patient_id else "/doctor/appointments"
+        title = "Reschedule Request Withdrawn"
+
+        if (notify_target or "counterparty").lower() == "requester":
+            notify_user_id = requester_id
+            action_url = requester_action_url
+            message = f"You withdrew the reschedule request. The appointment remains on {schedule_label}."
+        else:
+            notify_user_id = counterparty_id
+            action_url = counterparty_action_url
+            message = f"{actor_name} withdrew the reschedule request. The appointment remains on {schedule_label}."
 
     elif event_name == "reschedule.rejected" and reschedule_request:
         notification_type = NotificationType.APPOINTMENT_RESCHEDULE_REJECTED
@@ -459,8 +540,9 @@ async def create_appointment(
         location_name=location_name,
         reason=reason,
         notes=notes,
-        status=AppointmentStatus.PENDING,
-        hold_expires_at=now_utc + timedelta(minutes=SOFT_HOLD_DURATION_MINUTES),
+        # All new bookings go through admin review before reaching the doctor.
+        status=AppointmentStatus.PENDING_ADMIN_REVIEW,
+        hold_expires_at=None,
     )
 
     db.add(new_appointment)
@@ -472,8 +554,8 @@ async def create_appointment(
         performed_by_id=patient_id,
         performed_by_role="patient",
         previous_status=None,
-        new_status=AppointmentStatus.PENDING.value,
-        notes=f"Appointment booked: {reason}",
+        new_status=AppointmentStatus.PENDING_ADMIN_REVIEW.value,
+        notes=f"Appointment booked (awaiting admin review): {reason}",
     )
     db.add(audit)
 
@@ -622,6 +704,15 @@ async def request_reschedule(
     if pending_req_result.scalar_one_or_none():
         raise ValueError("A pending reschedule request already exists")
 
+    if await slot_service.is_slot_held_by_pending_reschedule(
+        db,
+        appointment.doctor_id,
+        proposed_date,
+        proposed_time,
+        exclude_appointment_id=appointment.id,
+    ):
+        raise ValueError("The proposed slot is currently held by another pending reschedule request")
+
     is_available = await slot_service.is_slot_available(
         db,
         appointment.doctor_id,
@@ -700,6 +791,12 @@ async def respond_to_reschedule(
 
     if reschedule_request.status != RescheduleRequestStatus.PENDING:
         raise ValueError("Reschedule request is no longer pending")
+
+    # Admin must approve before the other party can act on the proposal.
+    if reschedule_request.admin_approval_status != AdminApprovalStatus.APPROVED:
+        raise ValueError(
+            "Reschedule request is still awaiting admin approval"
+        )
 
     appt_result = await db.execute(
         select(Appointment)
@@ -874,6 +971,17 @@ async def respond_to_reschedule(
             actor_role=responded_by_role,
             reschedule_request=reschedule_request,
             reason=response_note,
+            notify_target="requester",
+        )
+        await _emit_domain_event(
+            db,
+            event_name="reschedule.accepted",
+            appointment=appointment,
+            actor_id=responded_by_id,
+            actor_role=responded_by_role,
+            reschedule_request=reschedule_request,
+            reason=response_note,
+            notify_target="counterparty",
         )
 
         return reschedule_request
@@ -912,6 +1020,412 @@ async def respond_to_reschedule(
     )
 
     return reschedule_request
+
+
+async def admin_approve_reschedule_request(
+    db: AsyncSession,
+    reschedule_request_id: str,
+    admin_id: str,
+    notes: Optional[str] = None,
+) -> AppointmentRescheduleRequest:
+    """Admin approves a reschedule proposal so the other party can respond."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(AppointmentRescheduleRequest)
+        .where(AppointmentRescheduleRequest.id == reschedule_request_id)
+        .with_for_update()
+    )
+    req = result.scalar_one_or_none()
+    if not req:
+        raise ValueError("Reschedule request not found")
+    if req.status != RescheduleRequestStatus.PENDING:
+        raise ValueError("Reschedule request is no longer pending")
+    if req.admin_approval_status != AdminApprovalStatus.PENDING:
+        raise ValueError("Reschedule request has already been decided by admin")
+
+    req.admin_approval_status = AdminApprovalStatus.APPROVED
+    req.admin_notes = notes
+    req.admin_decided_at = now_utc
+
+    appt_result = await db.execute(
+        select(Appointment).where(Appointment.id == req.appointment_id)
+    )
+    appointment = appt_result.scalar_one_or_none()
+    if appointment:
+        db.add(
+            AppointmentAuditLog(
+                id=str(uuid.uuid4()),
+                appointment_id=appointment.id,
+                action_type="reschedule_admin_approved",
+                performed_by_id=admin_id,
+                performed_by_role="admin",
+                previous_status=appointment.status.value,
+                new_status=appointment.status.value,
+                notes=notes or "Admin approved reschedule request",
+            )
+        )
+        await db.flush()
+        await _emit_domain_event(
+            db,
+            event_name="reschedule.admin_approved",
+            appointment=appointment,
+            actor_id=admin_id,
+            actor_role="admin",
+            reschedule_request=req,
+            reason=notes,
+        )
+        await _emit_domain_event(
+            db,
+            event_name="reschedule.admin_approved",
+            appointment=appointment,
+            actor_id=admin_id,
+            actor_role="admin",
+            reschedule_request=req,
+            reason=notes,
+            notify_target="requester",
+        )
+    return req
+
+
+async def withdraw_reschedule_request(
+    db: AsyncSession,
+    reschedule_request_id: str,
+    requester_id: str,
+    requester_role: str,
+    response_note: Optional[str] = None,
+) -> AppointmentRescheduleRequest:
+    """Allow requester to withdraw their own pending reschedule request."""
+    now_utc = datetime.now(timezone.utc)
+
+    result = await db.execute(
+        select(AppointmentRescheduleRequest)
+        .where(AppointmentRescheduleRequest.id == reschedule_request_id)
+        .with_for_update()
+    )
+    req = result.scalar_one_or_none()
+    if not req:
+        raise ValueError("Reschedule request not found")
+    if req.status != RescheduleRequestStatus.PENDING:
+        raise ValueError("Reschedule request is no longer pending")
+    if req.requested_by_id != requester_id:
+        raise ValueError("Only the requester can withdraw this reschedule request")
+
+    appt_result = await db.execute(
+        select(Appointment)
+        .where(Appointment.id == req.appointment_id)
+        .with_for_update()
+    )
+    appointment = appt_result.scalar_one_or_none()
+    if not appointment:
+        raise ValueError("Appointment not found")
+    if requester_id not in {appointment.patient_id, appointment.doctor_id}:
+        raise ValueError("Requester is not part of this appointment")
+    if appointment.status in NON_OCCUPYING_STATUSES:
+        raise ValueError("Cannot withdraw reschedule for an inactive appointment")
+
+    previous_status = appointment.status
+    req.status = RescheduleRequestStatus.REJECTED
+    req.responded_by_id = requester_id
+    req.responded_at = now_utc
+    req.response_note = response_note or "WITHDRAWN_BY_REQUESTER"
+
+    if appointment.status == AppointmentStatus.RESCHEDULE_REQUESTED:
+        appointment.status = AppointmentStatus.CONFIRMED
+
+    db.add(
+        AppointmentAuditLog(
+            id=str(uuid.uuid4()),
+            appointment_id=appointment.id,
+            action_type="reschedule_withdrawn",
+            performed_by_id=requester_id,
+            performed_by_role=requester_role,
+            previous_status=previous_status.value,
+            new_status=appointment.status.value,
+            notes=req.response_note,
+        )
+    )
+
+    await db.flush()
+    await _emit_domain_event(
+        db,
+        event_name="reschedule.withdrawn",
+        appointment=appointment,
+        actor_id=requester_id,
+        actor_role=requester_role,
+        reschedule_request=req,
+        reason=req.response_note,
+        notify_target="counterparty",
+    )
+    await _emit_domain_event(
+        db,
+        event_name="reschedule.withdrawn",
+        appointment=appointment,
+        actor_id=requester_id,
+        actor_role=requester_role,
+        reschedule_request=req,
+        reason=req.response_note,
+        notify_target="requester",
+    )
+
+    return req
+
+
+async def admin_reject_reschedule_request(
+    db: AsyncSession,
+    reschedule_request_id: str,
+    admin_id: str,
+    notes: Optional[str] = None,
+) -> AppointmentRescheduleRequest:
+    """Admin rejects a reschedule proposal; appointment returns to CONFIRMED."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(AppointmentRescheduleRequest)
+        .where(AppointmentRescheduleRequest.id == reschedule_request_id)
+        .with_for_update()
+    )
+    req = result.scalar_one_or_none()
+    if not req:
+        raise ValueError("Reschedule request not found")
+    if req.status != RescheduleRequestStatus.PENDING:
+        raise ValueError("Reschedule request is no longer pending")
+    if req.admin_approval_status != AdminApprovalStatus.PENDING:
+        raise ValueError("Reschedule request has already been decided by admin")
+
+    req.admin_approval_status = AdminApprovalStatus.REJECTED
+    req.admin_notes = notes
+    req.admin_decided_at = now_utc
+    req.status = RescheduleRequestStatus.REJECTED
+    req.responded_by_id = admin_id
+    req.responded_at = now_utc
+    req.response_note = notes or "Rejected by admin"
+
+    appt_result = await db.execute(
+        select(Appointment).where(Appointment.id == req.appointment_id).with_for_update()
+    )
+    appointment = appt_result.scalar_one_or_none()
+    if appointment and appointment.status == AppointmentStatus.RESCHEDULE_REQUESTED:
+        appointment.status = AppointmentStatus.CONFIRMED
+        db.add(
+            AppointmentAuditLog(
+                id=str(uuid.uuid4()),
+                appointment_id=appointment.id,
+                action_type="reschedule_admin_rejected",
+                performed_by_id=admin_id,
+                performed_by_role="admin",
+                previous_status=AppointmentStatus.RESCHEDULE_REQUESTED.value,
+                new_status=AppointmentStatus.CONFIRMED.value,
+                notes=notes or "Admin rejected reschedule request",
+            )
+        )
+        await db.flush()
+        await _emit_domain_event(
+            db,
+            event_name="reschedule.admin_rejected",
+            appointment=appointment,
+            actor_id=admin_id,
+            actor_role="admin",
+            reschedule_request=req,
+            reason=notes,
+        )
+    return req
+
+
+# ========== CANCELLATION REQUEST FLOW ==========
+
+
+async def request_cancellation(
+    db: AsyncSession,
+    appointment_id: str,
+    requested_by_id: str,
+    requested_by_role: str,
+    reason_key: Optional[str] = None,
+    reason_note: Optional[str] = None,
+) -> AppointmentCancellationRequest:
+    """Party requests cancellation; appointment moves to CANCEL_REQUESTED pending admin review."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(Appointment).where(Appointment.id == appointment_id).with_for_update()
+    )
+    appointment = result.scalar_one_or_none()
+    if not appointment:
+        raise ValueError("Appointment not found")
+
+    if appointment.status not in {AppointmentStatus.CONFIRMED}:
+        raise ValueError("Only confirmed appointments can be cancelled")
+
+    if requested_by_id not in {appointment.patient_id, appointment.doctor_id}:
+        raise ValueError("Requester is not part of this appointment")
+
+    # Block if there is already a pending cancellation request.
+    pending_result = await db.execute(
+        select(AppointmentCancellationRequest).where(
+            AppointmentCancellationRequest.appointment_id == appointment_id,
+            AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING,
+        )
+    )
+    if pending_result.scalar_one_or_none():
+        raise ValueError("A cancellation request is already pending admin review")
+
+    previous_status = appointment.status.value
+    appointment.status = AppointmentStatus.CANCEL_REQUESTED
+
+    try:
+        role_enum = RequestedByRole((requested_by_role or "").lower())
+    except ValueError as exc:
+        raise ValueError("Invalid requester role for cancellation") from exc
+
+    cancel_request = AppointmentCancellationRequest(
+        id=str(uuid.uuid4()),
+        appointment_id=appointment_id,
+        requested_by_id=requested_by_id,
+        requested_by_role=role_enum,
+        reason_key=reason_key,
+        reason_note=reason_note,
+        admin_approval_status=AdminApprovalStatus.PENDING,
+    )
+    db.add(cancel_request)
+
+    db.add(
+        AppointmentAuditLog(
+            id=str(uuid.uuid4()),
+            appointment_id=appointment_id,
+            action_type="cancellation_requested",
+            performed_by_id=requested_by_id,
+            performed_by_role=requested_by_role,
+            previous_status=previous_status,
+            new_status=AppointmentStatus.CANCEL_REQUESTED.value,
+            notes=reason_note or reason_key,
+        )
+    )
+
+    await db.flush()
+
+    # Notify requester that request is submitted.
+    actor_name = await _profile_name(db, requested_by_id, "User")
+    schedule_label = _appointment_schedule_label(appointment)
+    await notification_service.create_notification(
+        db=db,
+        user_id=requested_by_id,
+        notification_type=NotificationType.APPOINTMENT_CANCELLED,
+        title="Cancellation Request Submitted",
+        message=(
+            f"Your request to cancel the appointment on {schedule_label} is awaiting admin review."
+        ),
+        action_url=(
+            "/patient/appointments" if requested_by_id == appointment.patient_id else "/doctor/appointments"
+        ),
+        metadata={
+            "appointment_id": appointment.id,
+            "cancellation_request_id": cancel_request.id,
+        },
+        priority=NotificationPriority.MEDIUM,
+    )
+
+    return cancel_request
+
+
+async def admin_approve_cancellation_request(
+    db: AsyncSession,
+    cancellation_request_id: str,
+    admin_id: str,
+    notes: Optional[str] = None,
+) -> AppointmentCancellationRequest:
+    """Admin approves cancellation; appointment transitions to cancelled-by-role state, slot freed."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(AppointmentCancellationRequest)
+        .where(AppointmentCancellationRequest.id == cancellation_request_id)
+        .with_for_update()
+    )
+    req = result.scalar_one_or_none()
+    if not req:
+        raise ValueError("Cancellation request not found")
+    if req.admin_approval_status != AdminApprovalStatus.PENDING:
+        raise ValueError("Cancellation request has already been decided")
+
+    req.admin_approval_status = AdminApprovalStatus.APPROVED
+    req.admin_notes = notes
+    req.admin_decided_at = now_utc
+
+    cancel_status = get_role_based_cancel_status(req.requested_by_role.value)
+    await transition_status(
+        db,
+        appointment_id=req.appointment_id,
+        new_status=cancel_status,
+        performed_by_id=req.requested_by_id,
+        performed_by_role=req.requested_by_role.value,
+        notes=notes or "Cancellation approved by admin",
+        cancellation_reason_key=req.reason_key or "ADMIN_APPROVED_CANCEL",
+        cancellation_reason_note=req.reason_note,
+    )
+    return req
+
+
+async def admin_reject_cancellation_request(
+    db: AsyncSession,
+    cancellation_request_id: str,
+    admin_id: str,
+    notes: Optional[str] = None,
+) -> AppointmentCancellationRequest:
+    """Admin rejects cancellation; appointment returns to CONFIRMED."""
+    now_utc = datetime.now(timezone.utc)
+    result = await db.execute(
+        select(AppointmentCancellationRequest)
+        .where(AppointmentCancellationRequest.id == cancellation_request_id)
+        .with_for_update()
+    )
+    req = result.scalar_one_or_none()
+    if not req:
+        raise ValueError("Cancellation request not found")
+    if req.admin_approval_status != AdminApprovalStatus.PENDING:
+        raise ValueError("Cancellation request has already been decided")
+
+    req.admin_approval_status = AdminApprovalStatus.REJECTED
+    req.admin_notes = notes
+    req.admin_decided_at = now_utc
+
+    appt_result = await db.execute(
+        select(Appointment).where(Appointment.id == req.appointment_id).with_for_update()
+    )
+    appointment = appt_result.scalar_one_or_none()
+    if appointment and appointment.status == AppointmentStatus.CANCEL_REQUESTED:
+        appointment.status = AppointmentStatus.CONFIRMED
+        db.add(
+            AppointmentAuditLog(
+                id=str(uuid.uuid4()),
+                appointment_id=appointment.id,
+                action_type="cancellation_admin_rejected",
+                performed_by_id=admin_id,
+                performed_by_role="admin",
+                previous_status=AppointmentStatus.CANCEL_REQUESTED.value,
+                new_status=AppointmentStatus.CONFIRMED.value,
+                notes=notes or "Admin rejected cancellation request",
+            )
+        )
+        await db.flush()
+
+        # Notify requester that cancellation was rejected.
+        await notification_service.create_notification(
+            db=db,
+            user_id=req.requested_by_id,
+            notification_type=NotificationType.APPOINTMENT_CANCELLED,
+            title="Cancellation Request Rejected",
+            message=(
+                "Your cancellation request was rejected by admin. The appointment remains confirmed."
+            ),
+            action_url=(
+                "/patient/appointments"
+                if req.requested_by_id == appointment.patient_id
+                else "/doctor/appointments"
+            ),
+            metadata={
+                "appointment_id": appointment.id,
+                "cancellation_request_id": req.id,
+            },
+            priority=NotificationPriority.MEDIUM,
+        )
+
+    return req
 
 
 async def expire_pending_holds(
@@ -995,39 +1509,64 @@ async def sync_calendar_on_status_change(
     """
     Sync Google Calendar events based on appointment status changes.
     Called after a status transition - best-effort, never raises.
+    Enhanced to sync to both patient and doctor calendars.
     """
     try:
         from app.services import google_calendar_service
 
         doctor_id = appointment.doctor_id
+        patient_id = appointment.patient_id
 
         if new_status == AppointmentStatus.CONFIRMED:
+            # Get doctor profile
             doctor_result = await db.execute(
                 select(Profile).where(Profile.id == doctor_id)
             )
             doctor_profile = doctor_result.scalar_one_or_none()
 
+            # Get patient profile
             patient_result = await db.execute(
-                select(Profile).where(Profile.id == appointment.patient_id)
+                select(Profile).where(Profile.id == patient_id)
             )
             patient_profile = patient_result.scalar_one_or_none()
 
             doctor_name = f"{doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else "Doctor"
             patient_name = f"{patient_profile.first_name} {patient_profile.last_name}" if patient_profile else "Patient"
 
-            event_id = await google_calendar_service.create_calendar_event(
+            # Sync to doctor's calendar
+            doctor_event_id = await google_calendar_service.sync_appointment_to_calendar(
                 db=db,
                 user_id=doctor_id,
+                appointment_id=appointment.id,
                 summary=f"Appointment with {patient_name}",
-                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}",
+                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
                 start_datetime=appointment.appointment_date,
                 duration_minutes=appointment.duration_minutes or 30,
             )
-            if event_id:
-                appointment.google_event_id = event_id
+
+            # Sync to patient's calendar
+            patient_event_id = await google_calendar_service.sync_appointment_to_calendar(
+                db=db,
+                user_id=patient_id,
+                appointment_id=appointment.id,
+                summary=f"Appointment with {doctor_name}",
+                description=f"Doctor: {doctor_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
+                start_datetime=appointment.appointment_date,
+                duration_minutes=appointment.duration_minutes or 30,
+            )
+
+            # Store doctor's event ID (primary owner)
+            if doctor_event_id:
+                appointment.google_event_id = doctor_event_id
                 await db.flush()
 
+            logger.info(
+                f"Calendar sync completed for appointment {appointment.id}: "
+                f"doctor_event={doctor_event_id}, patient_event={patient_event_id}"
+            )
+
         elif new_status in NON_OCCUPYING_STATUSES:
+            # Delete doctor's calendar event
             if appointment.google_event_id:
                 await google_calendar_service.delete_calendar_event(
                     db=db,

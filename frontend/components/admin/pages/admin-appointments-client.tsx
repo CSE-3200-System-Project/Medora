@@ -39,6 +39,7 @@ import {
   getAppointmentSummary,
 } from "@/lib/admin-actions";
 import {
+  formatMeridiemTime,
   parseCompositeReason,
   humanizeConsultationType,
   humanizeAppointmentType,
@@ -240,11 +241,21 @@ export function AdminAppointmentsClient({
 
   const handleOverrideStatus = async (
     appointmentId: string,
-    newStatus: string
+    newStatus: string,
+    currentStatus?: string
   ) => {
     setOverridingId(appointmentId);
     try {
-      await overrideAppointmentStatus(appointmentId, newStatus, "Admin override");
+      const isRescheduleApproval =
+        (currentStatus || "").toLowerCase() === "reschedule_requested" &&
+        newStatus === "CONFIRMED";
+      await overrideAppointmentStatus(
+        appointmentId,
+        newStatus,
+        isRescheduleApproval
+          ? "Admin approved reschedule request"
+          : "Admin override"
+      );
       await Promise.all([fetchAppointments(), fetchSummary()]);
     } catch (error) {
       console.error("Failed to override status:", error);
@@ -506,12 +517,7 @@ export function AdminAppointmentsClient({
                               ).toLocaleDateString()}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {new Date(
-                                apt.appointment_date
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              {formatMeridiemTime(apt.appointment_date)}
                               {apt.duration_minutes
                                 ? ` (${apt.duration_minutes}m)`
                                 : ""}
@@ -567,7 +573,11 @@ export function AdminAppointmentsClient({
                               value=""
                               onChange={(e) => {
                                 if (e.target.value)
-                                  handleOverrideStatus(apt.id, e.target.value);
+                                  handleOverrideStatus(
+                                    apt.id,
+                                    e.target.value,
+                                    apt.status
+                                  );
                               }}
                               disabled={overridingId === apt.id}
                               className="h-7 text-xs bg-card/60 border-border text-muted-foreground flex-1"
@@ -578,7 +588,12 @@ export function AdminAppointmentsClient({
                                   ? "Updating..."
                                   : "Select..."}
                               </option>
-                              <option value="CONFIRMED">Confirm</option>
+                              <option value="CONFIRMED">
+                                {apt.status.toLowerCase() ===
+                                "reschedule_requested"
+                                  ? "Approve Reschedule"
+                                  : "Confirm"}
+                              </option>
                               <option value="CANCELLED">Cancel</option>
                               <option value="COMPLETED">Complete</option>
                               <option value="NO_SHOW">No Show</option>
@@ -643,12 +658,7 @@ export function AdminAppointmentsClient({
                               ).toLocaleDateString()}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {new Date(
-                                apt.appointment_date
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              {formatMeridiemTime(apt.appointment_date)}
                               {apt.duration_minutes
                                 ? ` (${apt.duration_minutes}m)`
                                 : ""}
@@ -676,7 +686,8 @@ export function AdminAppointmentsClient({
                                   if (e.target.value)
                                     handleOverrideStatus(
                                       apt.id,
-                                      e.target.value
+                                      e.target.value,
+                                      apt.status
                                     );
                                 }}
                                 disabled={overridingId === apt.id}
@@ -688,7 +699,12 @@ export function AdminAppointmentsClient({
                                     ? "Updating..."
                                     : "Override..."}
                                 </option>
-                                <option value="CONFIRMED">Confirm</option>
+                                <option value="CONFIRMED">
+                                  {apt.status.toLowerCase() ===
+                                  "reschedule_requested"
+                                    ? "Approve Reschedule"
+                                    : "Confirm"}
+                                </option>
                                 <option value="CANCELLED">Cancel</option>
                                 <option value="COMPLETED">Complete</option>
                                 <option value="NO_SHOW">No Show</option>

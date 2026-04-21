@@ -9,7 +9,8 @@
   "doctorMenu": {
     "appointments": "অ্যাপয়েন্টমেন্ট",
     "patients": "রোগী",
-    "analytics": "অ্যানালিটিক্স"
+    "analytics": "অ্যানালিটিক্স",
+    "findMedicine": "ওষুধ খুঁজুন"
   },
   "patientMenu": {
     "findDoctor": "ডাক্তার খুঁজুন",

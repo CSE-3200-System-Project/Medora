@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 import json
 from typing import Any
@@ -6,6 +7,7 @@ import re
 import logging
 from time import perf_counter
 from dataclasses import dataclass
+from types import SimpleNamespace
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from sqlalchemy import func, select, or_
@@ -29,7 +31,8 @@ from app.db.models.profile import Profile
 from app.db.models.consultation import Consultation, Prescription, MedicationPrescription
 from app.db.models.medicine import Drug, Brand, MedicineSearchIndex
 from app.db.models.medical_test import MedicalTest
-from app.db.models.enums import UserRole
+from app.db.models.enums import AccountStatus, UserRole
+from app.core.security import verify_jwt
 from app.routes.auth import get_current_user_token
 from app.routes.patient_access import check_doctor_patient_access, log_patient_access
 from app.core.data_sharing_guard import (
@@ -61,6 +64,7 @@ from app.schemas.ai_orchestrator import (
     ChoruiConversationSummary,
     ChoruiIntakeSaveRequest,
     ChoruiIntakeSaveResponse,
+    ChoruiNavigationSuggestion,
 )
 from app.services.ai_orchestrator import AIExecutionResult, AIOrchestratorError, ai_orchestrator
 from app.services.chorui_intent_normalizer import (
@@ -104,6 +108,228 @@ CHORUI_UUID_PATTERN = re.compile(
     flags=re.IGNORECASE,
 )
 CHORUI_PATIENT_REF_PATTERN = re.compile(r"\bPT[-_]?[A-Z2-7]{10}\b", flags=re.IGNORECASE)
+VAPI_SUPPORTED_TOOL_NAMES = {
+    "ask_chorui",
+    "chorui_assistant",
+    "chorui_chat",
+    "summarize_prescription",
+    "explain_prescription",
+    "navigate_medora",
+    "navigate",
+    "get_upcoming_appointments",
+    "find_patient",
+    "get_voice_context",
+    "end_voice_call",
+}
+
+# Tools that the Vapi server webhook treats as navigation/UI actions the
+# client is expected to execute locally. The server returns a spoken result
+# while the Medora frontend also listens for the same tool-call on the Vapi
+# `message` stream and performs the actual router.push / UI action.
+VAPI_CLIENT_ACTION_TOOL_NAMES = {
+    "navigate_medora",
+    "navigate",
+    "end_voice_call",
+}
+
+
+def _safe_vapi_text(value: Any, *, max_length: int = CHORUI_MAX_STORED_MESSAGE_CHARS) -> str:
+    if value is None:
+        return ""
+    return str(value).strip()[:max_length]
+
+
+def _safe_vapi_dict(value: Any) -> dict[str, Any]:
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            return {}
+    return {}
+
+
+# Voice replies are spoken by Vapi's TTS. Long replies cost more seconds of
+# synthesis *and* sound unnatural, so we trim orchestrator replies to the
+# first couple of sentences before handing them back to the voice layer. The
+# on-screen Chorui panel always shows the full reply; voice gets the short form.
+VAPI_VOICE_REPLY_MAX_CHARS = 500
+VAPI_VOICE_REPLY_MAX_SENTENCES = 3
+# Hard ceiling on how long we wait for the orchestrator before Vapi gets an
+# apology line instead of a silent timeout. Keep below Vapi's own tool-call
+# deadline (~20s) with headroom.
+VAPI_ASK_CHORUI_TIMEOUT_SECONDS = 12.0
+
+
+def _shape_reply_for_voice(reply: str) -> str:
+    text = (reply or "").strip()
+    if not text:
+        return "I could not find an answer for that right now."
+
+    # Strip markdown emphasis / bullets / code fences that TTS reads awkwardly.
+    text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
+    text = re.sub(r"[*_`#>]+", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    if len(sentences) > VAPI_VOICE_REPLY_MAX_SENTENCES:
+        text = " ".join(sentences[:VAPI_VOICE_REPLY_MAX_SENTENCES]).strip()
+
+    if len(text) > VAPI_VOICE_REPLY_MAX_CHARS:
+        text = text[: VAPI_VOICE_REPLY_MAX_CHARS - 1].rstrip() + "…"
+
+    return text
+
+
+def _extract_vapi_tool_calls(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    message = payload.get("message")
+    if not isinstance(message, dict):
+        return []
+
+    calls: list[dict[str, Any]] = []
+
+    raw_calls = message.get("toolCallList")
+    if isinstance(raw_calls, list):
+        for item in raw_calls:
+            if not isinstance(item, dict):
+                continue
+            calls.append(
+                {
+                    "id": _safe_vapi_text(item.get("id"), max_length=128),
+                    "name": _safe_vapi_text(item.get("name"), max_length=128),
+                    "arguments": _safe_vapi_dict(item.get("arguments")),
+                }
+            )
+
+    wrapped_calls = message.get("toolWithToolCallList")
+    if isinstance(wrapped_calls, list):
+        for wrapped in wrapped_calls:
+            if not isinstance(wrapped, dict):
+                continue
+            tool_call = wrapped.get("toolCall")
+            if not isinstance(tool_call, dict):
+                continue
+            function_payload = tool_call.get("function")
+            function_dict = function_payload if isinstance(function_payload, dict) else {}
+            calls.append(
+                {
+                    "id": _safe_vapi_text(tool_call.get("id"), max_length=128),
+                    "name": _safe_vapi_text(
+                        function_dict.get("name") or wrapped.get("name"),
+                        max_length=128,
+                    ),
+                    "arguments": _safe_vapi_dict(function_dict.get("parameters")),
+                }
+            )
+
+    return calls
+
+
+def _extract_vapi_call_metadata(payload: dict[str, Any]) -> dict[str, Any]:
+    message = payload.get("message")
+    if not isinstance(message, dict):
+        return {}
+    call = message.get("call")
+    if not isinstance(call, dict):
+        return {}
+    metadata = call.get("metadata")
+    if not isinstance(metadata, dict):
+        return {}
+    return metadata
+
+
+def _extract_vapi_session_token(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    request: Request,
+) -> str:
+    token_candidates = [
+        arguments.get("session_token"),
+        arguments.get("auth_token"),
+        arguments.get("token"),
+        metadata.get("session_token"),
+        metadata.get("auth_token"),
+        request.headers.get("x-session-token"),
+    ]
+
+    authorization = request.headers.get("authorization")
+    if authorization:
+        token_candidates.append(authorization)
+
+    for candidate in token_candidates:
+        token = _safe_vapi_text(candidate, max_length=8000)
+        if not token:
+            continue
+        if token.lower().startswith("bearer "):
+            token = token.split(" ", 1)[1].strip()
+        if token:
+            return token
+    return ""
+
+
+def _extract_vapi_role_context(arguments: dict[str, Any], metadata: dict[str, Any]) -> str:
+    raw = _safe_vapi_text(
+        arguments.get("role_context")
+        or metadata.get("role_context")
+        or metadata.get("medora_role_context"),
+        max_length=32,
+    ).lower()
+    if raw in {"doctor", "patient"}:
+        return raw
+    return ""
+
+
+def _extract_vapi_patient_identifier(arguments: dict[str, Any], metadata: dict[str, Any]) -> str | None:
+    candidate = _safe_vapi_text(
+        arguments.get("patient_id")
+        or arguments.get("patient_identifier")
+        or metadata.get("patient_id")
+        or metadata.get("medora_patient_id")
+    )
+    return candidate or None
+
+
+def _extract_vapi_conversation_id(arguments: dict[str, Any], payload: dict[str, Any]) -> str | None:
+    requested_id = _safe_vapi_text(arguments.get("conversation_id"), max_length=64)
+    if requested_id:
+        return requested_id
+
+    message = payload.get("message")
+    if isinstance(message, dict):
+        call = message.get("call")
+        if isinstance(call, dict):
+            call_id = _safe_vapi_text(call.get("id"), max_length=54)
+            if call_id:
+                return f"vapi-{call_id}"[:64]
+    return None
+
+
+async def _resolve_vapi_user_from_token(session_token: str, db: AsyncSession) -> Any:
+    payload = await verify_jwt(session_token)
+    user_id = _safe_vapi_text(payload.get("sub"), max_length=64)
+    if not user_id:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
+
+    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = profile_result.scalar_one_or_none()
+    if profile is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
+
+    if profile.status == AccountStatus.banned:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Voice access is blocked for this account.",
+        )
+
+    return SimpleNamespace(
+        id=user_id,
+        email=payload.get("email"),
+        email_confirmed_at=payload.get("email_confirmed_at") or payload.get("confirmed_at"),
+    )
 
 
 async def _require_doctor(db: AsyncSession, user_id: str) -> None:
@@ -641,9 +867,11 @@ async def _finalize_chorui_response(
     intent: str,
     request: Request | None,
     user_message: str | None = None,
+    navigation: list[ChoruiNavigationSuggestion] | None = None,
 ) -> ChoruiAssistantResponse:
     synthesized_reply = str(reply or "").strip()
-    should_synthesize = str(structured_data.get("llm_source") or "") != "clinical_info_query"
+    llm_source = str(structured_data.get("llm_source") or "")
+    should_synthesize = llm_source not in {"clinical_info_query", "navigation"} and not navigation
     if should_synthesize:
         synthesis_started = perf_counter()
         try:
@@ -1400,6 +1628,390 @@ def _build_service_information_reply(*, role: UserRole, message: str) -> str:
     )
 
 
+# -------------------- Chorui navigation assistant --------------------
+#
+# These entries back the "take me to X" navigation experience. Each entry is a
+# stable path inside the Next.js app router and a set of natural-language
+# keywords that callers can use to request it. Keys are compared against a
+# normalised version of the user's message so trivial phrasing differences
+# (punctuation, casing, extra whitespace) still match.
+#
+# Keep this list in sync with the real routes in frontend/app/(home)/patient/
+# and frontend/app/(home)/doctor/. When adding a new page, add at least the
+# primary label, the path, and 3-5 natural keywords so the matcher has enough
+# signal to pick it up without the LLM.
+
+_CHORUI_PATIENT_NAVIGATION: tuple[dict[str, Any], ...] = (
+    {
+        "label": "Patient Home",
+        "path": "/patient/home",
+        "description": "Your personal Medora dashboard with today's snapshot.",
+        "keywords": ("home", "dashboard", "main page", "overview", "landing"),
+    },
+    {
+        "label": "Find Doctor",
+        "path": "/patient/find-doctor",
+        "description": "Search doctors by specialty, location, and availability.",
+        "keywords": (
+            "find doctor",
+            "search doctor",
+            "book a doctor",
+            "look for doctor",
+            "specialist",
+            "doctor list",
+            "browse doctors",
+        ),
+    },
+    {
+        "label": "Appointments",
+        "path": "/patient/appointments",
+        "description": "Review, book, reschedule, or cancel your appointments.",
+        "keywords": (
+            "appointment",
+            "appointments",
+            "book appointment",
+            "reschedule",
+            "cancel appointment",
+            "upcoming visit",
+            "my visits",
+        ),
+    },
+    {
+        "label": "My Prescriptions",
+        "path": "/patient/my-prescriptions",
+        "description": "All prescriptions issued by your doctors.",
+        "keywords": (
+            "prescription",
+            "prescriptions",
+            "my prescription",
+            "medicine list",
+            "medication list",
+            "drug list",
+            "refill",
+        ),
+    },
+    {
+        "label": "Medical History",
+        "path": "/patient/medical-history",
+        "description": "Your saved conditions, allergies, and medical history.",
+        "keywords": (
+            "medical history",
+            "health history",
+            "conditions",
+            "allergies",
+            "past illness",
+            "history of illness",
+        ),
+    },
+    {
+        "label": "Medical Reports",
+        "path": "/patient/medical-reports",
+        "description": "Upload or view your lab results and scanned reports.",
+        "keywords": (
+            "medical report",
+            "lab report",
+            "upload report",
+            "scan",
+            "blood test",
+            "test result",
+            "diagnostic",
+        ),
+    },
+    {
+        "label": "Find Medicine",
+        "path": "/patient/find-medicine",
+        "description": "Look up medicines, brands, and alternatives.",
+        "keywords": (
+            "find medicine",
+            "search medicine",
+            "pharmacy",
+            "brand",
+            "generic",
+            "drug search",
+            "medicine lookup",
+        ),
+    },
+    {
+        "label": "Reminders",
+        "path": "/patient/reminders",
+        "description": "Medicine and appointment reminders you have set.",
+        "keywords": (
+            "reminder",
+            "reminders",
+            "medicine reminder",
+            "alert",
+            "notification schedule",
+        ),
+    },
+    {
+        "label": "Analytics",
+        "path": "/patient/analytics",
+        "description": "Trends and analytics on your health data.",
+        "keywords": (
+            "analytics",
+            "trends",
+            "charts",
+            "statistics",
+            "my health data",
+            "health insights",
+        ),
+    },
+    {
+        "label": "Chorui AI",
+        "path": "/patient/chorui-ai",
+        "description": "Open the full Chorui AI workspace.",
+        "keywords": ("chorui", "ai assistant", "ai workspace"),
+    },
+    {
+        "label": "Profile",
+        "path": "/patient/profile",
+        "description": "Update your personal details and avatar.",
+        "keywords": ("profile", "my profile", "account", "personal info", "avatar", "photo"),
+    },
+    {
+        "label": "Privacy & Sharing",
+        "path": "/patient/privacy",
+        "description": "Control how your data is shared with doctors.",
+        "keywords": ("privacy", "data sharing", "sharing", "consent", "permissions"),
+    },
+    {
+        "label": "Notifications",
+        "path": "/notifications",
+        "description": "See every Medora notification in one place.",
+        "keywords": ("notification", "notifications", "inbox", "alerts"),
+    },
+    {
+        "label": "Settings",
+        "path": "/settings",
+        "description": "App preferences, language, and security.",
+        "keywords": ("settings", "preferences", "language", "theme"),
+    },
+)
+
+_CHORUI_DOCTOR_NAVIGATION: tuple[dict[str, Any], ...] = (
+    {
+        "label": "Doctor Home",
+        "path": "/doctor/home",
+        "description": "Your clinical dashboard with today's workload.",
+        "keywords": ("home", "dashboard", "main page", "overview"),
+    },
+    {
+        "label": "My Patients",
+        "path": "/doctor/patients",
+        "description": "Browse and open records for your active patients.",
+        "keywords": (
+            "patients",
+            "my patients",
+            "patient list",
+            "active patients",
+            "people i treat",
+        ),
+    },
+    {
+        "label": "Schedule",
+        "path": "/doctor/schedule",
+        "description": "Manage your availability and appointment slots.",
+        "keywords": (
+            "schedule",
+            "availability",
+            "slots",
+            "my schedule",
+            "working hours",
+            "calendar",
+        ),
+    },
+    {
+        "label": "Appointments",
+        "path": "/doctor/appointments",
+        "description": "All upcoming and past patient appointments.",
+        "keywords": (
+            "appointment",
+            "appointments",
+            "upcoming",
+            "today's appointments",
+            "bookings",
+        ),
+    },
+    {
+        "label": "Analytics",
+        "path": "/doctor/analytics",
+        "description": "Practice analytics and patient-care metrics.",
+        "keywords": ("analytics", "metrics", "statistics", "insights", "trends"),
+    },
+    {
+        "label": "Find Medicine",
+        "path": "/doctor/find-medicine",
+        "description": "Look up medicines, interactions, and alternatives.",
+        "keywords": (
+            "find medicine",
+            "search medicine",
+            "drug lookup",
+            "brand",
+            "generic",
+            "interactions",
+        ),
+    },
+    {
+        "label": "Chorui AI",
+        "path": "/doctor/chorui-ai",
+        "description": "Open the full Chorui AI workspace.",
+        "keywords": ("chorui", "ai assistant", "ai workspace"),
+    },
+    {
+        "label": "Profile",
+        "path": "/doctor/profile",
+        "description": "Update your clinical profile and credentials.",
+        "keywords": ("profile", "my profile", "account", "credentials", "bio"),
+    },
+    {
+        "label": "Notifications",
+        "path": "/notifications",
+        "description": "See every Medora notification in one place.",
+        "keywords": ("notification", "notifications", "inbox", "alerts"),
+    },
+    {
+        "label": "Settings",
+        "path": "/settings",
+        "description": "App preferences, language, and security.",
+        "keywords": ("settings", "preferences", "language", "theme"),
+    },
+)
+
+_CHORUI_NAVIGATION_TRIGGER_KEYWORDS: tuple[str, ...] = (
+    "take me to",
+    "go to",
+    "open the",
+    "open ",
+    "navigate to",
+    "where is the",
+    "where can i find",
+    "how do i get to",
+    "show me the",
+    "bring me to",
+    "jump to",
+    "redirect me",
+    "can you open",
+    "take me",
+    "link to",
+    "where do i go",
+)
+
+
+def _navigation_registry_for_role(role: UserRole | None) -> tuple[dict[str, Any], ...]:
+    if role == UserRole.DOCTOR:
+        return _CHORUI_DOCTOR_NAVIGATION
+    return _CHORUI_PATIENT_NAVIGATION
+
+
+def _is_navigation_request(normalized_message: str) -> bool:
+    if not normalized_message:
+        return False
+    return any(trigger in normalized_message for trigger in _CHORUI_NAVIGATION_TRIGGER_KEYWORDS)
+
+
+def _score_navigation_entry(entry: dict[str, Any], normalized_message: str) -> int:
+    score = 0
+    label_tokens = _normalize_message(str(entry.get("label", "")))
+    if label_tokens and label_tokens in normalized_message:
+        score += 6
+    for keyword in entry.get("keywords", ()):  # type: ignore[assignment]
+        keyword_normalized = _normalize_message(str(keyword))
+        if not keyword_normalized:
+            continue
+        if keyword_normalized in normalized_message:
+            score += 3 if " " in keyword_normalized else 2
+    return score
+
+
+def _match_navigation_entries(
+    *,
+    role: UserRole | None,
+    message: str,
+    limit: int = 3,
+) -> list[dict[str, Any]]:
+    normalized = _normalize_message(message)
+    if not normalized:
+        return []
+
+    registry = _navigation_registry_for_role(role)
+    scored: list[tuple[int, dict[str, Any]]] = []
+    for entry in registry:
+        score = _score_navigation_entry(entry, normalized)
+        if score > 0:
+            scored.append((score, entry))
+
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [entry for _score, entry in scored[:limit]]
+
+
+def _navigation_entries_to_suggestions(
+    entries: list[dict[str, Any]],
+) -> list[ChoruiNavigationSuggestion]:
+    suggestions: list[ChoruiNavigationSuggestion] = []
+    for entry in entries:
+        label = str(entry.get("label", "")).strip()
+        path = str(entry.get("path", "")).strip()
+        if not label or not path:
+            continue
+        description_raw = entry.get("description")
+        description = str(description_raw).strip() if description_raw else None
+        suggestions.append(
+            ChoruiNavigationSuggestion(
+                label=label,
+                path=path,
+                description=description,
+            )
+        )
+    return suggestions
+
+
+def _build_navigation_reply(
+    *,
+    role: UserRole | None,
+    entries: list[dict[str, Any]],
+    original_message: str,
+) -> str:
+    if not entries:
+        if role == UserRole.DOCTOR:
+            return (
+                "I could not match that to a doctor page I know. I can take you to Home, Patients, "
+                "Schedule, Appointments, Analytics, Find Medicine, Chorui AI, Profile, Notifications, "
+                "or Settings. Tell me which one and I will drop a link for you."
+            )
+        return (
+            "I could not match that to a patient page I know. I can take you to Home, Find Doctor, "
+            "Appointments, My Prescriptions, Medical History, Medical Reports, Find Medicine, "
+            "Reminders, Analytics, Chorui AI, Profile, Privacy, Notifications, or Settings. "
+            "Tell me which one you want."
+        )
+
+    top = entries[0]
+    top_label = str(top.get("label", "")).strip()
+    top_description = str(top.get("description") or "").strip()
+
+    primary_line = f"Sure — {top_label} is right here."
+    if top_description:
+        primary_line = f"{primary_line} {top_description}"
+
+    if len(entries) == 1:
+        return (
+            f"{primary_line}\n\n"
+            "Tap the link below to go there directly."
+        )
+
+    alt_lines = [
+        f"- {str(entry.get('label', '')).strip()}"
+        for entry in entries[1:]
+    ]
+    alt_block = "\n".join([line for line in alt_lines if line.strip("- ")])
+    return (
+        f"{primary_line}\n\n"
+        "Tap the link below to go there directly. "
+        "If that is not what you meant, I can also take you to:\n"
+        f"{alt_block}"
+    )
+
+
 def _build_patient_contextual_general_reply(
     *,
     conditions: list[str],
@@ -1774,6 +2386,54 @@ def _medication_schedule_line(item: Any) -> str:
     duration = f" for {duration_value} {duration_unit}" if duration_value and duration_unit else ""
     meal = _meal_instruction_text(getattr(item, "meal_instruction", None))
     return f"{', '.join(windows)}{duration} ({meal})"
+
+
+def _build_patient_prescription_plain_text_summary(
+    *,
+    created_at: datetime | None,
+    medication_summary: list[dict[str, Any]],
+    test_summary: list[dict[str, Any]],
+    procedure_summary: list[dict[str, Any]],
+) -> str:
+    segments: list[str] = ["Here is your brief prescription summary."]
+
+    if created_at:
+        segments.append(f"Issued on {_format_datetime_label(created_at)}.")
+
+    if medication_summary:
+        segments.append(f"Medications: {len(medication_summary)} item(s).")
+        for index, item in enumerate(medication_summary[:6], start=1):
+            name = _safe_vapi_text(item.get("name"), max_length=120) or f"Medication {index}"
+            schedule = _safe_vapi_text(item.get("schedule"), max_length=220) or "as directed"
+            quantity = item.get("quantity")
+            quantity_text = f", quantity {quantity}" if quantity not in (None, "") else ""
+            segments.append(f"{index}. {name}: {schedule}{quantity_text}.")
+            special = _safe_vapi_text(item.get("special_instructions"), max_length=120)
+            if special:
+                segments.append(f"Special note: {special}.")
+    else:
+        segments.append("No medications are listed in this prescription.")
+
+    if test_summary:
+        test_names = [
+            _safe_vapi_text(item.get("name"), max_length=80)
+            for item in test_summary[:6]
+            if _safe_vapi_text(item.get("name"), max_length=80)
+        ]
+        if test_names:
+            segments.append(f"Recommended tests: {', '.join(test_names)}.")
+
+    if procedure_summary:
+        procedure_names = [
+            _safe_vapi_text(item.get("name"), max_length=80)
+            for item in procedure_summary[:4]
+            if _safe_vapi_text(item.get("name"), max_length=80)
+        ]
+        if procedure_names:
+            segments.append(f"Procedure recommendations: {', '.join(procedure_names)}.")
+
+    segments.append("Follow your doctor instructions exactly and consult your doctor before making any changes.")
+    return " ".join(segments)
 
 
 async def _get_patient_prior_doctors(
@@ -2173,6 +2833,10 @@ async def get_patient_prescription_assistant_summary(
         {
             "name": str(item.medicine_name),
             "schedule": _medication_schedule_line(item),
+            "quantity": item.quantity,
+            "duration_value": item.duration_value,
+            "duration_unit": _status_value(item.duration_unit),
+            "meal_instruction": _meal_instruction_text(item.meal_instruction),
             "special_instructions": str(item.special_instructions or ""),
         }
         for item in prescription.medications
@@ -2229,9 +2893,17 @@ async def get_patient_prescription_assistant_summary(
         ],
     }
 
+    plain_text_summary = _build_patient_prescription_plain_text_summary(
+        created_at=prescription.created_at,
+        medication_summary=medication_summary,
+        test_summary=test_summary,
+        procedure_summary=procedure_summary,
+    )
+
     return AIPatientPrescriptionExplainerResponse(
         ai_generated=True,
         summary=summary,
+        plain_text_summary=plain_text_summary,
         highlight_points=highlights,
         cautions=cautions,
         privacy_mode=privacy_mode,
@@ -3041,6 +3713,11 @@ async def _run_chorui_assistant(
 
     if intent == "service_information":
         reply = _build_service_information_reply(role=role, message=payload.message)
+        # Enrich service-information responses with navigation suggestions so
+        # "how do I book an appointment" also returns a clickable Find Doctor /
+        # Appointments link alongside the textual guidance.
+        nav_matches = _match_navigation_entries(role=role, message=payload.message, limit=2)
+        nav_suggestions = _navigation_entries_to_suggestions(nav_matches)
         return await _finalize_chorui_response(
             db=db,
             conversation_id=conversation_id,
@@ -3052,6 +3729,7 @@ async def _run_chorui_assistant(
             context_mode=context_mode,
             intent=intent,
             request=request,
+            navigation=nav_suggestions,
         )
 
     if role == UserRole.PATIENT and intent == "patient_self_summary":
@@ -3506,6 +4184,499 @@ async def chorui_assistant_chat(
     return await _run_chorui_assistant(payload, user, db, request)
 
 
+def _format_vapi_appointment_line(appointment: Appointment) -> str:
+    try:
+        when_label = _format_datetime_label(appointment.appointment_date)
+    except Exception:
+        when_label = "soon"
+    status_label = _format_status_label(getattr(appointment, "status", None))
+    reason = str(getattr(appointment, "reason", "") or "").strip()
+    base = f"{when_label} ({status_label})"
+    if reason:
+        return f"{base} — {reason[:80]}"
+    return base
+
+
+async def _handle_vapi_upcoming_appointments(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not find your Medora profile for this voice session."
+
+    limit_raw = arguments.get("limit") or arguments.get("count") or 5
+    try:
+        limit = max(1, min(10, int(limit_raw)))
+    except Exception:
+        limit = 5
+
+    if role == UserRole.PATIENT:
+        appointments = await _get_upcoming_patient_appointments(
+            db, patient_id=vapi_user.id, limit=limit
+        )
+        if not appointments:
+            return "You have no upcoming appointments on your Medora calendar."
+        lines = [_format_vapi_appointment_line(appt) for appt in appointments]
+        return "Here are your upcoming appointments: " + "; ".join(lines)
+
+    if role == UserRole.DOCTOR:
+        appointments = await _get_upcoming_doctor_schedule(
+            db, doctor_id=vapi_user.id, limit=limit
+        )
+        if not appointments:
+            return "Your Medora schedule is clear for the next few days."
+        lines = [_format_vapi_appointment_line(appt) for appt in appointments]
+        return "Here is what is on your upcoming schedule: " + "; ".join(lines)
+
+    return "Appointment lookup is only available for patient and doctor voice sessions."
+
+
+async def _handle_vapi_find_patient(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role != UserRole.DOCTOR:
+        return "Patient search is only available for doctor voice sessions."
+
+    await _require_doctor_ai_assistance_enabled(db, vapi_user.id)
+
+    query_text = _safe_vapi_text(
+        arguments.get("query")
+        or arguments.get("name")
+        or arguments.get("criteria")
+        or arguments.get("message"),
+        max_length=160,
+    )
+    if not query_text:
+        return "Tell me the patient name, id, or condition to look for."
+
+    matches = await _search_doctor_patients_by_criteria(
+        db, doctor_id=vapi_user.id, criteria_text=query_text, limit=5
+    )
+    if not matches:
+        return f"I could not find any of your active patients matching '{query_text}'."
+
+    fragments: list[str] = []
+    for match in matches[:5]:
+        name = str(match.get("display_name") or "Patient")
+        patient_ref = str(match.get("patient_ref") or "")
+        conditions = match.get("conditions") or []
+        condition_summary = (
+            f" — conditions: {', '.join(conditions[:3])}" if conditions else ""
+        )
+        ref_suffix = f" (ref {patient_ref})" if patient_ref else ""
+        fragments.append(f"{name}{ref_suffix}{condition_summary}")
+
+    return "I found these matches: " + "; ".join(fragments)
+
+
+async def _handle_vapi_get_context(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not find your Medora profile for this voice session."
+
+    role_label = "doctor" if role == UserRole.DOCTOR else "patient"
+    current_route = _safe_vapi_text(
+        arguments.get("current_route")
+        or metadata.get("current_route")
+        or metadata.get("medora_current_route"),
+        max_length=160,
+    )
+    current_page = _safe_vapi_text(
+        arguments.get("current_page")
+        or metadata.get("current_page_label")
+        or metadata.get("medora_current_page_label"),
+        max_length=160,
+    )
+    locale = _safe_vapi_text(
+        arguments.get("locale")
+        or metadata.get("locale")
+        or metadata.get("medora_locale"),
+        max_length=16,
+    ) or "en"
+
+    parts: list[str] = [f"Signed-in Medora {role_label}"]
+    if current_page:
+        parts.append(f"currently viewing {current_page}")
+    elif current_route:
+        parts.append(f"current route is {current_route}")
+    parts.append(f"UI language is {locale}")
+
+    if role == UserRole.PATIENT:
+        upcoming = await _get_upcoming_patient_appointments(
+            db, patient_id=vapi_user.id, limit=1
+        )
+        if upcoming:
+            next_appt = upcoming[0]
+            when_label = _format_datetime_label(next_appt.appointment_date)
+            parts.append(f"next appointment {when_label}")
+    elif role == UserRole.DOCTOR:
+        upcoming = await _get_upcoming_doctor_schedule(
+            db, doctor_id=vapi_user.id, limit=1
+        )
+        if upcoming:
+            when_label = _format_datetime_label(upcoming[0].appointment_date)
+            parts.append(f"next consultation {when_label}")
+
+    return "Voice context — " + "; ".join(parts) + "."
+
+
+async def _handle_vapi_navigate(
+    *,
+    arguments: dict[str, Any],
+    metadata: dict[str, Any],
+    vapi_user: Any,
+    db: AsyncSession,
+    request: Request,
+) -> str:
+    role = await _get_user_role(db, vapi_user.id)
+    if role is None:
+        return "I could not verify your Medora profile for this voice session."
+
+    destination_request = _safe_vapi_text(
+        arguments.get("destination")
+        or arguments.get("target")
+        or arguments.get("page")
+        or arguments.get("route")
+        or arguments.get("message")
+        or arguments.get("query"),
+        max_length=200,
+    )
+    if not destination_request:
+        registry = _navigation_registry_for_role(role)
+        labels = [str(entry.get("label", "")).strip() for entry in registry]
+        labels = [label for label in labels if label]
+        return (
+            "Tell me where you want to go. I can take you to: "
+            + ", ".join(labels[:10])
+            + "."
+        )
+
+    explicit_route = _safe_vapi_text(arguments.get("route"), max_length=240)
+    if explicit_route and explicit_route.startswith("/"):
+        label_hint = destination_request or explicit_route
+        return f"Opening {label_hint} now."
+
+    # Reuse the Chorui natural-language navigation matcher.
+    entries = _match_navigation_entries(
+        role=role, message=destination_request, limit=3
+    )
+    if entries:
+        top = entries[0]
+        top_label = str(top.get("label", "")).strip() or "that page"
+        return f"Opening {top_label} now."
+
+    # Fall back to the full Chorui pipeline so confidence + suggestions flow through.
+    patient_identifier = _extract_vapi_patient_identifier(arguments, metadata)
+    conversation_id = _extract_vapi_conversation_id(arguments, {})
+    chorui_payload = ChoruiAssistantRequest(
+        message=destination_request,
+        conversation_id=conversation_id,
+        patient_id=patient_identifier,
+        history=[],
+        role_context=_extract_vapi_role_context(arguments, metadata) or None,
+    )
+    try:
+        chorui_response = await _run_chorui_assistant(
+            chorui_payload, vapi_user, db, request
+        )
+    except HTTPException as exc:
+        detail = (
+            exc.detail
+            if isinstance(exc.detail, str)
+            else "I could not resolve that destination right now."
+        )
+        return detail
+
+    action = chorui_response.action
+    if action and action.type == "navigate" and action.route:
+        tail = action.route.strip("/").split("/")[-1].replace("-", " ") or "that page"
+        return f"Opening {tail.title()} now."
+    if action and action.type in {"clarify", "suggest"} and chorui_response.suggested_routes:
+        suggestion_labels = [
+            route.label for route in chorui_response.suggested_routes[:3]
+        ]
+        return (
+            "I am not sure which page you mean. You can say: "
+            + ", ".join(suggestion_labels)
+            + "."
+        )
+    return chorui_response.reply
+
+
+@router.post("/vapi/tools/chorui")
+async def chorui_vapi_tool_webhook(
+    payload: dict[str, Any],
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    configured_secret = _safe_vapi_text(settings.VAPI_TOOL_SHARED_SECRET)
+    if configured_secret:
+        provided_secret = _safe_vapi_text(request.headers.get("x-vapi-tool-secret"), max_length=256)
+        if provided_secret != configured_secret:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Vapi tool secret")
+
+    tool_calls = _extract_vapi_tool_calls(payload)
+    if not tool_calls:
+        return {"received": True}
+
+    metadata = _extract_vapi_call_metadata(payload)
+    results: list[dict[str, Any]] = []
+
+    for tool_call in tool_calls:
+        tool_call_id = _safe_vapi_text(tool_call.get("id"), max_length=128) or str(uuid.uuid4())
+        tool_name = _safe_vapi_text(tool_call.get("name"), max_length=128).lower()
+        if tool_name and tool_name not in VAPI_SUPPORTED_TOOL_NAMES:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Unsupported tool name. Use ask_chorui or summarize_prescription for Medora voice assistant queries.",
+                }
+            )
+            continue
+
+        arguments = _safe_vapi_dict(tool_call.get("arguments"))
+        session_token = _extract_vapi_session_token(
+            arguments=arguments,
+            metadata=metadata,
+            request=request,
+        )
+        if not session_token:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": (
+                        "Voice session is not authenticated. Please start voice from your signed-in Medora dashboard."
+                    ),
+                }
+            )
+            continue
+
+        try:
+            vapi_user = await _resolve_vapi_user_from_token(session_token, db)
+        except HTTPException:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Voice session authentication failed. Please sign in again and restart voice chat.",
+                }
+            )
+            continue
+
+        if tool_name in {"navigate_medora", "navigate"}:
+            try:
+                nav_text = await _handle_vapi_navigate(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                    request=request,
+                )
+                results.append({"toolCallId": tool_call_id, "result": nav_text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Navigation failed."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi navigation tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not open that page right now. Please try again.",
+                    }
+                )
+            continue
+
+        if tool_name == "get_upcoming_appointments":
+            try:
+                text = await _handle_vapi_upcoming_appointments(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to load appointments right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi upcoming appointments tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not load your upcoming appointments right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "find_patient":
+            try:
+                text = await _handle_vapi_find_patient(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to search patients right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi patient search tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not run that patient search right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "get_voice_context":
+            try:
+                text = await _handle_vapi_get_context(
+                    arguments=arguments,
+                    metadata=metadata,
+                    vapi_user=vapi_user,
+                    db=db,
+                )
+                results.append({"toolCallId": tool_call_id, "result": text})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to fetch your voice context right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi voice context tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not read your Medora context right now.",
+                    }
+                )
+            continue
+
+        if tool_name == "end_voice_call":
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Okay, ending our voice session. Tap Start Voice any time to continue.",
+                }
+            )
+            continue
+
+        if tool_name in {"summarize_prescription", "explain_prescription"}:
+            prescription_id = _safe_vapi_text(
+                arguments.get("prescription_id")
+                or arguments.get("item_id")
+                or metadata.get("prescription_id")
+                or metadata.get("medora_prescription_id"),
+                max_length=120,
+            )
+            if not prescription_id:
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "Missing prescription_id. Please provide the prescription id for voice explanation.",
+                    }
+                )
+                continue
+
+            try:
+                summary_response = await get_patient_prescription_assistant_summary(
+                    prescription_id=prescription_id,
+                    user=vapi_user,
+                    db=db,
+                )
+                voice_summary = summary_response.plain_text_summary or "I could not build a prescription summary right now."
+                results.append({"toolCallId": tool_call_id, "result": voice_summary})
+            except HTTPException as exc:
+                detail = exc.detail if isinstance(exc.detail, str) else "Unable to summarize prescription right now."
+                results.append({"toolCallId": tool_call_id, "result": detail})
+            except Exception:
+                logger.exception("Unexpected error while processing Vapi prescription summary tool call")
+                results.append(
+                    {
+                        "toolCallId": tool_call_id,
+                        "result": "I could not summarize this prescription right now. Please try again.",
+                    }
+                )
+            continue
+
+        user_message = _safe_vapi_text(
+            arguments.get("message") or arguments.get("query") or arguments.get("input")
+        )
+
+        if not user_message:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Missing message in tool arguments. Provide a non-empty 'message' value.",
+                }
+            )
+            continue
+
+        role_context = _extract_vapi_role_context(arguments, metadata) or None
+        patient_identifier = _extract_vapi_patient_identifier(arguments, metadata)
+        conversation_id = _extract_vapi_conversation_id(arguments, payload)
+
+        chorui_payload = ChoruiAssistantRequest(
+            message=user_message,
+            conversation_id=conversation_id,
+            patient_id=patient_identifier,
+            history=[],
+            role_context=role_context,
+        )
+
+        try:
+            chorui_response = await asyncio.wait_for(
+                _run_chorui_assistant(chorui_payload, vapi_user, db, request),
+                timeout=VAPI_ASK_CHORUI_TIMEOUT_SECONDS,
+            )
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": _shape_reply_for_voice(chorui_response.reply),
+                }
+            )
+        except asyncio.TimeoutError:
+            logger.warning(
+                "ask_chorui orchestrator exceeded %.1fs — returning voice apology",
+                VAPI_ASK_CHORUI_TIMEOUT_SECONDS,
+            )
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "That's taking longer than expected. Could you ask again in a moment?",
+                }
+            )
+        except HTTPException as exc:
+            detail = exc.detail if isinstance(exc.detail, str) else "Unable to process request right now."
+            results.append(
+                {"toolCallId": tool_call_id, "result": _shape_reply_for_voice(detail)},
+            )
+        except Exception:
+            logger.exception("Unexpected error while processing Vapi tool call")
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "I could not process that voice request right now. Please try again.",
+                }
+            )
+
+    return {"results": results}
+
+
 @router.get("/assistant/conversations", response_model=ChoruiConversationListResponse)
 async def list_chorui_conversations(
     limit: int = Query(25, ge=1, le=50),
@@ -3625,6 +4796,7 @@ async def get_chorui_conversation_messages(
             role="ai" if str(item.sender or "").lower() == "assistant" else "user",
             content=str(item.message_text or ""),
             timestamp=_format_datetime_iso(item.created_at),
+            structured_data=item.structured_data if isinstance(item.structured_data, dict) else None,
         )
         for item in rows
     ]

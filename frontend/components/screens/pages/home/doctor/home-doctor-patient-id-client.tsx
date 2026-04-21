@@ -8,19 +8,19 @@ import {
   AlertCircle, Pill, Stethoscope, ArrowLeft, Clock,
   Weight, Ruler, Droplet, FileText, Shield, UserCheck,
   Home, Briefcase, AlertTriangle, MessageSquarePlus,
-  Footprints, MoonStar, Waves, ShieldCheck
+  Footprints, MoonStar, Waves, ShieldCheck, History, ExternalLink
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Navbar } from "@/components/ui/navbar"
 import { AppBackground } from "@/components/ui/app-background"
-import { ButtonLoader } from "@/components/ui/medora-loader"
-import { PageLoadingShell } from "@/components/ui/page-loading-shell"
+import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader"
+import { CardSkeleton } from "@/components/ui/skeleton-loaders"
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { getPatientForDoctor } from "@/lib/patient-access-actions"
 import { getDoctorPatientAssistantSummary, type DoctorPatientAssistantSummaryResponse } from "@/lib/ai-consultation-actions"
 import { getPatientHealthForDoctor, type PatientHealthOverview } from "@/lib/health-data-consent-actions"
-import { parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
+import { formatShortDateTime, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
 
 interface PatientData {
   id: string
@@ -98,6 +98,36 @@ interface PatientData {
     notes: string | null
     status: string
   }>
+
+  consultation_history?: Array<{
+    id: string
+    consultation_date: string | null
+    chief_complaint: string | null
+    diagnosis: string | null
+    status: string
+    prescription_count: number
+    latest_prescription_id: string | null
+    latest_prescription_status: string | null
+  }>
+
+  prescription_history?: Array<{
+    id: string
+    consultation_id: string
+    consultation_date: string | null
+    type: string
+    status: string
+    created_at: string | null
+    notes: string | null
+    medication_count: number
+    test_count: number
+    surgery_count: number
+  }>
+
+  data_sharing_restrictions?: {
+    any_restricted: boolean
+    restricted_categories: string[]
+    message?: string | null
+  }
   
   access_timestamp: string
 }
@@ -182,8 +212,8 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
-          <PageLoadingShell label="Loading patient records..." cardCount={5} />
+        <main className="max-w-6xl mx-auto py-8 pt-(--nav-content-offset)">
+          <DoctorPatientRecordSkeleton />
         </main>
       </AppBackground>
     )
@@ -215,6 +245,12 @@ export default function DoctorPatientViewPage() {
   }
 
   if (!patient) return null
+
+  const consultationHistory = patient.consultation_history || []
+  const prescriptionHistory = patient.prescription_history || []
+  const prescriptionHistoryRestricted = Boolean(
+    patient.data_sharing_restrictions?.restricted_categories?.includes("can_view_prescriptions")
+  )
 
   return (
     <AppBackground className="animate-page-enter">
@@ -647,6 +683,100 @@ export default function DoctorPatientViewPage() {
                     )}
                   </CardContent>
                 </Card>
+
+                {/* Past Consultations & Prescriptions */}
+                <Card hoverable>
+                  <CardHeader className="border-b border-border">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <History className="w-5 h-5 text-primary" />
+                      </div>
+                      Past Consultations & Prescriptions
+                    </CardTitle>
+                    <CardDescription>
+                      Review this doctor-patient consultation timeline and open historical details.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 pt-5">
+                    {prescriptionHistoryRestricted ? (
+                      <div className="rounded-lg border border-warning/30 bg-warning/10 p-3 text-sm text-warning">
+                        This patient has restricted prescription history sharing for this view.
+                      </div>
+                    ) : consultationHistory.length === 0 && prescriptionHistory.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        No previous consultation or prescription records are available for this patient yet.
+                      </p>
+                    ) : null}
+
+                    {!prescriptionHistoryRestricted && consultationHistory.length > 0 ? (
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-foreground">Consultations</h4>
+                        {consultationHistory.slice(0, 8).map((entry) => (
+                          <button
+                            key={entry.id}
+                            type="button"
+                            onClick={() => router.push(`/doctor/patient/${patientId}/consultation?consultation_id=${entry.id}`)}
+                            className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <p className="text-sm font-medium text-foreground">
+                                {entry.consultation_date ? formatShortDateTime(entry.consultation_date) : "Date not available"}
+                              </p>
+                              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
+                                {formatStatusText(entry.status)}
+                              </span>
+                            </div>
+                            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                              {entry.chief_complaint || entry.diagnosis || "Consultation details available"}
+                            </p>
+                            <div className="mt-2 flex items-center justify-between">
+                              <span className="text-xs text-muted-foreground">
+                                {entry.prescription_count} prescription{entry.prescription_count === 1 ? "" : "s"}
+                              </span>
+                              <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+                                View details
+                                <ExternalLink className="h-3 w-3" />
+                              </span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    {!prescriptionHistoryRestricted && prescriptionHistory.length > 0 ? (
+                      <div className="space-y-2 border-t border-border/50 pt-3">
+                        <h4 className="text-sm font-semibold text-foreground">Recent Prescriptions</h4>
+                        {prescriptionHistory.slice(0, 8).map((entry) => (
+                          <button
+                            key={entry.id}
+                            type="button"
+                            onClick={() =>
+                              router.push(`/prescription/preview/${entry.consultation_id}?prescription_id=${entry.id}`)
+                            }
+                            className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <p className="text-sm font-medium text-foreground">
+                                {humanizePrescriptionType(entry.type)}
+                              </p>
+                              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
+                                {formatStatusText(entry.status)}
+                              </span>
+                            </div>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                              {entry.created_at ? formatShortDateTime(entry.created_at) : "Date not available"}
+                            </p>
+                            <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                              <span>{entry.medication_count} meds</span>
+                              <span>{entry.test_count} tests</span>
+                              <span>{entry.surgery_count} procedures</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+                  </CardContent>
+                </Card>
               </div>
 
               {/* Right Column */}
@@ -852,7 +982,7 @@ export default function DoctorPatientViewPage() {
                       <div className="p-1.5 rounded-full bg-muted">
                         <Clock className="w-3 h-3" />
                       </div>
-                      Accessed at: {new Date(patient.access_timestamp).toLocaleString()}
+                      Accessed at: {formatShortDateTime(patient.access_timestamp)}
                     </div>
                     <p className="text-xs text-muted-foreground mt-2 pl-7">
                       Patient has been notified of this access.
@@ -864,6 +994,65 @@ export default function DoctorPatientViewPage() {
           </div>
       </main>
       </AppBackground>
+  )
+}
+
+function formatStatusText(status?: string | null) {
+  if (!status) return "Unknown"
+  return status
+    .replace(/_/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1).toLowerCase())
+    .join(" ")
+}
+
+function getStatusChipClass(status?: string | null) {
+  const normalized = (status || "").toLowerCase()
+  if (["accepted", "completed"].includes(normalized)) return "bg-success/15 text-success-muted"
+  if (["open", "confirmed"].includes(normalized)) return "bg-primary/10 text-primary"
+  if (["pending"].includes(normalized)) return "bg-warning/15 text-warning"
+  if (["rejected", "cancelled", "cancelled_by_patient", "hold_expired"].includes(normalized)) {
+    return "bg-destructive/10 text-destructive"
+  }
+  return "bg-muted text-muted-foreground"
+}
+
+function humanizePrescriptionType(type?: string | null) {
+  if (!type) return "Prescription"
+  const normalized = type.toLowerCase()
+  if (normalized === "medication") return "Medication Prescription"
+  if (normalized === "test") return "Test Prescription"
+  if (normalized === "surgery") return "Procedure Recommendation"
+  return formatStatusText(type)
+}
+
+function DoctorPatientRecordSkeleton() {
+  return (
+    <section role="status" aria-live="polite" aria-label="Loading patient records" className="space-y-6">
+      <div className="flex justify-center py-3 sm:py-4">
+        <MedoraLoader size="lg" label="Loading patient records..." />
+      </div>
+
+      <CardSkeleton className="h-36 w-full" />
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-2">
+          <CardSkeleton className="h-44 w-full" />
+          <CardSkeleton className="h-40 w-full" />
+          <CardSkeleton className="h-40 w-full" />
+          <CardSkeleton className="h-44 w-full" />
+          <CardSkeleton className="h-40 w-full" />
+          <CardSkeleton className="h-44 w-full" />
+        </div>
+        <div className="space-y-6">
+          <CardSkeleton className="h-40 w-full" />
+          <CardSkeleton className="h-36 w-full" />
+          <CardSkeleton className="h-64 w-full" />
+          <CardSkeleton className="h-56 w-full" />
+        </div>
+      </div>
+    </section>
   )
 }
 

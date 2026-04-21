@@ -29,6 +29,11 @@ export type DoctorAppointment = {
   cancellation_reason_key?: string | null;
   cancellation_reason_note?: string | null;
   cancelled_at?: string | null;
+  reschedule_request_id?: string | null;
+  reschedule_requested_by_role?: string | null;
+  proposed_date?: string | null;
+  proposed_time?: string | null;
+  reschedule_admin_approval_status?: string | null;
   blood_group?: string | null;
   chronic_conditions?: string[];
   location?: string | null;

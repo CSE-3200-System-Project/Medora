@@ -21,6 +21,7 @@ from app.schemas.appointment import (
     CancellationReasonKey,
     AppointmentRescheduleRequestCreate,
     AppointmentRescheduleRespond,
+    AppointmentRescheduleWithdraw,
 )
 from app.services.doctor_action_service import create_appointment_completed_action
 from app.services import appointment_service, notification_service, slot_service
@@ -237,6 +238,30 @@ def _build_appointment_slot_index(appointments: list[Appointment]) -> dict[str, 
 
     return slot_index
 
+
+async def _latest_pending_reschedules_by_appointment(
+    db: AsyncSession,
+    appointment_ids: list[str],
+) -> dict[str, AppointmentRescheduleRequest]:
+    if not appointment_ids:
+        return {}
+
+    result = await db.execute(
+        select(AppointmentRescheduleRequest)
+        .where(
+            AppointmentRescheduleRequest.appointment_id.in_(appointment_ids),
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        )
+        .order_by(AppointmentRescheduleRequest.created_at.desc())
+    )
+
+    latest_by_appointment: dict[str, AppointmentRescheduleRequest] = {}
+    for request in result.scalars().all():
+        if request.appointment_id not in latest_by_appointment:
+            latest_by_appointment[request.appointment_id] = request
+
+    return latest_by_appointment
+
 @router.post("/", response_model=AppointmentResponse, status_code=status.HTTP_201_CREATED)
 async def create_appointment(
     appointment_data: AppointmentCreate,
@@ -329,13 +354,19 @@ async def get_my_appointments(
         raise HTTPException(status_code=404, detail="Profile not found")
         
     query = select(Appointment).distinct()
-    
+
     # Handle uppercase role values from database
     role_str = str(profile.role).upper()
     if "PATIENT" in role_str:
+        # Patients see all of their own appointments, including PENDING_ADMIN_REVIEW
+        # so they can see that their request is awaiting approval.
         query = query.where(Appointment.patient_id == user_id)
     elif "DOCTOR" in role_str:
-        query = query.where(Appointment.doctor_id == user_id)
+        # Doctors only see appointments after admin has approved them.
+        query = query.where(
+            Appointment.doctor_id == user_id,
+            Appointment.status != AppointmentStatus.PENDING_ADMIN_REVIEW,
+        )
     else: # Admin or other
         # Admin might want to see all? For now restrict.
         return []
@@ -349,6 +380,11 @@ async def get_my_appointments(
     appointments = result.scalars().all()
     if not appointments:
         return []
+
+    latest_pending_reschedules = await _latest_pending_reschedules_by_appointment(
+        db,
+        [appointment.id for appointment in appointments],
+    )
     
     related_profile_ids = {appt.patient_id for appt in appointments} | {appt.doctor_id for appt in appointments}
     profile_rows = await db.execute(select(Profile).where(Profile.id.in_(related_profile_ids)))
@@ -366,6 +402,7 @@ async def get_my_appointments(
 
     out = []
     for appt in appointments:
+        pending_reschedule = latest_pending_reschedules.get(appt.id)
         patient = profiles_by_id.get(appt.patient_id)
         doctor = profiles_by_id.get(appt.doctor_id)
         patient_profile = patient_profiles_by_id.get(appt.patient_id)
@@ -406,6 +443,15 @@ async def get_my_appointments(
             "cancellation_reason_note": appt.cancellation_reason_note,
             "cancelled_by_id": appt.cancelled_by_id,
             "cancelled_at": appt.cancelled_at.isoformat() if appt.cancelled_at else None,
+            "reschedule_request_id": pending_reschedule.id if pending_reschedule else None,
+            "reschedule_requested_by_role": (
+                pending_reschedule.requested_by_role.value if pending_reschedule else None
+            ),
+            "proposed_date": pending_reschedule.proposed_date if pending_reschedule else None,
+            "proposed_time": pending_reschedule.proposed_time if pending_reschedule else None,
+            "reschedule_admin_approval_status": (
+                pending_reschedule.admin_approval_status.value if pending_reschedule else None
+            ),
             "created_at": appt.created_at.isoformat() if appt.created_at else None,
             "updated_at": appt.updated_at.isoformat() if appt.updated_at else None,
         })
@@ -452,11 +498,12 @@ async def get_appointments_by_date(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
     
-    # Get all appointments for this date
+    # Get all appointments for this date (excluding ones awaiting admin review)
     query = select(Appointment).where(
         Appointment.doctor_id == user_id,
         Appointment.appointment_date >= start_of_day,
-        Appointment.appointment_date < end_of_day
+        Appointment.appointment_date < end_of_day,
+        Appointment.status != AppointmentStatus.PENDING_ADMIN_REVIEW,
     ).order_by(Appointment.appointment_date)
     
     result = await db.execute(query)
@@ -583,6 +630,9 @@ async def cancel_appointment(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
+    """Request cancellation. For CONFIRMED appointments this creates a cancellation request
+    that admin must approve. Patients can still directly withdraw their own PENDING_ADMIN_REVIEW
+    requests via /pending-request endpoint."""
     user_id = user.id
 
     result = await db.execute(select(Profile).where(Profile.id == user_id))
@@ -609,7 +659,6 @@ async def cancel_appointment(
     cancellable_lifecycle_statuses = {
         AppointmentStatus.CONFIRMED,
         AppointmentStatus.RESCHEDULE_REQUESTED,
-        AppointmentStatus.CANCEL_REQUESTED,
         AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
         AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
     }
@@ -621,7 +670,6 @@ async def cancel_appointment(
 
     role_str = str(profile.role).upper()
     performed_by_role = "patient" if "PATIENT" in role_str else "doctor"
-    cancel_status = appointment_service.get_role_based_cancel_status(performed_by_role)
 
     reason_key = cancel_data.reason_key.value
     reason_note = _normalize_cancellation_note(cancel_data.reason_note)
@@ -629,16 +677,31 @@ async def cancel_appointment(
 
     try:
         appointment_service.validate_cancellation_window(appointment)
-        appointment = await appointment_service.transition_status(
-            db,
-            appointment_id=appointment_id,
-            new_status=cancel_status,
-            performed_by_id=user_id,
-            performed_by_role=performed_by_role,
-            notes=reason_note,
-            cancellation_reason_key=reason_key,
-            cancellation_reason_note=reason_note,
-        )
+        # For CONFIRMED appointments, create a cancellation request awaiting admin review.
+        if appointment.status == AppointmentStatus.CONFIRMED:
+            await appointment_service.request_cancellation(
+                db,
+                appointment_id=appointment_id,
+                requested_by_id=user_id,
+                requested_by_role=performed_by_role,
+                reason_key=reason_key,
+                reason_note=reason_note,
+            )
+        else:
+            # In-flight states (reschedule, doctor/patient confirmation pending) can still
+            # be cancelled directly — admin review isn't required because the appointment
+            # is not yet actively binding.
+            cancel_status = appointment_service.get_role_based_cancel_status(performed_by_role)
+            await appointment_service.transition_status(
+                db,
+                appointment_id=appointment_id,
+                new_status=cancel_status,
+                performed_by_id=user_id,
+                performed_by_role=performed_by_role,
+                notes=reason_note,
+                cancellation_reason_key=reason_key,
+                cancellation_reason_note=reason_note,
+            )
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error))
 
@@ -675,7 +738,10 @@ async def delete_pending_request(
     if appointment.patient_id != user_id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this request")
 
-    if appointment.status != AppointmentStatus.PENDING:
+    if appointment.status not in {
+        AppointmentStatus.PENDING,
+        AppointmentStatus.PENDING_ADMIN_REVIEW,
+    }:
         raise HTTPException(
             status_code=400,
             detail="Only pending appointment requests can be deleted",
@@ -1102,6 +1168,11 @@ async def get_patient_calendar_appointments(
     if not appointments:
         return {"appointments": [], "by_date": [], "total": 0}
 
+    latest_pending_reschedules = await _latest_pending_reschedules_by_appointment(
+        db,
+        [appointment.id for appointment in appointments],
+    )
+
     from app.db.models.speciality import Speciality
 
     doctor_ids = {appointment.doctor_id for appointment in appointments}
@@ -1135,6 +1206,7 @@ async def get_patient_calendar_appointments(
     
     for appt in appointments:
         date_key = appt.appointment_date.strftime("%Y-%m-%d")
+        pending_reschedule = latest_pending_reschedules.get(appt.id)
         
         doctor = doctors_by_id.get(appt.doctor_id)
         doc_profile = doctor_profiles_by_id.get(appt.doctor_id)
@@ -1169,6 +1241,15 @@ async def get_patient_calendar_appointments(
             "doctor_specialization": (speciality.name if speciality else None) or (doc_profile.specialization if doc_profile else None),
             "doctor_photo_url": doc_profile.profile_photo_url if doc_profile else None,
             "hospital_name": doc_profile.hospital_name if doc_profile else None,
+            "reschedule_request_id": pending_reschedule.id if pending_reschedule else None,
+            "reschedule_requested_by_role": (
+                pending_reschedule.requested_by_role.value if pending_reschedule else None
+            ),
+            "proposed_date": pending_reschedule.proposed_date.isoformat() if pending_reschedule else None,
+            "proposed_time": pending_reschedule.proposed_time.isoformat() if pending_reschedule else None,
+            "reschedule_admin_approval_status": (
+                pending_reschedule.admin_approval_status.value if pending_reschedule else None
+            ),
         }
         
         all_appointments.append(appt_data)
@@ -1466,7 +1547,7 @@ async def create_appointment_reschedule_request(
         )
     except ValueError as error:
         detail = str(error)
-        status_code = 409 if "not available" in detail.lower() else 400
+        status_code = 409 if ("not available" in detail.lower() or "held by another pending" in detail.lower()) else 400
         raise HTTPException(status_code=status_code, detail=detail)
 
     await db.commit()
@@ -1519,6 +1600,63 @@ async def respond_to_appointment_reschedule_request(
         detail = str(error)
         status_code = 409 if "slot" in detail.lower() else 400
         raise HTTPException(status_code=status_code, detail=detail)
+
+    await db.commit()
+
+    appointment_result = await db.execute(
+        select(Appointment).where(Appointment.id == reschedule_request.appointment_id)
+    )
+    appointment = appointment_result.scalar_one_or_none()
+
+    return {
+        "id": reschedule_request.id,
+        "appointment_id": reschedule_request.appointment_id,
+        "status": reschedule_request.status.value,
+        "responded_at": reschedule_request.responded_at.isoformat() if reschedule_request.responded_at else None,
+        "response_note": reschedule_request.response_note,
+        "appointment_status": appointment.status.value if appointment else None,
+        "appointment_date": appointment.appointment_date.isoformat() if appointment else None,
+    }
+
+
+@router.post("/reschedule-requests/{request_id}/withdraw")
+async def withdraw_appointment_reschedule_request(
+    request_id: str,
+    payload: AppointmentRescheduleWithdraw,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Allow the original requester to withdraw their pending reschedule request."""
+    user_id = user.id
+
+    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = profile_result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    role_str = str(profile.role).upper()
+    if "PATIENT" in role_str:
+        requester_role = "patient"
+    elif "DOCTOR" in role_str:
+        requester_role = "doctor"
+    else:
+        raise HTTPException(status_code=403, detail="Only doctor or patient can withdraw a reschedule request")
+
+    try:
+        reschedule_request = await appointment_service.withdraw_reschedule_request(
+            db,
+            reschedule_request_id=request_id,
+            requester_id=user_id,
+            requester_role=requester_role,
+            response_note=payload.response_note,
+        )
+    except ValueError as error:
+        detail = str(error)
+        if "not found" in detail.lower():
+            raise HTTPException(status_code=404, detail=detail)
+        if "only the requester" in detail.lower() or "not authorized" in detail.lower():
+            raise HTTPException(status_code=403, detail=detail)
+        raise HTTPException(status_code=400, detail=detail)
 
     await db.commit()
 

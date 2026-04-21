@@ -59,7 +59,9 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
               Your <span className="text-success">appointment request</span> has been successfully submitted!
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground">We&apos;ll be in touch shortly to confirm.</p>
+            <p className="text-sm sm:text-base text-muted-foreground">
+              An administrator is reviewing your request. You&apos;ll be notified as soon as it&apos;s approved.
+            </p>
           </div>
 
           <div className="animate-fade-in-up delay-3">

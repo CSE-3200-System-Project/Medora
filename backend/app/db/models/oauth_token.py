@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import String, Text, DateTime, Boolean
+from sqlalchemy import String, Text, DateTime, Boolean, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
@@ -26,6 +26,11 @@ class UserOAuthToken(Base):
     )
     scopes: Mapped[str | None] = mapped_column(Text, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+    # Google account info from OpenID Connect (Google Sign-In)
+    google_email: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    google_sub: Mapped[str | None] = mapped_column(String(255), nullable=True)  # Unique Google user ID
+    google_profile: Mapped[dict | None] = mapped_column(JSON, nullable=True)  # Full Google profile data
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

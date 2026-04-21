@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, FileImage, FileText, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
+import { CheckCircle2, FileImage, FileText, Gauge, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { useT } from "@/i18n/client";
-import { extractPrescriptionFromImage, PrescriptionExtractionResponse } from "@/lib/file-storage-actions";
+import { extractPrescriptionFromImage, PrescriptionExtractionResponse, PrescriptionOCRMeta } from "@/lib/file-storage-actions";
 
 type EditableMedication = {
   name: string;
@@ -27,6 +27,7 @@ export function PrescriptionUploadDemo() {
   const [error, setError] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState("");
   const [confidence, setConfidence] = useState<number | null>(null);
+  const [meta, setMeta] = useState<PrescriptionOCRMeta | null>(null);
   const [medications, setMedications] = useState<EditableMedication[]>([]);
   const [isApproved, setIsApproved] = useState(false);
 
@@ -61,6 +62,7 @@ export function PrescriptionUploadDemo() {
     setError(null);
     setExtractedText("");
     setConfidence(null);
+    setMeta(null);
     setMedications([]);
     setIsApproved(false);
 
@@ -103,6 +105,7 @@ export function PrescriptionUploadDemo() {
         }),
       );
       setConfidence(typeof parsed.confidence === "number" ? parsed.confidence : null);
+      setMeta(parsed.meta ?? null);
     } catch (processingError: unknown) {
       if (processingError instanceof Error) {
         setError(processingError.message);
@@ -253,6 +256,25 @@ export function PrescriptionUploadDemo() {
                 )}
               </div>
 
+              {meta && (
+                <div className="mb-3 rounded-xl border border-primary/25 bg-primary/5 p-3">
+                  <div className="mb-2 flex items-center gap-2">
+                    <Gauge className="h-4 w-4 text-primary" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">
+                      AI Model Transparency
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                    <MetaStat label="YOLO detector" value={formatConfidenceRange(meta.yolo_avg_confidence, meta.yolo_min_confidence, meta.yolo_max_confidence)} />
+                    <MetaStat label="Azure DI (OCR)" value={formatConfidenceRange(meta.ocr_avg_confidence, meta.ocr_min_confidence, meta.ocr_max_confidence)} />
+                    <MetaStat label="Regions detected" value={String(meta.detected_regions)} />
+                    <MetaStat label="OCR lines" value={String(meta.ocr_line_count)} />
+                    <MetaStat label="Model" value={meta.model} />
+                    <MetaStat label="Latency" value={`${meta.processing_time_ms} ms`} />
+                  </div>
+                </div>
+              )}
+
               {error && (
                 <p className="mb-3 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive-muted">
                   {error}
@@ -362,6 +384,30 @@ export function PrescriptionUploadDemo() {
       </CardContent>
     </Card>
   );
+}
+
+function MetaStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-md border border-border/50 bg-background/60 px-2 py-1.5">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="text-sm font-medium text-foreground">{value}</p>
+    </div>
+  );
+}
+
+function formatConfidenceRange(
+  avg: number | null | undefined,
+  min: number | null | undefined,
+  max: number | null | undefined,
+): string {
+  if (typeof avg !== "number") {
+    return "N/A";
+  }
+  const pct = (value: number) => `${Math.round(value * 100)}%`;
+  if (typeof min === "number" && typeof max === "number" && (min !== avg || max !== avg)) {
+    return `${pct(avg)} avg (${pct(min)}–${pct(max)})`;
+  }
+  return pct(avg);
 }
 
 function normalizeMedications(parsed: PrescriptionExtractionResponse): EditableMedication[] {

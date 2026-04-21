@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RefreshCw, Clock, User, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { RefreshCw, Clock, User, Calendar, ChevronLeft, ChevronRight, ShieldAlert } from "lucide-react";
 import { localDateKey } from "@/lib/utils";
 import { getAvailableSlots } from "@/lib/auth-actions";
 import { useRealtimeSlots } from "@/lib/use-realtime-slots";
@@ -254,6 +254,13 @@ export function RescheduleAppointmentDialog({
 
         {appointment && (
           <div className="space-y-4">
+            <div className="flex items-start gap-2 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3 text-xs text-orange-700 dark:text-orange-300">
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>
+                An administrator will review your proposed time first. Once approved, the other party will be notified to confirm or decline.
+              </p>
+            </div>
+
             {/* Current Appointment Summary */}
             <div className="bg-accent/50 rounded-lg p-3">
               <p className="text-xs text-muted-foreground mb-1">{tCommon("patientAppointments.dialogs.reschedule.currentAppointment")}</p>

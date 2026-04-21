@@ -46,6 +46,12 @@ class OCRMeta(BaseModel):
     processing_time_ms: int
     detected_regions: int
     ocr_line_count: int
+    yolo_avg_confidence: float | None = None
+    yolo_min_confidence: float | None = None
+    yolo_max_confidence: float | None = None
+    ocr_avg_confidence: float | None = None
+    ocr_min_confidence: float | None = None
+    ocr_max_confidence: float | None = None
 
 
 class OCRDebug(BaseModel):

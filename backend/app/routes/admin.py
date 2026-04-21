@@ -21,6 +21,33 @@ logger = logging.getLogger(__name__)
 
 # Simple admin key for password-only access
 ADMIN_PASSWORD = "admin123"
+SYSTEM_ADMIN_PROFILE_ID = "admin"
+
+
+async def _get_admin_actor_profile_id(db: AsyncSession) -> str:
+    """Return a profile-backed admin actor ID for audit and FK-safe writes."""
+    result = await db.execute(
+        select(Profile).where(Profile.id == SYSTEM_ADMIN_PROFILE_ID)
+    )
+    profile = result.scalar_one_or_none()
+    if profile:
+        return profile.id
+
+    db.add(
+        Profile(
+            id=SYSTEM_ADMIN_PROFILE_ID,
+            role=UserRole.ADMIN,
+            status=AccountStatus.active,
+            verification_status=VerificationStatus.verified,
+            first_name="System",
+            last_name="Admin",
+            email=None,
+            phone=None,
+            onboarding_completed=True,
+        )
+    )
+    await db.flush()
+    return SYSTEM_ADMIN_PROFILE_ID
 
 # Helper to check admin access (password-based, no account needed)
 async def require_admin_access(
@@ -1200,6 +1227,176 @@ async def unban_user(
 # ========== APPOINTMENT MANAGEMENT ==========
 
 
+@router.get("/appointments/pending-review")
+async def get_pending_admin_review_appointments(
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+    limit: int = 50,
+    offset: int = 0,
+):
+    """List appointments awaiting admin approval (new patient bookings)."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+
+    doctor_alias = aliased(Profile)
+    patient_alias = aliased(Profile)
+
+    query = (
+        select(Appointment, doctor_alias, patient_alias)
+        .join(doctor_alias, doctor_alias.id == Appointment.doctor_id, isouter=True)
+        .join(patient_alias, patient_alias.id == Appointment.patient_id, isouter=True)
+        .where(Appointment.status == ApptStatus.PENDING_ADMIN_REVIEW)
+        .order_by(Appointment.created_at.desc())
+        .limit(limit)
+        .offset(offset)
+    )
+    result = await db.execute(query)
+
+    items = []
+    for appt, doctor, patient in result.all():
+        items.append({
+            "id": appt.id,
+            "appointment_date": appt.appointment_date.isoformat(),
+            "slot_time": appt.slot_time.isoformat() if appt.slot_time else None,
+            "duration_minutes": appt.duration_minutes,
+            "reason": appt.reason,
+            "notes": appt.notes,
+            "status": appt.status.value,
+            "doctor": {
+                "id": doctor.id if doctor else None,
+                "name": f"{doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
+            },
+            "patient": {
+                "id": patient.id if patient else None,
+                "name": f"{patient.first_name} {patient.last_name}" if patient else "Unknown",
+            },
+            "created_at": appt.created_at.isoformat() if appt.created_at else None,
+        })
+
+    count_result = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.status == ApptStatus.PENDING_ADMIN_REVIEW)
+    )
+    total = count_result.scalar() or 0
+
+    return {"appointments": items, "total": total, "limit": limit, "offset": offset}
+
+
+class AdminAppointmentDecision(BaseModel):
+    notes: str | None = None
+
+
+@router.post("/appointments/{appointment_id}/approve")
+async def admin_approve_appointment(
+    appointment_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin approves a pending appointment booking."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from app.services import appointment_service, notification_service
+    from app.db.models.notification import NotificationType, NotificationPriority
+
+    result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
+    appt = result.scalar_one_or_none()
+    if not appt:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    if appt.status != ApptStatus.PENDING_ADMIN_REVIEW:
+        raise HTTPException(status_code=400, detail="Appointment is not pending admin review")
+
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+
+    try:
+        await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=ApptStatus.PENDING_DOCTOR_CONFIRMATION,
+            performed_by_id=admin_actor_id,
+            performed_by_role="admin",
+            notes=data.notes or "Approved by admin; awaiting doctor confirmation",
+        )
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+    # Notify doctor that a new request is awaiting their confirmation, and patient that admin approved.
+    try:
+        doctor_result = await db.execute(select(Profile).where(Profile.id == appt.doctor_id))
+        doctor = doctor_result.scalar_one_or_none()
+        patient_result = await db.execute(select(Profile).where(Profile.id == appt.patient_id))
+        patient = patient_result.scalar_one_or_none()
+        if doctor and patient:
+            patient_name = f"{patient.first_name} {patient.last_name}"
+            schedule_label = appt.appointment_date.strftime("%b %d, %Y at %I:%M %p")
+            await notification_service.create_notification(
+                db=db,
+                user_id=appt.doctor_id,
+                notification_type=NotificationType.APPOINTMENT_BOOKED,
+                title="New Appointment Awaiting Your Confirmation",
+                message=f"{patient_name} requested an appointment on {schedule_label}. Review and confirm or decline.",
+                action_url="/doctor/appointments",
+                metadata={"appointment_id": appt.id},
+                priority=NotificationPriority.HIGH,
+            )
+            await notification_service.create_notification(
+                db=db,
+                user_id=appt.patient_id,
+                notification_type=NotificationType.APPOINTMENT_BOOKED,
+                title="Admin Approved — Awaiting Doctor",
+                message=f"Your appointment request for {schedule_label} has been approved by admin and is waiting for the doctor to confirm.",
+                action_url="/patient/appointments",
+                metadata={"appointment_id": appt.id},
+                priority=NotificationPriority.MEDIUM,
+            )
+    except Exception as exc:
+        logger.warning("Failed to notify on admin approval: %s", exc)
+
+    await db.commit()
+    return {
+        "detail": "Appointment approved; awaiting doctor confirmation",
+        "appointment_id": appointment_id,
+        "status": ApptStatus.PENDING_DOCTOR_CONFIRMATION.value,
+    }
+
+
+@router.post("/appointments/{appointment_id}/reject")
+async def admin_reject_appointment(
+    appointment_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin rejects a pending appointment booking."""
+    from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from app.services import appointment_service
+
+    result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
+    appt = result.scalar_one_or_none()
+    if not appt:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    if appt.status != ApptStatus.PENDING_ADMIN_REVIEW:
+        raise HTTPException(status_code=400, detail="Appointment is not pending admin review")
+
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+
+    try:
+        await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=ApptStatus.CANCELLED,
+            performed_by_id=admin_actor_id,
+            performed_by_role="admin",
+            notes=data.notes or "Rejected by admin",
+            cancellation_reason_key="ADMIN_REJECTED",
+            cancellation_reason_note=data.notes or "Rejected by admin during review",
+        )
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+    await db.commit()
+    return {"detail": "Appointment rejected", "appointment_id": appointment_id, "status": ApptStatus.CANCELLED.value}
+
+
 @router.get("/appointment-requests")
 async def get_pending_appointment_requests(
     db: AsyncSession = Depends(get_db),
@@ -1284,6 +1481,8 @@ async def approve_appointment_request(
     if request.status != AppointmentRequestStatus.PENDING:
         raise HTTPException(status_code=400, detail="Request is no longer pending")
 
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+
     # Create the actual appointment
     appointment_date = datetime(
         request.requested_date.year,
@@ -1314,7 +1513,7 @@ async def approve_appointment_request(
         id=str(uuid_mod.uuid4()),
         appointment_id=appointment_id,
         action_type="admin_approved",
-        performed_by_id="admin",
+        performed_by_id=admin_actor_id,
         performed_by_role="admin",
         previous_status=None,
         new_status=ApptStatus.CONFIRMED.value,
@@ -1381,6 +1580,247 @@ async def reject_appointment_request(
     return {"detail": "Appointment request rejected"}
 
 
+@router.get("/reschedule-requests")
+async def get_pending_reschedule_requests(
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+    limit: int = 50,
+    offset: int = 0,
+):
+    """List reschedule requests awaiting admin approval."""
+    from app.db.models.appointment_request import (
+        AppointmentRescheduleRequest,
+        AdminApprovalStatus,
+        RescheduleRequestStatus,
+    )
+    from app.db.models.appointment import Appointment
+
+    query = (
+        select(AppointmentRescheduleRequest, Appointment)
+        .join(Appointment, Appointment.id == AppointmentRescheduleRequest.appointment_id)
+        .where(
+            AppointmentRescheduleRequest.admin_approval_status == AdminApprovalStatus.PENDING,
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        )
+        .order_by(AppointmentRescheduleRequest.created_at.desc())
+        .limit(limit)
+        .offset(offset)
+    )
+    result = await db.execute(query)
+    rows = result.all()
+
+    profile_ids: set[str] = set()
+    for req, appt in rows:
+        profile_ids.add(req.requested_by_id)
+        profile_ids.add(appt.doctor_id)
+        profile_ids.add(appt.patient_id)
+
+    profiles_by_id: dict[str, Profile] = {}
+    if profile_ids:
+        p_result = await db.execute(select(Profile).where(Profile.id.in_(profile_ids)))
+        profiles_by_id = {p.id: p for p in p_result.scalars().all()}
+
+    def name_of(pid: str) -> str:
+        p = profiles_by_id.get(pid)
+        if not p:
+            return "Unknown"
+        return f"{p.first_name or ''} {p.last_name or ''}".strip() or "Unknown"
+
+    items = []
+    for req, appt in rows:
+        items.append({
+            "id": req.id,
+            "appointment_id": req.appointment_id,
+            "requested_by_id": req.requested_by_id,
+            "requested_by_role": req.requested_by_role.value,
+            "requested_by_name": name_of(req.requested_by_id),
+            "patient_id": appt.patient_id,
+            "patient_name": name_of(appt.patient_id),
+            "doctor_id": appt.doctor_id,
+            "doctor_name": name_of(appt.doctor_id),
+            "current_date": appt.appointment_date.isoformat(),
+            "current_slot": appt.slot_time.isoformat() if appt.slot_time else None,
+            "proposed_date": req.proposed_date.isoformat(),
+            "proposed_time": req.proposed_time.isoformat(),
+            "reason": req.reason,
+            "created_at": req.created_at.isoformat() if req.created_at else None,
+        })
+
+    count_result = await db.execute(
+        select(func.count(AppointmentRescheduleRequest.id)).where(
+            AppointmentRescheduleRequest.admin_approval_status == AdminApprovalStatus.PENDING,
+            AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+        )
+    )
+    total = count_result.scalar() or 0
+    return {"requests": items, "total": total, "limit": limit, "offset": offset}
+
+
+@router.post("/reschedule-requests/{request_id}/approve")
+async def admin_approve_reschedule(
+    request_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin approves a reschedule request so the other party can respond."""
+    from app.services import appointment_service
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+    try:
+        await appointment_service.admin_approve_reschedule_request(
+            db,
+            reschedule_request_id=request_id,
+            admin_id=admin_actor_id,
+            notes=data.notes,
+        )
+        await db.commit()
+        return {"detail": "Reschedule request approved", "request_id": request_id}
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/reschedule-requests/{request_id}/reject")
+async def admin_reject_reschedule(
+    request_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin rejects a reschedule request; appointment returns to confirmed."""
+    from app.services import appointment_service
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+    try:
+        await appointment_service.admin_reject_reschedule_request(
+            db,
+            reschedule_request_id=request_id,
+            admin_id=admin_actor_id,
+            notes=data.notes,
+        )
+        await db.commit()
+        return {"detail": "Reschedule request rejected", "request_id": request_id}
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/cancellation-requests")
+async def get_pending_cancellation_requests(
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+    limit: int = 50,
+    offset: int = 0,
+):
+    """List cancellation requests awaiting admin approval."""
+    from app.db.models.appointment_request import (
+        AppointmentCancellationRequest,
+        AdminApprovalStatus,
+    )
+    from app.db.models.appointment import Appointment
+
+    query = (
+        select(AppointmentCancellationRequest, Appointment)
+        .join(Appointment, Appointment.id == AppointmentCancellationRequest.appointment_id)
+        .where(AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING)
+        .order_by(AppointmentCancellationRequest.created_at.desc())
+        .limit(limit)
+        .offset(offset)
+    )
+    rows = (await db.execute(query)).all()
+
+    profile_ids: set[str] = set()
+    for req, appt in rows:
+        profile_ids.add(req.requested_by_id)
+        profile_ids.add(appt.doctor_id)
+        profile_ids.add(appt.patient_id)
+
+    profiles_by_id: dict[str, Profile] = {}
+    if profile_ids:
+        p_result = await db.execute(select(Profile).where(Profile.id.in_(profile_ids)))
+        profiles_by_id = {p.id: p for p in p_result.scalars().all()}
+
+    def name_of(pid: str) -> str:
+        p = profiles_by_id.get(pid)
+        if not p:
+            return "Unknown"
+        return f"{p.first_name or ''} {p.last_name or ''}".strip() or "Unknown"
+
+    items = []
+    for req, appt in rows:
+        items.append({
+            "id": req.id,
+            "appointment_id": req.appointment_id,
+            "requested_by_id": req.requested_by_id,
+            "requested_by_role": req.requested_by_role.value,
+            "requested_by_name": name_of(req.requested_by_id),
+            "patient_id": appt.patient_id,
+            "patient_name": name_of(appt.patient_id),
+            "doctor_id": appt.doctor_id,
+            "doctor_name": name_of(appt.doctor_id),
+            "appointment_date": appt.appointment_date.isoformat(),
+            "slot_time": appt.slot_time.isoformat() if appt.slot_time else None,
+            "reason_key": req.reason_key,
+            "reason_note": req.reason_note,
+            "created_at": req.created_at.isoformat() if req.created_at else None,
+        })
+
+    count_result = await db.execute(
+        select(func.count(AppointmentCancellationRequest.id)).where(
+            AppointmentCancellationRequest.admin_approval_status == AdminApprovalStatus.PENDING,
+        )
+    )
+    total = count_result.scalar() or 0
+    return {"requests": items, "total": total, "limit": limit, "offset": offset}
+
+
+@router.post("/cancellation-requests/{request_id}/approve")
+async def admin_approve_cancellation(
+    request_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin approves cancellation; slot is freed."""
+    from app.services import appointment_service
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+    try:
+        await appointment_service.admin_approve_cancellation_request(
+            db,
+            cancellation_request_id=request_id,
+            admin_id=admin_actor_id,
+            notes=data.notes,
+        )
+        await db.commit()
+        return {"detail": "Cancellation approved", "request_id": request_id}
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/cancellation-requests/{request_id}/reject")
+async def admin_reject_cancellation(
+    request_id: str,
+    data: AdminAppointmentDecision,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin rejects cancellation; appointment returns to confirmed."""
+    from app.services import appointment_service
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+    try:
+        await appointment_service.admin_reject_cancellation_request(
+            db,
+            cancellation_request_id=request_id,
+            admin_id=admin_actor_id,
+            notes=data.notes,
+        )
+        await db.commit()
+        return {"detail": "Cancellation rejected", "request_id": request_id}
+    except ValueError as e:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.get("/audit-logs")
 async def get_audit_logs(
     db: AsyncSession = Depends(get_db),
@@ -1427,7 +1867,8 @@ async def get_audit_logs(
 
 
 class OverrideStatusRequest(BaseModel):
-    status: str
+    status: str | None = None
+    new_status: str | None = None
     notes: str | None = None
 
 
@@ -1440,19 +1881,92 @@ async def admin_override_appointment_status(
 ):
     """Admin force-sets an appointment status with audit trail."""
     from app.db.models.appointment import Appointment, AppointmentStatus as ApptStatus
+    from app.db.models.appointment_request import (
+        AdminApprovalStatus,
+        AppointmentRescheduleRequest,
+        RescheduleRequestStatus,
+    )
     from app.services import appointment_service
 
-    try:
-        new_status = ApptStatus(data.status)
-    except ValueError:
-        raise HTTPException(status_code=400, detail=f"Invalid status: {data.status}")
+    requested_status = (data.status or data.new_status or "").strip()
+    if not requested_status:
+        raise HTTPException(status_code=400, detail="status is required")
 
     try:
+        new_status = ApptStatus(requested_status)
+    except ValueError:
+        raise HTTPException(status_code=400, detail=f"Invalid status: {requested_status}")
+
+    try:
+        admin_actor_id = await _get_admin_actor_profile_id(db)
+
+        # Backward-compatible admin flow: approving a reschedule from the generic
+        # override panel must update the reschedule request admin status and emit
+        # reschedule-specific notifications, not generic appointment confirmation.
+        if new_status == ApptStatus.CONFIRMED:
+            appointment_result = await db.execute(
+                select(Appointment)
+                .where(Appointment.id == appointment_id)
+                .with_for_update()
+            )
+            appointment_row = appointment_result.scalar_one_or_none()
+            if not appointment_row:
+                raise HTTPException(status_code=404, detail="Appointment not found")
+
+            if appointment_row.status == ApptStatus.RESCHEDULE_REQUESTED:
+                request_result = await db.execute(
+                    select(AppointmentRescheduleRequest)
+                    .where(
+                        AppointmentRescheduleRequest.appointment_id == appointment_id,
+                        AppointmentRescheduleRequest.status == RescheduleRequestStatus.PENDING,
+                    )
+                    .order_by(AppointmentRescheduleRequest.created_at.desc())
+                    .with_for_update()
+                )
+                reschedule_request = request_result.scalars().first()
+
+                if not reschedule_request:
+                    raise HTTPException(
+                        status_code=400,
+                        detail="No pending reschedule request found for this appointment",
+                    )
+
+                if reschedule_request.admin_approval_status == AdminApprovalStatus.PENDING:
+                    await appointment_service.admin_approve_reschedule_request(
+                        db,
+                        reschedule_request_id=reschedule_request.id,
+                        admin_id=admin_actor_id,
+                        notes=data.notes or "Approved via admin status override",
+                    )
+                    await db.commit()
+                    return {
+                        "detail": "Reschedule request approved",
+                        "appointment_id": appointment_row.id,
+                        "new_status": appointment_row.status.value,
+                        "reschedule_request_id": reschedule_request.id,
+                        "admin_approval_status": reschedule_request.admin_approval_status.value,
+                    }
+
+                if reschedule_request.admin_approval_status == AdminApprovalStatus.APPROVED:
+                    await db.commit()
+                    return {
+                        "detail": "Reschedule request is already approved",
+                        "appointment_id": appointment_row.id,
+                        "new_status": appointment_row.status.value,
+                        "reschedule_request_id": reschedule_request.id,
+                        "admin_approval_status": reschedule_request.admin_approval_status.value,
+                    }
+
+                raise HTTPException(
+                    status_code=400,
+                    detail="Reschedule request was already rejected by admin",
+                )
+
         appointment = await appointment_service.transition_status(
             db,
             appointment_id=appointment_id,
             new_status=new_status,
-            performed_by_id="admin",
+            performed_by_id=admin_actor_id,
             performed_by_role="admin",
             notes=data.notes or "Admin override",
         )
@@ -1462,6 +1976,9 @@ async def admin_override_appointment_status(
             "appointment_id": appointment.id,
             "new_status": appointment.status.value,
         }
+    except HTTPException:
+        await db.rollback()
+        raise
     except ValueError as e:
         await db.rollback()
         raise HTTPException(status_code=400, detail=str(e))

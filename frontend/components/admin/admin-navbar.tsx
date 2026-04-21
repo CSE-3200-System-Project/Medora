@@ -11,10 +11,13 @@ import {
   UserCheck,
   Calendar,
   ClipboardList,
-  Settings,
+  Moon,
   LogOut,
   Ban,
+  Inbox,
+  Sun,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -35,10 +38,16 @@ import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 export function AdminNavbar() {
   const pathname = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [loggingOut, setLoggingOut] = React.useState(false);
+  const [themeMounted, setThemeMounted] = React.useState(false);
   const adminAvatarUrl = generateDefaultAvatarUrl("medora-admin");
+
+  React.useEffect(() => {
+    setThemeMounted(true);
+  }, []);
 
   React.useEffect(() => {
     let frameId = 0;
@@ -77,9 +86,17 @@ export function AdminNavbar() {
     { name: "Doctors", href: "/admin/doctors", icon: UserCheck },
     { name: "Patients", href: "/admin/patients", icon: Users },
     { name: "Appointments", href: "/admin/appointments", icon: Calendar },
+    { name: "Requests", href: "/admin/requests", icon: Inbox },
     { name: "Audit Log", href: "/admin/audit-log", icon: ClipboardList },
     { name: "User Management", href: "/admin/users", icon: Ban },
   ];
+
+  const currentTheme = themeMounted ? resolvedTheme : "light";
+  const isDarkMode = currentTheme === "dark";
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
+  };
+  const themeToggleLabel = isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode";
 
   return (
     <header
@@ -159,9 +176,12 @@ export function AdminNavbar() {
             <Button
               variant="ghost"
               size="icon"
+              onClick={toggleTheme}
+              aria-label={themeToggleLabel}
+              title={themeToggleLabel}
               className="text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl"
             >
-              <Settings className="h-5 w-5" />
+              {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
 
             <div className="flex items-center gap-3 px-3 py-2 rounded-xl border border-border/60">
@@ -251,6 +271,15 @@ export function AdminNavbar() {
                 </div>
 
                 <div className="mt-auto flex flex-col gap-4 border-t border-border pt-4">
+                  <Button
+                    variant="ghost"
+                    onClick={toggleTheme}
+                    className="w-full justify-start text-foreground/80 hover:text-foreground hover:bg-accent/70"
+                  >
+                    {isDarkMode ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
+                    {themeToggleLabel}
+                  </Button>
+
                   <div className="flex items-center gap-3 px-2">
                     <Avatar className="h-10 w-10 border-2 border-primary/10">
                       <AvatarImage src={adminAvatarUrl} alt="Admin" />

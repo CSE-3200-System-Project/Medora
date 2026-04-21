@@ -6,8 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
-import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, Activity, Filter, ExternalLink } from "lucide-react";
-import { cn, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
+import { Calendar, Clock, User, FileText, CheckCircle2, XCircle, AlertCircle, Phone, Activity, ExternalLink } from "lucide-react";
+import { cn, formatMeridiemTime, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils";
 
 type StatusFilter = 'all' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
@@ -129,11 +129,7 @@ export function AppointmentList({
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     
     const dateFormatted = `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-    const timeFormatted = date.toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: true 
-    });
+    const timeFormatted = formatMeridiemTime(date);
 
     return { date: dateFormatted, time: timeFormatted };
   };

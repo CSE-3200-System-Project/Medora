@@ -1,17 +1,20 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AlertTriangle, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
+import { AlertTriangle, ArrowRight, Brain, Menu, SendHorizontal, Trash2, UserRound, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { ChoruiSummaryPanel } from "@/components/ai/ChoruiSummaryPanel";
+import { ChoruiVapiVoiceControl } from "@/components/ai/chorui-vapi-voice-control";
 import { useChoruiChat } from "@/hooks/useChoruiChat";
 import type { ChoruiNavigationAction, ChoruiRoleContext, ChoruiSuggestedRoute } from "@/types/ai";
 import { useT } from "@/i18n/client";
+import { formatMeridiemTime, formatShortDateTime } from "@/lib/utils";
 
 const AUTO_NAVIGATION_CONFIDENCE = 0.85;
 const CONFIRM_NAVIGATION_CONFIDENCE = 0.6;
@@ -198,11 +201,11 @@ function buildNavigationChoices(
 }
 
 function formatChatTime(timestamp: string): string {
-  const date = new Date(timestamp);
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return formatMeridiemTime(timestamp);
+}
+
+function formatConversationTimestamp(timestamp: string): string {
+  return formatShortDateTime(timestamp);
 }
 
 type ChoruiChatProps = {
@@ -216,6 +219,7 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
     messages,
     input,
     setInput,
+    patientId,
     loading,
     error,
     saving,
@@ -523,6 +527,8 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
             </Button>
           </div>
 
+          <ChoruiVapiVoiceControl roleContext={roleContext} patientId={patientId || defaultPatientId} />
+
           {historyOpen ? (
             <div className="absolute inset-0 z-20 rounded-3xl border border-border/70 bg-background/95 p-3 backdrop-blur-sm md:p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
@@ -579,14 +585,8 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                             setHistoryOpen(false);
                           }}
                         >
-                          <p className="mb-1 text-xs text-muted-foreground">
-                            {new Date(conversation.updated_at).toLocaleString([], {
-                              year: "numeric",
-                              month: "short",
-                              day: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
+                          <p className="mb-1 text-xs text-muted-foreground" suppressHydrationWarning>
+                            {formatConversationTimestamp(conversation.updated_at)}
                           </p>
                           <p className="line-clamp-2 text-sm text-foreground">
                             {conversation.last_message || "No preview available"}
@@ -642,9 +642,34 @@ export function ChoruiChat({ roleContext = "patient", defaultPatientId }: Chorui
                       ].join(" ")}
                     >
                       <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
+
+                      {!isUser && message.navigation && message.navigation.length > 0 ? (
+                        <div className="mt-3 flex flex-col gap-2">
+                          {message.navigation.map((suggestion) => (
+                            <Link
+                              key={`${message.id}-${suggestion.path}`}
+                              href={suggestion.path}
+                              className="group flex items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-left transition-colors hover:border-primary/60 hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                            >
+                              <div className="min-w-0">
+                                <p className="truncate text-sm font-medium text-primary">
+                                  {suggestion.label}
+                                </p>
+                                {suggestion.description ? (
+                                  <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
+                                    {suggestion.description}
+                                  </p>
+                                ) : null}
+                              </div>
+                              <ArrowRight className="h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
+                            </Link>
+                          ))}
+                        </div>
+                      ) : null}
+
                       <div className={`mt-2 flex items-center gap-1 text-[0.68rem] ${isUser ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                         {message.failed ? <AlertTriangle className="h-3 w-3" /> : null}
-                        <span>{formatChatTime(message.timestamp)}</span>
+                        <span suppressHydrationWarning>{formatChatTime(message.timestamp)}</span>
                       </div>
                     </div>
 

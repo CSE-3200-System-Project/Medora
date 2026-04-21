@@ -31,6 +31,12 @@ class ChoruiSuggestedRoute(BaseModel):
     canonical_intent: str = Field(..., min_length=1, max_length=80)
 
 
+class ChoruiNavigationSuggestion(BaseModel):
+    label: str = Field(..., min_length=1, max_length=80)
+    path: str = Field(..., min_length=1, max_length=240)
+    description: str | None = Field(default=None, max_length=240)
+
+
 class ChoruiNavigationAction(BaseModel):
     type: Literal["navigate", "clarify", "suggest", "undo", "none"] = "none"
     route: str | None = Field(default=None, max_length=240)
@@ -84,6 +90,7 @@ class ChoruiConversationMessage(BaseModel):
     role: str
     content: str
     timestamp: str
+    structured_data: dict[str, Any] | None = None
 
 
 class ChoruiConversationHistoryResponse(BaseModel):
@@ -205,6 +212,7 @@ class AIDoctorPatientSummaryResponse(BaseModel):
 class AIPatientPrescriptionExplainerResponse(BaseModel):
     ai_generated: bool = True
     summary: dict[str, Any] = Field(default_factory=dict)
+    plain_text_summary: str = ""
     highlight_points: list[str] = Field(default_factory=list)
     cautions: list[str] = Field(default_factory=list)
     assistant_boundary: str = "This is a support explanation, not a replacement for your doctor advice."

@@ -81,22 +81,20 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
       }
 
       const detailRecord =
-        typeof detail === "object" && detail !== null
-          ? (detail as Record<string, unknown>)
-          : null;
+        detail && typeof detail === "object" ? (detail as Record<string, unknown>) : null;
       const isBanned = detailRecord?.code === "ACCOUNT_BANNED";
       if (response.status === 403 && isBanned) {
         const cookieStore = await cookies();
         const blockedCookieOptions = getMetadataCookieOptions(SHORT_SESSION_MAX_AGE_SECONDS);
         cookieStore.set(
           "account_blocked_reason",
-          String(detailRecord?.reason ?? "No reason provided"),
-          blockedCookieOptions,
+          String(detailRecord?.reason || "No reason provided"),
+          blockedCookieOptions
         );
         cookieStore.set(
           "account_blocked_message",
-          String(detailRecord?.message ?? "Account suspended"),
-          blockedCookieOptions,
+          String(detailRecord?.message || "Account suspended"),
+          blockedCookieOptions
         );
         cookieStore.delete("session_token");
         cookieStore.delete("user_role");
@@ -108,6 +106,8 @@ export async function login(formData: FormData, rememberMe: boolean = false) {
       const message =
         typeof detail === "string"
           ? detail
+          : typeof detailRecord?.message === "string"
+            ? detailRecord.message
           : typeof detailRecord?.message === "string"
             ? detailRecord.message
             : null;
