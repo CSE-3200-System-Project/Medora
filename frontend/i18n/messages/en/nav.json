@@ -9,7 +9,8 @@
   "doctorMenu": {
     "appointments": "Appointments",
     "patients": "Patients",
-    "analytics": "Analytics"
+    "analytics": "Analytics",
+    "findMedicine": "Find Medicine"
   },
   "patientMenu": {
     "findDoctor": "Find Doctor",

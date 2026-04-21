@@ -39,6 +39,7 @@ from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.patient import PatientProfile
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
+from app.db.models.media_file import MediaFile
 from app.schemas.consultation import (
     ConsultationCreate,
     ConsultationUpdate,
@@ -59,6 +60,7 @@ from app.schemas.consultation import (
     PrescriptionReject,
     PrescriptionFullResponse,
 )
+from app.schemas.upload import MediaFileResponse
 from app.services.doctor_action_service import (
     create_consultation_completed_action,
     create_prescription_issued_action,
@@ -498,12 +500,18 @@ def _normalize_prescription_snapshot_payload(raw_payload: Any) -> Optional[dict[
 
 def _latest_prescription_snapshot_for_consultation(
     consultation: Consultation,
+    prescription_id: Optional[str] = None,
 ) -> tuple[Optional[dict[str, Any]], Optional[datetime]]:
     prescriptions = sorted(
         consultation.prescriptions or [],
         key=lambda prescription: prescription.created_at or datetime.min.replace(tzinfo=timezone.utc),
         reverse=True,
     )
+
+    if prescription_id:
+        prescriptions = [prescription for prescription in prescriptions if prescription.id == prescription_id]
+        if not prescriptions:
+            return None, None
 
     for prescription in prescriptions:
         normalized = _normalize_prescription_snapshot_payload(
@@ -904,7 +912,11 @@ async def start_consultation(
         )
         existing = result.scalars().first()  # Use first() to handle edge case of multiple rows
         if existing:
-            raise HTTPException(status_code=400, detail="Active consultation already exists with this patient")
+            result = await db.execute(
+                select(Profile).where(Profile.id == user.id)
+            )
+            doctor_profile = result.scalar_one_or_none()
+            return build_consultation_response(existing, doctor_profile)
         
         # Create consultation with an initialized draft record so draft_id is always present.
         initial_draft_payload = _normalize_consultation_draft_payload(
@@ -1052,13 +1064,14 @@ async def get_doctor_consultation_history(
     return {"consultations": response_list, "total": total}
 
 
-@router.get("/{consultation_id}", response_model=ConsultationWithPrescriptions)
+@router.get("/{consultation_id:uuid}", response_model=ConsultationWithPrescriptions)
 async def get_consultation(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Get a specific consultation with all prescriptions."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
         select(Consultation)
         .options(
@@ -1068,7 +1081,7 @@ async def get_consultation(
             selectinload(Consultation.prescriptions).selectinload(Prescription.tests),
             selectinload(Consultation.prescriptions).selectinload(Prescription.surgeries),
         )
-        .where(Consultation.id == consultation_id)
+        .where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -1098,16 +1111,17 @@ async def get_consultation(
     return response
 
 
-@router.patch("/{consultation_id}", response_model=ConsultationResponse)
+@router.patch("/{consultation_id:uuid}", response_model=ConsultationResponse)
 async def update_consultation(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     data: ConsultationUpdate,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Update consultation notes/diagnosis. Only the doctor can update."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id)
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -1309,9 +1323,190 @@ async def complete_consultation(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    """Complete a consultation. Only the doctor can complete."""
+    """Complete a consultation. Only the consultation doctor can complete."""
     result = await db.execute(
         select(Consultation).where(Consultation.id == consultation_id)
+    )
+    consultation = result.scalar_one_or_none()
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    if consultation.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the consultation doctor can complete")
+
+    if consultation.status == ConsultationStatus.COMPLETED:
+        raise HTTPException(status_code=400, detail="Consultation already completed")
+
+    consultation.status = ConsultationStatus.COMPLETED
+    consultation.completed_at = datetime.now(timezone.utc)
+    await create_consultation_completed_action(db, consultation=consultation)
+
+    # Get doctor profile info
+    result = await db.execute(
+        select(Profile).where(Profile.id == user.id)
+    )
+    doctor_profile = result.scalar_one_or_none()
+    doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
+
+    # Notify patient
+    await create_notification(
+        db=db,
+        user_id=consultation.patient_id,
+        notification_type=NotificationType.CONSULTATION_COMPLETED,
+        title="Consultation Completed",
+        message=f"Your consultation with {doctor_name} has been completed. Please review any prescriptions.",
+        action_url=f"/patient/prescriptions",
+        metadata={"consultation_id": consultation.id, "doctor_id": user.id},
+        priority=NotificationPriority.MEDIUM,
+    )
+
+    await db.commit()
+    await db.refresh(consultation)
+
+    return build_consultation_response(consultation, doctor_profile)
+
+
+@router.patch("/{consultation_id}/draft", response_model=ConsultationDraftResponse)
+async def save_consultation_draft(
+    consultation_id: str,
+    request: Request,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Persist consultation editor draft state with backend as source of truth."""
+    try:
+        raw_payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid draft payload")
+
+    data = _validate_consultation_draft_payload(raw_payload)
+
+    result = await db.execute(
+        select(Consultation)
+        .options(selectinload(Consultation.draft))
+        .where(Consultation.id == consultation_id)
+    )
+    consultation = result.scalar_one_or_none()
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    if consultation.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
+
+    if consultation.status == ConsultationStatus.COMPLETED:
+        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
+
+    draft_record = await _apply_consultation_draft_update(db, consultation, data)
+
+    try:
+        await db.commit()
+        await db.refresh(consultation)
+        await db.refresh(draft_record)
+    except SQLAlchemyError:
+        await db.rollback()
+        logger.exception(
+            "Database error while saving consultation draft (consultation_id=%s, doctor_id=%s)",
+            consultation_id,
+            user.id,
+        )
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to save consultation draft",
+                "code": "consultation_draft_save_failed",
+            },
+        )
+
+    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
+    if not refreshed:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    return _build_consultation_draft_response(refreshed)
+
+
+@router.get("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
+async def get_consultation_draft_by_id(
+    draft_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get consultation draft by draft_id."""
+    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Draft not found")
+
+    if consultation.doctor_id != user.id and consultation.patient_id != user.id:
+        raise HTTPException(status_code=403, detail="You don't have access to this draft")
+
+    return _build_consultation_draft_response(consultation)
+
+
+@router.patch("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
+async def save_consultation_draft_by_id(
+    draft_id: str,
+    request: Request,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Persist consultation draft updates directly by draft_id."""
+    try:
+        raw_payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid draft payload")
+
+    data = _validate_consultation_draft_payload(raw_payload)
+    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
+
+    if not consultation:
+        raise HTTPException(status_code=404, detail="Draft not found")
+
+    if consultation.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
+
+    if consultation.status == ConsultationStatus.COMPLETED:
+        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
+
+    draft_record = await _apply_consultation_draft_update(db, consultation, data)
+
+    try:
+        await db.commit()
+        await db.refresh(consultation)
+        await db.refresh(draft_record)
+    except SQLAlchemyError:
+        await db.rollback()
+        logger.exception(
+            "Database error while saving consultation draft by draft_id (draft_id=%s, doctor_id=%s)",
+            draft_id,
+            user.id,
+        )
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to save consultation draft",
+                "code": "consultation_draft_save_failed",
+            },
+        )
+
+    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
+    if not refreshed:
+        raise HTTPException(status_code=404, detail="Consultation not found")
+
+    return _build_consultation_draft_response(refreshed)
+
+
+@router.patch("/{consultation_id:uuid}/complete", response_model=ConsultationResponse)
+async def complete_consultation(
+    consultation_id: uuid.UUID,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Complete a consultation. Only the doctor can complete."""
+    consultation_id_str = str(consultation_id)
+    result = await db.execute(
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -1360,6 +1555,7 @@ async def _get_full_prescription_payload_for_consultation(
     user_id: str,
     db: AsyncSession,
     draft_id: Optional[str] = None,
+    prescription_id: Optional[str] = None,
 ) -> dict[str, Any]:
     consultation_query = (
         select(Consultation)
@@ -1385,8 +1581,16 @@ async def _get_full_prescription_payload_for_consultation(
     if consultation.doctor_id != user_id and consultation.patient_id != user_id:
         raise HTTPException(status_code=403, detail="You don't have access to this consultation")
 
+    if prescription_id and not any(
+        prescription.id == prescription_id for prescription in (consultation.prescriptions or [])
+    ):
+        raise HTTPException(status_code=404, detail="Prescription not found for consultation")
+
     if consultation.status != ConsultationStatus.OPEN:
-        snapshot_payload, snapshot_generated_at = _latest_prescription_snapshot_for_consultation(consultation)
+        snapshot_payload, snapshot_generated_at = _latest_prescription_snapshot_for_consultation(
+            consultation,
+            prescription_id=prescription_id,
+        )
         if snapshot_payload:
             return {
                 "data_source": "snapshot",
@@ -1516,6 +1720,13 @@ async def _get_full_prescription_payload_for_consultation(
             key=lambda prescription: prescription.created_at or datetime.now(timezone.utc),
         )
 
+        if prescription_id:
+            sorted_prescriptions = [
+                prescription for prescription in sorted_prescriptions if prescription.id == prescription_id
+            ]
+            if not sorted_prescriptions:
+                raise HTTPException(status_code=404, detail="Prescription not found for consultation")
+
         for prescription in sorted_prescriptions:
             for medication in prescription.medications or []:
                 dosage_type, dosage_pattern, frequency_text = _derive_dosage_mode(medication)
@@ -1599,26 +1810,40 @@ async def _get_full_prescription_payload_for_consultation(
 async def get_full_prescription_by_consultation(
     consultation_id: str,
     draft_id: Optional[str] = Query(default=None),
+    prescription_id: Optional[str] = Query(default=None),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Get full structured consultation payload for prescription preview/print."""
-    return await _get_full_prescription_payload_for_consultation(consultation_id, user.id, db, draft_id=draft_id)
+    return await _get_full_prescription_payload_for_consultation(
+        consultation_id,
+        user.id,
+        db,
+        draft_id=draft_id,
+        prescription_id=prescription_id,
+    )
 
 
 @router.get("/prescriptions/{consultation_id}/full", response_model=PrescriptionFullResponse)
 async def get_full_prescription_by_consultation_legacy(
     consultation_id: str,
     draft_id: Optional[str] = Query(default=None),
+    prescription_id: Optional[str] = Query(default=None),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Backward-compatible full payload endpoint for existing preview clients."""
-    return await _get_full_prescription_payload_for_consultation(consultation_id, user.id, db, draft_id=draft_id)
+    return await _get_full_prescription_payload_for_consultation(
+        consultation_id,
+        user.id,
+        db,
+        draft_id=draft_id,
+        prescription_id=prescription_id,
+    )
 
 @router.post("/{consultation_id}/prescription", response_model=PrescriptionResponse)
 async def add_prescription(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     data: PrescriptionCreate,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
@@ -1628,10 +1853,11 @@ async def add_prescription(
     Only the consultation doctor can add prescriptions.
     """
     try:
+        consultation_id_str = str(consultation_id)
         result = await db.execute(
             select(Consultation)
             .options(selectinload(Consultation.draft))
-            .where(Consultation.id == consultation_id)
+            .where(Consultation.id == consultation_id_str)
         )
         consultation = result.scalar_one_or_none()
         
@@ -1680,7 +1906,7 @@ async def add_prescription(
 
         prescription = Prescription(
             id=str(uuid.uuid4()),
-            consultation_id=consultation_id,
+            consultation_id=consultation_id_str,
             doctor_id=user.id,
             patient_id=consultation.patient_id,
             type=resolved_type,
@@ -1797,7 +2023,7 @@ async def add_prescription(
             action_url=f"/patient/prescriptions/{prescription.id}",
             metadata={
                 "prescription_id": prescription.id,
-                "consultation_id": consultation_id,
+                "consultation_id": consultation_id_str,
                 "doctor_id": user.id,
                 "type": data.type.value,
                 "items": items_text,
@@ -1848,15 +2074,16 @@ async def add_prescription(
         raise HTTPException(status_code=500, detail="Failed to add prescription")
 
 
-@router.get("/{consultation_id}/prescriptions", response_model=PrescriptionListResponse)
+@router.get("/{consultation_id:uuid}/prescriptions", response_model=PrescriptionListResponse)
 async def get_consultation_prescriptions(
-    consultation_id: str,
+    consultation_id: uuid.UUID,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Get all prescriptions for a consultation."""
+    consultation_id_str = str(consultation_id)
     result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id)
+        select(Consultation).where(Consultation.id == consultation_id_str)
     )
     consultation = result.scalar_one_or_none()
     
@@ -1873,7 +2100,7 @@ async def get_consultation_prescriptions(
             selectinload(Prescription.tests),
             selectinload(Prescription.surgeries),
         )
-        .where(Prescription.consultation_id == consultation_id)
+        .where(Prescription.consultation_id == consultation_id_str)
         .order_by(Prescription.created_at.desc())
     )
     prescriptions = result.scalars().all()

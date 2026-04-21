@@ -20,6 +20,7 @@ export interface PatientAppointment {
   reschedule_requested_by_role?: string | null;
   proposed_date?: string | null;
   proposed_time?: string | null;
+  reschedule_admin_approval_status?: string | null;
 }
 
 export interface PatientSummary {

@@ -20,6 +20,7 @@ export default function PrescriptionPreviewPage() {
   const searchParams = useSearchParams();
   const consultationId = String(params.consultation_id || "");
   const draftId = searchParams.get("draft_id") || "";
+  const prescriptionId = searchParams.get("prescription_id") || "";
 
   const [state, setState] = React.useState<FetchState>("idle");
   const [error, setError] = React.useState<string>("");
@@ -41,8 +42,17 @@ export default function PrescriptionPreviewPage() {
         setState("loading");
         setError("");
 
-        const url = draftId
-          ? `/api/consultations/${consultationId}/full?draft_id=${encodeURIComponent(draftId)}`
+        const queryParams = new URLSearchParams();
+        if (draftId) {
+          queryParams.set("draft_id", draftId);
+        }
+        if (prescriptionId) {
+          queryParams.set("prescription_id", prescriptionId);
+        }
+
+        const queryString = queryParams.toString();
+        const url = queryString
+          ? `/api/consultations/${consultationId}/full?${queryString}`
           : `/api/consultations/${consultationId}/full`;
 
         const response = await fetch(url, {
@@ -81,7 +91,7 @@ export default function PrescriptionPreviewPage() {
     return () => {
       mounted = false;
     };
-  }, [consultationId, draftId, tPrescription]);
+  }, [consultationId, draftId, prescriptionId, tPrescription]);
 
   const handlePrint = React.useCallback(() => {
     window.print();
@@ -135,9 +145,9 @@ export default function PrescriptionPreviewPage() {
         diagnosis: tPrescription("document.diagnosis"),
         notes: tPrescription("document.notes"),
         digitalHash: tPrescription("document.digitalHash"),
-        generatedVia: tPrescription("document.generatedVia"),
+        generatedVia: tPrescription("document.generatedVia", { value: "{value}" }),
         physicianSign: tPrescription("document.physicianSign"),
-        printDate: tPrescription("document.printDate"),
+        printDate: tPrescription("document.printDate", { value: "{value}" }),
         qty: tPrescription("document.qty"),
         noMedication: tPrescription("document.noMedication"),
         noTests: tPrescription("document.noTests"),
@@ -150,7 +160,7 @@ export default function PrescriptionPreviewPage() {
   }, [consultationId, data, previewGeneratedAt, tPrescription]);
 
   return (
-    <div className="min-h-dvh bg-[#dfe3e8] px-2 py-4 sm:px-6 sm:py-6 print:bg-white print:p-0">
+    <div className="min-h-dvh bg-surface/60 px-2 py-4 text-foreground sm:px-6 sm:py-6 dark:bg-background print:bg-white print:p-0">
       <div className="preview-actions mx-auto mb-4 flex w-full max-w-[210mm] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Button variant="outline" onClick={() => router.back()} className="w-full sm:w-auto">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -176,7 +186,7 @@ export default function PrescriptionPreviewPage() {
 
       <div
         id="prescription-paper"
-        className="mx-auto w-full max-w-[210mm] bg-white px-4 py-6 text-[#101828] shadow-[0_24px_48px_rgba(15,23,42,0.18)] sm:px-8 sm:py-10 print:max-w-none print:shadow-none"
+        className="mx-auto w-full max-w-[210mm] bg-card px-4 py-6 text-card-foreground shadow-[0_24px_48px_rgba(15,23,42,0.18)] sm:px-8 sm:py-10 dark:shadow-[0_16px_40px_rgba(0,0,0,0.5)] print:max-w-none print:shadow-none"
       >
         {state === "loading" ? (
           <div className="flex min-h-[60vh] items-center justify-center">
@@ -185,7 +195,7 @@ export default function PrescriptionPreviewPage() {
         ) : null}
 
         {state === "error" ? (
-          <div className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <div className="rounded-md border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
             {error || tPrescription("loadPreviewFailed")}
           </div>
         ) : null}

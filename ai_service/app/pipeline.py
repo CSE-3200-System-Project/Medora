@@ -46,14 +46,20 @@ class OCRPipeline:
 
         raw_text = "\n".join(line.text for line in all_lines)
         elapsed_ms = int((time.perf_counter() - started_at) * 1000)
+
+        yolo_stats = _aggregate_scores([region.score for region in regions])
+        ocr_stats = _aggregate_scores([line.confidence for line in all_lines])
+
         logger.debug(
-            "ocr_pipeline_summary model=%s regions=%d crops=%d lines=%d meds=%d elapsed_ms=%d",
+            "ocr_pipeline_summary model=%s regions=%d crops=%d lines=%d meds=%d elapsed_ms=%d yolo_avg=%s ocr_avg=%s",
             model_name,
             region_count,
             crop_count,
             len(all_lines),
             len(medications),
             elapsed_ms,
+            yolo_stats["avg"],
+            ocr_stats["avg"],
         )
 
         if settings.OCR_LOG_FULL_TEXT:
@@ -71,6 +77,12 @@ class OCRPipeline:
                 processing_time_ms=elapsed_ms,
                 detected_regions=region_count,
                 ocr_line_count=len(all_lines),
+                yolo_avg_confidence=yolo_stats["avg"],
+                yolo_min_confidence=yolo_stats["min"],
+                yolo_max_confidence=yolo_stats["max"],
+                ocr_avg_confidence=ocr_stats["avg"],
+                ocr_min_confidence=ocr_stats["min"],
+                ocr_max_confidence=ocr_stats["max"],
             ),
         )
         if debug:
@@ -397,6 +409,17 @@ def _line_region_score(line_bbox: BBox | None, region_bbox: BBox) -> float:
     ry = (region_bbox.y_min + region_bbox.y_max) / 2
     dist = ((lx - rx) ** 2 + (ly - ry) ** 2) ** 0.5
     return 1.0 / (1.0 + dist)
+
+
+def _aggregate_scores(values: list[float]) -> dict[str, float | None]:
+    numeric = [float(value) for value in values if isinstance(value, (int, float))]
+    if not numeric:
+        return {"avg": None, "min": None, "max": None}
+    return {
+        "avg": round(sum(numeric) / len(numeric), 4),
+        "min": round(min(numeric), 4),
+        "max": round(max(numeric), 4),
+    }
 
 
 def _overlap_area(a: BBox, b: BBox) -> float:

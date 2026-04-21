@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Sparkles, MapPin, SlidersHorizontal } from "lucide-react";
+import { Search, Sparkles, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,7 @@ import { MobileFilterSheet, FilterSection } from "@/components/ui/mobile-filter-
 import { BANGLADESH_DISTRICTS } from "@/lib/bangladesh-data";
 import { useVoiceRecorder } from "@/lib/use-voice-recorder";
 import { transcribeVoice } from "@/lib/voice-actions";
+import { AIDoctorSearchVapiAssistant } from "@/components/doctor/ai-search-vapi-assistant";
 import { VoiceInputButton } from "@/components/doctor/voice-input-button";
 import { VoiceTranscriptionReview } from "@/components/doctor/voice-transcription-review";
 import { ButtonLoader } from "@/components/ui/medora-loader";
@@ -25,7 +26,7 @@ interface UserLocation {
 }
 
 interface SearchFiltersProps {
-  onSearch: (filters: Record<string, any>) => void;
+  onSearch: (filters: Record<string, unknown>) => void;
 }
 
 type Speciality = {
@@ -51,7 +52,6 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
   const [gender, setGender] = React.useState("");
   const [consultationType, setConsultationType] = React.useState("");
   const [specialities, setSpecialities] = React.useState<Speciality[]>([]);
-  const [loading, setLoading] = React.useState(true);
   
   // Geolocation state for distance-based ranking
   const [userLocation, setUserLocation] = React.useState<UserLocation | null>(null);
@@ -94,7 +94,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         setVoiceError(result.error);
         voiceRecorder.resetRecorder();
       }
-    } catch (error) {
+    } catch {
       setVoiceError("Transcription failed. Please try again.");
       voiceRecorder.resetRecorder();
     }
@@ -125,11 +125,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
     voiceRecorder.resetRecorder();
   };
 
-  React.useEffect(() => {
-    fetchSpecialities();
-  }, []);
-
-  const fetchSpecialities = async () => {
+  async function fetchSpecialities() {
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
       const res = await fetch(`${backendUrl}/specialities/`);
@@ -137,12 +133,14 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         const data = await res.json();
         setSpecialities(data.specialities || []);
       }
-    } catch (error) {
-      console.error("Failed to fetch specialities:", error);
-    } finally {
-      setLoading(false);
+    } catch (_error) {
+      console.error("Failed to fetch specialities:", _error);
     }
-  };
+  }
+
+  React.useEffect(() => {
+    fetchSpecialities();
+  }, []);
 
   // Request user's location for distance-based ranking
   const requestLocation = () => {
@@ -162,7 +160,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
         });
         setLocationLoading(false);
       },
-      (error) => {
+      () => {
         setLocationError("Location access denied");
         setLocationLoading(false);
       },
@@ -206,8 +204,8 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
     setConsultationType("");
   };
 
-  // Filter controls component (reused for both desktop and mobile)
-  const FilterControls = ({ isMobile = false }: { isMobile?: boolean }) => (
+  // Reused filter controls markup for desktop and mobile layouts.
+  const renderFilterControls = (isMobile = false) => (
     <div className={isMobile ? "space-y-5" : "grid grid-cols-2 lg:grid-cols-4 gap-3"}>
       <FilterSection title="Gender" className={isMobile ? "" : "space-y-1.5"}>
         <Select value={gender} onValueChange={setGender}>
@@ -273,7 +271,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
             variant={isAiMode ? "default" : "outline"} 
             size="sm"
             onClick={() => setIsAiMode(!isAiMode)}
-            className={`w-full sm:w-auto touch-target ${isAiMode ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" : ""}`}
+          className={`w-full sm:w-auto touch-target ${isAiMode ? "bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700" : ""}`}
          >
             <Sparkles className="w-4 h-4 mr-2" />
             {isAiMode ? "Switch to Standard" : "Try AI Search"}
@@ -299,12 +297,24 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
               <label className="text-base font-semibold text-foreground flex items-center gap-2">
                  <Sparkles className="w-4 h-4 text-primary" /> Describe your health concern
               </label>
+
+              <AIDoctorSearchVapiAssistant
+                location={city}
+                consultationMode={consultationType}
+                userLocation={userLocation}
+                onTranscriptDetected={(text) => {
+                  if (!text.trim()) {
+                    return;
+                  }
+                  setAiPrompt(text.trim());
+                }}
+              />
               
               {/* Textarea with Voice Input Button */}
               <div className="relative">
                 <Textarea 
                   placeholder="Ex: My father has severe chest pain since morning and history of diabetes. (Bangla/English) - Or click mic to speak"
-                  className="min-h-[100px] sm:min-h-[120px] text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none pr-14"
+                  className="min-h-25 sm:min-h-30 text-base bg-background/80 focus:bg-background border-primary/20 focus:border-primary resize-none pr-14"
                   value={aiPrompt}
                   onChange={(e) => setAiPrompt(e.target.value)}
                   disabled={voiceRecorder.state === "recording" || voiceRecorder.state === "processing"}
@@ -382,7 +392,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                   )}
                </div>
                <div className="flex items-end">
-                  <Button size="lg" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 touch-target" onClick={handleSearch}>
+                <Button size="lg" className="w-full bg-linear-to-r from-blue-600 to-indigo-600 touch-target" onClick={handleSearch}>
                     Find Doctors with AI
                   </Button>
                </div>
@@ -409,7 +419,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 onApply={handleSearch}
                 onReset={handleResetFilters}
               >
-                <FilterControls isMobile />
+                {renderFilterControls(true)}
               </MobileFilterSheet>
               
               <Button size="lg" className="flex-1 h-12" onClick={handleSearch}>
@@ -426,7 +436,7 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
 
           {/* Desktop Filters - Hidden on mobile */}
           <div className="hidden sm:block">
-            <FilterControls isMobile={false} />
+            {renderFilterControls(false)}
           </div>
         </>
       )}

@@ -1,3 +1,194 @@
+# Reschedule Admin Approval Override + Notification Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Backend: Route admin override `RESCHEDULE_REQUESTED -> CONFIRMED` through reschedule admin-approval service so `admin_approval_status` is updated
+- [x] Backend: Prevent generic appointment-confirmed event from firing for reschedule admin approval path
+- [x] Frontend: Clarify admin appointments override action label for reschedule rows so it reflects approval intent
+- [x] Validation: Run focused checks for touched backend/frontend files
+- [x] Update review summary with root cause and behavior change
+
+### Review
+- Root cause: admin appointments UI used the generic override endpoint/action ("Confirm") for rows in `RESCHEDULE_REQUESTED`, so backend ran a normal status transition instead of the reschedule admin-decision workflow. That left `appointment_reschedule_requests.admin_approval_status` unchanged and emitted generic `appointment.confirmed` notifications.
+- Backend fix: `POST /admin/appointments/{appointment_id}/override-status` now intercepts `RESCHEDULE_REQUESTED -> CONFIRMED` and routes it through `appointment_service.admin_approve_reschedule_request(...)`, including row lock checks for latest pending request, FK-safe admin actor resolution, and explicit early response.
+- Backend behavior correction: that reschedule path now emits reschedule-specific events/notifications (counterparty response request + requester approved notice) instead of generic "appointment confirmed".
+- Frontend fix: admin appointments status override now labels confirm action as `Approve Reschedule` on reschedule rows and sends clearer approval note text, reducing accidental misuse and matching backend intent.
+- Validation: `python -m py_compile backend/app/routes/admin.py backend/app/services/appointment_service.py` passed; `npm run lint -- components/admin/pages/admin-appointments-client.tsx lib/admin-actions.ts` passed with one warning only (`getAuthHeaders` unused in `frontend/lib/admin-actions.ts`).
+
+# Reschedule Approval Notifications + Slot Hold + Withdraw Flow (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Backend: Hold proposed slots for pending reschedule requests in availability checks
+- [x] Backend: Notify both requester and counterparty on admin-approved and accepted reschedule milestones
+- [x] Backend: Add requester withdraw endpoint/service for pending reschedule requests
+- [x] Backend: Expose pending reschedule metadata in appointment payloads used by patient/doctor UIs
+- [x] Frontend: Add withdraw reschedule action and wire role-aware accept/respond/withdraw UX on patient and doctor appointment screens
+- [x] Validate touched files and update review summary
+
+### Review
+- Root cause confirmed: admin approval only notified the non-requester, accepted flow only notified requester, and there was no requester-withdraw path; this made reschedules appear stuck in `RESCHEDULE_REQUESTED` when counterpart action never arrived.
+- Backend fix 1: slot availability now treats non-expired pending reschedule proposals as held slots to prevent double-booking of proposed times (`slot_service` in both slot list generation and direct slot availability checks).
+- Backend fix 2: event notifications now support dual-target behavior; admin approval sends to both requester and counterparty, and accepted reschedule sends confirmation to both participants.
+- Backend fix 3: added requester withdrawal flow (`withdraw_reschedule_request`) plus canonical and compatibility endpoints so requester can cancel pending reschedule negotiation and return appointment to `CONFIRMED`.
+- Backend fix 4: appointment payloads now include latest pending reschedule metadata (`reschedule_request_id`, requester role, proposed date/time, admin approval status) for both doctor and patient appointment feeds.
+- Frontend fix 1: added `withdrawRescheduleRequest(...)` action with canonical + compatibility fallback.
+- Frontend fix 2: patient upcoming list now shows a dedicated withdraw action when the patient is the requester; otherwise it keeps accept/reject flow for incoming requests.
+- Frontend fix 3: doctor modal now shows withdraw action for doctor-requested reschedules and keeps accept/reject for incoming patient requests.
+- Validation: backend syntax check passed (`python -m py_compile` on touched backend files) and focused frontend lint passed on touched files.
+
+# Admin Appointment Audit FK + Markup Warning Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Replace hardcoded admin actor IDs in appointment admin routes with a valid profile-backed actor ID
+- [x] Ensure a system admin profile exists for password-only admin flows before writing audit or responder FKs
+- [x] Fix invalid paragraph nesting warning in admin appointments UI
+- [x] Validate touched files for errors and summarize review notes
+
+### Review
+- Root cause 1: password-only admin endpoints wrote literal `"admin"` into profile-backed FK fields (`appointment_audit_logs.performed_by_id` and reschedule responder/admin actor fields), causing integrity failures when no profile with ID `admin` existed.
+- Fix 1: added `_get_admin_actor_profile_id(...)` in `backend/app/routes/admin.py` to ensure a system admin profile row exists and return a FK-safe actor ID.
+- Fix 2: replaced all hardcoded appointment admin actor writes in admin routes (approve/reject/override plus reschedule and cancellation decisions) with the resolved profile-backed actor ID.
+- Root cause 2: inline loading UI used `ButtonLoader` (a `<div>`) inside paragraph content in the admin appointments page, triggering React DOM nesting warnings.
+- Fix 3: switched `ButtonLoader` root element to `<span>` for valid inline markup.
+- Validation: backend syntax check passed (`python -m py_compile app/routes/admin.py`); targeted frontend lint passed (`npm run lint -- components/ui/medora-loader.tsx`); diagnostics show no backend errors in touched route file.
+
+# Admin Appointment Override Status Fix (2026-04-21)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and trace admin override failure from frontend server action to backend route
+- [x] Fix request payload mismatch causing backend validation rejection
+- [x] Improve frontend error parsing to avoid opaque `[object Object]` failures
+- [x] Add backend compatibility support for legacy `new_status` payload key
+- [x] Capture review summary and changed behavior
+
+### Review
+- Root cause: `frontend/lib/admin-actions.ts` sent `{ new_status: ... }` while `POST /admin/appointments/{id}/override-status` expected `status`, so FastAPI returned a structured validation error object and frontend surfaced it as `Error: [object Object]`.
+- Fix 1: updated override action payload to send `status`.
+- Fix 2: hardened override error handling to extract string messages from FastAPI `detail` payloads whether `detail` is a string or validation list.
+- Fix 3: added backend backward compatibility in `OverrideStatusRequest` to accept either `status` or `new_status`, then normalized to a single `requested_status` path.
+- Outcome: admin override calls now match API contract and should succeed for valid state transitions; invalid transitions now return readable error messages.
+
+# Google Calendar OAuth DB + Config Fix (2026-04-17)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce backend failure path for Google Calendar status/connect endpoints
+- [x] Identify why `google_email` model column existed in code but not in live DB schema
+- [x] Repair Alembic revision graph so OAuth column migration is reachable from the active head
+- [x] Apply migrations in existing backend venv and verify `UserOAuthToken` ORM select works
+- [x] Ensure OAuth client credentials are read from backend `.env` via settings to avoid false 503 configuration errors
+
+### Review
+- Root cause 1: Alembic had two heads (`e6890bb2c807` and `oauth_001`); DB was on `e6890bb2c807`, so `oauth_001` (which adds `google_email`, `google_sub`, `google_profile`) never ran.
+- Fix 1: added merge migration `oauth_002` joining `e6890bb2c807` and `oauth_001`, then ran `alembic upgrade head`; migration output confirmed `sched_004 -> oauth_001` and merge to `oauth_002`.
+- Root cause 2: OAuth route/service relied on `os.getenv(...)` directly, which can miss values present in `.env` when not exported to process env, causing `/oauth/google/connect` to return 503 despite configured `.env` values.
+- Fix 2: added Google OAuth settings fields to `app/core/config.py` and switched OAuth route/service to use `settings.*` values loaded from `.env`.
+- Validation: `alembic current` now reports `oauth_002 (head)` and an ORM probe query against `UserOAuthToken` executes successfully (`oauth_token_select_ok`).
+
+# Google OAuth PKCE Callback Persistence Fix (2026-04-17)
+
+## Status: completed
+
+### Todo
+- [x] Trace Google callback failure after connect (`invalid_grant: Missing code verifier`)
+- [x] Confirm authorization URL includes PKCE challenge and callback exchange lacked persisted verifier
+- [x] Persist PKCE `code_verifier` keyed by OAuth `state` between connect and callback
+- [x] Use unique per-attempt state token and pass callback state into token exchange
+- [x] Restart backend runtime and validate patched callback path with focused probe
+
+### Review
+- Root cause: Google auth URL generation included PKCE (`code_challenge`), but callback token exchange created a fresh flow instance without reusing the original `code_verifier`, causing Google token endpoint to reject code exchange.
+- Fix 1: added an in-memory state-keyed PKCE verifier cache in `backend/app/services/google_calendar_service.py`; connect stores verifier, callback pops and reapplies verifier before `fetch_token`.
+- Fix 2: updated route state handling in `backend/app/routes/oauth.py` to use `user_id:nonce` state for each connect request and preserve callback mapping to `user_id`.
+- Validation: focused probe confirmed state-based exchange path (`pkce_state_exchange_ok=True`), and backend was restarted with uvicorn reload from `backend/` so live runtime uses new logic.
+
+# Consultation Complete + History Detail Loading Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Fix 500 on `PATCH /consultation/{consultation_id}/complete` caused by response-model mismatch
+- [x] Ensure completed consultation screen hydrates medicines/tests/procedures from persisted prescriptions when draft is absent
+- [x] Enable loading exact selected prescription details from doctor history card clicks
+- [x] Propagate `prescription_id` query through preview page and API proxy to backend full-payload endpoint
+- [x] Validate changed backend/frontend files with diagnostics
+
+### Review
+- Root cause 1: duplicate complete route handlers existed; the matched handler for `/{consultation_id}/complete` returned draft payload while declared as `ConsultationResponse`, triggering FastAPI `ResponseValidationError`.
+- Fix 1: updated the matched `complete_consultation` handler to execute real completion logic and return `build_consultation_response(...)`.
+- Root cause 2: consultation detail hydration relied on draft payload even for completed consultations where `draft_id` is intentionally cleared after issuing prescription; this produced empty medication/test/procedure sections.
+- Fix 2: in consultation client hydration, when draft is unavailable, fallback now populates form state from `consultation.prescriptions` payload (including notes/type from latest prescription).
+- Root cause 3: past prescription click opened consultation-level preview without targeting the clicked prescription.
+- Fix 3: history card now navigates with `prescription_id`, preview page forwards it, and backend full-preview endpoint supports filtering by selected prescription and corresponding snapshot.
+- Validation: diagnostics report no errors in touched files.
+
+# Consultation Start + Prescription Insert Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Reproduce and trace consultation start failure path for active consultation collisions
+- [x] Fix add-prescription query type mismatch causing PostgreSQL varchar/uuid operator errors
+- [x] Make consultation start idempotent when an active consultation already exists for the same doctor-patient pair
+- [x] Add server-action fallback to reuse active consultation instead of surfacing hard failure
+- [x] Validate edited files with diagnostics and capture review notes
+
+### Review
+- Root cause 1: `add_prescription` in `backend/app/routes/consultation.py` compared `Consultation.id` (varchar) against a UUID-typed path param, producing PostgreSQL `operator does not exist: character varying = uuid` and blocking prescription creation.
+- Fix 1: normalized path UUID to string (`consultation_id_str`) and used string comparison in the consultation lookup query before creating the prescription.
+- Root cause 2: starting consultation for a patient with an already open consultation returned a hard error (`Active consultation already exists...`), which propagated through server actions and surfaced as 500 in Next logs.
+- Fix 2: `start_consultation` now returns the existing open consultation response instead of throwing, making the endpoint idempotent for duplicate start attempts.
+- Hardening: `frontend/lib/prescription-actions.ts` now includes a fallback in `startConsultation` that fetches doctor active consultations and returns the matching one when backend responds with that active-consultation message.
+- Validation: diagnostics report no errors in touched backend/frontend files.
+
+# Doctor Patient Records + Loader Normalization (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Analyze and fix broken skeleton/loader rendering on doctor patient details screen
+- [x] Correct layout/token inconsistencies causing UI breakage on that screen
+- [x] Extend doctor patient-access payload with consultation and prescription history for this doctor-patient pair
+- [x] Add "Past Consultations & Prescriptions" section in doctor patient records (marked area) with click-through actions
+- [x] Validate with diagnostics/build and document review notes
+
+### Review
+- Root UI gap cause: doctor patient details page had no left-column content below Lifestyle while right-column history continued, creating a large dead area in the exact region marked in the screenshot.
+- Added a new doctor-facing "Past Consultations & Prescriptions" panel under Lifestyle with click-through actions to consultation detail (`/doctor/patient/{id}/consultation?consultation_id=...`) and prescription preview (`/prescription/preview/{consultation_id}`).
+- Backend `GET /patient-access/patient/{patient_id}` now includes `consultation_history` and `prescription_history` scoped to this doctor-patient pair.
+- Privacy guard updated so these new fields are controlled by `can_view_prescriptions` and redacted when not shared.
+- Loader normalization: replaced the generic loading shell on doctor patient details with a structure-aware skeleton (`DoctorPatientRecordSkeleton`) to prevent layout jank and broken visual rhythm during load.
+- Validation: diagnostics report no errors in all touched files; frontend production build succeeds with expected pre-existing dynamic cookie route warnings.
+
+# Consultation Performance + Theme Consistency Fix (2026-04-11)
+
+## Status: completed
+
+### Todo
+- [x] Measure and summarize baseline consultation latency and refresh bottlenecks from runtime logs
+- [x] Fix consultation autosave loop and overlapping draft save calls
+- [x] Reduce duplicate unread-count requests caused by multiple notification dropdown mounts
+- [x] Align consultation prescription review colors to theme tokens for stable dark/light palettes
+- [x] Fix prescription preview i18n formatting warnings and configure default i18n time zone
+- [x] Run focused frontend validation and record before/after outcomes
+
+### Review
+- Baseline from runtime logs: repeated `saveConsultationDraftById` calls were occurring despite no new edits, often costing about 2.5s to 5.9s each and creating perceived refresh slowness.
+- Root cause in consultation flow: silent autosaves did not refresh the saved snapshot marker, so `requiresManualSave` stayed true and the autosave loop kept retriggering.
+- Fixed in `frontend/components/screens/pages/home/doctor/home-doctor-patient-id-consultation-client.tsx` by preventing overlapping silent saves, always updating the saved draft snapshot after successful persistence, extending debounce from 1000ms to 2200ms, and throttling focus-triggered re-hydration.
+- Reduced duplicate unread requests in `frontend/components/ui/notification-dropdown.tsx` using a shared 30s unread-count cache plus in-flight request dedupe.
+- Stabilized light/dark palette behavior by replacing hardcoded mixed color classes with theme tokens in `frontend/components/prescription/PrescriptionReview.tsx` and `frontend/app/(home)/prescription/preview/[consultation_id]/page.tsx`.
+- Resolved i18n warning sources by adding placeholder values for `generatedVia` and `printDate`, and setting default timezone (`Asia/Dhaka`) in `frontend/components/providers/app-i18n-provider.tsx`.
+- Validation: targeted diagnostics for changed files reported no errors; production frontend build succeeded (`npm run build` in `frontend`) with expected dynamic-route warnings due cookie-based rendering.
+
 # Chorui Namespace Loading Fix (2026-04-10)
 
 ## Status: completed

@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     DEFAULT_REMINDER_TIMEZONE: str = "Asia/Dhaka"
     REMINDER_DISPATCH_ENABLED: bool = True
     REMINDER_DISPATCH_INTERVAL_SECONDS: int = 300
+    REMINDER_LEAD_MINUTES: int = 15
     WEB_PUSH_VAPID_PUBLIC_KEY: str | None = None
     WEB_PUSH_VAPID_PRIVATE_KEY: str | None = None
     WEB_PUSH_VAPID_SUBJECT: str = "mailto:support@medora.app"
@@ -36,6 +37,17 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str | None = None
     SMTP_FROM_EMAIL: str = "no-reply@medora.com"
     SMTP_USE_TLS: bool = True
+    SMTP_USE_SSL: bool = False
+    SMTP_TIMEOUT_SECONDS: int = 20
+    VAPI_API_KEY: str | None = None
+    VAPI_ASSISTANT_ID: str | None = None
+    VAPI_PUBLIC_KEY: str | None = None
+    VAPI_TOOL_SHARED_SECRET: str | None = None
+
+    GOOGLE_CLIENT_ID: str | None = None
+    GOOGLE_CLIENT_SECRET: str | None = None
+    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/oauth/google/callback"
+    FRONTEND_URL: str = "http://localhost:3000"
 
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True

@@ -33,6 +33,13 @@ import {
 } from "lucide-react";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { PrescriptionVapiVoiceSummary } from "@/components/ai/prescription-vapi-voice-summary";
+
+type AssistantMedicationPlanItem = {
+  name: string;
+  schedule: string;
+  quantity: string | number | null;
+};
 
 function resolveErrorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error && error.message) {
@@ -73,6 +80,35 @@ export default function PatientPrescriptionDetailPage() {
 
     return "";
   }, [prescription]);
+
+  const assistantMedicationPlan = React.useMemo<AssistantMedicationPlanItem[]>(() => {
+    const rawPlan = assistantSummary?.summary?.["medication_plan"];
+    if (!Array.isArray(rawPlan)) {
+      return [];
+    }
+
+    return rawPlan
+      .map((item) => {
+        if (!item || typeof item !== "object") {
+          return null;
+        }
+
+        const payload = item as Record<string, unknown>;
+        const name = typeof payload.name === "string" ? payload.name.trim() : "";
+        const schedule = typeof payload.schedule === "string" ? payload.schedule.trim() : "";
+        if (!name || !schedule) {
+          return null;
+        }
+
+        const quantity =
+          typeof payload.quantity === "number" || typeof payload.quantity === "string"
+            ? payload.quantity
+            : null;
+
+        return { name, schedule, quantity };
+      })
+      .filter((item): item is AssistantMedicationPlanItem => item !== null);
+  }, [assistantSummary]);
 
   const loadPrescription = React.useCallback(async () => {
     try {
@@ -278,6 +314,29 @@ export default function PatientPrescriptionDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {assistantError ? <p className="text-sm text-destructive">{assistantError}</p> : null}
+
+              {assistantSummary?.plain_text_summary ? (
+                <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                  <h4 className="text-sm font-semibold text-foreground mb-1">Brief Summary</h4>
+                  <p className="text-sm text-foreground leading-relaxed">{assistantSummary.plain_text_summary}</p>
+                </div>
+              ) : null}
+
+              <PrescriptionVapiVoiceSummary prescriptionId={prescriptionId} />
+
+              {assistantMedicationPlan.length > 0 ? (
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground mb-2">Medication Names and Schedule</h4>
+                  <ul className="space-y-1">
+                    {assistantMedicationPlan.map((item) => (
+                      <li key={`${item.name}-${item.schedule}`} className="text-sm text-foreground">
+                        - {item.name}: {item.schedule}
+                        {item.quantity !== undefined && item.quantity !== null && item.quantity !== "" ? `, quantity ${item.quantity}` : ""}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               {assistantSummary?.highlight_points?.length ? (
                 <div>

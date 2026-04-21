@@ -72,7 +72,19 @@ function getStatusBadge(status: DoctorAppointment["status"]) {
     return <Badge className={cn(base, "bg-primary text-primary-foreground")}>Confirmed</Badge>;
   }
 
-  if (value === "PENDING" || value === "PENDING_ADMIN_REVIEW" || value === "PENDING_DOCTOR_CONFIRMATION" || value === "PENDING_PATIENT_CONFIRMATION") {
+  if (value === "PENDING_ADMIN_REVIEW") {
+    return <Badge className={cn(base, "bg-orange-500 text-white")}>Awaiting Admin</Badge>;
+  }
+
+  if (value === "PENDING_DOCTOR_CONFIRMATION") {
+    return <Badge className={cn(base, "bg-amber-500 text-white")}>Your Confirmation</Badge>;
+  }
+
+  if (value === "PENDING_PATIENT_CONFIRMATION") {
+    return <Badge className={cn(base, "bg-amber-500 text-white")}>Awaiting Patient</Badge>;
+  }
+
+  if (value === "PENDING") {
     return <Badge className={cn(base, "bg-amber-500 text-white")}>Pending</Badge>;
   }
 
@@ -82,6 +94,10 @@ function getStatusBadge(status: DoctorAppointment["status"]) {
 
   if (value === "RESCHEDULE_REQUESTED") {
     return <Badge className={cn(base, "bg-indigo-600 text-white")}>Reschedule Requested</Badge>;
+  }
+
+  if (value === "CANCEL_REQUESTED") {
+    return <Badge className={cn(base, "bg-rose-500 text-white")}>Cancel Requested</Badge>;
   }
 
   if (value === "NO_SHOW") {

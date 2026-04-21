@@ -361,6 +361,25 @@ export interface PrescriptionListResponse {
   total: number;
 }
 
+export interface PrescriptionAttachment {
+  id: string;
+  owner_profile_id: string;
+  bucket: string;
+  storage_path: string;
+  public_url?: string | null;
+  file_name: string;
+  original_file_name?: string | null;
+  content_type?: string | null;
+  file_extension?: string | null;
+  file_size: number;
+  checksum_sha256?: string | null;
+  category: string;
+  entity_type?: string | null;
+  entity_id?: string | null;
+  visibility: string;
+  created_at: string;
+}
+
 // ========== CONSULTATION ACTIONS (DOCTOR) ==========
 
 /**
@@ -382,6 +401,22 @@ export async function startConsultation(data: {
 
   if (!response.ok) {
     const errorMessage = await parseErrorResponse(response);
+
+    if (response.status === 400 && errorMessage.includes("Active consultation already exists")) {
+      try {
+        const activeConsultations = await getDoctorActiveConsultations();
+        const existingConsultation = activeConsultations.consultations.find(
+          (consultation) => consultation.patient_id === data.patient_id || consultation.patient_ref === data.patient_id
+        );
+
+        if (existingConsultation) {
+          return existingConsultation;
+        }
+      } catch {
+        // Fall through to the original error if fallback lookup fails.
+      }
+    }
+
     throw new Error(errorMessage || "Failed to start consultation");
   }
 
@@ -783,6 +818,28 @@ export async function getPatientPrescription(prescriptionId: string): Promise<Pr
   if (!response.ok) {
     const errorMessage = await parseErrorResponse(response);
     throw new Error(errorMessage || "Failed to fetch prescription");
+  }
+
+  return await response.json();
+}
+
+/**
+ * Get uploaded attachments linked to a patient prescription
+ */
+export async function getPatientPrescriptionAttachments(
+  prescriptionId: string
+): Promise<PrescriptionAttachment[]> {
+  const headers = await getAuthHeaders();
+
+  const response = await fetch(`${BACKEND_URL}/consultation/patient/prescription/${prescriptionId}/attachments`, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const errorMessage = await parseErrorResponse(response);
+    throw new Error(errorMessage || "Failed to fetch prescription attachments");
   }
 
   return await response.json();

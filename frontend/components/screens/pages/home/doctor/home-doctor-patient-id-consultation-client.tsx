@@ -187,10 +187,13 @@ export default function ConsultationPage() {
   const [ocrAttachmentPreviewUrl, setOcrAttachmentPreviewUrl] = React.useState<string | null>(null);
   const [ocrAttachmentName, setOcrAttachmentName] = React.useState<string>("");
   const [ocrAttachmentKind, setOcrAttachmentKind] = React.useState<"image" | "pdf" | null>(null);
+  const [ocrAttachmentFile, setOcrAttachmentFile] = React.useState<File | null>(null);
   const [ocrDetectedMedicines, setOcrDetectedMedicines] = React.useState<OcrDetectedMedication[]>([]);
   const isHydratingDraftRef = React.useRef(false);
   const autosaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedDraftHashRef = React.useRef<string>("");
+  const persistDraftInFlightRef = React.useRef(false);
+  const lastDraftHydrationAtRef = React.useRef(0);
 
   const handleAuthError = React.useCallback((error: unknown): boolean => {
     const message = getErrorMessage(error, "");
@@ -290,13 +293,19 @@ export default function ConsultationPage() {
   );
 
   const hydrateConsultationState = React.useCallback(async (consultationId: string) => {
+    if (isHydratingDraftRef.current) {
+      return;
+    }
+
     isHydratingDraftRef.current = true;
     try {
       const consultationData = await getConsultation(consultationId);
       const consultationDraftIdFromConsultation = normalizeConsultationId(consultationData.draft_id);
       let draftData: ConsultationDraftPayload | null = null;
 
-      if (consultationDraftIdFromConsultation) {
+      const shouldLoadDraft = consultationData.status === "open" || Boolean(consultationDraftIdFromConsultation);
+
+      if (shouldLoadDraft && consultationDraftIdFromConsultation) {
         try {
           draftData = await getConsultationDraftById(consultationDraftIdFromConsultation);
         } catch (draftByIdError: unknown) {
@@ -305,30 +314,93 @@ export default function ConsultationPage() {
             throw draftByIdError;
           }
 
-          draftData = await getConsultationDraft(consultationId);
+          if (consultationData.status === "open") {
+            draftData = await getConsultationDraft(consultationId);
+          }
         }
-      } else {
+      } else if (shouldLoadDraft) {
         draftData = await getConsultationDraft(consultationId);
       }
 
       const resolvedDraftId = normalizeConsultationId(draftData?.draft_id) ?? consultationDraftIdFromConsultation;
+      const sortedPrescriptions = [...(consultationData.prescriptions ?? [])].sort(
+        (a, b) => parseIsoDateToTimestamp(a.created_at) - parseIsoDateToTimestamp(b.created_at)
+      );
+      const latestPrescription = sortedPrescriptions[sortedPrescriptions.length - 1];
+
+      const persistedMedications: MedicationPrescriptionInput[] = sortedPrescriptions.flatMap((prescriptionItem) =>
+        (prescriptionItem.medications ?? []).map((medicationItem) => ({
+          medicine_name: medicationItem.medicine_name,
+          generic_name: medicationItem.generic_name,
+          medicine_type: medicationItem.medicine_type,
+          strength: medicationItem.strength,
+          dose_morning: medicationItem.dose_morning,
+          dose_afternoon: medicationItem.dose_afternoon,
+          dose_evening: Boolean(medicationItem.dose_evening || medicationItem.dose_night),
+          dose_night: false,
+          dose_morning_amount: medicationItem.dose_morning_amount,
+          dose_afternoon_amount: medicationItem.dose_afternoon_amount,
+          dose_evening_amount: medicationItem.dose_evening_amount || medicationItem.dose_night_amount,
+          dose_night_amount: undefined,
+          frequency_per_day: medicationItem.frequency_per_day,
+          dosage_type: medicationItem.dosage_type,
+          dosage_pattern: medicationItem.dosage_pattern,
+          frequency_text: medicationItem.frequency_text,
+          duration_value: medicationItem.duration_value,
+          duration_unit: medicationItem.duration_unit,
+          meal_instruction: medicationItem.meal_instruction,
+          special_instructions: medicationItem.special_instructions,
+          start_date: medicationItem.start_date,
+          end_date: medicationItem.end_date,
+          quantity: medicationItem.quantity,
+          refills: medicationItem.refills,
+        }))
+      );
+
+      const persistedTests: TestPrescriptionInput[] = sortedPrescriptions.flatMap((prescriptionItem) =>
+        (prescriptionItem.tests ?? []).map((testItem) => ({
+          test_name: testItem.test_name,
+          test_type: testItem.test_type,
+          instructions: testItem.instructions,
+          urgency: testItem.urgency,
+          preferred_lab: testItem.preferred_lab,
+          expected_date: testItem.expected_date,
+        }))
+      );
+
+      const persistedSurgeries: SurgeryRecommendationInput[] = sortedPrescriptions.flatMap((prescriptionItem) =>
+        (prescriptionItem.surgeries ?? []).map((surgeryItem) => ({
+          procedure_name: surgeryItem.procedure_name,
+          procedure_type: surgeryItem.procedure_type,
+          reason: surgeryItem.reason,
+          urgency: surgeryItem.urgency,
+          recommended_date: surgeryItem.recommended_date,
+          estimated_cost_min: surgeryItem.estimated_cost_min,
+          estimated_cost_max: surgeryItem.estimated_cost_max,
+          pre_op_instructions: surgeryItem.pre_op_instructions,
+          notes: surgeryItem.notes,
+          preferred_facility: surgeryItem.preferred_facility,
+        }))
+      );
 
       setConsultation(consultationData);
-      setConsultationDraftId(resolvedDraftId);
+      setConsultationDraftId(draftData ? resolvedDraftId : null);
       setChiefComplaint(draftData?.chief_complaint ?? consultationData.chief_complaint ?? "");
       setDiagnosis(draftData?.diagnosis ?? consultationData.diagnosis ?? "");
       setNotes(draftData?.notes ?? consultationData.notes ?? "");
-      setPrescriptionType(draftData?.prescription_type ?? "medication");
-      setPrescriptionNotes(draftData?.prescription_notes ?? "");
-      const hydratedMedications = (draftData?.medications ?? []).map((medication) => ({
-        ...medication,
-        dose_evening: Boolean(medication.dose_evening || medication.dose_night),
-        dose_evening_amount: medication.dose_evening_amount || medication.dose_night_amount,
-        dose_night: false,
-        dose_night_amount: undefined,
-      }));
-      const hydratedTests = draftData?.tests ?? [];
-      const hydratedSurgeries = draftData?.surgeries ?? [];
+      setPrescriptionType(draftData?.prescription_type ?? latestPrescription?.type ?? "medication");
+      setPrescriptionNotes(draftData?.prescription_notes ?? latestPrescription?.notes ?? "");
+      const hydratedMedications = draftData
+        ? (draftData.medications ?? []).map((medication) => ({
+            ...medication,
+            dose_evening: Boolean(medication.dose_evening || medication.dose_night),
+            dose_evening_amount: medication.dose_evening_amount || medication.dose_night_amount,
+            dose_night: false,
+            dose_night_amount: undefined,
+          }))
+        : persistedMedications;
+      const hydratedTests = draftData ? (draftData.tests ?? []) : persistedTests;
+      const hydratedSurgeries = draftData ? (draftData.surgeries ?? []) : persistedSurgeries;
 
       setMedications(hydratedMedications);
       setTests(hydratedTests);
@@ -345,6 +417,7 @@ export default function ConsultationPage() {
         surgeries: hydratedSurgeries,
       });
       setRequiresManualSave(false);
+      lastDraftHydrationAtRef.current = Date.now();
 
       const currentQueryConsultationId = normalizeConsultationId(searchParams.get("consultation_id"));
       if (currentQueryConsultationId !== consultationData.id) {
@@ -361,13 +434,14 @@ export default function ConsultationPage() {
     async ({
       silent = true,
       suppressError = true,
-      markAsManualSave = false,
     }: {
       silent?: boolean;
       suppressError?: boolean;
-      markAsManualSave?: boolean;
     } = {}): Promise<ConsultationDraftPayload | null> => {
       if (!consultation) return null;
+      if (silent && persistDraftInFlightRef.current) {
+        return null;
+      }
 
       const payload = buildDraftPayload();
       let updatedDraft: ConsultationDraftPayload | null = null;
@@ -377,6 +451,7 @@ export default function ConsultationPage() {
           setSaving(true);
           setError(null);
         } else {
+          persistDraftInFlightRef.current = true;
           setAutosavingDraft(true);
         }
 
@@ -428,10 +503,8 @@ export default function ConsultationPage() {
           ));
         }
 
-        if (markAsManualSave) {
-          lastSavedDraftHashRef.current = createDraftSnapshot(payload);
-          setRequiresManualSave(false);
-        }
+        lastSavedDraftHashRef.current = createDraftSnapshot(payload);
+        setRequiresManualSave(false);
 
         return updatedDraft;
       } catch (err: unknown) {
@@ -452,6 +525,7 @@ export default function ConsultationPage() {
         if (!silent) {
           setSaving(false);
         } else {
+          persistDraftInFlightRef.current = false;
           setAutosavingDraft(false);
         }
       }
@@ -493,7 +567,7 @@ export default function ConsultationPage() {
 
     autosaveTimerRef.current = setTimeout(() => {
       void persistDraft({ silent: true, suppressError: true });
-    }, 1000);
+    }, 2200);
 
     return () => {
       if (autosaveTimerRef.current) {
@@ -507,6 +581,10 @@ export default function ConsultationPage() {
 
     const reloadDraft = () => {
       if (isHydratingDraftRef.current) return;
+      if (saving || autosavingDraft) return;
+
+      const timeSinceLastHydration = Date.now() - lastDraftHydrationAtRef.current;
+      if (timeSinceLastHydration < 15_000) return;
 
       // Never clobber unsaved local edits when window focus changes.
       if (requiresManualSave) return;
@@ -523,7 +601,7 @@ export default function ConsultationPage() {
     return () => {
       window.removeEventListener("focus", reloadDraft);
     };
-  }, [consultation, hydrateConsultationState, requiresManualSave, handleAuthError]);
+  }, [consultation, hydrateConsultationState, requiresManualSave, handleAuthError, autosavingDraft, saving]);
 
   React.useEffect(() => {
     return () => {
@@ -597,7 +675,7 @@ export default function ConsultationPage() {
     }
 
     try {
-      await persistDraft({ silent: false, suppressError: false, markAsManualSave: true });
+      await persistDraft({ silent: false, suppressError: false });
       setSuccess("Consultation saved");
       setTimeout(() => setSuccess(null), 3000);
     } catch {
@@ -720,7 +798,6 @@ export default function ConsultationPage() {
         const updatedDraft = await persistDraft({
           silent: false,
           suppressError: false,
-          markAsManualSave: true,
         });
         activeDraftId = normalizeConsultationId(updatedDraft?.draft_id) ?? normalizeConsultationId(consultationDraftId);
       }
@@ -763,6 +840,7 @@ export default function ConsultationPage() {
       });
       setOcrAttachmentName(file.name);
       setOcrAttachmentKind(isPdf ? "pdf" : "image");
+      setOcrAttachmentFile(file);
 
       const extracted = await extractPrescriptionFromImage(file, { saveFile: false });
       const detectedMedicines = (extracted.medications || [])
@@ -1036,7 +1114,7 @@ export default function ConsultationPage() {
                   <p className="text-xs text-muted-foreground">Autosave backup is running...</p>
                 ) : null}
                 {requiresManualSave ? (
-                  <p className="text-xs text-amber-700">Unsaved changes. Click Save Consultation before preview.</p>
+                  <p className="text-xs text-warning">Unsaved changes. Click Save Consultation before preview.</p>
                 ) : null}
               </CardContent>
             </Card>
@@ -1198,6 +1276,9 @@ export default function ConsultationPage() {
                     tests={tests}
                     surgeries={surgeries}
                     notes={prescriptionNotes}
+                    attachmentPreviewUrl={ocrAttachmentPreviewUrl}
+                    attachmentName={ocrAttachmentName}
+                    attachmentKind={ocrAttachmentKind}
                   />
                 </div>
 

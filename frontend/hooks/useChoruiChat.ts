@@ -17,6 +17,7 @@ import {
   type ChoruiNavigationMemory,
   type ChoruiNavigationMeta,
   type ChoruiMessage,
+  type ChoruiNavigationSuggestion,
   type ChoruiRoleContext,
   type ChoruiSuggestedRoute,
   type ChoruiStructuredData,
@@ -195,6 +196,35 @@ function normalizeSuggestedRoutes(value: unknown): ChoruiSuggestedRoute[] {
       label,
       canonical_intent: canonicalIntent,
       route,
+    });
+  }
+
+  return suggestions;
+}
+
+function sanitizeNavigationList(value: unknown): ChoruiNavigationSuggestion[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  const suggestions: ChoruiNavigationSuggestion[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const record = item as Record<string, unknown>;
+    const label = normalizeText(record.label);
+    const path = normalizeRoute(record.path) || normalizeRoute(record.route);
+    const description = normalizeText(record.description);
+    if (!label || !path) {
+      continue;
+    }
+
+    suggestions.push({
+      label,
+      path,
+      description: description || null,
     });
   }
 
@@ -453,6 +483,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
               role: item.role === "ai" ? "ai" : "user",
               content: item.content,
               timestamp: item.timestamp,
+              navigation: sanitizeNavigationList(item.structured_data?.navigation),
             }))
           : [];
 
@@ -679,6 +710,7 @@ export function useChoruiChat({ roleContext, defaultPatientId }: UseChoruiChatOp
     messages,
     input,
     setInput,
+    patientId,
     loading,
     error,
     saving,
