@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useT } from "@/i18n/client";
 
 export interface Hospitalization {
   reason: string;
@@ -30,9 +31,10 @@ interface HospitalizationManagerProps {
 export function HospitalizationManager({
   hospitalizations,
   onUpdate,
-  title = "Hospitalization History",
-  description = "Record of hospital admissions",
+  title,
+  description,
 }: HospitalizationManagerProps) {
+  const tCommon = useT("common");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -100,16 +102,19 @@ export function HospitalizationManager({
 
   const isFormValid = formData.reason.trim() && formData.year.trim();
 
+  const resolvedTitle = title || tCommon("medicalHistory.hospitalization.title");
+  const resolvedDescription = description || tCommon("medicalHistory.hospitalization.subtitle");
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold">{title}</h3>
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <h3 className="text-lg font-semibold">{resolvedTitle}</h3>
+          <p className="text-sm text-muted-foreground">{resolvedDescription}</p>
         </div>
         <Button onClick={() => setDialogOpen(true)} size="sm" className="h-11 w-full shrink-0 sm:h-10 sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
-          Add Hospitalization
+          {tCommon("medicalHistory.hospitalization.actions.add")}
         </Button>
       </div>
 
@@ -136,7 +141,7 @@ export function HospitalizationManager({
                     )}
                     {hosp.hospital && (
                       <div className="text-sm text-muted-foreground mb-2">
-                        <strong>Hospital:</strong> {hosp.hospital}
+                        <strong>{tCommon("medicalHistory.hospitalization.fields.hospitalLabel")}</strong> {hosp.hospital}
                       </div>
                     )}
                     {hosp.notes && (
@@ -169,8 +174,8 @@ export function HospitalizationManager({
       ) : (
         <div className="text-center py-8 text-muted-foreground">
           <Hospital className="h-12 w-12 mx-auto mb-4 opacity-30" />
-          <p>No hospitalization history recorded</p>
-          <p className="text-sm mt-2">Add your first hospitalization to get started</p>
+          <p>{tCommon("medicalHistory.hospitalization.empty.title")}</p>
+          <p className="text-sm mt-2">{tCommon("medicalHistory.hospitalization.empty.subtitle")}</p>
         </div>
       )}
 
@@ -179,68 +184,70 @@ export function HospitalizationManager({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {editingIndex !== null ? "Edit Hospitalization" : "Add Hospitalization"}
+              {editingIndex !== null
+                ? tCommon("medicalHistory.hospitalization.dialog.editTitle")
+                : tCommon("medicalHistory.hospitalization.dialog.addTitle")}
             </DialogTitle>
             <DialogDescription>
               {editingIndex !== null
-                ? "Update the hospitalization details below"
-                : "Add details about your hospital admission"
+                ? tCommon("medicalHistory.hospitalization.dialog.editDescription")
+                : tCommon("medicalHistory.hospitalization.dialog.addDescription")
               }
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
             <div>
-              <Label htmlFor="hosp-reason">Reason for Admission *</Label>
+              <Label htmlFor="hosp-reason">{tCommon("medicalHistory.hospitalization.fields.reason")} *</Label>
               <Input
                 id="hosp-reason"
                 value={formData.reason}
                 onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                placeholder="e.g., Pneumonia, Heart Attack"
+                placeholder={tCommon("medicalHistory.hospitalization.placeholders.reason")}
                 className="mt-1"
               />
             </div>
 
             <div>
-              <Label htmlFor="hosp-year">Year *</Label>
+              <Label htmlFor="hosp-year">{tCommon("medicalHistory.hospitalization.fields.year")} *</Label>
               <Input
                 id="hosp-year"
                 value={formData.year}
                 onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                placeholder="e.g., 2023"
+                placeholder={tCommon("medicalHistory.hospitalization.placeholders.year")}
                 className="mt-1"
               />
             </div>
 
             <div>
-              <Label htmlFor="hosp-duration">Duration</Label>
+              <Label htmlFor="hosp-duration">{tCommon("medicalHistory.hospitalization.fields.duration")}</Label>
               <Input
                 id="hosp-duration"
                 value={formData.duration || ""}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                placeholder="e.g., 5 days, 2 weeks"
+                placeholder={tCommon("medicalHistory.hospitalization.placeholders.duration")}
                 className="mt-1"
               />
             </div>
 
             <div>
-              <Label htmlFor="hosp-hospital">Hospital</Label>
+              <Label htmlFor="hosp-hospital">{tCommon("medicalHistory.hospitalization.fields.hospital")}</Label>
               <Input
                 id="hosp-hospital"
                 value={formData.hospital || ""}
                 onChange={(e) => setFormData({ ...formData, hospital: e.target.value })}
-                placeholder="e.g., Dhaka Medical College Hospital"
+                placeholder={tCommon("medicalHistory.hospitalization.placeholders.hospital")}
                 className="mt-1"
               />
             </div>
 
             <div>
-              <Label htmlFor="hosp-notes">Additional Notes</Label>
+              <Label htmlFor="hosp-notes">{tCommon("medicalHistory.hospitalization.fields.notes")}</Label>
               <Textarea
                 id="hosp-notes"
                 value={formData.notes || ""}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                placeholder="Any additional details about the hospitalization..."
+                placeholder={tCommon("medicalHistory.hospitalization.placeholders.notes")}
                 className="mt-1"
                 rows={3}
               />
@@ -249,10 +256,12 @@ export function HospitalizationManager({
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)}>
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button onClick={handleAdd} disabled={!isFormValid}>
-              {editingIndex !== null ? "Update" : "Add"} Hospitalization
+              {editingIndex !== null
+                ? tCommon("medicalHistory.hospitalization.actions.update")
+                : tCommon("medicalHistory.hospitalization.actions.add")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -262,17 +271,17 @@ export function HospitalizationManager({
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Hospitalization</DialogTitle>
+            <DialogTitle>{tCommon("medicalHistory.hospitalization.delete.title")}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this hospitalization record? This action cannot be undone.
+              {tCommon("medicalHistory.hospitalization.delete.description")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button variant="destructive" onClick={confirmDelete}>
-              Delete
+              {tCommon("medicalHistory.hospitalization.actions.delete")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -3,22 +3,30 @@
 import { memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+import { useT } from "@/i18n/client";
 
 interface DoctorAboutCardProps {
   doctor: BackendDoctorProfile;
 }
 
 export const DoctorAboutCard = memo(function DoctorAboutCard({ doctor }: DoctorAboutCardProps) {
+  const tCommon = useT("common");
   const tags = (doctor.services || doctor.sub_specializations || []).slice(0, 6);
   const aboutText =
     doctor.about ||
-    `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name} provides patient-focused care with a strong emphasis on evidence-based treatment and clear communication.`;
+    tCommon("doctorProfile.about.fallbackText", {
+      title: doctor.title ? `${doctor.title} ` : "",
+      firstName: doctor.first_name,
+      lastName: doctor.last_name,
+    });
 
   return (
     <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader className="pb-2">
-          <CardTitle className="text-2xl font-bold text-foreground">About Dr. {doctor.last_name}</CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">
+            {tCommon("doctorProfile.about.title", { lastName: doctor.last_name })}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-pretty text-base leading-8 text-foreground/85">{aboutText}</p>

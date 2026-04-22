@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import type { SlotGroup } from "@/components/doctor/doctor-profile/types";
+import { useT } from "@/i18n/client";
 
 interface AppointmentSlotSelectorProps {
   slotGroups: SlotGroup[];
@@ -14,10 +15,12 @@ export function AppointmentSlotSelector({
   selectedSlot,
   onSelectSlot,
 }: AppointmentSlotSelectorProps) {
+  const tCommon = useT("common");
+
   if (!slotGroups.length) {
     return (
       <div className="rounded-xl border border-dashed border-border p-3 text-sm text-muted-foreground">
-        No slots are available for this date.
+        {tCommon("doctorProfile.booking.noSlots")}
       </div>
     );
   }
@@ -26,11 +29,21 @@ export function AppointmentSlotSelector({
     <div className="space-y-4">
       {slotGroups.map((group) => {
         const availableCount = group.slots.filter((slot) => slot.available).length;
+        const normalizedPeriod = group.period.trim().toLowerCase();
+        const knownPeriod = ["morning", "afternoon", "evening", "night"].includes(normalizedPeriod)
+          ? normalizedPeriod
+          : null;
+        const periodLabel = knownPeriod
+          ? tCommon(`doctorProfile.booking.periods.${knownPeriod}`)
+          : group.period;
+        const slotCountLabel = availableCount === 1
+          ? tCommon("doctorProfile.booking.slotSingular", { count: availableCount })
+          : tCommon("doctorProfile.booking.slotPlural", { count: availableCount });
 
         return (
           <div key={group.period} className="space-y-2">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              {group.period} ({availableCount} slots)
+              {periodLabel} ({slotCountLabel})
             </p>
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {group.slots.map((slot) => {

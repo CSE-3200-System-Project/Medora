@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { useT } from "@/i18n/client";
 import { 
   Heart, 
   Pill, 
@@ -43,20 +44,20 @@ const getCategoryIcon = (category: string) => {
   }
 };
 
-const getCategoryLabel = (category: string) => {
+const getCategoryLabel = (category: string, tCommon: (key: string) => string) => {
   switch (category) {
     case "condition":
-      return "Medical Condition";
+      return tCommon("findDoctor.context.category.condition");
     case "medication":
-      return "Current Medication";
+      return tCommon("findDoctor.context.category.medication");
     case "allergy":
-      return "Known Allergy";
+      return tCommon("findDoctor.context.category.allergy");
     case "surgery":
-      return "Past Surgery";
+      return tCommon("findDoctor.context.category.surgery");
     case "hospitalization":
-      return "Hospitalization";
+      return tCommon("findDoctor.context.category.hospitalization");
     default:
-      return "Medical History";
+      return tCommon("findDoctor.context.category.medicalHistory");
   }
 };
 
@@ -78,17 +79,19 @@ const getCategoryColor = (category: string) => {
 };
 
 export function PatientContextDisplay({ factors, loading = false }: PatientContextDisplayProps) {
+  const tCommon = useT("common");
+
   if (loading) {
     return (
       <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <History className="w-4 h-4 text-primary" />
-            Medical History Context
+            {tCommon("findDoctor.context.loadingTitle")}
           </CardTitle>
           <CardDescription>
             <div className="pt-1">
-              <MedoraLoader size="sm" label="Loading your medical information..." />
+              <MedoraLoader size="sm" label={tCommon("findDoctor.context.loadingDescription")} />
             </div>
           </CardDescription>
         </CardHeader>
@@ -120,10 +123,10 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-base">
           <History className="w-5 h-5 text-primary" />
-          Your Medical History is Influencing This Search
+          {tCommon("findDoctor.context.title")}
         </CardTitle>
         <CardDescription>
-          These factors from your profile are helping us find the right specialist for you
+          {tCommon("findDoctor.context.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -147,7 +150,7 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
                         variant="outline" 
                         className={`text-xs font-medium ${getCategoryColor(factor.category)}`}
                       >
-                        {getCategoryLabel(factor.category)}
+                        {getCategoryLabel(factor.category, tCommon)}
                       </Badge>
                       <span className="font-semibold text-sm text-foreground">
                         {factor.value}
@@ -169,7 +172,7 @@ export function PatientContextDisplay({ factors, loading = false }: PatientConte
         {/* Footer note */}
         <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
           <p className="text-xs text-primary leading-relaxed">
-            <span className="font-medium">Personalized Search:</span> Our AI analyzed your medical history alongside your description to recommend specialists who are best equipped to help you.
+            <span className="font-medium">{tCommon("findDoctor.context.personalizedTitle")}:</span> {tCommon("findDoctor.context.personalizedDescription")}
           </p>
         </div>
       </CardContent>

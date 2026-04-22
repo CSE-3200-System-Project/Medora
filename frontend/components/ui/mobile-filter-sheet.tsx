@@ -31,6 +31,14 @@ interface MobileFilterSheetProps {
   open?: boolean;
   /** Callback when open state changes (controlled mode) */
   onOpenChange?: (open: boolean) => void;
+  /** Label for trigger button when default trigger is used */
+  triggerLabel?: string;
+  /** Screen-reader label for close button */
+  closeLabel?: string;
+  /** Label for reset button */
+  resetLabel?: string;
+  /** Label for apply button */
+  applyLabel?: string;
 }
 
 /**
@@ -65,6 +73,10 @@ export function MobileFilterSheet({
   title = "Filters",
   open,
   onOpenChange,
+  triggerLabel = "Filters",
+  closeLabel = "Close",
+  resetLabel = "Reset",
+  applyLabel = "Apply Filters",
 }: MobileFilterSheetProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -76,7 +88,7 @@ export function MobileFilterSheet({
             className="touch-target gap-2 relative"
           >
             <SlidersHorizontal className="h-4 w-4" />
-            <span>Filters</span>
+            <span>{triggerLabel}</span>
             {activeFilterCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center">
                 {activeFilterCount}
@@ -99,7 +111,7 @@ export function MobileFilterSheet({
             <SheetTitle className="text-lg font-semibold">{title}</SheetTitle>
             <SheetClose className="rounded-full p-2 hover:bg-muted transition-colors">
               <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{closeLabel}</span>
             </SheetClose>
           </div>
         </SheetHeader>
@@ -120,7 +132,7 @@ export function MobileFilterSheet({
                 onClick={onReset}
                 className="text-muted-foreground hover:text-foreground"
               >
-                Reset
+                {resetLabel}
               </Button>
             )}
             <SheetClose asChild>
@@ -129,7 +141,7 @@ export function MobileFilterSheet({
                 className="flex-1 touch-target"
                 size="lg"
               >
-                Apply Filters
+                {applyLabel}
               </Button>
             </SheetClose>
           </div>

@@ -154,6 +154,20 @@ async def update_patient_onboarding(
             if items is None: return None
             return [item.model_dump() if hasattr(item, 'model_dump') else (item.dict() if hasattr(item, 'dict') else item) for item in items]
 
+        def normalize_medical_tests(items):
+            allowed_statuses = {"pending", "completed", "skipped"}
+            normalized = []
+            if items is None:
+                return normalized
+            for raw in items:
+                item = dict(raw) if isinstance(raw, dict) else {}
+                result_text = str(item.get("result") or "").strip()
+                incoming_status = str(item.get("status") or "").strip().lower()
+                status_value = incoming_status if incoming_status in allowed_statuses else ("completed" if result_text else "pending")
+                item["status"] = status_value
+                normalized.append(item)
+            return normalized
+
         # Basic Identity
         if data.dob: patient_data['date_of_birth'] = datetime.strptime(data.dob, '%Y-%m-%d').date()
         if data.gender: patient_data['gender'] = data.gender
@@ -214,7 +228,8 @@ async def update_patient_onboarding(
         if data.ongoing_treatment_details: patient_data['ongoing_treatment_details'] = data.ongoing_treatment_details
         if data.hospitalizations is not None: patient_data['hospitalizations'] = to_dict_list(data.hospitalizations)
         if data.has_medical_tests is not None: patient_data['has_medical_tests'] = to_bool(data.has_medical_tests)
-        if data.medical_tests is not None: patient_data['medical_tests'] = to_dict_list(data.medical_tests)
+        if data.medical_tests is not None:
+            patient_data['medical_tests'] = normalize_medical_tests(to_dict_list(data.medical_tests))
         if data.previous_doctors: patient_data['previous_doctors'] = data.previous_doctors
         if data.last_checkup_date: patient_data['last_checkup_date'] = data.last_checkup_date
         
@@ -859,6 +874,19 @@ async def get_patient_onboarding_data(
         "phone": profile.phone,
         "onboarding_completed": profile.onboarding_completed,
     }
+
+    def _normalized_medical_tests_for_response(items):
+        normalized = []
+        allowed = {"pending", "completed", "skipped"}
+        for raw in (items or []):
+            if not isinstance(raw, dict):
+                continue
+            item = dict(raw)
+            result_text = str(item.get("result") or "").strip()
+            incoming_status = str(item.get("status") or "").strip().lower()
+            item["status"] = incoming_status if incoming_status in allowed else ("completed" if result_text else "pending")
+            normalized.append(item)
+        return normalized
     
     if patient:
         response.update({
@@ -922,7 +950,7 @@ async def get_patient_onboarding_data(
             "ongoing_treatment_details": getattr(patient, 'ongoing_treatment_details', None),
             "hospitalizations": patient.hospitalizations or [],
             "has_medical_tests": "yes" if getattr(patient, 'has_medical_tests', False) else "no",
-            "medical_tests": getattr(patient, 'medical_tests', None) or [],
+            "medical_tests": _normalized_medical_tests_for_response(getattr(patient, 'medical_tests', None) or []),
             "previous_doctors": getattr(patient, 'previous_doctors', None),
             "last_checkup_date": getattr(patient, 'last_checkup_date', None),
             

@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 export type HeatmapLevel = "perfect" | "partial" | "missed" | "future";
 
@@ -21,22 +22,26 @@ const LEVEL_STYLES: Record<HeatmapLevel, string> = {
   future: "bg-muted text-muted-foreground",
 };
 
-const LEVEL_LABELS: Record<HeatmapLevel, string> = {
-  perfect: "Perfect adherence",
-  partial: "Partial adherence",
-  missed: "Missed doses",
-  future: "Future day",
-};
-
 export function AdherenceHeatmap({ days }: AdherenceHeatmapProps) {
+  const tCommon = useT("common");
+  const weekdayLabels = [
+    tCommon("analytics.weekdays.mon"),
+    tCommon("analytics.weekdays.tue"),
+    tCommon("analytics.weekdays.wed"),
+    tCommon("analytics.weekdays.thu"),
+    tCommon("analytics.weekdays.fri"),
+    tCommon("analytics.weekdays.sat"),
+    tCommon("analytics.weekdays.sun"),
+  ];
+
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-xl">Medication Adherence Heatmap</CardTitle>
+        <CardTitle className="text-xl">{tCommon("analytics.adherenceHeatmap.title")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="grid grid-cols-7 gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:gap-3">
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((weekday) => (
+          {weekdayLabels.map((weekday) => (
             <span key={weekday} className="text-center">
               {weekday}
             </span>
@@ -45,7 +50,7 @@ export function AdherenceHeatmap({ days }: AdherenceHeatmapProps) {
 
         <div className="grid grid-cols-7 gap-2 sm:gap-3">
           {days.map((day) => {
-            const label = LEVEL_LABELS[day.level];
+            const label = tCommon(`analytics.adherenceHeatmap.levelLabels.${day.level}`);
             return (
               <div key={day.id} className="group relative">
                 <div
@@ -64,10 +69,10 @@ export function AdherenceHeatmap({ days }: AdherenceHeatmapProps) {
         </div>
 
         <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-          <LegendDot className="bg-emerald-500" label="Perfect" />
-          <LegendDot className="bg-amber-400" label="Partial" />
-          <LegendDot className="bg-rose-500" label="Missed" />
-          <LegendDot className="bg-muted" label="Future" />
+          <LegendDot className="bg-emerald-500" label={tCommon("analytics.adherenceHeatmap.legend.perfect")} />
+          <LegendDot className="bg-amber-400" label={tCommon("analytics.adherenceHeatmap.legend.partial")} />
+          <LegendDot className="bg-rose-500" label={tCommon("analytics.adherenceHeatmap.legend.missed")} />
+          <LegendDot className="bg-muted" label={tCommon("analytics.adherenceHeatmap.legend.future")} />
         </div>
       </CardContent>
     </Card>

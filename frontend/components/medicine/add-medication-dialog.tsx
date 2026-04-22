@@ -20,7 +20,6 @@ import {
   Pill,
   Sun,
   Cloud,
-  Moon,
   Star,
   Calendar,
   User,
@@ -79,7 +78,6 @@ function hasAtLeastOneDose(schedule: DoseSchedule) {
   return (
     schedule.dose_morning ||
     schedule.dose_afternoon ||
-    schedule.dose_evening ||
     schedule.dose_night
   );
 }
@@ -146,16 +144,15 @@ export function AddMedicationDialog({
       const schedule: DoseSchedule = {
         dose_morning: editingMedication.dose_morning ?? parsed.dose_morning,
         dose_afternoon: editingMedication.dose_afternoon ?? parsed.dose_afternoon,
-        dose_evening: editingMedication.dose_evening ?? parsed.dose_evening,
-        dose_night: editingMedication.dose_night ?? parsed.dose_night,
+        dose_evening: false,
+        dose_night: editingMedication.dose_night ?? editingMedication.dose_evening ?? parsed.dose_night,
         dose_morning_amount:
           editingMedication.dose_morning_amount ?? parsed.dose_morning_amount,
         dose_afternoon_amount:
           editingMedication.dose_afternoon_amount ?? parsed.dose_afternoon_amount,
-        dose_evening_amount:
-          editingMedication.dose_evening_amount ?? parsed.dose_evening_amount,
+        dose_evening_amount: "1",
         dose_night_amount:
-          editingMedication.dose_night_amount ?? parsed.dose_night_amount,
+          editingMedication.dose_night_amount ?? editingMedication.dose_evening_amount ?? parsed.dose_night_amount,
       };
       setSelectedMedicine({
         drug_id: editingMedication.drug_id,
@@ -171,11 +168,11 @@ export function AddMedicationDialog({
         frequency: editingMedication.frequency || buildFrequencyFromDoseSchedule(schedule),
         dose_morning: schedule.dose_morning,
         dose_afternoon: schedule.dose_afternoon,
-        dose_evening: schedule.dose_evening,
+        dose_evening: false,
         dose_night: schedule.dose_night,
         dose_morning_amount: normalizeDoseAmount(schedule.dose_morning_amount),
         dose_afternoon_amount: normalizeDoseAmount(schedule.dose_afternoon_amount),
-        dose_evening_amount: normalizeDoseAmount(schedule.dose_evening_amount),
+        dose_evening_amount: "1",
         dose_night_amount: normalizeDoseAmount(schedule.dose_night_amount),
         meal_instruction: normalizeMealInstruction(editingMedication.meal_instruction),
         duration: editingMedication.duration,
@@ -202,11 +199,11 @@ export function AddMedicationDialog({
           frequency: buildFrequencyFromDoseSchedule(DEFAULT_SCHEDULE),
           dose_morning: DEFAULT_SCHEDULE.dose_morning,
           dose_afternoon: DEFAULT_SCHEDULE.dose_afternoon,
-          dose_evening: DEFAULT_SCHEDULE.dose_evening,
+          dose_evening: false,
           dose_night: DEFAULT_SCHEDULE.dose_night,
           dose_morning_amount: DEFAULT_SCHEDULE.dose_morning_amount,
           dose_afternoon_amount: DEFAULT_SCHEDULE.dose_afternoon_amount,
-          dose_evening_amount: DEFAULT_SCHEDULE.dose_evening_amount,
+          dose_evening_amount: "1",
           dose_night_amount: DEFAULT_SCHEDULE.dose_night_amount,
           meal_instruction: "after_meal",
           duration: "",
@@ -273,11 +270,11 @@ export function AddMedicationDialog({
       const nextSchedule: DoseSchedule = {
         dose_morning: updates.dose_morning ?? prev.dose_morning,
         dose_afternoon: updates.dose_afternoon ?? prev.dose_afternoon,
-        dose_evening: updates.dose_evening ?? prev.dose_evening,
+        dose_evening: false,
         dose_night: updates.dose_night ?? prev.dose_night,
         dose_morning_amount: updates.dose_morning_amount ?? prev.dose_morning_amount,
         dose_afternoon_amount: updates.dose_afternoon_amount ?? prev.dose_afternoon_amount,
-        dose_evening_amount: updates.dose_evening_amount ?? prev.dose_evening_amount,
+        dose_evening_amount: "1",
         dose_night_amount: updates.dose_night_amount ?? prev.dose_night_amount,
       };
 
@@ -561,7 +558,7 @@ export function AddMedicationDialog({
                 <Label>
                   {tCommon("medicine.addDialog.dosageSchedule")} <span className="text-destructive">*</span>
                 </Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   <button
                     type="button"
                     onClick={() => updateSchedule({ dose_morning: !formData.dose_morning })}
@@ -596,34 +593,11 @@ export function AddMedicationDialog({
                     )}
                   >
                     <Cloud className={cn("mb-1 h-5 w-5", formData.dose_afternoon ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.afternoon")}</span>
+                    <span className="font-medium">Noon</span>
                     {formData.dose_afternoon && (
                       <Input
                         value={formData.dose_afternoon_amount}
                         onChange={(e) => updateSchedule({ dose_afternoon_amount: e.target.value })}
-                        onClick={(e) => e.stopPropagation()}
-                        className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
-                        placeholder="1"
-                      />
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => updateSchedule({ dose_evening: !formData.dose_evening })}
-                    className={cn(
-                      "flex flex-col items-center rounded-xl border-2 p-3 text-sm transition-all",
-                      formData.dose_evening
-                        ? "border-primary bg-primary/10"
-                        : "border-border hover:border-primary/50",
-                    )}
-                  >
-                    <Moon className={cn("mb-1 h-5 w-5", formData.dose_evening ? "text-primary" : "text-muted-foreground")} />
-                    <span className="font-medium">{tCommon("medicine.addDialog.timeOfDay.evening")}</span>
-                    {formData.dose_evening && (
-                      <Input
-                        value={formData.dose_evening_amount}
-                        onChange={(e) => updateSchedule({ dose_evening_amount: e.target.value })}
                         onClick={(e) => e.stopPropagation()}
                         className="mt-2 h-7 w-16 rounded-lg text-center text-xs"
                         placeholder="1"

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+import { useT } from "@/i18n/client";
 
 interface DoctorProfileHeaderProps {
   doctor: BackendDoctorProfile;
@@ -19,11 +20,12 @@ function getDisplayName(doctor: BackendDoctorProfile) {
 }
 
 export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProps) {
-  const specialty = doctor.speciality_name || doctor.specialization || "Specialist";
-  const subSpecialty = doctor.sub_specializations?.[0] || "Specialist in Patient Care";
+  const tCommon = useT("common");
+  const specialty = doctor.speciality_name || doctor.specialization || tCommon("doctorProfile.header.defaultSpecialist");
+  const subSpecialty = doctor.sub_specializations?.[0] || tCommon("doctorProfile.header.defaultSubSpecialty");
   const experienceText = doctor.years_of_experience
-    ? `${doctor.years_of_experience} Years+`
-    : "N/A";
+    ? tCommon("doctorProfile.header.yearsPlus", { count: doctor.years_of_experience })
+    : tCommon("doctorProfile.header.notAvailable");
   const successRate = "98%";
 
   return (
@@ -57,7 +59,7 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
                   {getDisplayName(doctor)}
                 </h1>
                 <p className="max-w-2xl text-sm font-medium leading-relaxed text-foreground/80 sm:text-base">
-                  {doctor.qualifications || "MBBS"} • {subSpecialty}
+                  {doctor.qualifications || tCommon("doctorProfile.header.qualificationsFallback")} • {subSpecialty}
                 </p>
               </div>
             </div>
@@ -66,7 +68,7 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
               <Button
                 variant="outline"
                 size="icon"
-                aria-label="Share doctor profile"
+                aria-label={tCommon("doctorProfile.header.shareAria")}
                 className="h-10 w-10 rounded-xl"
                 onClick={onShare}
               >
@@ -75,7 +77,7 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
               <Button
                 variant="outline"
                 size="icon"
-                aria-label="Save doctor"
+                aria-label={tCommon("doctorProfile.header.saveAria")}
                 className="h-10 w-10 rounded-xl"
               >
                 <Bookmark className="h-4 w-4" />
@@ -85,18 +87,20 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Experience</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.experience")}</p>
               <p className="mt-1 text-xl font-semibold text-foreground">{experienceText}</p>
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Success Rate</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.successRate")}</p>
               <p className="mt-1 text-xl font-semibold text-foreground">{successRate}</p>
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Status</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.status")}</p>
               <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-success-muted">
                 <CheckCircle2 className="h-4 w-4" />
-                {doctor.bmdc_verified ? "BMDC Verified" : "Verification Pending"}
+                {doctor.bmdc_verified
+                  ? tCommon("doctorProfile.header.bmdcVerified")
+                  : tCommon("doctorProfile.header.verificationPending")}
               </p>
             </div>
           </div>

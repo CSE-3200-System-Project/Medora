@@ -15,13 +15,12 @@ import { toast } from "@/lib/notify";
 import type { BackendDoctorLocation, BackendDoctorProfile, DateOption, SlotGroup } from "@/components/doctor/doctor-profile/types";
 import { AppointmentDateSelector } from "@/components/doctor/doctor-profile/AppointmentDateSelector";
 import { AppointmentSlotSelector } from "@/components/doctor/doctor-profile/AppointmentSlotSelector";
+import { useAppI18n, useT } from "@/i18n/client";
 
 interface AppointmentBookingCardProps {
   doctor: BackendDoctorProfile;
 }
 
-const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const FULL_DAY_LABELS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function parseDaysFromAvailability(availability?: string[] | null) {
@@ -37,7 +36,15 @@ function getLocationKey(location: BackendDoctorLocation, index: number) {
   return location.id || `legacy-${index}`;
 }
 
-function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctorLocation): DateOption[] {
+function buildDateOptions(
+  doctor: BackendDoctorProfile,
+  labels: {
+    monthLabels: string[];
+    dayLabels: string[];
+    todayLabel: string;
+  },
+  location?: BackendDoctorLocation,
+): DateOption[] {
   const locationDays = parseDaysFromAvailability(location?.available_days ?? null);
   const doctorDays = parseDaysFromAvailability(doctor.available_days ?? null);
   const hasPerDaySchedule = Boolean(location?.day_time_slots && Object.keys(location.day_time_slots).length > 0);
@@ -47,8 +54,10 @@ function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctor
     const date = new Date();
     date.setDate(date.getDate() + index);
 
-    const fullDay = FULL_DAY_LABELS[date.getDay()];
-    const shortDay = DAY_LABELS[date.getDay()].toUpperCase();
+    const dayIndex = date.getDay();
+    const fullDay = FULL_DAY_LABELS[dayIndex];
+    const shortDay = fullDay.slice(0, 3).toUpperCase();
+    const displayDayLabel = labels.dayLabels[dayIndex] || shortDay;
 
     let isEnabled = true;
     if (hasPerDaySchedule) {
@@ -65,10 +74,10 @@ function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctor
 
     return {
       key: localDateKey(date),
-      dayLabel: shortDay,
+      dayLabel: displayDayLabel,
       dayNumber: String(date.getDate()),
-      monthLabel: MONTH_LABELS[date.getMonth()],
-      helperLabel: index === 0 ? "Today" : shortDay,
+      monthLabel: labels.monthLabels[date.getMonth()] || String(date.getMonth() + 1),
+      helperLabel: index === 0 ? labels.todayLabel : displayDayLabel,
       disabled: !isEnabled,
     };
   });
@@ -77,6 +86,8 @@ function buildDateOptions(doctor: BackendDoctorProfile, location?: BackendDoctor
 export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
 
   const [selectedLocationId, setSelectedLocationId] = React.useState<string | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
@@ -110,9 +121,44 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
     }
   }, [doctor.locations, selectedLocationId]);
 
+  const monthLabels = React.useMemo(
+    () => [
+      tCommon("doctorProfile.booking.months.jan"),
+      tCommon("doctorProfile.booking.months.feb"),
+      tCommon("doctorProfile.booking.months.mar"),
+      tCommon("doctorProfile.booking.months.apr"),
+      tCommon("doctorProfile.booking.months.may"),
+      tCommon("doctorProfile.booking.months.jun"),
+      tCommon("doctorProfile.booking.months.jul"),
+      tCommon("doctorProfile.booking.months.aug"),
+      tCommon("doctorProfile.booking.months.sep"),
+      tCommon("doctorProfile.booking.months.oct"),
+      tCommon("doctorProfile.booking.months.nov"),
+      tCommon("doctorProfile.booking.months.dec"),
+    ],
+    [tCommon],
+  );
+
+  const dayLabels = React.useMemo(
+    () => [
+      tCommon("doctorProfile.booking.daysShort.sun"),
+      tCommon("doctorProfile.booking.daysShort.mon"),
+      tCommon("doctorProfile.booking.daysShort.tue"),
+      tCommon("doctorProfile.booking.daysShort.wed"),
+      tCommon("doctorProfile.booking.daysShort.thu"),
+      tCommon("doctorProfile.booking.daysShort.fri"),
+      tCommon("doctorProfile.booking.daysShort.sat"),
+    ],
+    [tCommon],
+  );
+
   const dateOptions = React.useMemo(
-    () => buildDateOptions(doctor, selectedLocation),
-    [doctor, selectedLocation]
+    () => buildDateOptions(doctor, {
+      monthLabels,
+      dayLabels,
+      todayLabel: tCommon("doctorProfile.booking.today"),
+    }, selectedLocation),
+    [dayLabels, doctor, monthLabels, selectedLocation, tCommon]
   );
 
   React.useEffect(() => {
@@ -157,7 +203,10 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
       : doctor.consultation_fee ?? 20;
 
   const duration = selectedLocation?.appointment_duration || doctor.appointment_duration || 20;
-  const durationLabel = `${duration}-${duration + 10} mins`;
+  const durationLabel = tCommon("doctorProfile.booking.durationRange", {
+    start: duration,
+    end: duration + 10,
+  });
 
   const canConfirm = Boolean(selectedDate && selectedSlot && selectedLocation);
 
@@ -173,25 +222,29 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
         doctor_location_id: selectedLocation?.id,
         location_name: selectedLocation?.name,
         appointment_date: toUtcIsoFromDateAndSlot(selectedDate, selectedSlot),
-        reason: visitReason.trim() || "New consultation",
-        notes: `Slot: ${selectedSlot} | Location: ${selectedLocation?.name}`,
+        reason: visitReason.trim() || tCommon("doctorProfile.booking.reasonFallback"),
+        notes: tCommon("doctorProfile.booking.notesTemplate", {
+          slot: selectedSlot,
+          location: selectedLocation?.name || tCommon("doctorProfile.booking.locationNotSpecified"),
+        }),
       });
 
       const params = new URLSearchParams({
         doctorName: `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name}`.trim(),
         date: selectedDate,
         time: selectedSlot,
-        location: selectedLocation?.name || "Not specified",
+        location: selectedLocation?.name || "",
       });
       router.push(`/patient/appointment-success?${params.toString()}`);
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create appointment";
-      if (errorMessage.includes("Not authenticated")) {
+      const rawErrorMessage = error instanceof Error ? error.message : "";
+      if (rawErrorMessage.includes("Not authenticated")) {
         router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
         return;
       }
       console.error("Appointment booking failed", error);
-      toast.error(errorMessage);
+      const fallbackMessage = tCommon("doctorProfile.booking.genericError");
+      toast.error(locale === "bn" ? fallbackMessage : (rawErrorMessage || fallbackMessage));
     } finally {
       setSubmitting(false);
     }
@@ -202,13 +255,13 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
       <div className="animate-fade-in-up">
         <Card className="overflow-hidden rounded-3xl border-border/70 shadow-xl shadow-primary/10">
           <div className="bg-primary px-5 py-4 text-primary-foreground sm:px-6">
-            <h2 className="text-2xl font-bold leading-none">Book Appointment</h2>
-            <p className="mt-1 text-sm text-primary-foreground/85">Secure your slot in minutes</p>
+            <h2 className="text-2xl font-bold leading-none">{tCommon("doctorProfile.booking.title")}</h2>
+            <p className="mt-1 text-sm text-primary-foreground/85">{tCommon("doctorProfile.booking.subtitle")}</p>
           </div>
 
           <CardContent className="space-y-6 p-4 sm:p-5">
             <section className="space-y-2.5">
-              <h3 className="text-sm font-semibold text-foreground">1. Select Practice Location</h3>
+              <h3 className="text-sm font-semibold text-foreground">{tCommon("doctorProfile.booking.stepPracticeLocation")}</h3>
               <div className="space-y-2">
                 {(doctor.locations || []).map((location, index) => {
                   const locationKey = getLocationKey(location, index);
@@ -231,7 +284,8 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
                         <div>
                           <p className="text-sm font-semibold text-foreground">{location.name}</p>
                           <p className="text-xs text-muted-foreground">
-                            {index === 0 ? "Morning Shift" : "Evening Shift"} • ${Number(consultationFee).toFixed(0)} Fee
+                            {index === 0 ? tCommon("doctorProfile.booking.morningShift") : tCommon("doctorProfile.booking.eveningShift")}
+                            {" "}• ${Number(consultationFee).toFixed(0)} {tCommon("doctorProfile.booking.feeSuffix")}
                           </p>
                         </div>
                         {isSelected ? (
@@ -247,7 +301,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             </section>
 
             <section className="space-y-2.5">
-              <h3 className="text-sm font-semibold text-foreground">2. Select Date</h3>
+              <h3 className="text-sm font-semibold text-foreground">{tCommon("doctorProfile.booking.stepDate")}</h3>
               <AppointmentDateSelector
                 dates={dateOptions}
                 selectedDate={selectedDate}
@@ -259,12 +313,12 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             </section>
 
             <section className="space-y-2.5">
-              <h3 className="text-sm font-semibold text-foreground">3. Available Slots</h3>
+              <h3 className="text-sm font-semibold text-foreground">{tCommon("doctorProfile.booking.stepSlots")}</h3>
               {loadingSlots ? (
                 <div className="space-y-2 rounded-xl border border-border bg-background p-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <ButtonLoader className="h-4 w-4" />
-                    Fetching available slots...
+                    {tCommon("doctorProfile.booking.loadingSlots")}
                   </div>
                   <CardSkeleton className="h-8" />
                   <CardSkeleton className="h-8" />
@@ -279,23 +333,23 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             </section>
 
             <section className="space-y-2.5">
-              <h3 className="text-sm font-semibold text-foreground">4. Reason for Visit</h3>
+              <h3 className="text-sm font-semibold text-foreground">{tCommon("doctorProfile.booking.stepReason")}</h3>
               <input
                 type="text"
                 value={visitReason}
                 onChange={(e) => setVisitReason(e.target.value)}
-                placeholder="e.g., Follow-up checkup, New consultation..."
+                placeholder={tCommon("doctorProfile.booking.visitReasonPlaceholder")}
                 className="w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/40"
               />
             </section>
 
             <div className="grid grid-cols-2 border-t border-border pt-3.5">
               <div>
-                <p className="text-xs text-muted-foreground">Total Consultation Fee</p>
+                <p className="text-xs text-muted-foreground">{tCommon("doctorProfile.booking.totalConsultationFee")}</p>
                 <p className="text-2xl font-bold text-foreground">${Number(consultationFee).toFixed(2)}</p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-muted-foreground">Est. Duration</p>
+                <p className="text-xs text-muted-foreground">{tCommon("doctorProfile.booking.estimatedDuration")}</p>
                 <p className="text-sm font-semibold text-foreground">{durationLabel}</p>
               </div>
             </div>
@@ -308,18 +362,18 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
               {submitting ? (
                 <>
                   <ButtonLoader className="mr-2 h-4 w-4" />
-                  Confirming...
+                  {tCommon("doctorProfile.booking.confirming")}
                 </>
               ) : (
                 <>
                   <CalendarCheck2 className="mr-2 h-4 w-4" />
-                  Confirm Appointment
+                  {tCommon("doctorProfile.booking.confirmAppointment")}
                 </>
               )}
             </Button>
 
             <p className="text-center text-[11px] text-muted-foreground">
-              No cancellation fee if canceled at least 12 hours before appointment time.
+              {tCommon("doctorProfile.booking.cancellationPolicy")}
             </p>
           </CardContent>
         </Card>
@@ -327,9 +381,9 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
 
       <Card className="rounded-2xl border border-primary/10 bg-primary/5">
         <CardContent className="p-3.5">
-          <p className="text-sm font-semibold text-foreground">Instant Support</p>
+          <p className="text-sm font-semibold text-foreground">{tCommon("doctorProfile.booking.supportTitle")}</p>
           <p className="text-xs text-muted-foreground">
-            Need help with booking? Call us at +1 (800) MEDORA-HELP
+            {tCommon("doctorProfile.booking.supportDescription")}
           </p>
         </CardContent>
       </Card>

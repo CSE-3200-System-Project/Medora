@@ -6,6 +6,7 @@ import type { EChartsOption } from "echarts";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
@@ -19,6 +20,8 @@ type MissedDoseChartProps = {
 };
 
 export function MissedDoseChart({ data }: MissedDoseChartProps) {
+  const tCommon = useT("common");
+
   const option = useMemo<EChartsOption>(
     () => ({
       grid: { top: 12, right: 8, bottom: 28, left: 28, containLabel: true },
@@ -60,9 +63,9 @@ export function MissedDoseChart({ data }: MissedDoseChartProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3 pb-2">
-        <CardTitle className="text-xl">Missed Dose Trend</CardTitle>
+        <CardTitle className="text-xl">{tCommon("analytics.missedDoseChart.title")}</CardTitle>
         <Badge variant="secondary" className="rounded-full">
-          Last 30 days
+          {tCommon("analytics.missedDoseChart.last30Days")}
         </Badge>
       </CardHeader>
       <CardContent>
