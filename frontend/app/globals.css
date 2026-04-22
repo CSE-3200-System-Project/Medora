@@ -117,6 +117,13 @@
   --spacing-xl: 1.5rem;    /* 24px - card internal padding */
   --spacing-2xl: 2rem;     /* 32px - section to section (mobile) */
   --spacing-3xl: 2.5rem;   /* 40px - section to section (desktop) */
+  --layout-max-width: 72rem;
+  --layout-px-mobile: 1rem;
+  --layout-px-sm: 1.5rem;
+  --layout-px-lg: 2rem;
+  --layout-py-mobile: 1.5rem;
+  --layout-py-md: 2rem;
+  --layout-py-lg: 2.5rem;
   
   /* ======================================
      Motion System (GSAP-Ready)
@@ -321,21 +328,21 @@ body {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem; /* 16px */
-  padding-right: 1rem;
+  padding-left: var(--layout-px-mobile);
+  padding-right: var(--layout-px-mobile);
 }
 
 @media (min-width: 640px) {
   .container-responsive {
-    padding-left: 1.5rem; /* 24px */
-    padding-right: 1.5rem;
+    padding-left: var(--layout-px-sm);
+    padding-right: var(--layout-px-sm);
   }
 }
 
 @media (min-width: 1024px) {
   .container-responsive {
-    padding-left: 2rem; /* 32px */
-    padding-right: 2rem;
+    padding-left: var(--layout-px-lg);
+    padding-right: var(--layout-px-lg);
   }
 }
 
@@ -847,52 +854,45 @@ hr {
   
   /* Container with responsive padding - INCREASED for mobile */
   .container-padding {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: var(--layout-px-mobile);
+    padding-right: var(--layout-px-mobile);
   }
   
   @media (min-width: 640px) {
     .container-padding {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-  
-  @media (min-width: 768px) {
-    .container-padding {
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding-left: var(--layout-px-sm);
+      padding-right: var(--layout-px-sm);
     }
   }
   
   @media (min-width: 1024px) {
     .container-padding {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
+      padding-left: var(--layout-px-lg);
+      padding-right: var(--layout-px-lg);
     }
   }
   
   /* Safe area padding (for notched devices) */
   .safe-area-padding {
-    padding-left: max(1.25rem, env(safe-area-inset-left));
-    padding-right: max(1.25rem, env(safe-area-inset-right));
+    padding-left: max(var(--layout-px-mobile), env(safe-area-inset-left));
+    padding-right: max(var(--layout-px-mobile), env(safe-area-inset-right));
   }
   
   @media (min-width: 640px) {
     .safe-area-padding {
-      padding-left: max(1.5rem, env(safe-area-inset-left));
-      padding-right: max(1.5rem, env(safe-area-inset-right));
+      padding-left: max(var(--layout-px-sm), env(safe-area-inset-left));
+      padding-right: max(var(--layout-px-sm), env(safe-area-inset-right));
     }
   }
   
   /* Card internal padding */
   .card-padding {
-    padding: 1.25rem;
+    padding: var(--spacing-xl);
   }
   
   @media (min-width: 768px) {
     .card-padding {
-      padding: 1.5rem;
+      padding: var(--spacing-xl);
     }
   }
   
@@ -909,58 +909,56 @@ hr {
   
   /* Page content wrapper with proper spacing */
   .page-content {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-left: var(--layout-px-mobile);
+    padding-right: var(--layout-px-mobile);
+    padding-top: var(--layout-py-mobile);
+    padding-bottom: var(--layout-py-mobile);
   }
   
   @media (min-width: 640px) {
     .page-content {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      padding-left: var(--layout-px-sm);
+      padding-right: var(--layout-px-sm);
     }
   }
   
   @media (min-width: 768px) {
     .page-content {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      padding-top: var(--layout-py-md);
+      padding-bottom: var(--layout-py-md);
     }
   }
   
   @media (min-width: 1024px) {
     .page-content {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-      padding-top: 2.5rem;
-      padding-bottom: 2.5rem;
+      padding-left: var(--layout-px-lg);
+      padding-right: var(--layout-px-lg);
+      padding-top: var(--layout-py-lg);
+      padding-bottom: var(--layout-py-lg);
     }
   }
 
   .page-main {
-    width: min(100%, 72rem);
+    width: min(100%, var(--layout-max-width));
     margin-left: auto;
     margin-right: auto;
-    padding-left: max(1rem, env(safe-area-inset-left));
-    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-left: max(var(--layout-px-mobile), env(safe-area-inset-left));
+    padding-right: max(var(--layout-px-mobile), env(safe-area-inset-right));
     padding-top: var(--nav-content-offset);
-    padding-bottom: clamp(1.5rem, 4vw, 2.75rem);
+    padding-bottom: clamp(var(--layout-py-mobile), 4vw, 2.75rem);
   }
 
   @media (min-width: 640px) {
     .page-main {
-      padding-left: max(1.5rem, env(safe-area-inset-left));
-      padding-right: max(1.5rem, env(safe-area-inset-right));
+      padding-left: max(var(--layout-px-sm), env(safe-area-inset-left));
+      padding-right: max(var(--layout-px-sm), env(safe-area-inset-right));
     }
   }
 
   @media (min-width: 1024px) {
     .page-main {
-      padding-left: max(2rem, env(safe-area-inset-left));
-      padding-right: max(2rem, env(safe-area-inset-right));
+      padding-left: max(var(--layout-px-lg), env(safe-area-inset-left));
+      padding-right: max(var(--layout-px-lg), env(safe-area-inset-right));
     }
   }
 

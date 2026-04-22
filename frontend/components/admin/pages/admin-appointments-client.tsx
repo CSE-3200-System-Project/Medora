@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -298,7 +298,7 @@ export function AdminAppointmentsClient({
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
         {/* ---- Header ---- */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-1">
@@ -798,3 +798,4 @@ function SummaryCard({
     </Card>
   );
 }
+

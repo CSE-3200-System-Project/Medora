@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
@@ -475,7 +475,7 @@ export default function FindDoctorPage() {
     <AppBackground>
       <Navbar />
       
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset) animate-page-enter">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
         {/* Header Section */}
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Find a Doctor</h1>
@@ -588,7 +588,7 @@ export default function FindDoctorPage() {
           
           {/* Mobile: Toggleable full-width map */}
           {showMap && (
-            <div className="lg:hidden fixed inset-0 z-40 bg-background pt-(--nav-content-offset)">
+            <div className="lg:hidden fixed inset-0 z-40 bg-background pt-[var(--nav-content-offset)]">
               <div className="h-full w-full p-4">
                 <div className="h-full w-full rounded-2xl overflow-hidden">
                   <MapView doctors={doctors} userLocation={userLocation} />
@@ -609,5 +609,6 @@ export default function FindDoctorPage() {
     </AppBackground>
   );
 }
+
 
 

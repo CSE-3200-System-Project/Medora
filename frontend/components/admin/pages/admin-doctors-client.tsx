@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -157,7 +157,7 @@ function DoctorsPageContent({ initialAllDoctors, initialPendingDoctors }: AdminD
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">Doctor Management</h1>
           <p className="text-muted-foreground">Review and verify doctor registrations</p>
@@ -525,7 +525,7 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
       fallback={
         <>
           <AdminNavbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-(--nav-content-offset)">
+          <main className="max-w-7xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
             <div className="flex items-center justify-center min-h-[50vh]">
               <MedoraLoader size="lg" label="Loading doctors..." />
             </div>
@@ -537,6 +537,8 @@ export function AdminDoctorsClient(props: AdminDoctorsClientProps) {
     </Suspense>
   );
 }
+
+
 
 
 

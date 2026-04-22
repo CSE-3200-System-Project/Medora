@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { fetchWithAuth } from "@/lib/auth-utils";
@@ -26,8 +27,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { NotificationDropdown } from "@/components/ui/notification-dropdown";
-import { ChoruiLauncher } from "@/components/ai/chorui-launcher";
+
+const NotificationDropdown = dynamic(
+  () => import("@/components/ui/notification-dropdown").then((m) => m.NotificationDropdown),
+  { ssr: false, loading: () => null },
+);
+const ChoruiLauncher = dynamic(
+  () => import("@/components/ai/chorui-launcher").then((m) => m.ChoruiLauncher),
+  { ssr: false, loading: () => null },
+);
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 
@@ -102,7 +110,6 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
-  const [isScrolled, setIsScrolled] = React.useState(false);
   const [user, setUser] = React.useState<UserData | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [hasToken, setHasToken] = React.useState(false);
@@ -180,25 +187,6 @@ export function Navbar() {
     setThemeMounted(true);
   }, []);
 
-  React.useEffect(() => {
-    let frameId = 0;
-    const handleScroll = () => {
-      if (frameId) return;
-      frameId = requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 20);
-        frameId = 0;
-      });
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
-    };
-  }, []);
-
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
@@ -265,10 +253,9 @@ export function Navbar() {
     >
       <div
         className={cn(
-          "mx-auto max-w-7xl transition-[background-color,border-color,box-shadow,backdrop-filter] duration-(--motion-duration-fast) ease-(--motion-ease-standard)",
-          "rounded-2xl border border-border/70 bg-background/85 backdrop-blur-xl",
-          "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/75",
-          isScrolled ? "bg-background/92 dark:bg-card/88 border-border/80 shadow-[0_16px_36px_-22px_rgba(3,96,217,0.85)]" : ""
+          "mx-auto max-w-7xl overflow-hidden transform-gpu",
+          "rounded-2xl border border-border/70 bg-background/90 supports-[backdrop-filter]:bg-background/85 supports-[backdrop-filter]:backdrop-blur-xl",
+          "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/85"
         )}
       >
       <div className="flex h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6">
