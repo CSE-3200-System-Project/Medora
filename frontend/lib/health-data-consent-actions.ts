@@ -21,8 +21,21 @@ export type HealthDataConsent = {
   doctor_id: string;
   doctor_name: string | null;
   is_active: boolean;
+  share_medical_tests: boolean;
   granted_at: string;
   revoked_at: string | null;
+};
+
+export type SharedMedicalTest = {
+  name?: string;
+  test_name?: string;
+  result?: string;
+  value?: string;
+  unit?: string;
+  date?: string;
+  performed_on?: string;
+  notes?: string;
+  [key: string]: unknown;
 };
 
 export type PatientHealthOverview = {
@@ -46,20 +59,48 @@ export type PatientHealthOverview = {
     }>;
   }>;
   consent_granted_at: string;
+  share_medical_tests?: boolean;
+  medical_tests?: SharedMedicalTest[] | null;
 };
 
 /** Patient: grant a doctor access to health metrics */
-export async function grantHealthDataConsent(doctorId: string) {
+export async function grantHealthDataConsent(
+  doctorId: string,
+  shareMedicalTests: boolean = false,
+) {
   const headers = await getAuthHeaders();
   const response = await fetch(`${BACKEND_URL}/health-data/consents`, {
     method: "POST",
     headers,
-    body: JSON.stringify({ doctor_id: doctorId }),
+    body: JSON.stringify({
+      doctor_id: doctorId,
+      share_medical_tests: shareMedicalTests,
+    }),
   });
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: "Failed to grant consent" }));
     throw new Error(error.detail || "Failed to grant consent");
+  }
+
+  return (await response.json()) as HealthDataConsent;
+}
+
+/** Patient: toggle whether medical tests are shared with a doctor */
+export async function updateHealthDataConsent(
+  consentId: string,
+  shareMedicalTests: boolean,
+) {
+  const headers = await getAuthHeaders();
+  const response = await fetch(`${BACKEND_URL}/health-data/consents/${consentId}`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify({ share_medical_tests: shareMedicalTests }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ detail: "Failed to update consent" }));
+    throw new Error(error.detail || "Failed to update consent");
   }
 
   return (await response.json()) as HealthDataConsent;
@@ -139,7 +180,12 @@ export async function listPatientsWithConsent() {
   }
 
   return (await response.json()) as {
-    patients: Array<{ patient_id: string; patient_name: string; consent_granted_at: string }>;
+    patients: Array<{
+      patient_id: string;
+      patient_name: string;
+      consent_granted_at: string;
+      share_medical_tests?: boolean;
+    }>;
     total: number;
   };
 }

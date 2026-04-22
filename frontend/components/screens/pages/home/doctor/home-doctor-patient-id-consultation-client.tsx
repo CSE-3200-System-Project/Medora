@@ -58,6 +58,7 @@ import {
   AlertCircle,
   Sparkles,
   Printer,
+  Camera,
 } from "lucide-react";
 import { handleUnauthorized } from "@/lib/auth-utils";
 
@@ -184,10 +185,10 @@ export default function ConsultationPage() {
   const [ocrImporting, setOcrImporting] = React.useState(false);
   const [ocrError, setOcrError] = React.useState<string | null>(null);
   const ocrInputRef = React.useRef<HTMLInputElement | null>(null);
+  const ocrCameraInputRef = React.useRef<HTMLInputElement | null>(null);
   const [ocrAttachmentPreviewUrl, setOcrAttachmentPreviewUrl] = React.useState<string | null>(null);
   const [ocrAttachmentName, setOcrAttachmentName] = React.useState<string>("");
   const [ocrAttachmentKind, setOcrAttachmentKind] = React.useState<"image" | "pdf" | null>(null);
-  const [ocrAttachmentFile, setOcrAttachmentFile] = React.useState<File | null>(null);
   const [ocrDetectedMedicines, setOcrDetectedMedicines] = React.useState<OcrDetectedMedication[]>([]);
   const isHydratingDraftRef = React.useRef(false);
   const autosaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -840,7 +841,6 @@ export default function ConsultationPage() {
       });
       setOcrAttachmentName(file.name);
       setOcrAttachmentKind(isPdf ? "pdf" : "image");
-      setOcrAttachmentFile(file);
 
       const extracted = await extractPrescriptionFromImage(file, { saveFile: false });
       const detectedMedicines = (extracted.medications || [])
@@ -1194,10 +1194,27 @@ export default function ConsultationPage() {
                     >
                       {ocrImporting ? "Importing..." : "Import Handwritten Prescription"}
                     </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => ocrCameraInputRef.current?.click()}
+                      disabled={ocrImporting}
+                    >
+                      <Camera className="mr-2 h-4 w-4" />
+                      Take Prescription Photo
+                    </Button>
                     <input
                       ref={ocrInputRef}
                       type="file"
                       accept="image/png,image/jpeg,image/webp,application/pdf,.pdf"
+                      className="hidden"
+                      onChange={handleImportHandwrittenPrescription}
+                    />
+                    <input
+                      ref={ocrCameraInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      capture="environment"
                       className="hidden"
                       onChange={handleImportHandwrittenPrescription}
                     />

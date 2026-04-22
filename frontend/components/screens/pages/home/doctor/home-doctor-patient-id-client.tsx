@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import {
@@ -12,14 +12,21 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { PaginationControls } from "@/components/ui/pagination-controls"
+import { DoctorPatientVapiVoiceSummary } from "@/components/ai/doctor-patient-vapi-voice-summary"
+import { EnhancedMedicalHistoryTimeline } from "@/components/medical-history/enhanced-medical-history-timeline"
 import { Navbar } from "@/components/ui/navbar"
 import { AppBackground } from "@/components/ui/app-background"
 import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader"
 import { CardSkeleton } from "@/components/ui/skeleton-loaders"
 import { resolveAvatarUrl } from "@/lib/avatar";
+import { usePagination } from "@/lib/use-pagination"
 import { getPatientForDoctor } from "@/lib/patient-access-actions"
 import { getDoctorPatientAssistantSummary, type DoctorPatientAssistantSummaryResponse } from "@/lib/ai-consultation-actions"
 import { getPatientHealthForDoctor, type PatientHealthOverview } from "@/lib/health-data-consent-actions"
+import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document"
+import { getFullPrescriptionByConsultation, type FullPrescriptionResponse } from "@/lib/prescription-actions"
 import { formatShortDateTime, parseCompositeReason, humanizeConsultationType, humanizeAppointmentType } from "@/lib/utils"
 
 interface PatientData {
@@ -146,6 +153,14 @@ export default function DoctorPatientViewPage() {
   const [healthOverview, setHealthOverview] = useState<PatientHealthOverview | null>(null)
   const [healthLoading, setHealthLoading] = useState(false)
   const [healthNoConsent, setHealthNoConsent] = useState(false)
+  const [historyPreviewOpen, setHistoryPreviewOpen] = useState(false)
+  const [historyPreviewLoading, setHistoryPreviewLoading] = useState(false)
+  const [historyPreviewError, setHistoryPreviewError] = useState<string | null>(null)
+  const [historyPreviewTitle, setHistoryPreviewTitle] = useState("Prescription Preview")
+  const [historyPreviewConsultationId, setHistoryPreviewConsultationId] = useState("")
+  const [historyPreviewData, setHistoryPreviewData] = useState<FullPrescriptionResponse | null>(null)
+  const [historyPreviewGeneratedAt] = useState(() => new Date().toISOString())
+  const [timelineOpen, setTimelineOpen] = useState(false)
 
   const handleLoadAssistantSummary = async () => {
     try {
@@ -174,6 +189,43 @@ export default function DoctorPatientViewPage() {
 
     fetchPatientData()
   }, [patientId])
+
+  const openHistoryPreview = async (
+    consultationId: string,
+    prescriptionId?: string | null,
+    title?: string,
+  ) => {
+    setHistoryPreviewOpen(true)
+    setHistoryPreviewLoading(true)
+    setHistoryPreviewError(null)
+    setHistoryPreviewData(null)
+    setHistoryPreviewTitle(title || "Prescription Preview")
+    setHistoryPreviewConsultationId(consultationId)
+
+    try {
+      const payload = await getFullPrescriptionByConsultation(
+        consultationId,
+        undefined,
+        prescriptionId || undefined,
+      )
+      setHistoryPreviewData(payload)
+    } catch (err: any) {
+      setHistoryPreviewError(err?.message || "Failed to load historical prescription preview")
+    } finally {
+      setHistoryPreviewLoading(false)
+    }
+  }
+
+  const historyPreviewHtml = useMemo(() => {
+    if (!historyPreviewData || !historyPreviewConsultationId) {
+      return ""
+    }
+
+    return buildClinicalPrescriptionDocumentHtml(historyPreviewData, {
+      consultationId: historyPreviewConsultationId,
+      generatedAtIso: historyPreviewData.snapshot_generated_at || historyPreviewGeneratedAt,
+    })
+  }, [historyPreviewConsultationId, historyPreviewData, historyPreviewGeneratedAt])
 
   useEffect(() => {
     if (!patientId) return
@@ -207,6 +259,144 @@ export default function DoctorPatientViewPage() {
     fetchHealth()
     return () => { cancelled = true }
   }, [patientId])
+
+  const consultationHistory = patient?.consultation_history || []
+  const prescriptionHistory = patient?.prescription_history || []
+  const restrictedCategories = patient?.data_sharing_restrictions?.restricted_categories || []
+  const medications = patient?.medications || []
+  const drugAllergies = patient?.drug_allergies || []
+  const appointmentHistory = patient?.appointment_history || []
+  const healthMetricsRestricted = Boolean(
+    restrictedCategories.includes("can_view_health_metrics")
+  )
+  const prescriptionHistoryRestricted = Boolean(
+    restrictedCategories.includes("can_view_prescriptions")
+  )
+  const timelineAccessRestricted = Boolean(
+    restrictedCategories.includes("can_view_medical_history")
+    || restrictedCategories.includes("can_view_medications")
+    || restrictedCategories.includes("can_view_prescriptions")
+  )
+  const getLatestMetricValue = (metricType: string) => {
+    const latestTodayMetric = healthOverview?.today_metrics.find((metric) => metric.metric_type === metricType)
+    if (latestTodayMetric) {
+      return latestTodayMetric.value
+    }
+
+    const trendSeries = healthOverview?.trends.find((trend) => trend.metric_type === metricType)
+    if (!trendSeries?.points?.length) {
+      return null
+    }
+
+    return trendSeries.points[trendSeries.points.length - 1]?.average_value ?? null
+  }
+  const resolvedHeight = toPositiveNumber(patient?.height) ?? toPositiveNumber(getLatestMetricValue("height"))
+  const resolvedWeight = toPositiveNumber(patient?.weight) ?? toPositiveNumber(getLatestMetricValue("weight"))
+  const sharedBmi = toPositiveNumber(getLatestMetricValue("bmi"))
+  const resolvedBmi = sharedBmi || (
+    resolvedHeight && resolvedWeight
+      ? Number((resolvedWeight / ((resolvedHeight / 100) ** 2)).toFixed(1))
+      : null
+  )
+  const medicationsPagination = usePagination(medications, 5)
+  const drugAllergiesPagination = usePagination(drugAllergies, 4)
+  const consultationPagination = usePagination(consultationHistory, 4)
+  const prescriptionPagination = usePagination(prescriptionHistory, 4)
+  const appointmentPagination = usePagination(appointmentHistory, 4)
+  const timelineAppointments = [
+    ...appointmentHistory.map((appt) => ({
+      id: `appt-${appt.id}`,
+      appointment_date: appt.date,
+      reason: appt.reason || "General consultation",
+      status: (appt.status || "").toUpperCase(),
+      doctor_name: "You",
+      doctor_title: "Dr.",
+      notes: appt.notes || undefined,
+    })),
+    ...consultationHistory
+      .filter((entry) => Boolean(entry.consultation_date))
+      .map((entry) => ({
+        id: `consult-${entry.id}`,
+        appointment_date: entry.consultation_date as string,
+        reason: entry.chief_complaint || entry.diagnosis || "Consultation follow-up",
+        status: (entry.status || "").toUpperCase(),
+        doctor_name: "You",
+        doctor_title: "Dr.",
+      })),
+  ]
+  const timelineMedications = medications.map((med, index) => {
+    if (typeof med === "string") {
+      return {
+        id: `med-${index}`,
+        drug_id: "",
+        display_name: med,
+        started_date: patient?.last_checkup_date || "",
+        status: "current",
+      }
+    }
+
+    return {
+      id: String((med as any).id || `med-${index}`),
+      drug_id: String((med as any).drug_id || ""),
+      display_name: String((med as any).name || (med as any).display_name || "Medication"),
+      started_date: String((med as any).started_date || patient?.last_checkup_date || ""),
+      status: String((med as any).status || "current"),
+    }
+  }).filter((med) => Boolean(med.started_date))
+  const timelineSurgeries = (patient?.surgeries || [])
+    .map((entry, index) => {
+      if (typeof entry === "string") {
+        return {
+          name: entry,
+          year: "",
+          id: `surgery-${index}`,
+        }
+      }
+
+      return {
+        id: String((entry as any).id || `surgery-${index}`),
+        name: String((entry as any).name || "Surgery"),
+        year: String((entry as any).year || ""),
+        hospital: (entry as any).hospital ? String((entry as any).hospital) : undefined,
+      }
+    })
+    .filter((entry) => Boolean(entry.year))
+  const timelineHospitalizations = (patient?.hospitalizations || [])
+    .map((entry, index) => {
+      if (typeof entry === "string") {
+        return {
+          reason: entry,
+          year: "",
+          id: `hospitalization-${index}`,
+        }
+      }
+
+      return {
+        id: String((entry as any).id || `hospitalization-${index}`),
+        reason: String((entry as any).reason || "Hospitalization"),
+        year: String((entry as any).year || ""),
+        duration: (entry as any).duration ? String((entry as any).duration) : undefined,
+      }
+    })
+    .filter((entry) => Boolean(entry.year))
+  const timelineVaccinations = (patient?.vaccinations || [])
+    .map((entry, index) => {
+      if (typeof entry === "string") {
+        return {
+          id: `vax-${index}`,
+          name: entry,
+          date: "",
+        }
+      }
+
+      return {
+        id: String((entry as any).id || `vax-${index}`),
+        name: String((entry as any).name || "Vaccination"),
+        date: String((entry as any).date || ""),
+        next_due: (entry as any).next_due ? String((entry as any).next_due) : undefined,
+      }
+    })
+    .filter((entry) => Boolean(entry.date))
 
   if (loading) {
     return (
@@ -246,61 +436,69 @@ export default function DoctorPatientViewPage() {
 
   if (!patient) return null
 
-  const consultationHistory = patient.consultation_history || []
-  const prescriptionHistory = patient.prescription_history || []
-  const prescriptionHistoryRestricted = Boolean(
-    patient.data_sharing_restrictions?.restricted_categories?.includes("can_view_prescriptions")
-  )
-
   return (
     <AppBackground className="animate-page-enter">
       <Navbar />
 
       <main className="min-h-dvh min-h-app pt-(--nav-content-offset) pb-8">
         {/* Top Header Bar */}
-        <div className="bg-background/80 backdrop-blur-md border-b border-border sticky top-16 z-10">
-          <div className="max-w-6xl mx-auto container-padding py-3 flex items-center justify-between gap-3">
-              <Button 
-                variant="outline" 
-                onClick={() => router.back()}
-                className="gap-2"
+        <div className="max-w-6xl mx-auto container-padding py-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Button
+              variant="outline"
+              onClick={() => router.back()}
+              className="w-full gap-2 sm:w-auto"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Back to My Patients</span>
+              <span className="sm:hidden">Back</span>
+            </Button>
+
+            <div className="scrollbar-themed flex items-center gap-2 overflow-x-auto pb-1 touch-pan-x sm:flex-wrap sm:justify-end sm:overflow-visible sm:pb-0">
+              <Button
+                variant="outline"
+                onClick={handleLoadAssistantSummary}
+                disabled={assistantLoading}
+                className="shrink-0 gap-2"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">Back to My Patients</span>
-                <span className="sm:hidden">Back</span>
+                {assistantLoading ? <ButtonLoader className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                <span className="hidden sm:inline">AI Summarizer</span>
+                <span className="sm:hidden">Summary</span>
               </Button>
-              
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  onClick={handleLoadAssistantSummary}
-                  disabled={assistantLoading}
-                  className="gap-2"
-                >
-                  {assistantLoading ? <ButtonLoader className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
-                  <span className="hidden sm:inline">AI Summarizer</span>
-                  <span className="sm:hidden">Summary</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => router.push(`/doctor/patient/${patientId}/reports`)}
-                  className="gap-2"
-                >
-                  <Activity className="w-4 h-4" />
-                  <span className="hidden sm:inline">Lab Reports</span>
-                  <span className="sm:hidden">Reports</span>
-                </Button>
-                <Button
-                  onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
-                  className="gap-2"
-                >
-                  <MessageSquarePlus className="w-4 h-4" />
-                  <span className="hidden sm:inline">Start Consultation</span>
-                  <span className="sm:hidden">Consult</span>
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                onClick={() => router.push(`/doctor/patient/${patientId}/reports`)}
+                className="shrink-0 gap-2"
+              >
+                <Activity className="w-4 h-4" />
+                <span className="hidden sm:inline">Lab Reports</span>
+                <span className="sm:hidden">Reports</span>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setTimelineOpen(true)}
+                disabled={timelineAccessRestricted}
+                className="shrink-0 gap-2"
+              >
+                <History className="w-4 h-4" />
+                <span>Timeline</span>
+              </Button>
+              <Button
+                onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
+                className="shrink-0 gap-2"
+              >
+                <MessageSquarePlus className="w-4 h-4" />
+                <span className="hidden sm:inline">Start Consultation</span>
+                <span className="sm:hidden">Consult</span>
+              </Button>
             </div>
           </div>
+          {timelineAccessRestricted ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Timeline view is hidden by patient privacy settings. Ask the patient to enable medical history sharing.
+            </p>
+          ) : null}
+        </div>
 
 
         <div className="max-w-6xl mx-auto container-padding py-6">
@@ -317,6 +515,8 @@ export default function DoctorPatientViewPage() {
                 </CardHeader>
                 <CardContent className="pt-5 space-y-4">
                   {assistantError ? <p className="text-sm text-destructive">{assistantError}</p> : null}
+
+                  {assistantSummary ? <DoctorPatientVapiVoiceSummary patientId={patientId} /> : null}
 
                   {assistantSummary?.highlight_points?.length ? (
                     <div>
@@ -478,12 +678,12 @@ export default function DoctorPatientViewPage() {
                       <MeasurementCard 
                         icon={Ruler} 
                         label="Height" 
-                        value={patient.height ? `${patient.height} cm` : "Not recorded"} 
+                        value={resolvedHeight ? `${resolvedHeight} cm` : (healthMetricsRestricted ? "Restricted" : "Not recorded")} 
                       />
                       <MeasurementCard 
                         icon={Weight} 
                         label="Weight" 
-                        value={patient.weight ? `${patient.weight} kg` : "Not recorded"} 
+                        value={resolvedWeight ? `${resolvedWeight} kg` : (healthMetricsRestricted ? "Restricted" : "Not recorded")} 
                       />
                       <MeasurementCard 
                         icon={Droplet} 
@@ -494,12 +694,17 @@ export default function DoctorPatientViewPage() {
                       <MeasurementCard 
                         icon={Activity} 
                         label="BMI" 
-                        value={patient.height && patient.weight 
-                          ? (patient.weight / ((patient.height / 100) ** 2)).toFixed(1)
-                          : "N/A"
+                        value={resolvedBmi
+                          ? resolvedBmi.toFixed(1)
+                          : (healthMetricsRestricted ? "Restricted" : "N/A")
                         } 
                       />
                     </div>
+                    {(healthMetricsRestricted || !patient.height || !patient.weight) && (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        Height, weight, and BMI are shown from shared profile + health metrics data when available.
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -544,70 +749,94 @@ export default function DoctorPatientViewPage() {
                   <CardContent className="space-y-4 pt-5">
                     <div>
                       <h4 className="font-medium text-sm text-foreground mb-2">Current Medications</h4>
-                      {patient.medications && patient.medications.length > 0 ? (
-                        <div className="space-y-2">
-                          {patient.medications.map((med: any, index: number) => (
-                            <div 
-                              key={index}
-                              className="p-3 rounded-lg bg-primary/5 border border-primary/10"
-                            >
-                              <div className="flex justify-between items-start">
-                                <span className="font-medium text-foreground">
-                                  {typeof med === 'string' ? med : med.name || 'Unknown'}
-                                </span>
-                                {typeof med === 'object' && med.dosage && (
-                                  <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
-                                    {med.dosage}
+                      {medications.length > 0 ? (
+                        <>
+                          <div className="scrollbar-themed max-h-72 space-y-2 overflow-y-auto pr-1">
+                            {medicationsPagination.pageItems.map((med: any, index: number) => (
+                              <div
+                                key={`${medicationsPagination.startIndex}-${index}`}
+                                className="p-3 rounded-lg bg-primary/5 border border-primary/10"
+                              >
+                                <div className="flex justify-between items-start gap-2">
+                                  <span className="font-medium text-foreground">
+                                    {typeof med === "string" ? med : med.name || "Unknown"}
                                   </span>
+                                  {typeof med === "object" && med.dosage && (
+                                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
+                                      {med.dosage}
+                                    </span>
+                                  )}
+                                </div>
+                                {typeof med === "object" && (
+                                  <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                                    {med.frequency && <div>Frequency: {med.frequency}</div>}
+                                    {med.duration && <div>Duration: {med.duration}</div>}
+                                    {med.prescribing_doctor && <div>Prescribed by: {med.prescribing_doctor}</div>}
+                                  </div>
                                 )}
                               </div>
-                              {typeof med === 'object' && (
-                                <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
-                                  {med.frequency && <div>Frequency: {med.frequency}</div>}
-                                  {med.duration && <div>Duration: {med.duration}</div>}
-                                  {med.prescribing_doctor && <div>Prescribed by: {med.prescribing_doctor}</div>}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                            ))}
+                          </div>
+                          <PaginationControls
+                            currentPage={medicationsPagination.currentPage}
+                            totalPages={medicationsPagination.totalPages}
+                            totalItems={medicationsPagination.totalItems}
+                            startIndex={medicationsPagination.startIndex}
+                            endIndex={medicationsPagination.endIndex}
+                            itemLabel="medications"
+                            onPrev={medicationsPagination.goToPrevPage}
+                            onNext={medicationsPagination.goToNextPage}
+                          />
+                        </>
                       ) : (
                         <p className="text-muted-foreground text-sm">No medications reported</p>
                       )}
                     </div>
-                    
+
                     <div>
                       <h4 className="font-medium text-sm text-foreground mb-2 flex items-center gap-2">
                         <AlertTriangle className="w-4 h-4 text-amber-500" />
                         Drug Allergies
                       </h4>
-                      {patient.drug_allergies && patient.drug_allergies.length > 0 ? (
-                        <div className="space-y-2">
-                          {patient.drug_allergies.map((allergy: any, index: number) => (
-                            <div 
-                              key={index}
-                              className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20"
-                            >
-                              <span className="font-medium text-amber-700 dark:text-amber-400">
-                                {typeof allergy === 'string' ? allergy : allergy.drug_name || 'Unknown'}
-                              </span>
-                              {typeof allergy === 'object' && allergy.reaction && (
-                                <span className="text-xs text-amber-600 dark:text-amber-500 ml-2">
-                                  ({allergy.reaction})
+                      {drugAllergies.length > 0 ? (
+                        <>
+                          <div className="scrollbar-themed max-h-64 space-y-2 overflow-y-auto pr-1">
+                            {drugAllergiesPagination.pageItems.map((allergy: any, index: number) => (
+                              <div
+                                key={`${drugAllergiesPagination.startIndex}-${index}`}
+                                className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20"
+                              >
+                                <span className="font-medium text-amber-700 dark:text-amber-400">
+                                  {typeof allergy === "string" ? allergy : allergy.drug_name || "Unknown"}
                                 </span>
-                              )}
-                              {typeof allergy === 'object' && allergy.severity && (
-                                <span className={`text-xs ml-2 px-2 py-0.5 rounded ${
-                                  allergy.severity === 'severe' 
-                                    ? 'bg-destructive/10 text-destructive' 
-                                    : 'bg-amber-500/20 text-amber-700 dark:text-amber-400'
-                                }`}>
-                                  {allergy.severity}
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                                {typeof allergy === "object" && allergy.reaction && (
+                                  <span className="text-xs text-amber-600 dark:text-amber-500 ml-2">
+                                    ({allergy.reaction})
+                                  </span>
+                                )}
+                                {typeof allergy === "object" && allergy.severity && (
+                                  <span className={`text-xs ml-2 px-2 py-0.5 rounded ${
+                                    allergy.severity === "severe"
+                                      ? "bg-destructive/10 text-destructive"
+                                      : "bg-amber-500/20 text-amber-700 dark:text-amber-400"
+                                  }`}>
+                                    {allergy.severity}
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                          <PaginationControls
+                            currentPage={drugAllergiesPagination.currentPage}
+                            totalPages={drugAllergiesPagination.totalPages}
+                            totalItems={drugAllergiesPagination.totalItems}
+                            startIndex={drugAllergiesPagination.startIndex}
+                            endIndex={drugAllergiesPagination.endIndex}
+                            itemLabel="allergies"
+                            onPrev={drugAllergiesPagination.goToPrevPage}
+                            onNext={drugAllergiesPagination.goToNextPage}
+                          />
+                        </>
                       ) : (
                         <p className="text-muted-foreground text-sm">No drug allergies reported</p>
                       )}
@@ -633,13 +862,13 @@ export default function DoctorPatientViewPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 pt-5">
-                    <HistorySection 
-                      title="Surgeries" 
-                      items={patient.surgeries} 
+                    <HistorySection
+                      title="Surgeries"
+                      items={patient.surgeries}
                     />
-                    <HistorySection 
-                      title="Hospitalizations" 
-                      items={patient.hospitalizations} 
+                    <HistorySection
+                      title="Hospitalizations"
+                      items={patient.hospitalizations}
                     />
                     {patient.ongoing_treatments && (
                       <div>
@@ -711,68 +940,102 @@ export default function DoctorPatientViewPage() {
                     {!prescriptionHistoryRestricted && consultationHistory.length > 0 ? (
                       <div className="space-y-2">
                         <h4 className="text-sm font-semibold text-foreground">Consultations</h4>
-                        {consultationHistory.slice(0, 8).map((entry) => (
-                          <button
-                            key={entry.id}
-                            type="button"
-                            onClick={() => router.push(`/doctor/patient/${patientId}/consultation?consultation_id=${entry.id}`)}
-                            className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
-                          >
-                            <div className="flex items-center justify-between gap-2">
-                              <p className="text-sm font-medium text-foreground">
-                                {entry.consultation_date ? formatShortDateTime(entry.consultation_date) : "Date not available"}
+                        <div className="scrollbar-themed max-h-80 space-y-2 overflow-y-auto pr-1">
+                          {consultationPagination.pageItems.map((entry) => (
+                            <button
+                              key={entry.id}
+                              type="button"
+                              onClick={() =>
+                                void openHistoryPreview(
+                                  entry.id,
+                                  entry.latest_prescription_id,
+                                  "Consultation Prescription Preview",
+                                )
+                              }
+                              className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="text-sm font-medium text-foreground">
+                                  {entry.consultation_date ? formatShortDateTime(entry.consultation_date) : "Date not available"}
+                                </p>
+                                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
+                                  {formatStatusText(entry.status)}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                                {entry.chief_complaint || entry.diagnosis || "Consultation details available"}
                               </p>
-                              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
-                                {formatStatusText(entry.status)}
-                              </span>
-                            </div>
-                            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                              {entry.chief_complaint || entry.diagnosis || "Consultation details available"}
-                            </p>
-                            <div className="mt-2 flex items-center justify-between">
-                              <span className="text-xs text-muted-foreground">
-                                {entry.prescription_count} prescription{entry.prescription_count === 1 ? "" : "s"}
-                              </span>
-                              <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
-                                View details
-                                <ExternalLink className="h-3 w-3" />
-                              </span>
-                            </div>
-                          </button>
-                        ))}
+                              <div className="mt-2 flex items-center justify-between">
+                                <span className="text-xs text-muted-foreground">
+                                  {entry.prescription_count} prescription{entry.prescription_count === 1 ? "" : "s"}
+                                </span>
+                                <span className="inline-flex items-center gap-1 text-xs font-medium text-primary">
+                                  Preview
+                                  <ExternalLink className="h-3 w-3" />
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                        <PaginationControls
+                          currentPage={consultationPagination.currentPage}
+                          totalPages={consultationPagination.totalPages}
+                          totalItems={consultationPagination.totalItems}
+                          startIndex={consultationPagination.startIndex}
+                          endIndex={consultationPagination.endIndex}
+                          itemLabel="consultations"
+                          onPrev={consultationPagination.goToPrevPage}
+                          onNext={consultationPagination.goToNextPage}
+                        />
                       </div>
                     ) : null}
 
                     {!prescriptionHistoryRestricted && prescriptionHistory.length > 0 ? (
                       <div className="space-y-2 border-t border-border/50 pt-3">
                         <h4 className="text-sm font-semibold text-foreground">Recent Prescriptions</h4>
-                        {prescriptionHistory.slice(0, 8).map((entry) => (
-                          <button
-                            key={entry.id}
-                            type="button"
-                            onClick={() =>
-                              router.push(`/prescription/preview/${entry.consultation_id}?prescription_id=${entry.id}`)
-                            }
-                            className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
-                          >
-                            <div className="flex items-center justify-between gap-2">
-                              <p className="text-sm font-medium text-foreground">
-                                {humanizePrescriptionType(entry.type)}
+                        <div className="scrollbar-themed max-h-80 space-y-2 overflow-y-auto pr-1">
+                          {prescriptionPagination.pageItems.map((entry) => (
+                            <button
+                              key={entry.id}
+                              type="button"
+                              onClick={() =>
+                                void openHistoryPreview(
+                                  entry.consultation_id,
+                                  entry.id,
+                                  `${humanizePrescriptionType(entry.type)} Preview`,
+                                )
+                              }
+                              className="w-full rounded-xl border border-border/70 bg-card/70 p-3 text-left transition-colors hover:bg-muted/40"
+                            >
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="text-sm font-medium text-foreground">
+                                  {humanizePrescriptionType(entry.type)}
+                                </p>
+                                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
+                                  {formatStatusText(entry.status)}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {entry.created_at ? formatShortDateTime(entry.created_at) : "Date not available"}
                               </p>
-                              <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusChipClass(entry.status)}`}>
-                                {formatStatusText(entry.status)}
-                              </span>
-                            </div>
-                            <p className="mt-1 text-xs text-muted-foreground">
-                              {entry.created_at ? formatShortDateTime(entry.created_at) : "Date not available"}
-                            </p>
-                            <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                              <span>{entry.medication_count} meds</span>
-                              <span>{entry.test_count} tests</span>
-                              <span>{entry.surgery_count} procedures</span>
-                            </div>
-                          </button>
-                        ))}
+                              <div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                                <span>{entry.medication_count} meds</span>
+                                <span>{entry.test_count} tests</span>
+                                <span>{entry.surgery_count} procedures</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                        <PaginationControls
+                          currentPage={prescriptionPagination.currentPage}
+                          totalPages={prescriptionPagination.totalPages}
+                          totalItems={prescriptionPagination.totalItems}
+                          startIndex={prescriptionPagination.startIndex}
+                          endIndex={prescriptionPagination.endIndex}
+                          itemLabel="prescriptions"
+                          onPrev={prescriptionPagination.goToPrevPage}
+                          onNext={prescriptionPagination.goToNextPage}
+                        />
                       </div>
                     ) : null}
                   </CardContent>
@@ -840,9 +1103,10 @@ export default function DoctorPatientViewPage() {
                     <CardDescription>Your appointments with this patient</CardDescription>
                   </CardHeader>
                   <CardContent className="pt-5">
-                    {patient.appointment_history.length > 0 ? (
-                      <div className="space-y-3">
-                        {patient.appointment_history.map((appt) => (
+                    {appointmentHistory.length > 0 ? (
+                      <>
+                        <div className="scrollbar-themed max-h-80 space-y-3 overflow-y-auto pr-1">
+                        {appointmentPagination.pageItems.map((appt) => (
                           <div 
                             key={appt.id}
                             className="p-3 border border-border rounded-lg bg-background"
@@ -870,7 +1134,7 @@ export default function DoctorPatientViewPage() {
                                 const at = humanizeAppointmentType(appointmentType)
                                 return (
                                   <>
-                                    <p className="text-sm text-muted-foreground">{ct}{at ? ` • ${at}` : ''}</p>
+                                    <p className="text-sm text-muted-foreground">{ct}{at ? ` - ${at}` : ''}</p>
                                     {appt.notes && <p className="text-xs text-muted-foreground mt-1">{appt.notes}</p>}
                                   </>
                                 )
@@ -878,7 +1142,18 @@ export default function DoctorPatientViewPage() {
                             )}
                           </div>
                         ))}
-                      </div>
+                        </div>
+                        <PaginationControls
+                          currentPage={appointmentPagination.currentPage}
+                          totalPages={appointmentPagination.totalPages}
+                          totalItems={appointmentPagination.totalItems}
+                          startIndex={appointmentPagination.startIndex}
+                          endIndex={appointmentPagination.endIndex}
+                          itemLabel="appointments"
+                          onPrev={appointmentPagination.goToPrevPage}
+                          onNext={appointmentPagination.goToNextPage}
+                        />
+                      </>
                     ) : (
                       <p className="text-sm text-muted-foreground">No appointment history</p>
                     )}
@@ -993,6 +1268,67 @@ export default function DoctorPatientViewPage() {
             </div>
           </div>
       </main>
+      <Dialog open={historyPreviewOpen} onOpenChange={setHistoryPreviewOpen}>
+        <DialogContent className="max-h-[90vh] w-[96vw] max-w-6xl overflow-hidden p-0">
+          <DialogHeader className="border-b border-border/60 px-5 py-4">
+            <DialogTitle>{historyPreviewTitle}</DialogTitle>
+            <DialogDescription>
+              Historical consultation prescription preview. Click outside this panel to close.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="scrollbar-themed max-h-[calc(90vh-92px)] overflow-y-auto bg-surface/40 p-4">
+            {historyPreviewLoading ? (
+              <div className="flex min-h-60 items-center justify-center">
+                <ButtonLoader />
+              </div>
+            ) : historyPreviewError ? (
+              <div className="rounded-md border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+                {historyPreviewError}
+              </div>
+            ) : historyPreviewData ? (
+              <div
+                className="mx-auto w-full max-w-[210mm] bg-card px-4 py-6 text-card-foreground shadow-[0_24px_48px_rgba(15,23,42,0.18)] sm:px-8 sm:py-10"
+                dangerouslySetInnerHTML={{ __html: historyPreviewHtml }}
+              />
+            ) : (
+              <div className="rounded-md border border-border/60 bg-card/70 p-4 text-sm text-muted-foreground">
+                No preview data available for this historical record.
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={timelineOpen} onOpenChange={setTimelineOpen}>
+        <DialogContent className="max-h-[92vh] w-[96vw] max-w-6xl overflow-hidden p-0">
+          <DialogHeader className="border-b border-border/60 px-5 py-4">
+            <DialogTitle>Patient Journey Timeline</DialogTitle>
+            <DialogDescription>
+              Timeline view across shared appointments, treatments, medications, and medical history.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="scrollbar-themed max-h-[calc(92vh-92px)] overflow-y-auto bg-surface/40 p-4 sm:p-6">
+            {timelineAccessRestricted ? (
+              <div className="rounded-md border border-warning/30 bg-warning/10 p-4 text-sm text-warning">
+                This patient has restricted timeline access in privacy controls.
+              </div>
+            ) : (
+              <EnhancedMedicalHistoryTimeline
+                surgeries={timelineSurgeries as any}
+                hospitalizations={timelineHospitalizations as any}
+                vaccinations={timelineVaccinations as any}
+                medications={timelineMedications as any}
+                appointments={timelineAppointments}
+                medicalTests={[]}
+                doctorPrescriptions={[]}
+                title={`${patient.first_name}'s Medical Timeline`}
+                description="Chronological roadmap of the patient's shared health journey"
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
       </AppBackground>
   )
 }
@@ -1057,6 +1393,15 @@ function DoctorPatientRecordSkeleton() {
 }
 
 // Helper Components
+function toPositiveNumber(value: unknown): number | null {
+  const numericValue = Number(value)
+  if (!Number.isFinite(numericValue) || numericValue <= 0) {
+    return null
+  }
+
+  return numericValue
+}
+
 function InfoItem({ icon: Icon, label, value }: { icon?: any; label: string; value: string | null }) {
   if (!value) return null
   return (
@@ -1093,13 +1438,17 @@ function MeasurementCard({ icon: Icon, label, value, highlight }: { icon: any; l
 }
 
 function HistorySection({ title, items }: { title: string; items: any[] | null }) {
+  const normalizedItems = items || []
+  const sectionPagination = usePagination(normalizedItems, 4)
+
   return (
     <div>
       <h4 className="font-semibold text-sm text-foreground mb-3">{title}</h4>
-      {items && items.length > 0 ? (
-        <ul className="space-y-2">
-          {items.map((item, index) => (
-            <li key={index} className="text-sm text-muted-foreground p-3 bg-muted/30 rounded-lg border border-border">
+      {normalizedItems.length > 0 ? (
+        <>
+          <ul className="scrollbar-themed max-h-64 space-y-2 overflow-y-auto pr-1">
+            {sectionPagination.pageItems.map((item, index) => (
+              <li key={`${sectionPagination.startIndex}-${index}`} className="text-sm text-muted-foreground p-3 bg-muted/30 rounded-lg border border-border">
               {typeof item === 'string' ? (
                 item
               ) : (
@@ -1112,7 +1461,18 @@ function HistorySection({ title, items }: { title: string; items: any[] | null }
               )}
             </li>
           ))}
-        </ul>
+          </ul>
+          <PaginationControls
+            currentPage={sectionPagination.currentPage}
+            totalPages={sectionPagination.totalPages}
+            totalItems={sectionPagination.totalItems}
+            startIndex={sectionPagination.startIndex}
+            endIndex={sectionPagination.endIndex}
+            itemLabel={title.toLowerCase()}
+            onPrev={sectionPagination.goToPrevPage}
+            onNext={sectionPagination.goToNextPage}
+          />
+        </>
       ) : (
         <p className="text-muted-foreground text-sm italic">None reported</p>
       )}
@@ -1134,3 +1494,4 @@ function FamilyHistoryItem({ condition, hasCondition }: { condition: string; has
     </div>
   )
 }
+

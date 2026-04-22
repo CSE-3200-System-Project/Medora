@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import dynamic from "next/dynamic";
-import { Activity, AlertCircle, BellRing, Eye, EyeOff, Footprints, Heart, MoonStar, ShieldCheck, TrendingDown, TrendingUp, UserCheck, Waves, Minus } from "lucide-react";
+import { Activity, AlertCircle, BellRing, Eye, EyeOff, FlaskConical, Footprints, Heart, MoonStar, ShieldCheck, TrendingDown, TrendingUp, UserCheck, Waves, Minus } from "lucide-react";
 
 import { AdherenceHeatmap, HeatmapDay } from "@/components/patient/analytics/AdherenceHeatmap";
 import { AdherenceStats } from "@/components/patient/analytics/AdherenceStats";
@@ -20,9 +20,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { Navbar } from "@/components/ui/navbar";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { usePagination } from "@/lib/use-pagination";
 import { getMetricTrends, getTodayMetrics, logHealthMetric, type HealthMetricTrendPoint } from "@/lib/health-metrics-actions";
-import { listMyConsents, revokeHealthDataConsent, type HealthDataConsent } from "@/lib/health-data-consent-actions";
+import { listMyConsents, revokeHealthDataConsent, updateHealthDataConsent, type HealthDataConsent } from "@/lib/health-data-consent-actions";
 import { getReminders } from "@/lib/reminder-actions";
 import { formatMeridiemTime } from "@/lib/utils";
 
@@ -169,6 +171,7 @@ export default function AnalyticsDashboard({
   const [consents, setConsents] = React.useState<HealthDataConsent[]>([]);
   const [consentsLoading, setConsentsLoading] = React.useState(false);
   const [selectedRange, setSelectedRange] = React.useState<DateRangeOption>(DATE_RANGE_OPTIONS[0]);
+  const consentsPagination = usePagination(consents, 8);
 
   React.useEffect(() => {
     let isDisposed = false;
@@ -274,6 +277,20 @@ export default function AnalyticsDashboard({
       setConsents((prev) => prev.map((c) => (c.id === consentId ? { ...c, is_active: false, revoked_at: new Date().toISOString() } : c)));
     } catch {
       setLoadError("Failed to revoke consent.");
+    }
+  };
+
+  const handleToggleShareTests = async (consentId: string, next: boolean) => {
+    setConsents((prev) =>
+      prev.map((c) => (c.id === consentId ? { ...c, share_medical_tests: next } : c)),
+    );
+    try {
+      await updateHealthDataConsent(consentId, next);
+    } catch {
+      setConsents((prev) =>
+        prev.map((c) => (c.id === consentId ? { ...c, share_medical_tests: !next } : c)),
+      );
+      setLoadError("Failed to update test sharing.");
     }
   };
 
@@ -612,6 +629,7 @@ export default function AnalyticsDashboard({
               <span className="ml-auto text-xs text-muted-foreground">{selectedRange.label} overview</span>
             </div>
 
+            <div className="scrollbar-themed max-h-180 space-y-3 overflow-y-auto pr-1">
             {METRIC_CARDS.map((card) => {
               const points = trendData[card.key] ?? [];
               if (points.length === 0) return null;
@@ -692,6 +710,7 @@ export default function AnalyticsDashboard({
                 </CardContent>
               </Card>
             )}
+            </div>
           </section>
 
           {/* Health Data Sharing */}
@@ -729,41 +748,96 @@ export default function AnalyticsDashboard({
                 </CardContent>
               </Card>
             ) : (
-              <div className="grid gap-2 sm:grid-cols-2">
-                {consents.map((consent) => (
+              <>
+              <div className="scrollbar-themed max-h-96 grid gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                {consentsPagination.pageItems.map((consent) => (
                   <Card key={consent.id} className="border-border/60 bg-card/95">
-                    <CardContent className="flex items-center justify-between gap-3 py-3 px-4">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${consent.is_active ? "bg-emerald-500/10" : "bg-muted/50"}`}>
-                          {consent.is_active ? (
-                            <Eye className="h-4 w-4 text-emerald-500" />
-                          ) : (
-                            <EyeOff className="h-4 w-4 text-muted-foreground" />
-                          )}
+                    <CardContent className="flex flex-col gap-3 py-3 px-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${consent.is_active ? "bg-emerald-500/10" : "bg-muted/50"}`}>
+                            {consent.is_active ? (
+                              <Eye className="h-4 w-4 text-emerald-500" />
+                            ) : (
+                              <EyeOff className="h-4 w-4 text-muted-foreground" />
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-medium text-foreground">{consent.doctor_name || "Doctor"}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {consent.is_active
+                                ? `Shared since ${new Date(consent.granted_at).toLocaleDateString()}`
+                                : "Access revoked"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-medium text-foreground">{consent.doctor_name || "Doctor"}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {consent.is_active
-                              ? `Shared since ${new Date(consent.granted_at).toLocaleDateString()}`
-                              : "Access revoked"}
-                          </p>
-                        </div>
+                        {consent.is_active && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="shrink-0 text-xs text-destructive border-destructive/30 hover:bg-destructive/10"
+                            onClick={() => void handleRevokeConsent(consent.id)}
+                          >
+                            Revoke
+                          </Button>
+                        )}
                       </div>
                       {consent.is_active && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="shrink-0 text-xs text-destructive border-destructive/30 hover:bg-destructive/10"
-                          onClick={() => void handleRevokeConsent(consent.id)}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            void handleToggleShareTests(consent.id, !consent.share_medical_tests)
+                          }
+                          className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left transition ${
+                            consent.share_medical_tests
+                              ? "border-primary/40 bg-primary/5 hover:bg-primary/10"
+                              : "border-border/60 bg-muted/30 hover:bg-muted/50"
+                          }`}
+                          aria-pressed={consent.share_medical_tests}
                         >
-                          Revoke
-                        </Button>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <FlaskConical
+                              className={`h-4 w-4 shrink-0 ${
+                                consent.share_medical_tests ? "text-primary" : "text-muted-foreground"
+                              }`}
+                            />
+                            <div className="min-w-0">
+                              <p className="text-xs font-medium text-foreground">Share medical tests</p>
+                              <p className="text-[11px] text-muted-foreground">
+                                {consent.share_medical_tests
+                                  ? "Doctor can view your test results"
+                                  : "Test results stay private"}
+                              </p>
+                            </div>
+                          </div>
+                          <span
+                            className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${
+                              consent.share_medical_tests ? "bg-primary" : "bg-muted-foreground/30"
+                            }`}
+                          >
+                            <span
+                              className={`inline-block h-4 w-4 transform rounded-full bg-background shadow transition-transform ${
+                                consent.share_medical_tests ? "translate-x-4" : "translate-x-0.5"
+                              }`}
+                            />
+                          </span>
+                        </button>
                       )}
                     </CardContent>
                   </Card>
                 ))}
               </div>
+              <PaginationControls
+                currentPage={consentsPagination.currentPage}
+                totalPages={consentsPagination.totalPages}
+                totalItems={consentsPagination.totalItems}
+                startIndex={consentsPagination.startIndex}
+                endIndex={consentsPagination.endIndex}
+                itemLabel="consents"
+                onPrev={consentsPagination.goToPrevPage}
+                onNext={consentsPagination.goToNextPage}
+              />
+              </>
             )}
           </section>
         </div>

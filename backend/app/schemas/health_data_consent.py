@@ -1,11 +1,16 @@
 from datetime import datetime
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel
 
 
 class HealthDataConsentCreate(BaseModel):
     doctor_id: str
+    share_medical_tests: bool = False
+
+
+class HealthDataConsentUpdate(BaseModel):
+    share_medical_tests: bool
 
 
 class HealthDataConsentResponse(BaseModel):
@@ -14,6 +19,7 @@ class HealthDataConsentResponse(BaseModel):
     doctor_id: str
     doctor_name: Optional[str] = None
     is_active: bool
+    share_medical_tests: bool = False
     granted_at: datetime
     revoked_at: Optional[datetime] = None
 
@@ -33,3 +39,5 @@ class PatientHealthOverview(BaseModel):
     today_metrics: list[dict]
     trends: list[dict]
     consent_granted_at: datetime
+    share_medical_tests: bool = False
+    medical_tests: Optional[list[dict[str, Any]]] = None

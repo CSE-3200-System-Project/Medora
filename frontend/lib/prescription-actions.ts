@@ -583,12 +583,16 @@ export async function saveConsultationDraftById(
  */
 export async function getFullPrescriptionByConsultation(
   consultationId: string,
-  draftId?: string
+  draftId?: string,
+  prescriptionId?: string,
 ): Promise<FullPrescriptionResponse> {
   const headers = await getAuthHeaders();
   const params = new URLSearchParams();
   if (draftId) {
     params.set("draft_id", draftId);
+  }
+  if (prescriptionId) {
+    params.set("prescription_id", prescriptionId);
   }
   const queryString = params.toString();
   const endpoint = queryString

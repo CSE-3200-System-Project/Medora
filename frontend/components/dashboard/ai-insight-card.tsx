@@ -1,7 +1,19 @@
 "use client"
 
 import { memo } from "react"
-import { Droplets, MoonStar, Pill, Activity } from "lucide-react"
+import {
+  Activity,
+  AlertTriangle,
+  CalendarClock,
+  Droplets,
+  Footprints,
+  Heart,
+  HeartPulse,
+  MoonStar,
+  Pill,
+  Scale,
+  Syringe,
+} from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,13 +23,20 @@ const ICON_MAP: Record<string, LucideIcon> = {
   MoonStar,
   Droplets,
   Activity,
+  Heart,
+  HeartPulse,
+  Footprints,
+  Scale,
+  Syringe,
+  AlertTriangle,
+  CalendarClock,
 }
 
 type AIInsightCardProps = {
   iconName: string
   title: string
   description: string
-  tone?: "info" | "warning" | "success"
+  tone?: "info" | "warning" | "success" | "danger"
 }
 
 const toneStyles = {
@@ -32,6 +51,10 @@ const toneStyles = {
   success: {
     iconWrap: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
     dot: "bg-emerald-500 dark:bg-emerald-300",
+  },
+  danger: {
+    iconWrap: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
+    dot: "bg-rose-500 dark:bg-rose-300",
   },
 }
 
