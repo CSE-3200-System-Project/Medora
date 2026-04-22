@@ -1,3 +1,17 @@
+# Medical History Surgery Parity + Full Localization (2026-04-23)
+
+## Status: in-progress
+
+### Todo
+- [ ] Refactor surgery tab to match tests-style unified filter-based listing and remove standalone doctor-prescribed surgery card
+- [ ] Move Bangla language toggle directly below theme mode controls in settings appearance section
+- [ ] Replace remaining hardcoded UI strings in patient medical history page with i18n keys
+- [ ] Localize remaining medical-history components (timeline/cards/charts/managers) and complete EN/BN key parity
+- [ ] Validate touched frontend files and update review summary
+
+### Review
+- In progress.
+
 # Reschedule Admin Approval Override + Notification Fix (2026-04-21)
 # Patient Find Doctor Bangla Localization (2026-04-18)
 

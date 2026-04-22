@@ -10,6 +10,7 @@ import {
   RadarChart,
 } from "echarts/charts";
 import {
+  GraphicComponent,
   GridComponent,
   LegendComponent,
   TitleComponent,
@@ -25,6 +26,7 @@ echarts.use([
   LineChart,
   PieChart,
   RadarChart,
+  GraphicComponent,
   GridComponent,
   LegendComponent,
   TitleComponent,

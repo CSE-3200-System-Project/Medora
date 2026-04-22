@@ -1036,12 +1036,45 @@
     "status": {
       "pending": "অপেক্ষমাণ",
       "completed": "সম্পন্ন",
-      "scheduled": "নির্ধারিত"
+      "scheduled": "নির্ধারিত",
+      "overdue": "মেয়াদোত্তীর্ণ",
+      "skipped": "বাদ দেওয়া হয়েছে"
     },
     "medications": {
       "doctorPrescribedTitle": "ডাক্তারের প্রেসক্রাইব করা ওষুধ",
       "doctorPrescribedSubtitle": "কনসালটেশনের সময় ডাক্তাররা যে ওষুধ দিয়েছেন",
-      "myMedications": "আমার ওষুধ"
+      "myMedications": "আমার ওষুধ",
+      "labels": {
+        "expiredOn": "মেয়াদ শেষ হয়েছে",
+        "expiresOn": "মেয়াদ শেষ হবে",
+        "expired": "মেয়াদ উত্তীর্ণ",
+        "current": "বর্তমান",
+        "dosageSchedule": "ডোজ সূচি",
+        "duration": "মেয়াদকাল",
+        "meal": "খাবার",
+        "startDate": "শুরুর তারিখ"
+      },
+      "myMedicationsSubtitle": "আপনি বর্তমানে যে ওষুধ গ্রহণ করছেন",
+      "emptyFiltered": "এই ফিল্টারে কোনো ওষুধ পাওয়া যায়নি",
+      "filters": {
+        "active": "সক্রিয়",
+        "expired": "মেয়াদ উত্তীর্ণ",
+        "all": "সব"
+      },
+      "actions": {
+        "addMedication": "ওষুধ যোগ করুন",
+        "markCompleted": "সম্পন্ন হিসেবে চিহ্নিত করুন",
+        "delete": "মুছুন",
+        "alreadyAdded": "ইতিমধ্যে যোগ করা হয়েছে",
+        "alreadyActiveHint": "এই ওষুধটি ইতিমধ্যে আপনার সক্রিয় তালিকায় আছে",
+        "renewMedication": "নবায়ন করুন"
+      },
+      "messages": {
+        "syncFailed": "ওষুধের পরিবর্তন সংরক্ষণ করতে ব্যর্থ হয়েছে"
+      },
+      "pagination": {
+        "prescriptions": "প্রেসক্রিপশন"
+      }
     },
     "labTests": {
       "title": "ল্যাব টেস্ট ও ডায়াগনস্টিকস",
@@ -1053,7 +1086,15 @@
       "searchPlaceholder": "Search for a test...",
       "prescribedByPlaceholder": "Doctor's name",
       "hospitalLabPlaceholder": "Where test was conducted",
-      "notesPlaceholder": "Any additional notes..."
+      "notesPlaceholder": "Any additional notes...",
+      "messages": {
+        "added": "ল্যাব পরীক্ষা সফলভাবে যোগ হয়েছে",
+        "completed": "ল্যাব পরীক্ষা সম্পন্ন হিসেবে চিহ্নিত হয়েছে",
+        "completeFailed": "পরীক্ষা সম্পন্ন চিহ্নিত করতে ব্যর্থ",
+        "skipped": "ল্যাব পরীক্ষা বাদ দেওয়া হয়েছে",
+        "skipFailed": "পরীক্ষা বাদ দিতে ব্যর্থ",
+        "duplicatePending": "এই নামে একটি মুলতুবি পরীক্ষা ইতিমধ্যে আছে"
+      }
     },
     "visits": {
       "title": "পূর্বের ডাক্তার ভিজিট",
@@ -1086,6 +1127,12 @@
         "normal": "Normal",
         "high": "High",
         "low": "Low"
+      },
+      "errors": {
+        "invalidUploadType": "শুধুমাত্র PDF, JPG, PNG এবং WEBP ফাইল সমর্থিত",
+        "uploadFailed": "রিপোর্ট আপলোড করতে ব্যর্থ",
+        "loadFailed": "রিপোর্ট লোড করতে ব্যর্থ",
+        "loadSingleFailed": "রিপোর্টের বিবরণ লোড করতে ব্যর্থ"
       }
     },
     "table": {
@@ -1108,7 +1155,14 @@
       "doctorRecommendedTitle": "Doctor Recommended Surgeries",
       "doctorRecommendedSubtitle": "Surgical procedures recommended by your doctors",
       "reasonLabel": "Reason:",
-      "preOpLabel": "Pre-op:"
+      "preOpLabel": "Pre-op:",
+      "untitled": "অনামা অস্ত্রোপচার",
+      "messages": {
+        "added": "অস্ত্রোপচার সফলভাবে যোগ হয়েছে",
+        "addFailed": "অস্ত্রোপচার যোগ করতে ব্যর্থ",
+        "deleted": "অস্ত্রোপচার সরানো হয়েছে",
+        "deleteFailed": "অস্ত্রোপচার সরাতে ব্যর্থ"
+      }
     },
     "hospitalization": {
       "title": "Hospitalization History",
@@ -1147,6 +1201,17 @@
         "title": "Delete Hospitalization",
         "description": "Are you sure you want to delete this hospitalization record? This action cannot be undone."
       }
+    },
+    "header": {
+      "activeProfile": "সক্রিয় প্রোফাইল",
+      "title": "চিকিৎসা ইতিহাস",
+      "years": "বছর",
+      "idPrefix": "আইডি"
+    },
+    "common": {
+      "doctorPrescribed": "ডাক্তার নির্ধারিত",
+      "doctorPrefix": "ডাঃ",
+      "selfAdded": "নিজে যোগ করা"
     }
   },
   "prescriptions": {
@@ -1198,46 +1263,105 @@
     }
   },
   "privacy": {
-    "title": "Privacy & Data Access",
-    "subtitle": "Control exactly what each doctor can see",
+    "title": "গোপনীয়তা ও ডেটা অ্যাক্সেস",
+    "subtitle": "প্রত্যেক ডাক্তার কী দেখতে পারবেন তা পুরোপুরি নিয়ন্ত্রণ করুন",
+    "loadingSettings": "গোপনীয়তা সেটিংস লোড হচ্ছে...",
     "tabs": {
-      "sharing": "Data Sharing",
-      "doctors": "Doctor Access",
-      "history": "Access History"
+      "sharing": "ডেটা শেয়ারিং",
+      "doctors": "ডাক্তারের অ্যাক্সেস",
+      "history": "অ্যাক্সেস ইতিহাস"
     },
     "dialogs": {
-      "revokeTitle": "Revoke Doctor Access?",
-      "restoreTitle": "Restore Doctor Access?",
-      "revokeDescription": "{doctorName} will no longer be able to view your medical records. You can restore access later if needed.",
-      "restoreDescription": "{doctorName} will be able to view your medical records again."
+      "revokeTitle": "ডাক্তারের অ্যাক্সেস প্রত্যাহার করবেন?",
+      "restoreTitle": "ডাক্তারের অ্যাক্সেস পুনরুদ্ধার করবেন?",
+      "revokeDescription": "{doctorName} আর আপনার মেডিকেল রেকর্ড দেখতে পারবেন না। প্রয়োজনে পরে আবার অ্যাক্সেস দিতে পারবেন।",
+      "restoreDescription": "{doctorName} আবার আপনার মেডিকেল রেকর্ড দেখতে পারবেন।"
     },
     "actions": {
-      "refresh": "Refresh",
-      "revokeAccess": "Revoke Access",
-      "restoreAccess": "Restore Access",
-      "shareAll": "Share All",
-      "revokeAll": "Revoke All"
+      "refresh": "রিফ্রেশ",
+      "revokeAccess": "অ্যাক্সেস প্রত্যাহার",
+      "restoreAccess": "অ্যাক্সেস পুনরুদ্ধার",
+      "shareAll": "সব শেয়ার করুন",
+      "revokeAll": "সব প্রত্যাহার করুন"
+    },
+    "errors": {
+      "updateAIAccessFailed": "এআই অ্যাক্সেস সেটিংস আপডেট করা যায়নি",
+      "revokeAccessFailed": "অ্যাক্সেস প্রত্যাহার করা যায়নি",
+      "restoreAccessFailed": "অ্যাক্সেস পুনরুদ্ধার করা যায়নি"
+    },
+    "info": {
+      "title": "আপনার ডেটার উপর পূর্ণ নিয়ন্ত্রণ আপনার হাতে",
+      "description": "প্রত্যেক ডাক্তার আপনার মেডিকেল ডেটার কোন কোন বিভাগ দেখতে পারবেন তা নির্দিষ্ট করুন। আলাদা বিভাগ টগল করতে পারেন, অথবা একসাথে সব শেয়ার/প্রত্যাহার করতে পারেন। পরিবর্তন সঙ্গে সঙ্গেই কার্যকর হবে।"
     },
     "sharing": {
-      "perDoctor": "Per-Doctor Data Sharing",
-      "quickActions": "Quick actions",
-      "sharedCount": "{shared}/{total} shared"
+      "perDoctor": "ডাক্তারভিত্তিক ডেটা শেয়ারিং",
+      "quickActions": "দ্রুত অ্যাকশন",
+      "sharedCount": "{shared}/{total} শেয়ার করা"
     },
     "aiControls": {
-      "title": "Chorui AI Access Controls",
-      "personalTitle": "1. Sharing personal informations",
-      "generalTitle": "2. General purpose chatting with AI context sharing"
+      "title": "চড়ুই এআই অ্যাক্সেস কন্ট্রোল",
+      "personalTitle": "১. ব্যক্তিগত তথ্য শেয়ারিং",
+      "generalTitle": "২. সাধারণ উদ্দেশ্যে এআই চ্যাট কনটেক্সট শেয়ারিং",
+      "description": "ব্যক্তিগত তথ্যভিত্তিক কনটেক্সট এবং সাধারণ চ্যাটের জন্য এআই অ্যাক্সেস আলাদা করে নিয়ন্ত্রণ করুন।",
+      "personalDescription": "নিচে ডাক্তারভিত্তিক নিয়ন্ত্রণসহ চড়ুই এআই-এর জন্য বিভাগভিত্তিক শেয়ারিং।",
+      "generalDescription": "ব্যক্তিগত তথ্য শেয়ারিং বন্ধ থাকলেও শুধুমাত্র রোগীর জন্য সাধারণ চড়ুই চ্যাট চালু রাখুন।",
+      "personalDisabledHint": "এআই-এর জন্য ব্যক্তিগত তথ্য শেয়ারিং বন্ধ আছে। ডাক্তাররা চড়ুই এআই-এর মাধ্যমে আপনার ব্যক্তিগত রেকর্ড কনটেক্সট পাবে না।"
     },
-    "loadingDoctors": "Loading your doctors...",
+    "categories": {
+      "labels": {
+        "can_view_profile": "প্রোফাইল ও পরিচয়",
+        "can_view_conditions": "মেডিকেল কন্ডিশন",
+        "can_view_medications": "ওষুধ",
+        "can_view_allergies": "অ্যালার্জি",
+        "can_view_medical_history": "মেডিকেল ইতিহাস",
+        "can_view_family_history": "পারিবারিক ইতিহাস",
+        "can_view_lifestyle": "লাইফস্টাইল ও অভ্যাস",
+        "can_view_vaccinations": "টিকাদান",
+        "can_view_reports": "ল্যাব রিপোর্ট",
+        "can_view_health_metrics": "স্বাস্থ্য মেট্রিকস",
+        "can_view_prescriptions": "প্রেসক্রিপশন"
+      },
+      "descriptions": {
+        "can_view_profile": "নাম, বয়স, লিঙ্গ, রক্তের গ্রুপ, ছবি",
+        "can_view_conditions": "দীর্ঘমেয়াদি রোগ ও বর্তমান রোগ নির্ণয়",
+        "can_view_medications": "বর্তমান ওষুধ ও ডোজ",
+        "can_view_allergies": "ওষুধ, খাবার ও পরিবেশগত অ্যালার্জি",
+        "can_view_medical_history": "সার্জারি, হাসপাতালে ভর্তি, পূর্বের চিকিৎসা",
+        "can_view_family_history": "পারিবারিক চিকিৎসা ইতিহাস",
+        "can_view_lifestyle": "ধূমপান, অ্যালকোহল, খাদ্যাভ্যাস, ব্যায়াম, ঘুম, মানসিক স্বাস্থ্য",
+        "can_view_vaccinations": "টিকার রেকর্ড",
+        "can_view_reports": "আপলোড করা ল্যাব টেস্ট রিপোর্ট",
+        "can_view_health_metrics": "সময়ের সাথে ট্র্যাক করা ভাইটালস ও স্বাস্থ্য মেট্রিকস",
+        "can_view_prescriptions": "কনসালটেশনের প্রেসক্রিপশন"
+      }
+    },
+    "loadingDoctors": "আপনার ডাক্তারদের তথ্য লোড হচ্ছে...",
     "empty": {
-      "doctorsTitle": "No doctors found",
-      "historyTitle": "No access history yet"
+      "doctorsTitle": "কোনো ডাক্তার পাওয়া যায়নি",
+      "doctorsSubtitle": "যেসব ডাক্তারের সাথে আপনার অ্যাপয়েন্টমেন্ট আছে তারা এখানে দেখা যাবে",
+      "historyTitle": "এখনও কোনো অ্যাক্সেস ইতিহাস নেই"
     },
     "doctors": {
-      "title": "Doctors with Access"
+      "title": "অ্যাক্সেস আছে এমন ডাক্তাররা",
+      "empty": "এখনও কোনো ডাক্তার আপনার রেকর্ডে অ্যাক্সেস করেননি",
+      "status": {
+        "active": "সক্রিয়",
+        "revoked": "প্রত্যাহার করা হয়েছে"
+      },
+      "appointmentsCount": "{count}টি অ্যাপয়েন্টমেন্ট",
+      "lastAccess": "সর্বশেষ অ্যাক্সেস"
     },
     "history": {
-      "title": "Recent Access History"
+      "title": "সাম্প্রতিক অ্যাক্সেস ইতিহাস",
+      "accessTypes": {
+        "viewProfile": "প্রোফাইল দেখেছেন",
+        "viewMedicalHistory": "মেডিকেল ইতিহাস দেখেছেন",
+        "viewMedications": "ওষুধ তালিকা দেখেছেন",
+        "viewAllergies": "অ্যালার্জি তথ্য দেখেছেন",
+        "viewChronicConditions": "দীর্ঘমেয়াদি রোগ দেখেছেন",
+        "viewFamilyHistory": "পারিবারিক ইতিহাস দেখেছেন",
+        "viewFullRecord": "সম্পূর্ণ রেকর্ড দেখেছেন"
+      }
     }
   }
 }

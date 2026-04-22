@@ -1036,12 +1036,45 @@
     "status": {
       "pending": "Pending",
       "completed": "Completed",
-      "scheduled": "Scheduled"
+      "scheduled": "Scheduled",
+      "overdue": "Overdue",
+      "skipped": "Skipped"
     },
     "medications": {
       "doctorPrescribedTitle": "Doctor Prescribed Medications",
       "doctorPrescribedSubtitle": "Medications prescribed by your doctors during consultations",
-      "myMedications": "My Medications"
+      "myMedications": "My Medications",
+      "labels": {
+        "expiredOn": "Expired on",
+        "expiresOn": "Expires on",
+        "expired": "Expired",
+        "current": "Current",
+        "dosageSchedule": "Dosage Schedule",
+        "duration": "Duration",
+        "meal": "Meal",
+        "startDate": "Start Date"
+      },
+      "myMedicationsSubtitle": "Medications you are currently taking",
+      "emptyFiltered": "No medications match this filter",
+      "filters": {
+        "active": "Active",
+        "expired": "Expired",
+        "all": "All"
+      },
+      "actions": {
+        "addMedication": "Add Medication",
+        "markCompleted": "Mark Completed",
+        "delete": "Delete",
+        "alreadyAdded": "Already added",
+        "alreadyActiveHint": "This medication is already in your active list",
+        "renewMedication": "Renew"
+      },
+      "messages": {
+        "syncFailed": "Failed to sync medication changes"
+      },
+      "pagination": {
+        "prescriptions": "prescriptions"
+      }
     },
     "labTests": {
       "title": "Lab Tests & Diagnostics",
@@ -1053,13 +1086,28 @@
       "hospitalLabPlaceholder": "Where test was conducted",
       "notesPlaceholder": "Any additional notes...",
       "emptyHint": "Click \"Add Test\" to record your lab tests",
-      "emptyTitle": "No lab tests recorded yet"
+      "emptyTitle": "No lab tests recorded yet",
+      "messages": {
+        "added": "Lab test added successfully",
+        "completed": "Lab test marked as completed",
+        "completeFailed": "Failed to mark test as completed",
+        "skipped": "Lab test marked as skipped",
+        "skipFailed": "Failed to skip test",
+        "duplicatePending": "A pending test with this name already exists"
+      }
     },
     "surgeries": {
       "doctorRecommendedTitle": "Doctor Recommended Surgeries",
       "doctorRecommendedSubtitle": "Surgical procedures recommended by your doctors",
       "reasonLabel": "Reason:",
-      "preOpLabel": "Pre-op:"
+      "preOpLabel": "Pre-op:",
+      "untitled": "Untitled Surgery",
+      "messages": {
+        "added": "Surgery added successfully",
+        "addFailed": "Failed to add surgery",
+        "deleted": "Surgery removed",
+        "deleteFailed": "Failed to remove surgery"
+      }
     },
     "hospitalization": {
       "title": "Hospitalization History",
@@ -1130,6 +1178,12 @@
         "normal": "Normal",
         "high": "High",
         "low": "Low"
+      },
+      "errors": {
+        "invalidUploadType": "Only PDF, JPG, PNG, and WEBP files are supported",
+        "uploadFailed": "Failed to upload report",
+        "loadFailed": "Failed to load reports",
+        "loadSingleFailed": "Failed to load report details"
       }
     },
     "table": {
@@ -1147,6 +1201,17 @@
       "successTitle": "Success!",
       "successDescription": "Your medical history has been saved successfully.",
       "errorTitle": "Error"
+    },
+    "header": {
+      "activeProfile": "Active Profile",
+      "title": "Medical History",
+      "years": "years",
+      "idPrefix": "ID"
+    },
+    "common": {
+      "doctorPrescribed": "Doctor Prescribed",
+      "doctorPrefix": "Dr.",
+      "selfAdded": "Self Added"
     }
   },
   "prescriptions": {
@@ -1200,6 +1265,7 @@
   "privacy": {
     "title": "Privacy & Data Access",
     "subtitle": "Control exactly what each doctor can see",
+    "loadingSettings": "Loading privacy settings...",
     "tabs": {
       "sharing": "Data Sharing",
       "doctors": "Doctor Access",
@@ -1218,6 +1284,15 @@
       "shareAll": "Share All",
       "revokeAll": "Revoke All"
     },
+    "errors": {
+      "updateAIAccessFailed": "Failed to update AI access settings",
+      "revokeAccessFailed": "Failed to revoke access",
+      "restoreAccessFailed": "Failed to restore access"
+    },
+    "info": {
+      "title": "You have full control over your data",
+      "description": "Choose exactly which categories of your medical data each doctor can see. Toggle individual categories or share/revoke everything at once. Changes take effect immediately."
+    },
     "sharing": {
       "perDoctor": "Per-Doctor Data Sharing",
       "quickActions": "Quick actions",
@@ -1226,18 +1301,67 @@
     "aiControls": {
       "title": "Chorui AI Access Controls",
       "personalTitle": "1. Sharing personal informations",
-      "generalTitle": "2. General purpose chatting with AI context sharing"
+      "generalTitle": "2. General purpose chatting with AI context sharing",
+      "description": "Manage AI access separately for personal-data context and general-purpose chat.",
+      "personalDescription": "Category-wise sharing for Chorui AI with doctor-specific controls below.",
+      "generalDescription": "Allow patient-only general Chorui chat even when personal information sharing is disabled.",
+      "personalDisabledHint": "Personal information sharing for AI is disabled. Doctors cannot retrieve your personal record context through Chorui AI."
+    },
+    "categories": {
+      "labels": {
+        "can_view_profile": "Profile & Identity",
+        "can_view_conditions": "Medical Conditions",
+        "can_view_medications": "Medications",
+        "can_view_allergies": "Allergies",
+        "can_view_medical_history": "Medical History",
+        "can_view_family_history": "Family History",
+        "can_view_lifestyle": "Lifestyle & Habits",
+        "can_view_vaccinations": "Vaccinations",
+        "can_view_reports": "Lab Reports",
+        "can_view_health_metrics": "Health Metrics",
+        "can_view_prescriptions": "Prescriptions"
+      },
+      "descriptions": {
+        "can_view_profile": "Name, age, gender, blood group, photo",
+        "can_view_conditions": "Chronic conditions, current diagnoses",
+        "can_view_medications": "Current medications, dosages",
+        "can_view_allergies": "Drug, food, and environmental allergies",
+        "can_view_medical_history": "Surgeries, hospitalizations, past treatments",
+        "can_view_family_history": "Family medical history",
+        "can_view_lifestyle": "Smoking, alcohol, diet, exercise, sleep, mental health",
+        "can_view_vaccinations": "Vaccination records",
+        "can_view_reports": "Uploaded lab test reports",
+        "can_view_health_metrics": "Vitals and health metrics tracked over time",
+        "can_view_prescriptions": "Consultation prescriptions"
+      }
     },
     "loadingDoctors": "Loading your doctors...",
     "empty": {
       "doctorsTitle": "No doctors found",
+      "doctorsSubtitle": "Doctors you have appointments with will appear here",
       "historyTitle": "No access history yet"
     },
     "doctors": {
-      "title": "Doctors with Access"
+      "title": "Doctors with Access",
+      "empty": "No doctors have accessed your records yet",
+      "status": {
+        "active": "Active",
+        "revoked": "Revoked"
+      },
+      "appointmentsCount": "{count} appointment(s)",
+      "lastAccess": "Last access"
     },
     "history": {
-      "title": "Recent Access History"
+      "title": "Recent Access History",
+      "accessTypes": {
+        "viewProfile": "Viewed Profile",
+        "viewMedicalHistory": "Viewed Medical History",
+        "viewMedications": "Viewed Medications",
+        "viewAllergies": "Viewed Allergies",
+        "viewChronicConditions": "Viewed Chronic Conditions",
+        "viewFamilyHistory": "Viewed Family History",
+        "viewFullRecord": "Viewed Full Record"
+      }
     }
   }
 }

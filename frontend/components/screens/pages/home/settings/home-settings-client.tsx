@@ -437,6 +437,19 @@ export default function SettingsPage() {
               <p className="text-xs text-muted-foreground">
                 {tSettings("sections.appearance.activeMode")}: <span className="font-semibold capitalize text-foreground">{activeResolvedTheme}</span>
               </p>
+
+              <div className="space-y-2">
+                <Label htmlFor="preferred-language">{tSettings("preferredLanguage")}</Label>
+                <Select
+                  id="preferred-language"
+                  value={settings.healthcare.preferredLanguage}
+                  onChange={(e) => handlePreferredLanguageChange(e.target.value as SettingsState["healthcare"]["preferredLanguage"])}
+                  disabled={isLocaleSwitching}
+                >
+                  <option value="en">{tCommon("english")}</option>
+                  <option value="bn">{tCommon("bangla")}</option>
+                </Select>
+              </div>
             </CardContent>
           </Card>
 
@@ -526,19 +539,6 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="preferred-language">{tSettings("preferredLanguage")}</Label>
-                <Select
-                  id="preferred-language"
-                  value={settings.healthcare.preferredLanguage}
-                  onChange={(e) => handlePreferredLanguageChange(e.target.value as SettingsState["healthcare"]["preferredLanguage"])}
-                  disabled={isLocaleSwitching}
-                >
-                  <option value="en">{tCommon("english")}</option>
-                  <option value="bn">{tCommon("bangla")}</option>
-                </Select>
-              </div>
-
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="emergency-name">{tSettings("sections.healthcare.emergencyContactName")}</Label>
