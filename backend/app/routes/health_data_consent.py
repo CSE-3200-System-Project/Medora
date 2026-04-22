@@ -17,6 +17,7 @@ from app.schemas.health_data_consent import (
     HealthDataConsentCreate,
     HealthDataConsentListResponse,
     HealthDataConsentResponse,
+    HealthDataConsentUpdate,
     PatientHealthOverview,
 )
 
@@ -59,6 +60,7 @@ async def grant_consent(
         existing.is_active = True
         existing.revoked_at = None
         existing.granted_at = datetime.now(timezone.utc)
+        existing.share_medical_tests = data.share_medical_tests
         await db.commit()
         await db.refresh(existing)
 
@@ -69,6 +71,7 @@ async def grant_consent(
             doctor_id=existing.doctor_id,
             doctor_name=f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else None,
             is_active=existing.is_active,
+            share_medical_tests=existing.share_medical_tests,
             granted_at=existing.granted_at,
             revoked_at=existing.revoked_at,
         )
@@ -76,6 +79,7 @@ async def grant_consent(
     consent = HealthDataConsent(
         patient_id=user.id,
         doctor_id=data.doctor_id,
+        share_medical_tests=data.share_medical_tests,
     )
     db.add(consent)
     await db.commit()
@@ -88,6 +92,45 @@ async def grant_consent(
         doctor_id=consent.doctor_id,
         doctor_name=f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else None,
         is_active=consent.is_active,
+        share_medical_tests=consent.share_medical_tests,
+        granted_at=consent.granted_at,
+        revoked_at=consent.revoked_at,
+    )
+
+
+@router.patch("/consents/{consent_id}", response_model=HealthDataConsentResponse)
+async def update_consent(
+    consent_id: str,
+    data: HealthDataConsentUpdate,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Patient toggles whether their medical tests are shared with the doctor."""
+    consent = (
+        await db.execute(
+            select(HealthDataConsent).where(
+                HealthDataConsent.id == consent_id,
+                HealthDataConsent.patient_id == user.id,
+            )
+        )
+    ).scalar_one_or_none()
+    if not consent:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Consent not found")
+    if not consent.is_active:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot update a revoked consent")
+
+    consent.share_medical_tests = data.share_medical_tests
+    await db.commit()
+    await db.refresh(consent)
+
+    doctor_profile = (await db.execute(select(Profile).where(Profile.id == consent.doctor_id))).scalar_one_or_none()
+    return HealthDataConsentResponse(
+        id=consent.id,
+        patient_id=consent.patient_id,
+        doctor_id=consent.doctor_id,
+        doctor_name=f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else None,
+        is_active=consent.is_active,
+        share_medical_tests=consent.share_medical_tests,
         granted_at=consent.granted_at,
         revoked_at=consent.revoked_at,
     )
@@ -146,6 +189,7 @@ async def list_my_consents(
                 doctor_id=consent.doctor_id,
                 doctor_name=f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}" if doctor_profile else None,
                 is_active=consent.is_active,
+                share_medical_tests=consent.share_medical_tests,
                 granted_at=consent.granted_at,
                 revoked_at=consent.revoked_at,
             )
@@ -259,12 +303,25 @@ async def get_patient_health_for_doctor(
             "points": points,
         })
 
+    medical_tests: list[dict[str, Any]] | None = None
+    if consent.share_medical_tests:
+        patient_profile_row = (
+            await db.execute(
+                select(PatientProfile).where(PatientProfile.profile_id == patient_id)
+            )
+        ).scalar_one_or_none()
+        if patient_profile_row and patient_profile_row.medical_tests:
+            tests = patient_profile_row.medical_tests
+            medical_tests = tests if isinstance(tests, list) else []
+
     return PatientHealthOverview(
         patient_id=patient_id,
         patient_name=patient_name,
         today_metrics=list(latest_by_type.values()),
         trends=trends,
         consent_granted_at=consent.granted_at,
+        share_medical_tests=consent.share_medical_tests,
+        medical_tests=medical_tests,
     )
 
 
@@ -297,6 +354,7 @@ async def list_patients_with_consent(
                 "patient_id": consent.patient_id,
                 "patient_name": f"{patient_profile.first_name} {patient_profile.last_name}",
                 "consent_granted_at": consent.granted_at.isoformat(),
+                "share_medical_tests": consent.share_medical_tests,
             })
 
     return {"patients": results, "total": len(results)}

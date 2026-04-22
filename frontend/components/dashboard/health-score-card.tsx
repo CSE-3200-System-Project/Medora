@@ -1,13 +1,25 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { ArrowRight } from "lucide-react"
-import { useMemo } from "react"
+import { ArrowRight, CheckCircle2, AlertCircle, Circle, Info } from "lucide-react"
+import { useMemo, useState } from "react"
 import type { EChartsOption } from "echarts"
 import { useTheme } from "next-themes"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import type {
+  PatientDashboardBMI,
+  PatientDashboardScoreBreakdown,
+} from "@/lib/patient-dashboard-actions"
 
 const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false })
 
@@ -22,7 +34,23 @@ type HealthScoreCardProps = {
   activityLabel: string
   nutritionLabel: string
   statusLabel: string
+  breakdown?: PatientDashboardScoreBreakdown | null
+  bmi?: PatientDashboardBMI | null
+  chronicConditions?: string[]
+  activeMedicationsCount?: number
 }
+
+const statusIcon = {
+  good: CheckCircle2,
+  warning: AlertCircle,
+  missing: Circle,
+} as const
+
+const statusColor = {
+  good: "text-emerald-600 dark:text-emerald-400",
+  warning: "text-amber-600 dark:text-amber-400",
+  missing: "text-muted-foreground",
+} as const
 
 export function HealthScoreCard({
   score,
@@ -35,8 +63,13 @@ export function HealthScoreCard({
   activityLabel,
   nutritionLabel,
   statusLabel,
+  breakdown,
+  bmi,
+  chronicConditions = [],
+  activeMedicationsCount = 0,
 }: HealthScoreCardProps) {
   const { resolvedTheme } = useTheme()
+  const [open, setOpen] = useState(false)
 
   const gaugeOption = useMemo<EChartsOption>(() => {
     const clampedValue = Math.max(0, Math.min(maxScore, score))
@@ -105,7 +138,7 @@ export function HealthScoreCard({
             </div>
 
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">{improvementMessage}</p>
+              <p className="text-sm text-muted-foreground">{breakdown?.summary || improvementMessage}</p>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border/60 bg-muted/30 p-3">
@@ -122,13 +155,113 @@ export function HealthScoreCard({
                 <Badge variant="success" className="rounded-full px-3 py-1 text-[11px]">
                   {statusLabel}
                 </Badge>
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
-                >
-                  {viewDetailsLabel}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        setOpen(true)
+                      }}
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+                    >
+                      {viewDetailsLabel}
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto scrollbar-themed">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2">
+                        <Info className="h-5 w-5 text-primary" />
+                        How your health score is calculated
+                      </DialogTitle>
+                      <DialogDescription>
+                        Your score combines logged metrics, adherence, body composition, and chronic condition load.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="mt-2 space-y-4">
+                      <div className="rounded-xl border border-border bg-muted/30 p-4">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-3xl font-bold text-foreground">{score}</span>
+                          <span className="text-sm text-muted-foreground">/ {maxScore}</span>
+                        </div>
+                        {breakdown?.summary ? (
+                          <p className="mt-2 text-sm text-muted-foreground">{breakdown.summary}</p>
+                        ) : null}
+                      </div>
+
+                      {(bmi?.value || chronicConditions.length > 0 || activeMedicationsCount > 0) && (
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                          <div className="rounded-xl border border-border bg-card p-3">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">BMI</p>
+                            <p className="mt-1 text-lg font-semibold text-foreground">
+                              {bmi?.value ? bmi.value.toFixed(1) : "—"}
+                            </p>
+                            <p className="text-xs text-muted-foreground">{bmi?.category || "Add height & weight"}</p>
+                          </div>
+                          <div className="rounded-xl border border-border bg-card p-3">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                              Chronic conditions
+                            </p>
+                            <p className="mt-1 text-lg font-semibold text-foreground">{chronicConditions.length}</p>
+                            <p className="truncate text-xs text-muted-foreground">
+                              {chronicConditions.slice(0, 3).join(", ") || "None recorded"}
+                            </p>
+                          </div>
+                          <div className="rounded-xl border border-border bg-card p-3">
+                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                              Active medications
+                            </p>
+                            <p className="mt-1 text-lg font-semibold text-foreground">{activeMedicationsCount}</p>
+                            <p className="text-xs text-muted-foreground">On your profile</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {breakdown?.factors && breakdown.factors.length > 0 && (
+                        <div>
+                          <h4 className="mb-2 text-sm font-semibold text-foreground">Score breakdown</h4>
+                          <div className="space-y-2">
+                            {breakdown.factors.map((factor) => {
+                              const Icon = statusIcon[factor.status] ?? Circle
+                              const percent = Math.round((factor.points / Math.max(1, factor.max_points)) * 100)
+                              return (
+                                <div
+                                  key={factor.label}
+                                  className="rounded-lg border border-border bg-card p-3"
+                                >
+                                  <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-2">
+                                      <Icon className={`h-4 w-4 ${statusColor[factor.status] ?? ""}`} />
+                                      <span className="text-sm font-medium text-foreground">{factor.label}</span>
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">
+                                      {factor.points}/{factor.max_points}
+                                    </span>
+                                  </div>
+                                  <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
+                                    <div
+                                      className="h-full rounded-full bg-primary transition-all"
+                                      style={{ width: `${percent}%` }}
+                                    />
+                                  </div>
+                                  <p className="mt-2 text-xs text-muted-foreground">{factor.detail}</p>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-muted-foreground">
+                        This score is an informational estimate — not a medical diagnosis. Always consult your doctor
+                        for medical advice.
+                      </p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>

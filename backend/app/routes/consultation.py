@@ -696,10 +696,10 @@ def _consultation_has_persisted_prescription_items(consultation: Consultation) -
 
 
 def _resolve_preview_data_source(consultation: Consultation) -> str:
-    if consultation.draft:
-        return "draft"
     if _consultation_has_persisted_prescription_items(consultation):
         return "prescription"
+    if consultation.draft:
+        return "draft"
     return "draft"
 
 
@@ -1626,7 +1626,9 @@ async def _get_full_prescription_payload_for_consultation(
     draft_patient_info: dict[str, Any] = {}
 
     draft_payload = _get_consultation_draft_payload(consultation)
-    if consultation.status == ConsultationStatus.OPEN:
+    if prescription_id:
+        preview_data_source = "prescription"
+    elif consultation.status == ConsultationStatus.OPEN:
         # Open consultation preview must always read from draft, not from prescription fallback.
         if not consultation.draft:
             raise HTTPException(

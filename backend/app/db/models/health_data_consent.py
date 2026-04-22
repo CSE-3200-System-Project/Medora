@@ -21,6 +21,7 @@ class HealthDataConsent(Base):
     patient_id: Mapped[str] = mapped_column(String, ForeignKey("patient_profiles.profile_id"), nullable=False, index=True)
     doctor_id: Mapped[str] = mapped_column(String, ForeignKey("doctor_profiles.profile_id"), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    share_medical_tests: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     granted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
     revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 

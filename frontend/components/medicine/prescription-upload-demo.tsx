@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, FileImage, FileText, Gauge, Plus, ScanText, ShieldCheck, Trash2, UploadCloud } from "lucide-react";
 import Image from "next/image";
 
@@ -19,11 +19,22 @@ type EditableMedication = {
   confidence: number;
 };
 
-export function PrescriptionUploadDemo() {
+type PrescriptionUploadDemoProps = {
+  onApproveMedications?: (medications: EditableMedication[]) => Promise<void> | void;
+  enableProfileSave?: boolean;
+};
+
+export function PrescriptionUploadDemo({
+  onApproveMedications,
+  enableProfileSave = false,
+}: PrescriptionUploadDemoProps) {
   const tCommon = useT("common");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isSavingApproved, setIsSavingApproved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [extractedText, setExtractedText] = useState("");
   const [confidence, setConfidence] = useState<number | null>(null);
@@ -139,6 +150,30 @@ export function PrescriptionUploadDemo() {
     setMedications((previous) => previous.filter((_, itemIndex) => itemIndex !== index));
   };
 
+  const handleApprove = async () => {
+    if (medications.length === 0 || isSavingApproved) {
+      return;
+    }
+
+    setError(null);
+    setIsSavingApproved(true);
+
+    try {
+      if (onApproveMedications) {
+        await onApproveMedications(medications);
+      }
+      setIsApproved(true);
+    } catch (saveError: unknown) {
+      if (saveError instanceof Error && saveError.message.trim()) {
+        setError(saveError.message);
+      } else {
+        setError("Failed to save approved medicines.");
+      }
+    } finally {
+      setIsSavingApproved(false);
+    }
+  };
+
   return (
     <Card className="overflow-hidden border-border bg-background shadow-sm">
       <CardHeader className="border-b border-border/70 bg-linear-to-r from-primary/8 via-primary/4 to-transparent pb-4">
@@ -155,21 +190,47 @@ export function PrescriptionUploadDemo() {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
           <section className="lg:col-span-6">
             <div className="rounded-2xl border border-dashed border-primary/40 bg-surface/50 p-4">
-              <label
-                htmlFor="prescription-upload"
-                className="flex min-h-44 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-border/60 bg-background px-4 py-5 text-center transition hover:border-primary/60"
-              >
+              <div className="flex min-h-44 flex-col items-center justify-center gap-2 rounded-xl border border-border/60 bg-background px-4 py-5 text-center">
                 <UploadCloud className="h-7 w-7 text-primary" />
                 <div>
                   <p className="text-sm font-medium text-foreground">{tCommon("medicine.uploadDemo.chooseFile")}</p>
                   <p className="text-xs text-muted-foreground">{tCommon("medicine.uploadDemo.fileHint")}</p>
                 </div>
-              </label>
+                <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isProcessing || isSavingApproved}
+                  >
+                    Upload File
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => cameraInputRef.current?.click()}
+                    disabled={isProcessing || isSavingApproved}
+                  >
+                    Take Photo
+                  </Button>
+                </div>
+              </div>
               <input
+                ref={fileInputRef}
                 id="prescription-upload"
                 className="hidden"
                 type="file"
                 accept="image/png,image/jpeg,image/webp,application/pdf,.pdf"
+                onChange={onFileChange}
+              />
+              <input
+                ref={cameraInputRef}
+                className="hidden"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                capture="environment"
                 onChange={onFileChange}
               />
 
@@ -371,10 +432,19 @@ export function PrescriptionUploadDemo() {
                     type="button"
                     variant="medical"
                     size="sm"
-                    onClick={() => setIsApproved(true)}
-                    disabled={medications.length === 0}
+                    onClick={handleApprove}
+                    disabled={medications.length === 0 || isSavingApproved}
                   >
-                    {tCommon("medicine.uploadDemo.approveList")}
+                    {isSavingApproved ? (
+                      <span className="inline-flex items-center gap-2">
+                        <ButtonLoader className="h-4 w-4" />
+                        Saving...
+                      </span>
+                    ) : enableProfileSave ? (
+                      "Approve & Add to Profile"
+                    ) : (
+                      tCommon("medicine.uploadDemo.approveList")
+                    )}
                   </Button>
                 </div>
               </div>

@@ -46,6 +46,8 @@ import {
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { PaginationControls } from "@/components/ui/pagination-controls";
+import { usePagination } from "@/lib/use-pagination";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
 import {
@@ -211,6 +213,17 @@ function PatientMedicalHistoryPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Pagination states
+  const appointmentsPagination = usePagination(appointments, 6);
+  const reportsPagination = usePagination(reports, 6);
+  const medicalTestsPagination = usePagination(medicalTests, 5);
+  const doctorMedsPrescriptions = doctorPrescriptions.filter(p => p.medications.length > 0);
+  const doctorTestsPrescriptions = doctorPrescriptions.filter(p => p.tests.length > 0);
+  const doctorSurgeriesPrescriptions = doctorPrescriptions.filter(p => p.surgeries.length > 0);
+  const doctorMedsPagination = usePagination(doctorMedsPrescriptions, 5);
+  const doctorTestsPagination = usePagination(doctorTestsPrescriptions, 5);
+  const doctorSurgeriesPagination = usePagination(doctorSurgeriesPrescriptions, 5);
 
   // Load all medical history data
   useEffect(() => {
@@ -642,7 +655,7 @@ function PatientMedicalHistoryPage() {
             {activeTab === "medications" ? (
               <>
             {/* Doctor Prescribed Medications */}
-            {doctorPrescriptions.filter(p => p.medications.length > 0).length > 0 && (
+            {doctorMedsPrescriptions.length > 0 && (
               <Card className="border-primary/30 dark:border-primary/50">
                 <CardHeader className="bg-linear-to-r from-primary/5 to-transparent dark:from-primary/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -654,10 +667,8 @@ function PatientMedicalHistoryPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
-                  <div className="space-y-4">
-                    {doctorPrescriptions
-                      .filter(p => p.medications.length > 0)
-                      .map(prescription => (
+                  <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
+                    {doctorMedsPagination.pageItems.map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
@@ -733,10 +744,20 @@ function PatientMedicalHistoryPage() {
                         </div>
                       ))}
                   </div>
+                  <PaginationControls
+                    currentPage={doctorMedsPagination.currentPage}
+                    totalPages={doctorMedsPagination.totalPages}
+                    totalItems={doctorMedsPagination.totalItems}
+                    startIndex={doctorMedsPagination.startIndex}
+                    endIndex={doctorMedsPagination.endIndex}
+                    itemLabel="prescriptions"
+                    onPrev={doctorMedsPagination.goToPrevPage}
+                    onNext={doctorMedsPagination.goToNextPage}
+                  />
                 </CardContent>
               </Card>
             )}
-            
+
             {/* Self-Reported Medications */}
             <Card>
               <CardContent className="p-4 sm:p-6">
@@ -758,7 +779,7 @@ function PatientMedicalHistoryPage() {
             {activeTab === "tests" ? (
               <>
             {/* Doctor Prescribed Tests */}
-            {doctorPrescriptions.filter(p => p.tests.length > 0).length > 0 && (
+            {doctorTestsPrescriptions.length > 0 && (
               <Card className="border-purple-300 dark:border-purple-700">
                 <CardHeader className="bg-linear-to-r from-purple-50 to-transparent dark:from-purple-950/30">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -770,10 +791,8 @@ function PatientMedicalHistoryPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
-                  <div className="space-y-4">
-                    {doctorPrescriptions
-                      .filter(p => p.tests.length > 0)
-                      .map(prescription => (
+                  <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
+                    {doctorTestsPagination.pageItems.map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
@@ -815,10 +834,20 @@ function PatientMedicalHistoryPage() {
                         </div>
                       ))}
                   </div>
+                  <PaginationControls
+                    currentPage={doctorTestsPagination.currentPage}
+                    totalPages={doctorTestsPagination.totalPages}
+                    totalItems={doctorTestsPagination.totalItems}
+                    startIndex={doctorTestsPagination.startIndex}
+                    endIndex={doctorTestsPagination.endIndex}
+                    itemLabel="prescriptions"
+                    onPrev={doctorTestsPagination.goToPrevPage}
+                    onNext={doctorTestsPagination.goToNextPage}
+                  />
                 </CardContent>
               </Card>
             )}
-            
+
             <Card className="border-purple-200 dark:border-purple-800 shadow-sm">
               <CardHeader className="bg-linear-to-r from-purple-50 to-card dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -864,8 +893,10 @@ function PatientMedicalHistoryPage() {
                     <p className="text-sm mt-2 text-muted-foreground dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
                   </div>
                 ) : (
-                  <div className="space-y-6">
-                    {medicalTests.map((test, index) => (
+                  <div className="scrollbar-themed max-h-[700px] overflow-y-auto pr-1 space-y-6">
+                    {medicalTestsPagination.pageItems.map((test) => {
+                      const index = medicalTests.indexOf(test);
+                      return (
                       <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-card dark:from-purple-950/20 dark:to-card shadow-sm">
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-2">
@@ -883,7 +914,7 @@ function PatientMedicalHistoryPage() {
                             onClick={() => {
                               setMedicalTests(medicalTests.filter((_, i) => i !== index));
                             }}
-                            className="h-8 w-8 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -1023,9 +1054,20 @@ function PatientMedicalHistoryPage() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    );
+                  })}
                   </div>
                 )}
+                <PaginationControls
+                  currentPage={medicalTestsPagination.currentPage}
+                  totalPages={medicalTestsPagination.totalPages}
+                  totalItems={medicalTestsPagination.totalItems}
+                  startIndex={medicalTestsPagination.startIndex}
+                  endIndex={medicalTestsPagination.endIndex}
+                  itemLabel="tests"
+                  onPrev={medicalTestsPagination.goToPrevPage}
+                  onNext={medicalTestsPagination.goToNextPage}
+                />
               </CardContent>
             </Card>
               </>
@@ -1037,7 +1079,7 @@ function PatientMedicalHistoryPage() {
             {activeTab === "surgeries" ? (
               <>
             {/* Doctor Recommended Surgeries */}
-            {doctorPrescriptions.filter(p => p.surgeries.length > 0).length > 0 && (
+            {doctorSurgeriesPrescriptions.length > 0 && (
               <Card className="border-success/30 dark:border-success/50">
                 <CardHeader className="bg-linear-to-r from-success/5 to-transparent dark:from-success/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
@@ -1049,10 +1091,8 @@ function PatientMedicalHistoryPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
-                  <div className="space-y-4">
-                    {doctorPrescriptions
-                      .filter(p => p.surgeries.length > 0)
-                      .map(prescription => (
+                  <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
+                    {doctorSurgeriesPagination.pageItems.map(prescription => (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                             <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
@@ -1103,10 +1143,20 @@ function PatientMedicalHistoryPage() {
                         </div>
                       ))}
                   </div>
+                  <PaginationControls
+                    currentPage={doctorSurgeriesPagination.currentPage}
+                    totalPages={doctorSurgeriesPagination.totalPages}
+                    totalItems={doctorSurgeriesPagination.totalItems}
+                    startIndex={doctorSurgeriesPagination.startIndex}
+                    endIndex={doctorSurgeriesPagination.endIndex}
+                    itemLabel="prescriptions"
+                    onPrev={doctorSurgeriesPagination.goToPrevPage}
+                    onNext={doctorSurgeriesPagination.goToNextPage}
+                  />
                 </CardContent>
               </Card>
             )}
-            
+
             <Card>
               <CardContent className="p-4 sm:p-6">
                 <SurgeryManager
@@ -1158,8 +1208,8 @@ function PatientMedicalHistoryPage() {
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
                 {appointments.length > 0 ? (
-                  <div className="space-y-4">
-                    {appointments.map((app, i) => (
+                  <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
+                    {appointmentsPagination.pageItems.map((app, i) => (
                       <div key={i} className="flex flex-col justify-between gap-4 rounded-lg border bg-surface/30 p-4 md:flex-row md:items-center">
                         <div>
                             <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -1196,6 +1246,16 @@ function PatientMedicalHistoryPage() {
                     <p>No past appointments found.</p>
                   </div>
                 )}
+                <PaginationControls
+                  currentPage={appointmentsPagination.currentPage}
+                  totalPages={appointmentsPagination.totalPages}
+                  totalItems={appointmentsPagination.totalItems}
+                  startIndex={appointmentsPagination.startIndex}
+                  endIndex={appointmentsPagination.endIndex}
+                  itemLabel="visits"
+                  onPrev={appointmentsPagination.goToPrevPage}
+                  onNext={appointmentsPagination.goToNextPage}
+                />
               </CardContent>
             </Card>
               </>
@@ -1270,7 +1330,7 @@ function PatientMedicalHistoryPage() {
                         </Card>
                         <Card className="rounded-xl">
                           <CardContent className="p-4 text-center">
-                            <CheckCircle2 className="h-6 w-6 mx-auto mb-1 text-green-600" />
+                            <CheckCircle2 className="h-6 w-6 mx-auto mb-1 text-emerald-600 dark:text-emerald-400" />
                             <p className="text-2xl font-bold">{selectedReport.results.filter((r) => r.status === "normal").length}</p>
                             <p className="text-xs text-muted-foreground">Normal</p>
                           </CardContent>
@@ -1469,8 +1529,8 @@ function PatientMedicalHistoryPage() {
                       </CardContent>
                     </Card>
                   ) : (
-                    <div className="grid gap-4">
-                      {reports.map((report) => (
+                    <div className="scrollbar-themed max-h-[700px] overflow-y-auto pr-1 grid gap-4">
+                      {reportsPagination.pageItems.map((report) => (
                         <Card
                           key={report.id}
                           className="rounded-xl hover:shadow-md transition-shadow cursor-pointer"
@@ -1520,6 +1580,16 @@ function PatientMedicalHistoryPage() {
                       ))}
                     </div>
                   )}
+                  <PaginationControls
+                    currentPage={reportsPagination.currentPage}
+                    totalPages={reportsPagination.totalPages}
+                    totalItems={reportsPagination.totalItems}
+                    startIndex={reportsPagination.startIndex}
+                    endIndex={reportsPagination.endIndex}
+                    itemLabel="reports"
+                    onPrev={reportsPagination.goToPrevPage}
+                    onNext={reportsPagination.goToNextPage}
+                  />
                 </div>
               )
             ) : null}

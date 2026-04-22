@@ -26,7 +26,19 @@ const iconNameByStatLabel: Record<string, string> = {
 const insightIconNameByTitle: Record<string, string> = {
   "Medication Adherence": "Pill",
   "Sleep Monitoring": "MoonStar",
-  "Blood Pressure Tracking": "Droplets",
+  "Sleep Tracking": "MoonStar",
+  "Blood Pressure Tracking": "Activity",
+  "Blood Pressure": "Activity",
+  "Daily Movement": "Footprints",
+  "Resting Heart Rate": "Heart",
+  "Body Mass Index": "Scale",
+  "Chronic Care": "HeartPulse",
+  "Active Medications": "Pill",
+  "Hydration": "Droplets",
+  "Lifestyle": "Activity",
+  "Smoking": "AlertTriangle",
+  "Vaccinations": "Syringe",
+  "Next Appointment": "CalendarClock",
 }
 
 const insightTitleKeyByTitle: Record<string, string> = {
@@ -186,7 +198,7 @@ export async function PatientHomeDashboard() {
   }))
 
   const insights = (dashboard?.ai_insights ?? []).map((item) => ({
-    iconName: insightIconNameByTitle[item.title] ?? "Pill",
+    iconName: item.icon || insightIconNameByTitle[item.title] || "Activity",
     title: translateInsightTitle(item.title, t),
     description: item.description,
     tone: item.tone,
@@ -218,9 +230,15 @@ export async function PatientHomeDashboard() {
       ? t("patientHome.healthScoreCard.nutritionLevels.balanced", "Balanced")
       : t("patientHome.healthScoreCard.nutritionLevels.needsReview", "Needs Review")
   const defaultUserName = t("patientHome.defaultUserName", "Patient")
-  const scoreImprovementLabel = t("patientHome.healthScoreCard.improvementMessage", "Your health score has improved by {delta} since last month. Keep up the good work.", {
-    delta: "+5%",
-  })
+  const adherenceDelta = medicationTrend.delta_percent
+  const adherenceDeltaLabel = `${adherenceDelta >= 0 ? "+" : ""}${adherenceDelta.toFixed(1)}%`
+  const scoreImprovementLabel =
+    dashboard?.score_breakdown?.summary ||
+    t(
+      "patientHome.healthScoreCard.improvementMessage",
+      "Adherence trend {delta} over the last week.",
+      { delta: adherenceDeltaLabel },
+    )
   const deviceSyncTitle = dashboard?.device_connection_status.title
     ? t("patientHome.deviceSync.title", dashboard.device_connection_status.title)
     : t("patientHome.deviceSync.title", "Health Device Sync")
@@ -256,7 +274,7 @@ export async function PatientHomeDashboard() {
       </section>
 
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <Link href="/patient/analytics" className="xl:col-span-7 block transition-transform hover:scale-[1.01]">
+        <div className="xl:col-span-7">
           <HealthScoreCard
             score={healthScore}
             maxScore={100}
@@ -268,8 +286,12 @@ export async function PatientHomeDashboard() {
             activityLabel={activityLabel}
             nutritionLabel={nutritionLabel}
             statusLabel={scoreStatus}
+            breakdown={dashboard?.score_breakdown ?? null}
+            bmi={dashboard?.bmi ?? null}
+            chronicConditions={dashboard?.chronic_conditions ?? []}
+            activeMedicationsCount={dashboard?.active_medications_count ?? 0}
           />
-        </Link>
+        </div>
 
         <Link href="/patient/analytics" className="xl:col-span-5 block transition-transform hover:scale-[1.01]">
           <MedicationTrendChart
@@ -326,7 +348,7 @@ export async function PatientHomeDashboard() {
               {t("patientHome.sections.fullAnalytics", "Full Analytics")}
             </Link>
           </div>
-          <div className="space-y-4">
+          <div className="scrollbar-themed max-h-130 space-y-4 overflow-y-auto pr-1">
             {(insights.length > 0 ? insights : [
               {
                 iconName: "Pill",

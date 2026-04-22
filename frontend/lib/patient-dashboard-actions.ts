@@ -15,9 +15,36 @@ async function getAuthHeaders() {
   };
 }
 
+export type PatientDashboardScoreFactor = {
+  label: string;
+  points: number;
+  max_points: number;
+  status: "good" | "warning" | "missing";
+  detail: string;
+};
+
+export type PatientDashboardScoreBreakdown = {
+  total: number;
+  max_total: number;
+  factors: PatientDashboardScoreFactor[];
+  summary: string;
+};
+
+export type PatientDashboardBMI = {
+  value: number | null;
+  category: string | null;
+  height_cm: number | null;
+  weight_kg: number | null;
+};
+
 export type PatientDashboardPayload = {
   user_name: string;
   health_score: number;
+  score_breakdown?: PatientDashboardScoreBreakdown | null;
+  bmi?: PatientDashboardBMI | null;
+  chronic_conditions_count?: number;
+  chronic_conditions?: string[];
+  active_medications_count?: number;
   upcoming_appointments: Array<{
     id: string;
     doctor_name: string;
@@ -41,7 +68,8 @@ export type PatientDashboardPayload = {
   ai_insights: Array<{
     title: string;
     description: string;
-    tone: "success" | "warning" | "info";
+    tone: "success" | "warning" | "info" | "danger";
+    icon?: string | null;
   }>;
   device_connection_status: {
     title: string;

@@ -145,7 +145,7 @@ _CATEGORY_TO_RESPONSE_KEYS: dict[str, frozenset[str]] = {
         "first_name", "last_name", "email", "phone",
         "age", "date_of_birth", "gender", "marital_status", "profile_photo_url",
         "address", "city", "district", "postal_code", "country", "occupation",
-        "blood_group",
+        "blood_group", "height", "weight",
     }),
     "can_view_conditions": frozenset({
         "chronic_conditions",

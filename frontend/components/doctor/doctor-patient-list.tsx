@@ -4,8 +4,10 @@ import React from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import { User, Calendar, Clock, Phone, Mail, CheckCircle2 } from "lucide-react";
 import { getDoctorPatients } from "@/lib/appointment-actions";
+import { usePagination } from "@/lib/use-pagination";
 
 interface Patient {
   patient_id: string;
@@ -22,6 +24,7 @@ interface Patient {
 export function DoctorPatientList() {
   const [patients, setPatients] = React.useState<Patient[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const patientPagination = usePagination(patients, 8);
 
   React.useEffect(() => {
     loadPatients();
@@ -104,8 +107,8 @@ export function DoctorPatientList() {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-4">
-        <div className="space-y-3 max-h-[500px] overflow-y-auto">
-          {patients.map((patient) => (
+        <div className="scrollbar-themed space-y-3 max-h-[500px] overflow-y-auto pr-1">
+          {patientPagination.pageItems.map((patient) => (
             <div
               key={patient.patient_id}
               className="flex items-start gap-4 p-4 bg-accent/30 hover:bg-accent/50 rounded-xl transition-colors"
@@ -171,6 +174,17 @@ export function DoctorPatientList() {
             </div>
           ))}
         </div>
+        <PaginationControls
+          currentPage={patientPagination.currentPage}
+          totalPages={patientPagination.totalPages}
+          totalItems={patientPagination.totalItems}
+          startIndex={patientPagination.startIndex}
+          endIndex={patientPagination.endIndex}
+          itemLabel="patients"
+          onPrev={patientPagination.goToPrevPage}
+          onNext={patientPagination.goToNextPage}
+          className="mt-4"
+        />
       </CardContent>
     </Card>
   );

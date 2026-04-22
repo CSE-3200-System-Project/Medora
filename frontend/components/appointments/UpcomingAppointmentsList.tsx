@@ -5,8 +5,10 @@ import { Brain, CalendarClock, HeartPulse, RefreshCw, Stethoscope } from "lucide
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 import type { PatientAppointment } from "@/components/appointments/types";
 import { useAppI18n, useT } from "@/i18n/client";
+import { usePagination } from "@/lib/use-pagination";
 
 interface UpcomingAppointmentsListProps {
   appointments: PatientAppointment[];
@@ -233,6 +235,7 @@ export function UpcomingAppointmentsList({
   }), [tCommon]);
   const holdMessages = React.useMemo(() => ({ ...defaultHoldMessages, ...(messages || {}) }), [defaultHoldMessages, messages]);
   const [nowMs, setNowMs] = React.useState(() => Date.now());
+  const pagination = usePagination(appointments, 5);
 
   React.useEffect(() => {
     const timer = window.setInterval(() => {
@@ -259,13 +262,13 @@ export function UpcomingAppointmentsList({
         </Button>
       </div>
 
-      <div className="mt-4 space-y-4">
+      <div className="scrollbar-themed mt-4 max-h-140 space-y-4 overflow-y-auto pr-1">
         {appointments.length === 0 ? (
           <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
             {tCommon("patientAppointments.upcoming.empty")}
           </div>
         ) : (
-          appointments.map((appointment) => {
+          pagination.pageItems.map((appointment) => {
             const softHoldState = deriveSoftHoldState(appointment, nowMs);
             const backendHoldExpired = isBackendHoldExpired(appointment);
             const showExpiredState = softHoldState.isExpired || backendHoldExpired;
@@ -407,6 +410,16 @@ export function UpcomingAppointmentsList({
           })
         )}
       </div>
+      <PaginationControls
+        currentPage={pagination.currentPage}
+        totalPages={pagination.totalPages}
+        totalItems={pagination.totalItems}
+        startIndex={pagination.startIndex}
+        endIndex={pagination.endIndex}
+        itemLabel="appointments"
+        onPrev={pagination.goToPrevPage}
+        onNext={pagination.goToNextPage}
+      />
     </Card>
   );
 }

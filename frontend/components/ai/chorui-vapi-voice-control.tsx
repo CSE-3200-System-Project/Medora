@@ -17,7 +17,6 @@ import {
   type VapiAudioResources,
 } from "@/lib/vapi-audio";
 import {
-  buildMedoraAssistantOverrides,
   extractVapiToolCalls,
   MEDORA_CLIENT_ACTION_TOOLS,
   resolveVapiNavigation,
@@ -356,17 +355,8 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     const sessionToken = readCookieValue("session_token");
     const currentRoute = pathnameRef.current || "/";
 
-    const overrides = buildMedoraAssistantOverrides({
-      roleContext,
-      patientId: patientId || "",
-      sessionToken,
-      currentRoute,
-      locale: locale || "en",
-    });
-
     try {
       let vapiClient = await createVapiClient();
-      const fullOptions = withVapiAudioFallback(overrides) as Parameters<typeof vapiClient.start>[1];
       const safeFallbackOptions = withVapiAudioFallback({
         metadata: {
           source: "medora-chorui-voice",
@@ -388,7 +378,6 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
       const attemptErrors: string[] = [];
       let startResult: unknown = null;
       const startAttempts: Array<Parameters<typeof vapiClient.start>[1] | undefined> = [
-        fullOptions,
         safeFallbackOptions,
         undefined,
       ];

@@ -96,6 +96,77 @@ export function PatientFindMedicineClient() {
     }
   };
 
+  const handleApproveScannedMedications = useCallback(
+    async (
+      scanned: Array<{
+        name: string;
+        dosage: string;
+        frequency: string;
+        quantity: string;
+      }>
+    ) => {
+      const normalizedScanned = scanned
+        .map((item) => ({
+          name: item.name.trim(),
+          dosage: item.dosage.trim(),
+          frequency: item.frequency.trim(),
+          quantity: item.quantity.trim(),
+        }))
+        .filter((item) => item.name);
+
+      if (normalizedScanned.length === 0) {
+        throw new Error("No valid medicines to save.");
+      }
+
+      const onboardingData = await getPatientOnboardingData();
+      const existingMeds = onboardingData?.medications || [];
+      const existingKeys = new Set(
+        existingMeds
+          .map((item) => {
+            const name = String(item.display_name || item.name || "").trim().toLowerCase();
+            const dosage = String(item.dosage || item.strength || "").trim().toLowerCase();
+            return name ? `${name}|${dosage}` : null;
+          })
+          .filter((item): item is string => Boolean(item)),
+      );
+
+      const additions = normalizedScanned
+        .filter((item) => {
+          const key = `${item.name.toLowerCase()}|${item.dosage.toLowerCase()}`;
+          return !existingKeys.has(key);
+        })
+        .map((item) =>
+          toBackendPatientMedication({
+            id: crypto.randomUUID(),
+            drug_id: "",
+            display_name: item.name,
+            generic_name: item.name,
+            strength: item.dosage || "",
+            dosage_form: "",
+            dosage: item.dosage || "",
+            frequency: item.frequency || "1+0+1+0",
+            duration: item.quantity || "7 days",
+            status: "current",
+            meal_instruction: "after_meal",
+            notes: "Added from prescription scan",
+          }),
+        );
+
+      if (additions.length === 0) {
+        throw new Error("These scanned medicines are already in the patient profile.");
+      }
+
+      await updatePatientOnboarding({
+        taking_meds: "yes",
+        medications: [...existingMeds, ...additions],
+      });
+
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    },
+    [],
+  );
+
   return (
     <AppBackground className="animate-page-enter">
       <Navbar />
@@ -129,7 +200,10 @@ export function PatientFindMedicineClient() {
         </Alert>
 
         <div className="mb-6">
-          <PrescriptionUploadDemo />
+          <PrescriptionUploadDemo
+            enableProfileSave
+            onApproveMedications={handleApproveScannedMedications}
+          />
         </div>
 
         <MedicineSearch

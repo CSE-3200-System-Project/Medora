@@ -134,6 +134,11 @@
      Touch Targets (Mobile-First)
      ====================================== */
   --touch-target-min: 44px;
+
+  /* Scrollbars */
+  --scrollbar-track: color-mix(in oklab, var(--surface) 72%, transparent);
+  --scrollbar-thumb: color-mix(in oklab, var(--primary) 44%, var(--border) 56%);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--primary) 62%, var(--border) 38%);
 }
 
 /* ======================================
@@ -211,6 +216,67 @@ body {
 
 html {
   scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: content-box;
+}
+
+.scrollbar-themed {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.scrollbar-themed::-webkit-scrollbar {
+  width: 0.55rem;
+  height: 0.55rem;
+}
+
+.scrollbar-themed::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+.scrollbar-themed::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-themed::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: content-box;
 }
 
 /* ======================================
@@ -410,6 +476,11 @@ hr {
   --sidebar-accent-foreground: #dcedff;
   --sidebar-border: #2b648c;
   --sidebar-ring: #67b8ff;
+
+  /* Scrollbars */
+  --scrollbar-track: color-mix(in oklab, var(--surface) 68%, transparent);
+  --scrollbar-thumb: color-mix(in oklab, var(--primary) 54%, var(--border) 46%);
+  --scrollbar-thumb-hover: color-mix(in oklab, var(--primary) 72%, var(--border) 28%);
 
   /* Calendar dark overrides */
   --calendar-border: #2d658c;
