@@ -38,6 +38,7 @@ const ChoruiLauncher = dynamic(
 );
 import { resolveAvatarUrl } from "@/lib/avatar";
 import { ButtonLoader } from "@/components/ui/medora-loader";
+import { useT } from "@/i18n/client";
 
 import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
@@ -50,27 +51,6 @@ interface UserData {
   role: string;
   profile_photo_url?: string;
 }
-
-const NAV_LABELS: Record<string, string> = {
-  "logIn": "Log in",
-  "signUp": "Sign up",
-  "profile": "Profile",
-  "settings": "Settings",
-  "logOut": "Log out",
-  "loggingOut": "Logging out...",
-  "toggleMenu": "Toggle menu",
-  "doctorMenu.appointments": "Appointments",
-  "doctorMenu.patients": "Patients",
-  "doctorMenu.analytics": "Analytics",
-  "doctorMenu.findMedicine": "Find Medicine",
-  "patientMenu.findDoctor": "Find Doctor",
-  "patientMenu.analytics": "Analytics",
-  "patientMenu.appointments": "Appointments",
-  "patientMenu.findMedicine": "Find Medicine",
-  "patientMenu.medicalHistory": "Medical History",
-  "patientMenu.labReports": "Lab Reports",
-  "patientMenu.privacyDataSharing": "Privacy & Data Sharing",
-};
 
 const USER_CACHE_KEY = "medora:user-cache:v1";
 const USER_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -106,7 +86,7 @@ function inferRoleFromPath(pathname: string) {
 }
 
 export function Navbar() {
-  const tNav = React.useCallback((key: string) => NAV_LABELS[key] ?? key, []);
+  const tNav = useT("nav");
   const pathname = usePathname();
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
@@ -214,7 +194,7 @@ export function Navbar() {
   const toggleTheme = () => {
     setTheme(isDarkMode ? "light" : "dark");
   };
-  const themeToggleLabel = isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode";
+  const themeToggleLabel = isDarkMode ? tNav("switchToLightMode") : tNav("switchToDarkMode");
 
   const resolvedAvatarUrl = user
     ? resolveAvatarUrl(user.profile_photo_url, `${user.email || ""}${user.first_name || ""}${user.last_name || ""}`)

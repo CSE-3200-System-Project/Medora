@@ -13,6 +13,10 @@ export interface Surgery {
   year: string;
   hospital?: string;
   notes?: string;
+  status?: "pending" | "completed" | "skipped";
+  prescribing_doctor?: string;
+  recommended_date?: string;
+  urgency?: string;
 }
 
 interface SurgeryManagerProps {
@@ -42,6 +46,7 @@ export function SurgeryManager({
     year: "",
     hospital: "",
     notes: "",
+    status: "pending",
   });
 
   const handleAdd = () => {
@@ -84,6 +89,7 @@ export function SurgeryManager({
       year: "",
       hospital: "",
       notes: "",
+      status: "pending",
     });
     setEditingIndex(null);
   };
