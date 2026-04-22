@@ -1,12 +1,14 @@
 "use client";
 
-import { memo } from "react";
-import { Cell, Pie, PieChart } from "recharts";
+import dynamic from "next/dynamic";
+import { memo, useMemo } from "react";
+import type { EChartsOption } from "echarts";
 
-import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import type { DemographicsData } from "@/components/doctor/analytics/types";
 import { glassCardClass } from "@/components/doctor/analytics/shared";
 import { cn } from "@/lib/utils";
+
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 type DemographicsSectionProps = {
   data: DemographicsData;
@@ -14,6 +16,30 @@ type DemographicsSectionProps = {
 };
 
 export const DemographicsSection = memo(function DemographicsSection({ data, isLoading = false }: DemographicsSectionProps) {
+  const pieOption = useMemo<EChartsOption>(
+    () => ({
+      series: [
+        {
+          type: "pie",
+          radius: ["60%", "90%"],
+          center: ["50%", "50%"],
+          padAngle: 2,
+          avoidLabelOverlap: false,
+          label: { show: false },
+          labelLine: { show: false },
+          itemStyle: { borderWidth: 0 },
+          data: data.segments.map((segment) => ({
+            value: segment.value,
+            name: segment.label,
+            itemStyle: { color: segment.color },
+          })),
+          animationDuration: 600,
+        },
+      ],
+    }),
+    [data.segments],
+  );
+
   if (isLoading) {
     return <div className={cn(glassCardClass, "h-80 animate-pulse p-4 sm:p-6")} />;
   }
@@ -26,27 +52,7 @@ export const DemographicsSection = memo(function DemographicsSection({ data, isL
         {/* Age distribution — chart side */}
         <div className="flex shrink-0 flex-col items-center gap-3">
           <div className="relative h-40 w-40">
-            <SafeChartContainer
-              className="h-full w-full"
-              minHeight={160}
-              render={({ width, height }) => (
-                <PieChart width={width} height={height}>
-                  <Pie
-                    data={data.segments}
-                    dataKey="value"
-                    nameKey="label"
-                    innerRadius={48}
-                    outerRadius={72}
-                    stroke="none"
-                    paddingAngle={2}
-                  >
-                    {data.segments.map((segment) => (
-                      <Cell key={segment.label} fill={segment.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              )}
-            />
+            <ReactECharts option={pieOption} style={{ height: "100%", width: "100%" }} />
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
               <span className="text-2xl font-bold tabular-nums text-foreground">{data.highlightedValue}%</span>
               <span className="text-xs font-medium text-muted-foreground">{data.highlightedLabel}</span>

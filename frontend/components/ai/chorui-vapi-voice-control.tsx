@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Vapi from "@vapi-ai/web";
+import type Vapi from "@vapi-ai/web";
 import { usePathname, useRouter } from "next/navigation";
 import { Loader2, Mic, MicOff, Navigation, Volume2 } from "lucide-react";
 
@@ -306,15 +306,17 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     const dailyCallObject =
       resources && resources.normalizedTrack ? { audioSource: resources.normalizedTrack } : undefined;
 
-    const instance = new Vapi(publicKey, undefined, undefined, dailyCallObject);
+    const { default: VapiCtor } = await import("@vapi-ai/web");
+    const instance = new VapiCtor(publicKey, undefined, undefined, dailyCallObject);
     vapiRef.current = instance;
     attachVapiListeners(instance);
     installVapiKrispGuard(instance);
     return instance;
   }, [attachVapiListeners, publicKey]);
 
-  const createPlainVapiClient = React.useCallback((): VapiClient => {
-    const instance = new Vapi(publicKey);
+  const createPlainVapiClient = React.useCallback(async (): Promise<VapiClient> => {
+    const { default: VapiCtor } = await import("@vapi-ai/web");
+    const instance = new VapiCtor(publicKey);
     vapiRef.current = instance;
     attachVapiListeners(instance);
     installVapiKrispGuard(instance);
@@ -401,7 +403,7 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
 
       if (startResult === null) {
         disposeVapiClient(false);
-        vapiClient = createPlainVapiClient();
+        vapiClient = await createPlainVapiClient();
 
         try {
           startResult = await vapiClient.start(assistantId);

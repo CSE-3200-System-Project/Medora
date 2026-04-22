@@ -36,52 +36,58 @@ interface PatientAppointmentCalendarProps {
   onAppointmentClick?: (appointment: CalendarAppointment) => void;
 }
 
-export function PatientAppointmentCalendar({ 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+function PatientAppointmentCalendarInner({
   appointments,
-  onAppointmentClick
+  onAppointmentClick,
 }: PatientAppointmentCalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
   const [selectedAppointment, setSelectedAppointment] = React.useState<CalendarAppointment | null>(null);
 
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  // Pre-bucket appointments by local-date key; avoids O(n) filter per day.
+  const appointmentsByDate = React.useMemo(() => {
+    const map = new Map<string, CalendarAppointment[]>();
+    for (const appt of appointments) {
+      const key = localDateKey(appt.date ?? appt.appointment_date);
+      const bucket = map.get(key);
+      if (bucket) {
+        bucket.push(appt);
+      } else {
+        map.set(key, [appt]);
+      }
+    }
+    return map;
+  }, [appointments]);
 
-  const getDaysInMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+  const { daysInMonth, startingDayOfWeek } = React.useMemo(() => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
+    return { daysInMonth: lastDay.getDate(), startingDayOfWeek: firstDay.getDay() };
+  }, [currentMonth]);
 
-    return { daysInMonth, startingDayOfWeek };
-  };
+  const handlePrevMonth = React.useCallback(() => {
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1));
+  }, []);
 
-  const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
-
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-  };
+  const handleNextMonth = React.useCallback(() => {
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
+  }, []);
 
   const getDateString = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     return localDateKey(date);
   };
 
-  const getAppointmentsForDate = (day: number) => {
-    const dateStr = getDateString(day);
-    return appointments.filter(a => {
-      const apptDate = localDateKey(a.date ?? a.appointment_date);
-      return apptDate === dateStr;
-    });
+  const getAppointmentsForDate = (day: number): CalendarAppointment[] => {
+    return appointmentsByDate.get(getDateString(day)) ?? [];
   };
 
   const isToday = (day: number) => {
@@ -241,7 +247,7 @@ export function PatientAppointmentCalendar({
               </Button>
 
               <span className="text-xs md:text-sm font-semibold min-w-0 text-center truncate px-1 md:px-2">
-                {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                {MONTH_NAMES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </span>
 
               <Button
@@ -428,4 +434,6 @@ export function PatientAppointmentCalendar({
     </>
   );
 }
+
+export const PatientAppointmentCalendar = React.memo(PatientAppointmentCalendarInner);
 

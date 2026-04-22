@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -177,7 +177,7 @@ export function AdminAuditLogClient({
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
             <ClipboardList className="h-6 w-6" />
@@ -305,11 +305,11 @@ export function AdminAuditLogClient({
                               </span>
                             </div>
                           ) : (
-                            <span className="text-muted-foreground">—</span>
+                            <span className="text-muted-foreground">â€”</span>
                           )}
                         </TableCell>
                         <TableCell className="text-muted-foreground max-w-[200px] truncate">
-                          {log.notes || "—"}
+                          {log.notes || "â€”"}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -353,3 +353,4 @@ export function AdminAuditLogClient({
     </>
   );
 }
+

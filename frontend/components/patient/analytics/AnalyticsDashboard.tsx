@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import dynamic from "next/dynamic";
@@ -456,7 +456,7 @@ export default function AnalyticsDashboard({
   return (
     <AppBackground>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-4 pb-20 pt-(--nav-content-offset) sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-20 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="space-y-5">
           {/* Header */}
           <section className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
@@ -927,3 +927,4 @@ function getHeatLevel(day: DailyDoseSummary): HeatmapDay["level"] {
   if (adherence >= 0.5) return "partial";
   return "missed";
 }
+

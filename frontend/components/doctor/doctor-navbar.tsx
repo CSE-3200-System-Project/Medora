@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -57,7 +57,7 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
   return (
     <>
       <nav className="sticky top-0 z-50 w-full overflow-x-hidden bg-linear-to-r from-primary via-primary-muted to-primary shadow-lg border-b border-primary-light/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto container-padding">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <Link href="/doctor/home" className="flex items-center gap-2 touch-target">
@@ -213,4 +213,5 @@ export function DoctorNavbar({ doctor }: DoctorNavbarProps) {
     </>
   );
 }
+
 

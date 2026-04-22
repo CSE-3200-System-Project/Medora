@@ -8,7 +8,7 @@ import type { EChartsOption } from "echarts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 interface PrescriptionHistoryChartProps {
   medications?: unknown[];
@@ -116,7 +116,7 @@ export const PrescriptionHistoryChart = React.memo(function PrescriptionHistoryC
             <ReactECharts
               option={option}
               style={{ height: "100%", width: "100%" }}
-              opts={{ renderer: "svg" }}
+             
             />
           </div>
         ) : (

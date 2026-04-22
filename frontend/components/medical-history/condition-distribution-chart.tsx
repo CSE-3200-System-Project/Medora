@@ -8,7 +8,7 @@ import type { EChartsOption } from "echarts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 interface ConditionDistributionChartProps {
   patientData?: Record<string, unknown>;
@@ -119,7 +119,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
               <ReactECharts
                 option={option}
                 style={{ height: "100%", width: "100%" }}
-                opts={{ renderer: "svg" }}
+               
               />
             </div>
             <ul className="mt-4 space-y-2">

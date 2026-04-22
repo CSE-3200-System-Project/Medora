@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
@@ -280,7 +280,7 @@ export default function PatientPrivacyPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
+        <main className="container mx-auto max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)]">
           <PageLoadingShell label="Loading privacy settings..." cardCount={4} />
         </main>
       </AppBackground>
@@ -306,7 +306,7 @@ export default function PatientPrivacyPage() {
         variant={confirmDialog.type === 'revoke' ? 'danger' : 'info'}
       />
 
-      <div className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
+      <div className="container mx-auto max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)]">
         {/* Header */}
         <div className="mb-6">
 
@@ -362,7 +362,7 @@ export default function PatientPrivacyPage() {
           </Button>
         </div>
 
-        {/* ─── DATA SHARING TAB ─── */}
+        {/* â”€â”€â”€ DATA SHARING TAB â”€â”€â”€ */}
         {activeTab === 'sharing' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -596,7 +596,7 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* ─── DOCTOR ACCESS TAB ─── */}
+        {/* â”€â”€â”€ DOCTOR ACCESS TAB â”€â”€â”€ */}
         {activeTab === 'doctors' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -700,7 +700,7 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* ─── HISTORY TAB ─── */}
+        {/* â”€â”€â”€ HISTORY TAB â”€â”€â”€ */}
         {activeTab === 'history' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -766,3 +766,4 @@ export default function PatientPrivacyPage() {
     </AppBackground>
   )
 }
+

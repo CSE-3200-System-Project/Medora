@@ -6,11 +6,10 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import doctorImg from "@/assets/images/doctors.jpg";
-import patientImg from "@/assets/images/patient.jpg";
+import { SHARED_HERO_IMAGES } from "./hero-images";
 
 type Slide = {
-  id: "patient" | "doctor";
+  id: "patient" | "doctor" | "context" | "care";
   badge: string;
   title: string;
   accent: string;
@@ -19,9 +18,11 @@ type Slide = {
   secondaryLabel: string;
   primaryHref: string;
   secondaryHref: string;
-  image: typeof patientImg;
+  image: (typeof SHARED_HERO_IMAGES)[number]["src"];
   imageAlt: string;
 };
+
+const [patientImage, heroDoctorImage, doctorImage, heroPatientImage] = SHARED_HERO_IMAGES;
 
 const HERO_SLIDES: Slide[] = [
   {
@@ -35,8 +36,8 @@ const HERO_SLIDES: Slide[] = [
     secondaryLabel: "Explore how it works",
     primaryHref: "/selection",
     secondaryHref: "#how-it-works",
-    image: patientImg,
-    imageAlt: "Patient consultation",
+    image: patientImage.src,
+    imageAlt: patientImage.alt,
   },
   {
     id: "doctor",
@@ -49,41 +50,78 @@ const HERO_SLIDES: Slide[] = [
     secondaryLabel: "See doctor features",
     primaryHref: "/selection",
     secondaryHref: "#for-doctors",
-    image: doctorImg,
-    imageAlt: "Doctor examining patient",
+    image: heroDoctorImage.src,
+    imageAlt: heroDoctorImage.alt,
+  },
+  {
+    id: "context",
+    badge: "Shared Context",
+    title: "One timeline, one source of truth",
+    accent: "for every consultation",
+    description:
+      "Medication, tests, and history stay connected — so every visit builds on the last instead of starting over.",
+    primaryLabel: "Get started",
+    secondaryLabel: "How it works",
+    primaryHref: "/selection",
+    secondaryHref: "#how-it-works",
+    image: doctorImage.src,
+    imageAlt: doctorImage.alt,
+  },
+  {
+    id: "care",
+    badge: "Better Care",
+    title: "Healthcare that remembers you",
+    accent: "reliable, private, continuous",
+    description:
+      "Private by design, role-aware, and ready for long-term care — reminders and summaries that actually help.",
+    primaryLabel: "Join Medora",
+    secondaryLabel: "Why Medora",
+    primaryHref: "/selection",
+    secondaryHref: "#about",
+    image: heroPatientImage.src,
+    imageAlt: heroPatientImage.alt,
   },
 ];
 
+const AUTO_ADVANCE_MS = 6000;
+
 export function HeroCarousel() {
   const [slideIndex, setSlideIndex] = useState(0);
-  const [showDesktopMedia, setShowDesktopMedia] = useState(false);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
+  const [isDocumentHidden, setIsDocumentHidden] = useState(false);
+  const [autoPlayAllowed, setAutoPlayAllowed] = useState(true);
   const touchStartX = useRef<number | null>(null);
 
   const activeSlide = useMemo(() => HERO_SLIDES[slideIndex], [slideIndex]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
+    if (typeof window === "undefined") return;
 
-    const desktopQuery = window.matchMedia("(min-width: 1024px)");
-    const syncDesktopState = () => {
-      setShowDesktopMedia(desktopQuery.matches);
-    };
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    syncDesktopState();
+    const syncMotion = () => setAutoPlayAllowed(!motionQuery.matches);
 
-    if (typeof desktopQuery.addEventListener === "function") {
-      desktopQuery.addEventListener("change", syncDesktopState);
-      return () => {
-        desktopQuery.removeEventListener("change", syncDesktopState);
-      };
-    }
+    syncMotion();
 
-    desktopQuery.addListener(syncDesktopState);
+    motionQuery.addEventListener?.("change", syncMotion);
+
     return () => {
-      desktopQuery.removeListener(syncDesktopState);
+      motionQuery.removeEventListener?.("change", syncMotion);
     };
+  }, []);
+
+  useEffect(() => {
+    if (!autoPlayAllowed || isHoverPaused || isDocumentHidden || typeof window === "undefined") return;
+    const id = window.setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, AUTO_ADVANCE_MS);
+    return () => window.clearInterval(id);
+  }, [autoPlayAllowed, isHoverPaused, isDocumentHidden]);
+
+  useEffect(() => {
+    const handleVisibility = () => setIsDocumentHidden(document.hidden);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   const previousSlide = useCallback(() => {
@@ -95,65 +133,75 @@ export function HeroCarousel() {
   }, []);
 
   const handlePointerDown = (event: PointerEvent<HTMLElement>) => {
-    if (event.pointerType === "mouse") {
-      return;
-    }
+    if (event.pointerType === "mouse") return;
     touchStartX.current = event.clientX;
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLElement>) => {
-    if (event.pointerType === "mouse") {
-      return;
-    }
-    if (touchStartX.current === null) {
-      return;
-    }
+    if (event.pointerType === "mouse") return;
+    if (touchStartX.current === null) return;
 
     const deltaX = event.clientX - touchStartX.current;
     const swipeThreshold = 44;
 
-    if (deltaX > swipeThreshold) {
-      previousSlide();
-    }
-
-    if (deltaX < -swipeThreshold) {
-      nextSlide();
-    }
+    if (deltaX > swipeThreshold) previousSlide();
+    if (deltaX < -swipeThreshold) nextSlide();
 
     touchStartX.current = null;
   };
 
   return (
     <section
-      className="rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong overflow-hidden min-h-[80dvh] lg:min-h-0"
+      className="overflow-hidden rounded-3xl border border-border/70 bg-card/95 shadow-surface-strong min-h-[31rem] lg:h-[34rem] lg:min-h-0"
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={() => {
         touchStartX.current = null;
       }}
+      onMouseEnter={() => setIsHoverPaused(true)}
+      onMouseLeave={() => setIsHoverPaused(false)}
       aria-roledescription="carousel"
       aria-label="Medora platform highlights"
     >
-      <div className="grid lg:grid-cols-12">
+      <div className="grid lg:h-full lg:grid-cols-12">
         <div
-          className={`${showDesktopMedia ? "lg:col-span-6" : "lg:col-span-12"} p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center bg-linear-to-b from-background/85 via-card/70 to-card/95`}
+          className="relative flex min-h-[31rem] flex-col justify-center bg-linear-to-b from-background/85 via-card/70 to-card/95 p-6 sm:p-8 md:p-10 lg:col-span-6 lg:h-full lg:min-h-0 lg:p-12"
         >
+          <div className="pointer-events-none absolute inset-0 -z-10 lg:hidden">
+            {HERO_SLIDES.map((slide, index) => (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+                  index === slideIndex ? "opacity-30" : "opacity-0"
+                }`}
+                aria-hidden
+              >
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  placeholder="blur"
+                />
+              </div>
+            ))}
+            <div className="absolute inset-0 bg-linear-to-b from-background/60 via-background/85 to-background" />
+          </div>
+
           <span className="mb-4 inline-flex w-fit rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
             {activeSlide.badge}
           </span>
 
-          <h1 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight leading-tight">
+          <h1 className="h-[6.75rem] overflow-hidden text-3xl font-bold leading-tight tracking-tight md:h-[8.5rem] md:text-4xl xl:text-5xl">
             {activeSlide.title}
             <span className="mt-2 block text-primary">{activeSlide.accent}</span>
           </h1>
 
-          <p className="mt-4 text-sm text-muted-foreground leading-relaxed sm:hidden">
-            {activeSlide.id === "patient"
-              ? "Keep your medical history organized and ready for each visit."
-              : "Review patient context quickly before every consultation."}
-          </p>
-
-          <p className="mt-5 hidden sm:block max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
+          <p className="mt-5 h-[4.5rem] max-w-xl overflow-hidden text-base leading-relaxed text-muted-foreground md:h-[5.5rem] md:text-lg">
             {activeSlide.description}
           </p>
 
@@ -189,8 +237,8 @@ export function HeroCarousel() {
                   type="button"
                   key={slide.id}
                   onClick={() => setSlideIndex(index)}
-                  className={`h-2 rounded-full transition-all ${
-                    index === slideIndex ? "w-8 bg-primary" : "w-2 bg-primary/35"
+                  className={`h-2.5 w-2.5 rounded-full transition-colors duration-300 ${
+                    index === slideIndex ? "bg-primary" : "bg-primary/35"
                   }`}
                   aria-label={`Show ${slide.badge}`}
                   aria-current={index === slideIndex}
@@ -200,22 +248,31 @@ export function HeroCarousel() {
           </div>
         </div>
 
-        {showDesktopMedia ? (
-          <div className="lg:col-span-6 relative min-h-140 border-l border-border/70">
-            <Image
-              src={activeSlide.image}
-              alt={activeSlide.imageAlt}
-              fill
-              sizes="50vw"
-              className="object-cover"
-              priority={slideIndex === 0}
-              loading={slideIndex === 0 ? "eager" : "lazy"}
-              fetchPriority={slideIndex === 0 ? "high" : "auto"}
-              decoding="async"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/15 to-transparent" />
-          </div>
-        ) : null}
+        <div className="relative hidden border-l border-border/70 lg:col-span-6 lg:block lg:h-full">
+          {HERO_SLIDES.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+                index === slideIndex ? "opacity-100" : "opacity-0"
+              }`}
+              aria-hidden={index !== slideIndex}
+            >
+              <Image
+                src={slide.image}
+                alt={slide.imageAlt}
+                fill
+                sizes="50vw"
+                className="object-cover"
+                priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+                decoding="async"
+                placeholder="blur"
+              />
+            </div>
+          ))}
+          <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/15 to-transparent" />
+        </div>
       </div>
     </section>
   );

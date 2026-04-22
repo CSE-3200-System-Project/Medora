@@ -106,6 +106,30 @@ async def _ensure_scheduling_schema_compatibility() -> None:
         logger.warning("Scheduling schema compatibility check failed: %s", exc)
 
 
+async def _ensure_health_data_consent_schema_compatibility() -> None:
+    """Repair health data consent schema drift in environments that missed migrations."""
+    try:
+        async with AsyncSessionLocal() as db:
+            consent_table_exists = (
+                await db.execute(
+                    text("SELECT to_regclass('public.health_data_consents')")
+                )
+            ).scalar_one_or_none() is not None
+
+            if not consent_table_exists:
+                return
+
+            await db.execute(
+                text(
+                    "ALTER TABLE IF EXISTS health_data_consents "
+                    "ADD COLUMN IF NOT EXISTS share_medical_tests BOOLEAN NOT NULL DEFAULT FALSE"
+                )
+            )
+            await db.commit()
+    except Exception as exc:
+        logger.warning("Health data consent schema compatibility check failed: %s", exc)
+
+
 async def _run_hold_expiry_loop(stop_event: asyncio.Event) -> None:
     """Periodically expire stale pending soft-holds."""
     interval_seconds = int(os.getenv("APPOINTMENT_HOLD_SWEEP_INTERVAL_SECONDS", "60"))
@@ -153,6 +177,7 @@ async def lifespan(app: FastAPI):
 
     # Startup: self-heal known scheduling drift (kept idempotent)
     await _ensure_scheduling_schema_compatibility()
+    await _ensure_health_data_consent_schema_compatibility()
 
     # Startup: begin reminder dispatch loop
     try:

@@ -1,12 +1,14 @@
 "use client";
 
-import { memo } from "react";
-import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
+import dynamic from "next/dynamic";
+import { memo, useMemo } from "react";
+import type { EChartsOption } from "echarts";
 
-import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import type { RevenueData } from "@/components/doctor/analytics/types";
 import { glassCardClass } from "@/components/doctor/analytics/shared";
 import { cn } from "@/lib/utils";
+
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 type RevenueChartCardProps = {
   data: RevenueData;
@@ -22,11 +24,70 @@ function formatCurrency(value: number): string {
 }
 
 export const RevenueChartCard = memo(function RevenueChartCard({ data, isLoading = false }: RevenueChartCardProps) {
+  const hasSeries = data.series.length > 0;
+
+  const option = useMemo<EChartsOption>(
+    () => ({
+      grid: { top: 12, right: 12, bottom: 24, left: 8, containLabel: true },
+      xAxis: {
+        type: "category",
+        data: data.series.map((d) => d.label),
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { fontSize: 11, color: "#8c90a0" },
+      },
+      yAxis: {
+        type: "value",
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: {
+          fontSize: 11,
+          color: "#8c90a0",
+          formatter: (value: number) =>
+            value >= 1000 ? `$${(value / 1000).toFixed(0)}k` : `$${value}`,
+        },
+        splitLine: { lineStyle: { color: "rgba(140,144,160,0.18)", type: "dashed" } },
+      },
+      tooltip: {
+        trigger: "axis",
+        backgroundColor: "rgba(22,31,52,0.95)",
+        borderColor: "rgba(176,198,255,0.25)",
+        borderWidth: 1,
+        textStyle: { color: "#d9e2fe", fontSize: 12 },
+        valueFormatter: (value) =>
+          typeof value === "number" ? formatCurrency(value) : String(value ?? ""),
+      },
+      series: [
+        {
+          type: "line",
+          smooth: true,
+          symbol: "none",
+          data: data.series.map((d) => d.value),
+          lineStyle: { color: "#0360D9", width: 2.5 },
+          itemStyle: { color: "#0360D9" },
+          areaStyle: {
+            color: {
+              type: "linear",
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: "rgba(3,96,217,0.35)" },
+                { offset: 1, color: "rgba(3,96,217,0)" },
+              ],
+            },
+          },
+          animationDuration: 600,
+        },
+      ],
+    }),
+    [data.series],
+  );
+
   if (isLoading) {
     return <div className={cn(glassCardClass, "h-96 animate-pulse p-4 sm:p-6")} />;
   }
-
-  const hasSeries = data.series.length > 0;
 
   return (
     <section className={cn(glassCardClass, "flex h-full flex-col p-5 sm:p-6")}>
@@ -34,34 +95,7 @@ export const RevenueChartCard = memo(function RevenueChartCard({ data, isLoading
 
       <div className="mb-5 h-52 sm:h-56">
         {hasSeries ? (
-          <SafeChartContainer
-            className="h-full"
-            minHeight={208}
-            render={({ width, height }) => (
-              <AreaChart data={data.series} width={width} height={height} margin={{ top: 8, right: 4, left: -16, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0360D9" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#0360D9" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="4 4" stroke="rgba(140,144,160,0.18)" vertical={false} />
-                <XAxis dataKey="label" tick={{ fill: "#8c90a0", fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#8c90a0", fontSize: 11 }} axisLine={false} tickLine={false} width={40} />
-                <Tooltip
-                  formatter={(value) => (typeof value === "number" ? formatCurrency(value) : String(value ?? ""))}
-                  contentStyle={{
-                    background: "#161f34",
-                    border: "1px solid rgba(176,198,255,0.25)",
-                    borderRadius: "12px",
-                    color: "#d9e2fe",
-                    fontSize: "12px",
-                  }}
-                />
-                <Area type="monotone" dataKey="value" stroke="#0360D9" strokeWidth={2.5} fill="url(#revenueFill)" />
-              </AreaChart>
-            )}
-          />
+          <ReactECharts option={option} style={{ height: "100%", width: "100%" }} />
         ) : (
           <div className="flex h-full items-center justify-center rounded-xl border border-border/60 bg-muted/25 text-sm text-muted-foreground">
             No revenue trend data available yet.
