@@ -1,4 +1,8 @@
 {
+  "appName": "Medora",
+  "userFallback": "User",
+  "loadingNavigation": "Loading navigation",
+  "loadingMenuItems": "Loading menu items",
   "logIn": "Log in",
   "signUp": "Sign up",
   "profile": "Profile",

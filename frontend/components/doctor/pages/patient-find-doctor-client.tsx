@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { getPreviouslyVisitedDoctors } from "@/lib/appointment-actions";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { useAppI18n, useT } from "@/i18n/client";
 
 const MapView = dynamic(
   () => import("@/components/doctor/map-view").then((module) => module.MapView),
@@ -24,13 +25,19 @@ const MapView = dynamic(
     loading: () => (
       <div className="space-y-3 rounded-2xl border border-border bg-card p-4">
         <div className="flex h-full min-h-30 items-center justify-center">
-          <MedoraLoader size="sm" label="Loading map..." />
+          <MedoraLoader size="sm" />
         </div>
         <CardSkeleton className="h-40" />
       </div>
     ),
   },
 );
+
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
+
+type Translator = (key: string, values?: Record<string, string | number | Date>) => string;
 
 function getCookieValue(name: string): string {
   if (typeof document === "undefined") {
@@ -134,7 +141,13 @@ function isUserLocation(value: unknown): value is UserLocation {
 }
 
 // AI Analysis summary component
-function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
+function AIAnalysisSummary({
+  analysis,
+  tCommon,
+}: {
+  analysis: AIAnalysisData | null;
+  tCommon: Translator;
+}) {
   if (!analysis || analysis.error) return null;
 
   const symptoms = analysis.symptoms || [];
@@ -150,9 +163,13 @@ function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-primary" />
-          <span className="font-semibold text-sm text-primary">AI Analysis</span>
+          <span className="font-semibold text-sm text-primary">{tCommon("findDoctor.aiAnalysis.title")}</span>
           <Badge variant="outline" className="ml-auto text-xs" aria-label={`language-${language}`}>
-            {language === "bn" ? "Bangla" : language === "mixed" ? "Mixed" : "English"}
+            {language === "bn"
+              ? tCommon("findDoctor.aiAnalysis.languageBangla")
+              : language === "mixed"
+                ? tCommon("findDoctor.aiAnalysis.languageMixed")
+                : tCommon("findDoctor.aiAnalysis.languageEnglish")}
           </Badge>
         </div>
 
@@ -162,7 +179,7 @@ function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
             <div className="space-y-1.5">
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <Activity className="w-3.5 h-3.5" />
-                <span className="font-medium">Symptoms Detected</span>
+                <span className="font-medium">{tCommon("findDoctor.aiAnalysis.symptomsDetected")}</span>
               </div>
               <div className="flex flex-wrap gap-1">
                 {symptoms.slice(0, 4).map((s, i: number) => (
@@ -179,7 +196,7 @@ function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
             <div className="space-y-1.5">
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <Stethoscope className="w-3.5 h-3.5" />
-                <span className="font-medium">Specialties</span>
+                <span className="font-medium">{tCommon("findDoctor.aiAnalysis.specialties")}</span>
               </div>
               <div className="flex flex-wrap gap-1">
                 {specialties.map((s, i: number) => (
@@ -195,11 +212,14 @@ function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
           <div className="space-y-1.5">
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <Clock className="w-3.5 h-3.5" />
-              <span className="font-medium">Urgency Level</span>
+              <span className="font-medium">{tCommon("findDoctor.aiAnalysis.urgencyLevel")}</span>
             </div>
             <Badge variant={severityVariant} className="text-xs">
-              {severity === "high" ? "Urgent - Seek Care Soon" : 
-               severity === "medium" ? "Moderate Priority" : "Routine Visit"}
+              {severity === "high"
+                ? tCommon("findDoctor.aiAnalysis.urgencyHigh")
+                : severity === "medium"
+                  ? tCommon("findDoctor.aiAnalysis.urgencyMedium")
+                  : tCommon("findDoctor.aiAnalysis.urgencyLow")}
             </Badge>
           </div>
         </div>
@@ -209,7 +229,7 @@ function AIAnalysisSummary({ analysis }: { analysis: AIAnalysisData | null }) {
 }
 
 // Ambiguity clarification prompt
-function AmbiguityClarification({ onRetry }: { onRetry: () => void }) {
+function AmbiguityClarification({ onRetry, tCommon }: { onRetry: () => void; tCommon: Translator }) {
   return (
     <Card className="border-yellow-200 bg-yellow-50">
       <CardContent className="p-4">
@@ -217,13 +237,13 @@ function AmbiguityClarification({ onRetry }: { onRetry: () => void }) {
           <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 shrink-0" />
           <div className="space-y-2">
             <p className="font-medium text-yellow-800">
-              We need more details to find the right doctor
+              {tCommon("findDoctor.ambiguity.title")}
             </p>
             <p className="text-sm text-yellow-700">
-              Please describe your symptoms in more detail, or use the standard search filters to find doctors by specialty.
+              {tCommon("findDoctor.ambiguity.description")}
             </p>
             <Button variant="outline" size="sm" onClick={onRetry} className="mt-2">
-              Try Again
+              {tCommon("findDoctor.ambiguity.tryAgain")}
             </Button>
           </div>
         </div>
@@ -236,11 +256,15 @@ function AmbiguityClarification({ onRetry }: { onRetry: () => void }) {
 function PreviouslyVisitedDoctors({ 
   doctors, 
   loading,
-  onDoctorClick 
+  onDoctorClick,
+  tCommon,
+  locale,
 }: { 
   doctors: PreviouslyVisitedDoctor[]; 
   loading: boolean;
   onDoctorClick?: (doctorId: string) => void;
+  tCommon: Translator;
+  locale: string;
 }) {
   if (loading) {
     return (
@@ -248,10 +272,10 @@ function PreviouslyVisitedDoctors({
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-3">
             <History className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-sm text-primary">Previously Visited</span>
+            <span className="font-semibold text-sm text-primary">{tCommon("findDoctor.previouslyVisited.title")}</span>
           </div>
           <div className="mb-3 flex items-center justify-center">
-            <MedoraLoader size="sm" label="Loading recently visited doctors..." />
+            <MedoraLoader size="sm" label={tCommon("findDoctor.page.loadingVisitedDoctors")} />
           </div>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             <CardSkeleton className="h-24" />
@@ -270,9 +294,9 @@ function PreviouslyVisitedDoctors({
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <History className="w-4 h-4 text-primary" />
-          <span className="font-semibold text-sm text-primary">Previously Visited</span>
+          <span className="font-semibold text-sm text-primary">{tCommon("findDoctor.previouslyVisited.title")}</span>
           <Badge variant="secondary" className="text-xs ml-auto">
-            Quick book
+            {tCommon("findDoctor.previouslyVisited.quickBook")}
           </Badge>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
@@ -289,7 +313,7 @@ function PreviouslyVisitedDoctors({
                   {doc.photo_url ? (
                     <Image
                       src={doc.photo_url}
-                      alt={`${doc.first_name ?? "Doctor"} ${doc.last_name ?? ""}`}
+                      alt={`${doc.first_name ?? tCommon("findDoctor.page.doctorFallback")} ${doc.last_name ?? ""}`}
                       width={40}
                       height={40}
                       className="h-10 w-10 rounded-full object-cover"
@@ -307,7 +331,9 @@ function PreviouslyVisitedDoctors({
                     {doc.specialization}
                   </p>
                   <p className="text-xs text-primary/70 mt-0.5">
-                    Last: {doc.last_visit ? new Date(doc.last_visit).toLocaleDateString() : "Recently"}
+                    {tCommon("findDoctor.previouslyVisited.lastPrefix")}: {doc.last_visit
+                      ? new Date(doc.last_visit).toLocaleDateString(toIntlLocale(locale))
+                      : tCommon("findDoctor.previouslyVisited.recently")}
                   </p>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -323,6 +349,8 @@ function PreviouslyVisitedDoctors({
 
 export default function FindDoctorPage() {
   const router = useRouter();
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
 
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -478,9 +506,9 @@ export default function FindDoctorPage() {
       <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)] animate-page-enter">
         {/* Header Section */}
         <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Find a Doctor</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">{tCommon("findDoctor.page.title")}</h1>
           <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
-            Book appointments with minimum wait-time & video consult with verified doctors
+            {tCommon("findDoctor.page.subtitle")}
           </p>
           
           {/* Previously Visited Doctors */}
@@ -490,6 +518,8 @@ export default function FindDoctorPage() {
                 doctors={previouslyVisited} 
                 loading={loadingPrevious}
                 onDoctorClick={handleDoctorClick}
+                tCommon={tCommon}
+                locale={locale}
               />
             </div>
           )}
@@ -499,7 +529,7 @@ export default function FindDoctorPage() {
           {/* AI Analysis Summary */}
           {aiAnalysis && !aiAnalysis.error && (
             <div className="mt-4">
-              <AIAnalysisSummary analysis={aiAnalysis} />
+              <AIAnalysisSummary analysis={aiAnalysis} tCommon={tCommon} />
             </div>
           )}
           
@@ -513,7 +543,7 @@ export default function FindDoctorPage() {
           {/* Ambiguity Clarification */}
           {showAmbiguityPrompt && (
             <div className="mt-4">
-              <AmbiguityClarification onRetry={handleClearFilters} />
+              <AmbiguityClarification onRetry={handleClearFilters} tCommon={tCommon} />
             </div>
           )}
           
@@ -522,7 +552,9 @@ export default function FindDoctorPage() {
             <p className="text-sm text-muted-foreground">
               {!loading && (
                 <span className="font-semibold text-foreground">
-                  {totalResults} {totalResults === 1 ? 'doctor' : 'doctors'} found
+                  {totalResults === 1
+                    ? tCommon("findDoctor.page.resultsFoundOne", { count: totalResults })
+                    : tCommon("findDoctor.page.resultsFoundMany", { count: totalResults })}
                 </span>
               )}
             </p>
@@ -535,7 +567,7 @@ export default function FindDoctorPage() {
                 className="lg:hidden touch-target"
               >
                 <Map className="w-4 h-4 mr-2" />
-                {showMap ? "Hide Map" : "Show Map"}
+                {showMap ? tCommon("findDoctor.page.hideMap") : tCommon("findDoctor.page.showMap")}
               </Button>
               
               {hasFilters && (
@@ -545,7 +577,7 @@ export default function FindDoctorPage() {
                   onClick={handleClearFilters}
                   className="text-primary hover:text-primary-muted"
                 >
-                  Clear all filters
+                  {tCommon("findDoctor.page.clearAllFilters")}
                 </Button>
               )}
             </div>
@@ -558,7 +590,7 @@ export default function FindDoctorPage() {
             {loading ? (
               <div className="space-y-4">
                 <div className="flex items-center justify-center py-2">
-                  <MedoraLoader size="md" label="Loading doctors..." />
+                  <MedoraLoader size="md" label={tCommon("findDoctor.page.loadingDoctors")} />
                 </div>
                 <CardSkeleton className="h-48" />
                 <CardSkeleton className="h-48" />
@@ -572,9 +604,9 @@ export default function FindDoctorPage() {
               </div>
             ) : (
               <div className="text-center py-12 bg-card rounded-2xl border border-border">
-                <p className="text-muted-foreground mb-2">No doctors found matching your criteria.</p>
+                <p className="text-muted-foreground mb-2">{tCommon("findDoctor.page.noDoctorsFound")}</p>
                 {hasFilters && (
-                  <Button variant="link" onClick={handleClearFilters}>Clear Filters</Button>
+                  <Button variant="link" onClick={handleClearFilters}>{tCommon("findDoctor.page.clearAllFilters")}</Button>
                 )}
               </div>
             )}
@@ -600,7 +632,7 @@ export default function FindDoctorPage() {
                 onClick={() => setShowMap(false)}
                 className="absolute top-24 right-4 shadow-lg touch-target"
               >
-                Close Map
+                {tCommon("findDoctor.page.closeMap")}
               </Button>
             </div>
           )}

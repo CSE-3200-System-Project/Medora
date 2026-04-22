@@ -4,17 +4,25 @@ import { memo } from "react";
 import { Clock, DollarSign, Briefcase } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+import { useAppI18n, useT } from "@/i18n/client";
+
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
 
 interface DoctorProfessionalDetailsCardProps {
   doctor: BackendDoctorProfile;
 }
 
 export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDetailsCard({ doctor }: DoctorProfessionalDetailsCardProps) {
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+
   return (
     <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader className="pb-3">
-          <CardTitle className="text-2xl font-bold text-foreground">Professional Details</CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">{tCommon("doctorProfile.professionalDetails.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
@@ -24,7 +32,7 @@ export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDet
                 <div className="flex items-start gap-3">
                   <Briefcase className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Specialization</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.professionalDetails.specialization")}</p>
                     <p className="mt-1 font-semibold text-foreground">{doctor.speciality_name}</p>
                   </div>
                 </div>
@@ -38,9 +46,9 @@ export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDet
                   <DollarSign className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Consultation Fee
+                      {tCommon("doctorProfile.professionalDetails.consultationFee")}
                     </p>
-                    <p className="mt-1 font-semibold text-foreground">৳ {doctor.consultation_fee.toLocaleString()}</p>
+                    <p className="mt-1 font-semibold text-foreground">৳ {doctor.consultation_fee.toLocaleString(toIntlLocale(locale))}</p>
                   </div>
                 </div>
               </div>
@@ -53,9 +61,11 @@ export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDet
                   <Clock className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Appointment Duration
+                      {tCommon("doctorProfile.professionalDetails.appointmentDuration")}
                     </p>
-                    <p className="mt-1 font-semibold text-foreground">{doctor.appointment_duration} minutes</p>
+                    <p className="mt-1 font-semibold text-foreground">
+                      {doctor.appointment_duration} {tCommon("doctorProfile.professionalDetails.minutes")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -67,9 +77,12 @@ export const DoctorProfessionalDetailsCard = memo(function DoctorProfessionalDet
                 <div className="flex items-start gap-3">
                   <Briefcase className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Experience</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.professionalDetails.experience")}</p>
                     <p className="mt-1 font-semibold text-foreground">
-                      {doctor.years_of_experience} {doctor.years_of_experience === 1 ? "year" : "years"}
+                      {doctor.years_of_experience}{" "}
+                      {doctor.years_of_experience === 1
+                        ? tCommon("doctorProfile.professionalDetails.year")
+                        : tCommon("doctorProfile.professionalDetails.years")}
                     </p>
                   </div>
                 </div>

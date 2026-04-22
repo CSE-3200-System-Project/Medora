@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import logo from "@/assets/images/logo.png";
+import { useAppI18n, useT } from "@/i18n/client";
 
 type AppointmentData = {
   doctorName: string;
@@ -22,14 +23,21 @@ type AppointmentSuccessClientProps = {
   initialAppointmentData: AppointmentData | null;
 };
 
+function toIntlLocale(locale: string) {
+  return locale === "bn" ? "bn-BD" : "en-US";
+}
+
 export function AppointmentSuccessClient({ initialAppointmentData }: AppointmentSuccessClientProps) {
+  const { locale } = useAppI18n();
+  const tCommon = useT("common");
+
   if (!initialAppointmentData) {
     return (
       <AppBackground>
         <div className="flex items-center justify-center min-h-dvh min-h-app px-4">
           <div className="w-full max-w-2xl space-y-4">
             <div className="flex justify-center py-2">
-              <MedoraLoader size="lg" label="Loading appointment details..." />
+              <MedoraLoader size="lg" label={tCommon("patientAppointments.success.loadingDetails")} />
             </div>
             <CardSkeleton />
             <CardSkeleton />
@@ -57,8 +65,9 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
 
           <div className="text-center mb-8 animate-fade-in-up delay-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
-              Your <span className="text-success">appointment request</span> has been successfully submitted!
+              {tCommon("patientAppointments.success.titlePrefix")} <span className="text-success">{tCommon("patientAppointments.success.titleHighlight")}</span> {tCommon("patientAppointments.success.titleSuffix")}
             </h2>
+            <p className="text-sm sm:text-base text-muted-foreground">{tCommon("patientAppointments.success.subtitle")}</p>
             <p className="text-sm sm:text-base text-muted-foreground">
               An administrator is reviewing your request. You&apos;ll be notified as soon as it&apos;s approved.
             </p>
@@ -67,7 +76,7 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
           <div className="animate-fade-in-up delay-3">
             <Card className="rounded-2xl shadow-lg border-border/50 overflow-hidden mb-6">
               <div className="bg-primary/5 border-b border-border px-4 sm:px-6 py-3">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground">Requested appointment details:</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">{tCommon("patientAppointments.success.requestedDetails")}</h3>
               </div>
               <CardContent className="p-4 sm:p-6 space-y-4">
                 <div className="flex items-center gap-3 p-3 sm:p-4 bg-surface rounded-xl">
@@ -75,7 +84,7 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
                     <User className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs sm:text-sm text-muted-foreground">Doctor</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{tCommon("patientAppointments.success.doctor")}</p>
                     <p className="text-sm sm:text-base font-semibold text-foreground truncate">{initialAppointmentData.doctorName}</p>
                   </div>
                 </div>
@@ -86,9 +95,9 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
                       <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm text-muted-foreground">Date</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{tCommon("patientAppointments.success.date")}</p>
                       <p className="text-sm sm:text-base font-semibold text-foreground">
-                        {new Date(initialAppointmentData.date).toLocaleDateString("en-US", {
+                        {new Date(initialAppointmentData.date).toLocaleDateString(toIntlLocale(locale), {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
@@ -102,16 +111,16 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
                       <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm text-muted-foreground">Time</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{tCommon("patientAppointments.success.time")}</p>
                       <p className="text-sm sm:text-base font-semibold text-foreground">{initialAppointmentData.time}</p>
                     </div>
                   </div>
                 </div>
 
-                {initialAppointmentData.location !== "Not specified" && (
+                {Boolean(initialAppointmentData.location?.trim()) && (
                   <div className="pt-2">
                     <Badge variant="secondary" className="text-xs sm:text-sm">
-                      Location: {initialAppointmentData.location}
+                      {tCommon("patientAppointments.success.location")}: {initialAppointmentData.location}
                     </Badge>
                   </div>
                 )}
@@ -122,14 +131,14 @@ export function AppointmentSuccessClient({ initialAppointmentData }: Appointment
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up delay-3">
             <Link href="/patient/appointments" className="flex-1">
               <Button variant="medical" size="lg" className="w-full h-12 sm:h-14 text-sm sm:text-base font-semibold">
-                View My Appointments
+                {tCommon("patientAppointments.success.viewMyAppointments")}
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
               </Button>
             </Link>
             <Link href="/patient/home" className="flex-1">
               <Button variant="outline" size="lg" className="w-full h-12 sm:h-14 text-sm sm:text-base font-semibold">
                 <Home className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Back to Home
+                {tCommon("patientAppointments.success.backToHome")}
               </Button>
             </Link>
           </div>

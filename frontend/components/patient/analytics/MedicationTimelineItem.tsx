@@ -2,6 +2,7 @@ import { BellRing, CheckCircle2, Clock3, MinusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useT } from "@/i18n/client";
 
 export type MedicationStatus = "taken" | "due" | "upcoming" | "skipped" | "snoozed";
 
@@ -26,6 +27,8 @@ export function MedicationTimelineItem({
   onSkip,
   onRemind,
 }: MedicationTimelineItemProps) {
+  const tCommon = useT("common");
+
   return (
     <Card className="rounded-xl border-border/70 p-3 sm:p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -36,7 +39,7 @@ export function MedicationTimelineItem({
               {medication.name}
               {medication.dose ? ` ${medication.dose}` : ""}
             </p>
-            <p className="text-sm text-muted-foreground">{getStatusText(medication)}</p>
+            <p className="text-sm text-muted-foreground">{getStatusText(medication, tCommon)}</p>
           </div>
         </div>
 
@@ -47,30 +50,30 @@ export function MedicationTimelineItem({
 
           {medication.status === "taken" ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Taken
+              <CheckCircle2 className="h-3.5 w-3.5" /> {tCommon("analytics.medicationItem.taken")}
             </span>
           ) : null}
 
           {medication.status === "skipped" ? (
             <Button size="sm" variant="outline" onClick={() => onTake(medication.id)}>
-              Mark Taken
+              {tCommon("analytics.medicationItem.markTaken")}
             </Button>
           ) : null}
 
           {medication.status === "due" || medication.status === "snoozed" ? (
             <>
               <Button size="sm" onClick={() => onTake(medication.id)}>
-                Take
+                {tCommon("analytics.medicationItem.take")}
               </Button>
               <Button size="sm" variant="outline" onClick={() => onSkip(medication.id)}>
-                Skip
+                {tCommon("analytics.medicationItem.skip")}
               </Button>
             </>
           ) : null}
 
           {medication.status === "upcoming" ? (
             <Button size="sm" variant="outline" onClick={() => onRemind(medication.id)}>
-              Remind
+              {tCommon("analytics.medicationItem.remind")}
             </Button>
           ) : null}
         </div>
@@ -79,24 +82,24 @@ export function MedicationTimelineItem({
   );
 }
 
-function getStatusText(medication: MedicationItem) {
+function getStatusText(medication: MedicationItem, tCommon: ReturnType<typeof useT>) {
   if (medication.status === "taken") {
-    return `Taken at ${medication.time}`;
+    return tCommon("analytics.medicationItem.takenAt", { time: medication.time });
   }
 
   if (medication.status === "due") {
-    return "Due now";
+    return tCommon("analytics.medicationItem.dueNow");
   }
 
   if (medication.status === "snoozed") {
-    return "Snoozed for a short delay";
+    return tCommon("analytics.medicationItem.snoozed");
   }
 
   if (medication.status === "skipped") {
-    return "Skipped dose";
+    return tCommon("analytics.medicationItem.skippedDose");
   }
 
-  return "Upcoming";
+  return tCommon("analytics.medicationItem.upcoming");
 }
 
 function StatusIcon({ status }: { status: MedicationStatus }) {

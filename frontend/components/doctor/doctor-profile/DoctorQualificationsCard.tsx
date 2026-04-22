@@ -4,12 +4,15 @@ import { memo } from "react";
 import { Award } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+import { useT } from "@/i18n/client";
 
 interface DoctorQualificationsCardProps {
   doctor: BackendDoctorProfile;
 }
 
 export const DoctorQualificationsCard = memo(function DoctorQualificationsCard({ doctor }: DoctorQualificationsCardProps) {
+  const tCommon = useT("common");
+
   if (!doctor.qualifications) {
     return null;
   }
@@ -29,7 +32,7 @@ export const DoctorQualificationsCard = memo(function DoctorQualificationsCard({
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
             <Award className="h-5 w-5 text-primary" />
-            <CardTitle className="text-2xl font-bold text-foreground">Qualifications</CardTitle>
+            <CardTitle className="text-2xl font-bold text-foreground">{tCommon("doctorProfile.qualifications.title")}</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-2">

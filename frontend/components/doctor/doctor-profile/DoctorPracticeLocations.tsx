@@ -4,6 +4,7 @@ import { memo } from "react";
 import { Hospital, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BackendDoctorLocation } from "@/components/doctor/doctor-profile/types";
+import { useT } from "@/i18n/client";
 
 interface DoctorPracticeLocationsProps {
   locations: BackendDoctorLocation[];
@@ -19,9 +20,15 @@ function createMapUrl(location: BackendDoctorLocation) {
   return `https://www.openstreetmap.org/search?query=${encodeURIComponent(query)}`;
 }
 
-function getTimeBlock(availability?: string | null) {
+function getTimeBlock(
+  availability: string | null | undefined,
+  tCommon: (key: string) => string,
+) {
   if (!availability) {
-    return { days: "Mon, Wed, Fri", time: "09:00 AM - 02:00 PM" };
+    return {
+      days: tCommon("doctorProfile.locations.defaultDays"),
+      time: tCommon("doctorProfile.locations.defaultTime"),
+    };
   }
 
   const parts = availability.split("|").map((item) => item.trim());
@@ -34,19 +41,21 @@ function getTimeBlock(availability?: string | null) {
     return { days: parsed[0].trim(), time: parsed.slice(1).join(" ").trim() };
   }
 
-  return { days: "Schedule", time: availability };
+  return { days: tCommon("doctorProfile.locations.schedule"), time: availability };
 }
 
 export const DoctorPracticeLocations = memo(function DoctorPracticeLocations({ locations }: DoctorPracticeLocationsProps) {
+  const tCommon = useT("common");
+
   return (
     <section className="animate-fade-in-up">
       <Card className="rounded-3xl border-border/70 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-foreground">Practice Locations</CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">{tCommon("doctorProfile.locations.title")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {locations.map((location) => {
-            const timeBlock = getTimeBlock(location.availability);
+            const timeBlock = getTimeBlock(location.availability, tCommon);
             return (
               <article
                 key={`${location.name}-${location.address}`}
@@ -73,7 +82,7 @@ export const DoctorPracticeLocations = memo(function DoctorPracticeLocations({ l
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
                   >
-                    Map
+                    {tCommon("doctorProfile.locations.map")}
                     <MapPin className="h-3.5 w-3.5" />
                   </a>
                 </div>

@@ -1,4 +1,5 @@
 # Reschedule Admin Approval Override + Notification Fix (2026-04-21)
+# Patient Find Doctor Bangla Localization (2026-04-18)
 
 ## Status: completed
 
@@ -109,6 +110,18 @@
 - Fix 1: added an in-memory state-keyed PKCE verifier cache in `backend/app/services/google_calendar_service.py`; connect stores verifier, callback pops and reapplies verifier before `fetch_token`.
 - Fix 2: updated route state handling in `backend/app/routes/oauth.py` to use `user_id:nonce` state for each connect request and preserve callback mapping to `user_id`.
 - Validation: focused probe confirmed state-based exchange path (`pkce_state_exchange_ok=True`), and backend was restarted with uvicorn reload from `backend/` so live runtime uses new logic.
+- [x] Audit and list all hardcoded UI strings in patient find-doctor flow (standard + AI mode)
+- [x] Localize all find-doctor page/component strings using existing next-intl hooks and namespaces
+- [x] Localize doctor profile page (from find-doctor navigation), including appointment booking panel and states
+- [x] Add matching EN/BN translation keys in existing message files following established key structure
+- [x] Validate no mixed-language UI remains in Bangla mode for target scope and update review notes
+
+### Review
+- Reused existing next-intl architecture (`useT`, existing `common` namespace) without introducing any new translation system.
+- Localized user-facing strings across patient find-doctor flow: page header/states, search filters, AI mode labels/hints, voice input states/errors, AI analysis panel, patient context card, doctor cards, map labels/routes/states, mobile filter sheet labels.
+- Localized doctor profile route reached from find-doctor: page-level loading/error/share/breadcrumb labels, profile header/about/qualification/specialization/professional/location cards, and booking panel states including location/date/slots/reason/summary/support copy.
+- Added full EN/BN key parity in `frontend/i18n/messages/en/common.json` and `frontend/i18n/messages/bn/common.json` under `findDoctor.*` and `doctorProfile.*`.
+- Validation performed: diagnostics report no errors in touched TSX and JSON files; automated key existence check confirms no missing EN/BN keys for all referenced `findDoctor.*` and `doctorProfile.*` paths.
 
 # Consultation Complete + History Detail Loading Fix (2026-04-11)
 
@@ -352,6 +365,31 @@
 - Focused backend validation passed: `python -m pytest tests/test_chorui_intent_normalizer.py tests/test_chorui_navigation_engine.py tests/test_chorui_navigation_registry.py -q` -> `19 passed`.
 
 # AI Navigation Phase 7 - Testing and Edge Cases (2026-04-09)
+
+# Patient Navigation + Medical History + Analytics + Profile + Settings Localization (2026-04-21)
+
+## Status: in-progress (awaiting plan verification)
+
+### Todo
+- [ ] Audit all target pages/components for user-facing hardcoded strings and map them to existing/new keys
+- [ ] Localize Patient Medical History page shell and all tab labels/states (timeline, medications, tests, surgeries, hospitalizations, vaccinations, visits, reports)
+- [ ] Localize all Medical History child components (timeline filters/cards/groups, managers, charts, dialogs/modals, report upload/detail/list states)
+- [ ] Localize Patient Analytics page and child components (cards, badges, tooltips, inputs, CTA text, alerts, loading/empty/error states)
+- [ ] Localize Patient Profile page and all section labels/cards/CTAs/empty/error/loading states
+- [ ] Localize remaining hardcoded Settings page copy using existing settings/common namespaces
+- [ ] Localize remaining navigation/menu text in navbar for loading states and mobile drawer labels
+- [ ] Add EN/BN translation key parity in existing namespaces (`common.*`, `settings.*`, `nav.*`) without changing translation architecture
+- [ ] Run focused diagnostics to ensure no missing keys/fallbacks in touched files
+
+### Review
+- Phase 1 scan found extensive hardcoded strings in the requested scope, primarily in:
+   - `frontend/components/medical-history/pages/patient-medical-history-client.tsx`
+   - `frontend/components/medical-history/*.tsx` (timeline filters/cards/groups, surgery/hospitalization/vaccination managers, summary/chart cards)
+   - `frontend/components/patient/analytics/*.tsx`
+   - `frontend/components/screens/pages/home/patient/home-patient-profile-client.tsx`
+   - `frontend/components/screens/pages/home/settings/home-settings-client.tsx`
+- `frontend/components/ui/navbar.tsx` is mostly localized via `nav.*`, but still contains a few hardcoded user-facing strings (loading aria labels, app name text in mobile sheet title).
+- Existing i18n architecture is already suitable (`useT` + namespaces in `common`, `nav`, `settings`), so implementation can reuse it directly without introducing new translation logic.
 
 ## Status: completed
 
@@ -2073,7 +2111,6 @@ The backend route `get_patient_prescriptions` was querying `Prescription` record
 - Test the prescription page in the frontend to confirm the error is resolved
 - Monitor logs for any further issues
 - Consider adding a scheduled cleanup job for future maintenance
->>>>>>>>> Temporary merge branch 2
 
 ---
 
