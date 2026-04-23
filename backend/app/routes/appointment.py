@@ -1761,3 +1761,83 @@ async def respond_to_reschedule_request_legacy(
             "reschedule_request_id": pending_request.id,
         },
     }
+
+
+@router.post("/{appointment_id}/doctor-confirm")
+async def doctor_confirm_appointment(
+    appointment_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Doctor confirms an appointment that admin has approved.
+
+    Moves the appointment from PENDING_DOCTOR_CONFIRMATION to
+    PENDING_PATIENT_CONFIRMATION and pings the patient to finalise.
+    """
+    result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
+    appointment = result.scalar_one_or_none()
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    if appointment.doctor_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the assigned doctor can confirm")
+    if appointment.status != AppointmentStatus.PENDING_DOCTOR_CONFIRMATION:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Appointment is not awaiting doctor confirmation (current: {appointment.status.value})",
+        )
+
+    try:
+        updated = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+            performed_by_id=user.id,
+            performed_by_role="doctor",
+            notes="Doctor confirmed; awaiting patient confirmation",
+        )
+        await db.commit()
+        return {
+            "appointment_id": updated.id,
+            "new_status": updated.status.value,
+        }
+    except ValueError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.post("/{appointment_id}/patient-confirm")
+async def patient_confirm_appointment(
+    appointment_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Patient confirms the final booking after doctor has confirmed."""
+    result = await db.execute(select(Appointment).where(Appointment.id == appointment_id))
+    appointment = result.scalar_one_or_none()
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+    if appointment.patient_id != user.id:
+        raise HTTPException(status_code=403, detail="Only the booking patient can confirm")
+    if appointment.status != AppointmentStatus.PENDING_PATIENT_CONFIRMATION:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Appointment is not awaiting patient confirmation (current: {appointment.status.value})",
+        )
+
+    try:
+        updated = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=AppointmentStatus.CONFIRMED,
+            performed_by_id=user.id,
+            performed_by_role="patient",
+            notes="Patient confirmed; booking finalised",
+        )
+        await db.commit()
+        return {
+            "appointment_id": updated.id,
+            "new_status": updated.status.value,
+        }
+    except ValueError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc))
