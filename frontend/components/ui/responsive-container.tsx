@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { cn } from "@/lib/utils";
 
 interface ResponsiveContainerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,7 +27,7 @@ interface ResponsiveContainerProps extends React.HTMLAttributes<HTMLDivElement> 
  *   <h1>Page Content</h1>
  * </ResponsiveContainer>
  * 
- * Results in: max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8
+ * Results in: max-w-screen-xl mx-auto container-padding
  */
 export function ResponsiveContainer({ 
   className, 
@@ -52,7 +52,7 @@ export function ResponsiveContainer({
         centered && "mx-auto",
         
         // Mobile-first responsive padding
-        withPadding && "px-4 sm:px-6 lg:px-8",
+        withPadding && "container-padding",
         
         className
       )}
@@ -62,3 +62,4 @@ export function ResponsiveContainer({
     </div>
   );
 }
+

@@ -16,12 +16,14 @@ import { DoctorProfessionalDetailsCard } from "@/components/doctor/doctor-profil
 import { DoctorPracticeLocations } from "@/components/doctor/doctor-profile/DoctorPracticeLocations";
 import { AppointmentBookingCard } from "@/components/doctor/doctor-profile/AppointmentBookingCard";
 import { toast } from "@/lib/notify";
+import { useT } from "@/i18n/client";
 
 interface DoctorProfileAppointmentPageProps {
   doctorId: string;
 }
 
 export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointmentPageProps) {
+  const tCommon = useT("common");
   const [doctor, setDoctor] = React.useState<BackendDoctorProfile | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -33,8 +35,8 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
         setError(null);
         const profile = await getPublicDoctorProfile(doctorId);
         setDoctor(profile);
-      } catch (fetchError: any) {
-        setError(fetchError?.message || "Failed to load doctor profile");
+      } catch {
+        setError(tCommon("doctorProfile.page.loadFailed"));
       } finally {
         setLoading(false);
       }
@@ -43,32 +45,35 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
     if (doctorId) {
       fetchDoctorProfile();
     }
-  }, [doctorId]);
+  }, [doctorId, tCommon]);
 
   const handleShare = React.useCallback(async () => {
     const shareUrl = window.location.href;
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "Medora Doctor Profile",
-          text: `Book an appointment with Dr. ${doctor?.first_name || ""} ${doctor?.last_name || ""}`,
+          title: tCommon("doctorProfile.page.shareTitle"),
+          text: tCommon("doctorProfile.page.shareText", {
+            firstName: doctor?.first_name || "",
+            lastName: doctor?.last_name || "",
+          }),
           url: shareUrl,
         });
         return;
       }
       await navigator.clipboard.writeText(shareUrl);
-      toast.success("Profile link copied to clipboard");
+      toast.success(tCommon("doctorProfile.page.linkCopied"));
     } catch {
       // Ignore share cancellation and clipboard failures.
     }
-  }, [doctor?.first_name, doctor?.last_name]);
+  }, [doctor?.first_name, doctor?.last_name, tCommon]);
 
   if (loading) {
     return (
       <AppBackground className="container-padding">
         <Navbar />
         <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
-          <PageLoadingShell label="Loading doctor profile..." cardCount={4} />
+          <PageLoadingShell label={tCommon("doctorProfile.page.loadingProfile")} cardCount={4} />
         </main>
       </AppBackground>
     );
@@ -80,9 +85,9 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
         <Navbar />
         <main className="mx-auto flex min-h-[60vh] w-full max-w-7xl items-center justify-center px-4 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
           <div className="space-y-2 text-center">
-            <p className="text-base font-semibold text-destructive">{error || "Doctor not found"}</p>
+            <p className="text-base font-semibold text-destructive">{error || tCommon("doctorProfile.page.notFound")}</p>
             <Link href="/patient/find-doctor" className="text-sm font-semibold text-primary hover:underline">
-              Back to doctor search
+              {tCommon("doctorProfile.page.backToDoctorSearch")}
             </Link>
           </div>
         </main>
@@ -99,13 +104,13 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
       <main className="mx-auto w-full max-w-7xl px-4 pb-16 pt-[var(--nav-content-offset)] sm:px-6 lg:px-8">
         <div className="mb-5 hidden items-center gap-2 text-sm text-muted-foreground md:flex">
           <Link href="/patient/find-doctor" className="hover:text-primary">
-            Home
+            {tCommon("doctorProfile.page.breadcrumbHome")}
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
-          <span>Doctors</span>
+          <span>{tCommon("doctorProfile.page.breadcrumbDoctors")}</span>
           <ChevronRight className="h-3.5 w-3.5" />
           <span className="font-medium text-foreground">
-            Dr. {doctor.first_name} {doctor.last_name}
+            {doctor.title || tCommon("doctorProfile.page.doctorPrefix")} {doctor.first_name} {doctor.last_name}
           </span>
         </div>
 

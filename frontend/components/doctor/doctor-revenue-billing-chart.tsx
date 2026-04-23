@@ -4,7 +4,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import type { EChartsOption } from "echarts";
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 type DoctorRevenueBillingChartProps = {
   labels: string[];
@@ -117,7 +117,7 @@ export function DoctorRevenueBillingChart({
 
   return (
     <div className="h-72 w-full">
-      <ReactECharts option={option} style={{ width: "100%", height: "100%" }} opts={{ renderer: "svg" }} />
+      <ReactECharts option={option} style={{ width: "100%", height: "100%" }} />
     </div>
   );
 }

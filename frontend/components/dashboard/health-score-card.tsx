@@ -21,7 +21,7 @@ import type {
   PatientDashboardScoreBreakdown,
 } from "@/lib/patient-dashboard-actions"
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false })
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false })
 
 type HealthScoreCardProps = {
   score: number

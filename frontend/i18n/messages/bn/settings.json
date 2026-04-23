@@ -4,5 +4,156 @@
   "saveButton": "সেটিংস সংরক্ষণ করুন",
   "savingButton": "সংরক্ষণ হচ্ছে...",
   "preferredLanguage": "পছন্দের ভাষা",
-  "resetDefaults": "ডিফল্টে রিসেট করুন"
+  "resetDefaults": "ডিফল্টে রিসেট করুন",
+  "pageSubtitle": "অ্যাপের আচরণ, স্বাস্থ্যসেবা পছন্দ, নোটিফিকেশন এবং গোপনীয়তা পরিচালনা করুন।",
+  "messages": {
+    "pushNotSupported": "এই ব্রাউজারে পুশ নোটিফিকেশন সমর্থিত নয়।",
+    "pushBlocked": "পুশ অনুমতি ব্লক করা আছে। ব্রাউজার সেটিংস থেকে এটি চালু করুন।",
+    "passwordTooShort": "নতুন পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।",
+    "passwordsMismatch": "নতুন পাসওয়ার্ড মেলেনি।",
+    "passwordMustDiffer": "নতুন পাসওয়ার্ডটি বর্তমান পাসওয়ার্ডের থেকে আলাদা হতে হবে।",
+    "passwordChangedSuccess": "পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে।",
+    "passwordChangeFailed": "পাসওয়ার্ড পরিবর্তন করা যায়নি। আবার চেষ্টা করুন।",
+    "settingsSaved": "সেটিংস সফলভাবে সংরক্ষণ হয়েছে।",
+    "settingsReset": "সেটিংস ডিফল্টে রিসেট হয়েছে।"
+  },
+  "sections": {
+    "appearance": {
+      "title": "দেখার ধরন",
+      "description": "লাইট, ডার্ক বা সিস্টেম মোড বেছে নিন। থিম পরিবর্তন সঙ্গে সঙ্গে প্রয়োগ হবে।",
+      "switchToLight": "লাইট মোডে পরিবর্তন করুন",
+      "switchToDark": "ডার্ক মোডে পরিবর্তন করুন",
+      "light": "লাইট",
+      "dark": "ডার্ক",
+      "system": "সিস্টেম",
+      "activeMode": "চলমান মোড"
+    },
+    "notifications": {
+      "title": "নোটিফিকেশন",
+      "description": "Medora কিভাবে এবং কখন স্বাস্থ্যসেবা রিমাইন্ডার ও আপডেট পাঠাবে তা নিয়ন্ত্রণ করুন।",
+      "browserPermission": "ব্রাউজার অনুমতি",
+      "inApp": {
+        "title": "ইন-অ্যাপ নোটিফিকেশন",
+        "description": "Medora ড্যাশবোর্ডে সতর্কতা পান।"
+      },
+      "push": {
+        "title": "পুশ নোটিফিকেশন",
+        "description": "গুরুত্বপূর্ণ আপডেটের জন্য ব্রাউজার/ডিভাইস সতর্কতা।"
+      },
+      "email": {
+        "title": "ইমেইল নোটিফিকেশন",
+        "description": "অ্যাপয়েন্টমেন্ট ও প্রেসক্রিপশন আপডেট ইমেইলে পান।"
+      },
+      "sms": {
+        "title": "এসএমএস নোটিফিকেশন",
+        "description": "সময়-সংবেদনশীল রিমাইন্ডার এসএমএসে পান।"
+      },
+      "appointmentReminders": {
+        "title": "অ্যাপয়েন্টমেন্ট রিমাইন্ডার",
+        "description": "অ্যাপয়েন্টমেন্টের আগে রিমাইন্ডার পান।"
+      },
+      "medicationReminders": {
+        "title": "ওষুধের রিমাইন্ডার",
+        "description": "ওষুধ গ্রহণের সময়সূচির জন্য সতর্কতা পান।"
+      },
+      "labResults": {
+        "title": "ল্যাব ফলাফল",
+        "description": "টেস্ট রিপোর্ট প্রস্তুত হলে জানানো হবে।"
+      },
+      "prescriptionUpdates": {
+        "title": "প্রেসক্রিপশন আপডেট",
+        "description": "নতুন প্রেসক্রিপশনের স্ট্যাটাস আপডেট পান।"
+      },
+      "careTips": {
+        "title": "স্বাস্থ্যসেবা টিপস",
+        "description": "ব্যক্তিগতকৃত সুস্থতা ও প্রতিরোধমূলক সেবার আপডেট পান।"
+      }
+    },
+    "healthcare": {
+      "title": "স্বাস্থ্যসেবা পছন্দ",
+      "description": "দ্রুত সহায়তার জন্য জরুরি ও সেবাসংক্রান্ত পছন্দগুলো প্রস্তুত রাখুন।",
+      "emergencyContactName": "জরুরি যোগাযোগের নাম",
+      "emergencyContactNamePlaceholder": "পূর্ণ নাম",
+      "emergencyContactPhone": "জরুরি যোগাযোগের ফোন",
+      "emergencyContactPhonePlaceholder": "01XXXXXXXXX",
+      "relation": "সম্পর্ক",
+      "relationPlaceholder": "অভিভাবক / ভাইবোন / জীবনসঙ্গী",
+      "dosageAlerts": {
+        "title": "ডোজ অ্যালার্ট",
+        "description": "ওষুধ দেরি হলে অতিরিক্ত সতর্কতা।"
+      },
+      "fastingMedicationAlerts": {
+        "title": "খাবারের সাথে ওষুধ অ্যালার্ট",
+        "description": "খাবারের আগে/পরে নির্দেশনার জন্য রিমাইন্ডার।"
+      },
+      "hydrationReminders": {
+        "title": "পানি পান রিমাইন্ডার",
+        "description": "নির্ধারিত সময়ে পানি পান করার রিমাইন্ডার।"
+      },
+      "menstrualHealthReminders": {
+        "title": "মেন্সট্রুয়াল হেলথ রিমাইন্ডার",
+        "description": "সাইকেল ও উপসর্গ লগিংয়ের রিমাইন্ডার।"
+      }
+    },
+    "privacyAndApp": {
+      "title": "গোপনীয়তা, নিরাপত্তা ও অ্যাপ",
+      "description": "অ্যাকাউন্ট সুরক্ষিত রাখুন এবং পড়তে সুবিধাজনকভাবে অ্যাপ কাস্টমাইজ করুন।",
+      "biometricLock": {
+        "title": "বায়োমেট্রিক অ্যাপ লক",
+        "description": "সমর্থিত ডিভাইসে ফিঙ্গারপ্রিন্ট/ফেস আনলক বাধ্যতামূলক করুন।"
+      },
+      "hideSensitiveContent": {
+        "title": "সংবেদনশীল নোটিফিকেশন কনটেন্ট লুকান",
+        "description": "লক-স্ক্রিন স্টাইল নোটিফিকেশনে শুধুমাত্র সাধারণ টেক্সট দেখান।"
+      },
+      "verifiedDoctorsOnly": {
+        "title": "শুধু ভেরিফায়েড ডাক্তারের অ্যাক্সেস",
+        "description": "প্রোফাইল ডেটা শুধু ভেরিফায়েড ডাক্তারের সাথে শেয়ার করুন।"
+      },
+      "anonymousResearch": {
+        "title": "নামহীন গবেষণা সহায়তা",
+        "description": "স্বাস্থ্যসেবা উন্নয়নের গবেষণার জন্য নামহীন ডেটা ব্যবহারের অনুমতি দিন।"
+      },
+      "autoLockTimeout": "অটো-লক সময়সীমা",
+      "autoLockOptions": {
+        "five": "৫ মিনিট",
+        "fifteen": "১৫ মিনিট",
+        "thirty": "৩০ মিনিট",
+        "sixty": "৬০ মিনিট"
+      },
+      "appBehavior": "অ্যাপের আচরণ",
+      "compactMode": {
+        "title": "কমপ্যাক্ট মোড",
+        "description": "এক স্ক্রিনে বেশি কনটেন্ট দেখাতে ফাঁক কমান।"
+      },
+      "largeText": {
+        "title": "বড় টেক্সট",
+        "description": "সহজে পড়ার জন্য টেক্সটের আকার বাড়ান।"
+      },
+      "reduceMotion": {
+        "title": "মোশন কমান",
+        "description": "অপ্রয়োজনীয় অ্যানিমেশন সীমিত করুন।"
+      },
+      "defaultStartPage": "ডিফল্ট শুরু পেজ",
+      "startPageOptions": {
+        "home": "হোম",
+        "appointments": "অ্যাপয়েন্টমেন্ট",
+        "medicalHistory": "মেডিকেল ইতিহাস",
+        "reminders": "রিমাইন্ডার"
+      }
+    },
+    "password": {
+      "title": "পাসওয়ার্ড পরিবর্তন",
+      "description": "অ্যাকাউন্টের পাসওয়ার্ড আপডেট করুন। আগে বর্তমান পাসওয়ার্ড দিতে হবে।",
+      "currentPassword": "বর্তমান পাসওয়ার্ড",
+      "currentPasswordPlaceholder": "বর্তমান পাসওয়ার্ড লিখুন",
+      "newPassword": "নতুন পাসওয়ার্ড",
+      "newPasswordPlaceholder": "নতুন পাসওয়ার্ড লিখুন",
+      "confirmNewPassword": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+      "confirmNewPasswordPlaceholder": "নতুন পাসওয়ার্ড নিশ্চিত করুন",
+      "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না",
+      "changingPassword": "পাসওয়ার্ড পরিবর্তন হচ্ছে...",
+      "changePassword": "পাসওয়ার্ড পরিবর্তন করুন"
+    }
+  }
 }

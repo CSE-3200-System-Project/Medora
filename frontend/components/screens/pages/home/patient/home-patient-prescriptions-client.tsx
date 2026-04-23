@@ -27,8 +27,10 @@ import {
 } from "lucide-react";
 import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { useT } from "@/i18n/client";
 
 export default function PatientPrescriptionsPage() {
+  const tCommon = useT("common");
   const router = useRouter();
   const [prescriptions, setPrescriptions] = React.useState<Prescription[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -47,7 +49,7 @@ export default function PatientPrescriptionsPage() {
       setPrescriptions(data.prescriptions);
     } catch (err: any) {
       console.error("Failed to load prescriptions:", err);
-      setError(err.message || "Failed to load prescriptions");
+      setError(err.message || tCommon("prescriptions.errors.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -72,21 +74,21 @@ export default function PatientPrescriptionsPage() {
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
             <Clock className="h-3 w-3 mr-1" />
-            Pending
+            {tCommon("medicalHistory.status.pending")}
           </Badge>
         );
       case "accepted":
         return (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             <CheckCircle2 className="h-3 w-3 mr-1" />
-            Accepted
+            {tCommon("prescriptions.status.accepted")}
           </Badge>
         );
       case "rejected":
         return (
           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
             <XCircle className="h-3 w-3 mr-1" />
-            Rejected
+            {tCommon("prescriptions.status.rejected")}
           </Badge>
         );
       default:
@@ -101,11 +103,11 @@ export default function PatientPrescriptionsPage() {
   const getTypeLabel = (type: PrescriptionType) => {
     switch (type) {
       case "medication":
-        return "Medication";
+        return tCommon("prescriptions.types.medication");
       case "test":
-        return "Medical Test";
+        return tCommon("prescriptions.types.medicalTest");
       case "surgery":
-        return "Surgery/Procedure";
+        return tCommon("prescriptions.types.surgeryProcedure");
       default:
         return type;
     }
@@ -139,10 +141,10 @@ export default function PatientPrescriptionsPage() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />
-            My Prescriptions
+            {tCommon("prescriptions.title")}
           </h1>
           <p className="text-muted-foreground mt-1">
-            View and manage prescriptions from your doctors
+            {tCommon("prescriptions.subtitle")}
           </p>
         </div>
 
@@ -152,7 +154,7 @@ export default function PatientPrescriptionsPage() {
             <CardContent className="p-4 flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-yellow-600" />
               <span className="text-yellow-800">
-                You have <strong>{pendingCount}</strong> pending prescription{pendingCount > 1 ? "s" : ""} that require{pendingCount === 1 ? "s" : ""} your review.
+                {tCommon("prescriptions.pendingAlert", { count: String(pendingCount) })}
               </span>
             </CardContent>
           </Card>
@@ -168,7 +170,7 @@ export default function PatientPrescriptionsPage() {
               onClick={() => setFilter(f)}
               className="capitalize whitespace-nowrap"
             >
-              {f === "all" ? "All" : f}
+              {f === "all" ? tCommon("prescriptions.filters.all") : tCommon(`prescriptions.filters.${f}`)}
               {f === "pending" && pendingCount > 0 && (
                 <span className="ml-1 bg-card/20 px-1.5 rounded text-xs">{pendingCount}</span>
               )}
@@ -180,7 +182,7 @@ export default function PatientPrescriptionsPage() {
         {loading && (
           <div className="space-y-4 py-4">
             <div className="flex justify-center py-2">
-              <MedoraLoader size="lg" label="Loading prescriptions..." />
+              <MedoraLoader size="lg" label={tCommon("prescriptions.loading")} />
             </div>
             <CardSkeleton />
             <CardSkeleton />
@@ -194,7 +196,7 @@ export default function PatientPrescriptionsPage() {
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
               <p className="text-destructive">{error}</p>
               <Button variant="outline" onClick={loadPrescriptions} className="mt-4">
-                Try Again
+                {tCommon("prescriptions.actions.tryAgain")}
               </Button>
             </CardContent>
           </Card>
@@ -205,11 +207,11 @@ export default function PatientPrescriptionsPage() {
           <Card>
             <CardContent className="p-12 text-center">
               <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Prescriptions Found</h3>
+              <h3 className="text-lg font-semibold mb-2">{tCommon("prescriptions.empty.title")}</h3>
               <p className="text-muted-foreground">
                 {filter === "all"
-                  ? "You don't have any prescriptions yet. They will appear here when your doctor prescribes medications, tests, or procedures."
-                  : `No ${filter} prescriptions found.`}
+                  ? tCommon("prescriptions.empty.all")
+                  : tCommon("prescriptions.empty.filtered", { status: tCommon(`prescriptions.filters.${filter}`) })}
               </p>
             </CardContent>
           </Card>

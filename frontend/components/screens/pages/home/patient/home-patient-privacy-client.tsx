@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
@@ -38,10 +38,9 @@ import {
   type PatientDoctorListItem,
   type DoctorSharingSummary,
   type SharingCategories,
-  CATEGORY_LABELS,
-  CATEGORY_DESCRIPTIONS,
 } from "@/lib/patient-data-sharing-types"
 import { formatMeridiemTime } from "@/lib/utils"
+import { useT } from "@/i18n/client"
 
 interface AccessHistoryItem {
   id: string
@@ -65,11 +64,26 @@ interface DoctorAccess {
   revoked_at: string | null
 }
 
+const SHARING_CATEGORY_KEYS: (keyof SharingCategories)[] = [
+  "can_view_profile",
+  "can_view_conditions",
+  "can_view_medications",
+  "can_view_allergies",
+  "can_view_medical_history",
+  "can_view_family_history",
+  "can_view_lifestyle",
+  "can_view_vaccinations",
+  "can_view_reports",
+  "can_view_health_metrics",
+  "can_view_prescriptions",
+]
+
 function getErrorMessage(err: unknown): string {
   return err instanceof Error ? err.message : "Operation failed"
 }
 
 export default function PatientPrivacyPage() {
+  const tCommon = useT("common")
   const [accessHistory, setAccessHistory] = useState<AccessHistoryItem[]>([])
   const [doctorAccess, setDoctorAccess] = useState<DoctorAccess[]>([])
   const [loading, setLoading] = useState(true)
@@ -168,7 +182,7 @@ export default function PatientPrivacyPage() {
       const updated = await updatePatientAIAccess({ [key]: value })
       setAiAccess(updated)
     } catch (err) {
-      alert(getErrorMessage(err) || "Failed to update AI access settings")
+      alert(getErrorMessage(err) || tCommon("privacy.errors.updateAIAccessFailed"))
     } finally {
       setAiAccessSaving(prev => ({ ...prev, [key]: false }))
     }
@@ -185,7 +199,7 @@ export default function PatientPrivacyPage() {
         )
       )
     } catch (err) {
-      alert(getErrorMessage(err) || "Failed to revoke access")
+      alert(getErrorMessage(err) || tCommon("privacy.errors.revokeAccessFailed"))
     } finally {
       setConfirmDialog(prev => ({ ...prev, isOpen: false }))
     }
@@ -202,7 +216,7 @@ export default function PatientPrivacyPage() {
         )
       )
     } catch (err) {
-      alert(getErrorMessage(err) || "Failed to restore access")
+      alert(getErrorMessage(err) || tCommon("privacy.errors.restoreAccessFailed"))
     } finally {
       setConfirmDialog(prev => ({ ...prev, isOpen: false }))
     }
@@ -259,19 +273,18 @@ export default function PatientPrivacyPage() {
   const getSharedCount = (doctorId: string): number => {
     const data = sharingData[doctorId]
     if (!data) return 0
-    const categoryKeys = Object.keys(CATEGORY_LABELS) as (keyof SharingCategories)[]
-    return categoryKeys.filter((key) => Boolean(data.sharing?.[key])).length
+    return SHARING_CATEGORY_KEYS.filter((key) => Boolean(data.sharing?.[key])).length
   }
 
   const formatAccessType = (type: string) => {
     const types: Record<string, string> = {
-      'view_profile': 'Viewed Profile',
-      'view_medical_history': 'Viewed Medical History',
-      'view_medications': 'Viewed Medications',
-      'view_allergies': 'Viewed Allergies',
-      'view_chronic_conditions': 'Viewed Chronic Conditions',
-      'view_family_history': 'Viewed Family History',
-      'view_full_record': 'Viewed Full Record',
+      'view_profile': tCommon("privacy.history.accessTypes.viewProfile"),
+      'view_medical_history': tCommon("privacy.history.accessTypes.viewMedicalHistory"),
+      'view_medications': tCommon("privacy.history.accessTypes.viewMedications"),
+      'view_allergies': tCommon("privacy.history.accessTypes.viewAllergies"),
+      'view_chronic_conditions': tCommon("privacy.history.accessTypes.viewChronicConditions"),
+      'view_family_history': tCommon("privacy.history.accessTypes.viewFamilyHistory"),
+      'view_full_record': tCommon("privacy.history.accessTypes.viewFullRecord"),
     }
     return types[type] || type
   }
@@ -280,8 +293,8 @@ export default function PatientPrivacyPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
-          <PageLoadingShell label="Loading privacy settings..." cardCount={4} />
+        <main className="container mx-auto max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)]">
+          <PageLoadingShell label={tCommon("privacy.loadingSettings")} cardCount={4} />
         </main>
       </AppBackground>
     )
@@ -296,17 +309,17 @@ export default function PatientPrivacyPage() {
         isOpen={confirmDialog.isOpen}
         onClose={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
         onConfirm={confirmDialog.type === 'revoke' ? handleRevokeAccess : handleRestoreAccess}
-        title={confirmDialog.type === 'revoke' ? 'Revoke Doctor Access?' : 'Restore Doctor Access?'}
+        title={confirmDialog.type === 'revoke' ? tCommon("privacy.dialogs.revokeTitle") : tCommon("privacy.dialogs.restoreTitle")}
         description={
           confirmDialog.type === 'revoke'
-            ? `${confirmDialog.doctorName} will no longer be able to view your medical records. You can restore access later if needed.`
-            : `${confirmDialog.doctorName} will be able to view your medical records again.`
+            ? tCommon("privacy.dialogs.revokeDescription", { doctorName: confirmDialog.doctorName })
+            : tCommon("privacy.dialogs.restoreDescription", { doctorName: confirmDialog.doctorName })
         }
-        confirmText={confirmDialog.type === 'revoke' ? 'Revoke Access' : 'Restore Access'}
+        confirmText={confirmDialog.type === 'revoke' ? tCommon("privacy.actions.revokeAccess") : tCommon("privacy.actions.restoreAccess")}
         variant={confirmDialog.type === 'revoke' ? 'danger' : 'info'}
       />
 
-      <div className="container mx-auto max-w-6xl px-4 py-6 pt-(--nav-content-offset)">
+      <div className="container mx-auto max-w-6xl px-4 py-6 pt-[var(--nav-content-offset)]">
         {/* Header */}
         <div className="mb-6">
 
@@ -315,8 +328,8 @@ export default function PatientPrivacyPage() {
               <Shield className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Privacy & Data Access</h1>
-              <p className="text-muted-foreground">Control exactly what each doctor can see</p>
+              <h1 className="text-2xl font-bold text-foreground">{tCommon("privacy.title")}</h1>
+              <p className="text-muted-foreground">{tCommon("privacy.subtitle")}</p>
             </div>
           </div>
         </div>
@@ -327,8 +340,8 @@ export default function PatientPrivacyPage() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
               <div className="text-sm text-blue-800 dark:text-blue-300">
-                <p className="font-medium mb-1">You have full control over your data</p>
-                <p>Choose exactly which categories of your medical data each doctor can see. Toggle individual categories or share/revoke everything at once. Changes take effect immediately.</p>
+                <p className="font-medium mb-1">{tCommon("privacy.info.title")}</p>
+                <p>{tCommon("privacy.info.description")}</p>
               </div>
             </div>
           </CardContent>
@@ -342,7 +355,7 @@ export default function PatientPrivacyPage() {
             className="flex items-center gap-2 whitespace-nowrap"
           >
             <Settings2 className="w-4 h-4" />
-            Data Sharing
+            {tCommon("privacy.tabs.sharing")}
           </Button>
           <Button
             variant={activeTab === 'doctors' ? 'default' : 'outline'}
@@ -350,7 +363,7 @@ export default function PatientPrivacyPage() {
             className="flex items-center gap-2 whitespace-nowrap"
           >
             <Stethoscope className="w-4 h-4" />
-            Doctor Access
+            {tCommon("privacy.tabs.doctors")}
           </Button>
           <Button
             variant={activeTab === 'history' ? 'default' : 'outline'}
@@ -358,35 +371,35 @@ export default function PatientPrivacyPage() {
             className="flex items-center gap-2 whitespace-nowrap"
           >
             <History className="w-4 h-4" />
-            Access History
+            {tCommon("privacy.tabs.history")}
           </Button>
         </div>
 
-        {/* ─── DATA SHARING TAB ─── */}
+        {/* â”€â”€â”€ DATA SHARING TAB â”€â”€â”€ */}
         {activeTab === 'sharing' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Per-Doctor Data Sharing</h2>
+              <h2 className="text-lg font-semibold">{tCommon("privacy.sharing.perDoctor")}</h2>
               <Button variant="ghost" size="sm" onClick={fetchSharingData}>
                 <RefreshCw className="w-4 h-4 mr-1" />
-                Refresh
+                {tCommon("privacy.actions.refresh")}
               </Button>
             </div>
 
             <Card className="rounded-xl border-primary/25 bg-primary/5">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Chorui AI Access Controls</CardTitle>
+                <CardTitle className="text-base">{tCommon("privacy.aiControls.title")}</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Manage AI access separately for personal-data context and general-purpose chat.
+                  {tCommon("privacy.aiControls.description")}
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="rounded-lg border bg-background/70 p-3">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm font-semibold text-foreground">1. Sharing personal informations</p>
+                      <p className="text-sm font-semibold text-foreground">{tCommon("privacy.aiControls.personalTitle")}</p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Category-wise sharing for Chorui AI with doctor-specific controls below.
+                        {tCommon("privacy.aiControls.personalDescription")}
                       </p>
                     </div>
                     <Switch
@@ -400,9 +413,9 @@ export default function PatientPrivacyPage() {
                 <div className="rounded-lg border bg-background/70 p-3">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm font-semibold text-foreground">2. General purpose chatting with AI context sharing</p>
+                      <p className="text-sm font-semibold text-foreground">{tCommon("privacy.aiControls.generalTitle")}</p>
                       <p className="text-xs text-muted-foreground mt-1">
-                        Allow patient-only general Chorui chat even when personal information sharing is disabled.
+                        {tCommon("privacy.aiControls.generalDescription")}
                       </p>
                     </div>
                     <Switch
@@ -415,7 +428,7 @@ export default function PatientPrivacyPage() {
 
                 {!aiAccessLoading && !aiAccess?.ai_personal_context_enabled && (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/20 dark:text-amber-300">
-                    Personal information sharing for AI is disabled. Doctors cannot retrieve your personal record context through Chorui AI.
+                    {tCommon("privacy.aiControls.personalDisabledHint")}
                   </div>
                 )}
               </CardContent>
@@ -425,7 +438,7 @@ export default function PatientPrivacyPage() {
               <Card>
                 <CardContent className="space-y-4 py-6">
                   <div className="flex justify-center py-1">
-                    <MedoraLoader size="sm" label="Loading your doctors..." />
+                    <MedoraLoader size="sm" label={tCommon("privacy.loadingDoctors")} />
                   </div>
                   <div className="grid gap-3">
                     <CardSkeleton />
@@ -437,9 +450,9 @@ export default function PatientPrivacyPage() {
               <Card>
                 <CardContent className="py-8 text-center">
                   <Stethoscope className="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" />
-                  <p className="text-muted-foreground">No doctors found</p>
+                  <p className="text-muted-foreground">{tCommon("privacy.empty.doctorsTitle")}</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Doctors you have appointments with will appear here
+                    {tCommon("privacy.empty.doctorsSubtitle")}
                   </p>
                 </CardContent>
               </Card>
@@ -448,7 +461,7 @@ export default function PatientPrivacyPage() {
                 {patientDoctors.map((doc) => {
                   const isExpanded = expandedDoctor === doc.doctor_id
                   const sharedCount = getSharedCount(doc.doctor_id)
-                  const totalCategories = Object.keys(CATEGORY_LABELS).length
+                  const totalCategories = SHARING_CATEGORY_KEYS.length
                   const allShared = sharedCount === totalCategories
                   const noneShared = sharedCount === 0
                   const sharing = sharingData[doc.doctor_id]?.sharing
@@ -492,7 +505,7 @@ export default function PatientPrivacyPage() {
                               ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                               : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
                           }`}>
-                            {sharedCount}/{totalCategories} shared
+                            {tCommon("privacy.sharing.sharedCount", { shared: sharedCount, total: totalCategories })}
                           </span>
                           {isExpanded ? (
                             <ChevronUp className="w-5 h-5 text-muted-foreground" />
@@ -508,7 +521,7 @@ export default function PatientPrivacyPage() {
                           {/* Bulk actions */}
                           <div className="px-4 py-3 bg-muted/30 flex items-center justify-between">
                             <span className="text-sm font-medium text-muted-foreground">
-                              Quick actions
+                              {tCommon("privacy.sharing.quickActions")}
                             </span>
                             <div className="flex gap-2">
                               <Button
@@ -526,7 +539,7 @@ export default function PatientPrivacyPage() {
                                 ) : (
                                   <ToggleRight className="w-3 h-3" />
                                 )}
-                                Share All
+                                {tCommon("privacy.actions.shareAll")}
                               </Button>
                               <Button
                                 size="sm"
@@ -543,14 +556,14 @@ export default function PatientPrivacyPage() {
                                 ) : (
                                   <ToggleLeft className="w-3 h-3" />
                                 )}
-                                Revoke All
+                                {tCommon("privacy.actions.revokeAll")}
                               </Button>
                             </div>
                           </div>
 
                           {/* Category list */}
                           <div className="divide-y">
-                            {(Object.keys(CATEGORY_LABELS) as (keyof SharingCategories)[]).map(
+                            {SHARING_CATEGORY_KEYS.map(
                               (category) => {
                                 const isOn = sharing?.[category] ?? false
                                 const loadingKey = `${doc.doctor_id}_${category}`
@@ -563,10 +576,10 @@ export default function PatientPrivacyPage() {
                                   >
                                     <div className="pr-4">
                                       <p className="text-sm font-medium text-foreground">
-                                        {CATEGORY_LABELS[category]}
+                                        {tCommon(`privacy.categories.labels.${category}`)}
                                       </p>
                                       <p className="text-xs text-muted-foreground mt-0.5">
-                                        {CATEGORY_DESCRIPTIONS[category]}
+                                        {tCommon(`privacy.categories.descriptions.${category}`)}
                                       </p>
                                     </div>
                                     <div className="shrink-0 flex items-center gap-2">
@@ -596,14 +609,14 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* ─── DOCTOR ACCESS TAB ─── */}
+        {/* â”€â”€â”€ DOCTOR ACCESS TAB â”€â”€â”€ */}
         {activeTab === 'doctors' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Doctors with Access</h2>
+              <h2 className="text-lg font-semibold">{tCommon("privacy.doctors.title")}</h2>
               <Button variant="ghost" size="sm" onClick={fetchData}>
                 <RefreshCw className="w-4 h-4 mr-1" />
-                Refresh
+                {tCommon("privacy.actions.refresh")}
               </Button>
             </div>
 
@@ -611,7 +624,7 @@ export default function PatientPrivacyPage() {
               <Card>
                 <CardContent className="py-8 text-center">
                   <Stethoscope className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground">No doctors have accessed your records yet</p>
+                  <p className="text-muted-foreground">{tCommon("privacy.doctors.empty")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -654,21 +667,21 @@ export default function PatientPrivacyPage() {
                             <>
                               <span className="text-xs text-red-600 bg-red-50 dark:bg-red-900/30 dark:text-red-400 px-2 py-1 rounded-full flex items-center gap-1">
                                 <XCircle className="w-3 h-3" />
-                                Revoked
+                                {tCommon("privacy.doctors.status.revoked")}
                               </span>
                               <Button
                                 size="sm"
                                 variant="outline"
                                 onClick={() => openConfirmDialog('restore', doctor.doctor_id, doctor.doctor_name)}
                               >
-                                Restore
+                                {tCommon("privacy.actions.restoreAccess")}
                               </Button>
                             </>
                           ) : (
                             <>
                               <span className="text-xs text-green-600 bg-green-50 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded-full flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3" />
-                                Active
+                                {tCommon("privacy.doctors.status.active")}
                               </span>
                               <Button
                                 size="sm"
@@ -676,7 +689,7 @@ export default function PatientPrivacyPage() {
                                 className="text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                                 onClick={() => openConfirmDialog('revoke', doctor.doctor_id, doctor.doctor_name)}
                               >
-                                Revoke
+                                {tCommon("privacy.actions.revokeAccess")}
                               </Button>
                             </>
                           )}
@@ -684,11 +697,11 @@ export default function PatientPrivacyPage() {
                       </div>
 
                       <div className="mt-3 pt-3 border-t flex items-center justify-between text-xs text-muted-foreground">
-                        <span>{doctor.appointment_count} appointment(s)</span>
+                        <span>{tCommon("privacy.doctors.appointmentsCount", { count: doctor.appointment_count })}</span>
                         {doctor.last_access && (
                           <span className="flex items-center gap-1">
                             <Eye className="w-3 h-3" />
-                            Last access: {new Date(doctor.last_access).toLocaleDateString()}
+                            {tCommon("privacy.doctors.lastAccess")}: {new Date(doctor.last_access).toLocaleDateString()}
                           </span>
                         )}
                       </div>
@@ -700,14 +713,14 @@ export default function PatientPrivacyPage() {
           </div>
         )}
 
-        {/* ─── HISTORY TAB ─── */}
+        {/* â”€â”€â”€ HISTORY TAB â”€â”€â”€ */}
         {activeTab === 'history' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Recent Access History</h2>
+              <h2 className="text-lg font-semibold">{tCommon("privacy.history.title")}</h2>
               <Button variant="ghost" size="sm" onClick={fetchData}>
                 <RefreshCw className="w-4 h-4 mr-1" />
-                Refresh
+                {tCommon("privacy.actions.refresh")}
               </Button>
             </div>
 
@@ -715,7 +728,7 @@ export default function PatientPrivacyPage() {
               <Card>
                 <CardContent className="py-8 text-center">
                   <History className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
-                  <p className="text-muted-foreground">No access history yet</p>
+                  <p className="text-muted-foreground">{tCommon("privacy.empty.historyTitle")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -766,3 +779,4 @@ export default function PatientPrivacyPage() {
     </AppBackground>
   )
 }
+

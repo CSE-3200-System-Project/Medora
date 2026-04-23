@@ -1,4 +1,4 @@
-import { Inter, Manrope } from "next/font/google";
+﻿import { Inter, Manrope } from "next/font/google";
 import { redirect } from "next/navigation";
 
 import { ChoruiChat } from "@/components/ai/ChoruiChat";
@@ -38,7 +38,7 @@ export default async function DoctorChoruiAIPage() {
   return (
     <AppBackground className={`${manrope.variable} ${inter.variable}`}>
       <Navbar />
-      <main className="mx-auto w-full max-w-7xl page-content pt-(--nav-content-offset)">
+      <main className="mx-auto w-full max-w-7xl page-content pt-[var(--nav-content-offset)]">
         <div className="mb-6 max-w-3xl">
           <p className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Doctor Workflow Assistant
@@ -52,3 +52,4 @@ export default async function DoctorChoruiAIPage() {
     </AppBackground>
   );
 }
+

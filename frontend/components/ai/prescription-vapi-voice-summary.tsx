@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Vapi from "@vapi-ai/web";
+import type Vapi from "@vapi-ai/web";
 import { Loader2, Mic, MicOff, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -180,7 +180,8 @@ export function PrescriptionVapiVoiceSummary({ prescriptionId }: PrescriptionVap
     audioResourcesRef.current = resources;
     const dailyCallObject = resources ? { audioSource: resources.normalizedTrack } : undefined;
 
-    const instance = new Vapi(publicKey, undefined, undefined, dailyCallObject);
+    const { default: VapiCtor } = await import("@vapi-ai/web");
+    const instance = new VapiCtor(publicKey, undefined, undefined, dailyCallObject);
     vapiRef.current = instance;
     attachVapiListeners(instance);
     installVapiKrispGuard(instance);

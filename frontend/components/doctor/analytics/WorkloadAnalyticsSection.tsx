@@ -1,12 +1,14 @@
 "use client";
 
-import { memo } from "react";
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
+import dynamic from "next/dynamic";
+import { memo, useMemo } from "react";
+import type { EChartsOption } from "echarts";
 
-import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import type { WorkloadPoint } from "@/components/doctor/analytics/types";
 import { glassCardClass } from "@/components/doctor/analytics/shared";
 import { cn } from "@/lib/utils";
+
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 type WorkloadAnalyticsSectionProps = {
   chart: WorkloadPoint[];
@@ -17,30 +19,59 @@ type WorkloadAnalyticsSectionProps = {
 };
 
 const WorkloadChart = memo(function WorkloadChart({ chart }: { chart: WorkloadPoint[] }) {
+  const option = useMemo<EChartsOption>(
+    () => ({
+      grid: { top: 12, right: 8, bottom: 24, left: 8, containLabel: true },
+      legend: { show: false },
+      xAxis: {
+        type: "category",
+        data: chart.map((d) => d.day),
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { fontSize: 11, color: "#8c90a0" },
+      },
+      yAxis: {
+        type: "value",
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { fontSize: 11, color: "#8c90a0" },
+        splitLine: { lineStyle: { color: "rgba(140,144,160,0.18)", type: "dashed" } },
+      },
+      tooltip: {
+        trigger: "axis",
+        axisPointer: { type: "shadow", shadowStyle: { color: "rgba(176,198,255,0.12)" } },
+        backgroundColor: "rgba(22,31,52,0.95)",
+        borderColor: "rgba(176,198,255,0.25)",
+        borderWidth: 1,
+        textStyle: { color: "#d9e2fe", fontSize: 12 },
+      },
+      series: [
+        {
+          name: "Capacity",
+          type: "bar",
+          data: chart.map((d) => d.capacity),
+          itemStyle: { color: "#A8A8A8", borderRadius: [6, 6, 0, 0] },
+          barMaxWidth: 22,
+          barGap: "20%",
+          animationDuration: 600,
+        },
+        {
+          name: "Actual",
+          type: "bar",
+          data: chart.map((d) => d.actual),
+          itemStyle: { color: "#0360D9", borderRadius: [6, 6, 0, 0] },
+          barMaxWidth: 22,
+          animationDuration: 600,
+        },
+      ],
+    }),
+    [chart],
+  );
+
   return (
-    <SafeChartContainer
-      className="h-52 rounded-lg bg-muted/40 p-3 sm:h-56"
-      minHeight={208}
-      render={({ width, height }) => (
-        <BarChart data={chart} barGap={6} width={width} height={height}>
-          <CartesianGrid strokeDasharray="4 4" stroke="rgba(140,144,160,0.18)" vertical={false} />
-          <XAxis dataKey="day" tick={{ fill: "#8c90a0", fontSize: 11 }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fill: "#8c90a0", fontSize: 11 }} axisLine={false} tickLine={false} width={28} />
-          <Tooltip
-            cursor={{ fill: "rgba(176,198,255,0.12)" }}
-            contentStyle={{
-              background: "#161f34",
-              border: "1px solid rgba(176,198,255,0.25)",
-              borderRadius: "12px",
-              color: "#d9e2fe",
-              fontSize: "12px",
-            }}
-          />
-          <Bar dataKey="capacity" fill="#A8A8A8" radius={[6, 6, 0, 0]} maxBarSize={22} />
-          <Bar dataKey="actual" fill="#0360D9" radius={[6, 6, 0, 0]} maxBarSize={22} />
-        </BarChart>
-      )}
-    />
+    <div className="h-52 rounded-lg bg-muted/40 p-3 sm:h-56">
+      <ReactECharts option={option} style={{ height: "100%", width: "100%" }} />
+    </div>
   );
 });
 

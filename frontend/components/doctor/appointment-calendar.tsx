@@ -19,45 +19,50 @@ interface AppointmentCalendarProps {
   appointmentsByDate?: Record<string, AppointmentInfo[]>; // Appointments grouped by date
 }
 
-export function AppointmentCalendar({ 
-  onDateSelect, 
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
+
+function AppointmentCalendarInner({
+  onDateSelect,
   selectedDate,
   appointmentDates,
-  appointmentsByDate = {}
+  appointmentsByDate = {},
 }: AppointmentCalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-
-  const getDaysInMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+  const { daysInMonth, startingDayOfWeek } = React.useMemo(() => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
+    return { daysInMonth: lastDay.getDate(), startingDayOfWeek: firstDay.getDay() };
+  }, [currentMonth]);
 
-    return { daysInMonth, startingDayOfWeek };
-  };
+  const handlePrevMonth = React.useCallback(() => {
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1));
+  }, []);
 
-  const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
+  const handleNextMonth = React.useCallback(() => {
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
+  }, []);
 
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  };
+  const handleDateClick = React.useCallback(
+    (day: number) => {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      onDateSelect(localDateKey(date));
+    },
+    [currentMonth, onDateSelect],
+  );
 
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
-  };
-
-  const handleDateClick = (day: number) => {
-    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const dateStr = localDateKey(date);
-    onDateSelect(dateStr);
-  };
+  // Precompute a Set of local-key dates that have appointments so lookups are O(1).
+  const appointmentDateSet = React.useMemo(
+    () => new Set(appointmentDates.map((d) => localDateKey(d))),
+    [appointmentDates],
+  );
 
   const getDateString = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
@@ -65,9 +70,7 @@ export function AppointmentCalendar({
   };
 
   const hasAppointment = (day: number) => {
-    const dateStr = getDateString(day);
-    // Normalize appointmentDates to local keys when checking
-    return appointmentDates.map(d => localDateKey(d)).includes(dateStr);
+    return appointmentDateSet.has(getDateString(day));
   };
 
   const getAppointmentCount = (day: number) => {
@@ -215,7 +218,7 @@ export function AppointmentCalendar({
               <ChevronLeft className="w-3 h-3 text-blue-700" />
             </Button>
             <span className="text-[10px] font-semibold min-w-0 text-center truncate text-blue-800">
-              {monthNames[currentMonth.getMonth()].slice(0, 3)} {currentMonth.getFullYear()}
+              {MONTH_NAMES[currentMonth.getMonth()].slice(0, 3)} {currentMonth.getFullYear()}
             </span>
             <Button
               variant="ghost"
@@ -232,7 +235,7 @@ export function AppointmentCalendar({
       <CardContent className="p-2">
         {/* Day headers */}
         <div className="grid grid-cols-7 gap-0.5 mb-0.5">
-          {["S", "M", "T", "W", "T", "F", "S"].map((day, idx) => (
+          {DAY_LABELS.map((day, idx) => (
             <div
               key={idx}
               className="text-center text-[9px] font-semibold text-blue-600"
@@ -271,4 +274,6 @@ export function AppointmentCalendar({
     </Card>
   );
 }
+
+export const AppointmentCalendar = React.memo(AppointmentCalendarInner);
 

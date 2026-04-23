@@ -1,7 +1,6 @@
 "use client";
 
-import { memo } from "react";
-import { Line, LineChart } from "recharts";
+import { memo, useMemo } from "react";
 
 import type { AnalyticsMetric } from "@/components/doctor/analytics/types";
 import { changeClass, glassCardClass } from "@/components/doctor/analytics/shared";
@@ -27,6 +26,7 @@ function MetricCardSkeleton() {
   );
 }
 
+// Lightweight SVG sparkline — avoids pulling in recharts just for a decorative line.
 const MetricSparkline = memo(function MetricSparkline({
   metric,
   width = 96,
@@ -38,14 +38,42 @@ const MetricSparkline = memo(function MetricSparkline({
   height?: number;
   className?: string;
 }) {
-  const chartData = metric.sparkline.map((value, index) => ({ index, value }));
   const stroke = metric.accent === "error" ? "#B91C1C" : metric.accent === "tertiary" ? "#1379B1" : "#0360D9";
+
+  const pathD = useMemo(() => {
+    const values = metric.sparkline;
+    if (!values || values.length === 0) return "";
+    if (values.length === 1) {
+      const y = height / 2;
+      return `M0 ${y} L${width} ${y}`;
+    }
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+    const stepX = width / (values.length - 1);
+    const padding = 2;
+    const usableH = height - padding * 2;
+    return values
+      .map((value, index) => {
+        const x = index * stepX;
+        const y = padding + usableH - ((value - min) / range) * usableH;
+        return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
+      })
+      .join(" ");
+  }, [metric.sparkline, width, height]);
 
   return (
     <div className={cn("rounded-lg bg-muted/50 p-1.5", className)}>
-      <LineChart data={chartData} width={width} height={height}>
-        <Line type="monotone" dataKey="value" strokeWidth={2} dot={false} stroke={stroke} />
-      </LineChart>
+      <svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-hidden="true"
+        className="overflow-visible"
+      >
+        <path d={pathD} fill="none" stroke={stroke} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+      </svg>
     </div>
   );
 });

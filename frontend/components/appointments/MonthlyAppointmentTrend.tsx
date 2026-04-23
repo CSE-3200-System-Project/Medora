@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import { useT } from "@/i18n/client";
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 interface MonthStat {
   month: string;

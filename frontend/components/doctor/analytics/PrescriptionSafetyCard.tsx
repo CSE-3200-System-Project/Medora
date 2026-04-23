@@ -1,10 +1,12 @@
 "use client";
 
-import { memo } from "react";
-import { Cell, Pie, PieChart } from "recharts";
+import dynamic from "next/dynamic";
+import { memo, useMemo } from "react";
+import type { EChartsOption } from "echarts";
 
-import { SafeChartContainer } from "@/components/doctor/analytics/SafeChartContainer";
 import type { PrescriptionSafetyData } from "@/components/doctor/analytics/types";
+
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 type PrescriptionSafetyCardProps = {
   data: PrescriptionSafetyData;
@@ -14,40 +16,39 @@ type PrescriptionSafetyCardProps = {
 const safetyChartColors = ["#0360D9", "#1379B1", "#B91C1C"];
 
 export const PrescriptionSafetyCard = memo(function PrescriptionSafetyCard({ data, isLoading = false }: PrescriptionSafetyCardProps) {
+  const option = useMemo<EChartsOption>(
+    () => ({
+      series: [
+        {
+          type: "pie",
+          radius: ["65%", "90%"],
+          center: ["50%", "50%"],
+          padAngle: 2,
+          avoidLabelOverlap: false,
+          label: { show: false },
+          labelLine: { show: false },
+          itemStyle: { borderWidth: 0 },
+          data: [
+            { value: data.safe, name: "Safe", itemStyle: { color: safetyChartColors[0] } },
+            { value: data.warning, name: "Warnings", itemStyle: { color: safetyChartColors[1] } },
+            { value: data.blocked, name: "Blocked", itemStyle: { color: safetyChartColors[2] } },
+          ],
+          animationDuration: 600,
+        },
+      ],
+    }),
+    [data.safe, data.warning, data.blocked],
+  );
+
   if (isLoading) {
     return <div className="h-40 animate-pulse rounded-lg bg-muted" />;
   }
-
-  const chartData = [
-    { label: "Safe", value: data.safe },
-    { label: "Warnings", value: data.warning },
-    { label: "Blocked", value: data.blocked },
-  ];
 
   return (
     <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
       {/* Chart */}
       <div className="relative mx-auto h-40 w-40 shrink-0 sm:mx-0">
-        <SafeChartContainer
-          className="h-full w-full"
-          minHeight={160}
-          render={({ width, height }) => (
-            <PieChart width={width} height={height}>
-              <Pie
-                data={chartData}
-                dataKey="value"
-                innerRadius={52}
-                outerRadius={72}
-                stroke="none"
-                paddingAngle={2}
-              >
-                {chartData.map((_, index) => (
-                  <Cell key={`safety-cell-${index}`} fill={safetyChartColors[index]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
-        />
+        <ReactECharts option={option} style={{ height: "100%", width: "100%" }} />
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
           <span className="text-2xl font-bold tabular-nums text-foreground">{data.score.toFixed(1)}%</span>
           <span className="text-xs font-medium text-muted-foreground">Safety score</span>

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
@@ -402,7 +402,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-6xl mx-auto py-8 pt-(--nav-content-offset)">
+        <main className="max-w-6xl mx-auto py-8 pt-[var(--nav-content-offset)]">
           <DoctorPatientRecordSkeleton />
         </main>
       </AppBackground>
@@ -413,7 +413,7 @@ export default function DoctorPatientViewPage() {
     return (
       <AppBackground>
         <Navbar />
-        <div className="min-h-dvh min-h-app flex items-center justify-center p-4 pt-(--nav-content-offset)">
+        <div className="min-h-dvh min-h-app flex items-center justify-center p-4 pt-[var(--nav-content-offset)]">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center gap-4 text-center">
@@ -440,7 +440,7 @@ export default function DoctorPatientViewPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="min-h-dvh min-h-app pt-(--nav-content-offset) pb-8">
+      <main className="min-h-dvh min-h-app pt-[var(--nav-content-offset)] pb-8">
         {/* Top Header Bar */}
         <div className="max-w-6xl mx-auto container-padding py-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -1494,4 +1494,5 @@ function FamilyHistoryItem({ condition, hasCondition }: { condition: string; has
     </div>
   )
 }
+
 

@@ -125,6 +125,20 @@
         "assignedDoctor": "Assigned Doctor"
       }
     },
+    "success": {
+      "loadingDetails": "Loading appointment details...",
+      "titlePrefix": "Your",
+      "titleHighlight": "appointment request",
+      "titleSuffix": "has been successfully submitted!",
+      "subtitle": "We'll be in touch shortly to confirm.",
+      "requestedDetails": "Requested appointment details:",
+      "doctor": "Doctor",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "viewMyAppointments": "View My Appointments",
+      "backToHome": "Back to Home"
+    },
     "summary": {
       "patientId": "Patient ID",
       "next": "Next",
@@ -443,6 +457,910 @@
         "with_meal": "With Meal",
         "empty_stomach": "Empty Stomach",
         "any_time": "Any Time"
+      }
+    }
+  },
+  "findDoctor": {
+    "page": {
+      "title": "Find Your Doctor",
+      "subtitle": "Search specialists with filters or describe your concern in AI mode.",
+      "loadingVisitedDoctors": "Loading previously visited doctors...",
+      "doctorFallback": "Doctor",
+      "resultsFoundOne": "{count} doctor found",
+      "resultsFoundMany": "{count} doctors found",
+      "hideMap": "Hide Map",
+      "showMap": "Show Map",
+      "closeMap": "Close Map",
+      "clearAllFilters": "Clear All Filters",
+      "loadingDoctors": "Loading doctors...",
+      "noDoctorsFound": "No doctors found for this search."
+    },
+    "mobileFilters": {
+      "title": "Filters",
+      "triggerLabel": "Filters",
+      "close": "Close",
+      "reset": "Reset",
+      "apply": "Apply"
+    },
+    "filters": {
+      "gender": "Gender",
+      "allGenders": "All Genders",
+      "male": "Male",
+      "female": "Female",
+      "speciality": "Speciality",
+      "allSpecialities": "All Specialities",
+      "noSpecialitiesFound": "No specialities found",
+      "location": "Location",
+      "selectDistrict": "Select district",
+      "noDistrictsFound": "No districts found",
+      "consultationType": "Consultation Type",
+      "allTypes": "All Types",
+      "online": "Online",
+      "offlineInPerson": "Offline (In-Person)"
+    },
+    "search": {
+      "aiModeActive": "AI Assistant Mode Active",
+      "standardMode": "Standard Search Mode",
+      "switchToStandard": "Switch to Standard",
+      "tryAiSearch": "Try AI Search",
+      "describeConcern": "Describe Your Concern",
+      "concernPlaceholder": "Describe symptoms in Bangla or English, or use voice input...",
+      "aiEnglishOnlyNotice": "AI responses are currently available in English only.",
+      "helperText": "Tip: mention symptoms, duration, and location for better matches.",
+      "locationOptional": "Location (Optional)",
+      "consultationType": "Consultation Type",
+      "anyType": "Any Type",
+      "videoConsultation": "Video Consultation",
+      "chamberVisit": "Chamber Visit",
+      "yourLocation": "Your Location",
+      "locationSet": "Location Added",
+      "useMyLocation": "Use My Location",
+      "findDoctorsWithAi": "Find Doctors with AI",
+      "searchPlaceholder": "Search by doctor name, speciality, or hospital",
+      "searchButton": "Search"
+    },
+    "aiAnalysis": {
+      "title": "AI Analysis",
+      "languageBangla": "Bangla",
+      "languageEnglish": "English",
+      "languageMixed": "Mixed",
+      "symptomsDetected": "Symptoms",
+      "specialties": "Suggested Specialties",
+      "urgencyLevel": "Urgency",
+      "urgencyHigh": "High",
+      "urgencyMedium": "Medium",
+      "urgencyLow": "Low"
+    },
+    "ambiguity": {
+      "title": "Need More Detail",
+      "description": "Your request is a bit broad. Add key symptoms or preferred speciality to improve matching.",
+      "tryAgain": "Try Again"
+    },
+    "previouslyVisited": {
+      "title": "Previously Visited Doctors",
+      "quickBook": "Quick Book",
+      "lastPrefix": "Last Visit",
+      "recently": "Recently"
+    },
+    "context": {
+      "title": "Personalized Using Your Medical History",
+      "description": "These profile factors influenced the doctor ranking.",
+      "loadingTitle": "Analyzing your medical context...",
+      "loadingDescription": "Reviewing history and matching factors...",
+      "personalizedTitle": "Personalized",
+      "personalizedDescription": "Results are prioritized based on your health profile and prior records.",
+      "category": {
+        "condition": "Condition",
+        "medication": "Medication",
+        "allergy": "Allergy",
+        "surgery": "Surgery",
+        "hospitalization": "Hospitalization",
+        "medicalHistory": "Medical History"
+      }
+    },
+    "doctorCard": {
+      "yearsExperience": "{count} years experience",
+      "yearsExperienceShort": "{count} yrs exp",
+      "metersAway": "{count}m away",
+      "kmAway": "{count}km away",
+      "aiMatch": "AI Match",
+      "availability": "Availability",
+      "video": "Video",
+      "videoConsult": "Video Consultation",
+      "consultationFee": "Consultation Fee",
+      "notAvailable": "N/A",
+      "bookAppointment": "Book Appointment"
+    },
+    "map": {
+      "durationMinutes": "{count} min",
+      "durationHoursMinutes": "{hours} hr {minutes} min",
+      "distanceMeters": "{count} m",
+      "distanceKm": "{count} km",
+      "hospital": "Hospital",
+      "chamber": "Chamber",
+      "clinic": "Clinic",
+      "consultationFee": "Consultation fee",
+      "getDirections": "Get Directions",
+      "enableLocation": "Enable your location to view route options.",
+      "routeUnavailable": "Route is unavailable right now.",
+      "noDoctorsTitle": "No doctor locations to show on the map.",
+      "you": "You",
+      "routeOptions": "Route Options",
+      "fastest": "Fastest",
+      "findingRoutes": "Finding routes...",
+      "locationsShownOne": "location shown on map",
+      "locationsShownMany": "locations shown on map"
+    },
+    "voice": {
+      "startVoiceAgent": "Start Voice Assistant",
+      "stopVoiceAgent": "Stop Voice Assistant",
+      "stopRecording": "Stop recording",
+      "recording": "Recording...",
+      "processing": "Processing...",
+      "voiceInputUnavailable": "Voice input unavailable",
+      "clickToSpeak": "Click to speak",
+      "connecting": "Connecting...",
+      "aiSpeaking": "AI is speaking...",
+      "aiListening": "AI is listening...",
+      "useVoiceAgentHint": "Use voice to describe your symptoms naturally.",
+      "notConfiguredHint": "Voice assistant is not configured yet. Add Vapi environment variables.",
+      "misconfiguredHint": "Doctor-search assistant ID is misconfigured. Check your Vapi settings.",
+      "languageBangla": "Bangla",
+      "languageEnglish": "English",
+      "languageHindi": "Hindi",
+      "languageMixed": "Mixed",
+      "goodQuality": "Good quality",
+      "reviewNeeded": "Review needed",
+      "reviewMessage": "Please review and adjust this text before search.",
+      "lowConfidence": "Low confidence",
+      "lowConfidenceMessage": "Audio clarity was low. Edit the text or record again.",
+      "detectedFromVoice": "Detected from voice",
+      "transcriptionPlaceholder": "Transcribed text",
+      "editableHint": "You can edit this text before searching.",
+      "useThisText": "Use This Text",
+      "tryAgain": "Try Again",
+      "cancel": "Cancel",
+      "errors": {
+        "assistantNotFound": "Voice assistant configuration is invalid. Please try again later.",
+        "stopAssistantFailed": "Unable to stop voice assistant. Please refresh and try again.",
+        "startAssistantFailed": "Unable to start voice assistant. Please try again.",
+        "invalidAssistantConfig": "Doctor-search assistant setup is invalid. Please contact support.",
+        "noSpeech": "No speech detected. Please try again.",
+        "transcriptionFailed": "Transcription failed. Please try again.",
+        "connectionFailed": "Failed to connect to the server. Please try again.",
+        "backendNotConfigured": "Backend URL is not configured.",
+        "recorderNotSupported": "Voice recording is not supported in this browser.",
+        "recordingFailed": "Recording failed. Please try again.",
+        "micDenied": "Microphone access denied. Please allow access and try again.",
+        "micNotFound": "No microphone found. Please connect one and try again.",
+        "startRecordingFailed": "Failed to start recording. Please try again.",
+        "locationNotSupported": "Geolocation is not supported on this device.",
+        "locationDenied": "Location access denied. Please allow location access.",
+        "generic": "Something went wrong with voice input. Please try again."
+      }
+    }
+  },
+  "doctorProfile": {
+    "page": {
+      "loadFailed": "Unable to load doctor profile. Please try again.",
+      "shareTitle": "Doctor Profile",
+      "shareText": "Check out Dr. {firstName} {lastName} on Medora.",
+      "linkCopied": "Profile link copied.",
+      "loadingProfile": "Loading doctor profile...",
+      "notFound": "Doctor profile not found.",
+      "backToDoctorSearch": "Back to Find Doctor",
+      "breadcrumbHome": "Find Doctor",
+      "breadcrumbDoctors": "Doctor Profile",
+      "doctorPrefix": "Dr."
+    },
+    "header": {
+      "defaultSpecialist": "Specialist",
+      "defaultSubSpecialty": "General Care",
+      "yearsPlus": "{count}+ years",
+      "notAvailable": "N/A",
+      "qualificationsFallback": "Experienced physician",
+      "shareAria": "Share doctor profile",
+      "saveAria": "Save doctor profile",
+      "experience": "Experience",
+      "successRate": "Success Rate",
+      "status": "Status",
+      "bmdcVerified": "BMDC Verified",
+      "verificationPending": "Verification Pending"
+    },
+    "about": {
+      "title": "About Dr. {lastName}",
+      "fallbackText": "{title}{firstName} {lastName} provides thoughtful, patient-first care with evidence-based treatment planning."
+    },
+    "qualifications": {
+      "title": "Qualifications"
+    },
+    "specializations": {
+      "title": "Specializations"
+    },
+    "professionalDetails": {
+      "title": "Professional Details",
+      "specialization": "Specialization",
+      "consultationFee": "Consultation Fee",
+      "appointmentDuration": "Appointment Duration",
+      "minutes": "mins",
+      "experience": "Experience",
+      "year": "year",
+      "years": "years"
+    },
+    "locations": {
+      "title": "Practice Locations",
+      "defaultDays": "Schedule unavailable",
+      "defaultTime": "Please call for timings",
+      "schedule": "Schedule",
+      "map": "View Map"
+    },
+    "booking": {
+      "title": "Book Appointment",
+      "subtitle": "Choose a location, pick a slot, and confirm quickly.",
+      "stepPracticeLocation": "1. Select Practice Location",
+      "stepDate": "2. Select Date",
+      "stepSlots": "3. Available Slots",
+      "stepReason": "4. Reason for Visit",
+      "morningShift": "Morning Shift",
+      "eveningShift": "Evening Shift",
+      "feeSuffix": "fee",
+      "loadingSlots": "Fetching available slots...",
+      "visitReasonPlaceholder": "e.g., Follow-up checkup, New consultation...",
+      "totalConsultationFee": "Total Consultation Fee",
+      "estimatedDuration": "Est. Duration",
+      "durationRange": "{start}-{end} mins",
+      "confirming": "Confirming...",
+      "confirmAppointment": "Confirm Appointment",
+      "cancellationPolicy": "No cancellation fee if canceled at least 12 hours before appointment time.",
+      "supportTitle": "Instant Support",
+      "supportDescription": "Need help with booking? Call us at +1 (800) MEDORA-HELP",
+      "today": "Today",
+      "noSlots": "No slots are available for this date.",
+      "slotSingular": "{count} slot",
+      "slotPlural": "{count} slots",
+      "locationNotSpecified": "Not specified",
+      "reasonFallback": "New consultation",
+      "notesTemplate": "Slot: {slot} | Location: {location}",
+      "genericError": "Failed to create appointment. Please try again.",
+      "periods": {
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "night": "Night"
+      },
+      "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      },
+      "daysShort": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    }
+  },
+  "analytics": {
+    "header": {
+      "breadcrumb": "Patient / Reminders",
+      "title": "Health & Medication Analytics",
+      "subtitle": "Real-time health tracking, adherence summary, and trend insights."
+    },
+    "dateRanges": {
+      "sevenDays": "7 Days",
+      "fourteenDays": "14 Days",
+      "oneMonth": "1 Month",
+      "threeMonths": "3 Months",
+      "sixMonths": "6 Months",
+      "oneYear": "1 Year",
+      "twoYears": "2 Years"
+    },
+    "weekdays": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "trend": {
+      "up": "Up",
+      "down": "Down",
+      "stable": "Stable"
+    },
+    "errors": {
+      "refreshRemindersFailed": "Unable to refresh live reminders right now.",
+      "revokeConsentFailed": "Failed to revoke consent.",
+      "saveMetricFailed": "Unable to save health metric right now.",
+      "saveBloodPressureFailed": "Unable to save blood pressure right now."
+    },
+    "shared": {
+      "notAvailable": "N/A",
+      "log": "Log"
+    },
+    "metricCards": {
+      "normal": "Normal",
+      "check": "Check",
+      "noTrendData": "No trend data yet",
+      "periodAverage": "{range} avg: {value}",
+      "logBloodPressure": "Log BP",
+      "steps": {
+        "label": "Steps",
+        "unit": "steps",
+        "placeholder": "Log steps"
+      },
+      "sleep": {
+        "label": "Sleep",
+        "unit": "hrs",
+        "placeholder": "Log sleep"
+      },
+      "heartRate": {
+        "label": "Heart Rate",
+        "unit": "bpm",
+        "placeholder": "Log heart rate"
+      },
+      "bloodPressure": {
+        "label": "Blood Pressure",
+        "unit": "mmHg",
+        "placeholder": "Log blood pressure",
+        "sys": "Sys",
+        "dia": "Dia"
+      }
+    },
+    "adherenceStats": {
+      "adherenceScore": "Adherence Score",
+      "fromLastWeek": "from last week",
+      "perfectDays": "Perfect Days",
+      "last30Days": "last 30 days",
+      "activeMedications": "Active Medications",
+      "scheduledForToday": "scheduled for today",
+      "currentStreak": "Current Streak",
+      "currentStreakDays": "{count} days",
+      "keepMomentum": "Keep momentum"
+    },
+    "adherenceHeatmap": {
+      "title": "Adherence Heatmap",
+      "legend": {
+        "perfect": "Perfect",
+        "partial": "Partial",
+        "missed": "Missed",
+        "future": "Future"
+      },
+      "levelLabels": {
+        "perfect": "Perfect adherence",
+        "partial": "Partial adherence",
+        "missed": "Missed doses",
+        "future": "Upcoming"
+      }
+    },
+    "todaySchedule": {
+      "title": "Today's Schedule",
+      "previousDay": "Previous day",
+      "today": "Today",
+      "nextDay": "Next day"
+    },
+    "smartInsight": {
+      "title": "Smart Insight",
+      "setupReminder": "Setup Reminder"
+    },
+    "medicationItem": {
+      "taken": "Taken",
+      "markTaken": "Mark Taken",
+      "take": "Take",
+      "skip": "Skip",
+      "remind": "Remind",
+      "takenAt": "Taken at {time}",
+      "dueNow": "Due now",
+      "snoozed": "Snoozed for a short delay",
+      "skippedDose": "Skipped dose",
+      "upcoming": "Upcoming"
+    },
+    "missedDoseChart": {
+      "title": "Missed Dose Trend",
+      "last30Days": "Last 30 days"
+    },
+    "details": {
+      "title": "Detailed Health Metrics",
+      "overview": "{range} overview",
+      "entriesOverRange": "{count} entries over {range}",
+      "latest": "latest",
+      "min": "Min",
+      "avg": "Avg",
+      "max": "Max",
+      "normalRange": "Normal range:",
+      "withinRange": "Within range",
+      "outsideRange": "Outside range",
+      "noMetricData": "No health metric data yet. Log metrics above to see detailed breakdowns."
+    },
+    "dataSharing": {
+      "title": "Health Data Sharing",
+      "subtitle": "Control which doctors can view your health metrics for better diagnosis. You can revoke access at any time.",
+      "loading": "Loading data sharing status...",
+      "emptyTitle": "No doctors have access yet",
+      "emptySubtitle": "Visit a doctor's profile or consultation page to share your health data with them.",
+      "doctorFallback": "Doctor",
+      "sharedSince": "Shared since {date}",
+      "accessRevoked": "Access revoked",
+      "revoke": "Revoke"
+    },
+    "dueAlert": {
+      "title": "Medication Due",
+      "takeNow": "Take now",
+      "snooze": "Snooze"
+    },
+    "insight": {
+      "empty": "No active medication reminders for today yet. Add reminders from Medical History to start live analytics tracking.",
+      "skipped": "{count} reminder(s) already missed today. Consider adjusting reminder times for better adherence.",
+      "due": "{count} dose(s) are due right now. Complete them to improve today's adherence score.",
+      "onTrack": "Great progress. All upcoming reminders are on track for today."
+    }
+  },
+  "patientProfile": {
+    "loading": "Loading profile...",
+    "errorTitle": "Failed to load profile",
+    "retryHint": "Please try again.",
+    "title": "My Profile",
+    "subtitle": "Manage your personal and medical information",
+    "ageYears": "{age} years old",
+    "notProvided": "Not provided",
+    "notSpecified": "Not specified",
+    "unknownMedication": "Unknown medication",
+    "errors": {
+      "sessionVerifyFailed": "We couldn't verify your session while loading profile data.",
+      "loadFailed": "Profile data couldn't be loaded. Check your connection and retry."
+    },
+    "actions": {
+      "retry": "Retry",
+      "goToLogin": "Go to Login",
+      "editProfile": "Edit Profile",
+      "completeMissingData": "Complete Missing Data",
+      "viewAll": "View All"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "height": "Height",
+      "weight": "Weight",
+      "dateOfBirth": "Date of Birth",
+      "maritalStatus": "Marital Status",
+      "name": "Name",
+      "relation": "Relation"
+    },
+    "sections": {
+      "contactInfo": "Contact Information",
+      "physicalInfo": "Physical Information",
+      "careMonitoring": "Care & Monitoring",
+      "medicalConditions": "Medical Conditions",
+      "currentMedications": "Current Medications",
+      "allergies": "Allergies",
+      "emergencyContact": "Emergency Contact",
+      "medicalHistoryCare": "Medical History & Care",
+      "surgeries": "Surgeries",
+      "hospitalizations": "Hospitalizations",
+      "recentVisits": "Recent Visits"
+    },
+    "cards": {
+      "prescriptions": {
+        "title": "Prescriptions",
+        "subtitle": "Access your current and past prescriptions",
+        "quickAction": "View all your active and past prescriptions"
+      },
+      "reminders": {
+        "title": "Reminders",
+        "subtitle": "Manage your medication and follow-up reminders",
+        "quickAction": "Manage your medicine and follow-up reminders"
+      }
+    },
+    "empty": {
+      "noChronicConditions": "No chronic conditions reported",
+      "noAllergies": "No allergies reported",
+      "noEmergencyContact": "No emergency contact added",
+      "noSurgeries": "No surgeries recorded",
+      "noHospitalizations": "No hospitalizations recorded",
+      "noVisits": "No visits recorded"
+    },
+    "quickActions": {
+      "findDoctors": "Find Doctors",
+      "myAppointments": "My Appointments",
+      "medicalHistory": "Medical History",
+      "prescriptions": "Prescriptions",
+      "reminders": "Reminders"
+    },
+    "completeness": {
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "bloodGroup": "Blood group",
+      "addressDetails": "Address details",
+      "heightWeight": "Height and weight",
+      "emergencyContact": "Emergency contact",
+      "allergyDetails": "Allergy details",
+      "progress": "Profile completion: {percent}%",
+      "missingSummary": "{count} important section(s) missing. Complete them now to avoid care delays.",
+      "more": "+{count} more"
+    }
+  },
+  "medicalHistory": {
+    "loading": "Loading medical history...",
+    "actions": {
+      "exportReport": "Export Report",
+      "newEntry": "New Entry",
+      "setReminder": "Set Reminder",
+      "retry": "Retry",
+      "cancel": "Cancel",
+      "ok": "OK"
+    },
+    "tabs": {
+      "timeline": "Timeline",
+      "timelineShort": "Timeline",
+      "medications": "Medications",
+      "medicationsShort": "Meds",
+      "labTests": "Lab Tests",
+      "labTestsShort": "Tests",
+      "surgeries": "Surgeries",
+      "surgeriesShort": "Surgery",
+      "hospitalizations": "Hospitalizations",
+      "hospitalizationsShort": "Hospital",
+      "vaccinations": "Vaccinations",
+      "vaccinationsShort": "Vaccines",
+      "visits": "Visits",
+      "visitsShort": "Visits",
+      "labReports": "Lab Reports",
+      "reportsShort": "Reports"
+    },
+    "fields": {
+      "strength": "Strength:",
+      "doses": "Doses:",
+      "duration": "Duration:",
+      "meal": "Meal:",
+      "preferredLab": "Preferred Lab:",
+      "expectedDate": "Expected Date:",
+      "facility": "Facility:",
+      "recommendedDate": "Recommended Date:",
+      "estimatedCost": "Est. Cost:"
+    },
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "scheduled": "Scheduled",
+      "overdue": "Overdue",
+      "skipped": "Skipped"
+    },
+    "medications": {
+      "doctorPrescribedTitle": "Doctor Prescribed Medications",
+      "doctorPrescribedSubtitle": "Medications prescribed by your doctors during consultations",
+      "myMedications": "My Medications",
+      "labels": {
+        "expiredOn": "Expired on",
+        "expiresOn": "Expires on",
+        "expired": "Expired",
+        "current": "Current",
+        "dosageSchedule": "Dosage Schedule",
+        "duration": "Duration",
+        "meal": "Meal",
+        "startDate": "Start Date"
+      },
+      "myMedicationsSubtitle": "Medications you are currently taking",
+      "emptyFiltered": "No medications match this filter",
+      "filters": {
+        "active": "Active",
+        "expired": "Expired",
+        "all": "All"
+      },
+      "actions": {
+        "addMedication": "Add Medication",
+        "markCompleted": "Mark Completed",
+        "delete": "Delete",
+        "alreadyAdded": "Already added",
+        "alreadyActiveHint": "This medication is already in your active list",
+        "renewMedication": "Renew"
+      },
+      "messages": {
+        "syncFailed": "Failed to sync medication changes"
+      },
+      "pagination": {
+        "prescriptions": "prescriptions"
+      }
+    },
+    "labTests": {
+      "title": "Lab Tests & Diagnostics",
+      "subtitle": "Track your medical tests and results",
+      "addTest": "Add Test",
+      "testRecord": "Test Record",
+      "searchPlaceholder": "Search for a test...",
+      "prescribedByPlaceholder": "Doctor's name",
+      "hospitalLabPlaceholder": "Where test was conducted",
+      "notesPlaceholder": "Any additional notes...",
+      "emptyHint": "Click \"Add Test\" to record your lab tests",
+      "emptyTitle": "No lab tests recorded yet",
+      "messages": {
+        "added": "Lab test added successfully",
+        "completed": "Lab test marked as completed",
+        "completeFailed": "Failed to mark test as completed",
+        "skipped": "Lab test marked as skipped",
+        "skipFailed": "Failed to skip test",
+        "duplicatePending": "A pending test with this name already exists"
+      }
+    },
+    "surgeries": {
+      "doctorRecommendedTitle": "Doctor Recommended Surgeries",
+      "doctorRecommendedSubtitle": "Surgical procedures recommended by your doctors",
+      "reasonLabel": "Reason:",
+      "preOpLabel": "Pre-op:",
+      "untitled": "Untitled Surgery",
+      "messages": {
+        "added": "Surgery added successfully",
+        "addFailed": "Failed to add surgery",
+        "deleted": "Surgery removed",
+        "deleteFailed": "Failed to remove surgery"
+      }
+    },
+    "hospitalization": {
+      "title": "Hospitalization History",
+      "subtitle": "Record of hospital admissions",
+      "fields": {
+        "reason": "Reason for Admission",
+        "year": "Year",
+        "duration": "Duration",
+        "hospital": "Hospital",
+        "hospitalLabel": "Hospital:",
+        "notes": "Additional Notes"
+      },
+      "placeholders": {
+        "reason": "e.g., Pneumonia, Heart Attack",
+        "year": "e.g., 2023",
+        "duration": "e.g., 5 days, 2 weeks",
+        "hospital": "e.g., Dhaka Medical College Hospital",
+        "notes": "Any additional details about the hospitalization..."
+      },
+      "empty": {
+        "title": "No hospitalization history recorded",
+        "subtitle": "Add your first hospitalization to get started"
+      },
+      "dialog": {
+        "addTitle": "Add Hospitalization",
+        "editTitle": "Edit Hospitalization",
+        "addDescription": "Add details about your hospital admission",
+        "editDescription": "Update the hospitalization details below"
+      },
+      "actions": {
+        "add": "Add Hospitalization",
+        "update": "Update Hospitalization",
+        "delete": "Delete"
+      },
+      "delete": {
+        "title": "Delete Hospitalization",
+        "description": "Are you sure you want to delete this hospitalization record? This action cannot be undone."
+      }
+    },
+    "visits": {
+      "title": "Past Doctor Visits",
+      "subtitle": "History of your consultations with Medora doctors",
+      "empty": "No past appointments found."
+    },
+    "reports": {
+      "listTitle": "Upload and view your lab test reports",
+      "uploadReport": "Upload Report",
+      "processing": "Processing...",
+      "uploadExtract": "Upload & Extract",
+      "emptyTitle": "No medical reports yet",
+      "emptySubtitle": "Upload your first lab report to get started",
+      "testsFound": "Tests Found",
+      "normal": "Normal",
+      "abnormal": "Abnormal",
+      "comments": "Comments",
+      "noExtractedResults": "No test results were extracted from this report.",
+      "dropzoneHint": "Drag & drop your report here, or click to browse",
+      "dropzoneFormats": "Supports JPG, PNG, WebP, PDF (max 15MB)",
+      "reportDateOptional": "Report Date (optional)",
+      "uploadLabReport": "Upload Lab Report",
+      "loading": "Loading reports...",
+      "doctorNotes": "Doctor Notes",
+      "labReportFallback": "Lab Report",
+      "processed": "Processed",
+      "testsCount": "{count} tests",
+      "commentsCount": "{count} comments",
+      "status": {
+        "normal": "Normal",
+        "high": "High",
+        "low": "Low"
+      },
+      "errors": {
+        "invalidUploadType": "Only PDF, JPG, PNG, and WEBP files are supported",
+        "uploadFailed": "Failed to upload report",
+        "loadFailed": "Failed to load reports",
+        "loadSingleFailed": "Failed to load report details"
+      }
+    },
+    "table": {
+      "testName": "Test Name",
+      "value": "Value",
+      "unit": "Unit",
+      "referenceRange": "Reference Range",
+      "status": "Status"
+    },
+    "timeline": {
+      "title": "Medical Timeline",
+      "subtitle": "Your complete medical history in chronological order"
+    },
+    "dialogs": {
+      "successTitle": "Success!",
+      "successDescription": "Your medical history has been saved successfully.",
+      "errorTitle": "Error"
+    },
+    "header": {
+      "activeProfile": "Active Profile",
+      "title": "Medical History",
+      "years": "years",
+      "idPrefix": "ID"
+    },
+    "common": {
+      "doctorPrescribed": "Doctor Prescribed",
+      "doctorPrefix": "Dr.",
+      "selfAdded": "Self Added"
+    }
+  },
+  "prescriptions": {
+    "title": "My Prescriptions",
+    "subtitle": "View and manage prescriptions from your doctors",
+    "myPrescriptionsSubtitle": "View and manage all your prescriptions from doctors",
+    "loading": "Loading prescriptions...",
+    "pendingAlert": "You have {count} pending prescriptions that require your review.",
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "types": {
+      "medication": "Medication",
+      "medicalTest": "Medical Test",
+      "surgeryProcedure": "Surgery/Procedure"
+    },
+    "status": {
+      "accepted": "Accepted",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "tryAgain": "Try Again",
+      "accept": "Accept",
+      "reject": "Reject",
+      "rejectPrescription": "Reject Prescription"
+    },
+    "empty": {
+      "title": "No Prescriptions Found",
+      "all": "You don't have any prescriptions yet. They will appear here when your doctor prescribes medications, tests, or procedures.",
+      "filtered": "No {status} prescriptions found."
+    },
+    "messages": {
+      "accepted": "Prescription accepted and added to medical history",
+      "rejected": "Prescription rejected"
+    },
+    "errors": {
+      "loadFailed": "Failed to load prescriptions",
+      "acceptFailed": "Failed to accept prescription",
+      "rejectFailed": "Failed to reject prescription"
+    },
+    "dialogs": {
+      "rejectTitle": "Reject Prescription",
+      "rejectDescription": "Please provide a reason for rejecting this prescription (optional).",
+      "reasonOptional": "Reason (Optional)",
+      "reasonPlaceholder": "e.g., I'm allergic to this medication..."
+    }
+  },
+  "privacy": {
+    "title": "Privacy & Data Access",
+    "subtitle": "Control exactly what each doctor can see",
+    "loadingSettings": "Loading privacy settings...",
+    "tabs": {
+      "sharing": "Data Sharing",
+      "doctors": "Doctor Access",
+      "history": "Access History"
+    },
+    "dialogs": {
+      "revokeTitle": "Revoke Doctor Access?",
+      "restoreTitle": "Restore Doctor Access?",
+      "revokeDescription": "{doctorName} will no longer be able to view your medical records. You can restore access later if needed.",
+      "restoreDescription": "{doctorName} will be able to view your medical records again."
+    },
+    "actions": {
+      "refresh": "Refresh",
+      "revokeAccess": "Revoke Access",
+      "restoreAccess": "Restore Access",
+      "shareAll": "Share All",
+      "revokeAll": "Revoke All"
+    },
+    "errors": {
+      "updateAIAccessFailed": "Failed to update AI access settings",
+      "revokeAccessFailed": "Failed to revoke access",
+      "restoreAccessFailed": "Failed to restore access"
+    },
+    "info": {
+      "title": "You have full control over your data",
+      "description": "Choose exactly which categories of your medical data each doctor can see. Toggle individual categories or share/revoke everything at once. Changes take effect immediately."
+    },
+    "sharing": {
+      "perDoctor": "Per-Doctor Data Sharing",
+      "quickActions": "Quick actions",
+      "sharedCount": "{shared}/{total} shared"
+    },
+    "aiControls": {
+      "title": "Chorui AI Access Controls",
+      "personalTitle": "1. Sharing personal informations",
+      "generalTitle": "2. General purpose chatting with AI context sharing",
+      "description": "Manage AI access separately for personal-data context and general-purpose chat.",
+      "personalDescription": "Category-wise sharing for Chorui AI with doctor-specific controls below.",
+      "generalDescription": "Allow patient-only general Chorui chat even when personal information sharing is disabled.",
+      "personalDisabledHint": "Personal information sharing for AI is disabled. Doctors cannot retrieve your personal record context through Chorui AI."
+    },
+    "categories": {
+      "labels": {
+        "can_view_profile": "Profile & Identity",
+        "can_view_conditions": "Medical Conditions",
+        "can_view_medications": "Medications",
+        "can_view_allergies": "Allergies",
+        "can_view_medical_history": "Medical History",
+        "can_view_family_history": "Family History",
+        "can_view_lifestyle": "Lifestyle & Habits",
+        "can_view_vaccinations": "Vaccinations",
+        "can_view_reports": "Lab Reports",
+        "can_view_health_metrics": "Health Metrics",
+        "can_view_prescriptions": "Prescriptions"
+      },
+      "descriptions": {
+        "can_view_profile": "Name, age, gender, blood group, photo",
+        "can_view_conditions": "Chronic conditions, current diagnoses",
+        "can_view_medications": "Current medications, dosages",
+        "can_view_allergies": "Drug, food, and environmental allergies",
+        "can_view_medical_history": "Surgeries, hospitalizations, past treatments",
+        "can_view_family_history": "Family medical history",
+        "can_view_lifestyle": "Smoking, alcohol, diet, exercise, sleep, mental health",
+        "can_view_vaccinations": "Vaccination records",
+        "can_view_reports": "Uploaded lab test reports",
+        "can_view_health_metrics": "Vitals and health metrics tracked over time",
+        "can_view_prescriptions": "Consultation prescriptions"
+      }
+    },
+    "loadingDoctors": "Loading your doctors...",
+    "empty": {
+      "doctorsTitle": "No doctors found",
+      "doctorsSubtitle": "Doctors you have appointments with will appear here",
+      "historyTitle": "No access history yet"
+    },
+    "doctors": {
+      "title": "Doctors with Access",
+      "empty": "No doctors have accessed your records yet",
+      "status": {
+        "active": "Active",
+        "revoked": "Revoked"
+      },
+      "appointmentsCount": "{count} appointment(s)",
+      "lastAccess": "Last access"
+    },
+    "history": {
+      "title": "Recent Access History",
+      "accessTypes": {
+        "viewProfile": "Viewed Profile",
+        "viewMedicalHistory": "Viewed Medical History",
+        "viewMedications": "Viewed Medications",
+        "viewAllergies": "Viewed Allergies",
+        "viewChronicConditions": "Viewed Chronic Conditions",
+        "viewFamilyHistory": "Viewed Family History",
+        "viewFullRecord": "Viewed Full Record"
       }
     }
   }

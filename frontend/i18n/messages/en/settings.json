@@ -4,5 +4,156 @@
   "saveButton": "Save Settings",
   "savingButton": "Saving...",
   "preferredLanguage": "Preferred Language",
-  "resetDefaults": "Reset Defaults"
+  "resetDefaults": "Reset Defaults",
+  "pageSubtitle": "Manage your app behavior, healthcare preferences, notifications, and privacy.",
+  "messages": {
+    "pushNotSupported": "Push notifications are not supported in this browser.",
+    "pushBlocked": "Push permission is blocked. You can enable it from browser settings.",
+    "passwordTooShort": "New password must be at least 8 characters.",
+    "passwordsMismatch": "New passwords do not match.",
+    "passwordMustDiffer": "New password must be different from current password.",
+    "passwordChangedSuccess": "Password changed successfully.",
+    "passwordChangeFailed": "Failed to change password. Please try again.",
+    "settingsSaved": "Settings saved successfully.",
+    "settingsReset": "Settings reset to defaults."
+  },
+  "sections": {
+    "appearance": {
+      "title": "Appearance",
+      "description": "Choose light, dark, or system mode. Theme changes apply instantly across Medora.",
+      "switchToLight": "Switch to Light Mode",
+      "switchToDark": "Switch to Dark Mode",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "activeMode": "Active mode"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Control how and when Medora sends medical reminders and care updates.",
+      "browserPermission": "Browser permission",
+      "inApp": {
+        "title": "In-App Notifications",
+        "description": "Receive alerts in your Medora dashboard."
+      },
+      "push": {
+        "title": "Push Notifications",
+        "description": "Browser/device alerts for critical updates."
+      },
+      "email": {
+        "title": "Email Notifications",
+        "description": "Appointment and prescription updates by email."
+      },
+      "sms": {
+        "title": "SMS Notifications",
+        "description": "Time-sensitive reminders via SMS."
+      },
+      "appointmentReminders": {
+        "title": "Appointment Reminders",
+        "description": "Get reminders before your appointments."
+      },
+      "medicationReminders": {
+        "title": "Medication Reminders",
+        "description": "Receive alerts for medication schedules."
+      },
+      "labResults": {
+        "title": "Lab Results",
+        "description": "Notify when test results are ready."
+      },
+      "prescriptionUpdates": {
+        "title": "Prescription Updates",
+        "description": "Status updates for newly issued prescriptions."
+      },
+      "careTips": {
+        "title": "Health Care Tips",
+        "description": "Personalized wellness and preventive care updates."
+      }
+    },
+    "healthcare": {
+      "title": "Healthcare Preferences",
+      "description": "Keep emergency and care-related preferences ready for faster support.",
+      "emergencyContactName": "Emergency Contact Name",
+      "emergencyContactNamePlaceholder": "Full name",
+      "emergencyContactPhone": "Emergency Contact Phone",
+      "emergencyContactPhonePlaceholder": "01XXXXXXXXX",
+      "relation": "Relation",
+      "relationPlaceholder": "Parent / Sibling / Spouse",
+      "dosageAlerts": {
+        "title": "Dosage Alerts",
+        "description": "Extra alerts if medication is delayed."
+      },
+      "fastingMedicationAlerts": {
+        "title": "Fasting Medication Alerts",
+        "description": "Reminder cues for before/after meal instructions."
+      },
+      "hydrationReminders": {
+        "title": "Hydration Reminders",
+        "description": "Scheduled water intake reminders."
+      },
+      "menstrualHealthReminders": {
+        "title": "Menstrual Health Reminders",
+        "description": "Cycle and symptom logging reminder nudges."
+      }
+    },
+    "privacyAndApp": {
+      "title": "Privacy, Security & App",
+      "description": "Secure your account and tailor experience for readability and comfort.",
+      "biometricLock": {
+        "title": "Biometric App Lock",
+        "description": "Require fingerprint/face unlock on supported devices."
+      },
+      "hideSensitiveContent": {
+        "title": "Hide Sensitive Notification Content",
+        "description": "Only show generic text on lock screen-style notifications."
+      },
+      "verifiedDoctorsOnly": {
+        "title": "Verified Doctors Access Only",
+        "description": "Share profile data only with verified doctors."
+      },
+      "anonymousResearch": {
+        "title": "Anonymous Research Contribution",
+        "description": "Allow anonymized data for healthcare improvement studies."
+      },
+      "autoLockTimeout": "Auto-Lock Timeout",
+      "autoLockOptions": {
+        "five": "5 minutes",
+        "fifteen": "15 minutes",
+        "thirty": "30 minutes",
+        "sixty": "60 minutes"
+      },
+      "appBehavior": "App Behavior",
+      "compactMode": {
+        "title": "Compact Mode",
+        "description": "Reduce spacing to fit more content on one screen."
+      },
+      "largeText": {
+        "title": "Large Text",
+        "description": "Increase text size for better readability."
+      },
+      "reduceMotion": {
+        "title": "Reduce Motion",
+        "description": "Limit non-essential animations."
+      },
+      "defaultStartPage": "Default Start Page",
+      "startPageOptions": {
+        "home": "Home",
+        "appointments": "Appointments",
+        "medicalHistory": "Medical History",
+        "reminders": "Reminders"
+      }
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your account password. You'll need to enter your current password first.",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmNewPassword": "Confirm New Password",
+      "confirmNewPasswordPlaceholder": "Confirm new password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "changingPassword": "Changing Password...",
+      "changePassword": "Change Password"
+    }
+  }
 }

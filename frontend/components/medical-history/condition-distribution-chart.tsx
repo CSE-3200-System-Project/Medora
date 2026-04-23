@@ -8,7 +8,7 @@ import type { EChartsOption } from "echarts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false });
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false });
 
 interface ConditionDistributionChartProps {
   patientData?: Record<string, unknown>;
@@ -17,7 +17,16 @@ interface ConditionDistributionChartProps {
 export const ConditionDistributionChart = React.memo(function ConditionDistributionChart({
   patientData,
 }: ConditionDistributionChartProps) {
+  const isDarkMode =
+    typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+  const centerPrimaryText = isDarkMode ? "#f8fafc" : "#0f172a";
+  const centerSecondaryText = isDarkMode ? "#94a3b8" : "#64748b";
+
   const chartData = useMemo(() => {
+    // Placeholder for future patient-driven distribution values.
+    if (patientData && typeof patientData === "object") {
+      // intentionally no-op
+    }
     return [
       { name: "Hypertension", value: 40, color: "#0360D9" },
       { name: "Diabetes", value: 25, color: "#10B981" },
@@ -46,7 +55,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
           top: "44%",
           style: {
             text: `${totalActive}`,
-            fill: "#0f172a",
+            fill: centerPrimaryText,
             fontSize: 28,
             fontWeight: 700,
             textAlign: "center",
@@ -58,7 +67,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
           top: "58%",
           style: {
             text: "TOTAL ACTIVE",
-            fill: "#64748b",
+            fill: centerSecondaryText,
             fontSize: 10,
             fontWeight: 700,
             letterSpacing: 1.2,
@@ -101,7 +110,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
         },
       ],
     }),
-    [chartData, totalActive]
+    [centerPrimaryText, centerSecondaryText, chartData, totalActive]
   );
 
   return (
@@ -119,7 +128,7 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
               <ReactECharts
                 option={option}
                 style={{ height: "100%", width: "100%" }}
-                opts={{ renderer: "svg" }}
+               
               />
             </div>
             <ul className="mt-4 space-y-2">
@@ -147,4 +156,3 @@ export const ConditionDistributionChart = React.memo(function ConditionDistribut
 });
 
 ConditionDistributionChart.displayName = "ConditionDistributionChart";
-

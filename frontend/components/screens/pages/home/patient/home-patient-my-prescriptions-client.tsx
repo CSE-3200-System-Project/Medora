@@ -29,7 +29,6 @@ import {
   AlertCircle,
   Sun,
   Cloud,
-  Moon,
   Star,
   Clock,
   MapPin,
@@ -45,8 +44,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
+import { useT } from "@/i18n/client";
 
 export default function MyPrescriptionsPage() {
+  const tCommon = useT("common");
   const router = useRouter();
 
   const [loading, setLoading] = React.useState(true);
@@ -76,7 +77,7 @@ export default function MyPrescriptionsPage() {
       setPrescriptions(data.prescriptions);
     } catch (err: any) {
       console.error("Failed to load prescriptions:", err);
-      setError(err.message || "Failed to load prescriptions");
+      setError(err.message || tCommon("prescriptions.errors.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -88,7 +89,7 @@ export default function MyPrescriptionsPage() {
       setError(null);
 
       await acceptPrescription(prescriptionId);
-      setSuccess("Prescription accepted and added to medical history");
+      setSuccess(tCommon("prescriptions.messages.accepted"));
       
       // Reload prescriptions
       setTimeout(() => {
@@ -96,7 +97,7 @@ export default function MyPrescriptionsPage() {
         setSuccess(null);
       }, 2000);
     } catch (err: any) {
-      setError(err.message || "Failed to accept prescription");
+      setError(err.message || tCommon("prescriptions.errors.acceptFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -117,7 +118,7 @@ export default function MyPrescriptionsPage() {
 
       await rejectPrescription(selectedPrescriptionId, rejectionReason);
       setShowRejectDialog(false);
-      setSuccess("Prescription rejected");
+      setSuccess(tCommon("prescriptions.messages.rejected"));
       
       // Reload prescriptions
       setTimeout(() => {
@@ -125,7 +126,7 @@ export default function MyPrescriptionsPage() {
         setSuccess(null);
       }, 2000);
     } catch (err: any) {
-      setError(err.message || "Failed to reject prescription");
+      setError(err.message || tCommon("prescriptions.errors.rejectFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -149,11 +150,11 @@ export default function MyPrescriptionsPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return <Badge variant="outline" className="text-yellow-600 border-yellow-600">Pending</Badge>;
+        return <Badge variant="outline" className="text-yellow-600 border-yellow-600">{tCommon("medicalHistory.status.pending")}</Badge>;
       case "accepted":
-        return <Badge variant="secondary" className="bg-success/10 text-success border-success/20">Accepted</Badge>;
+        return <Badge variant="secondary" className="bg-success/10 text-success border-success/20">{tCommon("prescriptions.status.accepted")}</Badge>;
       case "rejected":
-        return <Badge variant="destructive">Rejected</Badge>;
+        return <Badge variant="destructive">{tCommon("prescriptions.status.rejected")}</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -169,7 +170,7 @@ export default function MyPrescriptionsPage() {
       <AppBackground className="container-padding">
         <Navbar />
         <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
-          <PageLoadingShell label="Loading prescriptions..." cardCount={4} />
+          <PageLoadingShell label={tCommon("prescriptions.loading")} cardCount={4} />
         </main>
       </AppBackground>
     );
@@ -193,10 +194,10 @@ export default function MyPrescriptionsPage() {
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
               <FileText className="w-7 h-7 text-primary" />
-              My Prescriptions
+              {tCommon("prescriptions.title")}
             </h1>
             <p className="text-muted-foreground mt-1">
-              View and manage all your prescriptions from doctors
+              {tCommon("prescriptions.myPrescriptionsSubtitle")}
             </p>
           </div>
         </div>
@@ -219,10 +220,10 @@ export default function MyPrescriptionsPage() {
         {/* Filter Tabs */}
         <Tabs value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)} className="mb-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="accepted">Accepted</TabsTrigger>
-            <TabsTrigger value="rejected">Rejected</TabsTrigger>
+            <TabsTrigger value="all">{tCommon("prescriptions.filters.all")}</TabsTrigger>
+            <TabsTrigger value="pending">{tCommon("prescriptions.filters.pending")}</TabsTrigger>
+            <TabsTrigger value="accepted">{tCommon("prescriptions.filters.accepted")}</TabsTrigger>
+            <TabsTrigger value="rejected">{tCommon("prescriptions.filters.rejected")}</TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -231,11 +232,11 @@ export default function MyPrescriptionsPage() {
           <Card className="rounded-2xl">
             <CardContent className="p-12 text-center text-muted-foreground">
               <FileText className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg">No prescriptions found</p>
+              <p className="text-lg">{tCommon("prescriptions.empty.title")}</p>
               <p className="text-sm mt-2">
                 {activeFilter === "all"
-                  ? "You don't have any prescriptions yet"
-                  : `No ${activeFilter} prescriptions`}
+                  ? tCommon("prescriptions.empty.all")
+                  : tCommon("prescriptions.empty.filtered", { status: tCommon(`prescriptions.filters.${activeFilter}`) })}
               </p>
             </CardContent>
           </Card>
@@ -308,19 +309,13 @@ export default function MyPrescriptionsPage() {
                               {med.dose_afternoon && (
                                 <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded-lg text-xs">
                                   <Cloud className="w-3 h-3" />
-                                  <span>Afternoon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
+                                  <span>Noon {med.dose_afternoon_amount && `(${med.dose_afternoon_amount})`}</span>
                                 </div>
                               )}
-                              {med.dose_evening && (
-                                <div className="flex items-center gap-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-1 rounded-lg text-xs">
-                                  <Moon className="w-3 h-3" />
-                                  <span>Evening {med.dose_evening_amount && `(${med.dose_evening_amount})`}</span>
-                                </div>
-                              )}
-                              {med.dose_night && (
+                              {(med.dose_night || med.dose_evening) && (
                                 <div className="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-lg text-xs">
                                   <Star className="w-3 h-3" />
-                                  <span>Night {med.dose_night_amount && `(${med.dose_night_amount})`}</span>
+                                  <span>Night {(med.dose_night_amount || med.dose_evening_amount) && `(${med.dose_night_amount || med.dose_evening_amount})`}</span>
                                 </div>
                               )}
                             </div>
@@ -487,7 +482,7 @@ export default function MyPrescriptionsPage() {
                         ) : (
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                         )}
-                        Accept
+                        {tCommon("prescriptions.actions.accept")}
                       </Button>
                       <Button
                         variant="destructive"
@@ -496,7 +491,7 @@ export default function MyPrescriptionsPage() {
                         className="flex-1"
                       >
                         <XCircle className="w-4 h-4 mr-2" />
-                        Reject
+                        {tCommon("prescriptions.actions.reject")}
                       </Button>
                     </div>
                   )}
@@ -511,19 +506,19 @@ export default function MyPrescriptionsPage() {
       <Dialog open={showRejectDialog} onOpenChange={setShowRejectDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Reject Prescription</DialogTitle>
+            <DialogTitle>{tCommon("prescriptions.dialogs.rejectTitle")}</DialogTitle>
             <DialogDescription>
-              Please provide a reason for rejecting this prescription (optional).
+              {tCommon("prescriptions.dialogs.rejectDescription")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="reason">Reason (Optional)</Label>
+              <Label htmlFor="reason">{tCommon("prescriptions.dialogs.reasonOptional")}</Label>
               <Textarea
                 id="reason"
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
-                placeholder="e.g., I'm allergic to this medication..."
+                placeholder={tCommon("prescriptions.dialogs.reasonPlaceholder")}
                 rows={3}
                 className="rounded-lg resize-none"
               />
@@ -535,7 +530,7 @@ export default function MyPrescriptionsPage() {
               onClick={() => setShowRejectDialog(false)}
               disabled={submitting}
             >
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button
               variant="destructive"
@@ -547,7 +542,7 @@ export default function MyPrescriptionsPage() {
               ) : (
                 <XCircle className="w-4 h-4 mr-2" />
               )}
-              Reject Prescription
+              {tCommon("prescriptions.actions.rejectPrescription")}
             </Button>
           </DialogFooter>
         </DialogContent>

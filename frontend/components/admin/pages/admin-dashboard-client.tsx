@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 import {
   Activity,
@@ -69,7 +69,7 @@ export function AdminDashboardClient({ initialStats }: AdminDashboardClientProps
       <AdminNavbar />
 
       <main>
-        <ResponsiveContainer className="space-y-6 py-4 pt-(--nav-content-offset) sm:space-y-8 sm:py-6">
+        <ResponsiveContainer className="space-y-6 py-4 pt-[var(--nav-content-offset)] sm:space-y-8 sm:py-6">
           <header className="space-y-2">
             <h1 className="text-xl font-bold text-foreground sm:text-2xl md:text-3xl">Admin Analytics</h1>
             <p className="text-sm text-muted-foreground sm:text-base">
@@ -453,3 +453,4 @@ function QuickActionButton({
     </Link>
   );
 }
+
