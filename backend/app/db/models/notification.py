@@ -66,7 +66,11 @@ class Notification(Base):
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     user_id: Mapped[str] = mapped_column(String, ForeignKey("profiles.id"), nullable=False)
-    
+
+    # Audience marker — denormalised so admin notifications are findable without
+    # needing to join profiles. Values mirror Profile.role: "patient", "doctor", "admin".
+    target_role: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+
     type: Mapped[NotificationType] = mapped_column(
         Enum(NotificationType, values_callable=lambda x: [e.value for e in x]),
         nullable=False

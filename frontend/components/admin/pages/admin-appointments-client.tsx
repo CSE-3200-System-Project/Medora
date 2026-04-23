@@ -246,16 +246,27 @@ export function AdminAppointmentsClient({
   ) => {
     setOverridingId(appointmentId);
     try {
+      const current = (currentStatus || "").toLowerCase();
       const isRescheduleApproval =
-        (currentStatus || "").toLowerCase() === "reschedule_requested" &&
+        current === "reschedule_requested" && newStatus === "CONFIRMED";
+      const isNewAppointmentApproval =
+        (current === "pending" || current === "pending_admin_review") &&
         newStatus === "CONFIRMED";
-      await overrideAppointmentStatus(
-        appointmentId,
-        newStatus,
-        isRescheduleApproval
-          ? "Admin approved reschedule request"
-          : "Admin override"
-      );
+
+      if (isNewAppointmentApproval) {
+        // Route through the three-step approval flow: admin approves ->
+        // doctor confirms -> patient confirms. Do not fast-forward to CONFIRMED.
+        const { adminApproveNewAppointment } = await import("@/lib/admin-actions");
+        await adminApproveNewAppointment(appointmentId, "Approved by admin");
+      } else {
+        await overrideAppointmentStatus(
+          appointmentId,
+          newStatus,
+          isRescheduleApproval
+            ? "Admin approved reschedule request"
+            : "Admin override"
+        );
+      }
       await Promise.all([fetchAppointments(), fetchSummary()]);
     } catch (error) {
       console.error("Failed to override status:", error);
@@ -298,7 +309,7 @@ export function AdminAppointmentsClient({
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
+      <main className="mx-auto max-w-7xl space-y-6 p-4 pt-[var(--nav-content-offset)] sm:p-6">
         {/* ---- Header ---- */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-1">

@@ -208,7 +208,7 @@ export function AdminRequestsClient({
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
+      <main className="mx-auto max-w-7xl space-y-6 p-4 pt-[var(--nav-content-offset)] sm:p-6">
         {/* ---- Header ---- */}
         <div className="mb-6 sm:mb-8 flex items-start justify-between gap-4">
           <div>

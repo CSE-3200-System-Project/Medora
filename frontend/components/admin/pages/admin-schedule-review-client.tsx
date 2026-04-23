@@ -63,8 +63,8 @@ export function AdminScheduleReviewClient() {
   };
 
   return (
-    <AppBackground className="min-h-dvh min-h-app px-4 py-6 animate-page-enter">
-      <div className="max-w-4xl mx-auto">
+    <AppBackground className="min-h-dvh min-h-app animate-page-enter">
+      <div className="mx-auto max-w-7xl space-y-6 p-4 pt-[var(--nav-content-offset)] sm:p-6">
         <Card>
           <CardHeader>
             <CardTitle>Schedule Review (Admin)</CardTitle>

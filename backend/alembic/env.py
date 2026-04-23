@@ -53,10 +53,12 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-    # CHANGE FROM async to sync URL for Alembic
-    # Alembic doesn't support asyncpg directly, we need psycopg2
+    # Alembic uses sync driver (psycopg2) and must run against Supavisor
+    # Session mode (port 5432) — transaction mode does not support the
+    # advisory locks and DDL semantics migrations rely on.
     sync_url = settings.SUPABASE_DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
-    
+    sync_url = sync_url.replace(":6543/", ":5432/")
+
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = sync_url
     

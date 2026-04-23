@@ -24,6 +24,15 @@ _dispatcher_stop_event: asyncio.Event | None = None
 
 
 async def start_reminder_dispatcher() -> None:
+    """Start the reminder dispatch loop.
+
+    The dispatcher is a server-side background task. It is NOT tied to any
+    user session, HTTP request, or frontend activity. It will continue firing
+    medication, test, and appointment reminder emails + notifications as long
+    as the FastAPI process is running. For 24/7 delivery the backend must be
+    deployed to an always-on host (i.e. not a local dev machine that is only
+    on while the developer is working).
+    """
     global _dispatcher_task, _dispatcher_stop_event
 
     if not settings.REMINDER_DISPATCH_ENABLED:
@@ -35,7 +44,9 @@ async def start_reminder_dispatcher() -> None:
 
     _dispatcher_stop_event = asyncio.Event()
     _dispatcher_task = asyncio.create_task(_run_dispatcher_loop(), name="reminder-dispatcher")
-    logger.info("Reminder dispatcher started.")
+    logger.info(
+        "Reminder dispatcher started (independent of user sessions; runs as long as the server is up)."
+    )
 
 
 async def stop_reminder_dispatcher() -> None:
