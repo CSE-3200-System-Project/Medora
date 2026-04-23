@@ -289,6 +289,18 @@ export default function DoctorAppointmentsPage() {
         await cancelAppointment(id, {
           reasonKey: "DOCTOR_UNAVAILABLE",
         });
+      } else if (status === "CONFIRMED") {
+        // If this appointment is in the three-step flow (admin already
+        // approved), use the doctor-confirm endpoint that advances it to
+        // PENDING_PATIENT_CONFIRMATION instead of jumping straight to CONFIRMED.
+        const current = appointments.find((a) => a.id === id);
+        const currentStatus = String(current?.status || "").toUpperCase();
+        if (currentStatus === "PENDING_DOCTOR_CONFIRMATION") {
+          const { doctorConfirmAppointment } = await import("@/lib/appointment-actions");
+          await doctorConfirmAppointment(id);
+        } else {
+          await updateAppointment(id, { status });
+        }
       } else {
         await updateAppointment(id, { status });
       }

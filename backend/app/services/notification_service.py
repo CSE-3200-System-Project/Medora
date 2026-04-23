@@ -1,8 +1,10 @@
 """Centralized notification dispatch for appointment events."""
 
 from typing import Optional
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
+from app.db.models.profile import Profile
 import uuid
 
 
@@ -15,8 +17,16 @@ async def create_notification(
     action_url: Optional[str] = None,
     metadata: Optional[dict] = None,
     priority: NotificationPriority = NotificationPriority.MEDIUM,
+    target_role: Optional[str] = None,
 ) -> Notification:
     """Create and persist a notification. Core helper used by all notify_* functions."""
+    if target_role is None:
+        # Derive from the owning profile so admin UIs can filter by role
+        # without a join on every read.
+        result = await db.execute(select(Profile.role).where(Profile.id == user_id))
+        role_value = result.scalar_one_or_none()
+        target_role = str(role_value).lower() if role_value else None
+
     notification = Notification(
         id=str(uuid.uuid4()),
         user_id=user_id,
@@ -26,10 +36,38 @@ async def create_notification(
         message=message,
         action_url=action_url,
         data=metadata,
+        target_role=target_role,
     )
     db.add(notification)
     await db.flush()
     return notification
+
+
+async def notify_all_admins(
+    db: AsyncSession,
+    notification_type: NotificationType,
+    title: str,
+    message: str,
+    action_url: Optional[str] = None,
+    metadata: Optional[dict] = None,
+    priority: NotificationPriority = NotificationPriority.MEDIUM,
+) -> int:
+    """Fan a single event out to every admin account. Returns how many rows were created."""
+    result = await db.execute(select(Profile.id).where(Profile.role == "admin"))
+    admin_ids = [row[0] for row in result.all()]
+    for admin_id in admin_ids:
+        await create_notification(
+            db=db,
+            user_id=admin_id,
+            notification_type=notification_type,
+            title=title,
+            message=message,
+            action_url=action_url,
+            metadata=metadata,
+            priority=priority,
+            target_role="admin",
+        )
+    return len(admin_ids)
 
 
 async def notify_appointment_created(

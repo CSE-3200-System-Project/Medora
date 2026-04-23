@@ -93,10 +93,12 @@ ALLOWED_TRANSITIONS: dict[AppointmentStatus, set[AppointmentStatus]] = {
     | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_DOCTOR_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
+        AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
     }
     | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_PATIENT_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
+        AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
     }
     | CANCELLATION_STATUSES,
     AppointmentStatus.CONFIRMED: {
@@ -336,6 +338,28 @@ async def _emit_domain_event(
         notify_user_id = appointment.patient_id
         action_url = "/patient/appointments"
 
+    elif event_name == "appointment.awaiting_doctor":
+        # Admin has approved the booking. Ask the doctor to confirm the slot.
+        notification_type = NotificationType.APPOINTMENT_BOOKED
+        title = "New Appointment Awaiting Your Confirmation"
+        message = (
+            f"{patient_name} has booked an appointment on {schedule_label} "
+            f"that was approved by admin. Please confirm or decline."
+        )
+        notify_user_id = appointment.doctor_id
+        action_url = "/doctor/appointments"
+
+    elif event_name == "appointment.awaiting_patient":
+        # Doctor has confirmed. Ask the patient to confirm the slot.
+        notification_type = NotificationType.APPOINTMENT_CONFIRMED
+        title = "Doctor Confirmed — Please Confirm Your Booking"
+        message = (
+            f"Dr. {doctor_name} confirmed your appointment on {schedule_label}. "
+            "Please confirm to finalise the booking."
+        )
+        notify_user_id = appointment.patient_id
+        action_url = "/patient/appointments"
+
     elif event_name == "appointment.cancelled":
         notification_type = NotificationType.APPOINTMENT_CANCELLED
         reason_token = (appointment.cancellation_reason_key or reason or "").strip().upper()
@@ -480,6 +504,44 @@ async def _emit_domain_event(
         metadata=metadata,
         priority=NotificationPriority.HIGH,
     )
+
+    # Mirror events that need admin oversight into every admin inbox. We only
+    # fan out once per domain event (when notify_target is None or the default
+    # requester/counterparty is the first branch) to avoid duplicates.
+    admin_events = {
+        "appointment.created",
+        "reschedule.requested",
+    }
+    admin_watch_events = {
+        "appointment.cancelled",
+        "reschedule.accepted",
+        "reschedule.rejected",
+    }
+    if event_name in admin_events or event_name in admin_watch_events:
+        if notify_target in (None, "requester", "counterparty"):
+            # Dedupe counterparty fan-out: only emit admin copy on the first branch.
+            if notify_target == "counterparty":
+                pass  # already emitted on requester branch
+            else:
+                admin_title = f"[Admin] {title}"
+                admin_message = (
+                    f"{message} (actor: {actor_name}, role: {actor_role_norm})"
+                )
+                try:
+                    await notification_service.notify_all_admins(
+                        db=db,
+                        notification_type=notification_type,
+                        title=admin_title,
+                        message=admin_message,
+                        action_url="/admin/appointments"
+                        if "appointment" in event_name
+                        else "/admin/requests",
+                        metadata=metadata,
+                        priority=NotificationPriority.MEDIUM,
+                    )
+                except Exception:
+                    # Admin broadcast must never block the primary event.
+                    pass
 
 
 async def create_appointment(
@@ -649,6 +711,22 @@ async def transition_status(
         await _emit_domain_event(
             db,
             event_name="appointment.confirmed",
+            appointment=appointment,
+            actor_id=performed_by_id,
+            actor_role=performed_by_role,
+        )
+    elif new_status == AppointmentStatus.PENDING_DOCTOR_CONFIRMATION:
+        await _emit_domain_event(
+            db,
+            event_name="appointment.awaiting_doctor",
+            appointment=appointment,
+            actor_id=performed_by_id,
+            actor_role=performed_by_role,
+        )
+    elif new_status == AppointmentStatus.PENDING_PATIENT_CONFIRMATION:
+        await _emit_domain_event(
+            db,
+            event_name="appointment.awaiting_patient",
             appointment=appointment,
             actor_id=performed_by_id,
             actor_role=performed_by_role,

@@ -91,7 +91,7 @@ export function AdminUsersClient({ initialUsers }: AdminUsersClientProps) {
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
+      <main className="mx-auto max-w-7xl space-y-6 p-4 pt-[var(--nav-content-offset)] sm:p-6">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">User Account Management</h1>
           <p className="text-muted-foreground">Ban or unban user accounts</p>
