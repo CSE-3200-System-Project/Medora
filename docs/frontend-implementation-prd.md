@@ -1,301 +1,127 @@
-# Medora Frontend PRD (Implementation-Current)
+# Frontend Implementation Reference
 
-**Document Type:** Product Requirements + Technical Implementation PRD  
-**Scope:** `frontend/`  
-**Generated From Codebase Snapshot:** March 11, 2026  
-**Status:** Implementation-aligned (based on current repository state)
-
-## 1. Product Summary
-Medora frontend is a Next.js App Router web application for Bangladesh-focused healthcare workflows across three primary roles:
-- Patient
-- Doctor
-- Admin
-
-Primary delivered outcomes in current implementation:
-- Authentication and role-based routing
-- Patient and doctor onboarding flows
-- Doctor discovery and appointment booking
-- Consultation + prescription workflows
-- Reminders and in-app notifications
-- Patient access/audit controls
-- Admin verification and operational panels
-- PWA/service worker foundation with offline and push hooks
-
-## 2. User Roles and Functional Goals
-### Patient
-- Register/login and complete onboarding
-- Manage profile and medical history
-- Search doctors (standard + AI-assisted path)
-- Book/reschedule/cancel appointments
-- View prescriptions and accept/reject items
-- Manage reminders
-- Control doctor access to profile
-
-### Doctor
-- Register/login and complete onboarding
-- Maintain profile and schedule
-- View appointments and patients
-- Start consultations and generate prescriptions (medication/test/surgery)
-- Use medicine/test search utilities
-- Use voice-to-text flow for symptom input support
-
-### Admin
-- Access password-gated admin controls
-- Verify pending doctors
-- View platform stats, users, patients, appointments
-- Run schedule review/fix actions
-- Ban and unban users
-
-## 3. Current Information Architecture
-### Public
-- `/` landing page
-- `/login`, `/selection`, `/patient/register`, `/doctor/register`, `/forgot-password`
-- `/verify-email`, `/verify-pending`, `/verification-success`
-
-### Auth/API utility routes
-- `/auth/confirm`
-- `/logout`
-- `/api/auth/me`
-- `/api/auth/check-verification`
-
-### Patient area
-- `/patient/home`
-- `/patient/profile`
-- `/patient/find-doctor`
-- `/patient/doctor/[id]`
-- `/patient/appointments`
-- `/patient/appointment-success`
-- `/patient/prescriptions`
-- `/patient/prescriptions/[id]`
-- `/patient/my-prescriptions`
-- `/patient/medical-history`
-- `/patient/find-medicine`
-- `/patient/reminders`
-- `/patient/privacy`
-
-### Doctor area
-- `/doctor/home`
-- `/doctor/profile`
-- `/doctor/schedule`
-- `/doctor/appointments`
-- `/doctor/patients`
-- `/doctor/patient/[id]`
-- `/doctor/patient/[id]/consultation`
-- `/doctor/find-medicine`
-
-### Admin area
-- `/admin`
-- `/admin/doctors`
-- `/admin/patients`
-- `/admin/appointments`
-- `/admin/users`
-- `/verify-pending`
-- `/clear-admin`
-- `/admin/schedule-review`
-
-### Shared authenticated
-- `/notifications`
-- `/settings`
-
-## 4. Technical Stack and Dependencies
-### Framework and language
-- Next.js `^16.1.6` (App Router)
-- React `19.2.3`
-- TypeScript `^5`
-
-### UI and styling
-- Tailwind CSS `^4`
-- Radix UI primitives (accordion, dialog, dropdown, tabs, switch, etc.)
-- `class-variance-authority`, `clsx`, `tailwind-merge`
-- `lucide-react`
-
-### Motion and interaction
-- `framer-motion`
-- `gsap`
-- `lenis`
-
-### Maps and geospatial UI
-- `maplibre-gl`
-
-### Auth/platform integration
-- `@supabase/ssr`
-- `@supabase/supabase-js`
-
-### PWA stack
-- `@serwist/next`
-- `serwist`
-
-### Tooling
-- ESLint 9 + `eslint-config-next`
-- Type packages for Node/React
-
-## 5. Frontend Architecture
-### Routing and guard design
-- `proxy.ts` performs cookie-based route protection and redirects by:
-  - auth state
-  - role (`patient`, `doctor`, `admin`)
-  - onboarding state
-  - doctor verification state
-
-Cookies used for routing state:
-- `session_token`
-- `user_role`
-- `onboarding_completed`
-- `onboarding_skipped`
-- `verification_status`
-- `admin_access`
-
-### Data access pattern
-- Mixed server actions + client fetch calls.
-- Core server actions are in `frontend/lib/*-actions.ts`.
-- Backend URLs are read from `BACKEND_URL` / `NEXT_PUBLIC_BACKEND_URL` with localhost fallback in several files.
-
-### Layout system
-- Root layout configures fonts, metadata, theme provider, smooth scroll provider, and PWA registration.
-- Section layouts enforce auth where needed (`(home)`, `(onboarding)`).
-
-### Design system choices
-- CSS variable token system in `globals.css`.
-- Light/dark palettes + spacing/motion utilities.
-- Medical-blue brand direction (`#0360D9`) with gradient background system.
-- Reusable UI component library under `components/ui`.
-
-## 6. Functional Requirements Implemented (By Domain)
-### Authentication and account lifecycle
-- Patient and doctor signup
-- Login with remember-me behavior
-- Logout route and cookie cleanup
-- Forgot password request
-- Email OTP confirmation route
-- Verification status checks and gating
-
-### Onboarding
-- Patient onboarding data capture and persistence
-- Doctor onboarding data capture and persistence
-- Completion endpoint integration
-- Onboarding route gating until completion
-
-### Doctor discovery and matching
-- Filter-based doctor search UI
-- Doctor detail profile view
-- Slot availability retrieval
-- AI search support path (`/ai/search`) and voice normalization route integration (`/ai/normalize/voice`)
-
-### Appointment management
-- Create appointment
-- List current user appointments
-- Date-based and calendar views
-- Reschedule/cancel/update paths
-- Doctor-side patient lists and upcoming views
-- Completion-check flow (`can-complete`) and completion actions
-
-### Consultation and prescription workflow
-- Start consultation
-- Update/complete consultation
-- Create medication/test/surgery prescriptions
-- Retrieve consultation prescriptions
-- Delete prescription
-- Patient accept/reject prescription actions
-- Patient medical-history prescription feed
-
-### Notification and reminders
-- Notifications list/read/unread/clear/delete flows
-- Reminder CRUD + enable/disable toggles
-- Client reminder notification service mounted in authenticated layout
-
-### Access control features for patient privacy
-- Fetch patient data for doctor with tracked access path
-- Access history views
-- Revoke and restore doctor access
-
-### Medicine and medical test catalogs
-- Medicine search + details in doctor/patient pages
-- Medical test search and browsing components
-
-### Admin operations
-- Admin access cookie setup/clear
-- Stats, pending doctors, all doctors
-- Patients and appointments listing
-- Doctor verification
-- Ban/unban users
-- Schedule review and auto-fix flow page
-
-### PWA/offline/device features
-- Service worker generation + registration (production only)
-- Manifest/icons present
-- Background sync queue in SW for same-origin `/api/*` write requests
-- Push notification handlers in SW
-- Hooks for push, offline status/cache, camera, location, and file picker
-
-## 7. External Interfaces and Env Requirements
-Required/used frontend environment variables:
-- `BACKEND_URL`
-- `NEXT_PUBLIC_BACKEND_URL`
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NODE_ENV`
-
-Backend integration is direct to FastAPI endpoints for most feature calls.
-
-## 8. Non-Functional Requirements (Implemented Characteristics)
-- Mobile-first responsive layout patterns
-- Role-gated route access
-- Progressive enhancement via PWA
-- Mixed SSR/server-action/client-fetch architecture
-- Structured componentization by domain (doctor/patient/admin/medical-history/prescription)
-
-## 9. Current Gaps, Risks, and Known Implementation Notes
-- Push subscription hook expects `/notifications/vapid-key`, `/notifications/subscribe`, `/notifications/unsubscribe`, but backend notification routes currently expose in-app notification CRUD only.
-- Auth cookies are set with `httpOnly: false` and `secure: false` in server actions, which is development-friendly but weak for production hardening.
-- Backend URL usage is split across `BACKEND_URL` and `NEXT_PUBLIC_BACKEND_URL`; configuration drift risk exists.
-- Service worker background sync currently targets same-origin `/api/*` writes, while many mutations call backend URLs directly, so offline queueing coverage is partial.
-
-## 10. Acceptance Criteria for �Current Frontend PRD�
-This document is considered accurate to current implementation if:
-- Route map matches `frontend/app` pages/routes
-- Action modules match current backend integration surface
-- Dependencies match `frontend/package.json`
-- PWA/auth/layout/design notes align with current code
+> **Current as of:** April 2026 scan of actual code.
+> For detailed architecture, see [architecture/frontend.md](./architecture/frontend.md).
 
 ---
 
-## Appendix A: Dependency Inventory (Exact)
-### dependencies
-- `@radix-ui/react-accordion` `^1.2.12`
-- `@radix-ui/react-avatar` `^1.1.11`
-- `@radix-ui/react-checkbox` `^1.3.3`
-- `@radix-ui/react-dialog` `^1.1.15`
-- `@radix-ui/react-dropdown-menu` `^2.1.16`
-- `@radix-ui/react-label` `^2.1.8`
-- `@radix-ui/react-navigation-menu` `^1.2.14`
-- `@radix-ui/react-separator` `^1.1.8`
-- `@radix-ui/react-slot` `^1.2.4`
-- `@radix-ui/react-switch` `^1.2.6`
-- `@radix-ui/react-tabs` `^1.1.13`
-- `@serwist/next` `^9.5.6`
-- `@supabase/ssr` `^0.8.0`
-- `@supabase/supabase-js` `^2.89.0`
-- `class-variance-authority` `^0.7.1`
-- `clsx` `^2.1.1`
-- `framer-motion` `^12.23.26`
-- `gsap` `^3.14.2`
-- `lenis` `^1.3.17`
-- `lucide-react` `^0.562.0`
-- `maplibre-gl` `^5.16.0`
-- `next` `^16.1.6`
-- `next-themes` `^0.4.6`
-- `react` `19.2.3`
-- `react-dom` `19.2.3`
-- `serwist` `^9.5.6`
-- `tailwind-merge` `^3.4.0`
+## Stack
 
-### devDependencies
-- `@tailwindcss/postcss` `^4`
-- `@types/node` `^20`
-- `@types/react` `^19`
-- `@types/react-dom` `^19`
-- `eslint` `^9`
-- `eslint-config-next` `^16.1.6`
-- `tailwindcss` `^4`
-- `tw-animate-css` `^1.4.0`
-- `typescript` `^5`
+- **Next.js 15** (App Router), **React 19**, **TypeScript**
+- **Tailwind CSS v4** + **Radix UI** primitives
+- **Serwist** (`@serwist/next`) — PWA / service worker
+- **next-intl** — i18n (English + Bangla)
+- **TanStack Query** — client-side data caching
+- **Supabase JS** (`@supabase/ssr` + `@supabase/supabase-js`) — auth session, realtime
+- **Framer Motion** — animations
+- **MapLibre GL** — maps
+- **Vapi** — voice calls
+- **Recharts / ECharts** — analytics charts
+- **Sonner** — toasts
+
+---
+
+## Route Structure
+
+Three route groups. No `middleware.ts` — auth enforced in layouts and Server Actions.
+
+```
+(auth)/         — login, register (patient/doctor), forgot-password, auth/confirm
+(home)/         — patient/* and doctor/* (auth-guarded layout)
+  patient/      — home, find-doctor, appointments, medical-history, medical-reports,
+                  prescriptions, my-prescriptions, reminders, analytics,
+                  chorui-ai, find-medicine, privacy, profile, doctor/[id]
+  doctor/       — home, patients, patient/[id], patient/[id]/consultation,
+                  patient/[id]/consultation/ai, patient/[id]/reports/[reportId],
+                  appointments, schedule, analytics, chorui-ai, find-medicine, profile
+  notifications/, settings/, prescription/preview/
+(admin)/        — admin/* (admin role guard)
+(onboarding)/   — onboarding/doctor/* (multi-step wizard)
+```
+
+---
+
+## Data Pattern
+
+All mutations and fetches go through **Server Actions** in `frontend/lib/`. 20 action modules. Client components never call the backend directly.
+
+Auth token is read from the Supabase session cookie on the Next.js server, injected into backend requests as `Authorization: Bearer <jwt>`.
+
+**Real-time:** `lib/use-realtime-slots.ts` subscribes to Supabase Realtime channel on the `appointments` table for live slot availability updates.
+
+---
+
+## PWA
+
+Service worker at `app/sw.ts` (Serwist). Disabled in dev (`NODE_ENV !== 'production'`).
+
+Caching: Next.js chunks (CacheFirst 30d), images (StaleWhileRevalidate 14d), API (NetworkFirst).
+
+Background sync: failed writes queued 24h, replayed on reconnect.
+
+---
+
+## i18n
+
+next-intl. Locales: `en`, `bn`. Message files in `i18n/messages/{en,bn}/`. All user-facing strings are keyed — no hardcoded copy.
+
+---
+
+## Environment Variables
+
+| Variable | Purpose |
+|---|---|
+| `BACKEND_URL` | Server-side backend URL (used in Server Actions) |
+| `NEXT_PUBLIC_BACKEND_URL` | Client-visible backend URL |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
+| `NEXT_PUBLIC_VAPI_PUBLIC_KEY` | Vapi voice integration |
+| `NODE_ENV` | Controls SW registration (`production` only) |
+
+---
+
+## User Roles and Pages
+
+| Role | Gate | Key Pages |
+|---|---|---|
+| Patient | `onboarding_completed` | home, find-doctor, appointments, medical-history, prescriptions, chorui-ai |
+| Doctor | `onboarding_completed` + `verification_status == verified` | home, patients, consultations, schedule, chorui-ai |
+| Admin | `role == admin` | /admin/*, verify-pending |
+
+---
+
+## Component Organization
+
+```
+components/
+  ui/          45 primitive files (Radix-based, zero business logic)
+  admin/       Admin dashboard, approval UI, audit log
+  ai/          Chorui chat UI, navigation suggestions
+  appointment/ Booking flow, calendar, reschedule
+  consultation/ SOAP editor, prescription builder
+  dashboard/   Role-specific widgets
+  doctor/      Doctor profile, availability editor
+  medical-history/  Conditions, allergies, medications, family history
+  medicine/    Search UI, OCR result display
+  prescription/ Print preview, PDF export
+  onboarding/  Multi-step wizard steps
+  providers/   ThemeProvider, i18n, QueryClientProvider
+```
+
+---
+
+## Key Libraries (Exact from package.json)
+
+```
+next ^16.1.6, react 19.2.3, typescript ^5
+@supabase/ssr ^0.8.0, @supabase/supabase-js ^2.89.0
+@serwist/next ^9.5.6, serwist ^9.5.6
+framer-motion ^12.x, gsap ^3.14.2, lenis ^1.3.17
+maplibre-gl ^5.16.0
+next-intl (i18n)
+@tanstack/react-query (client cache)
+recharts, echarts-for-react (charts)
+sonner (toasts)
+lucide-react (icons)
+tailwindcss ^4, @radix-ui/* (primitives)
+```

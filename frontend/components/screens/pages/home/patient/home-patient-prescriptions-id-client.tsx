@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -224,7 +224,7 @@ export default function PatientPrescriptionDetailPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto container-padding py-6 pt-(--nav-content-offset) max-w-5xl">
+        <main className="container mx-auto container-padding py-6 pt-[var(--nav-content-offset)] max-w-5xl">
           <PageLoadingShell label="Loading prescription..." cardCount={4} />
         </main>
       </AppBackground>
@@ -235,7 +235,7 @@ export default function PatientPrescriptionDetailPage() {
     return (
       <AppBackground>
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset)">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
           <Card className="border-destructive">
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
@@ -257,7 +257,7 @@ export default function PatientPrescriptionDetailPage() {
     <AppBackground className="animate-page-enter">
       <Navbar />
 
-      <main className="container mx-auto container-padding py-6 pt-(--nav-content-offset) max-w-5xl space-y-6">
+      <main className="container mx-auto container-padding py-6 pt-[var(--nav-content-offset)] max-w-5xl space-y-6">
         <div className="prescription-page-chrome">
           <Button
             variant="ghost"
@@ -520,3 +520,4 @@ export default function PatientPrescriptionDetailPage() {
     </AppBackground>
   );
 }
+

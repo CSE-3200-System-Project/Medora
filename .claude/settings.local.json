@@ -6,7 +6,8 @@
       "Bash(npx tsc:*)",
       "Bash(npx eslint:*)",
       "Bash(python -m py_compile app/routes/ai_consultation.py)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

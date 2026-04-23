@@ -55,9 +55,9 @@ export function ResponsiveCard({
         fullWidthMobile && "w-full",
         
         // Responsive padding based on size
-        size === "auto" && "p-3 sm:p-4 lg:p-6",
-        size === "compact" && "p-3",
-        size === "comfortable" && "p-4 sm:p-6", 
+        size === "auto" && "card-padding",
+        size === "compact" && "p-3 sm:p-4",
+        size === "comfortable" && "p-4 sm:p-6",
         size === "spacious" && "p-6 sm:p-8",
         
         // Touch interaction

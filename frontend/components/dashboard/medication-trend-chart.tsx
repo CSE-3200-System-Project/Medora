@@ -7,7 +7,7 @@ import { useTheme } from "next-themes"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-const ReactECharts = dynamic(() => import("echarts-for-react"), { ssr: false })
+const ReactECharts = dynamic(() => import("@/components/charts/echarts-core"), { ssr: false })
 
 type MedicationTrendChartProps = {
   values: number[]

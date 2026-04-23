@@ -18,7 +18,7 @@ export default async function AppointmentSuccessPage({ searchParams }: Appointme
           doctorName: resolvedSearchParams.doctorName,
           date: resolvedSearchParams.date,
           time: resolvedSearchParams.time,
-          location: resolvedSearchParams.location || "Not specified",
+          location: resolvedSearchParams.location || "",
         }
       : null;
 

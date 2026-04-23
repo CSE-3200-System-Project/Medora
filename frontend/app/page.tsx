@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -26,7 +26,7 @@ export default function Home() {
     <AppBackground className="min-h-dvh min-h-app">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl page-content pt-(--nav-content-offset) pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
+      <main className="mx-auto max-w-7xl page-content pt-[var(--nav-content-offset)] pb-14 md:pb-20 space-y-14 md:space-y-20 animate-page-enter">
         <HeroCarousel />
 
         <section className="space-y-8">
@@ -311,3 +311,4 @@ function FooterColumn({ title, links }: { title: string; links: string[] }) {
     </div>
   );
 }
+

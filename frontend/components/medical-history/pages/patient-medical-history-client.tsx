@@ -14,6 +14,7 @@ import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import type { Medication } from "@/components/medicine";
+import { AddMedicationDialog } from "@/components/medicine/add-medication-dialog";
 import type { Surgery } from "@/components/medical-history/surgery-manager";
 import type { Hospitalization } from "@/components/medical-history/hospitalization-manager";
 import type { Vaccination } from "@/components/medical-history/vaccination-manager";
@@ -30,7 +31,6 @@ import {
   FlaskConical,
   Plus,
   Trash2,
-  CalendarIcon,
   Bell,
   FileText,
   Upload,
@@ -51,6 +51,12 @@ import { usePagination } from "@/lib/use-pagination";
 import { fetchWithAuth } from "@/lib/auth-utils";
 import { updatePatientOnboarding, getPatientOnboardingData } from "@/lib/auth-actions";
 import {
+  buildFrequencyFromDoseSchedule,
+  formatDoseScheduleSummary,
+  computeExpiryDate,
+  humanizeMealInstruction,
+  isMedicationExpired,
+  type MealInstructionValue,
   toBackendPatientMedication,
   toPatientMedication,
   type BackendPatientMedication,
@@ -62,6 +68,7 @@ import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-
 
 import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
 import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
+import { ReminderDialog } from "@/components/ui/reminder-dialog";
 
 import {
   listMedicalReports,
@@ -70,16 +77,7 @@ import {
   type MedicalReport,
 } from "@/lib/medical-report-actions";
 import { uploadMedicalReport } from "@/lib/medical-report-upload";
-
-const MedicationManager = dynamic(
-  () => import("@/components/medicine").then((module) => module.MedicationManager),
-  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
-);
-
-const SurgeryManager = dynamic(
-  () => import("@/components/medical-history/surgery-manager").then((module) => module.SurgeryManager),
-  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
-);
+import { useT } from "@/i18n/client";
 
 const HospitalizationManager = dynamic(
   () =>
@@ -93,6 +91,14 @@ const VaccinationManager = dynamic(
   () =>
     import("@/components/medical-history/vaccination-manager").then(
       (module) => module.VaccinationManager,
+    ),
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
+);
+
+const SurgeryManager = dynamic(
+  () =>
+    import("@/components/medical-history/surgery-manager").then(
+      (module) => module.SurgeryManager,
     ),
   { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
@@ -134,6 +140,54 @@ interface MedicalTest {
   notes: string;
 }
 
+type TestFilter = "pending" | "completed" | "skipped" | "all";
+type TestSourceFilter = "doctor" | "self" | "all";
+type UnifiedTestSource = "doctor" | "self";
+type UnifiedTestStatus = "pending" | "completed" | "overdue" | "skipped";
+type SurgeryFilter = "pending" | "completed" | "skipped" | "all";
+type SurgerySourceFilter = "doctor" | "self" | "all";
+type UnifiedSurgerySource = "doctor" | "self";
+type UnifiedSurgeryStatus = "pending" | "completed" | "overdue" | "skipped";
+
+interface UnifiedTestEntry {
+  id: string;
+  source: UnifiedTestSource;
+  sourceLabel: string;
+  kind: "doctor-prescribed-template" | "patient-record";
+  index?: number;
+  test_name: string;
+  test_date: string;
+  result: string;
+  notes: string;
+  prescribing_doctor: string;
+  hospital_lab: string;
+  urgency: string;
+  status?: string;
+  created_at: string;
+}
+
+interface UnifiedSurgeryEntry {
+  id: string;
+  source: UnifiedSurgerySource;
+  sourceLabel: string;
+  kind: "doctor-prescribed-template" | "patient-record";
+  index?: number;
+  procedure_name: string;
+  procedure_type?: string;
+  reason?: string;
+  preferred_facility?: string;
+  recommended_date?: string;
+  estimated_cost_min?: number;
+  estimated_cost_max?: number;
+  pre_op_instructions?: string;
+  notes?: string;
+  urgency?: string;
+  status?: string;
+  created_at: string;
+  recommendationId?: string;
+  prescriptionId?: string;
+}
+
 /**
  * Comprehensive Medical History Page
  * Manages medications, tests, surgeries, hospitalizations, vaccinations
@@ -158,7 +212,126 @@ function formatPatientId(rawId?: string) {
   return cleaned ? `MED-${cleaned}` : "N/A";
 }
 
+function normalizeMedicationKey(value?: string | null) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeTestValue(value?: string | null) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeSurgeryValue(value?: string | null) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function isMedicationInactive(medication: Medication) {
+  if (medication.status === "past") return true;
+  if (medication.stopped_date) return true;
+  return isMedicationExpired(medication);
+}
+
+function MedicationEntryCard({
+  title,
+  genericName,
+  strengthOrType,
+  schedule,
+  duration,
+  mealInstruction,
+  startedDate,
+  expiryDate,
+  inactiveDate,
+  actionSlot,
+  labels,
+}: {
+  title: string;
+  genericName?: string;
+  strengthOrType?: string;
+  schedule: string;
+  duration?: string;
+  mealInstruction?: string;
+  startedDate?: string;
+  expiryDate?: string | null;
+  inactiveDate?: string | null;
+  actionSlot?: React.ReactNode;
+  labels?: {
+    expiredOn: string;
+    expiresOn: string;
+    expired: string;
+    current: string;
+    dosageSchedule: string;
+    duration: string;
+    meal: string;
+    startDate: string;
+  };
+}) {
+  const resolvedLabels = labels ?? {
+    expiredOn: "Expired on",
+    expiresOn: "Expires on",
+    expired: "Expired",
+    current: "Current",
+    dosageSchedule: "Dosage schedule",
+    duration: "Duration",
+    meal: "Meal",
+    startDate: "Start Date",
+  };
+  const inactive = Boolean(inactiveDate);
+  const dateLabel = inactive ? resolvedLabels.expiredOn : resolvedLabels.expiresOn;
+  const resolvedDate = inactiveDate || expiryDate;
+
+  return (
+    <div className="p-4 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/20">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+        <div>
+          <h4 className="font-semibold text-foreground">{title}</h4>
+          {genericName && <p className="text-sm text-muted-foreground">{genericName}</p>}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {strengthOrType && (
+            <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/30">
+              {strengthOrType}
+            </Badge>
+          )}
+          <Badge variant="outline" className={inactive ? "bg-muted text-muted-foreground" : "bg-success/10 text-success border-success/20"}>
+            {inactive ? resolvedLabels.expired : resolvedLabels.current}
+          </Badge>
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <span className="text-muted-foreground">{resolvedLabels.dosageSchedule}</span>
+          <span className="ml-1 font-medium text-foreground">{schedule}</span>
+        </div>
+        {duration && (
+          <div>
+            <span className="text-muted-foreground">{resolvedLabels.duration}</span>
+            <span className="ml-1 font-medium text-foreground">{duration}</span>
+          </div>
+        )}
+        {mealInstruction && (
+          <div>
+            <span className="text-muted-foreground">{resolvedLabels.meal}</span>
+            <span className="ml-1 font-medium text-foreground">{mealInstruction}</span>
+          </div>
+        )}
+        {startedDate && (
+          <div>
+            <span className="text-muted-foreground">{resolvedLabels.startDate}</span>
+            <span className="ml-1 font-medium text-foreground">{new Date(startedDate).toLocaleDateString()}</span>
+          </div>
+        )}
+      </div>
+      {resolvedDate && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          {dateLabel}: {new Date(resolvedDate).toLocaleDateString()}
+        </p>
+      )}
+      {actionSlot && <div className="mt-3 pt-3 border-t border-primary/10">{actionSlot}</div>}
+    </div>
+  );
+}
+
 function PatientMedicalHistoryPage() {
+  const tCommon = useT("common");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -167,18 +340,65 @@ function PatientMedicalHistoryPage() {
   
   // Data states
   const [medications, setMedications] = useState<Medication[]>([]);
-  const [patientData, setPatientData] = useState<any>(null);
+  const [patientData, setPatientData] = useState<Record<string, unknown> | null>(null);
 
-  const [appointments, setAppointments] = useState<any[]>([]);
+  const [appointments, setAppointments] = useState<Record<string, unknown>[]>([]);
 
 
   const [medicalTests, setMedicalTests] = useState<MedicalTest[]>([]);
-  const [surgeries, setSurgeries] = useState<{ name: string; year: string; hospital?: string }[]>([]);
+  const [testFilter, setTestFilter] = useState<TestFilter>("pending");
+  const [testSourceFilter, setTestSourceFilter] = useState<TestSourceFilter>("all");
+  const [resultDialogOpen, setResultDialogOpen] = useState(false);
+  const [completingTestIndex, setCompletingTestIndex] = useState<number | null>(null);
+  const [resultForm, setResultForm] = useState({ result: "", notes: "" });
+  const [addTestDialogOpen, setAddTestDialogOpen] = useState(false);
+  const [testActionMessage, setTestActionMessage] = useState<string | null>(null);
+  const [testActionError, setTestActionError] = useState<string | null>(null);
+  const [surgeryActionMessage, setSurgeryActionMessage] = useState<string | null>(null);
+  const [surgeryActionError, setSurgeryActionError] = useState<string | null>(null);
+  const [surgeryFilter, setSurgeryFilter] = useState<SurgeryFilter>("pending");
+  const [surgerySourceFilter, setSurgerySourceFilter] = useState<SurgerySourceFilter>("all");
+  const [addSurgeryDialogOpen, setAddSurgeryDialogOpen] = useState(false);
+  const [addSurgeryForm, setAddSurgeryForm] = useState<Surgery>({
+    name: "",
+    year: new Date().getFullYear().toString(),
+    hospital: "",
+    notes: "",
+    status: "pending",
+    recommended_date: new Date().toISOString().slice(0, 10),
+    prescribing_doctor: "",
+    urgency: "",
+  });
+  const [highlightedTestId, setHighlightedTestId] = useState<string | null>(null);
+  const [highlightedSurgeryId, setHighlightedSurgeryId] = useState<string | null>(null);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+  const [addTestForm, setAddTestForm] = useState<MedicalTest>({
+    test_name: "",
+    test_id: undefined,
+    test_date: new Date().toISOString().slice(0, 10),
+    result: "",
+    status: "pending",
+    prescribing_doctor: "",
+    hospital_lab: "",
+    notes: "",
+  });
+  const [surgeries, setSurgeries] = useState<Surgery[]>([]);
   const [hospitalizations, setHospitalizations] = useState<{ reason: string; year: string; duration?: string }[]>([]);
   const [vaccinations, setVaccinations] = useState<{ name: string; date: string; next_due?: string }[]>([]);
   
   // Doctor prescriptions state (accepted prescriptions from consultations)
   const [doctorPrescriptions, setDoctorPrescriptions] = useState<Prescription[]>([]);
+  const [doctorMedicationFilter, setDoctorMedicationFilter] = useState<"active" | "expired" | "all">("active");
+  const [myMedicationFilter, setMyMedicationFilter] = useState<"active" | "expired" | "all">("active");
+  const [addMedicationDialogOpen, setAddMedicationDialogOpen] = useState(false);
+  const [myMedicationReminderOpen, setMyMedicationReminderOpen] = useState(false);
+  const [selectedMyMedication, setSelectedMyMedication] = useState<Medication | null>(null);
+  const [renewDialogOpen, setRenewDialogOpen] = useState(false);
+  const [renewDurationDays, setRenewDurationDays] = useState("");
+  const [renewTarget, setRenewTarget] = useState<{
+    medication: MedicationPrescription | Medication;
+    sourceDoctor?: string;
+  } | null>(null);
 
   // Dialog states
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -193,7 +413,6 @@ function PatientMedicalHistoryPage() {
     doseTimes: { morning?: boolean; afternoon?: boolean; evening?: boolean; night?: boolean };
   } | null>(null);
   
-  const [initialLoaded, setInitialLoaded] = useState(false);
 
   // Medical reports state
   const [reports, setReports] = useState<MedicalReportListItem[]>([]);
@@ -212,18 +431,515 @@ function PatientMedicalHistoryPage() {
   const [reportDate, setReportDate] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const initialLoadedRef = React.useRef(false);
+  const setInitialLoaded = (v: boolean) => { initialLoadedRef.current = v; };
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Pagination states
   const appointmentsPagination = usePagination(appointments, 6);
   const reportsPagination = usePagination(reports, 6);
-  const medicalTestsPagination = usePagination(medicalTests, 5);
   const doctorMedsPrescriptions = doctorPrescriptions.filter(p => p.medications.length > 0);
-  const doctorTestsPrescriptions = doctorPrescriptions.filter(p => p.tests.length > 0);
-  const doctorSurgeriesPrescriptions = doctorPrescriptions.filter(p => p.surgeries.length > 0);
   const doctorMedsPagination = usePagination(doctorMedsPrescriptions, 5);
-  const doctorTestsPagination = usePagination(doctorTestsPrescriptions, 5);
+  const doctorSurgeriesPrescriptions = doctorPrescriptions.filter(p => p.surgeries && p.surgeries.length > 0);
   const doctorSurgeriesPagination = usePagination(doctorSurgeriesPrescriptions, 5);
+  const deriveTestSource = (test: { prescribing_doctor?: string }): UnifiedTestSource =>
+    normalizeTestValue(test.prescribing_doctor) ? "doctor" : "self";
+
+  const getTestStatus = (test: { result?: string; test_date?: string }): UnifiedTestStatus => {
+    const explicitStatus = normalizeTestValue((test as { status?: string }).status);
+    if (explicitStatus === "skipped") return "skipped";
+    if (explicitStatus === "completed") return "completed";
+    if (hasResult(test.result)) return "completed";
+    if (isOverdueTest(test.test_date, test.result)) return "overdue";
+    return "pending";
+  };
+
+  const upsertLocalMedicalTest = (incoming: MedicalTest) => {
+    const next = [...medicalTests];
+    const existingIndex = next.findIndex(
+      (entry) =>
+        normalizeTestValue(entry.test_name) === normalizeTestValue(incoming.test_name) &&
+        normalizeTestValue(entry.test_date) === normalizeTestValue(incoming.test_date),
+    );
+    if (existingIndex >= 0) next[existingIndex] = incoming;
+    else next.unshift(incoming);
+    setMedicalTests(next);
+    return next;
+  };
+
+  const persistMedicalTestsViaOnboarding = async (nextTests: MedicalTest[]) => {
+    const token = document.cookie.split("session_token=")[1]?.split(";")[0];
+    const response = await fetchWithAuth(`${BACKEND_URL}/profile/patient/onboarding`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        has_medical_tests: nextTests.length > 0 ? "yes" : "no",
+        medical_tests: nextTests,
+      }),
+    });
+
+    if (!response) throw new Error("Unauthorized");
+    if (!response.ok) {
+      let detail = "Failed to sync test changes";
+      try {
+        const data = await response.json();
+        detail = data?.detail || detail;
+      } catch {
+        // ignore parse failure
+      }
+      throw new Error(detail);
+    }
+  };
+
+  const applyMedicalTestLifecycle = (
+    source: MedicalTest[],
+    payload: {
+      test_name: string;
+      test_date: string;
+      prescribing_doctor?: string;
+      hospital_lab?: string;
+      result?: string;
+      notes?: string;
+      status?: "pending" | "completed" | "skipped";
+    },
+  ) => {
+    const next = [...source];
+    const existingIndex = next.findIndex(
+      (entry) =>
+        normalizeTestValue(entry.test_name) === normalizeTestValue(payload.test_name) &&
+        normalizeTestValue(entry.test_date) === normalizeTestValue(payload.test_date),
+    );
+
+    const nextStatus = payload.result?.trim()
+      ? "completed"
+      : payload.status || (existingIndex >= 0 ? next[existingIndex]?.status || "pending" : "pending");
+
+    const updated: MedicalTest = {
+      test_name: payload.test_name,
+      test_id: existingIndex >= 0 ? next[existingIndex]?.test_id : undefined,
+      test_date: payload.test_date,
+      result: payload.result?.trim() || (existingIndex >= 0 ? next[existingIndex]?.result || "" : ""),
+      status: nextStatus,
+      prescribing_doctor: payload.prescribing_doctor ?? (existingIndex >= 0 ? next[existingIndex]?.prescribing_doctor || "" : ""),
+      hospital_lab: payload.hospital_lab ?? (existingIndex >= 0 ? next[existingIndex]?.hospital_lab || "" : ""),
+      notes: payload.notes ?? (existingIndex >= 0 ? next[existingIndex]?.notes || "" : ""),
+    };
+
+    if (existingIndex >= 0) next[existingIndex] = updated;
+    else next.unshift(updated);
+
+    return { next, updated };
+  };
+
+  const patchMedicalTestLifecycle = async (payload: {
+    test_name: string;
+    test_date: string;
+    prescribing_doctor?: string;
+    hospital_lab?: string;
+    result?: string;
+    notes?: string;
+    status?: "pending" | "completed" | "skipped";
+  }) => {
+    const token = document.cookie.split("session_token=")[1]?.split(";")[0];
+    const response = await fetchWithAuth(`${BACKEND_URL}/medical-test/patient/tests`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      credentials: "include",
+      body: JSON.stringify(payload),
+    });
+    if (!response) throw new Error("Unauthorized");
+    if (!response.ok) {
+      if (response.status === 404) {
+        const { next, updated } = applyMedicalTestLifecycle(medicalTests, payload);
+        await persistMedicalTestsViaOnboarding(next);
+        return updated;
+      }
+      let detail = "Failed to update test";
+      try {
+        const data = await response.json();
+        detail = data?.detail || detail;
+      } catch {
+        // ignore parse failure
+      }
+      throw new Error(detail);
+    }
+    const data = await response.json();
+    return (data?.test || null) as Record<string, unknown> | null;
+  };
+
+  const isDuplicatePendingTest = (testName?: string, testDate?: string) => {
+    const normalizedName = normalizeTestValue(testName);
+    const normalizedDate = normalizeTestValue(testDate);
+    if (!normalizedName || !normalizedDate) return false;
+
+    return medicalTests.some(
+      (existing) =>
+        !hasResult(existing.result) &&
+        normalizeTestValue(existing.test_name) === normalizedName &&
+        normalizeTestValue(existing.test_date) === normalizedDate,
+    );
+  };
+
+  const getSurgeryStatus = (surgery?: Surgery): "pending" | "completed" | "skipped" => {
+    const status = normalizeSurgeryValue(surgery?.status);
+    if (status === "completed" || status === "skipped") return status;
+    return "pending";
+  };
+
+  const findSurgeryIndex = (procedureName: string, recommendedDate?: string) => {
+    const targetName = normalizeSurgeryValue(procedureName);
+    const targetDate = normalizeSurgeryValue(recommendedDate);
+    const targetYear = targetDate ? targetDate.slice(0, 4) : "";
+
+    return surgeries.findIndex((entry) => {
+      const sameName = normalizeSurgeryValue(entry.name) === targetName;
+      if (!sameName) return false;
+      const entryDate = normalizeSurgeryValue(entry.recommended_date);
+      const entryYear = normalizeSurgeryValue(entry.year);
+      if (targetDate) {
+        return entryDate === targetDate || entryYear === targetYear;
+      }
+      return true;
+    });
+  };
+
+  const handleSurgeryUpdate = async (nextSurgeries: Surgery[]) => {
+    setSurgeries(nextSurgeries);
+    try {
+      await persistSurgeries(nextSurgeries);
+    } catch (error) {
+      console.error("Failed to sync surgery changes", error);
+    }
+  };
+
+  const persistSurgeries = async (nextSurgeries: Surgery[]) => {
+    const token = document.cookie.split("session_token=")[1]?.split(";")[0];
+    const response = await fetchWithAuth(`${BACKEND_URL}/profile/patient/onboarding`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        surgeries: nextSurgeries,
+      }),
+    });
+
+    if (!response) throw new Error("Unauthorized");
+    if (!response.ok) {
+      let detail = "Failed to sync surgery changes";
+      try {
+        const data = await response.json();
+        detail = data?.detail || detail;
+      } catch {
+        // ignore parse failure
+      }
+      throw new Error(detail);
+    }
+  };
+
+  const addDoctorSurgery = async (prescription: Prescription, surgery: SurgeryRecommendation) => {
+    const yearFromRecommended = surgery.recommended_date
+      ? new Date(surgery.recommended_date).getFullYear().toString()
+      : new Date().getFullYear().toString();
+    const next: Surgery[] = [
+      {
+        name: surgery.procedure_name || tCommon("medicalHistory.surgeries.untitled"),
+        year: yearFromRecommended,
+        hospital: surgery.preferred_facility || "",
+        notes: surgery.notes || surgery.pre_op_instructions || "",
+        status: "pending",
+        prescribing_doctor: prescription.doctor_name || "",
+        recommended_date: surgery.recommended_date || "",
+        urgency: surgery.urgency || "",
+      },
+      ...surgeries,
+    ];
+
+    setSurgeries(next);
+    try {
+      await persistSurgeries(next);
+      setSurgeryActionError(null);
+      setSurgeryActionMessage(tCommon("medicalHistory.surgeries.messages.added"));
+    } catch (error) {
+      console.error("Failed to add doctor surgery", error);
+      setSurgeryActionMessage(null);
+      setSurgeryActionError(tCommon("medicalHistory.surgeries.messages.addFailed"));
+    }
+  };
+
+  const updateSurgeryStatus = async (
+    index: number,
+    status: "pending" | "completed" | "skipped",
+    successMessage: string,
+    failureMessage: string,
+  ) => {
+    const current = surgeries[index];
+    if (!current) return;
+
+    const next = [...surgeries];
+    next[index] = { ...current, status };
+    setSurgeries(next);
+
+    try {
+      await persistSurgeries(next);
+      setSurgeryActionError(null);
+      setSurgeryActionMessage(successMessage);
+    } catch (error) {
+      console.error("Failed to update surgery status", error);
+      setSurgeryActionMessage(null);
+      setSurgeryActionError(failureMessage);
+    }
+  };
+
+  const deleteSurgeryByIndex = async (index: number) => {
+    const current = surgeries[index];
+    if (!current) return;
+
+    const next = surgeries.filter((_, surgeryIndex) => surgeryIndex !== index);
+    setSurgeries(next);
+
+    try {
+      await persistSurgeries(next);
+      setSurgeryActionError(null);
+      setSurgeryActionMessage(tCommon("medicalHistory.surgeries.messages.deleted"));
+    } catch (error) {
+      console.error("Failed to delete surgery", error);
+      setSurgeryActionMessage(null);
+      setSurgeryActionError(tCommon("medicalHistory.surgeries.messages.deleteFailed"));
+      setSurgeries(surgeries);
+    }
+  };
+
+  const saveNewSurgery = async () => {
+    if (!addSurgeryForm.name.trim()) return;
+
+    const recommendedDate = addSurgeryForm.recommended_date || "";
+    const nextYear = recommendedDate
+      ? new Date(recommendedDate).getFullYear().toString()
+      : (addSurgeryForm.year || new Date().getFullYear().toString());
+
+    const nextEntry: Surgery = {
+      name: addSurgeryForm.name.trim(),
+      year: nextYear,
+      hospital: addSurgeryForm.hospital?.trim() || "",
+      notes: addSurgeryForm.notes?.trim() || "",
+      status: "pending",
+      prescribing_doctor: addSurgeryForm.prescribing_doctor?.trim() || "",
+      recommended_date: recommendedDate,
+      urgency: addSurgeryForm.urgency?.trim() || "",
+    };
+
+    const next = [nextEntry, ...surgeries];
+    setSurgeries(next);
+
+    try {
+      await persistSurgeries(next);
+      setSurgeryActionError(null);
+      setSurgeryActionMessage(tCommon("medicalHistory.surgeries.messages.added"));
+      setSurgeryFilter("pending");
+      setSurgerySourceFilter("all");
+      setHighlightedSurgeryId(
+        `patient-surgery-0-${normalizeSurgeryValue(nextEntry.name)}-${normalizeSurgeryValue(nextEntry.recommended_date || nextEntry.year)}`,
+      );
+      setAddSurgeryDialogOpen(false);
+      setAddSurgeryForm({
+        name: "",
+        year: new Date().getFullYear().toString(),
+        hospital: "",
+        notes: "",
+        status: "pending",
+        recommended_date: new Date().toISOString().slice(0, 10),
+        prescribing_doctor: "",
+        urgency: "",
+      });
+    } catch (error) {
+      console.error("Failed to add surgery", error);
+      setSurgeryActionMessage(null);
+      setSurgeryActionError(tCommon("medicalHistory.surgeries.messages.addFailed"));
+      setSurgeries(surgeries);
+    }
+  };
+
+  const buildUnifiedTests = (): UnifiedTestEntry[] => {
+    const doctorDerivedTests: UnifiedTestEntry[] = doctorPrescriptions
+      .filter((prescription) => prescription.tests.length > 0)
+      .flatMap((prescription) =>
+        prescription.tests.map((test: TestPrescription) => ({
+          id: `doctor-${prescription.id}-${test.id}`,
+          source: normalizeTestValue(prescription.doctor_name) ? "doctor" : "self",
+          sourceLabel: normalizeTestValue(prescription.doctor_name)
+            ? tCommon("medicalHistory.common.doctorPrescribed")
+            : tCommon("medicalHistory.common.selfAdded"),
+          kind: "doctor-prescribed-template",
+          test_name: test.test_name,
+          test_date: test.expected_date || "",
+          result: "",
+          notes: test.instructions || "",
+          prescribing_doctor: prescription.doctor_name || "",
+          hospital_lab: test.preferred_lab || "",
+          urgency: test.urgency || "",
+          status: "pending",
+          created_at: prescription.created_at,
+        })),
+      );
+
+    const patientDerivedTests: UnifiedTestEntry[] = medicalTests.map((test, index) => {
+      const source = deriveTestSource(test);
+      return {
+        id: `patient-${index}-${normalizeTestValue(test.test_name)}-${normalizeTestValue(test.test_date)}`,
+        source,
+        sourceLabel: source === "doctor"
+          ? tCommon("medicalHistory.common.doctorPrescribed")
+          : tCommon("medicalHistory.common.selfAdded"),
+        kind: "patient-record",
+        index,
+        test_name: test.test_name,
+        test_date: test.test_date,
+        result: test.result,
+        notes: test.notes,
+        prescribing_doctor: test.prescribing_doctor,
+        hospital_lab: test.hospital_lab,
+        urgency: test.status,
+        status: test.status,
+        created_at: "",
+      };
+    });
+
+    const mergedDoctorTests: UnifiedTestEntry[] = doctorDerivedTests.map((doctorTest) => {
+      const linkedPatientRecord = patientDerivedTests.find(
+        (patientTest) =>
+          normalizeTestValue(patientTest.test_name) === normalizeTestValue(doctorTest.test_name) &&
+          normalizeTestValue(patientTest.test_date) === normalizeTestValue(doctorTest.test_date),
+      );
+
+      if (!linkedPatientRecord) return doctorTest;
+
+      return {
+        ...doctorTest,
+        // Keep doctor card/source identity, but project the active patient data onto it.
+        result: linkedPatientRecord.result,
+        notes: linkedPatientRecord.notes || doctorTest.notes,
+        hospital_lab: linkedPatientRecord.hospital_lab || doctorTest.hospital_lab,
+        urgency: linkedPatientRecord.urgency || doctorTest.urgency,
+        index: linkedPatientRecord.index,
+        kind: "doctor-prescribed-template",
+      };
+    });
+
+    const unmatchedPatientTests = patientDerivedTests.filter((patientTest) => {
+      if (patientTest.source !== "doctor") return true;
+      return !doctorDerivedTests.some(
+        (doctorTest) =>
+          normalizeTestValue(doctorTest.test_name) === normalizeTestValue(patientTest.test_name) &&
+          normalizeTestValue(doctorTest.test_date) === normalizeTestValue(patientTest.test_date),
+      );
+    });
+
+    return [...mergedDoctorTests, ...unmatchedPatientTests];
+  };
+
+  const deriveSurgerySource = (surgery: { prescribing_doctor?: string }): UnifiedSurgerySource =>
+    normalizeSurgeryValue(surgery.prescribing_doctor) ? "doctor" : "self";
+
+  const isOverdueSurgeryEntry = (entry: { recommended_date?: string; status?: string }) => {
+    if (normalizeSurgeryValue(entry.status) !== "pending") return false;
+    if (!entry.recommended_date) return false;
+    const date = new Date(entry.recommended_date);
+    if (Number.isNaN(date.getTime())) return false;
+    return date.getTime() < Date.now();
+  };
+
+  const getUnifiedSurgeryStatus = (entry: UnifiedSurgeryEntry): UnifiedSurgeryStatus => {
+    const status = normalizeSurgeryValue(entry.status);
+    if (status === "completed") return "completed";
+    if (status === "skipped") return "skipped";
+    if (isOverdueSurgeryEntry(entry)) return "overdue";
+    return "pending";
+  };
+
+  const buildUnifiedSurgeries = (): UnifiedSurgeryEntry[] => {
+    const doctorDerivedSurgeries: UnifiedSurgeryEntry[] = doctorPrescriptions
+      .filter((prescription) => prescription.surgeries.length > 0)
+      .flatMap((prescription) =>
+        prescription.surgeries.map((surgery: SurgeryRecommendation) => ({
+          id: `doctor-surgery-${prescription.id}-${surgery.id}`,
+          source: normalizeSurgeryValue(prescription.doctor_name) ? "doctor" : "self",
+          sourceLabel: normalizeSurgeryValue(prescription.doctor_name)
+            ? tCommon("medicalHistory.common.doctorPrescribed")
+            : tCommon("medicalHistory.common.selfAdded"),
+          kind: "doctor-prescribed-template",
+          procedure_name: surgery.procedure_name,
+          procedure_type: surgery.procedure_type,
+          reason: surgery.reason,
+          preferred_facility: surgery.preferred_facility,
+          recommended_date: surgery.recommended_date,
+          estimated_cost_min: surgery.estimated_cost_min,
+          estimated_cost_max: surgery.estimated_cost_max,
+          pre_op_instructions: surgery.pre_op_instructions,
+          notes: surgery.notes,
+          urgency: surgery.urgency,
+          status: "pending",
+          created_at: prescription.created_at,
+          recommendationId: surgery.id,
+          prescriptionId: prescription.id,
+        })),
+      );
+
+    const patientDerivedSurgeries: UnifiedSurgeryEntry[] = surgeries.map((surgery, index) => {
+      const source = deriveSurgerySource(surgery);
+      return {
+        id: `patient-surgery-${index}-${normalizeSurgeryValue(surgery.name)}-${normalizeSurgeryValue(surgery.recommended_date || surgery.year)}`,
+        source,
+        sourceLabel: source === "doctor"
+          ? tCommon("medicalHistory.common.doctorPrescribed")
+          : tCommon("medicalHistory.common.selfAdded"),
+        kind: "patient-record",
+        index,
+        procedure_name: surgery.name,
+        preferred_facility: surgery.hospital,
+        recommended_date: surgery.recommended_date,
+        notes: surgery.notes,
+        urgency: surgery.urgency,
+        status: getSurgeryStatus(surgery),
+        created_at: "",
+      };
+    });
+
+    const mergedDoctorSurgeries: UnifiedSurgeryEntry[] = doctorDerivedSurgeries.map((doctorSurgery) => {
+      const linkedPatientIndex = findSurgeryIndex(doctorSurgery.procedure_name, doctorSurgery.recommended_date);
+      if (linkedPatientIndex < 0) return doctorSurgery;
+
+      const linkedPatientRecord = patientDerivedSurgeries.find((patientSurgery) => patientSurgery.index === linkedPatientIndex);
+      if (!linkedPatientRecord) return doctorSurgery;
+
+      return {
+        ...doctorSurgery,
+        preferred_facility: linkedPatientRecord.preferred_facility || doctorSurgery.preferred_facility,
+        notes: linkedPatientRecord.notes || doctorSurgery.notes,
+        urgency: linkedPatientRecord.urgency || doctorSurgery.urgency,
+        status: linkedPatientRecord.status,
+        index: linkedPatientRecord.index,
+      };
+    });
+
+    const unmatchedPatientSurgeries = patientDerivedSurgeries.filter((patientSurgery) => {
+      if (patientSurgery.source !== "doctor") return true;
+      return !doctorDerivedSurgeries.some(
+        (doctorSurgery) => findSurgeryIndex(doctorSurgery.procedure_name, doctorSurgery.recommended_date) === patientSurgery.index,
+      );
+    });
+
+    return [...mergedDoctorSurgeries, ...unmatchedPatientSurgeries];
+  };
 
   // Load all medical history data
   useEffect(() => {
@@ -322,6 +1038,119 @@ function PatientMedicalHistoryPage() {
     }
   };
 
+  const persistMedications = async (nextMedications: Medication[]) => {
+    const backendMedications = nextMedications.map((medication) => toBackendPatientMedication(medication));
+    await updatePatientOnboarding({
+      taking_meds: nextMedications.length > 0 ? "yes" : "no",
+      medications: backendMedications,
+    });
+  };
+
+  const handleMedicationUpdate = (nextMedications: Medication[]) => {
+    setMedications(nextMedications);
+    persistMedications(nextMedications).catch((error) => {
+      console.error("Failed to persist medications:", error);
+      setErrorMessage(tCommon("medicalHistory.medications.messages.syncFailed"));
+      setErrorDialogOpen(true);
+    });
+  };
+
+  const buildMedicationFromDoctorPrescription = (med: MedicationPrescription, sourceDoctor?: string, nextDuration?: string): Medication => {
+    const startedDate = new Date().toISOString().slice(0, 10);
+    const duration = (nextDuration || (med.duration_value ? `${med.duration_value} ${med.duration_unit}` : "")).trim();
+
+    return {
+      id: crypto.randomUUID(),
+      drug_id: "",
+      display_name: med.medicine_name,
+      generic_name: med.generic_name || med.medicine_name,
+      strength: med.strength || "",
+      dosage_form: med.medicine_type || "",
+      dosage: med.strength || "",
+      frequency: buildFrequencyFromDoseSchedule({
+        dose_morning: Boolean(med.dose_morning),
+        dose_afternoon: Boolean(med.dose_afternoon),
+        dose_evening: false,
+        dose_night: Boolean(med.dose_night || med.dose_evening),
+        dose_morning_amount: med.dose_morning_amount || "1",
+        dose_afternoon_amount: med.dose_afternoon_amount || "1",
+        dose_evening_amount: "1",
+        dose_night_amount: med.dose_night_amount || med.dose_evening_amount || "1",
+      }),
+      duration,
+      status: "current",
+      started_date: startedDate,
+      stopped_date: "",
+      prescribing_doctor: sourceDoctor || undefined,
+      dose_morning: Boolean(med.dose_morning),
+      dose_afternoon: Boolean(med.dose_afternoon),
+      dose_evening: false,
+      dose_night: Boolean(med.dose_night || med.dose_evening),
+      dose_morning_amount: med.dose_morning_amount || "1",
+      dose_afternoon_amount: med.dose_afternoon_amount || "1",
+      dose_evening_amount: "1",
+      dose_night_amount: med.dose_night_amount || med.dose_evening_amount || "1",
+      meal_instruction: (med.meal_instruction as MealInstructionValue) || "after_meal",
+    };
+  };
+
+  const openRenewMedicationDialog = (medication: MedicationPrescription | Medication, sourceDoctor?: string) => {
+    setRenewTarget({ medication, sourceDoctor });
+    setRenewDurationDays("7");
+    setRenewDialogOpen(true);
+  };
+
+  const confirmRenewMedication = () => {
+    if (!renewTarget) return;
+    const days = Number(renewDurationDays);
+    if (!Number.isFinite(days) || days <= 0) return;
+
+    const duration = `${Math.round(days)} days`;
+    const isDoctorMedication = "medicine_name" in renewTarget.medication;
+    const renewed = isDoctorMedication
+      ? buildMedicationFromDoctorPrescription(renewTarget.medication as MedicationPrescription, renewTarget.sourceDoctor, duration)
+      : {
+          ...(renewTarget.medication as Medication),
+          id: crypto.randomUUID(),
+          status: "current" as const,
+          stopped_date: "",
+          started_date: new Date().toISOString().slice(0, 10),
+          duration,
+        };
+
+    handleMedicationUpdate([renewed, ...medications]);
+    setRenewDialogOpen(false);
+    setRenewTarget(null);
+    setRenewDurationDays("");
+  };
+
+  const markMedicationExpiredNow = (target: Medication) => {
+    const nowIso = new Date().toISOString().slice(0, 10);
+    const updated = medications.map((medication) =>
+      medication.id === target.id
+        ? {
+            ...medication,
+            status: "past" as const,
+            stopped_date: nowIso,
+          }
+        : medication,
+    );
+    handleMedicationUpdate(updated);
+  };
+
+  const sortedMyMedications = [...medications].sort((a, b) => {
+    const aDate = new Date(a.started_date || a.stopped_date || 0).getTime();
+    const bDate = new Date(b.started_date || b.stopped_date || 0).getTime();
+    return bDate - aDate;
+  });
+
+  const visibleMyMedications = sortedMyMedications.filter((medication) => {
+    const inactive = isMedicationInactive(medication);
+    if (myMedicationFilter === "active") return !inactive;
+    if (myMedicationFilter === "expired") return inactive;
+    return true;
+  });
+
   // Export all medical history
   const handleExportAll = () => {
     let text = "MY MEDICAL HISTORY\n";
@@ -416,9 +1245,9 @@ function PatientMedicalHistoryPage() {
       setReportsError(null);
       const data = await listMedicalReports(undefined, 50, 0);
       setReports(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load reports:", err);
-      setReportsError(err.message || "Failed to load reports");
+      setReportsError(err instanceof Error ? err.message : tCommon("medicalHistory.reports.errors.loadFailed"));
     } finally {
       setReportsLoading(false);
       setReportsLoaded(true);
@@ -431,9 +1260,9 @@ function PatientMedicalHistoryPage() {
       setReportDetailError(null);
       const data = await getMedicalReport(id);
       setSelectedReport(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to load report:", err);
-      setReportDetailError(err.message || "Failed to load report");
+      setReportDetailError(err instanceof Error ? err.message : tCommon("medicalHistory.reports.errors.loadSingleFailed"));
     } finally {
       setReportDetailLoading(false);
     }
@@ -471,7 +1300,7 @@ function PatientMedicalHistoryPage() {
     if (!file) return;
     const validTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
     if (!validTypes.includes(file.type)) {
-      setUploadError("Please upload an image (JPG, PNG, WebP) or PDF.");
+      setUploadError(tCommon("medicalHistory.reports.errors.invalidUploadType"));
       return;
     }
     setSelectedFile(file);
@@ -499,9 +1328,9 @@ function PatientMedicalHistoryPage() {
       setSelectedReportId(result.report.id);
       // Refresh reports list
       loadReports();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Upload failed:", err);
-      setUploadError(err.message || "Upload failed");
+      setUploadError(err instanceof Error ? err.message : tCommon("medicalHistory.reports.errors.uploadFailed"));
     } finally {
       setUploading(false);
     }
@@ -521,19 +1350,19 @@ function PatientMedicalHistoryPage() {
       case "normal":
         return (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
-            <CheckCircle2 className="h-3 w-3 mr-1" />Normal
+            <CheckCircle2 className="h-3 w-3 mr-1" />{tCommon("medicalHistory.reports.status.normal")}
           </Badge>
         );
       case "high":
         return (
           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
-            <ArrowUp className="h-3 w-3 mr-1" />High
+            <ArrowUp className="h-3 w-3 mr-1" />{tCommon("medicalHistory.reports.status.high")}
           </Badge>
         );
       case "low":
         return (
           <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
-            <ArrowDown className="h-3 w-3 mr-1" />Low
+            <ArrowDown className="h-3 w-3 mr-1" />{tCommon("medicalHistory.reports.status.low")}
           </Badge>
         );
       default:
@@ -543,25 +1372,289 @@ function PatientMedicalHistoryPage() {
     }
   };
 
+  const hasResult = (result?: string) => Boolean(result && result.trim().length > 0);
+
+  const isOverdueTest = (testDate?: string, result?: string) => {
+    if (hasResult(result) || !testDate) return false;
+    const date = new Date(testDate);
+    if (Number.isNaN(date.getTime())) return false;
+    return date.getTime() < Date.now();
+  };
+
+  const isCompletedTest = (test: { result?: string }) => hasResult(test.result);
+
+  const getComputedTestStatusBadge = (test: { result?: string; test_date?: string }) => {
+    const explicitStatus = normalizeTestValue((test as { status?: string }).status);
+    if (explicitStatus === "skipped") {
+      return (
+        <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-700">
+          {tCommon("medicalHistory.status.skipped")}
+        </Badge>
+      );
+    }
+
+    if (explicitStatus === "completed" || isCompletedTest(test)) {
+      return (
+        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+          <CheckCircle2 className="mr-1 h-3 w-3" />
+          {tCommon("medicalHistory.status.completed")}
+        </Badge>
+      );
+    }
+
+    if (isOverdueTest(test.test_date, test.result)) {
+      return (
+        <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700">
+          <AlertTriangle className="mr-1 h-3 w-3" />
+          {tCommon("medicalHistory.status.overdue")}
+        </Badge>
+      );
+    }
+
+    return (
+      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
+        <Clock className="mr-1 h-3 w-3" />
+        {tCommon("medicalHistory.status.pending")}
+      </Badge>
+    );
+  };
+
+  const getComputedSurgeryStatusBadge = (entry: UnifiedSurgeryEntry) => {
+    const status = getUnifiedSurgeryStatus(entry);
+
+    if (status === "skipped") {
+      return (
+        <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-700">
+          {tCommon("medicalHistory.status.skipped")}
+        </Badge>
+      );
+    }
+
+    if (status === "completed") {
+      return (
+        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
+          <CheckCircle2 className="mr-1 h-3 w-3" />
+          {tCommon("medicalHistory.status.completed")}
+        </Badge>
+      );
+    }
+
+    if (status === "overdue") {
+      return (
+        <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700">
+          <AlertTriangle className="mr-1 h-3 w-3" />
+          {tCommon("medicalHistory.status.overdue")}
+        </Badge>
+      );
+    }
+
+    return (
+      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800">
+        <Clock className="mr-1 h-3 w-3" />
+        {tCommon("medicalHistory.status.pending")}
+      </Badge>
+    );
+  };
+
+  useEffect(() => {
+    if (!testActionMessage && !testActionError) return;
+    const timer = window.setTimeout(() => {
+      setTestActionMessage(null);
+      setTestActionError(null);
+    }, 2500);
+    return () => window.clearTimeout(timer);
+  }, [testActionMessage, testActionError]);
+
+  useEffect(() => {
+    if (!surgeryActionMessage && !surgeryActionError) return;
+    const timer = window.setTimeout(() => {
+      setSurgeryActionMessage(null);
+      setSurgeryActionError(null);
+    }, 2500);
+    return () => window.clearTimeout(timer);
+  }, [surgeryActionMessage, surgeryActionError]);
+
+  useEffect(() => {
+    if (!highlightedTestId) return;
+    const element = document.getElementById(`test-card-${highlightedTestId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    const timer = window.setTimeout(() => setHighlightedTestId(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [highlightedTestId]);
+
+  useEffect(() => {
+    if (!highlightedSurgeryId) return;
+    const element = document.getElementById(`surgery-card-${highlightedSurgeryId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    const timer = window.setTimeout(() => setHighlightedSurgeryId(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [highlightedSurgeryId]);
+
+  const openResultDialogForIndex = (index: number) => {
+    const target = medicalTests[index];
+    if (!target) return;
+    setCompletingTestIndex(index);
+    setResultForm({
+      result: target.result || "",
+      notes: target.notes || "",
+    });
+    setResultDialogOpen(true);
+  };
+
+  const saveResultForTest = async () => {
+    if (completingTestIndex === null) return;
+    if (!resultForm.result.trim()) return;
+
+    const index = completingTestIndex;
+    const target = medicalTests[index];
+    if (!target) return;
+
+    try {
+      await patchMedicalTestLifecycle({
+        test_name: target.test_name,
+        test_date: target.test_date,
+        prescribing_doctor: target.prescribing_doctor,
+        hospital_lab: target.hospital_lab,
+        result: resultForm.result.trim(),
+        notes: resultForm.notes.trim(),
+        status: "completed",
+      });
+      const next = upsertLocalMedicalTest({
+        ...target,
+        result: resultForm.result.trim(),
+        notes: resultForm.notes.trim(),
+        status: "completed",
+      });
+      setResultDialogOpen(false);
+      setCompletingTestIndex(null);
+      setResultForm({ result: "", notes: "" });
+      setTestFilter("completed");
+      setTestSourceFilter(deriveTestSource(target));
+      const updatedIndex = next.findIndex(
+        (entry) =>
+          normalizeTestValue(entry.test_name) === normalizeTestValue(target.test_name) &&
+          normalizeTestValue(entry.test_date) === normalizeTestValue(target.test_date),
+      );
+      if (updatedIndex >= 0) {
+        setHighlightedTestId(
+          `patient-${updatedIndex}-${normalizeTestValue(target.test_name)}-${normalizeTestValue(target.test_date)}`,
+        );
+      }
+      setTestActionError(null);
+      setTestActionMessage(tCommon("medicalHistory.labTests.messages.completed"));
+    } catch (error) {
+      console.error("Failed to persist completed test", error);
+      setTestActionMessage(null);
+      setTestActionError(tCommon("medicalHistory.labTests.messages.completeFailed"));
+    }
+  };
+
+  const saveNewTest = () => {
+    if (!addTestForm.test_name.trim()) return;
+    if (isDuplicatePendingTest(addTestForm.test_name, addTestForm.test_date)) {
+      setTestActionMessage(null);
+      setTestActionError(tCommon("medicalHistory.labTests.messages.duplicatePending"));
+      return;
+    }
+    setMedicalTests([{ ...addTestForm, result: "" }, ...medicalTests]);
+    setTestFilter("pending");
+    setTestSourceFilter("all");
+    setHighlightedTestId(
+      `patient-0-${normalizeTestValue(addTestForm.test_name)}-${normalizeTestValue(addTestForm.test_date)}`,
+    );
+    setTestActionError(null);
+    setTestActionMessage(tCommon("medicalHistory.labTests.messages.added"));
+    setAddTestDialogOpen(false);
+    setAddTestForm({
+      test_name: "",
+      test_id: undefined,
+      test_date: new Date().toISOString().slice(0, 10),
+      result: "",
+      status: "pending",
+      prescribing_doctor: "",
+      hospital_lab: "",
+      notes: "",
+    });
+  };
+
+  const skipTest = async (payload: { index?: number }) => {
+    if (typeof payload.index !== "number") return;
+    const current = medicalTests[payload.index];
+    if (!current) return;
+
+    const nextItem: MedicalTest = {
+      ...current,
+      status: "skipped",
+      result: "",
+      notes: current.notes || "",
+    };
+
+    try {
+      await patchMedicalTestLifecycle({
+        test_name: nextItem.test_name,
+        test_date: nextItem.test_date,
+        prescribing_doctor: nextItem.prescribing_doctor,
+        hospital_lab: nextItem.hospital_lab,
+        notes: nextItem.notes,
+        status: "skipped",
+      });
+      upsertLocalMedicalTest(nextItem);
+      setTestFilter("all");
+      setTestSourceFilter("all");
+      setTestActionError(null);
+      setTestActionMessage(tCommon("medicalHistory.labTests.messages.skipped"));
+    } catch (error) {
+      console.error("Failed to skip test", error);
+      setTestActionMessage(null);
+      setTestActionError(tCommon("medicalHistory.labTests.messages.skipFailed"));
+    }
+  };
+
   if (loading) {
     return (
       <AppBackground className="container-padding">
         <Navbar />
         <main className="container mx-auto py-8 pt-[var(--nav-content-offset)]">
-          <PageLoadingShell label="Loading medical history..." cardCount={4} />
+          <PageLoadingShell label={tCommon("medicalHistory.loading")} cardCount={4} />
         </main>
       </AppBackground>
     );
   }
 
-  const totalMeds = medications.length + doctorPrescriptions.reduce((acc, p) => acc + (p.medications?.length || 0), 0);
-  const totalTests = medicalTests.length + doctorPrescriptions.reduce((acc, p) => acc + (p.tests?.length || 0), 0);
-  const totalSurgeries = surgeries.length + doctorPrescriptions.reduce((acc, p) => acc + (p.surgeries?.length || 0), 0);
-  const firstName = patientData?.first_name || patientData?.firstName || "Patient";
-  const lastName = patientData?.last_name || patientData?.lastName || "";
+  const firstName = String(patientData?.first_name ?? patientData?.firstName ?? tCommon("patientHome.defaultUserName"));
+  const lastName = String(patientData?.last_name ?? patientData?.lastName ?? "");
   const patientName = `${firstName} ${lastName}`.trim();
-  const age = calculateAge(patientData?.date_of_birth || patientData?.dob);
-  const patientId = formatPatientId(patientData?.id || patientData?.patient_id || patientData?.profile_id);
+  const age = calculateAge(
+    typeof patientData?.date_of_birth === "string"
+      ? patientData.date_of_birth
+      : typeof patientData?.dob === "string"
+        ? patientData.dob
+        : undefined,
+  );
+  const patientId = formatPatientId(
+    typeof patientData?.id === "string"
+      ? patientData.id
+      : typeof patientData?.patient_id === "string"
+        ? patientData.patient_id
+        : typeof patientData?.profile_id === "string"
+          ? patientData.profile_id
+          : undefined,
+  );
+
+  const medicationCardLabels = {
+    expiredOn: tCommon("medicalHistory.medications.labels.expiredOn"),
+    expiresOn: tCommon("medicalHistory.medications.labels.expiresOn"),
+    expired: tCommon("medicalHistory.medications.labels.expired"),
+    current: tCommon("medicalHistory.medications.labels.current"),
+    dosageSchedule: tCommon("medicalHistory.medications.labels.dosageSchedule"),
+    duration: tCommon("medicalHistory.medications.labels.duration"),
+    meal: tCommon("medicalHistory.medications.labels.meal"),
+    startDate: tCommon("medicalHistory.medications.labels.startDate"),
+  };
 
   return (
     <AppBackground className="container-padding animate-page-enter">
@@ -570,18 +1663,18 @@ function PatientMedicalHistoryPage() {
         {/* Header */}
         <div className="mb-6 sm:mb-8 space-y-4">
           <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/20">
-            Active Patient Profile
+            {tCommon("medicalHistory.header.activeProfile")}
           </Badge>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
-                Patient Medical History
+                {tCommon("medicalHistory.header.title")}
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">
                 {patientName}
-                {age !== null ? ` | ${age} Years` : ""}
-                {patientId !== "N/A" ? ` | ID: ${patientId}` : ""}
+                {age !== null ? ` | ${age} ${tCommon("medicalHistory.header.years")}` : ""}
+                {patientId !== "N/A" ? ` | ${tCommon("medicalHistory.header.idPrefix")}: ${patientId}` : ""}
               </p>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
@@ -592,14 +1685,14 @@ function PatientMedicalHistoryPage() {
                 className="w-full sm:w-auto touch-target"
               >
                 <Download className="h-4 w-4 mr-2" />
-                <span className="sm:inline">Export Report</span>
+                <span className="sm:inline">{tCommon("medicalHistory.actions.exportReport")}</span>
               </Button>
               <Button
                 onClick={() => setActiveTab("medications")}
                 size="sm"
                 className="w-full sm:w-auto touch-target"
               >
-                New Entry
+                {tCommon("medicalHistory.actions.newEntry")}
               </Button>
             </div>
           </div>
@@ -610,43 +1703,43 @@ function PatientMedicalHistoryPage() {
           <TabsList className="mb-6 flex h-auto w-full gap-2 overflow-x-auto p-1 bg-muted/30 no-scrollbar">
             <TabsTrigger value="timeline" className="h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm">
               <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Timeline</span>
-              <span className="sm:hidden">Timeline</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.timeline")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.timelineShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="medications" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabActiveState}`}>
               <Pill className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.medications.tabIconText}`} />
-              <span className="hidden sm:inline">Medications</span>
-              <span className="sm:hidden">Meds</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.medications")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.medicationsShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="tests" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabActiveState}`}>
               <FlaskConical className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.tests.tabIconText}`} />
-              <span className="hidden sm:inline">Lab Tests</span>
-              <span className="sm:hidden">Tests</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.labTests")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.labTestsShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="surgeries" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabActiveState}`}>
               <Syringe className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.surgeries.tabIconText}`} />
-              <span className="hidden sm:inline">Surgeries</span>
-              <span className="sm:hidden">Surgery</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.surgeries")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.surgeriesShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="hospitalizations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabActiveState}`}>
               <Hospital className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.hospitalizations.tabIconText}`} />
-              <span className="hidden sm:inline">Hospitalizations</span>
-              <span className="sm:hidden">Hospital</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.hospitalizations")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.hospitalizationsShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="vaccinations" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabActiveState}`}>
               <Shield className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.vaccinations.tabIconText}`} />
-              <span className="hidden sm:inline">Vaccinations</span>
-              <span className="sm:hidden">Vaccines</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.vaccinations")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.vaccinationsShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="visits" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabActiveState}`}>
               <CheckCircle2 className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.visits.tabIconText}`} />
-              <span className="hidden sm:inline">Visits</span>
-              <span className="sm:hidden">Visits</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.visits")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.visitsShort")}</span>
             </TabsTrigger>
             <TabsTrigger value="reports" className={`h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm ${MEDICAL_MODULE_TAB_ACCENTS.reports.tabActiveState}`}>
               <FileText className={`h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 ${MEDICAL_MODULE_TAB_ACCENTS.reports.tabIconText}`} />
-              <span className="hidden sm:inline">Lab Reports</span>
-              <span className="sm:hidden">Reports</span>
+              <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.labReports")}</span>
+              <span className="sm:hidden">{tCommon("medicalHistory.tabs.reportsShort")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -660,89 +1753,150 @@ function PatientMedicalHistoryPage() {
                 <CardHeader className="bg-linear-to-r from-primary/5 to-transparent dark:from-primary/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
                     <Pill className="h-5 w-5 text-primary" />
-                    Doctor Prescribed Medications
+                    {tCommon("medicalHistory.medications.doctorPrescribedTitle")}
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Medications prescribed by your doctors during consultations
+                    {tCommon("medicalHistory.medications.doctorPrescribedSubtitle")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
+                  <div className="mb-4 flex justify-end">
+                    <select
+                      value={doctorMedicationFilter}
+                      onChange={(event) => setDoctorMedicationFilter(event.target.value as "active" | "expired" | "all")}
+                      className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                    >
+                      <option value="active">{tCommon("medicalHistory.medications.filters.active")}</option>
+                      <option value="expired">{tCommon("medicalHistory.medications.filters.expired")}</option>
+                      <option value="all">{tCommon("medicalHistory.medications.filters.all")}</option>
+                    </select>
+                  </div>
                   <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
-                    {doctorMedsPagination.pageItems.map(prescription => (
+                    {doctorMedsPagination.pageItems.map((prescription) => {
+                        const visibleDoctorMeds = prescription.medications.filter((med) => {
+                          const duration = med.duration_value ? `${med.duration_value} ${med.duration_unit}` : "";
+                          const startedDate = med.start_date || prescription.accepted_at || prescription.created_at;
+                          const expired = isMedicationExpired({
+                            started_date: startedDate,
+                            duration,
+                            dose_evening: Boolean(med.dose_evening),
+                            dose_night: Boolean(med.dose_night),
+                          });
+                          if (doctorMedicationFilter === "active") return !expired;
+                          if (doctorMedicationFilter === "expired") return expired;
+                          return true;
+                        });
+
+                        if (visibleDoctorMeds.length === 0) return null;
+
+                        return (
                         <div key={prescription.id} className="space-y-3">
                           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                            <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
+                            <span className="font-medium text-foreground">{tCommon("medicalHistory.common.doctorPrefix")} {prescription.doctor_name}</span>
                             <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
-                          {prescription.medications.map((med: MedicationPrescription) => (
-                            <div key={med.id} className="p-4 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/20">
-                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                                <div>
-                                  <h4 className="font-semibold text-foreground">{med.medicine_name}</h4>
-                                  {med.generic_name && (
-                                    <p className="text-sm text-muted-foreground">{med.generic_name}</p>
-                                  )}
+                          {visibleDoctorMeds.map((med: MedicationPrescription) => (
+                            (() => {
+                              const duration = med.duration_value ? `${med.duration_value} ${med.duration_unit}` : "";
+                              const startedDate = med.start_date || prescription.accepted_at || prescription.created_at;
+                              const expired = isMedicationExpired({
+                                started_date: startedDate,
+                                duration,
+                                dose_evening: Boolean(med.dose_evening),
+                                dose_night: Boolean(med.dose_night),
+                              });
+                              if (doctorMedicationFilter === "active" && expired) return null;
+                              if (doctorMedicationFilter === "expired" && !expired) return null;
+                              const expiryDate = computeExpiryDate(startedDate, duration);
+                              const alreadyAdded = medications.some((existing) => {
+                                const nameMatch =
+                                  normalizeMedicationKey(existing.display_name) === normalizeMedicationKey(med.medicine_name);
+                                if (!nameMatch) return false;
+                                if (isMedicationInactive(existing)) return false;
+                                const doctorMatch =
+                                  !existing.prescribing_doctor ||
+                                  normalizeMedicationKey(existing.prescribing_doctor) === normalizeMedicationKey(prescription.doctor_name);
+                                return doctorMatch;
+                              });
+                              return (
+                            <MedicationEntryCard
+                              key={med.id}
+                              title={med.medicine_name}
+                              genericName={med.generic_name || undefined}
+                              strengthOrType={med.strength || med.medicine_type || undefined}
+                              schedule={formatDoseScheduleSummary({
+                                dose_morning: Boolean(med.dose_morning),
+                                dose_afternoon: Boolean(med.dose_afternoon),
+                                dose_evening: false,
+                                dose_night: Boolean(med.dose_night || med.dose_evening),
+                                dose_morning_amount: med.dose_morning_amount || "1",
+                                dose_afternoon_amount: med.dose_afternoon_amount || "1",
+                                dose_evening_amount: "1",
+                                dose_night_amount: med.dose_night_amount || med.dose_evening_amount || "1",
+                              })}
+                              duration={duration}
+                              mealInstruction={humanizeMealInstruction(med.meal_instruction || "any_time")}
+                              startedDate={String(startedDate).slice(0, 10)}
+                              expiryDate={expiryDate}
+                              inactiveDate={expired ? expiryDate : null}
+                              labels={medicationCardLabels}
+                              actionSlot={!expired ? (
+                                <div className="flex flex-wrap gap-2">
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="gap-2 text-primary border-primary/30 hover:bg-primary/10"
+                                    onClick={() => {
+                                      setSelectedMedicationForReminder({
+                                        medicineName: med.medicine_name,
+                                        prescriptionId: prescription.id,
+                                        doseTimes: {
+                                          morning: med.dose_morning,
+                                          afternoon: med.dose_afternoon,
+                                          evening: false,
+                                          night: med.dose_night || med.dose_evening,
+                                        }
+                                      });
+                                      setReminderDialogOpen(true);
+                                    }}
+                                  >
+                                    <Bell className="h-4 w-4" />
+                                    {tCommon("medicalHistory.actions.setReminder")}
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    title={alreadyAdded ? tCommon("medicalHistory.medications.actions.alreadyActiveHint") : undefined}
+                                    disabled={alreadyAdded}
+                                    onClick={() => {
+                                      const nextMedication = buildMedicationFromDoctorPrescription(
+                                        med,
+                                        prescription.doctor_name || undefined,
+                                      );
+                                      handleMedicationUpdate([nextMedication, ...medications]);
+                                    }}
+                                  >
+                                    {alreadyAdded
+                                      ? tCommon("medicalHistory.medications.actions.alreadyAdded")
+                                      : tCommon("medicalHistory.medications.actions.addMedication")}
+                                  </Button>
                                 </div>
-                                <Badge variant="outline" className="w-fit bg-primary/10 text-primary border-primary/30">
-                                  {med.medicine_type}
-                                </Badge>
-                              </div>
-                              <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
-                                {med.strength && (
-                                  <div>
-                                    <span className="text-muted-foreground">Strength:</span>
-                                    <span className="ml-1 font-medium text-foreground">{med.strength}</span>
-                                  </div>
-                                )}
-                                <div>
-                                  <span className="text-muted-foreground">Doses:</span>
-                                  <span className="ml-1 font-medium text-foreground">
-                                    {[med.dose_morning && "Morning", med.dose_afternoon && "Afternoon", med.dose_evening && "Evening", med.dose_night && "Night"].filter(Boolean).join(", ") || "As directed"}
-                                  </span>
-                                </div>
-                                {med.duration_value && (
-                                  <div>
-                                    <span className="text-muted-foreground">Duration:</span>
-                                    <span className="ml-1 font-medium text-foreground">{med.duration_value} {med.duration_unit}</span>
-                                  </div>
-                                )}
-                                <div>
-                                  <span className="text-muted-foreground">Meal:</span>
-                                  <span className="ml-1 font-medium text-foreground">{med.meal_instruction?.replace(/_/g, " ") || "Any time"}</span>
-                                </div>
-                              </div>
-                              {med.special_instructions && (
-                                <p className="mt-2 text-sm text-muted-foreground italic">Note: {med.special_instructions}</p>
-                              )}
-                              {/* Set Reminder Button */}
-                              <div className="mt-3 pt-3 border-t border-primary/10">
+                              ) : (
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="gap-2 text-primary border-primary/30 hover:bg-primary/10"
-                                  onClick={() => {
-                                    setSelectedMedicationForReminder({
-                                      medicineName: med.medicine_name,
-                                      prescriptionId: prescription.id,
-                                      doseTimes: {
-                                        morning: med.dose_morning,
-                                        afternoon: med.dose_afternoon,
-                                        evening: med.dose_evening,
-                                        night: med.dose_night,
-                                      }
-                                    });
-                                    setReminderDialogOpen(true);
-                                  }}
+                                  onClick={() => openRenewMedicationDialog(med, prescription.doctor_name || undefined)}
                                 >
-                                  <Bell className="h-4 w-4" />
-                                  Set Reminder
+                                  {tCommon("medicalHistory.medications.actions.renewMedication")}
                                 </Button>
-                              </div>
-                            </div>
+                              )}
+                            />
+                              );
+                            })()
                           ))}
                         </div>
-                      ))}
+                      )})}
                   </div>
                   <PaginationControls
                     currentPage={doctorMedsPagination.currentPage}
@@ -750,7 +1904,7 @@ function PatientMedicalHistoryPage() {
                     totalItems={doctorMedsPagination.totalItems}
                     startIndex={doctorMedsPagination.startIndex}
                     endIndex={doctorMedsPagination.endIndex}
-                    itemLabel="prescriptions"
+                    itemLabel={tCommon("medicalHistory.medications.pagination.prescriptions")}
                     onPrev={doctorMedsPagination.goToPrevPage}
                     onNext={doctorMedsPagination.goToNextPage}
                   />
@@ -760,14 +1914,97 @@ function PatientMedicalHistoryPage() {
 
             {/* Self-Reported Medications */}
             <Card>
-              <CardContent className="p-4 sm:p-6">
-                <MedicationManager
-                  medications={medications}
-                  onUpdate={setMedications}
-                  showStatus={true}
-                  title="My Medications"
-                  description="Search from our medicine database and manage your medications"
-                />
+              <CardHeader className="bg-linear-to-r from-primary/5 to-transparent dark:from-primary/10">
+                <CardTitle className="text-foreground flex items-center gap-2">
+                  <Pill className="h-5 w-5 text-primary" />
+                  {tCommon("medicalHistory.medications.myMedications")}
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {tCommon("medicalHistory.medications.myMedicationsSubtitle")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-4 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                  <select
+                    value={myMedicationFilter}
+                    onChange={(event) => setMyMedicationFilter(event.target.value as "active" | "expired" | "all")}
+                    className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                  >
+                    <option value="active">{tCommon("medicalHistory.medications.filters.active")}</option>
+                    <option value="expired">{tCommon("medicalHistory.medications.filters.expired")}</option>
+                    <option value="all">{tCommon("medicalHistory.medications.filters.all")}</option>
+                  </select>
+                  <Button size="sm" onClick={() => setAddMedicationDialogOpen(true)}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    {tCommon("medicalHistory.medications.actions.addMedication")}
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {visibleMyMedications.length > 0 ? (
+                    visibleMyMedications.map((medication) => {
+                      const inactive = isMedicationInactive(medication);
+                      const computedExpiryDate = computeExpiryDate(medication.started_date, medication.duration);
+                      const inactiveDate = medication.stopped_date || (inactive ? computedExpiryDate : null);
+
+                      return (
+                        <MedicationEntryCard
+                          key={medication.id}
+                          title={medication.display_name}
+                          genericName={medication.generic_name}
+                          strengthOrType={medication.strength || medication.dosage_form}
+                          schedule={formatDoseScheduleSummary(medication)}
+                          duration={medication.duration}
+                          mealInstruction={humanizeMealInstruction(medication.meal_instruction || "any_time")}
+                          startedDate={medication.started_date}
+                          expiryDate={computedExpiryDate}
+                          inactiveDate={inactiveDate}
+                          labels={medicationCardLabels}
+                          actionSlot={
+                            <div className="flex flex-wrap gap-2">
+                              {!inactive ? (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="gap-2 text-primary border-primary/30 hover:bg-primary/10"
+                                    onClick={() => {
+                                      setSelectedMyMedication(medication);
+                                      setMyMedicationReminderOpen(true);
+                                    }}
+                                  >
+                                    <Bell className="h-4 w-4" />
+                                    {tCommon("medicalHistory.actions.setReminder")}
+                                  </Button>
+                                  <Button size="sm" variant="outline" onClick={() => markMedicationExpiredNow(medication)}>
+                                    {tCommon("medicalHistory.medications.actions.markCompleted")}
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button size="sm" variant="outline" onClick={() => openRenewMedicationDialog(medication)}>
+                                  {tCommon("medicalHistory.medications.actions.renewMedication")}
+                                </Button>
+                              )}
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="text-destructive border-destructive/30 hover:bg-destructive/10"
+                                onClick={() => handleMedicationUpdate(medications.filter((item) => item.id !== medication.id))}
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                {tCommon("medicalHistory.medications.actions.delete")}
+                              </Button>
+                            </div>
+                          }
+                        />
+                      );
+                    })
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Pill className="h-10 w-10 mx-auto mb-2 opacity-40" />
+                      <p>{tCommon("medicalHistory.medications.emptyFiltered")}</p>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
               </>
@@ -778,298 +2015,400 @@ function PatientMedicalHistoryPage() {
           <TabsContent value="tests" className="mt-0 space-y-6">
             {activeTab === "tests" ? (
               <>
-            {/* Doctor Prescribed Tests */}
-            {doctorTestsPrescriptions.length > 0 && (
-              <Card className="border-purple-300 dark:border-purple-700">
-                <CardHeader className="bg-linear-to-r from-purple-50 to-transparent dark:from-purple-950/30">
-                  <CardTitle className="text-foreground flex items-center gap-2">
-                    <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                    Doctor Prescribed Tests
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    Tests ordered by your doctors during consultations
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-4 sm:p-6">
-                  <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
-                    {doctorTestsPagination.pageItems.map(prescription => (
-                        <div key={prescription.id} className="space-y-3">
-                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                            <span className="font-medium text-foreground">Dr. {prescription.doctor_name}</span>
-                            <span>|</span>
-                            <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
-                          </div>
-                          {prescription.tests.map((test: TestPrescription) => (
-                            <div key={test.id} className="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700">
-                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                                <div>
-                                  <h4 className="font-semibold text-foreground">{test.test_name}</h4>
-                                  {test.test_type && (
-                                    <p className="text-sm text-muted-foreground">{test.test_type}</p>
-                                  )}
-                                </div>
-                                <Badge variant="outline" className={`w-fit ${test.urgency === "urgent" ? "bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400" : "bg-purple-100 text-purple-700 border-purple-300 dark:bg-purple-900/30 dark:text-purple-400"}`}>
-                                  {test.urgency}
-                                </Badge>
-                              </div>
-                              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                                {test.preferred_lab && (
-                                  <div>
-                                    <span className="text-muted-foreground">Preferred Lab:</span>
-                                    <span className="ml-1 font-medium text-foreground">{test.preferred_lab}</span>
-                                  </div>
-                                )}
-                                {test.expected_date && (
-                                  <div>
-                                    <span className="text-muted-foreground">Expected Date:</span>
-                                    <span className="ml-1 font-medium text-foreground">{new Date(test.expected_date).toLocaleDateString()}</span>
-                                  </div>
-                                )}
-                              </div>
-                              {test.instructions && (
-                                <p className="mt-2 text-sm text-muted-foreground italic">Instructions: {test.instructions}</p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                  </div>
-                  <PaginationControls
-                    currentPage={doctorTestsPagination.currentPage}
-                    totalPages={doctorTestsPagination.totalPages}
-                    totalItems={doctorTestsPagination.totalItems}
-                    startIndex={doctorTestsPagination.startIndex}
-                    endIndex={doctorTestsPagination.endIndex}
-                    itemLabel="prescriptions"
-                    onPrev={doctorTestsPagination.goToPrevPage}
-                    onNext={doctorTestsPagination.goToNextPage}
-                  />
-                </CardContent>
-              </Card>
-            )}
-
             <Card className="border-purple-200 dark:border-purple-800 shadow-sm">
               <CardHeader className="bg-linear-to-r from-purple-50 to-card dark:from-purple-950/30 dark:to-card border-b border-purple-100 dark:border-purple-800">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
                     <CardTitle className="text-foreground flex items-center gap-2">
                       <FlaskConical className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                      Lab Tests & Diagnostics
+                      {tCommon("medicalHistory.labTests.title")}
                     </CardTitle>
-                    <CardDescription className="text-muted-foreground dark:text-muted-foreground">Track your medical tests and results</CardDescription>
+                    <CardDescription className="text-muted-foreground dark:text-muted-foreground">{tCommon("medicalHistory.labTests.subtitle")}</CardDescription>
                   </div>
-                  <Button
-                    type="button"
-                    size="sm"
-                    onClick={() => {
-                      setMedicalTests([
-                        ...medicalTests,
-                        {
-                          test_name: "",
-                          test_id: undefined,
-                          test_date: "",
-                          result: "",
-                          status: "completed",
-                          prescribing_doctor: "",
-                          hospital_lab: "",
-                          notes: "",
-                        },
-                      ]);
-                    }}
-                    className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Test
-                  </Button>
+                  <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+                    <select
+                      value={testFilter}
+                      onChange={(event) => setTestFilter(event.target.value as TestFilter)}
+                      className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+                    >
+                      <option value="pending">Pending / Upcoming</option>
+                      <option value="completed">Completed</option>
+                      <option value="skipped">Skipped</option>
+                      <option value="all">All</option>
+                    </select>
+                    <select
+                      value={testSourceFilter}
+                      onChange={(event) => setTestSourceFilter(event.target.value as TestSourceFilter)}
+                      className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+                    >
+                      <option value="all">All Sources</option>
+                      <option value="doctor">Doctor Prescribed</option>
+                      <option value="self">Self Added</option>
+                    </select>
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() => setAddTestDialogOpen(true)}
+                      className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {tCommon("medicalHistory.labTests.addTest")}
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="p-4 sm:p-6 bg-card dark:bg-card">
-                {medicalTests.length === 0 ? (
+                {(() => {
+                  const allTests = buildUnifiedTests()
+                    .filter((test) => {
+                      const status = getTestStatus(test);
+                      if (testFilter === "pending") return status === "pending" || status === "overdue";
+                      if (testFilter === "completed") return status === "completed";
+                      if (testFilter === "skipped") return status === "skipped";
+                      return true;
+                    })
+                    .filter((test) => {
+                      if (testSourceFilter === "all") return true;
+                      return test.source === testSourceFilter;
+                    })
+                    .sort((a, b) => {
+                      const aDate = new Date(a.test_date || a.created_at || 0).getTime();
+                      const bDate = new Date(b.test_date || b.created_at || 0).getTime();
+
+                      if (testFilter === "pending") {
+                        const aOverdue = getTestStatus(a) === "overdue";
+                        const bOverdue = getTestStatus(b) === "overdue";
+
+                        // Pending view priority:
+                        // 1) Upcoming tests first (nearest upcoming date first)
+                        // 2) Overdue tests after (most recently missed first)
+                        if (aOverdue !== bOverdue) return aOverdue ? 1 : -1;
+                        if (aOverdue && bOverdue) return bDate - aDate;
+                        return aDate - bDate;
+                      }
+
+                      if (testFilter === "completed" || testFilter === "skipped") {
+                        return bDate - aDate;
+                      }
+
+                      return bDate - aDate;
+                    });
+
+                  return allTests.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
                       <FlaskConical className="h-8 w-8 text-purple-500 dark:text-purple-400" />
                     </div>
-                    <p className="text-foreground dark:text-foreground font-medium">No lab tests recorded yet</p>
-                    <p className="text-sm mt-2 text-muted-foreground dark:text-muted-foreground">Click &quot;Add Test&quot; to record your lab tests</p>
+                    <p className="text-foreground dark:text-foreground font-medium">{tCommon("medicalHistory.labTests.emptyTitle")}</p>
+                    <p className="text-sm mt-2 text-muted-foreground dark:text-muted-foreground">{tCommon("medicalHistory.labTests.emptyHint")}</p>
                   </div>
                 ) : (
-                  <div className="scrollbar-themed max-h-[700px] overflow-y-auto pr-1 space-y-6">
-                    {medicalTestsPagination.pageItems.map((test) => {
-                      const index = medicalTests.indexOf(test);
+                  <div className="space-y-4">
+                    {(testActionMessage || testActionError) && (
+                      <div
+                        className={`rounded-md border px-3 py-2 text-sm ${
+                          testActionError
+                            ? "border-destructive/40 bg-destructive/5 text-destructive"
+                            : "border-success/30 bg-success/10 text-success"
+                        }`}
+                      >
+                        {testActionError || testActionMessage}
+                      </div>
+                    )}
+                    {allTests.map((test) => {
+                      const status = getTestStatus(test);
+                      const overdue = isOverdueTest(test.test_date, test.result);
+                      const urgent = String(test.urgency || "").toLowerCase() === "urgent";
+                      const alreadyAdded =
+                        test.kind === "doctor-prescribed-template" &&
+                        medicalTests.some(
+                          (existing) =>
+                            normalizeTestValue(existing.test_name) === normalizeTestValue(test.test_name) &&
+                            normalizeTestValue(existing.test_date) === normalizeTestValue(test.test_date)
+                        );
+                      const doctorReadyForCompletion = alreadyAdded;
+
                       return (
-                      <div key={index} className="border border-purple-200 dark:border-purple-800 rounded-xl p-5 bg-linear-to-br from-purple-50/50 to-card dark:from-purple-950/20 dark:to-card shadow-sm">
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="flex items-center gap-2">
-                            <span className="h-7 w-7 rounded-full bg-purple-600 text-white text-sm font-medium flex items-center justify-center">
-                              {index + 1}
-                            </span>
-                            <span className="text-sm font-semibold text-foreground dark:text-foreground">
-                              Test Record
-                            </span>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setMedicalTests(medicalTests.filter((_, i) => i !== index));
-                            }}
-                            className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {/* Test Name with Search */}
-                          <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Test Name <span className="text-red-500">*</span>
-                            </Label>
-                            <MedicalTestSearch
-                              value={test.test_name}
-                              onChange={(testName, testId) => {
-                                const updated = [...medicalTests];
-                                updated[index] = {
-                                  ...updated[index],
-                                  test_name: testName,
-                                  test_id: testId,
-                                };
-                                setMedicalTests(updated);
-                              }}
-                              placeholder="Search for a test..."
-                            />
-                          </div>
-
-                          {/* Test Date */}
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Test Date
-                            </Label>
-                            <div className="relative">
-                              <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-500" />
-                              <Input
-                                type="date"
-                                value={test.test_date}
-                                onChange={(e) => {
-                                  const updated = [...medicalTests];
-                                  updated[index] = { ...updated[index], test_date: e.target.value };
-                                  setMedicalTests(updated);
-                                }}
-                                className="pl-10 border-border focus:border-purple-500 focus:ring-purple-500 text-foreground"
-                              />
+                        <div
+                          key={test.id}
+                          id={`test-card-${test.id}`}
+                          className={`rounded-xl border p-4 sm:p-5 ${
+                            overdue
+                              ? "border-amber-300 bg-amber-50/40 dark:border-amber-700 dark:bg-amber-900/10"
+                              : "border-purple-200 bg-linear-to-br from-purple-50/50 to-card dark:border-purple-800 dark:from-purple-950/20 dark:to-card"
+                          } ${highlightedTestId === test.id ? "ring-2 ring-primary/50" : ""}`}
+                        >
+                          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div className="min-w-0">
+                              <h4 className="font-semibold text-foreground">{test.test_name || "Untitled Test"}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {test.prescribing_doctor ? `Dr. ${test.prescribing_doctor}` : "--"}
+                              </p>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Badge
+                                variant="outline"
+                                className={
+                                  test.source === "doctor"
+                                    ? "bg-indigo-100 text-indigo-700 border-indigo-300 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-700"
+                                    : "bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-700"
+                                }
+                              >
+                                {test.sourceLabel}
+                              </Badge>
+                              {getComputedTestStatusBadge(test)}
+                              {urgent && (
+                                <Badge variant="outline" className="bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400">
+                                  <AlertCircle className="mr-1 h-3 w-3" />
+                                  Urgent
+                                </Badge>
+                              )}
                             </div>
                           </div>
 
-                          {/* Result */}
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Result
-                            </Label>
-                            <Input
-                              type="text"
-                              value={test.result}
-                              onChange={(e) => {
-                                const updated = [...medicalTests];
-                                updated[index] = { ...updated[index], result: e.target.value };
-                                setMedicalTests(updated);
-                              }}
-                              placeholder="e.g., Normal, 120 mg/dL"
-                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
-                            />
+                          <div className="mt-3 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
+                            <div>
+                              <span className="text-muted-foreground">Test date</span>
+                              <span className="ml-1 font-medium text-foreground">
+                                {test.test_date ? new Date(test.test_date).toLocaleDateString() : "--"}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Result</span>
+                              <span className="ml-1 font-medium text-foreground">{test.result || "--"}</span>
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Lab</span>
+                              <span className="ml-1 font-medium text-foreground">{test.hospital_lab || "--"}</span>
+                            </div>
+                            <div>
+                              <span className="text-muted-foreground">Notes</span>
+                              <span className="ml-1 font-medium text-foreground">{test.notes || "--"}</span>
+                            </div>
                           </div>
 
-                          {/* Status */}
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Status
-                            </Label>
-                            <select
-                              value={test.status}
-                              onChange={(e) => {
-                                const updated = [...medicalTests];
-                                updated[index] = { ...updated[index], status: e.target.value };
-                                setMedicalTests(updated);
-                              }}
-                              className="w-full h-10 px-3 rounded-md border border-border bg-card text-sm text-foreground focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none"
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="completed">Completed</option>
-                              <option value="scheduled">Scheduled</option>
-                            </select>
-                          </div>
-
-                          {/* Prescribing Doctor */}
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Prescribed By
-                            </Label>
-                            <Input
-                              type="text"
-                              value={test.prescribing_doctor}
-                              onChange={(e) => {
-                                const updated = [...medicalTests];
-                                updated[index] = { ...updated[index], prescribing_doctor: e.target.value };
-                                setMedicalTests(updated);
-                              }}
-                              placeholder="Doctor's name"
-                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
-                            />
-                          </div>
-
-                          {/* Hospital/Lab */}
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Hospital/Lab
-                            </Label>
-                            <Input
-                              type="text"
-                              value={test.hospital_lab}
-                              onChange={(e) => {
-                                const updated = [...medicalTests];
-                                updated[index] = { ...updated[index], hospital_lab: e.target.value };
-                                setMedicalTests(updated);
-                              }}
-                              placeholder="Where test was conducted"
-                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
-                            />
-                          </div>
-
-                          {/* Notes */}
-                          <div className="md:col-span-2">
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Notes
-                            </Label>
-                            <Input
-                              type="text"
-                              value={test.notes}
-                              onChange={(e) => {
-                                const updated = [...medicalTests];
-                                updated[index] = { ...updated[index], notes: e.target.value };
-                                setMedicalTests(updated);
-                              }}
-                              placeholder="Any additional notes..."
-                              className="border-border focus:border-purple-500 focus:ring-purple-500 text-foreground placeholder:text-muted-foreground"
-                            />
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {test.kind === "doctor-prescribed-template" ? (
+                              <>
+                                {!doctorReadyForCompletion && (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={async () => {
+                                      if (!normalizeTestValue(test.test_date)) {
+                                        setTestActionMessage(null);
+                                        setTestActionError("Test date is required before adding this test");
+                                        return;
+                                      }
+                                      try {
+                                        await patchMedicalTestLifecycle({
+                                          test_name: test.test_name,
+                                          test_date: test.test_date,
+                                          prescribing_doctor: test.prescribing_doctor,
+                                          hospital_lab: test.hospital_lab,
+                                          notes: test.notes,
+                                          status: "pending",
+                                        });
+                                        upsertLocalMedicalTest({
+                                          test_name: test.test_name || "",
+                                          test_id: undefined,
+                                          test_date: test.test_date || "",
+                                          result: "",
+                                          status: "pending",
+                                          prescribing_doctor: test.prescribing_doctor || "",
+                                          hospital_lab: test.hospital_lab || "",
+                                          notes: test.notes || "",
+                                        });
+                                        setTestFilter("pending");
+                                        setTestSourceFilter("doctor");
+                                        setHighlightedTestId(test.id);
+                                        setTestActionError(null);
+                                        setTestActionMessage("Test added to your pending list");
+                                      } catch (error) {
+                                        console.error("Failed to add doctor test", error);
+                                        setTestActionMessage(null);
+                                        setTestActionError("Failed to add test. Please try again.");
+                                      }
+                                    }}
+                                  >
+                                    Add Test
+                                  </Button>
+                                )}
+                                {doctorReadyForCompletion && (status === "pending" || status === "overdue") && typeof test.index === "number" && (
+                                  <>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => openResultDialogForIndex(test.index!)}
+                                    >
+                                      Mark as Completed
+                                    </Button>
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => skipTest({ index: test.index })}
+                                    >
+                                      Skip Test
+                                    </Button>
+                                  </>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                {(status === "pending" || status === "overdue") && typeof test.index === "number" && (
+                                  <>
+                                    <Button size="sm" variant="outline" onClick={() => openResultDialogForIndex(test.index!)}>
+                                      Mark as Completed
+                                    </Button>
+                                    <Button size="sm" variant="outline" onClick={() => skipTest({ index: test.index })}>
+                                      Skip Test
+                                    </Button>
+                                  </>
+                                )}
+                                {status === "completed" && typeof test.index === "number" && (
+                                  <Button size="sm" variant="outline" onClick={() => openResultDialogForIndex(test.index!)}>
+                                    Edit Result
+                                  </Button>
+                                )}
+                                {typeof test.index === "number" && (
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="text-destructive border-destructive/30 hover:bg-destructive/10"
+                                    onClick={() => {
+                                      setMedicalTests(medicalTests.filter((_, i) => i !== test.index));
+                                      setTestActionMessage(null);
+                                      setTestActionError(null);
+                                    }}
+                                  >
+                                    <Trash2 className="mr-1 h-4 w-4" />
+                                    Delete
+                                  </Button>
+                                )}
+                              </>
+                            )}
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                   </div>
-                )}
-                <PaginationControls
-                  currentPage={medicalTestsPagination.currentPage}
-                  totalPages={medicalTestsPagination.totalPages}
-                  totalItems={medicalTestsPagination.totalItems}
-                  startIndex={medicalTestsPagination.startIndex}
-                  endIndex={medicalTestsPagination.endIndex}
-                  itemLabel="tests"
-                  onPrev={medicalTestsPagination.goToPrevPage}
-                  onNext={medicalTestsPagination.goToNextPage}
-                />
+                );
+                })()}
               </CardContent>
             </Card>
+
+            <Dialog
+              open={resultDialogOpen}
+              onOpenChange={(open) => {
+                setResultDialogOpen(open);
+                if (!open) {
+                  setCompletingTestIndex(null);
+                }
+              }}
+            >
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Mark Test as Completed</DialogTitle>
+                  <DialogDescription>Completion is saved by entering the test result.</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="test-result">Result *</Label>
+                    <Input
+                      id="test-result"
+                      value={resultForm.result}
+                      onChange={(event) => setResultForm((prev) => ({ ...prev, result: event.target.value }))}
+                      placeholder="e.g., Normal, 120 mg/dL"
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="test-notes">Notes (optional)</Label>
+                    <Input
+                      id="test-notes"
+                      value={resultForm.notes}
+                      onChange={(event) => setResultForm((prev) => ({ ...prev, notes: event.target.value }))}
+                      placeholder="Additional comments"
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setResultDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={saveResultForTest} disabled={!resultForm.result.trim()}>
+                    Save Result
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={addTestDialogOpen} onOpenChange={setAddTestDialogOpen}>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Add Test</DialogTitle>
+                  <DialogDescription>Create a pending lab test entry using existing fields.</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="mb-1 block">Test name *</Label>
+                    <MedicalTestSearch
+                      value={addTestForm.test_name}
+                      onChange={(testName, testId) =>
+                        setAddTestForm((prev) => ({ ...prev, test_name: testName, test_id: testId }))
+                      }
+                      placeholder={tCommon("medicalHistory.labTests.searchPlaceholder")}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="add-test-date">Test date</Label>
+                    <Input
+                      id="add-test-date"
+                      type="date"
+                      value={addTestForm.test_date}
+                      onChange={(event) => setAddTestForm((prev) => ({ ...prev, test_date: event.target.value }))}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="add-test-doctor">Doctor name</Label>
+                    <Input
+                      id="add-test-doctor"
+                      value={addTestForm.prescribing_doctor}
+                      onChange={(event) => setAddTestForm((prev) => ({ ...prev, prescribing_doctor: event.target.value }))}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="add-test-lab">Hospital/Lab</Label>
+                    <Input
+                      id="add-test-lab"
+                      value={addTestForm.hospital_lab}
+                      onChange={(event) => setAddTestForm((prev) => ({ ...prev, hospital_lab: event.target.value }))}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="add-test-notes">Notes</Label>
+                    <Input
+                      id="add-test-notes"
+                      value={addTestForm.notes}
+                      onChange={(event) => setAddTestForm((prev) => ({ ...prev, notes: event.target.value }))}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setAddTestDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={saveNewTest} disabled={!addTestForm.test_name.trim()}>
+                    Add Test
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
               </>
             ) : null}
           </TabsContent>
@@ -1084,13 +2423,24 @@ function PatientMedicalHistoryPage() {
                 <CardHeader className="bg-linear-to-r from-success/5 to-transparent dark:from-success/10">
                   <CardTitle className="text-foreground flex items-center gap-2">
                     <Syringe className="h-5 w-5 text-success" />
-                    Doctor Recommended Surgeries
+                    {tCommon("medicalHistory.surgeries.doctorRecommendedTitle")}
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Surgical procedures recommended by your doctors
+                    {tCommon("medicalHistory.surgeries.doctorRecommendedSubtitle")}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 sm:p-6">
+                  {(surgeryActionMessage || surgeryActionError) && (
+                    <div
+                      className={`mb-4 rounded-md border px-3 py-2 text-sm ${
+                        surgeryActionError
+                          ? "border-destructive/40 bg-destructive/5 text-destructive"
+                          : "border-success/30 bg-success/10 text-success"
+                      }`}
+                    >
+                      {surgeryActionError || surgeryActionMessage}
+                    </div>
+                  )}
                   <div className="scrollbar-themed max-h-[600px] overflow-y-auto pr-1 space-y-4">
                     {doctorSurgeriesPagination.pageItems.map(prescription => (
                         <div key={prescription.id} className="space-y-3">
@@ -1099,47 +2449,108 @@ function PatientMedicalHistoryPage() {
                             <span>|</span>
                             <span>{new Date(prescription.created_at).toLocaleDateString()}</span>
                           </div>
-                          {prescription.surgeries.map((surgery: SurgeryRecommendation) => (
-                            <div key={surgery.id} className="p-4 rounded-lg bg-success/5 dark:bg-success/10 border border-success/20">
-                              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                                <div>
-                                  <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
-                                  {surgery.procedure_type && (
-                                    <p className="text-sm text-muted-foreground">{surgery.procedure_type}</p>
+                          {prescription.surgeries.map((surgery: SurgeryRecommendation) => {
+                            const linkedIndex = findSurgeryIndex(surgery.procedure_name, surgery.recommended_date);
+                            const alreadyAdded = linkedIndex >= 0;
+                            const linkedStatus = getSurgeryStatus(linkedIndex >= 0 ? surgeries[linkedIndex] : undefined);
+
+                            return (
+                              <div key={surgery.id} className="p-4 rounded-lg bg-success/5 dark:bg-success/10 border border-success/20">
+                                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                  <div>
+                                    <h4 className="font-semibold text-foreground">{surgery.procedure_name}</h4>
+                                    {surgery.procedure_type && (
+                                      <p className="text-sm text-muted-foreground">{surgery.procedure_type}</p>
+                                    )}
+                                  </div>
+                                  <div className="flex flex-wrap items-center gap-2">
+                                    <Badge variant="outline" className={`w-fit ${surgery.urgency === "immediate" ? "bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400" : "bg-success/20 text-success border-success/30"}`}>
+                                      {surgery.urgency}
+                                    </Badge>
+                                    {alreadyAdded && (
+                                      <Badge
+                                        variant="outline"
+                                        className={
+                                          linkedStatus === "completed"
+                                            ? "bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800"
+                                            : linkedStatus === "skipped"
+                                              ? "bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-700"
+                                              : "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800"
+                                        }
+                                      >
+                                        {linkedStatus === "completed" ? "Completed" : linkedStatus === "skipped" ? "Skipped" : "Pending"}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
+                                {surgery.reason && (
+                                  <p className="mt-2 text-sm text-muted-foreground">{tCommon("medicalHistory.surgeries.reasonLabel")} {surgery.reason}</p>
+                                )}
+                                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                  {surgery.preferred_facility && (
+                                    <div>
+                                      <span className="text-muted-foreground">{tCommon("medicalHistory.fields.facility")}</span>
+                                      <span className="ml-1 font-medium text-foreground">{surgery.preferred_facility}</span>
+                                    </div>
+                                  )}
+                                  {surgery.recommended_date && (
+                                    <div>
+                                      <span className="text-muted-foreground">{tCommon("medicalHistory.fields.recommendedDate")}</span>
+                                      <span className="ml-1 font-medium text-foreground">{new Date(surgery.recommended_date).toLocaleDateString()}</span>
+                                    </div>
+                                  )}
+                                  {surgery.estimated_cost_min && surgery.estimated_cost_max && (
+                                    <div>
+                                      <span className="text-muted-foreground">{tCommon("medicalHistory.fields.estimatedCost")}</span>
+                                      <span className="ml-1 font-medium text-foreground">BDT {surgery.estimated_cost_min.toLocaleString()} - BDT {surgery.estimated_cost_max.toLocaleString()}</span>
+                                    </div>
                                   )}
                                 </div>
-                                <Badge variant="outline" className={`w-fit ${surgery.urgency === "immediate" ? "bg-red-100 text-red-700 border-red-300 dark:bg-red-900/30 dark:text-red-400" : "bg-success/20 text-success border-success/30"}`}>
-                                  {surgery.urgency}
-                                </Badge>
+                                {surgery.pre_op_instructions && (
+                                  <p className="mt-2 text-sm text-muted-foreground italic">{tCommon("medicalHistory.surgeries.preOpLabel")} {surgery.pre_op_instructions}</p>
+                                )}
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                  {!alreadyAdded && (
+                                    <Button size="sm" variant="outline" onClick={() => addDoctorSurgery(prescription, surgery)}>
+                                      Add Surgery
+                                    </Button>
+                                  )}
+                                  {alreadyAdded && linkedStatus === "pending" && (
+                                    <>
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() =>
+                                          updateSurgeryStatus(
+                                            linkedIndex,
+                                            "completed",
+                                            "Surgery marked as completed",
+                                            "Failed to mark surgery as completed. Please try again.",
+                                          )
+                                        }
+                                      >
+                                        Mark as Completed
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() =>
+                                          updateSurgeryStatus(
+                                            linkedIndex,
+                                            "skipped",
+                                            "Surgery marked as skipped",
+                                            "Failed to skip surgery. Please try again.",
+                                          )
+                                        }
+                                      >
+                                        Skip Surgery
+                                      </Button>
+                                    </>
+                                  )}
+                                </div>
                               </div>
-                              {surgery.reason && (
-                                <p className="mt-2 text-sm text-muted-foreground">Reason: {surgery.reason}</p>
-                              )}
-                              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                                {surgery.preferred_facility && (
-                                  <div>
-                                    <span className="text-muted-foreground">Facility:</span>
-                                    <span className="ml-1 font-medium text-foreground">{surgery.preferred_facility}</span>
-                                  </div>
-                                )}
-                                {surgery.recommended_date && (
-                                  <div>
-                                    <span className="text-muted-foreground">Recommended Date:</span>
-                                    <span className="ml-1 font-medium text-foreground">{new Date(surgery.recommended_date).toLocaleDateString()}</span>
-                                  </div>
-                                )}
-                                {surgery.estimated_cost_min && surgery.estimated_cost_max && (
-                                  <div>
-                                    <span className="text-muted-foreground">Est. Cost:</span>
-                                    <span className="ml-1 font-medium text-foreground">BDT {surgery.estimated_cost_min.toLocaleString()} - BDT {surgery.estimated_cost_max.toLocaleString()}</span>
-                                  </div>
-                                )}
-                              </div>
-                              {surgery.pre_op_instructions && (
-                                <p className="mt-2 text-sm text-muted-foreground italic">Pre-op: {surgery.pre_op_instructions}</p>
-                              )}
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       ))}
                   </div>
@@ -1161,7 +2572,7 @@ function PatientMedicalHistoryPage() {
               <CardContent className="p-4 sm:p-6">
                 <SurgeryManager
                   surgeries={surgeries}
-                  onUpdate={setSurgeries}
+                  onUpdate={handleSurgeryUpdate}
                 />
               </CardContent>
             </Card>
@@ -1203,8 +2614,8 @@ function PatientMedicalHistoryPage() {
               <>
             <Card>
               <CardHeader>
-                <CardTitle>Past Doctor Visits</CardTitle>
-                <CardDescription>History of your consultations with Medora doctors</CardDescription>
+                <CardTitle>{tCommon("medicalHistory.visits.title")}</CardTitle>
+                <CardDescription>{tCommon("medicalHistory.visits.subtitle")}</CardDescription>
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
                 {appointments.length > 0 ? (
@@ -1214,27 +2625,27 @@ function PatientMedicalHistoryPage() {
                         <div>
                             <div className="mb-1 flex flex-wrap items-center gap-2">
                              <Calendar className="h-4 w-4 text-primary" />
-                             <span className="font-semibold text-primary">{new Date(app.appointment_date).toLocaleDateString()}</span>
-                              <span className="text-muted-foreground text-sm">{formatMeridiemTime(app.appointment_date)}</span>
+                             <span className="font-semibold text-primary">{new Date(app.appointment_date as string).toLocaleDateString()}</span>
+                              <span className="text-muted-foreground text-sm">{formatMeridiemTime(app.appointment_date as string)}</span>
                           </div>
                           <div className="text-lg font-semibold">
-                            {app.doctor_title ? `${app.doctor_title} ` : 'Dr.'}{app.doctor_name || app.doctor || 'Doctor'}
+                            {app.doctor_title ? `${app.doctor_title as string} ` : 'Dr.'}{(app.doctor_name as string) || (app.doctor as string) || 'Doctor'}
                           </div>
 
                           <div className="text-sm text-muted-foreground mt-0.5">
                             {(() => {
-                              const { consultationType, appointmentType } = parseCompositeReason(app.reason)
+                              const { consultationType, appointmentType } = parseCompositeReason(app.reason as string | null | undefined)
                               const ct = humanizeConsultationType(consultationType)
                               const at = humanizeAppointmentType(appointmentType)
                               return <>{ct}{at ? ` | ${at}` : ''}</>
                             })()}
                           </div>
 
-                          {app.notes && <div className="mt-2 max-w-xl text-sm text-muted-foreground break-words">{app.notes}</div>}
+                          {typeof app.notes === 'string' && <div className="mt-2 max-w-xl text-sm text-muted-foreground break-words">{app.notes}</div>}
                         </div>
                         <div className="flex items-center gap-2 self-start md:self-center">
-                           <Badge variant={app.status === 'COMPLETED' ? 'default' : app.status === 'CONFIRMED' ? 'outline' : 'secondary'}>
-                             {app.status}
+                           <Badge variant={(app.status as string) === 'COMPLETED' ? 'default' : (app.status as string) === 'CONFIRMED' ? 'outline' : 'secondary'}>
+                             {(app.status as string) || 'Unknown'}
                            </Badge>
                         </div>
                       </div>
@@ -1243,7 +2654,7 @@ function PatientMedicalHistoryPage() {
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     <CheckCircle2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                    <p>No past appointments found.</p>
+                    <p>{tCommon("medicalHistory.visits.empty")}</p>
                   </div>
                 )}
                 <PaginationControls
@@ -1290,7 +2701,7 @@ function PatientMedicalHistoryPage() {
                       <CardContent className="p-6 text-center text-destructive">
                         {reportDetailError}
                         <Button variant="outline" size="sm" className="ml-4" onClick={() => loadReportDetail(selectedReportId)}>
-                          Retry
+                          {tCommon("medicalHistory.actions.retry")}
                         </Button>
                       </CardContent>
                     </Card>
@@ -1299,7 +2710,7 @@ function PatientMedicalHistoryPage() {
                       <div className="flex items-start justify-between flex-wrap gap-4">
                         <div>
                           <h2 className="text-xl sm:text-2xl font-bold text-foreground">
-                            {selectedReport.file_name || "Lab Report"}
+                            {selectedReport.file_name || tCommon("medicalHistory.reports.labReportFallback")}
                           </h2>
                           <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                             <span>Uploaded {new Date(selectedReport.created_at).toLocaleDateString()}</span>
@@ -1325,28 +2736,28 @@ function PatientMedicalHistoryPage() {
                           <CardContent className="p-4 text-center">
                             <FlaskConical className="h-6 w-6 mx-auto mb-1 text-primary" />
                             <p className="text-2xl font-bold">{selectedReport.results.length}</p>
-                            <p className="text-xs text-muted-foreground">Tests Found</p>
+                            <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.testsFound")}</p>
                           </CardContent>
                         </Card>
                         <Card className="rounded-xl">
                           <CardContent className="p-4 text-center">
                             <CheckCircle2 className="h-6 w-6 mx-auto mb-1 text-emerald-600 dark:text-emerald-400" />
                             <p className="text-2xl font-bold">{selectedReport.results.filter((r) => r.status === "normal").length}</p>
-                            <p className="text-xs text-muted-foreground">Normal</p>
+                            <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.normal")}</p>
                           </CardContent>
                         </Card>
                         <Card className="rounded-xl">
                           <CardContent className="p-4 text-center">
                             <AlertTriangle className="h-6 w-6 mx-auto mb-1 text-red-500" />
                             <p className="text-2xl font-bold">{selectedReport.results.filter((r) => r.status === "high" || r.status === "low").length}</p>
-                            <p className="text-xs text-muted-foreground">Abnormal</p>
+                            <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.abnormal")}</p>
                           </CardContent>
                         </Card>
                         <Card className="rounded-xl">
                           <CardContent className="p-4 text-center">
                             <MessageSquare className="h-6 w-6 mx-auto mb-1 text-blue-500" />
                             <p className="text-2xl font-bold">{selectedReport.comments.length}</p>
-                            <p className="text-xs text-muted-foreground">Comments</p>
+                            <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.comments")}</p>
                           </CardContent>
                         </Card>
                       </div>
@@ -1363,18 +2774,18 @@ function PatientMedicalHistoryPage() {
                           {selectedReport.results.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground">
                               <FileText className="h-10 w-10 mx-auto mb-2 opacity-40" />
-                              <p>No test results were extracted from this report.</p>
+                              <p>{tCommon("medicalHistory.reports.noExtractedResults")}</p>
                             </div>
                           ) : (
                             <div className="overflow-x-auto">
                               <table className="w-full text-sm">
                                 <thead>
                                   <tr className="border-b text-left text-muted-foreground">
-                                    <th className="pb-3 pr-4 font-medium">Test Name</th>
-                                    <th className="pb-3 pr-4 font-medium">Value</th>
-                                    <th className="pb-3 pr-4 font-medium">Unit</th>
-                                    <th className="pb-3 pr-4 font-medium">Reference Range</th>
-                                    <th className="pb-3 font-medium">Status</th>
+                                    <th className="pb-3 pr-4 font-medium">{tCommon("medicalHistory.table.testName")}</th>
+                                    <th className="pb-3 pr-4 font-medium">{tCommon("medicalHistory.table.value")}</th>
+                                    <th className="pb-3 pr-4 font-medium">{tCommon("medicalHistory.table.unit")}</th>
+                                    <th className="pb-3 pr-4 font-medium">{tCommon("medicalHistory.table.referenceRange")}</th>
+                                    <th className="pb-3 font-medium">{tCommon("medicalHistory.table.status")}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -1407,7 +2818,7 @@ function PatientMedicalHistoryPage() {
                           <CardHeader>
                             <CardTitle className="text-lg flex items-center gap-2">
                               <MessageSquare className="h-5 w-5 text-primary" />
-                              Doctor Notes
+                              {tCommon("medicalHistory.reports.doctorNotes")}
                             </CardTitle>
                           </CardHeader>
                           <CardContent className="space-y-4">
@@ -1432,11 +2843,11 @@ function PatientMedicalHistoryPage() {
                   {/* Header with upload button */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-lg sm:text-xl font-semibold text-foreground">Upload and view your lab test reports</h2>
+                      <h2 className="text-lg sm:text-xl font-semibold text-foreground">{tCommon("medicalHistory.reports.listTitle")}</h2>
                     </div>
                     <Button onClick={() => setShowUpload(!showUpload)} className="gap-2" size="sm">
                       <Upload className="h-4 w-4" />
-                      Upload Report
+                      {tCommon("medicalHistory.reports.uploadReport")}
                     </Button>
                   </div>
 
@@ -1446,7 +2857,7 @@ function PatientMedicalHistoryPage() {
                       <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
                           <Upload className="h-5 w-5 text-primary" />
-                          Upload Lab Report
+                          {tCommon("medicalHistory.reports.uploadLabReport")}
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
@@ -1474,15 +2885,15 @@ function PatientMedicalHistoryPage() {
                           ) : (
                             <div className="space-y-2">
                               <ImageIcon className="h-12 w-12 mx-auto opacity-40" />
-                              <p className="text-muted-foreground">Drag & drop your report here, or click to browse</p>
-                              <p className="text-xs text-muted-foreground">Supports JPG, PNG, WebP, PDF (max 15MB)</p>
+                              <p className="text-muted-foreground">{tCommon("medicalHistory.reports.dropzoneHint")}</p>
+                              <p className="text-xs text-muted-foreground">{tCommon("medicalHistory.reports.dropzoneFormats")}</p>
                             </div>
                           )}
                         </div>
                         <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp,application/pdf" className="hidden" onChange={handleFileSelect} />
 
                         <div className="space-y-2">
-                          <Label>Report Date (optional)</Label>
+                          <Label>{tCommon("medicalHistory.reports.reportDateOptional")}</Label>
                           <Input type="date" value={reportDate} onChange={(e) => setReportDate(e.target.value)} className="max-w-xs rounded-lg" />
                         </div>
 
@@ -1493,9 +2904,9 @@ function PatientMedicalHistoryPage() {
                         <div className="flex gap-3">
                           <Button onClick={handleReportUpload} disabled={!selectedFile || uploading} className="gap-2">
                             {uploading && <ButtonLoader className="h-4 w-4" />}
-                            {uploading ? "Processing..." : "Upload & Extract"}
+                            {uploading ? tCommon("medicalHistory.reports.processing") : tCommon("medicalHistory.reports.uploadExtract")}
                           </Button>
-                          <Button variant="outline" onClick={() => { setShowUpload(false); clearFile(); }}>Cancel</Button>
+                          <Button variant="outline" onClick={() => { setShowUpload(false); clearFile(); }}>{tCommon("medicalHistory.actions.cancel")}</Button>
                         </div>
                       </CardContent>
                     </Card>
@@ -1506,7 +2917,7 @@ function PatientMedicalHistoryPage() {
                     <Card className="border-destructive/50 bg-destructive/10">
                       <CardContent className="p-6 text-center text-destructive">
                         {reportsError}
-                        <Button variant="outline" size="sm" className="ml-4" onClick={loadReports}>Retry</Button>
+                        <Button variant="outline" size="sm" className="ml-4" onClick={loadReports}>{tCommon("medicalHistory.actions.retry")}</Button>
                       </CardContent>
                     </Card>
                   )}
@@ -1515,7 +2926,7 @@ function PatientMedicalHistoryPage() {
                   {reportsLoading ? (
                     <div className="space-y-4 py-6">
                       <div className="flex items-center justify-center">
-                        <MedoraLoader size="md" label="Loading reports..." />
+                        <MedoraLoader size="md" label={tCommon("medicalHistory.reports.loading")} />
                       </div>
                       <CardSkeleton />
                       <CardSkeleton />
@@ -1524,8 +2935,8 @@ function PatientMedicalHistoryPage() {
                     <Card className="text-center py-12">
                       <CardContent>
                         <FlaskConical className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                        <p className="text-muted-foreground mb-2">No medical reports yet</p>
-                        <p className="text-sm text-muted-foreground">Upload your first lab report to get started</p>
+                        <p className="text-muted-foreground mb-2">{tCommon("medicalHistory.reports.emptyTitle")}</p>
+                        <p className="text-sm text-muted-foreground">{tCommon("medicalHistory.reports.emptySubtitle")}</p>
                       </CardContent>
                     </Card>
                   ) : (
@@ -1544,10 +2955,10 @@ function PatientMedicalHistoryPage() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    <h3 className="font-medium text-foreground truncate">{report.file_name || "Lab Report"}</h3>
+                                    <h3 className="font-medium text-foreground truncate">{report.file_name || tCommon("medicalHistory.reports.labReportFallback")}</h3>
                                     {report.parsed ? (
                                       <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800">
-                                        <CheckCircle2 className="h-3 w-3 mr-1" />Processed
+                                        <CheckCircle2 className="h-3 w-3 mr-1" />{tCommon("medicalHistory.reports.processed")}
                                       </Badge>
                                     ) : (
                                       <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-800">
@@ -1609,15 +3020,15 @@ function PatientMedicalHistoryPage() {
                     appointments={appointments}
                     medicalTests={medicalTests}
                     doctorPrescriptions={doctorPrescriptions}
-                    title="Medical Timeline"
-                    description="Your complete medical history in chronological order"
+                    title={tCommon("medicalHistory.timeline.title")}
+                    description={tCommon("medicalHistory.timeline.subtitle")}
                   />
                 </div>
 
                 {/* Right Column - Analytics (4 cols) */}
                 <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
                   {/* Condition Distribution Chart */}
-                  <ConditionDistributionChart patientData={patientData} />
+                  {patientData && <ConditionDistributionChart patientData={patientData} />}
 
                   {/* Prescription History Chart */}
                   <PrescriptionHistoryChart
@@ -1626,15 +3037,74 @@ function PatientMedicalHistoryPage() {
                   />
 
                   {/* Vitals Summary */}
-                  <VitalsSummaryCard
-                    patientData={patientData}
-                    medicalTests={medicalTests}
-                  />
+                  {patientData && (
+                    <VitalsSummaryCard
+                      patientData={patientData}
+                      medicalTests={medicalTests}
+                    />
+                  )}
                 </div>
               </div>
             ) : null}
           </TabsContent>
         </Tabs>
+
+        <AddMedicationDialog
+          open={addMedicationDialogOpen}
+          onOpenChange={setAddMedicationDialogOpen}
+          onAdd={(medication) => handleMedicationUpdate([medication, ...medications])}
+        />
+
+        {selectedMyMedication && (
+          <ReminderDialog
+            open={myMedicationReminderOpen}
+            onOpenChange={(open) => {
+              setMyMedicationReminderOpen(open);
+              if (!open) setSelectedMyMedication(null);
+            }}
+            itemName={selectedMyMedication.display_name}
+            itemId={selectedMyMedication.drug_id || undefined}
+            type="medication"
+          />
+        )}
+
+        <Dialog open={renewDialogOpen} onOpenChange={setRenewDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Renew Medication</DialogTitle>
+              <DialogDescription>Enter new duration</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-2">
+              <Label htmlFor="renew-duration-days">Duration (days)</Label>
+              <Input
+                id="renew-duration-days"
+                placeholder="e.g. 7 days"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={renewDurationDays}
+                onChange={(event) => {
+                  const nextValue = event.target.value.replace(/[^\d]/g, "");
+                  setRenewDurationDays(nextValue);
+                }}
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setRenewDialogOpen(false);
+                  setRenewTarget(null);
+                  setRenewDurationDays("");
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={confirmRenewMedication} disabled={!renewDurationDays || Number(renewDurationDays) <= 0}>
+                Renew
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Success Dialog */}
         <Dialog open={successDialogOpen} onOpenChange={setSuccessDialogOpen}>
@@ -1642,15 +3112,15 @@ function PatientMedicalHistoryPage() {
             <DialogHeader>
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-6 w-6 text-success" />
-                <DialogTitle>Success!</DialogTitle>
+                <DialogTitle>{tCommon("medicalHistory.dialogs.successTitle")}</DialogTitle>
               </div>
               <DialogDescription>
-                Your medical history has been saved successfully.
+                {tCommon("medicalHistory.dialogs.successDescription")}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <Button onClick={() => setSuccessDialogOpen(false)}>
-                OK
+                {tCommon("medicalHistory.actions.ok")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -1662,7 +3132,7 @@ function PatientMedicalHistoryPage() {
             <DialogHeader>
               <div className="flex items-center gap-3">
                 <AlertCircle className="h-6 w-6 text-destructive" />
-                <DialogTitle>Error</DialogTitle>
+                <DialogTitle>{tCommon("medicalHistory.dialogs.errorTitle")}</DialogTitle>
               </div>
               <DialogDescription>
                 {errorMessage}
@@ -1670,7 +3140,7 @@ function PatientMedicalHistoryPage() {
             </DialogHeader>
             <DialogFooter>
               <Button onClick={() => setErrorDialogOpen(false)} className="touch-target">
-                OK
+                {tCommon("medicalHistory.actions.ok")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -1698,12 +3168,13 @@ function PatientMedicalHistoryPage() {
 }
 
 export default function MedicalHistoryPage() {
+  const tCommon = useT("common");
   return (
     <Suspense fallback={
       <AppBackground className="container-padding">
         <Navbar />
         <div className="min-h-dvh min-h-app py-8 pt-[var(--nav-content-offset)]">
-          <PageLoadingShell label="Loading medical history..." cardCount={4} />
+          <PageLoadingShell label={tCommon("medicalHistory.loading")} cardCount={4} />
         </div>
       </AppBackground>
     }>
@@ -1711,6 +3182,7 @@ export default function MedicalHistoryPage() {
     </Suspense>
   );
 }
+
 
 
 

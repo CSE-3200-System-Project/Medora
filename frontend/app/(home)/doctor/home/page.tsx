@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cookies } from "next/headers";
 import {
   Users,
@@ -109,7 +109,7 @@ export default async function DoctorHomePage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset)">
+        <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
           <div className="text-center text-destructive">
             <p className="text-lg mb-4">Unable to load profile data</p>
             <Button asChild variant="medical" className="touch-target">
@@ -167,7 +167,7 @@ export default async function DoctorHomePage() {
     <AppBackground className="container-padding animate-page-enter">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto container-padding py-8 pt-(--nav-content-offset)">
+      <main className="max-w-6xl mx-auto container-padding py-8 pt-[var(--nav-content-offset)]">
         {showOnboardingBanner ? <OnboardingBanner role="doctor" /> : null}
 
         {doctorProfileNeedsScheduleReview ? (
@@ -407,7 +407,7 @@ export default async function DoctorHomePage() {
                       <p className="font-semibold text-foreground">{item.title}</p>
                       <p className="mt-1 text-sm text-muted-foreground">
                         Status: {item.status.replace("_", " ")}
-                        {item.related_patient_id ? ` • Patient ${item.related_patient_id.slice(0, 8)}` : ""}
+                        {item.related_patient_id ? ` â€¢ Patient ${item.related_patient_id.slice(0, 8)}` : ""}
                       </p>
                     </div>
                   );
@@ -458,3 +458,4 @@ export default async function DoctorHomePage() {
     </AppBackground>
   );
 }
+

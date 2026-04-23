@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -593,7 +593,7 @@ function AdminPatientsContent({ initialPatients, initialTotal, initialPage = 1, 
     <>
       <AdminNavbar />
 
-      <main className="mx-auto max-w-7xl space-y-6 p-4 pt-(--nav-content-offset) sm:p-6">
+      <main className="mx-auto max-w-7xl space-y-6 p-4 pt-[var(--nav-content-offset)] sm:p-6">
         <section className="space-y-2">
           <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{t("title")}</h1>
           <p className="text-sm text-muted-foreground md:text-base">{t("subtitle")}</p>
@@ -966,3 +966,4 @@ export function AdminPatientsClient(props: AdminPatientsClientProps) {
     </QueryClientProvider>
   );
 }
+

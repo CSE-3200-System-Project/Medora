@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useCallback, useState } from "react";
 import { AdminNavbar } from "@/components/admin/admin-navbar";
@@ -123,7 +123,7 @@ function reasonLabel(reason?: string | null) {
   const { consultationType, appointmentType } = parseCompositeReason(reason);
   const ct = humanizeConsultationType(consultationType);
   const at = humanizeAppointmentType(appointmentType);
-  return `${ct || reason}${at ? ` – ${at}` : ""}`;
+  return `${ct || reason}${at ? ` â€“ ${at}` : ""}`;
 }
 
 function roleBadge(role: string) {
@@ -208,7 +208,7 @@ export function AdminRequestsClient({
     <>
       <AdminNavbar />
 
-      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-(--nav-content-offset)">
+      <main className="p-4 sm:p-6 max-w-400 mx-auto pt-[var(--nav-content-offset)]">
         {/* ---- Header ---- */}
         <div className="mb-6 sm:mb-8 flex items-start justify-between gap-4">
           <div>
@@ -871,3 +871,4 @@ function CancellationsPanel({
     </>
   );
 }
+

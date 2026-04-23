@@ -121,7 +121,7 @@ export function PatientFindMedicineClient() {
       const onboardingData = await getPatientOnboardingData();
       const existingMeds = onboardingData?.medications || [];
       const existingKeys = new Set(
-        existingMeds
+        (existingMeds as Array<Record<string, unknown>>)
           .map((item) => {
             const name = String(item.display_name || item.name || "").trim().toLowerCase();
             const dosage = String(item.dosage || item.strength || "").trim().toLowerCase();
