@@ -611,6 +611,18 @@ export default function PatientAppointmentsPage() {
                   }
                   router.push("/patient/find-doctor");
                 }}
+                onConfirmPatient={async (appointment) => {
+                  setActionFeedback(null);
+                  try {
+                    const { patientConfirmAppointment } = await import("@/lib/appointment-actions");
+                    await patientConfirmAppointment(appointment.id);
+                    await reloadAppointments();
+                    setActionFeedback({ type: "success", message: "Appointment confirmed." });
+                  } catch (error) {
+                    const message = error instanceof Error ? error.message : "Could not confirm appointment.";
+                    setActionFeedback({ type: "error", message });
+                  }
+                }}
               />
             </section>
 

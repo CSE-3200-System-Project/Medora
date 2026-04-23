@@ -81,6 +81,92 @@ async def require_admin(
     
     return profile
 
+# ---------------------------------------------------------------------------
+# Admin notifications
+# ---------------------------------------------------------------------------
+from app.db.models.notification import Notification  # noqa: E402
+
+
+@router.get("/notifications")
+async def list_admin_notifications(
+    limit: int = 50,
+    unread_only: bool = False,
+    admin_access = Depends(require_admin_access),
+    db: AsyncSession = Depends(get_db),
+):
+    """Return the most recent admin-targeted notifications."""
+    query = (
+        select(Notification)
+        .where(Notification.target_role == "admin")
+        .order_by(Notification.created_at.desc())
+        .limit(max(1, min(limit, 200)))
+    )
+    if unread_only:
+        query = query.where(Notification.is_read == False)  # noqa: E712
+
+    result = await db.execute(query)
+    rows = result.scalars().all()
+
+    unread_result = await db.execute(
+        select(func.count())
+        .select_from(Notification)
+        .where(
+            Notification.target_role == "admin",
+            Notification.is_read == False,  # noqa: E712
+            Notification.is_archived == False,  # noqa: E712
+        )
+    )
+    unread_count = int(unread_result.scalar() or 0)
+
+    return {
+        "notifications": [
+            {
+                "id": n.id,
+                "type": n.type.value if hasattr(n.type, "value") else str(n.type),
+                "priority": n.priority.value if hasattr(n.priority, "value") else str(n.priority),
+                "title": n.title,
+                "message": n.message,
+                "action_url": n.action_url,
+                "data": n.data,
+                "is_read": n.is_read,
+                "is_archived": n.is_archived,
+                "created_at": n.created_at.isoformat() if n.created_at else None,
+                "read_at": n.read_at.isoformat() if n.read_at else None,
+            }
+            for n in rows
+        ],
+        "unread_count": unread_count,
+    }
+
+
+class AdminNotificationMarkRead(BaseModel):
+    notification_ids: list[str] | None = None
+    mark_all: bool = False
+
+
+@router.post("/notifications/mark-read")
+async def mark_admin_notifications_read(
+    payload: AdminNotificationMarkRead,
+    admin_access = Depends(require_admin_access),
+    db: AsyncSession = Depends(get_db),
+):
+    now = datetime.now(timezone.utc)
+    stmt = (
+        update(Notification)
+        .where(Notification.target_role == "admin")
+        .values(is_read=True, read_at=now)
+    )
+    if not payload.mark_all:
+        ids = payload.notification_ids or []
+        if not ids:
+            return {"updated": 0}
+        stmt = stmt.where(Notification.id.in_(ids))
+
+    result = await db.execute(stmt)
+    await db.commit()
+    return {"updated": result.rowcount or 0}
+
+
 # Verification request model
 class VerifyDoctorRequest(BaseModel):
     verification_method: str = "manual"
@@ -1982,3 +2068,45 @@ async def admin_override_appointment_status(
     except ValueError as e:
         await db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
+
+
+class AdminApproveAppointmentRequest(BaseModel):
+    notes: str | None = None
+
+
+@router.post("/appointments/{appointment_id}/approve")
+async def admin_approve_new_appointment(
+    appointment_id: str,
+    data: AdminApproveAppointmentRequest,
+    db: AsyncSession = Depends(get_db),
+    admin_access=Depends(require_admin_access),
+):
+    """Admin approves a new appointment request.
+
+    Instead of flipping straight to CONFIRMED, this moves the appointment into
+    PENDING_DOCTOR_CONFIRMATION so the doctor still has a chance to opt in.
+    The doctor and patient each confirm separately through their own endpoints.
+    """
+    from app.db.models.appointment import AppointmentStatus as ApptStatus
+    from app.services import appointment_service
+
+    admin_actor_id = await _get_admin_actor_profile_id(db)
+
+    try:
+        appointment = await appointment_service.transition_status(
+            db,
+            appointment_id=appointment_id,
+            new_status=ApptStatus.PENDING_DOCTOR_CONFIRMATION,
+            performed_by_id=admin_actor_id,
+            performed_by_role="admin",
+            notes=data.notes or "Approved by admin; awaiting doctor confirmation",
+        )
+        await db.commit()
+        return {
+            "detail": "Admin approved. Awaiting doctor confirmation.",
+            "appointment_id": appointment.id,
+            "new_status": appointment.status.value,
+        }
+    except ValueError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc))

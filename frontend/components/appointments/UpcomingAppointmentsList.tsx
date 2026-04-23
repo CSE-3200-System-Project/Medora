@@ -20,6 +20,7 @@ interface UpcomingAppointmentsListProps {
   onRequestCancel?: (appointment: PatientAppointment) => void;
   onDeletePending?: (appointment: PatientAppointment) => void;
   onBookAgain?: (appointment: PatientAppointment) => void;
+  onConfirmPatient?: (appointment: PatientAppointment) => void;
   messages?: Partial<SoftHoldMessages>;
 }
 
@@ -217,6 +218,7 @@ export function UpcomingAppointmentsList({
   onRequestCancel,
   onDeletePending,
   onBookAgain,
+  onConfirmPatient,
   messages,
 }: UpcomingAppointmentsListProps) {
   const { locale } = useAppI18n();
@@ -371,6 +373,17 @@ export function UpcomingAppointmentsList({
                       >
                         <RefreshCw className="h-3 w-3 mr-1" />
                         {holdMessages.reschedule}
+                      </Button>
+                    )}
+                    {onConfirmPatient &&
+                      String(appointment.status).toUpperCase() === "PENDING_PATIENT_CONFIRMATION" && (
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="h-7 px-3 text-xs"
+                        onClick={() => onConfirmPatient(appointment)}
+                      >
+                        Confirm booking
                       </Button>
                     )}
                     {canWithdrawReschedule && (

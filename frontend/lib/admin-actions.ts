@@ -80,6 +80,77 @@ export async function getAdminStats() {
   }
 }
 
+// Admin Notifications (backed by persisted Notification rows with target_role="admin")
+export type AdminNotificationRow = {
+  id: string;
+  type: string;
+  priority: string;
+  title: string;
+  message: string;
+  action_url: string | null;
+  data: Record<string, unknown> | null;
+  is_read: boolean;
+  is_archived: boolean;
+  created_at: string | null;
+  read_at: string | null;
+};
+
+export async function getAdminNotifications(params?: { limit?: number; unreadOnly?: boolean }) {
+  const headers = await getAdminHeaders();
+  const search = new URLSearchParams();
+  if (params?.limit) search.set("limit", String(params.limit));
+  if (params?.unreadOnly) search.set("unread_only", "true");
+  const qs = search.toString();
+  const response = await fetch(
+    `${BACKEND_URL}/admin/notifications${qs ? `?${qs}` : ""}`,
+    { headers, cache: "no-store" },
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch admin notifications: ${response.status}`);
+  }
+  return (await response.json()) as {
+    notifications: AdminNotificationRow[];
+    unread_count: number;
+  };
+}
+
+export async function adminApproveNewAppointment(appointmentId: string, notes?: string) {
+  const headers = await getAdminHeaders();
+  const response = await fetch(
+    `${BACKEND_URL}/admin/appointments/${appointmentId}/approve`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ notes: notes || null }),
+      cache: "no-store",
+    },
+  );
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(
+      (error as { detail?: string }).detail || `Failed to approve appointment: ${response.status}`,
+    );
+  }
+  return response.json();
+}
+
+export async function markAdminNotificationsRead(ids: string[] | "all") {
+  const headers = await getAdminHeaders();
+  const body = ids === "all"
+    ? { mark_all: true }
+    : { notification_ids: ids };
+  const response = await fetch(`${BACKEND_URL}/admin/notifications/mark-read`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to mark notifications read: ${response.status}`);
+  }
+  return (await response.json()) as { updated: number };
+}
+
 // Doctors Management
 export async function getPendingDoctors() {
   try {

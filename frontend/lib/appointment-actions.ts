@@ -539,3 +539,61 @@ export async function requestRescheduleAppointment(
   revalidatePath("/patient/appointments");
   return response.json();
 }
+
+
+// === THREE-STEP CONFIRMATION FLOW ===
+// admin approves -> PENDING_DOCTOR_CONFIRMATION
+// doctor confirms -> PENDING_PATIENT_CONFIRMATION
+// patient confirms -> CONFIRMED
+
+export async function doctorConfirmAppointment(appointmentId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(
+    `${BACKEND_URL}/appointment/${appointmentId}/doctor-confirm`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(getErrorMessage(error, "Failed to confirm appointment"));
+  }
+
+  revalidatePath("/doctor/appointments");
+  revalidatePath("/patient/appointments");
+  return response.json();
+}
+
+export async function patientConfirmAppointment(appointmentId: string) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(
+    `${BACKEND_URL}/appointment/${appointmentId}/patient-confirm`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(getErrorMessage(error, "Failed to confirm appointment"));
+  }
+
+  revalidatePath("/patient/appointments");
+  revalidatePath("/doctor/appointments");
+  return response.json();
+}
