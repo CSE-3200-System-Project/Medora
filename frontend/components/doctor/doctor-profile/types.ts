@@ -12,6 +12,7 @@ export interface BackendDoctorLocation {
   available_days?: string[] | null;
   appointment_duration?: number | null;
   day_time_slots?: Record<string, string[]> | null;
+  is_primary?: boolean | null;
 }
 
 export interface BackendDoctorProfile {

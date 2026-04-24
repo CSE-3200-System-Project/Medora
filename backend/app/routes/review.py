@@ -140,11 +140,14 @@ async def create_or_update_review(
         db, patient_id=profile.id, doctor_id=payload.doctor_id
     )
 
+    # Auto-approve: eligibility is already gated by a completed appointment, so
+    # the review is trustworthy by default. Admin moderation remains available
+    # (POST /admin/reviews/{id}/reject) for abuse cases.
     if existing:
         existing.rating = payload.rating
         existing.note = payload.note
         existing.appointment_id = payload.appointment_id or existing.appointment_id
-        existing.status = ReviewModerationStatus.PENDING
+        existing.status = ReviewModerationStatus.APPROVED
         existing.admin_feedback = None
         review = existing
     else:
@@ -154,7 +157,7 @@ async def create_or_update_review(
             appointment_id=payload.appointment_id,
             rating=payload.rating,
             note=payload.note,
-            status=ReviewModerationStatus.PENDING,
+            status=ReviewModerationStatus.APPROVED,
         )
         db.add(review)
 
@@ -194,7 +197,8 @@ async def update_review(
         review.rating = payload.rating
     if payload.note is not None:
         review.note = payload.note
-    review.status = ReviewModerationStatus.PENDING
+    # Edits stay approved — patient has already been verified via completed appointment.
+    review.status = ReviewModerationStatus.APPROVED
     review.admin_feedback = None
 
     await db.flush()

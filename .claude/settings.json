@@ -11,7 +11,9 @@
       "Bash(python -c \":*)",
       "Bash(grep -c \".py$\")",
       "Bash(python -c \"from app.main import app; print\\(''OK: app loaded successfully''\\)\")",
-      "Bash(source venv/Scripts/activate)"
+      "Bash(source venv/Scripts/activate)",
+      "Bash(python -c \"from app.main import app; print\\('ok'\\)\")",
+      "Read(//c/Code/System/Medora/backend/app/routes/**)"
     ]
   }
 }

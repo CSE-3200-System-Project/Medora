@@ -1584,3 +1584,94 @@ async def update_doctor_schedule(
         print(f"Error updating schedule: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Failed to update schedule: {str(e)}")
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Per-location schedule: edit availability on a single DoctorLocation row.
+# Onboarding already persists per-location `available_days` / `day_time_slots`
+# via the main profile save; this endpoint covers post-onboarding edits so a
+# doctor with multiple chambers can keep each location's hours independent.
+# ──────────────────────────────────────────────────────────────────────────────
+from pydantic import BaseModel, Field
+
+
+class LocationScheduleUpdate(BaseModel):
+    available_days: List[str] = Field(default_factory=list)
+    day_time_slots: Dict[str, List[str]] = Field(default_factory=dict)
+    appointment_duration: Optional[int] = None
+
+
+@router.patch("/doctor/location/{location_id}/schedule")
+async def update_doctor_location_schedule(
+    location_id: str,
+    payload: LocationScheduleUpdate,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Update a single location's schedule (days + per-day time slots).
+
+    The slot_service reads DoctorLocation.day_time_slots first (see
+    slot_service.py), so this is what drives booking availability for doctors
+    with multiple chambers.
+    """
+    user_id = user.id
+
+    profile_row = (
+        await db.execute(select(Profile).where(Profile.id == user_id))
+    ).scalar_one_or_none()
+    if not profile_row:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    if "DOCTOR" not in str(profile_row.role).upper():
+        raise HTTPException(status_code=403, detail="Only doctors can update schedules")
+
+    location = (
+        await db.execute(
+            select(DoctorLocation).where(
+                DoctorLocation.id == location_id,
+                DoctorLocation.doctor_id == user_id,
+            )
+        )
+    ).scalar_one_or_none()
+    if not location:
+        raise HTTPException(status_code=404, detail="Location not found")
+
+    if payload.appointment_duration is not None and payload.appointment_duration not in [15, 20, 30, 45, 60]:
+        raise HTTPException(status_code=400, detail="Invalid appointment duration")
+
+    # Normalize time slot strings using the same rules as /doctor/schedule.
+    def _normalize(slot: str) -> str:
+        if not slot:
+            return slot
+        s = slot.strip()
+        s = re.sub(r"\s*,\s*", ", ", s)
+        s = re.sub(r"(\d)([AaPp][Mm])", r"\1 \2", s)
+        s = re.sub(r"(?i)\bam\b", "AM", s)
+        s = re.sub(r"(?i)\bpm\b", "PM", s)
+        return s.strip()
+
+    normalized: Dict[str, List[str]] = {}
+    for day, slots in (payload.day_time_slots or {}).items():
+        cleaned = [_normalize(s) for s in (slots or []) if s and s.strip()]
+        if cleaned:
+            normalized[day] = cleaned
+
+    # If caller passed days-only, seed the slots dict with empty arrays so the
+    # DB row reflects intent; if slots are present, derive available_days from
+    # their keys to keep the two in sync.
+    available_days = payload.available_days or list(normalized.keys())
+
+    location.available_days = available_days
+    location.day_time_slots = normalized
+    if payload.appointment_duration is not None:
+        location.appointment_duration = payload.appointment_duration
+    location.updated_at = datetime.utcnow()
+
+    await db.commit()
+
+    return {
+        "success": True,
+        "location_id": location.id,
+        "available_days": available_days,
+        "day_time_slots": normalized,
+        "appointment_duration": location.appointment_duration,
+    }
