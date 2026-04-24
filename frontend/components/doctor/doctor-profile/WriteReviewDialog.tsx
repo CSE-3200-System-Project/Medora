@@ -47,7 +47,13 @@ export function WriteReviewDialog({
         rating,
         note: note.trim() || undefined,
       });
-      toast.success(isEdit ? "Review updated" : "Review submitted");
+      toast.success(
+        review.status === "PENDING"
+          ? "Your review is pending admin approval"
+          : isEdit
+          ? "Review updated"
+          : "Review submitted",
+      );
       onSubmitted?.(review);
       onOpenChange(false);
     } catch (e) {

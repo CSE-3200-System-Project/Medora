@@ -1334,6 +1334,7 @@ async def get_doctor_profile(
             # Consultation Setup
             "consultation_fee": doctor.consultation_fee,
             "follow_up_fee": doctor.follow_up_fee,
+            "total_revenue": float(doctor.total_revenue or 0.0),
             "visiting_hours": doctor.visiting_hours,
             "available_days": doctor.available_days or [],
             "time_slots": doctor.time_slots,

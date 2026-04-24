@@ -21,11 +21,15 @@ export type ReviewAuthor = {
   profile_photo_url?: string | null;
 };
 
+export type ReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
+
 export type DoctorReview = {
   id: string;
   doctor_id: string;
   rating: number;
   note?: string | null;
+  status: ReviewStatus;
+  admin_feedback?: string | null;
   created_at: string;
   updated_at: string;
   author?: ReviewAuthor | null;
@@ -36,6 +40,9 @@ export type ReviewListResponse = {
   total: number;
   rating_avg: number;
   rating_count: number;
+  page: number;
+  limit: number;
+  has_more: boolean;
 };
 
 export type ReviewEligibility = {
@@ -46,15 +53,15 @@ export type ReviewEligibility = {
 
 export async function getDoctorReviews(
   doctorId: string,
-  limit = 20,
-  offset = 0,
+  page = 1,
+  limit = 5,
 ): Promise<ReviewListResponse> {
   const res = await fetch(
-    `${BACKEND_URL}/reviews/doctor/${doctorId}?limit=${limit}&offset=${offset}`,
+    `${BACKEND_URL}/doctor/${doctorId}/reviews?page=${page}&limit=${limit}`,
     { cache: "no-store" },
   );
   if (!res.ok) {
-    return { reviews: [], total: 0, rating_avg: 0, rating_count: 0 };
+    return { reviews: [], total: 0, rating_avg: 0, rating_count: 0, page, limit, has_more: false };
   }
   return res.json();
 }

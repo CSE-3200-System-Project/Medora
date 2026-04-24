@@ -6,8 +6,13 @@ import { ChevronRight } from "lucide-react";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
-import { getPublicDoctorProfile } from "@/lib/auth-actions";
-import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
+import { getCurrentUser, getPublicDoctorProfile } from "@/lib/auth-actions";
+import {
+  getDoctorReviews,
+  getReviewEligibility,
+  type DoctorReview,
+  type ReviewEligibility,
+} from "@/lib/review-actions";
 import { DoctorProfileHeader } from "@/components/doctor/doctor-profile/DoctorProfileHeader";
 import { DoctorAboutCard } from "@/components/doctor/doctor-profile/DoctorAboutCard";
 import { DoctorQualificationsCard } from "@/components/doctor/doctor-profile/DoctorQualificationsCard";
@@ -16,7 +21,8 @@ import { DoctorProfessionalDetailsCard } from "@/components/doctor/doctor-profil
 import { DoctorPracticeLocations } from "@/components/doctor/doctor-profile/DoctorPracticeLocations";
 import { AppointmentBookingCard } from "@/components/doctor/doctor-profile/AppointmentBookingCard";
 import { DoctorReviewsSection } from "@/components/doctor/doctor-profile/DoctorReviewsSection";
-import { getCurrentUser } from "@/lib/auth-actions";
+import { WriteReviewDialog } from "@/components/doctor/doctor-profile/WriteReviewDialog";
+import type { BackendDoctorProfile } from "@/components/doctor/doctor-profile/types";
 import { toast } from "@/lib/notify";
 import { useT } from "@/i18n/client";
 
@@ -26,6 +32,13 @@ interface DoctorProfileAppointmentPageProps {
   doctorId: string;
 }
 
+const REVIEWS_PER_PAGE = 5;
+const EMPTY_ELIGIBILITY: ReviewEligibility = {
+  can_review: false,
+  has_existing_review: false,
+  existing_review: null,
+};
+
 export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointmentPageProps) {
   const tCommon = useT("common");
   const [doctor, setDoctor] = React.useState<BackendDoctorProfile | null>(null);
@@ -33,42 +46,121 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
   const [error, setError] = React.useState<string | null>(null);
   const [viewerRole, setViewerRole] = React.useState<ViewerRole>("guest");
 
+  const [reviews, setReviews] = React.useState<DoctorReview[]>([]);
+  const [reviewPage, setReviewPage] = React.useState(1);
+  const [ratingAvg, setRatingAvg] = React.useState(0);
+  const [ratingCount, setRatingCount] = React.useState(0);
+  const [hasMoreReviews, setHasMoreReviews] = React.useState(false);
+  const [reviewsLoading, setReviewsLoading] = React.useState(true);
+  const [loadingMoreReviews, setLoadingMoreReviews] = React.useState(false);
+  const [eligibility, setEligibility] = React.useState<ReviewEligibility | null>(null);
+  const [reviewDialogOpen, setReviewDialogOpen] = React.useState(false);
+
   React.useEffect(() => {
     let cancelled = false;
+
     getCurrentUser()
-      .then((u) => {
+      .then((user) => {
         if (cancelled) return;
-        const role = typeof u?.role === "string" ? (u.role as string).toLowerCase() : null;
+        const role = typeof user?.role === "string" ? user.role.toLowerCase() : null;
         if (role === "patient" || role === "doctor" || role === "admin") {
           setViewerRole(role);
         } else {
           setViewerRole("guest");
         }
       })
-      .catch(() => setViewerRole("guest"));
+      .catch(() => {
+        if (!cancelled) setViewerRole("guest");
+      });
+
     return () => {
       cancelled = true;
     };
   }, []);
 
   React.useEffect(() => {
+    let cancelled = false;
+
     async function fetchDoctorProfile() {
       try {
         setLoading(true);
         setError(null);
         const profile = await getPublicDoctorProfile(doctorId);
-        setDoctor(profile);
+        if (!cancelled) {
+          setDoctor(profile);
+        }
       } catch {
-        setError(tCommon("doctorProfile.page.loadFailed"));
+        if (!cancelled) {
+          setError(tCommon("doctorProfile.page.loadFailed"));
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
 
     if (doctorId) {
-      fetchDoctorProfile();
+      void fetchDoctorProfile();
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [doctorId, tCommon]);
+
+  const syncRatings = React.useCallback((list: { rating_avg: number; rating_count: number }) => {
+    setRatingAvg(list.rating_avg);
+    setRatingCount(list.rating_count);
+    setDoctor((current) =>
+      current
+        ? {
+            ...current,
+            rating_avg: list.rating_avg,
+            rating_count: list.rating_count,
+          }
+        : current,
+    );
+  }, []);
+
+  const refreshReviewState = React.useCallback(async () => {
+    setReviewsLoading(true);
+    try {
+      const [list, nextEligibility] = await Promise.all([
+        getDoctorReviews(doctorId, 1, REVIEWS_PER_PAGE),
+        viewerRole === "patient" ? getReviewEligibility(doctorId) : Promise.resolve(EMPTY_ELIGIBILITY),
+      ]);
+
+      setReviews(list.reviews);
+      setReviewPage(list.page);
+      setHasMoreReviews(list.has_more);
+      setEligibility(nextEligibility);
+      syncRatings(list);
+    } finally {
+      setReviewsLoading(false);
+    }
+  }, [doctorId, syncRatings, viewerRole]);
+
+  React.useEffect(() => {
+    if (!doctorId) return;
+    void refreshReviewState();
+  }, [doctorId, refreshReviewState]);
+
+  const loadMoreReviews = React.useCallback(async () => {
+    if (loadingMoreReviews || !hasMoreReviews) return;
+
+    const nextPage = reviewPage + 1;
+    setLoadingMoreReviews(true);
+    try {
+      const list = await getDoctorReviews(doctorId, nextPage, REVIEWS_PER_PAGE);
+      setReviews((current) => [...current, ...list.reviews]);
+      setReviewPage(list.page);
+      setHasMoreReviews(list.has_more);
+      syncRatings(list);
+    } finally {
+      setLoadingMoreReviews(false);
+    }
+  }, [doctorId, hasMoreReviews, loadingMoreReviews, reviewPage, syncRatings]);
 
   const handleShare = React.useCallback(async () => {
     const shareUrl = window.location.href;
@@ -90,6 +182,27 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
       // Ignore share cancellation and clipboard failures.
     }
   }, [doctor?.first_name, doctor?.last_name, tCommon]);
+
+  const handleOpenReviewDialog = React.useCallback(() => {
+    if (viewerRole !== "patient") return;
+    if (!eligibility?.can_review && !eligibility?.has_existing_review) {
+      toast.error("You can only review after completing an appointment");
+      return;
+    }
+    setReviewDialogOpen(true);
+  }, [eligibility?.can_review, eligibility?.has_existing_review, viewerRole]);
+
+  const handleReviewSubmitted = React.useCallback(
+    (review: DoctorReview) => {
+      setEligibility({
+        can_review: true,
+        has_existing_review: true,
+        existing_review: review,
+      });
+      void refreshReviewState();
+    },
+    [refreshReviewState],
+  );
 
   if (loading) {
     return (
@@ -119,6 +232,17 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
   }
 
   const locations = doctor.locations || [];
+  const existingReview = eligibility?.existing_review ?? null;
+  const reviewAction =
+    viewerRole === "patient"
+      ? {
+          label: existingReview ? "Edit Review" : "Write Review",
+          onClick: handleOpenReviewDialog,
+          disabled: reviewsLoading,
+          isEdit: Boolean(existingReview),
+        }
+      : null;
+  const doctorDisplayName = `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name}`.trim();
 
   return (
     <AppBackground className="animate-page-enter">
@@ -139,16 +263,24 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-7">
           <section className="space-y-5 lg:col-span-8">
-            <DoctorProfileHeader doctor={doctor} onShare={handleShare} />
+            <DoctorProfileHeader doctor={doctor} onShare={handleShare} reviewAction={reviewAction} />
             <DoctorAboutCard doctor={doctor} />
             <DoctorQualificationsCard doctor={doctor} />
             <DoctorSpecializationsCard doctor={doctor} />
             <DoctorProfessionalDetailsCard doctor={doctor} />
             <DoctorPracticeLocations locations={locations} />
             <DoctorReviewsSection
-              doctorId={doctor.profile_id}
-              doctorName={`${doctor.title ? doctor.title + " " : ""}${doctor.first_name} ${doctor.last_name}`.trim()}
+              doctorName={doctorDisplayName}
               viewerRole={viewerRole}
+              reviews={reviews}
+              ratingAvg={ratingAvg}
+              ratingCount={ratingCount}
+              existingReview={existingReview}
+              canReview={Boolean(eligibility?.can_review)}
+              loading={reviewsLoading}
+              loadingMore={loadingMoreReviews}
+              hasMore={hasMoreReviews}
+              onLoadMore={() => void loadMoreReviews()}
             />
           </section>
 
@@ -159,6 +291,17 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
           </aside>
         </div>
       </main>
+
+      {viewerRole === "patient" ? (
+        <WriteReviewDialog
+          open={reviewDialogOpen}
+          onOpenChange={setReviewDialogOpen}
+          doctorId={doctor.profile_id}
+          doctorName={doctorDisplayName}
+          existingReview={existingReview}
+          onSubmitted={handleReviewSubmitted}
+        />
+      ) : null}
     </AppBackground>
   );
 }

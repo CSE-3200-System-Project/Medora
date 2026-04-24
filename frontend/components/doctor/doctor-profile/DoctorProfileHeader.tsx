@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import Image from "next/image";
-import { Bookmark, CheckCircle2, Share2, Star } from "lucide-react";
+import { Bookmark, CheckCircle2, Pencil, Share2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,12 @@ import { useT } from "@/i18n/client";
 interface DoctorProfileHeaderProps {
   doctor: BackendDoctorProfile;
   onShare: () => void;
+  reviewAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    isEdit?: boolean;
+  } | null;
 }
 
 function getDisplayName(doctor: BackendDoctorProfile) {
@@ -19,7 +25,11 @@ function getDisplayName(doctor: BackendDoctorProfile) {
   return `${doctor.title ? `${doctor.title} ` : ""}${fullName}`.trim();
 }
 
-export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, onShare }: DoctorProfileHeaderProps) {
+export const DoctorProfileHeader = memo(function DoctorProfileHeader({
+  doctor,
+  onShare,
+  reviewAction,
+}: DoctorProfileHeaderProps) {
   const tCommon = useT("common");
   const specialty = doctor.speciality_name || doctor.specialization || tCommon("doctorProfile.header.defaultSpecialist");
   const subSpecialty = doctor.sub_specializations?.[0] || tCommon("doctorProfile.header.defaultSubSpecialty");
@@ -93,17 +103,31 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Patient Rating</p>
-              {ratingCount > 0 ? (
-                <p className="mt-1 flex items-center gap-1.5 text-xl font-semibold text-foreground">
-                  <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
-                  <span className="tabular-nums">{ratingAvg.toFixed(1)}</span>
-                  <span className="text-sm font-normal text-muted-foreground">
-                    ({ratingCount})
-                  </span>
-                </p>
-              ) : (
-                <p className="mt-1 text-sm font-medium text-muted-foreground">No reviews yet</p>
-              )}
+              <div className="mt-1 flex flex-wrap items-center justify-between gap-3">
+                {ratingCount > 0 ? (
+                  <p className="flex items-center gap-1.5 text-xl font-semibold text-foreground">
+                    <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+                    <span className="tabular-nums">{ratingAvg.toFixed(1)}</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      ({ratingCount})
+                    </span>
+                  </p>
+                ) : (
+                  <p className="text-sm font-medium text-muted-foreground">No reviews yet</p>
+                )}
+                {reviewAction ? (
+                  <Button
+                    size="sm"
+                    variant={reviewAction.disabled ? "outline" : "default"}
+                    disabled={reviewAction.disabled}
+                    onClick={reviewAction.onClick}
+                    className="shrink-0 rounded-xl"
+                  >
+                    {reviewAction.isEdit ? <Pencil className="mr-2 h-4 w-4" /> : <Star className="mr-2 h-4 w-4" />}
+                    {reviewAction.label}
+                  </Button>
+                ) : null}
+              </div>
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.status")}</p>

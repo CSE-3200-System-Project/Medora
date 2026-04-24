@@ -52,6 +52,7 @@ export type PatientDashboardPayload = {
     appointment_date: string;
     status: string;
     reason?: string | null;
+    doctor_photo_url?: string | null;
   }>;
   medication_adherence_trend: {
     labels: string[];

@@ -144,6 +144,12 @@ class DoctorActionStatus(str, enum.Enum):
     CANCELLED = "cancelled"
 
 
+class ReviewModerationStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+
+
 # ========== Appointment Scheduling Enums ==========
 
 class AppointmentRequestStatus(str, enum.Enum):

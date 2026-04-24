@@ -11,6 +11,7 @@ import {
   UserCheck,
   Calendar,
   ClipboardList,
+  MessageSquare,
   Moon,
   LogOut,
   Ban,
@@ -87,6 +88,7 @@ export function AdminNavbar() {
     { name: "Patients", href: "/admin/patients", icon: Users },
     { name: "Appointments", href: "/admin/appointments", icon: Calendar },
     { name: "Requests", href: "/admin/requests", icon: Inbox },
+    { name: "Reviews", href: "/admin/reviews", icon: MessageSquare },
     { name: "Audit Log", href: "/admin/audit-log", icon: ClipboardList },
     { name: "User Management", href: "/admin/users", icon: Ban },
   ];

@@ -189,7 +189,7 @@ export async function PatientHomeDashboard() {
     specialty: item.specialty || t("patientHome.appointmentCard.generalConsultation", "General Consultation"),
     dateTime: formatDateTime(item.appointment_date, localeResolution.locale),
     location: t("patientHome.appointmentCard.medoraConsultation", "Medora Consultation"),
-    avatarUrl: item.doctor_photo_url,
+    avatarUrl: item.doctor_photo_url ?? undefined,
     status: item.status ? translateAppointmentStatus(item.status, t) : "",
     actionLabel:
       item.status.toUpperCase() === "CONFIRMED"

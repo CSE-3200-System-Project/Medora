@@ -51,6 +51,10 @@ class NotificationType(str, Enum):
     PRESCRIPTION_ACCEPTED = "prescription_accepted"
     PRESCRIPTION_REJECTED = "prescription_rejected"
 
+    # Review moderation
+    REVIEW_APPROVED = "review_approved"
+    REVIEW_REJECTED = "review_rejected"
+
 
 class NotificationPriority(str, Enum):
     LOW = "low"

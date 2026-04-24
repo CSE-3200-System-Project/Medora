@@ -23,8 +23,7 @@ from app.schemas.appointment import (
     AppointmentRescheduleRespond,
     AppointmentRescheduleWithdraw,
 )
-from app.services.doctor_action_service import create_appointment_completed_action
-from app.services import appointment_service, notification_service, slot_service
+from app.services import appointment_service, slot_service
 from typing import List
 from datetime import datetime, timedelta, timezone, date as date_class, time as time_class
 from zoneinfo import ZoneInfo
@@ -429,6 +428,8 @@ async def get_my_appointments(
             "notes": appt.notes,
             "status": _status_value(appt.status),
             "hold_expires_at": appt.hold_expires_at.isoformat() if appt.hold_expires_at else None,
+            "completed_at": appt.completed_at.isoformat() if appt.completed_at else None,
+            "revenue_amount": appt.revenue_amount,
             "patient_id": appt.patient_id,
             "patient_ref": patient_ref_from_uuid(appt.patient_id),
             "doctor_id": appt.doctor_id,
@@ -874,27 +875,6 @@ async def update_appointment_status(
     await db.commit()
     await db.refresh(appointment)
 
-    if update_data.status is not None and new_status == AppointmentStatus.COMPLETED:
-        doctor_profile_result = await db.execute(
-            select(Profile).where(Profile.id == appointment.doctor_id)
-        )
-        doctor_profile = doctor_profile_result.scalar_one_or_none()
-        doctor_name = (
-            f"Dr. {doctor_profile.first_name} {doctor_profile.last_name}"
-            if doctor_profile
-            else "Doctor"
-        )
-
-        await create_appointment_completed_action(db, appointment=appointment)
-        await notification_service.notify_appointment_completed(
-            db,
-            patient_id=appointment.patient_id,
-            doctor_name=doctor_name,
-            appointment_id=appointment.id,
-            doctor_id=appointment.doctor_id,
-        )
-        await db.commit()
-
     return appointment
 
 # === Stats & Upcoming endpoints ===
@@ -1230,6 +1210,8 @@ async def get_patient_calendar_appointments(
             "slot_time": slot_time,
             "status": _status_value(appt.status),
             "hold_expires_at": appt.hold_expires_at.isoformat() if appt.hold_expires_at else None,
+            "completed_at": appt.completed_at.isoformat() if appt.completed_at else None,
+            "revenue_amount": appt.revenue_amount,
             "reason": appt.reason,
             "notes": appt.notes,
             "cancellation_reason_key": appt.cancellation_reason_key,
@@ -1364,9 +1346,9 @@ async def sync_appointment_status(
     db: AsyncSession = Depends(get_db)
 ):
     """
-    Sync appointment statuses (placeholder for future auto-sync logic).
-    Currently just validates user and returns success.
-    Appointments are NOT auto-completed - doctor must manually mark them complete.
+    Run a one-off overdue appointment completion sweep for the current user session.
+    The background loop handles ongoing completion, but this gives the UI an
+    immediate refresh path after login/page load.
     """
     user_id = user.id
     
@@ -1376,10 +1358,82 @@ async def sync_appointment_status(
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
+
+    updated_count = await appointment_service.auto_complete_overdue_appointments(db)
+    if updated_count > 0:
+        await db.commit()
+    else:
+        await db.rollback()
+
     return {
         "message": "Status sync successful",
-        "updated_count": 0
+        "updated_count": updated_count
+    }
+
+
+@router.get("/doctor/revenue-summary")
+async def get_doctor_revenue_summary(
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Return appointment-completion revenue summary for the current doctor."""
+    user_id = user.id
+
+    result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    role_str = str(profile.role).upper()
+    if "DOCTOR" not in role_str:
+        raise HTTPException(status_code=403, detail="Only doctors can access revenue summary")
+
+    doctor_result = await db.execute(
+        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
+    )
+    doctor_profile = doctor_result.scalar_one_or_none()
+    if not doctor_profile:
+        raise HTTPException(status_code=404, detail="Doctor profile not found")
+
+    now = datetime.now(timezone.utc)
+    month_start = datetime(now.year, now.month, 1, tzinfo=timezone.utc)
+    month_end = (month_start + timedelta(days=35)).replace(day=1)
+
+    aggregates = (
+        await db.execute(
+            select(
+                func.count(Appointment.id)
+                .filter(Appointment.status == AppointmentStatus.COMPLETED)
+                .label("completed_total"),
+                func.count(Appointment.id)
+                .filter(
+                    Appointment.status == AppointmentStatus.COMPLETED,
+                    Appointment.completed_at >= month_start,
+                    Appointment.completed_at < month_end,
+                )
+                .label("completed_this_month"),
+                func.coalesce(
+                    func.sum(Appointment.revenue_amount).filter(
+                        Appointment.status == AppointmentStatus.COMPLETED,
+                        Appointment.completed_at >= month_start,
+                        Appointment.completed_at < month_end,
+                    ),
+                    0.0,
+                ).label("monthly_revenue"),
+            ).where(Appointment.doctor_id == user_id)
+        )
+    ).one()
+
+    return {
+        "total_revenue": round(float(doctor_profile.total_revenue or 0.0), 2),
+        "monthly_revenue": round(float(aggregates.monthly_revenue or 0.0), 2),
+        "completed_appointments": int(aggregates.completed_total or 0),
+        "completed_this_month": int(aggregates.completed_this_month or 0),
+        "consultation_fee": (
+            float(doctor_profile.consultation_fee)
+            if doctor_profile.consultation_fee is not None
+            else None
+        ),
     }
 
 
@@ -1497,7 +1551,9 @@ async def complete_appointment(
         "message": "Appointment marked as completed",
         "appointment": {
             "id": appointment.id,
-            "status": appointment.status.value
+            "status": appointment.status.value,
+            "completed_at": appointment.completed_at.isoformat() if appointment.completed_at else None,
+            "revenue_amount": appointment.revenue_amount,
         }
     }
 

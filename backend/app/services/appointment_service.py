@@ -13,6 +13,7 @@ import uuid
 
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.appointment_audit import AppointmentAuditLog
+from app.db.models.doctor import DoctorProfile
 from app.db.models.appointment_request import (
     AdminApprovalStatus,
     AppointmentCancellationRequest,
@@ -22,6 +23,7 @@ from app.db.models.appointment_request import (
 )
 from app.db.models.notification import NotificationPriority, NotificationType
 from app.db.models.profile import Profile
+from app.services.doctor_action_service import create_appointment_completed_action
 from app.services import notification_service, slot_service
 
 logger = logging.getLogger(__name__)
@@ -84,6 +86,7 @@ ALLOWED_TRANSITIONS: dict[AppointmentStatus, set[AppointmentStatus]] = {
     AppointmentStatus.PENDING: {
         AppointmentStatus.CONFIRMED,
         AppointmentStatus.PENDING_ADMIN_REVIEW,
+        AppointmentStatus.COMPLETED,
     }
     | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_ADMIN_REVIEW: {
@@ -94,11 +97,13 @@ ALLOWED_TRANSITIONS: dict[AppointmentStatus, set[AppointmentStatus]] = {
     AppointmentStatus.PENDING_DOCTOR_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
         AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+        AppointmentStatus.COMPLETED,
     }
     | CANCELLATION_STATUSES,
     AppointmentStatus.PENDING_PATIENT_CONFIRMATION: {
         AppointmentStatus.CONFIRMED,
         AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
+        AppointmentStatus.COMPLETED,
     }
     | CANCELLATION_STATUSES,
     AppointmentStatus.CONFIRMED: {
@@ -203,6 +208,15 @@ def _build_canonical_appointment_datetime(target_date: date, slot_time_value: ti
         tzinfo=MEDORA_TIMEZONE,
     )
     return local_datetime.astimezone(timezone.utc)
+
+
+def _safe_money_amount(value: object, default: float = 0.0) -> float:
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
 
 
 async def _cancel_stale_old_slot_duplicates(
@@ -384,6 +398,13 @@ async def _emit_domain_event(
             action_url = "/doctor/appointments"
         if reason and not is_hold_expired:
             message = f"{message}. Reason: {reason}"
+
+    elif event_name == "appointment.completed":
+        notification_type = NotificationType.APPOINTMENT_COMPLETED
+        title = "Appointment Completed"
+        message = f"Your appointment with Dr. {doctor_name} has been marked as completed."
+        notify_user_id = appointment.patient_id
+        action_url = "/patient/appointments"
 
     elif event_name == "reschedule.requested" and reschedule_request:
         # Admin-mediated: requester is notified that their request is awaiting admin review.
@@ -691,6 +712,29 @@ async def transition_status(
             appointment.cancellation_reason_note = cancellation_reason_note
         appointment.hold_expires_at = None
 
+    if new_status == AppointmentStatus.COMPLETED:
+        appointment.hold_expires_at = None
+        appointment.completed_at = appointment.completed_at or now_utc
+
+        doctor_result = await db.execute(
+            select(DoctorProfile)
+            .where(DoctorProfile.profile_id == appointment.doctor_id)
+            .with_for_update()
+        )
+        doctor_profile = doctor_result.scalar_one_or_none()
+
+        if appointment.revenue_amount is None:
+            appointment.revenue_amount = _safe_money_amount(
+                getattr(doctor_profile, "consultation_fee", None),
+                default=0.0,
+            )
+
+        if doctor_profile is not None:
+            doctor_profile.total_revenue = _safe_money_amount(
+                doctor_profile.total_revenue,
+                default=0.0,
+            ) + _safe_money_amount(appointment.revenue_amount, default=0.0)
+
     audit = AppointmentAuditLog(
         id=str(uuid.uuid4()),
         appointment_id=appointment_id,
@@ -704,6 +748,9 @@ async def transition_status(
     db.add(audit)
 
     await db.flush()
+
+    if new_status == AppointmentStatus.COMPLETED:
+        await create_appointment_completed_action(db, appointment=appointment)
 
     await sync_calendar_on_status_change(db, appointment, new_status)
 
@@ -739,6 +786,14 @@ async def transition_status(
             actor_id=performed_by_id,
             actor_role=performed_by_role,
             reason=cancellation_reason_note or cancellation_reason_key,
+        )
+    elif new_status == AppointmentStatus.COMPLETED:
+        await _emit_domain_event(
+            db,
+            event_name="appointment.completed",
+            appointment=appointment,
+            actor_id=performed_by_id,
+            actor_role=performed_by_role,
         )
 
     return appointment
@@ -1553,17 +1608,22 @@ async def auto_complete_overdue_appointments(
     grace_minutes: int = 15,
     limit: int = 200,
 ) -> int:
-    """Automatically mark CONFIRMED appointments as COMPLETED once their
+    """Automatically mark active appointments as COMPLETED once their
     scheduled end time + a grace period has passed. Returns the number of
     appointments transitioned.
     """
     now = now_utc or datetime.now(timezone.utc)
     # An appointment becomes eligible after: appointment_date + duration_minutes + grace.
     # duration_minutes may be null; treat as 30.
+    auto_completable_statuses = {
+        AppointmentStatus.CONFIRMED,
+        AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
+        AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+    }
     result = await db.execute(
         select(Appointment)
         .where(
-            Appointment.status == AppointmentStatus.CONFIRMED,
+            Appointment.status.in_(list(auto_completable_statuses)),
             Appointment.appointment_date.is_not(None),
         )
         .order_by(Appointment.appointment_date.asc())

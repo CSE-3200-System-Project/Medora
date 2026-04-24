@@ -37,20 +37,6 @@ async function getAdminHeaders() {
   };
 }
 
-async function getAuthHeaders() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("session_token")?.value;
-
-  if (!token) {
-    throw new Error("Not authenticated");
-  }
-
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-}
-
 // Dashboard Stats
 export async function getAdminStats() {
   try {
@@ -112,6 +98,78 @@ export async function getAdminNotifications(params?: { limit?: number; unreadOnl
     notifications: AdminNotificationRow[];
     unread_count: number;
   };
+}
+
+export type AdminReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
+
+export type AdminReviewRow = {
+  review: {
+    id: string;
+    doctor_id: string;
+    rating: number;
+    note?: string | null;
+    status: AdminReviewStatus;
+    admin_feedback?: string | null;
+    created_at: string;
+    updated_at: string;
+    author?: {
+      patient_id: string;
+      first_name?: string | null;
+      last_name?: string | null;
+      profile_photo_url?: string | null;
+    } | null;
+  };
+  doctor_name: string;
+  patient_name: string;
+  patient_email?: string | null;
+};
+
+export async function getAdminReviews(status: AdminReviewStatus = "PENDING", page = 1, limit = 20) {
+  const headers = await getAdminHeaders();
+  const response = await fetch(
+    `${BACKEND_URL}/admin/reviews?status=${status}&page=${page}&limit=${limit}`,
+    { headers, cache: "no-store" },
+  );
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error((error as { detail?: string }).detail || "Failed to fetch reviews");
+  }
+  return (await response.json()) as {
+    reviews: AdminReviewRow[];
+    total: number;
+    page: number;
+    limit: number;
+    has_more: boolean;
+  };
+}
+
+export async function approveAdminReview(reviewId: string) {
+  const headers = await getAdminHeaders();
+  const response = await fetch(`${BACKEND_URL}/admin/reviews/${reviewId}/approve`, {
+    method: "POST",
+    headers,
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error((error as { detail?: string }).detail || "Failed to approve review");
+  }
+  return response.json();
+}
+
+export async function rejectAdminReview(reviewId: string, adminFeedback?: string) {
+  const headers = await getAdminHeaders();
+  const response = await fetch(`${BACKEND_URL}/admin/reviews/${reviewId}/reject`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ admin_feedback: adminFeedback || undefined }),
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error((error as { detail?: string }).detail || "Failed to reject review");
+  }
+  return response.json();
 }
 
 export async function adminApproveNewAppointment(appointmentId: string, notes?: string) {

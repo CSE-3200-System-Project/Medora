@@ -22,11 +22,14 @@ from app.schemas.doctor import (
     GeocodeLocationRequest,
     GeocodeLocationResponse,
 )
+from app.schemas.review import ReviewAuthor, ReviewListResponse, ReviewResponse
+from app.db.models.doctor_review import DoctorReview
 from app.services.geocoding import (
     geocode_and_save_doctor_locations,
     geocode_all_doctors_missing_coordinates,
     geocode_location_text_with_cache,
 )
+from app.services import review_service
 from app.routes.auth import get_current_user_token
 from app.core.http_cache import build_etag, is_not_modified, not_modified_response, set_cache_headers
 
@@ -116,6 +119,31 @@ async def _build_location_payload(
             )
         )
     return payload
+
+
+async def _serialize_review(db: AsyncSession, review: DoctorReview) -> ReviewResponse:
+    author_profile = (
+        await db.execute(select(Profile).where(Profile.id == review.patient_id))
+    ).scalar_one_or_none()
+    author = None
+    if author_profile:
+        author = ReviewAuthor(
+            patient_id=author_profile.id,
+            first_name=author_profile.first_name,
+            last_name=author_profile.last_name,
+            profile_photo_url=getattr(author_profile, "profile_photo_url", None),
+        )
+    return ReviewResponse(
+        id=review.id,
+        doctor_id=review.doctor_id,
+        rating=review.rating,
+        note=review.note,
+        status=review.status,
+        admin_feedback=review.admin_feedback,
+        created_at=review.created_at,
+        updated_at=review.updated_at,
+        author=author,
+    )
 
 @router.get("/testxyz")
 async def test_route():
@@ -372,6 +400,34 @@ async def get_doctor_profile(
         return not_modified_response(response)
 
     return result_payload
+
+
+@router.get("/{profile_id}/reviews", response_model=ReviewListResponse)
+async def get_doctor_reviews(
+    profile_id: str,
+    page: int = Query(1, ge=1),
+    limit: int = Query(5, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+):
+    doctor = (
+        await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == profile_id))
+    ).scalar_one_or_none()
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    rows, total, has_more = await review_service.list_approved_reviews(
+        db, doctor_id=profile_id, page=page, limit=limit
+    )
+
+    return ReviewListResponse(
+        reviews=[await _serialize_review(db, review) for review in rows],
+        total=total,
+        rating_avg=float(doctor.rating_avg or 0.0),
+        rating_count=int(doctor.rating_count or 0),
+        page=page,
+        limit=limit,
+        has_more=has_more,
+    )
 
 
 @router.get("/{profile_id}/slots", response_model=AppointmentSlotsResponse)

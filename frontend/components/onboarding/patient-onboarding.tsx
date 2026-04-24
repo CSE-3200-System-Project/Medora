@@ -1215,15 +1215,16 @@ export function PatientOnboarding() {
         const visibleChronicConditionOptions = showAllChronicConditions
           ? translatedChronicConditions
           : translatedChronicConditions.slice(0, VISIBLE_CHRONIC_CONDITION_COUNT)
+        const chronicConditionOptions = visibleChronicConditionOptions as Array<{ key: ChronicConditionKey; label: string }>
 
         return (
           <div className="space-y-6">
             <p className="text-sm text-muted-foreground">Start with common conditions. You can add the rest only if relevant.</p>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {visibleChronicConditionOptions.map(({ key, label }) => (
+              {chronicConditionOptions.map(({ key, label }) => (
                 <div key={key} className="flex items-center space-x-2">
-                  <Checkbox id={key} checked={formData[key]} onCheckedChange={(checked) => handleInputChange(key, checked)} />
+                  <Checkbox id={key} checked={Boolean(formData[key])} onCheckedChange={(checked) => handleInputChange(key, checked)} />
                   <Label htmlFor={key}>{label}</Label>
                 </div>
               ))}
@@ -1565,15 +1566,16 @@ export function PatientOnboarding() {
         const visibleFamilyHistoryOptions = showAllFamilyHistoryConditions
           ? translatedFamilyHistory
           : translatedFamilyHistory.slice(0, VISIBLE_FAMILY_HISTORY_COUNT)
+        const familyHistoryOptions = visibleFamilyHistoryOptions as Array<{ key: FamilyHistoryConditionKey; label: string }>
 
         return (
           <div className="space-y-6">
             <p className="text-sm text-muted-foreground">Start with common family conditions. Add less common history only if needed.</p>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {visibleFamilyHistoryOptions.map(({ key, label }) => (
+              {familyHistoryOptions.map(({ key, label }) => (
                 <div key={key} className="flex items-center space-x-2">
-                  <Checkbox id={key} checked={formData[key]} onCheckedChange={(checked) => handleInputChange(key, checked)} />
+                  <Checkbox id={key} checked={Boolean(formData[key])} onCheckedChange={(checked) => handleInputChange(key, checked)} />
                   <Label htmlFor={key}>{label}</Label>
                 </div>
               ))}
@@ -2010,7 +2012,9 @@ export function PatientOnboarding() {
                 <CardTitle>{translatedSteps[currentStep - 1].title}</CardTitle>
                 <CardDescription className="space-y-1">
                   <span className="block text-sm font-medium text-foreground/90">Step {currentStep} of {translatedSteps.length}</span>
-                  <span className="block text-xs text-muted-foreground">{translatedStepGuidance[currentStep]}</span>
+                  <span className="block text-xs text-muted-foreground">
+                    {translatedStepGuidance[currentStep as keyof typeof translatedStepGuidance]}
+                  </span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">

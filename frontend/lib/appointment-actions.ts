@@ -16,6 +16,14 @@ export type CancellationReasonCatalog = {
   doctor: CancellationReasonOption[];
 };
 
+export type DoctorRevenueSummary = {
+  total_revenue: number;
+  monthly_revenue: number;
+  completed_appointments: number;
+  completed_this_month: number;
+  consultation_fee?: number | null;
+};
+
 function getErrorMessage(detail: unknown, fallback: string): string {
   if (typeof detail === "string" && detail.trim()) {
     return detail;
@@ -475,7 +483,46 @@ export async function completeAppointment(appointmentId: string) {
   }
 
   revalidatePath("/doctor/appointments");
+  revalidatePath("/doctor/home");
   return response.json();
+}
+
+export async function getDoctorRevenueSummary() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token) {
+    return {
+      total_revenue: 0,
+      monthly_revenue: 0,
+      completed_appointments: 0,
+      completed_this_month: 0,
+      consultation_fee: null,
+    } satisfies DoctorRevenueSummary;
+  }
+
+  const response = await fetch(`${BACKEND_URL}/appointment/doctor/revenue-summary`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      return {
+        total_revenue: 0,
+        monthly_revenue: 0,
+        completed_appointments: 0,
+        completed_this_month: 0,
+        consultation_fee: null,
+      } satisfies DoctorRevenueSummary;
+    }
+    const error = await response.json().catch(() => null);
+    throw new Error(getErrorMessage(error?.detail, "Failed to fetch doctor revenue summary"));
+  }
+
+  return (await response.json()) as DoctorRevenueSummary;
 }
 
 export async function respondToRescheduleRequest(
