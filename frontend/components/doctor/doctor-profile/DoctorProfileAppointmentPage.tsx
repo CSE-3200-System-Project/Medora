@@ -45,6 +45,7 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [viewerRole, setViewerRole] = React.useState<ViewerRole>("guest");
+  const [viewerId, setViewerId] = React.useState<string | null>(null);
 
   const [reviews, setReviews] = React.useState<DoctorReview[]>([]);
   const [reviewPage, setReviewPage] = React.useState(1);
@@ -68,9 +69,13 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
         } else {
           setViewerRole("guest");
         }
+        setViewerId(typeof user?.id === "string" ? user.id : null);
       })
       .catch(() => {
-        if (!cancelled) setViewerRole("guest");
+        if (!cancelled) {
+          setViewerRole("guest");
+          setViewerId(null);
+        }
       });
 
     return () => {
@@ -233,15 +238,17 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
 
   const locations = doctor.locations || [];
   const existingReview = eligibility?.existing_review ?? null;
-  const reviewAction =
-    viewerRole === "patient"
-      ? {
-          label: existingReview ? "Edit Review" : "Write Review",
-          onClick: handleOpenReviewDialog,
-          disabled: reviewsLoading,
-          isEdit: Boolean(existingReview),
-        }
-      : null;
+  const patientCanInteract =
+    viewerRole === "patient" &&
+    (Boolean(eligibility?.can_review) || Boolean(eligibility?.has_existing_review));
+  const reviewAction = patientCanInteract
+    ? {
+        label: existingReview ? "Edit Review" : "Write Review",
+        onClick: handleOpenReviewDialog,
+        disabled: reviewsLoading,
+        isEdit: Boolean(existingReview),
+      }
+    : null;
   const doctorDisplayName = `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name}`.trim();
 
   return (
@@ -268,7 +275,27 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
             <DoctorQualificationsCard doctor={doctor} />
             <DoctorSpecializationsCard doctor={doctor} />
             <DoctorProfessionalDetailsCard doctor={doctor} />
-            <DoctorPracticeLocations locations={locations} />
+            <DoctorPracticeLocations
+              locations={locations}
+              doctorName={{
+                firstName: doctor.first_name,
+                lastName: doctor.last_name,
+                title: doctor.title ?? undefined,
+              }}
+              editable={viewerRole === "doctor" && viewerId === doctor.profile_id}
+              onLocationUpdated={(updated) => {
+                setDoctor((current) =>
+                  current
+                    ? {
+                        ...current,
+                        locations: (current.locations ?? []).map((loc) =>
+                          loc.id && loc.id === updated.id ? updated : loc,
+                        ),
+                      }
+                    : current,
+                );
+              }}
+            />
             <DoctorReviewsSection
               doctorName={doctorDisplayName}
               viewerRole={viewerRole}

@@ -683,6 +683,38 @@ export async function changePassword(currentPassword: string, newPassword: strin
   }
 }
 
+export async function updateDoctorLocationSchedule(input: {
+  locationId: string;
+  availableDays: string[];
+  dayTimeSlots: Record<string, string[]>;
+  appointmentDuration?: number;
+}) {
+  const token = (await cookies()).get("session_token")?.value;
+  if (!token) throw new Error("Not authenticated");
+
+  const response = await fetch(
+    `${BACKEND_URL}/profile/doctor/location/${encodeURIComponent(input.locationId)}/schedule`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        available_days: input.availableDays,
+        day_time_slots: input.dayTimeSlots,
+        appointment_duration: input.appointmentDuration,
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => null);
+    throw new Error(err?.detail || "Failed to update location schedule");
+  }
+  return response.json();
+}
+
 export async function updateDoctorSchedule(
   dayTimeSlots: Record<string, string[]>,
   appointmentDuration: number
