@@ -134,13 +134,7 @@ export function AdminNavbar() {
                 className="hidden object-contain dark:block"
               />
             </div>
-            <div className="hidden sm:block">
-              <div className="flex items-center gap-2">
-                <span className="text-xs px-2 py-0.5 rounded-full bg-warning text-warning-foreground font-semibold">
-                  ADMIN
-                </span>
-              </div>
-            </div>
+            
           </Link>
 
           {/* CENTER: Desktop Navigation */}

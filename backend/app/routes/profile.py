@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile
@@ -102,11 +102,8 @@ async def get_verification_status(
     db: AsyncSession = Depends(get_db)
 ):
     """Get user verification status"""
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    profile = result.scalar_one_or_none()
-    
+    profile = await resolve_profile(db, user)
+
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     

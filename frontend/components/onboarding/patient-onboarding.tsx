@@ -27,9 +27,11 @@ import {
   type BackendPatientMedication,
 } from "@/lib/patient-medication"
 import { useRouter } from "next/navigation"
+import { useT } from "@/i18n/client"
+import { getOnboardingStrings } from "./onboarding-i18n"
 import { cn } from "@/lib/utils"
 
-const STEPS = [
+const translatedSteps = [
   { id: 1, title: "Personal Identity", shortName: "Identity" },
   { id: 2, title: "Physical & Address", shortName: "Profile" },
   { id: 3, title: "Chronic Conditions", shortName: "Conditions" },
@@ -70,7 +72,7 @@ type FamilyHistoryConditionKey =
 type HistoryAccordionSection = "surgeries" | "hospitalizations" | "vaccinations" | "medicalTests"
 type LifestyleAccordionSection = "substance" | "activitySleep" | "diet" | "mentalHealth"
 
-const CHRONIC_CONDITION_OPTIONS: Array<{ key: ChronicConditionKey; label: string }> = [
+const translatedChronicConditions: Array<{ key: ChronicConditionKey; label: string }> = [
   { key: "hasDiabetes", label: "Diabetes" },
   { key: "hasHypertension", label: "Hypertension (High BP)" },
   { key: "hasHeartDisease", label: "Heart Disease" },
@@ -85,7 +87,7 @@ const CHRONIC_CONDITION_OPTIONS: Array<{ key: ChronicConditionKey; label: string
   { key: "hasMentalHealth", label: "Mental Health Condition" },
 ]
 
-const FAMILY_HISTORY_OPTIONS: Array<{ key: FamilyHistoryConditionKey; label: string }> = [
+const translatedFamilyHistory: Array<{ key: FamilyHistoryConditionKey; label: string }> = [
   { key: "familyHasDiabetes", label: "Diabetes" },
   { key: "familyHasHeartDisease", label: "Heart Disease" },
   { key: "familyHasCancer", label: "Cancer" },
@@ -106,7 +108,7 @@ const PATIENT_ONBOARDING_AHA = "Complete this once and doctors can review your h
 const PHONE_REGEX = /^\+?[0-9\s\-()]{7,20}$/
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const PATIENT_STEP_GUIDANCE: Record<number, string> = {
+const translatedStepGuidance: Record<number, string> = {
   1: "Basic identity details so your records stay accurate.",
   2: "Physical profile and address details for better care context.",
   3: "Common chronic conditions first, advanced history only if needed.",
@@ -160,6 +162,12 @@ interface MedicalTest {
 }
 
 export function PatientOnboarding() {
+  const t = useT("onboarding")
+  const strings = getOnboardingStrings(t)
+  const translatedSteps = React.useMemo(() => strings.getSteps(), [strings])
+  const translatedChronicConditions = React.useMemo(() => strings.getChronicConditions(), [strings])
+  const translatedFamilyHistory = React.useMemo(() => strings.getFamilyHistory(), [strings])
+  const translatedStepGuidance = React.useMemo(() => strings.getStepGuidance(), [strings])
   const [currentStep, setCurrentStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
@@ -474,91 +482,91 @@ export function PatientOnboarding() {
     const normalized = typeof value === "string" ? value.trim() : value
 
     if (field === "firstName") {
-      if (!normalized) return "First name is required."
-      if (String(normalized).length < 2) return "First name should be at least 2 characters."
+      if (!normalized) return strings.validation.firstNameRequired
+      if (String(normalized).length < 2) return strings.validation.firstNameMin
       return null
     }
 
     if (field === "lastName") {
-      if (!normalized) return "Last name is required."
-      if (String(normalized).length < 2) return "Last name should be at least 2 characters."
+      if (!normalized) return strings.validation.lastNameRequired
+      if (String(normalized).length < 2) return strings.validation.lastNameMin
       return null
     }
 
     if (field === "dob") {
-      if (!normalized) return "Date of birth is required."
+      if (!normalized) return strings.validation.dateOfBirthRequired
       const dob = new Date(String(normalized))
-      if (Number.isNaN(dob.getTime())) return "Enter a valid date of birth."
-      if (dob > new Date()) return "Date of birth cannot be in the future."
+      if (Number.isNaN(dob.getTime())) return strings.validation.dateOfBirthInvalid
+      if (dob > new Date()) return strings.validation.dateOfBirthFuture
       return null
     }
 
     if (field === "gender") {
-      if (!normalized) return "Please select a gender."
+      if (!normalized) return strings.validation.genderRequired
       return null
     }
 
     if (field === "phone") {
-      if (!normalized) return "Phone number is required."
-      if (!PHONE_REGEX.test(String(normalized))) return "Enter a valid phone number."
+      if (!normalized) return strings.validation.phoneRequired
+      if (!PHONE_REGEX.test(String(normalized))) return strings.validation.phoneInvalid
       return null
     }
 
     if (field === "email") {
       if (!normalized) return null
-      if (!EMAIL_REGEX.test(String(normalized))) return "Enter a valid email address."
+      if (!EMAIL_REGEX.test(String(normalized))) return strings.validation.emailInvalid
       return null
     }
 
     if (field === "height") {
       if (!normalized) return null
       const height = Number(normalized)
-      if (Number.isNaN(height) || height < 40 || height > 260) return "Height should be between 40 and 260 cm."
+      if (Number.isNaN(height) || height < 40 || height > 260) return strings.validation.heightInvalid
       return null
     }
 
     if (field === "weight") {
       if (!normalized) return null
       const weight = Number(normalized)
-      if (Number.isNaN(weight) || weight < 2 || weight > 350) return "Weight should be between 2 and 350 kg."
+      if (Number.isNaN(weight) || weight < 2 || weight > 350) return strings.validation.weightInvalid
       return null
     }
 
     if (field === "emergencyName") {
-      if (!normalized) return "Emergency contact name is required."
+      if (!normalized) return strings.validation.emergencyNameRequired
       return null
     }
 
     if (field === "emergencyRelation") {
-      if (!normalized) return "Emergency contact relation is required."
+      if (!normalized) return strings.validation.emergencyRelationRequired
       return null
     }
 
     if (field === "emergencyPhone") {
-      if (!normalized) return "Emergency contact phone is required."
-      if (!PHONE_REGEX.test(String(normalized))) return "Enter a valid emergency contact phone number."
+      if (!normalized) return strings.validation.emergencyPhoneRequired
+      if (!PHONE_REGEX.test(String(normalized))) return strings.validation.emergencyPhoneInvalid
       return null
     }
 
     if (field === "secondaryEmergencyPhone") {
       if (!normalized) return null
-      if (!PHONE_REGEX.test(String(normalized))) return "Enter a valid secondary contact phone number."
-      if (!data.secondaryEmergencyName.trim()) return "Add secondary contact name or remove this phone number."
+      if (!PHONE_REGEX.test(String(normalized))) return strings.validation.secondaryPhoneInvalid
+      if (!data.secondaryEmergencyName.trim()) return strings.validation.secondaryNameRequired
       return null
     }
 
     if (field === "secondaryEmergencyName") {
-      if (!normalized) return data.secondaryEmergencyPhone.trim() ? "Secondary contact name is required." : null
+      if (!normalized) return data.secondaryEmergencyPhone.trim() ? strings.validation.secondaryNameRequired : null
       return null
     }
 
     if (field === "consentStorage") {
-      if (value !== true) return "Storage consent is required to continue."
+      if (value !== true) return strings.validation.storageConsentRequired
       return null
     }
 
     if (field === "consentDoctor") {
-      if (value !== true) return "Doctor access consent is required to complete onboarding."
+      if (value !== true) return strings.validation.doctorAccessConsentRequired
       return null
     }
 
@@ -579,11 +587,11 @@ export function PatientOnboarding() {
     }
 
     if (step === 4 && data.takingMeds === "yes" && data.medications.length === 0) {
-      errors.medications = "Add at least one medication or set Taking medications to No."
+      errors.medications = strings.validation.medicationsRequired
     }
 
     if (step === 5 && data.hasMedicalTests === "yes" && data.medicalTests.length === 0) {
-      errors.medicalTests = "Add at least one medical test entry or set Medical tests to No."
+      errors.medicalTests = strings.validation.medicalTestsRequired
     }
 
     return errors
@@ -783,7 +791,7 @@ export function PatientOnboarding() {
 
     setLoading(true)
 
-    if (currentStep < STEPS.length) {
+    if (currentStep < translatedSteps.length) {
       try {
         await updatePatientOnboarding(preparePayload())
         setFieldErrors({})
@@ -1205,8 +1213,8 @@ export function PatientOnboarding() {
         )
       case 3: {
         const visibleChronicConditionOptions = showAllChronicConditions
-          ? CHRONIC_CONDITION_OPTIONS
-          : CHRONIC_CONDITION_OPTIONS.slice(0, VISIBLE_CHRONIC_CONDITION_COUNT)
+          ? translatedChronicConditions
+          : translatedChronicConditions.slice(0, VISIBLE_CHRONIC_CONDITION_COUNT)
 
         return (
           <div className="space-y-6">
@@ -1221,7 +1229,7 @@ export function PatientOnboarding() {
               ))}
             </div>
 
-            {CHRONIC_CONDITION_OPTIONS.length > VISIBLE_CHRONIC_CONDITION_COUNT ? (
+            {translatedChronicConditions.length > VISIBLE_CHRONIC_CONDITION_COUNT ? (
               <Button
                 type="button"
                 variant="ghost"
@@ -1555,8 +1563,8 @@ export function PatientOnboarding() {
         )
       case 6: {
         const visibleFamilyHistoryOptions = showAllFamilyHistoryConditions
-          ? FAMILY_HISTORY_OPTIONS
-          : FAMILY_HISTORY_OPTIONS.slice(0, VISIBLE_FAMILY_HISTORY_COUNT)
+          ? translatedFamilyHistory
+          : translatedFamilyHistory.slice(0, VISIBLE_FAMILY_HISTORY_COUNT)
 
         return (
           <div className="space-y-6">
@@ -1571,7 +1579,7 @@ export function PatientOnboarding() {
               ))}
             </div>
 
-            {FAMILY_HISTORY_OPTIONS.length > VISIBLE_FAMILY_HISTORY_COUNT ? (
+            {translatedFamilyHistory.length > VISIBLE_FAMILY_HISTORY_COUNT ? (
               <Button
                 type="button"
                 variant="ghost"
@@ -1987,7 +1995,7 @@ export function PatientOnboarding() {
           </Card>
         )}
 
-        <StepIndicator steps={STEPS} currentStep={currentStep} onStepClick={goToStep} />
+        <StepIndicator steps={translatedSteps} currentStep={currentStep} onStepClick={goToStep} />
 
         <AnimatePresence mode="wait">
           <motion.div
@@ -1999,10 +2007,10 @@ export function PatientOnboarding() {
           >
             <Card className="border-border shadow-xl bg-card">
               <CardHeader>
-                <CardTitle>{STEPS[currentStep - 1].title}</CardTitle>
+                <CardTitle>{translatedSteps[currentStep - 1].title}</CardTitle>
                 <CardDescription className="space-y-1">
-                  <span className="block text-sm font-medium text-foreground/90">Step {currentStep} of {STEPS.length}</span>
-                  <span className="block text-xs text-muted-foreground">{PATIENT_STEP_GUIDANCE[currentStep]}</span>
+                  <span className="block text-sm font-medium text-foreground/90">Step {currentStep} of {translatedSteps.length}</span>
+                  <span className="block text-xs text-muted-foreground">{translatedStepGuidance[currentStep]}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -2051,7 +2059,7 @@ export function PatientOnboarding() {
                     disabled={loading || Object.keys(currentStepErrors).length > 0}
                     className="w-full transition-colors duration-200 motion-reduce:transition-none sm:w-auto"
                   >
-                    {loading ? "Saving..." : (currentStep === STEPS.length ? "Finish Setup" : "Next")}
+                    {loading ? "Saving..." : (currentStep === translatedSteps.length ? "Finish Setup" : "Next")}
                     {!loading && <ChevronRight className="ml-2 h-4 w-4" />}
                   </Button>
                   {Object.keys(currentStepErrors).length > 0 ? (

@@ -501,17 +501,14 @@ function buildOrderedExtractedText(
     noReadable: string;
   }
 ): string {
-  const formatValueLabel = (template: string, value: string) =>
-    template.replace("{value}", value);
-
   if (medications.length > 0) {
     return medications
       .map((medication, index) => {
         const header = `${index + 1}. ${medication.name || labels.unknownMedicine}`;
         const details = [
-          medication.dosage ? `   ${formatValueLabel(labels.dosageLabel, medication.dosage)}` : null,
-          medication.frequency ? `   ${formatValueLabel(labels.frequencyLabel, medication.frequency)}` : null,
-          medication.quantity ? `   ${formatValueLabel(labels.quantityLabel, medication.quantity)}` : null,
+          medication.dosage ? `   ${labels.dosageLabel}${medication.dosage}` : null,
+          medication.frequency ? `   ${labels.frequencyLabel}${medication.frequency}` : null,
+          medication.quantity ? `   ${labels.quantityLabel}${medication.quantity}` : null,
         ]
           .filter(Boolean)
           .join("\n");

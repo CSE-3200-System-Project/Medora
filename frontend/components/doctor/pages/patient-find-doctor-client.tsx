@@ -75,6 +75,8 @@ type Doctor = {
   distance_km?: number;
   latitude?: number;
   longitude?: number;
+  rating_avg?: number;
+  rating_count?: number;
 };
 
 type AIAnalysisTag = {

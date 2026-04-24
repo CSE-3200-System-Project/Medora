@@ -190,7 +190,7 @@ export function LocationPicker({
       </div>
       
       {/* Map */}
-      <div className="h-64 rounded-lg border border-border overflow-hidden">
+      <div className="relative h-64 max-h-[60vh] w-full rounded-lg border border-border overflow-hidden isolate">
         <Map center={mapCenter} zoom={markerPosition ? 15 : 11}>
           <MapControls
             position="bottom-right"

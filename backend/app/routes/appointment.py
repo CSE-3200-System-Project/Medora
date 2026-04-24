@@ -1417,16 +1417,16 @@ async def can_complete_appointment(
     if appointment.doctor_id != user_id:
         raise HTTPException(status_code=403, detail="You can only check appointments for your own profile")
 
-    # If not confirmed, cannot complete
-    if appointment.status != AppointmentStatus.CONFIRMED:
-        return {"can_complete": False, "reason": "Appointment is not CONFIRMED"}
+    completable_statuses = {
+        AppointmentStatus.CONFIRMED,
+        AppointmentStatus.PENDING,
+        AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
+        AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+    }
+    if appointment.status not in completable_statuses:
+        return {"can_complete": False, "reason": f"Status is {appointment.status.value}"}
 
-    now = datetime.now(timezone.utc)
-
-    if appointment.appointment_date <= now:
-        return {"can_complete": True, "reason": None}
-
-    return {"can_complete": False, "reason": "Appointment time has not passed yet"}
+    return {"can_complete": True, "reason": None}
 
 
 @router.patch("/{appointment_id}/complete")
@@ -1463,19 +1463,18 @@ async def complete_appointment(
     if appointment.doctor_id != user_id:
         raise HTTPException(status_code=403, detail="You can only complete your own appointments")
     
-    # Verify appointment is CONFIRMED
-    if appointment.status != AppointmentStatus.CONFIRMED:
+    # Allow completion from CONFIRMED or PENDING (doctors may manually mark
+    # complete if a patient showed up without formal confirmation).
+    completable_statuses = {
+        AppointmentStatus.CONFIRMED,
+        AppointmentStatus.PENDING,
+        AppointmentStatus.PENDING_DOCTOR_CONFIRMATION,
+        AppointmentStatus.PENDING_PATIENT_CONFIRMATION,
+    }
+    if appointment.status not in completable_statuses:
         raise HTTPException(
             status_code=400,
-            detail=f"Cannot complete appointment with status {appointment.status}. Must be CONFIRMED."
-        )
-    
-    # Verify appointment time has passed
-    now = datetime.now(timezone.utc)
-    if appointment.appointment_date > now:
-        raise HTTPException(
-            status_code=400,
-            detail="Cannot complete appointment before its scheduled time"
+            detail=f"Cannot complete appointment with status {appointment.status.value}."
         )
     
     # Mark as completed via state machine with audit trail

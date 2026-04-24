@@ -20,7 +20,7 @@ from storage3.exceptions import StorageApiError
 
 from app.core.ai_privacy import stable_hash_token
 from app.core.config import settings
-from app.core.dependencies import get_db, require_doctor
+from app.core.dependencies import get_db, require_doctor, resolve_profile
 from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import UserRole
 from app.db.models.medical_report import (
@@ -404,8 +404,7 @@ async def list_medical_reports(
 
     # Check permission: if querying another patient, must be a doctor
     if is_doctor_query:
-        profile_result = await db.execute(select(Profile).where(Profile.id == user.id))
-        profile = profile_result.scalar_one_or_none()
+        profile = await resolve_profile(db, user)
         if not profile or str(profile.role.value) != "doctor":
             raise HTTPException(status_code=403, detail="Only doctors can view other patients' reports")
 
@@ -478,8 +477,7 @@ async def get_medical_report(
 
     # Check permission
     if report.patient_id != user.id:
-        profile_result = await db.execute(select(Profile).where(Profile.id == user.id))
-        profile = profile_result.scalar_one_or_none()
+        profile = await resolve_profile(db, user)
         if not profile or str(profile.role.value) != "doctor":
             raise HTTPException(status_code=403, detail="Access denied")
         # Doctor: check sharing preferences
@@ -554,9 +552,8 @@ async def add_report_comment(
     await db.commit()
     await db.refresh(comment)
 
-    # Get doctor name
-    doc_profile = await db.execute(select(Profile).where(Profile.id == user.id))
-    doc = doc_profile.scalar_one_or_none()
+    # Get doctor name (cached on user by auth dep)
+    doc = await resolve_profile(db, user)
     doctor_name = None
     if doc:
         first = getattr(doc, "first_name", "") or ""

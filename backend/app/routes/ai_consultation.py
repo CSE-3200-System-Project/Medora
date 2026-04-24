@@ -332,11 +332,20 @@ async def _resolve_vapi_user_from_token(session_token: str, db: AsyncSession) ->
     )
 
 
-async def _require_doctor(db: AsyncSession, user_id: str) -> None:
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+async def _require_doctor(db: AsyncSession, user) -> Profile:
+    """Validate doctor role using the profile cached on user (from auth dep).
+
+    Callers may pass either the token user (with ``user.profile`` pre-loaded
+    by get_current_user_token) or a synthetic user (e.g. from VAPI) without a
+    profile attached — in which case we fall back to a DB lookup.
+    """
+    profile = getattr(user, "profile", None)
+    if profile is None:
+        result = await db.execute(select(Profile).where(Profile.id == user.id))
+        profile = result.scalar_one_or_none()
     if not profile or profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this resource")
+    return profile
 
 
 async def _require_doctor_ai_assistance_enabled(db: AsyncSession, doctor_id: str) -> None:
@@ -2638,7 +2647,7 @@ async def get_doctor_patient_assistant_summary(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     resolved_patient_id = await _resolve_patient_identifier_for_doctor(
         db,
         doctor_id=user.id,
@@ -4720,18 +4729,30 @@ async def list_chorui_conversations(
     )
     grouped_rows = grouped_result.all()
 
+    # Fetch the latest message for all conversations in ONE query instead of
+    # N separate SELECTs. We match each conversation's (id, max_created_at)
+    # tuple exactly — cheap on (user_id, conversation_id, created_at).
+    conversation_keys = [(row.conversation_id, row.updated_at) for row in grouped_rows]
+    latest_by_convo: dict[str, ChoruiChatMessage] = {}
+    if conversation_keys:
+        from sqlalchemy import tuple_ as sa_tuple
+        latest_rows = (
+            await db.execute(
+                select(ChoruiChatMessage).where(
+                    ChoruiChatMessage.user_id == user.id,
+                    sa_tuple(
+                        ChoruiChatMessage.conversation_id,
+                        ChoruiChatMessage.created_at,
+                    ).in_(conversation_keys),
+                )
+            )
+        ).scalars().all()
+        for msg in latest_rows:
+            latest_by_convo[msg.conversation_id] = msg
+
     conversations: list[ChoruiConversationSummary] = []
     for row in grouped_rows:
-        latest_result = await db.execute(
-            select(ChoruiChatMessage)
-            .where(
-                ChoruiChatMessage.user_id == user.id,
-                ChoruiChatMessage.conversation_id == row.conversation_id,
-            )
-            .order_by(ChoruiChatMessage.created_at.desc())
-            .limit(1)
-        )
-        latest = latest_result.scalar_one_or_none()
+        latest = latest_by_convo.get(row.conversation_id)
         if not latest:
             continue
 
@@ -4927,7 +4948,7 @@ async def get_ai_patient_summary(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     resolved_patient_id = await _resolve_patient_identifier_for_doctor(
         db,
         doctor_id=user.id,
@@ -5002,7 +5023,7 @@ async def get_ai_clinical_info(
     if not payload.patient_id:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="patient_id is required")
 
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     resolved_patient_id = await _resolve_patient_identifier_for_doctor(
         db,
         doctor_id=user.id,
@@ -5241,7 +5262,7 @@ async def voice_to_notes(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     resolved_patient_id = await _resolve_patient_identifier_for_doctor(
         db,
         doctor_id=user.id,

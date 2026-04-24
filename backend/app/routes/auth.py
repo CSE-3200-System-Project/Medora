@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text, update
@@ -9,14 +11,13 @@ from app.db.models.profile import Profile
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile 
 from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
-from app.core.avatar_defaults import generate_default_avatar_url, backfill_missing_avatar_urls
+from app.core.avatar_defaults import generate_default_avatar_url
 from sqlalchemy import select
 import os
 from types import SimpleNamespace
 from app.core.security import verify_jwt
 
 router = APIRouter()
-_avatar_backfill_completed = False
 
 
 async def _resolve_user_avatar_url(db: AsyncSession, user_id: str, role: UserRole | None) -> str:
@@ -42,18 +43,21 @@ class AuthCode(BaseModel):
 @router.post("/signup/patient", status_code=status.HTTP_201_CREATED)
 async def signup_patient(user_data: PatientSignup, db: AsyncSession = Depends(get_db)):
     try:
-        # 1. Create user in Supabase Auth
-        auth_response = supabase.auth.sign_up({
-            "email": user_data.email,
-            "password": user_data.password,
-            "options": {
-                "data": {
-                    "first_name": user_data.first_name,
-                    "last_name": user_data.last_name,
-                    "role": "patient"
-                }
-            }
-        })
+        # 1. Create user in Supabase Auth (supabase-py is sync → run in a thread).
+        auth_response = await asyncio.to_thread(
+            supabase.auth.sign_up,
+            {
+                "email": user_data.email,
+                "password": user_data.password,
+                "options": {
+                    "data": {
+                        "first_name": user_data.first_name,
+                        "last_name": user_data.last_name,
+                        "role": "patient",
+                    }
+                },
+            },
+        )
 
         if not auth_response.user:
             raise HTTPException(status_code=400, detail="Signup failed")
@@ -99,18 +103,21 @@ async def signup_patient(user_data: PatientSignup, db: AsyncSession = Depends(ge
 @router.post("/signup/doctor", status_code=status.HTTP_201_CREATED)
 async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_db)):
     try:
-        # 1. Create user in Supabase Auth
-        auth_response = supabase.auth.sign_up({
-            "email": user_data.email,
-            "password": user_data.password,
-            "options": {
-                "data": {
-                    "first_name": user_data.first_name,
-                    "last_name": user_data.last_name,
-                    "role": "doctor"
-                }
-            }
-        })
+        # 1. Create user in Supabase Auth (supabase-py is sync → run in a thread).
+        auth_response = await asyncio.to_thread(
+            supabase.auth.sign_up,
+            {
+                "email": user_data.email,
+                "password": user_data.password,
+                "options": {
+                    "data": {
+                        "first_name": user_data.first_name,
+                        "last_name": user_data.last_name,
+                        "role": "doctor",
+                    }
+                },
+            },
+        )
 
         if not auth_response.user:
             raise HTTPException(status_code=400, detail="Signup failed")
@@ -155,17 +162,13 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
 
 @router.post("/login")
 async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
-    global _avatar_backfill_completed
     try:
-        if not _avatar_backfill_completed:
-            await backfill_missing_avatar_urls(db)
-            await db.commit()
-            _avatar_backfill_completed = True
-
-        auth_response = supabase.auth.sign_in_with_password({
-            "email": user_data.email,
-            "password": user_data.password,
-        })
+        # Avatar backfill moved to startup lifespan — don't block user login.
+        # supabase-py is sync; run in a thread so we don't block the event loop.
+        auth_response = await asyncio.to_thread(
+            supabase.auth.sign_in_with_password,
+            {"email": user_data.email, "password": user_data.password},
+        )
         
         if not auth_response.user:
             raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -216,7 +219,7 @@ async def logout():
 async def get_current_user_token(authorization: str = Header(...), db: AsyncSession = Depends(get_db)):
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Invalid header format")
-    
+
     token = authorization.split(" ")[1]
     try:
         payload = await verify_jwt(token)
@@ -229,34 +232,31 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
             id=user_id,
             email=payload.get("email"),
             email_confirmed_at=payload.get("email_confirmed_at") or payload.get("confirmed_at"),
+            profile=None,
         )
     except HTTPException:
         raise
     except Exception:
         raise HTTPException(status_code=401, detail="Token verification failed")
-    try:
-        
-        # Check if user is banned
-        result = await db.execute(
-            select(Profile).where(Profile.id == user.id)
+
+    # Load the profile once and attach it to `user` so downstream role-guards
+    # and handlers don't have to re-query it. This is THE hot query — it runs
+    # on every authenticated request in the system.
+    result = await db.execute(select(Profile).where(Profile.id == user.id))
+    profile = result.scalar_one_or_none()
+
+    if profile and profile.status == AccountStatus.banned:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "code": "ACCOUNT_BANNED",
+                "message": "Your account has been suspended by the administrator.",
+                "reason": profile.ban_reason or "No reason provided",
+            },
         )
-        profile = result.scalar_one_or_none()
-        
-        if profile and profile.status == AccountStatus.banned:
-            raise HTTPException(
-                status_code=403,
-                detail={
-                    "code": "ACCOUNT_BANNED",
-                    "message": "Your account has been suspended by the administrator.",
-                    "reason": profile.ban_reason or "No reason provided",
-                },
-            )
-        
-        return user
-    except HTTPException:
-        raise
-    except Exception:
-        raise HTTPException(status_code=401, detail="Token verification failed")
+
+    user.profile = profile
+    return user
 
 @router.get("/me")
 async def get_my_profile(

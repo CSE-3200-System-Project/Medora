@@ -14,7 +14,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from pydantic import ValidationError
 
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.core.patient_reference import (
     patient_ref_from_uuid,
     resolve_doctor_patient_identifier,
@@ -912,10 +912,7 @@ async def start_consultation(
         )
         existing = result.scalars().first()  # Use first() to handle edge case of multiple rows
         if existing:
-            result = await db.execute(
-                select(Profile).where(Profile.id == user.id)
-            )
-            doctor_profile = result.scalar_one_or_none()
+            doctor_profile = await resolve_profile(db, user)
             return build_consultation_response(existing, doctor_profile)
         
         # Create consultation with an initialized draft record so draft_id is always present.
@@ -953,10 +950,7 @@ async def start_consultation(
         db.add(consultation)
         
         # Get doctor profile info for notification
-        result = await db.execute(
-            select(Profile).where(Profile.id == user.id)
-        )
-        doctor_profile = result.scalar_one_or_none()
+        doctor_profile = await resolve_profile(db, user)
         doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
         
         # Create notification for patient
@@ -1003,6 +997,9 @@ async def get_doctor_active_consultations(
             )
         )
         .order_by(Consultation.created_at.desc())
+        # Defensive cap: OPEN consultations should be a small working set, but
+        # never return more than this without pagination.
+        .limit(200)
     )
     consultations = result.scalars().all()
     
@@ -1342,11 +1339,8 @@ async def complete_consultation(
     consultation.completed_at = datetime.now(timezone.utc)
     await create_consultation_completed_action(db, consultation=consultation)
 
-    # Get doctor profile info
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    doctor_profile = result.scalar_one_or_none()
+    # Get doctor profile info (cached on user by auth dep)
+    doctor_profile = await resolve_profile(db, user)
     doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
 
     # Notify patient
@@ -1523,11 +1517,8 @@ async def complete_consultation(
     consultation.completed_at = datetime.now(timezone.utc)
     await create_consultation_completed_action(db, consultation=consultation)
     
-    # Get doctor profile info
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    doctor_profile = result.scalar_one_or_none()
+    # Get doctor profile info (cached on user by auth dep)
+    doctor_profile = await resolve_profile(db, user)
     doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
     
     # Notify patient
@@ -1996,11 +1987,8 @@ async def add_prescription(
         # Flush to get IDs before creating notification
         await db.flush()
         
-        # Get doctor profile for notification
-        result = await db.execute(
-            select(Profile).where(Profile.id == user.id)
-        )
-        doctor_profile = result.scalar_one_or_none()
+        # Get doctor profile for notification (cached on user by auth dep)
+        doctor_profile = await resolve_profile(db, user)
         doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
         
         # Create notification for patient
@@ -2271,11 +2259,8 @@ async def accept_prescription(
     prescription.accepted_at = datetime.now(timezone.utc)
     prescription.added_to_history = True
     
-    # Get patient profile for notification
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    patient_profile = result.scalar_one_or_none()
+    # Get patient profile for notification (cached on user by auth dep)
+    patient_profile = await resolve_profile(db, user)
     patient_name = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip() if patient_profile else "Your patient"
     
     # Notify doctor
@@ -2325,11 +2310,8 @@ async def reject_prescription(
     prescription.rejected_at = datetime.now(timezone.utc)
     prescription.rejection_reason = data.reason
     
-    # Get patient profile for notification
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    patient_profile = result.scalar_one_or_none()
+    # Get patient profile for notification (cached on user by auth dep)
+    patient_profile = await resolve_profile(db, user)
     patient_name = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip() if patient_profile else "Your patient"
     
     # Notify doctor

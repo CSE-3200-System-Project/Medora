@@ -167,10 +167,20 @@ def _score_chronic(conditions_count: int) -> tuple[int, int, str, str]:
     return 3, max_pts, "warning", f"{conditions_count} chronic conditions — prioritize regular follow-ups."
 
 
-async def _require_patient(db: AsyncSession, user_id: str) -> None:
-    profile = (await db.execute(select(Profile).where(Profile.id == user_id))).scalar_one_or_none()
+async def _require_patient(db: AsyncSession, user) -> Profile:
+    """Validate the caller is a patient and return the (cached) profile.
+
+    Reuses ``user.profile`` loaded by get_current_user_token to avoid a
+    redundant Profile lookup on every dashboard request.
+    """
+    profile = getattr(user, "profile", None)
+    if profile is None:
+        profile = (
+            await db.execute(select(Profile).where(Profile.id == user.id))
+        ).scalar_one_or_none()
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can access dashboard")
+    return profile
 
 
 @router.get("/dashboard", response_model=PatientDashboardResponse)
@@ -178,9 +188,7 @@ async def get_patient_dashboard(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
-
-    profile = (await db.execute(select(Profile).where(Profile.id == user.id))).scalar_one_or_none()
+    profile = await _require_patient(db, user)
     user_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() if profile else "Patient"
 
     patient_profile = (
@@ -199,23 +207,27 @@ async def get_patient_dashboard(
     ).scalars().all()
 
     doctor_ids = list({item.doctor_id for item in upcoming_appts})
-    doctor_profiles = {}
-    doctor_name_profiles = {}
-    speciality_map = {}
+    doctor_profiles: dict[str, DoctorProfile] = {}
+    doctor_name_profiles: dict[str, Profile] = {}
+    speciality_map: dict[str, Speciality] = {}
     if doctor_ids:
-        doctor_profiles = {
-            item.profile_id: item
-            for item in (await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids)))).scalars().all()
-        }
-        doctor_name_profiles = {
-            item.id: item for item in (await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))).scalars().all()
-        }
-        speciality_ids = [item.speciality_id for item in doctor_profiles.values() if item.speciality_id]
-        if speciality_ids:
-            speciality_map = {
-                item.id: item
-                for item in (await db.execute(select(Speciality).where(Speciality.id.in_(speciality_ids)))).scalars().all()
-            }
+        # Single LEFT JOIN fetches Profile + DoctorProfile + Speciality in one
+        # round-trip instead of three sequential IN queries.
+        doctor_rows = (
+            await db.execute(
+                select(Profile, DoctorProfile, Speciality)
+                .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
+                .outerjoin(Speciality, Speciality.id == DoctorProfile.speciality_id)
+                .where(Profile.id.in_(doctor_ids))
+            )
+        ).all()
+        for name_profile, doctor_profile, speciality in doctor_rows:
+            if name_profile is not None:
+                doctor_name_profiles[name_profile.id] = name_profile
+            if doctor_profile is not None:
+                doctor_profiles[doctor_profile.profile_id] = doctor_profile
+            if speciality is not None:
+                speciality_map[speciality.id] = speciality
 
     upcoming_appointments = []
     for item in upcoming_appts:
@@ -234,6 +246,7 @@ async def get_patient_dashboard(
                 appointment_date=item.appointment_date.isoformat(),
                 status=str(getattr(item.status, "value", item.status)),
                 reason=item.reason,
+                doctor_photo_url=doctor_profile.profile_photo_url if doctor_profile else None,
             )
         )
 
@@ -262,11 +275,15 @@ async def get_patient_dashboard(
 
     reminders = (
         await db.execute(
-            select(Reminder).where(
+            select(Reminder)
+            .where(
                 Reminder.user_id == user.id,
                 Reminder.type == ReminderType.MEDICATION,
                 Reminder.is_active == True,
             )
+            # Defensive cap: a single user is never expected to have hundreds
+            # of active medication reminders; this bounds the dashboard cost.
+            .limit(200)
         )
     ).scalars().all()
 

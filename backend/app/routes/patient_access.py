@@ -78,22 +78,18 @@ async def check_doctor_patient_access(
                 "patient_id": resolved_patient_id,
             }
     
-    # Check if doctor has any appointment with this patient
+    # Check if doctor has any appointment with this patient (any status — including
+    # CANCELLED or NO_SHOW — so the doctor retains access to historical records).
     appointment_query = await db.execute(
         select(Appointment).where(
             and_(
                 Appointment.doctor_id == doctor_id,
                 Appointment.patient_id == resolved_patient_id,
-                Appointment.status.in_([
-                    AppointmentStatus.PENDING,
-                    AppointmentStatus.CONFIRMED,
-                    AppointmentStatus.COMPLETED
-                ])
             )
         )
     )
     appointments = appointment_query.scalars().all()
-    
+
     if not appointments:
         return {
             "allowed": False,
@@ -238,6 +234,7 @@ async def get_patient_for_doctor(
             "patient_ref": patient_ref_from_uuid(resolved_patient_id),
         },
         priority=NotificationPriority.LOW,
+        dedup_window_seconds=60,
     )
     
     # Calculate age

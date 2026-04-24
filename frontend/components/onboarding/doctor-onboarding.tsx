@@ -1076,13 +1076,25 @@ export function DoctorOnboarding() {
                       : "No map pin selected yet"}
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Button type="button" variant="outline" size="sm" onClick={() => setMapPickerLocationId(location.id)}>
                       <MapPin className="mr-1 h-4 w-4" /> Pick on Map
                     </Button>
-                    <Button type="button" variant="outline" size="sm" onClick={() => setScheduleLocationId(location.id)}>
-                      Set Availability
+                    <Button
+                      type="button"
+                      variant={Object.keys(location.dayTimeSlots || {}).length > 0 ? "secondary" : "outline"}
+                      size="sm"
+                      onClick={() => setScheduleLocationId(location.id)}
+                    >
+                      {Object.keys(location.dayTimeSlots || {}).length > 0
+                        ? `Availability: ${Object.keys(location.dayTimeSlots).length} day(s)`
+                        : "Set Availability"}
                     </Button>
+                    {Object.keys(location.dayTimeSlots || {}).length > 0 && (
+                      <span className="text-xs text-muted-foreground">
+                        {Object.keys(location.dayTimeSlots).join(", ")}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -1478,7 +1490,7 @@ export function DoctorOnboarding() {
         </AnimatePresence>
 
         <Dialog open={Boolean(mapPickerLocationId)} onOpenChange={(open) => !open && setMapPickerLocationId(null)}>
-          <DialogContent fullScreenOnMobile className="sm:max-w-3xl">
+          <DialogContent fullScreenOnMobile className="sm:max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
             <DialogHeader>
               <DialogTitle>Pick Practice Location on Map</DialogTitle>
               <DialogDescription>
@@ -1487,7 +1499,7 @@ export function DoctorOnboarding() {
             </DialogHeader>
 
             {selectedMapLocation && (
-              <div className="space-y-4">
+              <div className="space-y-4 min-w-0">
                 <LocationPicker
                   label={selectedMapLocation.locationName || "Practice location"}
                   value={{
@@ -1521,7 +1533,7 @@ export function DoctorOnboarding() {
         </Dialog>
 
         <Dialog open={Boolean(scheduleLocationId)} onOpenChange={(open) => !open && setScheduleLocationId(null)}>
-          <DialogContent fullScreenOnMobile className="sm:max-w-4xl">
+          <DialogContent fullScreenOnMobile className="sm:max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
             <DialogHeader>
               <DialogTitle>Set Location Availability</DialogTitle>
               <DialogDescription>

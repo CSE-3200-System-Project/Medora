@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
-from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing
+from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, review
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
 from app.services import appointment_service
@@ -152,6 +152,28 @@ async def _run_hold_expiry_loop(stop_event: asyncio.Event) -> None:
             continue
 
 
+async def _run_auto_complete_loop(stop_event: asyncio.Event) -> None:
+    """Periodically auto-complete appointments whose scheduled time has passed."""
+    interval_seconds = int(os.getenv("APPOINTMENT_AUTO_COMPLETE_INTERVAL_SECONDS", "120"))
+
+    while not stop_event.is_set():
+        try:
+            async with AsyncSessionLocal() as db:
+                completed = await appointment_service.auto_complete_overdue_appointments(db)
+                if completed > 0:
+                    await db.commit()
+                    logger.info("Auto-completed %s overdue appointment(s)", completed)
+                else:
+                    await db.rollback()
+        except Exception as exc:
+            logger.warning("Auto-complete loop iteration failed: %s", exc)
+
+        try:
+            await asyncio.wait_for(stop_event.wait(), timeout=interval_seconds)
+        except asyncio.TimeoutError:
+            continue
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -179,6 +201,16 @@ async def lifespan(app: FastAPI):
     await _ensure_scheduling_schema_compatibility()
     await _ensure_health_data_consent_schema_compatibility()
 
+    # Startup: backfill missing avatar URLs once. Previously ran on first login
+    # which blocked the user; hoisting to startup keeps request paths clean.
+    try:
+        from app.core.avatar_defaults import backfill_missing_avatar_urls
+        async with AsyncSessionLocal() as _db:
+            await backfill_missing_avatar_urls(_db)
+            await _db.commit()
+    except Exception as exc:
+        logger.warning("Avatar backfill on startup failed: %s", exc)
+
     # Startup: begin reminder dispatch loop
     try:
         await start_reminder_dispatcher()
@@ -188,11 +220,16 @@ async def lifespan(app: FastAPI):
     hold_expiry_stop_event = asyncio.Event()
     hold_expiry_task = asyncio.create_task(_run_hold_expiry_loop(hold_expiry_stop_event))
 
+    auto_complete_stop_event = asyncio.Event()
+    auto_complete_task = asyncio.create_task(_run_auto_complete_loop(auto_complete_stop_event))
+
     yield  # Application runs
 
     # Shutdown: Cleanup (if needed)
     hold_expiry_stop_event.set()
+    auto_complete_stop_event.set()
     await hold_expiry_task
+    await auto_complete_task
     await stop_reminder_dispatcher()
     logger.info("Shutting down...")
 
@@ -261,3 +298,4 @@ app.include_router(patient_dashboard.router, prefix="/patient", tags=["Patient D
 app.include_router(health_data_consent.router, prefix="/health-data", tags=["Health Data Consent"])
 app.include_router(medical_report.router, prefix="/medical-reports", tags=["Medical Reports"])
 app.include_router(patient_data_sharing.router, prefix="/patient-data-sharing", tags=["Patient Data Sharing"])
+app.include_router(review.router, prefix="/reviews", tags=["Doctor Reviews"])

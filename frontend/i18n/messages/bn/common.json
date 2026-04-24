@@ -408,9 +408,9 @@
       "invalidFile": "দয়া করে JPG, PNG, WEBP ছবি বা PDF ফাইল আপলোড করুন।",
       "extractionFailed": "এক্সট্র্যাকশন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
       "unknownMedicine": "অজানা ওষুধ",
-      "dosageLabel": "ডোজ: {value}",
+      "dosageLabel": "ডোজ: ",
       "frequencyLabel": "ফ্রিকোয়েন্সি: {value}",
-      "quantityLabel": "পরিমাণ: {value}",
+      "quantityLabel": "পরিমাণ: ",
       "noReadable": "পড়ারযোগ্য কোনো লেখা পাওয়া যায়নি।"
     },
     "addDialog": {

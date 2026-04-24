@@ -75,7 +75,25 @@ export function AdminNotifications() {
     }
     setOpen(false);
     if (notification.action_url) {
-      router.push(notification.action_url);
+      try {
+        router.push(notification.action_url);
+      } catch (error) {
+        console.error(`Failed to navigate to ${notification.action_url}:`, error);
+        // Fallback to admin dashboard
+        router.push("/admin");
+      }
+    } else {
+      // Fallback: navigate to relevant admin page based on notification type
+      const defaultRoutes: Record<string, string> = {
+        "appointment_booked": "/admin/appointments",
+        "appointment_confirmed": "/admin/appointments",
+        "appointment_cancelled": "/admin/appointments",
+        "doctor_verification_pending": "/admin/doctors",
+        "doctor_verified": "/admin/doctors",
+        "patient_registered": "/admin/patients",
+      };
+      const fallbackRoute = defaultRoutes[notification.type] || "/admin";
+      router.push(fallbackRoute);
     }
     fetchNotifications();
   };

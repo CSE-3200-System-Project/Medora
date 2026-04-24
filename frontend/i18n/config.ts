@@ -19,6 +19,7 @@ export const I18N_NAMESPACES = [
   "voice",
   "consultation",
   "prescription",
+  "onboarding",
 ] as const;
 export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
 
@@ -45,6 +46,10 @@ export function getNamespacesForPath(pathname: string | null | undefined): I18nN
     normalized.startsWith("/auth")
   ) {
     return ["common", "auth"];
+  }
+
+  if (normalized.includes("/onboarding")) {
+    return ["common", "auth", "onboarding"];
   }
 
   if (normalized.startsWith("/settings")) {

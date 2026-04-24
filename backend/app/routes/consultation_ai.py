@@ -34,11 +34,15 @@ from app.services.ai_orchestrator import (
 router = APIRouter()
 
 
-async def _require_doctor(db: AsyncSession, user_id: str) -> None:
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+async def _require_doctor(db: AsyncSession, user) -> Profile:
+    """Validate doctor role using the profile cached on user (from auth dep)."""
+    profile = getattr(user, "profile", None)
+    if profile is None:
+        result = await db.execute(select(Profile).where(Profile.id == user.id))
+        profile = result.scalar_one_or_none()
     if not profile or profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this resource")
+    return profile
 
 
 async def _get_doctor_consultation(db: AsyncSession, consultation_id: str, doctor_id: str) -> Consultation:
@@ -188,7 +192,7 @@ async def ai_patient_summary(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
@@ -219,7 +223,7 @@ async def ai_structure_intake(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
@@ -250,7 +254,7 @@ async def ai_generate_soap_notes(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
@@ -281,7 +285,7 @@ async def ai_clinical_query(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
@@ -312,7 +316,7 @@ async def ai_prescription_suggestions(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
@@ -343,7 +347,7 @@ async def ai_feedback(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
 
     result = await db.execute(
@@ -380,7 +384,7 @@ async def consultation_safety_check(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_doctor(db, user.id)
+    await _require_doctor(db, user)
     consultation = await _get_doctor_consultation(db, consultation_id, user.id)
     await _require_consultation_ai_permissions(db, consultation)
 
