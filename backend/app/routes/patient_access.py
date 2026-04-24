@@ -233,8 +233,7 @@ async def get_patient_for_doctor(
             "timestamp": datetime.utcnow().isoformat(),
             "patient_ref": patient_ref_from_uuid(resolved_patient_id),
         },
-        priority=NotificationPriority.LOW,
-        dedup_window_seconds=60,
+        priority=NotificationPriority.LOW
     )
     
     # Calculate age
