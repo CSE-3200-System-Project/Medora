@@ -1,7 +1,8 @@
 """Centralized notification dispatch for appointment events."""
 
 from typing import Optional
-from sqlalchemy import select
+from datetime import datetime, timedelta
+from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models.notification import Notification, NotificationType, NotificationPriority
 from app.db.models.profile import Profile
@@ -18,8 +19,41 @@ async def create_notification(
     metadata: Optional[dict] = None,
     priority: NotificationPriority = NotificationPriority.MEDIUM,
     target_role: Optional[str] = None,
+    dedup_window_seconds: int = 0,
 ) -> Notification:
-    """Create and persist a notification. Core helper used by all notify_* functions."""
+    """Create and persist a notification. Core helper used by all notify_* functions.
+
+    Args:
+        dedup_window_seconds: If > 0, skip creation if same type/user notification exists within this window.
+    """
+    # Check for recent duplicate notifications if dedup window is specified
+    if dedup_window_seconds > 0:
+        cutoff_time = datetime.utcnow() - timedelta(seconds=dedup_window_seconds)
+        recent_dup = await db.execute(
+            select(Notification).where(
+                and_(
+                    Notification.user_id == user_id,
+                    Notification.type == notification_type,
+                    Notification.created_at >= cutoff_time,
+                )
+            ).limit(1)
+        )
+        if recent_dup.scalar_one_or_none():
+            # Duplicate found, return empty notification (or you could return the existing one)
+            # Create a "dummy" notification object for consistency
+            dummy = Notification(
+                id=str(uuid.uuid4()),
+                user_id=user_id,
+                type=notification_type,
+                priority=priority,
+                title=title,
+                message=message,
+                action_url=action_url,
+                data=metadata,
+                target_role=target_role,
+            )
+            return dummy
+
     if target_role is None:
         # Derive from the owning profile so admin UIs can filter by role
         # without a join on every read.
@@ -55,19 +89,29 @@ async def notify_all_admins(
     """Fan a single event out to every admin account. Returns how many rows were created."""
     result = await db.execute(select(Profile.id).where(Profile.role == "admin"))
     admin_ids = [row[0] for row in result.all()]
-    for admin_id in admin_ids:
-        await create_notification(
-            db=db,
+    if not admin_ids:
+        return 0
+
+    # Build all notifications in one pass, add them as a batch, flush once.
+    # Previously we called create_notification() per admin, which issued one
+    # flush round-trip per recipient.
+    notifications = [
+        Notification(
+            id=str(uuid.uuid4()),
             user_id=admin_id,
-            notification_type=notification_type,
+            type=notification_type,
+            priority=priority,
             title=title,
             message=message,
             action_url=action_url,
-            metadata=metadata,
-            priority=priority,
+            data=metadata,
             target_role="admin",
         )
-    return len(admin_ids)
+        for admin_id in admin_ids
+    ]
+    db.add_all(notifications)
+    await db.flush()
+    return len(notifications)
 
 
 async def notify_appointment_created(

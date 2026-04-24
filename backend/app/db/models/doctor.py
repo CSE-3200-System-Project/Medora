@@ -105,6 +105,11 @@ class DoctorProfile(Base):
     telemedicine_available: Mapped[bool] = mapped_column(Boolean, default=False)
     telemedicine_platforms: Mapped[list | None] = mapped_column(JSON)
 
+    # === REVIEW AGGREGATES (denormalized for fast search ranking) ===
+    # Recomputed on review create/update/delete via review_service.recompute_doctor_rating.
+    rating_avg: Mapped[float] = mapped_column(Float, default=0.0, server_default='0', nullable=False)
+    rating_count: Mapped[int] = mapped_column(Integer, default=0, server_default='0', nullable=False)
+
     ai_interactions: Mapped[list["AIInteraction"]] = relationship("AIInteraction", back_populates="doctor")
 
     created_at: Mapped[datetime] = mapped_column(

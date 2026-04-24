@@ -22,16 +22,16 @@ export default function SelectionPage() {
         </div>
 
         {/* Doctor Section */}
-        <Link 
-          href="/doctor/register" 
+        <Link
+          href="/doctor/register"
           className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-70 sm:min-h-80 xl:min-h-0 bg-linear-to-br from-primary to-primary-muted"
         >
           <Image
             src={doctorImg}
             alt="Doctor"
             fill
-            sizes="(max-width: 767px) 1px, (max-width: 1279px) 100vw, 50vw"
-            className="hidden md:block object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1279px) 100vw, 50vw"
+            className="object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
             loading="lazy"
             fetchPriority="low"
           />
@@ -55,16 +55,16 @@ export default function SelectionPage() {
         </Link>
 
         {/* Patient Section */}
-        <Link 
-          href="/patient/register" 
+        <Link
+          href="/patient/register"
           className="relative flex-1 group overflow-hidden rounded-2xl xl:rounded-3xl shadow-xl min-h-70 sm:min-h-80 xl:min-h-0 bg-linear-to-br from-primary-muted to-primary"
         >
           <Image
             src={patientImg}
             alt="Patient"
             fill
-            sizes="(max-width: 767px) 1px, (max-width: 1279px) 100vw, 50vw"
-            className="hidden md:block object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1279px) 100vw, 50vw"
+            className="object-cover transition-none md:transition-transform md:duration-700 motion-reduce:transition-none md:group-hover:scale-105"
             loading="lazy"
             fetchPriority="low"
           />

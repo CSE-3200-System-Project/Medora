@@ -36,10 +36,12 @@ logger = logging.getLogger(__name__)
 
 
 async def _require_patient(user, db: AsyncSession) -> Profile:
-    """Verify the current user is a patient."""
-    profile = (
-        await db.execute(select(Profile).where(Profile.id == user.id))
-    ).scalar_one_or_none()
+    """Verify the current user is a patient, reusing the cached profile if available."""
+    profile = getattr(user, "profile", None)
+    if profile is None:
+        profile = (
+            await db.execute(select(Profile).where(Profile.id == user.id))
+        ).scalar_one_or_none()
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

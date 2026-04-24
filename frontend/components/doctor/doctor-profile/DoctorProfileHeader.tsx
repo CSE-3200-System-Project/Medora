@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import Image from "next/image";
-import { Bookmark, CheckCircle2, Share2 } from "lucide-react";
+import { Bookmark, CheckCircle2, Share2, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +26,8 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
   const experienceText = doctor.years_of_experience
     ? tCommon("doctorProfile.header.yearsPlus", { count: doctor.years_of_experience })
     : tCommon("doctorProfile.header.notAvailable");
-  const successRate = "98%";
+  const ratingAvg = doctor.rating_avg ?? 0;
+  const ratingCount = doctor.rating_count ?? 0;
 
   return (
     <section className="space-y-4 animate-fade-in-up">
@@ -91,8 +92,18 @@ export const DoctorProfileHeader = memo(function DoctorProfileHeader({ doctor, o
               <p className="mt-1 text-xl font-semibold text-foreground">{experienceText}</p>
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.successRate")}</p>
-              <p className="mt-1 text-xl font-semibold text-foreground">{successRate}</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Patient Rating</p>
+              {ratingCount > 0 ? (
+                <p className="mt-1 flex items-center gap-1.5 text-xl font-semibold text-foreground">
+                  <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+                  <span className="tabular-nums">{ratingAvg.toFixed(1)}</span>
+                  <span className="text-sm font-normal text-muted-foreground">
+                    ({ratingCount})
+                  </span>
+                </p>
+              ) : (
+                <p className="mt-1 text-sm font-medium text-muted-foreground">No reviews yet</p>
+              )}
             </div>
             <div className="rounded-xl border border-border bg-muted/30 p-4 dark:bg-card/50">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{tCommon("doctorProfile.header.status")}</p>

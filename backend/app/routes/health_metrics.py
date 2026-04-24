@@ -25,10 +25,16 @@ from app.schemas.health_metric import (
 router = APIRouter()
 
 
-async def _require_patient(db: AsyncSession, user_id: str) -> None:
-    profile = (await db.execute(select(Profile).where(Profile.id == user_id))).scalar_one_or_none()
+async def _require_patient(db: AsyncSession, user) -> Profile:
+    """Validate patient role using the profile cached on user (from auth dep)."""
+    profile = getattr(user, "profile", None)
+    if profile is None:
+        profile = (
+            await db.execute(select(Profile).where(Profile.id == user.id))
+        ).scalar_one_or_none()
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can access health metrics")
+    return profile
 
 
 @router.post("/", response_model=HealthMetricResponse, status_code=status.HTTP_201_CREATED)
@@ -37,7 +43,7 @@ async def create_health_metric(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     metric = HealthMetric(
         user_id=user.id,
@@ -64,7 +70,7 @@ async def list_health_metrics(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     filters = [HealthMetric.user_id == user.id]
     if metric_type:
@@ -95,7 +101,7 @@ async def get_today_metrics(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     now = datetime.now(timezone.utc)
     start_of_day = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
@@ -140,7 +146,7 @@ async def get_metric_trends(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     since = datetime.now(timezone.utc) - timedelta(days=days)
     filters = [HealthMetric.user_id == user.id, HealthMetric.recorded_at >= since]
@@ -197,7 +203,7 @@ async def update_health_metric(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     metric = (
         await db.execute(select(HealthMetric).where(HealthMetric.id == metric_id, HealthMetric.user_id == user.id))
@@ -227,7 +233,7 @@ async def delete_health_metric(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    await _require_patient(db, user.id)
+    await _require_patient(db, user)
 
     metric = (
         await db.execute(select(HealthMetric).where(HealthMetric.id == metric_id, HealthMetric.user_id == user.id))

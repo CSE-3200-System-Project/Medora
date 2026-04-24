@@ -33,6 +33,8 @@ export interface BackendDoctorProfile {
   appointment_duration?: number | null;
   available_days?: string[] | null;
   day_time_slots?: Record<string, string[]> | null;
+  rating_avg?: number;
+  rating_count?: number;
 }
 
 export interface DateOption {

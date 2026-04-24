@@ -66,18 +66,26 @@ async def send_push_to_user(
         "data": data or {},
     }
 
+    # Dispatch all pushes concurrently. Each _send_single_push offloads its
+    # blocking webpush call to a thread, so gather() lets N devices deliver in
+    # parallel instead of serially (typical users have 2-5 subscriptions).
+    results = await asyncio.gather(
+        *(_send_single_push(sub, payload) for sub in subscriptions),
+        return_exceptions=True,
+    )
+
     sent_count = 0
-    for subscription in subscriptions:
-        try:
-            await _send_single_push(subscription, payload)
+    now = datetime.now(timezone.utc)
+    for subscription, outcome in zip(subscriptions, results):
+        if isinstance(outcome, WebPushException):  # type: ignore[misc]
+            _mark_push_failure(subscription, outcome)
+        elif isinstance(outcome, Exception):
+            logger.warning("Unexpected push dispatch error: %s", outcome)
+            _mark_push_failure(subscription, outcome)
+        else:
             subscription.failure_count = 0
-            subscription.last_success_at = datetime.now(timezone.utc)
+            subscription.last_success_at = now
             sent_count += 1
-        except WebPushException as exc:  # type: ignore[misc]
-            _mark_push_failure(subscription, exc)
-        except Exception as exc:
-            logger.warning("Unexpected push dispatch error: %s", exc)
-            _mark_push_failure(subscription, exc)
 
     return sent_count
 

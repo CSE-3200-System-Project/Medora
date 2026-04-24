@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { MapPin, Clock, Video, Stethoscope, Sparkles, Navigation } from "lucide-react";
+import { MapPin, Clock, Video, Stethoscope, Sparkles, Navigation, Star } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,8 @@ interface DoctorCardProps {
     reason?: string;
     score?: number;
     distance_km?: number;
+    rating_avg?: number;
+    rating_count?: number;
   };
 }
 
@@ -75,6 +77,17 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
                     <Stethoscope className="h-4 w-4" />
                     <span className="text-sm">{doctor.specialization}</span>
                   </div>
+                  {(doctor.rating_count ?? 0) > 0 && (
+                    <div className="flex items-center justify-center sm:justify-start gap-1 mt-1 text-sm">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      <span className="font-semibold tabular-nums text-foreground">
+                        {(doctor.rating_avg ?? 0).toFixed(1)}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        ({doctor.rating_count})
+                      </span>
+                    </div>
+                  )}
                 </div>
                 
                 {/* Experience & Distance badges - hidden on mobile, shown on sm+ */}

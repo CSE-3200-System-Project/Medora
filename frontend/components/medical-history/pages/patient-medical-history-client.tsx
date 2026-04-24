@@ -37,6 +37,7 @@ import {
   AlertTriangle,
   ArrowRight,
   MessageSquare,
+  UserRound,
   X,
   ImageIcon,
   ArrowLeft,
@@ -106,6 +107,14 @@ const SurgeryManager = dynamic(
 const MedicalTestSearch = dynamic(
   () => import("@/components/medical-test").then((module) => module.MedicalTestSearch),
   { ssr: false, loading: () => <CardSkeleton className="h-10 w-full rounded-md" /> },
+);
+
+const PreviouslyVisitedDoctorsTab = dynamic(
+  () =>
+    import("@/components/medical-history/previously-visited-doctors-tab").then(
+      (m) => m.PreviouslyVisitedDoctorsTab,
+    ),
+  { loading: () => <CardSkeleton className="h-32 w-full rounded-lg" /> },
 );
 
 const EnhancedMedicalHistoryTimeline = dynamic(
@@ -1741,6 +1750,11 @@ function PatientMedicalHistoryPage() {
               <span className="hidden sm:inline">{tCommon("medicalHistory.tabs.labReports")}</span>
               <span className="sm:hidden">{tCommon("medicalHistory.tabs.reportsShort")}</span>
             </TabsTrigger>
+            <TabsTrigger value="doctors" className="h-11 shrink-0 whitespace-nowrap px-3 text-xs data-[state=active]:bg-background sm:text-sm">
+              <UserRound className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Previously Visited Doctors</span>
+              <span className="sm:hidden">Doctors</span>
+            </TabsTrigger>
           </TabsList>
 
           {/* Medications Tab */}
@@ -3046,6 +3060,11 @@ function PatientMedicalHistoryPage() {
                 </div>
               </div>
             ) : null}
+          </TabsContent>
+
+          {/* Previously Visited Doctors Tab */}
+          <TabsContent value="doctors" className="mt-0 space-y-6">
+            {activeTab === "doctors" ? <PreviouslyVisitedDoctorsTab /> : null}
           </TabsContent>
         </Tabs>
 

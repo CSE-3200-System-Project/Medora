@@ -25,7 +25,9 @@ class DoctorCardSchema(BaseModel):
     visiting_hours: Optional[str] = None
     available_days: Optional[List[Any]] = None
     consultation_mode: Optional[str] = None
-    
+    rating_avg: float = 0.0
+    rating_count: int = 0
+
     class Config:
         from_attributes = True
 
@@ -110,7 +112,11 @@ class DoctorProfileResponse(BaseModel):
     languages_spoken: Optional[List[str]] = None
     emergency_availability: bool = False
     telemedicine_available: bool = False
-    
+
+    # Review aggregates (populated from denormalized fields on DoctorProfile)
+    rating_avg: float = 0.0
+    rating_count: int = 0
+
     class Config:
         from_attributes = True
 

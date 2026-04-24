@@ -8,6 +8,7 @@ class PatientDashboardAppointment(BaseModel):
     appointment_date: str
     status: str
     reason: str | None = None
+    doctor_photo_url: str | None = None
 
 
 class PatientDashboardMedicationTrend(BaseModel):

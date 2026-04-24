@@ -114,16 +114,16 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
 
   return (
     <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 relative animate-page-enter">
-      {/* Admin Access Button */}
-      <button
-        onClick={() => setShowAdminDialog(true)}
-        className="fixed top-3 right-3 sm:top-4 sm:right-4 size-11 sm:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-50"
-        aria-label={tAuth("adminAccess")}
-      >
-        <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
-      </button>
+      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border relative">
+        {/* Admin Access Button - Mobile: Top-right of card, Desktop: Left side */}
+        <button
+          onClick={() => setShowAdminDialog(true)}
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 xl:left-1/2 xl:top-1/2 xl:-translate-x-32 xl:-translate-y-1/2 xl:right-auto size-11 sm:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-40"
+          aria-label={tAuth("adminAccess")}
+        >
+          <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />
+        </button>
 
-      <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border">
         <div className="flex flex-col xl:flex-row min-h-[clamp(34rem,70vh,46rem)]">
           <div className="relative hidden xl:block w-full xl:w-1/2 h-60 sm:h-72 md:h-80 xl:h-auto bg-primary overflow-hidden shrink-0">
             <div className="absolute inset-0">
@@ -131,7 +131,7 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
                 src={activeImage.src}
                 alt={activeImage.alt}
                 fill
-                sizes="(max-width: 1279px) 1px, 50vw"
+                sizes="(max-width: 1279px) 0px, 50vw"
                 className="object-cover"
                 priority={isPrimaryHeroImage}
                 loading={isPrimaryHeroImage ? "eager" : "lazy"}

@@ -15,8 +15,12 @@ import { DoctorSpecializationsCard } from "@/components/doctor/doctor-profile/Do
 import { DoctorProfessionalDetailsCard } from "@/components/doctor/doctor-profile/DoctorProfessionalDetailsCard";
 import { DoctorPracticeLocations } from "@/components/doctor/doctor-profile/DoctorPracticeLocations";
 import { AppointmentBookingCard } from "@/components/doctor/doctor-profile/AppointmentBookingCard";
+import { DoctorReviewsSection } from "@/components/doctor/doctor-profile/DoctorReviewsSection";
+import { getCurrentUser } from "@/lib/auth-actions";
 import { toast } from "@/lib/notify";
 import { useT } from "@/i18n/client";
+
+type ViewerRole = "patient" | "doctor" | "admin" | "guest";
 
 interface DoctorProfileAppointmentPageProps {
   doctorId: string;
@@ -27,6 +31,25 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
   const [doctor, setDoctor] = React.useState<BackendDoctorProfile | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [viewerRole, setViewerRole] = React.useState<ViewerRole>("guest");
+
+  React.useEffect(() => {
+    let cancelled = false;
+    getCurrentUser()
+      .then((u) => {
+        if (cancelled) return;
+        const role = typeof u?.role === "string" ? (u.role as string).toLowerCase() : null;
+        if (role === "patient" || role === "doctor" || role === "admin") {
+          setViewerRole(role);
+        } else {
+          setViewerRole("guest");
+        }
+      })
+      .catch(() => setViewerRole("guest"));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   React.useEffect(() => {
     async function fetchDoctorProfile() {
@@ -122,6 +145,11 @@ export function DoctorProfileAppointmentPage({ doctorId }: DoctorProfileAppointm
             <DoctorSpecializationsCard doctor={doctor} />
             <DoctorProfessionalDetailsCard doctor={doctor} />
             <DoctorPracticeLocations locations={locations} />
+            <DoctorReviewsSection
+              doctorId={doctor.profile_id}
+              doctorName={`${doctor.title ? doctor.title + " " : ""}${doctor.first_name} ${doctor.last_name}`.trim()}
+              viewerRole={viewerRole}
+            />
           </section>
 
           <aside className="lg:col-span-4">

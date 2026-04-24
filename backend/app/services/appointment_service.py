@@ -1546,6 +1546,57 @@ async def expire_pending_holds(
     return expired_count
 
 
+async def auto_complete_overdue_appointments(
+    db: AsyncSession,
+    *,
+    now_utc: Optional[datetime] = None,
+    grace_minutes: int = 15,
+    limit: int = 200,
+) -> int:
+    """Automatically mark CONFIRMED appointments as COMPLETED once their
+    scheduled end time + a grace period has passed. Returns the number of
+    appointments transitioned.
+    """
+    now = now_utc or datetime.now(timezone.utc)
+    # An appointment becomes eligible after: appointment_date + duration_minutes + grace.
+    # duration_minutes may be null; treat as 30.
+    result = await db.execute(
+        select(Appointment)
+        .where(
+            Appointment.status == AppointmentStatus.CONFIRMED,
+            Appointment.appointment_date.is_not(None),
+        )
+        .order_by(Appointment.appointment_date.asc())
+        .limit(limit)
+        .with_for_update(skip_locked=True)
+    )
+    candidates = result.scalars().all()
+
+    completed = 0
+    for appointment in candidates:
+        appt_time = appointment.appointment_date
+        if appt_time.tzinfo is None:
+            appt_time = appt_time.replace(tzinfo=timezone.utc)
+        duration = appointment.duration_minutes or 30
+        eligible_at = appt_time + timedelta(minutes=duration + grace_minutes)
+        if eligible_at > now:
+            continue
+        try:
+            await transition_status(
+                db,
+                appointment_id=appointment.id,
+                new_status=AppointmentStatus.COMPLETED,
+                performed_by_id=appointment.doctor_id,
+                performed_by_role="system",
+                notes="AUTO_COMPLETED",
+            )
+            completed += 1
+        except ValueError:
+            continue
+
+    return completed
+
+
 async def get_audit_logs(
     db: AsyncSession,
     appointment_id: Optional[str] = None,

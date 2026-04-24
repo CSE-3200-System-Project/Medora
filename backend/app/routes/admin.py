@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Header
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import func, select, update
 from sqlalchemy.orm import aliased
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
@@ -70,15 +70,12 @@ async def require_admin(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
-    """Verify that the current user is an admin"""
-    result = await db.execute(
-        select(Profile).where(Profile.id == user.id)
-    )
-    profile = result.scalar()
-    
+    """Verify that the current user is an admin (reuses cached profile)."""
+    profile = await resolve_profile(db, user)
+
     if not profile or profile.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
-    
+
     return profile
 
 # ---------------------------------------------------------------------------
@@ -336,28 +333,58 @@ async def get_admin_stats(
     try:
         from app.db.models.appointment import Appointment, AppointmentStatus
         from datetime import timedelta
-        total_users_result = await db.execute(select(func.count(Profile.id)))
-        total_users = total_users_result.scalar() or 0
 
-        role_counts_result = await db.execute(
-            select(Profile.role, func.count(Profile.id)).group_by(Profile.role)
-        )
-        role_counts = {row[0]: row[1] for row in role_counts_result.all()}
-
-        doctor_verification_result = await db.execute(
-            select(Profile.verification_status, func.count(Profile.id))
-            .where(Profile.role == UserRole.DOCTOR)
-            .group_by(Profile.verification_status)
-        )
-        verification_counts = {row[0]: row[1] for row in doctor_verification_result.all()}
-
-        patients_with_onboarding_result = await db.execute(
-            select(func.count(Profile.id)).where(
-                Profile.role == UserRole.PATIENT,
-                Profile.onboarding_completed.is_(True),
+        # Profile breakdown: 4 queries → 1 with FILTER aggregates.
+        week_ago = datetime.utcnow() - timedelta(days=7)
+        profile_stats_row = (
+            await db.execute(
+                select(
+                    func.count(Profile.id).label("total_users"),
+                    func.count(Profile.id).filter(Profile.role == UserRole.DOCTOR).label("total_doctors"),
+                    func.count(Profile.id).filter(Profile.role == UserRole.PATIENT).label("total_patients"),
+                    func.count(Profile.id)
+                    .filter(
+                        Profile.role == UserRole.DOCTOR,
+                        Profile.verification_status == VerificationStatus.verified,
+                    )
+                    .label("verified_doctors"),
+                    func.count(Profile.id)
+                    .filter(
+                        Profile.role == UserRole.DOCTOR,
+                        Profile.verification_status == VerificationStatus.pending,
+                    )
+                    .label("pending_doctors"),
+                    func.count(Profile.id)
+                    .filter(
+                        Profile.role == UserRole.DOCTOR,
+                        Profile.verification_status == VerificationStatus.rejected,
+                    )
+                    .label("rejected_doctors"),
+                    func.count(Profile.id)
+                    .filter(
+                        Profile.role == UserRole.PATIENT,
+                        Profile.onboarding_completed.is_(True),
+                    )
+                    .label("patients_with_onboarding"),
+                    func.count(Profile.id)
+                    .filter(Profile.created_at >= week_ago)
+                    .label("recent_registrations"),
+                )
             )
-        )
-        patients_with_onboarding = patients_with_onboarding_result.scalar() or 0
+        ).one()
+
+        total_users = int(profile_stats_row.total_users or 0)
+        role_counts = {
+            UserRole.DOCTOR: int(profile_stats_row.total_doctors or 0),
+            UserRole.PATIENT: int(profile_stats_row.total_patients or 0),
+        }
+        verification_counts = {
+            VerificationStatus.verified: int(profile_stats_row.verified_doctors or 0),
+            VerificationStatus.pending: int(profile_stats_row.pending_doctors or 0),
+            VerificationStatus.rejected: int(profile_stats_row.rejected_doctors or 0),
+        }
+        patients_with_onboarding = int(profile_stats_row.patients_with_onboarding or 0)
+        recent_registrations = int(profile_stats_row.recent_registrations or 0)
 
         appointment_stats_result = await db.execute(
             select(
@@ -377,12 +404,6 @@ async def get_admin_stats(
             )
         )
         appointment_stats = appointment_stats_result.one()
-
-        week_ago = datetime.utcnow() - timedelta(days=7)
-        recent_users_result = await db.execute(
-            select(func.count(Profile.id)).where(Profile.created_at >= week_ago)
-        )
-        recent_registrations = recent_users_result.scalar() or 0
 
         return {
             "total_users": total_users,
@@ -881,6 +902,7 @@ async def update_patient(
 async def ban_patient(
     patient_id: uuid.UUID,
     payload: BanPatientRequest,
+    background_tasks: BackgroundTasks,
     x_admin_user_id: str | None = Header(default=None),
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
@@ -907,7 +929,14 @@ async def ban_patient(
     await db.commit()
 
     full_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() or "Patient"
-    send_account_suspension_email(to_email=profile.email or "", full_name=full_name, reason=reason)
+    # Dispatch SMTP off-request — smtplib is blocking and the admin should not
+    # wait for mail server round-trips.
+    background_tasks.add_task(
+        send_account_suspension_email,
+        to_email=profile.email or "",
+        full_name=full_name,
+        reason=reason,
+    )
 
     return {"status": "banned", "patient_id": patient_id_str, "reason": reason}
 
@@ -953,6 +982,14 @@ async def bulk_patient_action(
 ):
     if not payload.patient_ids:
         raise HTTPException(status_code=400, detail="No patient IDs provided")
+
+    # Cap the batch to avoid massive IN clauses that can slow the planner.
+    MAX_BULK_PATIENTS = 500
+    if len(payload.patient_ids) > MAX_BULK_PATIENTS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Bulk action limited to {MAX_BULK_PATIENTS} patients per request",
+        )
 
     result = await db.execute(
         select(Profile)

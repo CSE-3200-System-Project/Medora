@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin, Plus, Stethoscope, Navigation, Clock, Route, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -268,11 +268,11 @@ function LocationPopupContent({
   );
 }
 
-export function MapView({ 
-  doctors = [], 
+export function MapView({
+  doctors = [],
   className,
   userLocation,
-  onDoctorSelect 
+  onDoctorSelect
 }: MapViewProps) {
   const tCommon = useT("common");
   const [selectedLocation, setSelectedLocation] = useState<DoctorLocation | null>(null);
@@ -280,6 +280,24 @@ export function MapView({
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
   const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
   const [routeError, setRouteError] = useState<string | null>(null);
+  // Internal fallback so the map can function even if parent didn't pass userLocation.
+  // Populated from browser geolocation on mount (if permitted) and from the locate button.
+  const [internalLocation, setInternalLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const effectiveLocation = userLocation ?? internalLocation;
+
+  useEffect(() => {
+    if (userLocation || internalLocation) return;
+    if (typeof navigator === "undefined" || !("geolocation" in navigator)) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setInternalLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude });
+      },
+      () => {
+        // User denied or unavailable — stay null; the locate button can retry.
+      },
+      { maximumAge: 5 * 60 * 1000, timeout: 8000 },
+    );
+  }, [userLocation, internalLocation]);
 
   // Convert doctors to locations (hospital + chamber + generic lat/lng)
   const allLocations: DoctorLocation[] = React.useMemo(() => {
@@ -361,25 +379,25 @@ export function MapView({
 
   // Calculate map center - prioritize patient location, then doctor locations
   const mapCenter = React.useMemo(() => {
-    if (userLocation) {
-      return [userLocation.longitude, userLocation.latitude] as [number, number];
+    if (effectiveLocation) {
+      return [effectiveLocation.longitude, effectiveLocation.latitude] as [number, number];
     }
-    
+
     if (allLocations.length === 0) return DEFAULT_CENTER;
-    
+
     // Calculate centroid of all doctor locations
     let sumLng = 0, sumLat = 0;
     allLocations.forEach(loc => {
       sumLng += loc.longitude;
       sumLat += loc.latitude;
     });
-    
+
     return [sumLng / allLocations.length, sumLat / allLocations.length] as [number, number];
-  }, [allLocations, userLocation]);
+  }, [allLocations, effectiveLocation]);
 
   // Handle get directions
   const handleGetDirections = async (location: DoctorLocation) => {
-    if (!userLocation) {
+    if (!effectiveLocation) {
       setRouteError(tCommon("findDoctor.map.enableLocation"));
       return;
     }
@@ -391,7 +409,7 @@ export function MapView({
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), 5000);
     const routesData = await fetchRoutes(
-      { lat: userLocation.latitude, lng: userLocation.longitude },
+      { lat: effectiveLocation.latitude, lng: effectiveLocation.longitude },
       { lat: location.latitude, lng: location.longitude },
       controller.signal,
     );
@@ -449,6 +467,7 @@ export function MapView({
           showCompass
           showLocate
           showFullscreen
+          onLocate={(coords) => setInternalLocation({ latitude: coords.latitude, longitude: coords.longitude })}
         />
 
         {/* Draw routes if available */}
@@ -467,10 +486,10 @@ export function MapView({
         })}
 
         {/* Patient location marker */}
-        {userLocation && (
+        {effectiveLocation && (
           <MapMarker
-            longitude={userLocation.longitude}
-            latitude={userLocation.latitude}
+            longitude={effectiveLocation.longitude}
+            latitude={effectiveLocation.latitude}
           >
             <MarkerContent>
               <div className="relative flex h-4 w-4">

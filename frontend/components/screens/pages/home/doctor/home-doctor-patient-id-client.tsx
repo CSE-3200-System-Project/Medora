@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { PaginationControls } from "@/components/ui/pagination-controls"
 import { DoctorPatientVapiVoiceSummary } from "@/components/ai/doctor-patient-vapi-voice-summary"
 import { EnhancedMedicalHistoryTimeline } from "@/components/medical-history/enhanced-medical-history-timeline"
@@ -1299,16 +1300,16 @@ export default function DoctorPatientViewPage() {
           </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={timelineOpen} onOpenChange={setTimelineOpen}>
-        <DialogContent className="max-h-[92vh] w-[96vw] max-w-6xl overflow-hidden p-0">
-          <DialogHeader className="border-b border-border/60 px-5 py-4">
-            <DialogTitle>Patient Journey Timeline</DialogTitle>
-            <DialogDescription>
+      <Sheet open={timelineOpen} onOpenChange={setTimelineOpen}>
+        <SheetContent side="right" className="w-full max-w-2xl overflow-hidden p-0 sm:max-w-3xl">
+          <SheetHeader className="border-b border-border/60 px-5 py-4">
+            <SheetTitle>Patient Journey Timeline</SheetTitle>
+            <SheetDescription>
               Timeline view across shared appointments, treatments, medications, and medical history.
-            </DialogDescription>
-          </DialogHeader>
+            </SheetDescription>
+          </SheetHeader>
 
-          <div className="scrollbar-themed max-h-[calc(92vh-92px)] overflow-y-auto bg-surface/40 p-4 sm:p-6">
+          <div className="scrollbar-themed max-h-[calc(100vh-92px)] overflow-y-auto bg-surface/40 p-4 sm:p-6">
             {timelineAccessRestricted ? (
               <div className="rounded-md border border-warning/30 bg-warning/10 p-4 text-sm text-warning">
                 This patient has restricted timeline access in privacy controls.
@@ -1327,8 +1328,8 @@ export default function DoctorPatientViewPage() {
               />
             )}
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
       </AppBackground>
   )
 }

@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { CalendarCheck2, CheckCircle2, CircleDot } from "lucide-react";
+import { CalendarCheck2, CheckCircle2, CircleDot, MapPin, Navigation } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { localDateKey, toUtcIsoFromDateAndSlot } from "@/lib/utils";
 import { createAppointment } from "@/lib/appointment-actions";
 import { getAvailableSlots } from "@/lib/auth-actions";
@@ -16,6 +18,22 @@ import type { BackendDoctorLocation, BackendDoctorProfile, DateOption, SlotGroup
 import { AppointmentDateSelector } from "@/components/doctor/doctor-profile/AppointmentDateSelector";
 import { AppointmentSlotSelector } from "@/components/doctor/doctor-profile/AppointmentSlotSelector";
 import { useAppI18n, useT } from "@/i18n/client";
+
+const LazyMap = dynamic(() => import("@/components/ui/map-lazy").then((m) => m.Map), { ssr: false });
+const LazyMapMarker = dynamic(() => import("@/components/ui/map-lazy").then((m) => m.MapMarker), { ssr: false });
+const LazyMarkerContent = dynamic(() => import("@/components/ui/map-lazy").then((m) => m.MarkerContent), { ssr: false });
+const LazyMapControls = dynamic(() => import("@/components/ui/map-lazy").then((m) => m.MapControls), { ssr: false });
+
+function haversineKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+  const R = 6371;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(x));
+}
 
 interface AppointmentBookingCardProps {
   doctor: BackendDoctorProfile;
@@ -96,6 +114,17 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
   const [loadingSlots, setLoadingSlots] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
   const [visitReason, setVisitReason] = React.useState("");
+  const [patientLocation, setPatientLocation] = React.useState<{ latitude: number; longitude: number } | null>(null);
+  const [mapDialogLocation, setMapDialogLocation] = React.useState<BackendDoctorLocation | null>(null);
+
+  React.useEffect(() => {
+    if (typeof navigator === "undefined" || !("geolocation" in navigator)) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setPatientLocation({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
+      () => {},
+      { maximumAge: 5 * 60 * 1000, timeout: 8000 },
+    );
+  }, []);
 
   const selectedLocation = React.useMemo(() => {
     if (!doctor.locations?.length) return undefined;
@@ -266,35 +295,72 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
                 {(doctor.locations || []).map((location, index) => {
                   const locationKey = getLocationKey(location, index);
                   const isSelected = selectedLocationId === locationKey;
+                  const hasCoords = typeof location.latitude === "number" && typeof location.longitude === "number";
+                  const distanceKm = hasCoords && patientLocation
+                    ? haversineKm(
+                        { lat: patientLocation.latitude, lng: patientLocation.longitude },
+                        { lat: location.latitude as number, lng: location.longitude as number },
+                      )
+                    : null;
                   return (
-                    <button
-                      type="button"
+                    <div
                       key={locationKey}
-                      onClick={() => {
-                        setSelectedLocationId(locationKey);
-                        setSelectedSlot(null);
-                      }}
                       className={`w-full rounded-xl border p-3 text-left transition-colors ${
                         isSelected
                           ? "border-primary bg-primary-more-light/35"
                           : "border-border bg-background hover:border-primary/35"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">{location.name}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedLocationId(locationKey);
+                          setSelectedSlot(null);
+                        }}
+                        className="flex w-full items-start justify-between gap-2 text-left"
+                      >
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-foreground">{location.name}</p>
                           <p className="text-xs text-muted-foreground">
                             {index === 0 ? tCommon("doctorProfile.booking.morningShift") : tCommon("doctorProfile.booking.eveningShift")}
-                            {" "}• ${Number(consultationFee).toFixed(0)} {tCommon("doctorProfile.booking.feeSuffix")}
+                            {" "}• ৳{Number(consultationFee).toFixed(0)} {tCommon("doctorProfile.booking.feeSuffix")}
                           </p>
+                          {(location.address || location.city) && (
+                            <p className="mt-0.5 truncate text-[11px] text-muted-foreground/80">
+                              <MapPin className="mr-0.5 inline h-3 w-3" />
+                              {[location.address, location.city].filter(Boolean).join(", ")}
+                            </p>
+                          )}
                         </div>
                         {isSelected ? (
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary" />
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                         ) : (
-                          <CircleDot className="mt-0.5 h-4 w-4 text-muted-foreground/70" />
+                          <CircleDot className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground/70" />
                         )}
-                      </div>
-                    </button>
+                      </button>
+                      {hasCoords && (
+                        <div className="mt-2 flex items-center justify-between gap-2 text-[11px]">
+                          <span className="text-muted-foreground">
+                            {distanceKm !== null
+                              ? `${distanceKm < 1 ? `${Math.round(distanceKm * 1000)} m` : `${distanceKm.toFixed(1)} km`} away`
+                              : patientLocation === null
+                                ? "Enable location to see distance"
+                                : "Distance unavailable"}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setMapDialogLocation(location);
+                            }}
+                            className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 font-medium text-primary hover:bg-primary/10"
+                          >
+                            <Navigation className="h-3 w-3" />
+                            View on map
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
               </div>
@@ -346,7 +412,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
             <div className="grid grid-cols-2 border-t border-border pt-3.5">
               <div>
                 <p className="text-xs text-muted-foreground">{tCommon("doctorProfile.booking.totalConsultationFee")}</p>
-                <p className="text-2xl font-bold text-foreground">${Number(consultationFee).toFixed(2)}</p>
+                <p className="text-2xl font-bold text-foreground">৳{Number(consultationFee).toFixed(2)}</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-muted-foreground">{tCommon("doctorProfile.booking.estimatedDuration")}</p>
@@ -387,6 +453,72 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
           </p>
         </CardContent>
       </Card>
+
+      <Dialog open={Boolean(mapDialogLocation)} onOpenChange={(open) => !open && setMapDialogLocation(null)}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
+          <DialogHeader>
+            <DialogTitle>{mapDialogLocation?.name}</DialogTitle>
+            <DialogDescription>
+              {[mapDialogLocation?.address, mapDialogLocation?.city].filter(Boolean).join(", ")}
+            </DialogDescription>
+          </DialogHeader>
+          {mapDialogLocation && typeof mapDialogLocation.latitude === "number" && typeof mapDialogLocation.longitude === "number" && (
+            <div className="space-y-3 min-w-0">
+              <div className="relative h-90 w-full overflow-hidden rounded-xl border border-border isolate">
+                <LazyMap
+                  center={[mapDialogLocation.longitude, mapDialogLocation.latitude]}
+                  zoom={13}
+                >
+                  <LazyMapControls position="bottom-right" showZoom showLocate
+                    onLocate={(coords: { latitude: number; longitude: number }) => setPatientLocation(coords)}
+                  />
+                  <LazyMapMarker longitude={mapDialogLocation.longitude} latitude={mapDialogLocation.latitude}>
+                    <LazyMarkerContent>
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-primary shadow-lg">
+                        <MapPin className="h-5 w-5 text-white" />
+                      </div>
+                    </LazyMarkerContent>
+                  </LazyMapMarker>
+                  {patientLocation && (
+                    <LazyMapMarker longitude={patientLocation.longitude} latitude={patientLocation.latitude}>
+                      <LazyMarkerContent>
+                        <div className="relative flex h-4 w-4">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75"></span>
+                          <span className="relative inline-flex h-4 w-4 rounded-full border-2 border-white bg-blue-500 shadow-md"></span>
+                        </div>
+                      </LazyMarkerContent>
+                    </LazyMapMarker>
+                  )}
+                </LazyMap>
+              </div>
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-muted/30 px-3 py-2 text-sm">
+                <div className="flex items-center gap-2">
+                  <Navigation className="h-4 w-4 text-primary" />
+                  <span className="text-foreground">
+                    {patientLocation
+                      ? (() => {
+                          const km = haversineKm(
+                            { lat: patientLocation.latitude, lng: patientLocation.longitude },
+                            { lat: mapDialogLocation.latitude as number, lng: mapDialogLocation.longitude as number },
+                          );
+                          return km < 1 ? `${Math.round(km * 1000)} m from you` : `${km.toFixed(1)} km from you`;
+                        })()
+                      : "Enable location to see distance"}
+                  </span>
+                </div>
+                <a
+                  href={`https://www.openstreetmap.org/directions?from=${patientLocation ? `${patientLocation.latitude},${patientLocation.longitude}` : ""}&to=${mapDialogLocation.latitude},${mapDialogLocation.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium text-primary hover:underline"
+                >
+                  Open directions ↗
+                </a>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -212,32 +212,50 @@ async def search_doctors(
     result = await db.execute(stmt)
     rows = result.all()
 
-    doctors = []
+    # Bayesian-adjusted reputation score prevents a 5★/1-review doctor from
+    # outranking a 4.8★/200-review one. Prior pulls new doctors toward the mean.
+    PRIOR_MEAN = 3.5
+    PRIOR_WEIGHT = 5.0
+
+    def _reputation(avg: float, count: int) -> float:
+        return ((avg or 0.0) * count + PRIOR_MEAN * PRIOR_WEIGHT) / (count + PRIOR_WEIGHT)
+
+    cards = []
     for doc, prof, spec in rows:
-        doctors.append(DoctorCardSchema(
-            profile_id=doc.profile_id,
-            first_name=prof.first_name,
-            last_name=prof.last_name,
-            title=doc.title,
-            specialization=spec.name if spec else doc.specialization,  # Use speciality name if available
-            qualifications=doc.qualifications,
-            years_of_experience=doc.years_of_experience,
-            hospital_name=doc.hospital_name,
-            hospital_address=doc.hospital_address,
-            hospital_city=doc.hospital_city,
-            hospital_latitude=doc.hospital_latitude,
-            hospital_longitude=doc.hospital_longitude,
-            chamber_name=doc.chamber_name,
-            chamber_address=doc.chamber_address,
-            chamber_city=doc.chamber_city,
-            chamber_latitude=doc.chamber_latitude,
-            chamber_longitude=doc.chamber_longitude,
-            consultation_fee=doc.consultation_fee,
-            profile_photo_url=doc.profile_photo_url,
-            visiting_hours=doc.visiting_hours,
-            available_days=doc.available_days,
-            consultation_mode=doc.consultation_mode
+        cards.append((
+            _reputation(float(doc.rating_avg or 0.0), int(doc.rating_count or 0)),
+            int(doc.rating_count or 0),
+            DoctorCardSchema(
+                profile_id=doc.profile_id,
+                first_name=prof.first_name,
+                last_name=prof.last_name,
+                title=doc.title,
+                specialization=spec.name if spec else doc.specialization,
+                qualifications=doc.qualifications,
+                years_of_experience=doc.years_of_experience,
+                hospital_name=doc.hospital_name,
+                hospital_address=doc.hospital_address,
+                hospital_city=doc.hospital_city,
+                hospital_latitude=doc.hospital_latitude,
+                hospital_longitude=doc.hospital_longitude,
+                chamber_name=doc.chamber_name,
+                chamber_address=doc.chamber_address,
+                chamber_city=doc.chamber_city,
+                chamber_latitude=doc.chamber_latitude,
+                chamber_longitude=doc.chamber_longitude,
+                consultation_fee=doc.consultation_fee,
+                profile_photo_url=doc.profile_photo_url,
+                visiting_hours=doc.visiting_hours,
+                available_days=doc.available_days,
+                consultation_mode=doc.consultation_mode,
+                rating_avg=float(doc.rating_avg or 0.0),
+                rating_count=int(doc.rating_count or 0),
+            ),
         ))
+
+    # Sort: higher reputation first, ties broken by more reviews.
+    cards.sort(key=lambda t: (t[0], t[1]), reverse=True)
+    doctors = [c[2] for c in cards]
 
     result_payload = DoctorSearchResponse(doctors=doctors, total=len(doctors))
     etag = build_etag(result_payload.model_dump(mode="json"))
@@ -338,7 +356,9 @@ async def get_doctor_profile(
         work_experience=work_experience,
         languages_spoken=doc.languages_spoken,
         emergency_availability=doc.emergency_availability or False,
-        telemedicine_available=doc.telemedicine_available or False
+        telemedicine_available=doc.telemedicine_available or False,
+        rating_avg=float(doc.rating_avg or 0.0),
+        rating_count=int(doc.rating_count or 0),
     )
     etag = build_etag(result_payload.model_dump(mode="json"))
     set_cache_headers(

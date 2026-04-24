@@ -4,7 +4,6 @@ import {
   Users,
   Activity,
   AlertCircle,
-  DollarSign,
   EllipsisVertical,
 } from "lucide-react";
 
@@ -269,7 +268,7 @@ export default async function DoctorHomePage() {
               <article className="rounded-xl border border-transparent bg-white p-6 shadow-sm transition-all hover:border-primary/10 hover:scale-[1.02] dark:bg-card dark:hover:border-primary/30">
                 <div className="mb-5 flex items-start justify-between">
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-900/35 dark:text-amber-300">
-                    <DollarSign className="h-5 w-5" />
+                    <span className="text-lg font-bold">৳</span>
                   </span>
                   <span
                     className={`rounded-md px-2 py-1 text-[11px] font-semibold ${
@@ -285,7 +284,7 @@ export default async function DoctorHomePage() {
                   Monthly Revenue
                 </p>
                 <p className="mt-2 text-3xl font-bold text-foreground">
-                  ${Math.round(actionStats.monthly_revenue).toLocaleString()}
+                  ৳{Math.round(actionStats.monthly_revenue).toLocaleString()}
                 </p>
               </article>
             </Link>

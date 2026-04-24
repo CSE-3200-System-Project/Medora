@@ -408,9 +408,9 @@
       "invalidFile": "Please upload a JPG, PNG, WEBP image, or PDF file.",
       "extractionFailed": "Extraction failed. Please try again.",
       "unknownMedicine": "Unknown Medicine",
-      "dosageLabel": "Dosage: {value}",
-      "frequencyLabel": "Frequency: {value}",
-      "quantityLabel": "Quantity: {value}",
+      "dosageLabel": "Dosage: ",
+      "frequencyLabel": "Frequency: ",
+      "quantityLabel": "Quantity: ",
       "noReadable": "No readable text detected."
     },
     "addDialog": {

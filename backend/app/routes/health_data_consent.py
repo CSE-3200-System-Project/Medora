@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.db.models.enums import HealthMetricType, UserRole
 from app.db.models.health_data_consent import HealthDataConsent
 from app.db.models.health_metric import HealthMetric
@@ -34,7 +34,7 @@ async def grant_consent(
     db: AsyncSession = Depends(get_db),
 ):
     """Patient grants a doctor access to their health metrics."""
-    profile = (await db.execute(select(Profile).where(Profile.id == user.id))).scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can grant health data consent")
 
@@ -167,7 +167,7 @@ async def list_my_consents(
     db: AsyncSession = Depends(get_db),
 ):
     """Patient lists all their active health data consents."""
-    profile = (await db.execute(select(Profile).where(Profile.id == user.id))).scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can view their consents")
 
@@ -179,9 +179,18 @@ async def list_my_consents(
         )
     ).scalars().all()
 
+    # Batch-fetch doctor profiles in a single IN query instead of N+1.
+    doctor_ids = {consent.doctor_id for consent in rows}
+    doctors_by_id: dict[str, Profile] = {}
+    if doctor_ids:
+        doctor_rows = (
+            await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
+        ).scalars().all()
+        doctors_by_id = {d.id: d for d in doctor_rows}
+
     results = []
     for consent in rows:
-        doctor_profile = (await db.execute(select(Profile).where(Profile.id == consent.doctor_id))).scalar_one_or_none()
+        doctor_profile = doctors_by_id.get(consent.doctor_id)
         results.append(
             HealthDataConsentResponse(
                 id=consent.id,
@@ -209,7 +218,7 @@ async def get_patient_health_for_doctor(
     db: AsyncSession = Depends(get_db),
 ):
     """Doctor views a patient's health metrics (requires active consent)."""
-    doctor_profile = (await db.execute(select(Profile).where(Profile.id == user.id))).scalar_one_or_none()
+    doctor_profile = await resolve_profile(db, user)
     if not doctor_profile or doctor_profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this endpoint")
 
@@ -331,7 +340,7 @@ async def list_patients_with_consent(
     db: AsyncSession = Depends(get_db),
 ):
     """Doctor lists all patients who have granted them health data access."""
-    doctor_profile = (await db.execute(select(Profile).where(Profile.id == user.id))).scalar_one_or_none()
+    doctor_profile = await resolve_profile(db, user)
     if not doctor_profile or doctor_profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this endpoint")
 
@@ -346,9 +355,18 @@ async def list_patients_with_consent(
         )
     ).scalars().all()
 
+    # Batch-fetch patient profiles in a single IN query instead of N+1.
+    patient_ids = {consent.patient_id for consent in consents}
+    patients_by_id: dict[str, Profile] = {}
+    if patient_ids:
+        patient_rows = (
+            await db.execute(select(Profile).where(Profile.id.in_(patient_ids)))
+        ).scalars().all()
+        patients_by_id = {p.id: p for p in patient_rows}
+
     results = []
     for consent in consents:
-        patient_profile = (await db.execute(select(Profile).where(Profile.id == consent.patient_id))).scalar_one_or_none()
+        patient_profile = patients_by_id.get(consent.patient_id)
         if patient_profile:
             results.append({
                 "patient_id": consent.patient_id,
