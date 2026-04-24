@@ -29,6 +29,8 @@ import {
   Stethoscope,
   FileText,
   RefreshCw,
+  XCircle,
+  CheckCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -71,6 +73,8 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   appointment_reschedule_request: RefreshCw,
   appointment_reschedule_accepted: Check,
   appointment_reschedule_rejected: X,
+  review_approved: CheckCircle,   // ✅ add this
+  review_rejected: XCircle,       // ✅ add this
 };
 
 // Color mapping for notification types
@@ -104,6 +108,8 @@ const notificationColors: Record<NotificationType, string> = {
   appointment_reschedule_request: "text-purple-600 bg-purple-500/10",
   appointment_reschedule_accepted: "text-success bg-success/10",
   appointment_reschedule_rejected: "text-destructive bg-destructive/10",
+  review_approved: "text-success bg-success/10",
+  review_rejected: "text-destructive bg-destructive/10",
 };
 
 type FilterType = 'all' | 'unread' | 'read';
