@@ -76,6 +76,7 @@ class DoctorProfile(Base):
     # === CONSULTATION SETUP (Step 6) ===
     consultation_fee: Mapped[float | None]
     follow_up_fee: Mapped[float | None]
+    total_revenue: Mapped[float] = mapped_column(Float, default=0.0, server_default='0', nullable=False)
     
     # Visiting hours as JSON: [{day, start_time, end_time}] 
     # e.g., "Sat Sun Mon Tue Wed 03:00 PM - 08:00 PM"

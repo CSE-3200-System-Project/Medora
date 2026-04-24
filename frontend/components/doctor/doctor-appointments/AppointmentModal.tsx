@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CalendarDays, Clock3, MapPin, Phone } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock3, MapPin, Phone } from "lucide-react";
 
 import { DoctorAppointment } from "@/components/doctor/doctor-appointments/types";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +19,7 @@ type AppointmentModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onApprove: (id: string) => void;
+  onComplete: (id: string) => void;
   onCancel: (id: string) => void;
   onRescheduleRequest: (appointment: DoctorAppointment) => void;
   onRespondReschedule: (appointment: DoctorAppointment) => void;
@@ -30,6 +31,7 @@ export function AppointmentModal({
   isOpen,
   onOpenChange,
   onApprove,
+  onComplete,
   onCancel,
   onRescheduleRequest,
   onRespondReschedule,
@@ -79,6 +81,19 @@ export function AppointmentModal({
           />
           <DetailRow label="Location / Slot" value={extractLocation(appointment)} icon={<MapPin className="h-4 w-4 text-primary" />} />
           <DetailRow label="Phone" value={appointment.patient_phone || "Not provided"} icon={<Phone className="h-4 w-4 text-primary" />} />
+          {appointment.status === "COMPLETED" && appointment.completed_at ? (
+            <DetailRow
+              label="Completed At"
+              value={formatAppointmentDateTime(appointment.completed_at)}
+              icon={<CheckCircle2 className="h-4 w-4 text-emerald-600" />}
+            />
+          ) : null}
+          {appointment.status === "COMPLETED" && appointment.revenue_amount !== null && appointment.revenue_amount !== undefined ? (
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/80 px-3 py-2">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.08em] text-emerald-700">Revenue Added</p>
+              <p className="text-base font-semibold text-emerald-800">৳{Math.round(appointment.revenue_amount).toLocaleString()}</p>
+            </div>
+          ) : null}
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">Chronic Conditions</p>
             <div className="flex flex-wrap gap-1.5">
@@ -96,6 +111,19 @@ export function AppointmentModal({
         </div>
 
         <DialogFooter className="flex flex-wrap gap-2 sm:justify-start">
+          {canComplete(appointment.status) && (
+            <Button
+              variant="default"
+              onClick={() => {
+                onComplete(appointment.id);
+                onOpenChange(false);
+              }}
+              className="flex-1 sm:flex-none"
+            >
+              Mark as Completed
+            </Button>
+          )}
+
           {/* Approve button - only for pending-style appointments */}
           {canApprove(appointment.status) && (
             <Button
@@ -220,6 +248,16 @@ function isCancelledStatus(status: string) {
 function canApprove(status: string) {
   const value = status.toUpperCase();
   return value === "PENDING" || value === "PENDING_DOCTOR_CONFIRMATION";
+}
+
+function canComplete(status: string) {
+  const value = status.toUpperCase();
+  return (
+    value === "CONFIRMED" ||
+    value === "PENDING" ||
+    value === "PENDING_DOCTOR_CONFIRMATION" ||
+    value === "PENDING_PATIENT_CONFIRMATION"
+  );
 }
 
 function canCancel(status: string) {

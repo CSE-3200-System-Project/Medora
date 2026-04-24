@@ -213,6 +213,50 @@ async def notify_appointment_completed(
     )
 
 
+async def notify_review_approved(
+    db: AsyncSession,
+    *,
+    patient_id: str,
+    doctor_id: str,
+    review_id: str,
+) -> None:
+    await create_notification(
+        db=db,
+        user_id=patient_id,
+        notification_type=NotificationType.REVIEW_APPROVED,
+        title="Review Approved",
+        message="Your review has been approved and published.",
+        action_url=f"/patient/doctor/{doctor_id}",
+        metadata={"review_id": review_id, "doctor_id": doctor_id},
+        priority=NotificationPriority.MEDIUM,
+    )
+
+
+async def notify_review_rejected(
+    db: AsyncSession,
+    *,
+    patient_id: str,
+    doctor_id: str,
+    review_id: str,
+    admin_feedback: str | None,
+) -> None:
+    feedback = (admin_feedback or "").strip()
+    message = "Your review was rejected."
+    if feedback:
+        message = f"Your review was rejected: {feedback}"
+
+    await create_notification(
+        db=db,
+        user_id=patient_id,
+        notification_type=NotificationType.REVIEW_REJECTED,
+        title="Review Rejected",
+        message=message,
+        action_url=f"/patient/doctor/{doctor_id}",
+        metadata={"review_id": review_id, "doctor_id": doctor_id, "admin_feedback": feedback or None},
+        priority=NotificationPriority.MEDIUM,
+    )
+
+
 async def notify_reschedule_requested(
     db: AsyncSession,
     notify_user_id: str,

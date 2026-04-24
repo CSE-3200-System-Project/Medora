@@ -1,13 +1,15 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Header
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import func, select, update
+from sqlalchemy import func, select, update, desc
 from sqlalchemy.orm import aliased
 from app.core.dependencies import get_db, resolve_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
-from app.db.models.enums import VerificationStatus, UserRole, AccountStatus
+from app.db.models.doctor_review import DoctorReview
+from app.db.models.enums import VerificationStatus, UserRole, AccountStatus, ReviewModerationStatus
+from app.schemas.review import AdminReviewDecision, AdminReviewItem, AdminReviewListResponse, ReviewAuthor, ReviewResponse
 from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 from typing import Any
@@ -15,6 +17,7 @@ import re
 import uuid
 import logging
 from app.services.email_service import send_account_suspension_email
+from app.services import notification_service, review_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -77,6 +80,59 @@ async def require_admin(
         raise HTTPException(status_code=403, detail="Admin access required")
 
     return profile
+
+
+async def _serialize_admin_review(
+    db: AsyncSession,
+    review: DoctorReview,
+    *,
+    patient_profile: Profile | None = None,
+    doctor_profile: Profile | None = None,
+) -> AdminReviewItem:
+    patient_profile = patient_profile or (
+        await db.execute(select(Profile).where(Profile.id == review.patient_id))
+    ).scalar_one_or_none()
+    doctor_profile = doctor_profile or (
+        await db.execute(select(Profile).where(Profile.id == review.doctor_id))
+    ).scalar_one_or_none()
+
+    author = None
+    if patient_profile:
+        author = ReviewAuthor(
+            patient_id=patient_profile.id,
+            first_name=patient_profile.first_name,
+            last_name=patient_profile.last_name,
+            profile_photo_url=getattr(patient_profile, "profile_photo_url", None),
+        )
+
+    review_payload = ReviewResponse(
+        id=review.id,
+        doctor_id=review.doctor_id,
+        rating=review.rating,
+        note=review.note,
+        status=review.status,
+        admin_feedback=review.admin_feedback,
+        created_at=review.created_at,
+        updated_at=review.updated_at,
+        author=author,
+    )
+
+    doctor_name = "Unknown doctor"
+    if doctor_profile:
+        doctor_name = f"{doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() or doctor_name
+
+    patient_name = "Unknown patient"
+    patient_email = None
+    if patient_profile:
+        patient_name = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip() or patient_name
+        patient_email = patient_profile.email
+
+    return AdminReviewItem(
+        review=review_payload,
+        doctor_name=doctor_name,
+        patient_name=patient_name,
+        patient_email=patient_email,
+    )
 
 # ---------------------------------------------------------------------------
 # Admin notifications
@@ -162,6 +218,133 @@ async def mark_admin_notifications_read(
     result = await db.execute(stmt)
     await db.commit()
     return {"updated": result.rowcount or 0}
+
+
+@router.get("/reviews", response_model=AdminReviewListResponse)
+async def list_admin_reviews(
+    status: ReviewModerationStatus = ReviewModerationStatus.PENDING,
+    page: int = 1,
+    limit: int = 20,
+    admin_access = Depends(require_admin_access),
+    db: AsyncSession = Depends(get_db),
+):
+    safe_page = max(1, page)
+    safe_limit = max(1, min(limit, 100))
+    offset = (safe_page - 1) * safe_limit
+
+    total = int(
+        (
+            await db.execute(
+                select(func.count(DoctorReview.id)).where(DoctorReview.status == status)
+            )
+        ).scalar()
+        or 0
+    )
+
+    rows = (
+        await db.execute(
+            select(DoctorReview)
+            .where(DoctorReview.status == status)
+            .order_by(desc(DoctorReview.created_at))
+            .limit(safe_limit + 1)
+            .offset(offset)
+        )
+    ).scalars().all()
+    has_more = len(rows) > safe_limit
+    reviews = rows[:safe_limit]
+
+    profile_ids: set[str] = set()
+    for review in reviews:
+        profile_ids.add(review.patient_id)
+        profile_ids.add(review.doctor_id)
+
+    profiles_by_id: dict[str, Profile] = {}
+    if profile_ids:
+        profile_rows = await db.execute(select(Profile).where(Profile.id.in_(profile_ids)))
+        profiles_by_id = {profile.id: profile for profile in profile_rows.scalars().all()}
+
+    items = [
+        await _serialize_admin_review(
+            db,
+            review,
+            patient_profile=profiles_by_id.get(review.patient_id),
+            doctor_profile=profiles_by_id.get(review.doctor_id),
+        )
+        for review in reviews
+    ]
+
+    return AdminReviewListResponse(
+        reviews=items,
+        total=total,
+        page=safe_page,
+        limit=safe_limit,
+        has_more=has_more,
+    )
+
+
+@router.post("/reviews/{review_id}/approve", response_model=ReviewResponse)
+async def approve_review(
+    review_id: str,
+    admin_access = Depends(require_admin_access),
+    db: AsyncSession = Depends(get_db),
+):
+    review = (
+        await db.execute(select(DoctorReview).where(DoctorReview.id == review_id))
+    ).scalar_one_or_none()
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+
+    if review.status != ReviewModerationStatus.APPROVED:
+        review.status = ReviewModerationStatus.APPROVED
+        review.admin_feedback = None
+        await db.flush()
+        await review_service.recompute_doctor_rating(db, review.doctor_id)
+        await notification_service.notify_review_approved(
+            db,
+            patient_id=review.patient_id,
+            doctor_id=review.doctor_id,
+            review_id=review.id,
+        )
+        await db.commit()
+        await db.refresh(review)
+
+    return (
+        await _serialize_admin_review(db, review)
+    ).review
+
+
+@router.post("/reviews/{review_id}/reject", response_model=ReviewResponse)
+async def reject_review(
+    review_id: str,
+    payload: AdminReviewDecision,
+    admin_access = Depends(require_admin_access),
+    db: AsyncSession = Depends(get_db),
+):
+    review = (
+        await db.execute(select(DoctorReview).where(DoctorReview.id == review_id))
+    ).scalar_one_or_none()
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+
+    feedback = (payload.admin_feedback or "").strip() or None
+    if review.status != ReviewModerationStatus.REJECTED or review.admin_feedback != feedback:
+        review.status = ReviewModerationStatus.REJECTED
+        review.admin_feedback = feedback
+        await db.flush()
+        await review_service.recompute_doctor_rating(db, review.doctor_id)
+        await notification_service.notify_review_rejected(
+            db,
+            patient_id=review.patient_id,
+            doctor_id=review.doctor_id,
+            review_id=review.id,
+            admin_feedback=feedback,
+        )
+        await db.commit()
+        await db.refresh(review)
+
+    return (
+        await _serialize_admin_review(db, review)
+    ).review
 
 
 # Verification request model

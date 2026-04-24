@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Bell, Check, CheckCheck, Trash2, X, Calendar, UserPlus, ShieldCheck, ShieldX, AlertCircle, Info, Pill, FlaskConical, FileText } from "lucide-react";
+import { Bell, Check, CheckCheck, CheckCircle2, Trash2, X, Calendar, UserPlus, ShieldCheck, ShieldX, AlertCircle, Info, Pill, FlaskConical, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ButtonLoader } from "@/components/ui/medora-loader";
@@ -95,6 +95,8 @@ const notificationIcons: Record<NotificationType, React.ElementType> = {
   prescription_created: Pill,
   prescription_accepted: Check,
   prescription_rejected: X,
+  review_approved: CheckCircle2,
+  review_rejected: AlertCircle,
 };
 
 // Color mapping for notification types
@@ -127,6 +129,8 @@ const notificationColors: Record<NotificationType, string> = {
   prescription_created: "text-primary bg-primary/10",
   prescription_accepted: "text-success bg-success/10",
   prescription_rejected: "text-destructive bg-destructive/10",
+  review_approved: "text-success bg-success/10",
+  review_rejected: "text-destructive bg-destructive/10",
 };
 
 function formatTimeAgo(

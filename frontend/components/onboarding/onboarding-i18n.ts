@@ -1,6 +1,6 @@
-import type { UseTranslationsType } from "@/i18n/client"
+type UseTranslationsType = (key: string, values?: Record<string, string | number | Date>) => string
 
-export function getOnboardingStrings(t: UseTranslationsType<"onboarding">) {
+export function getOnboardingStrings(t: UseTranslationsType) {
   return {
     // Steps
     getSteps: () => [

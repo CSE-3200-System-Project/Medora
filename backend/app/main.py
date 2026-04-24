@@ -40,8 +40,38 @@ async def _ensure_scheduling_schema_compatibility() -> None:
                 )
                 await db.execute(
                     text(
+                        "ALTER TABLE IF EXISTS appointments "
+                        "ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS appointments "
+                        "ADD COLUMN IF NOT EXISTS revenue_amount DOUBLE PRECISION"
+                    )
+                )
+                await db.execute(
+                    text(
                         "CREATE INDEX IF NOT EXISTS ix_appointments_hold_expires_at "
                         "ON appointments (hold_expires_at)"
+                    )
+                )
+
+            doctor_profiles_table_exists = (
+                await db.execute(
+                    text("SELECT to_regclass('public.doctor_profiles')")
+                )
+            ).scalar_one_or_none() is not None
+            if doctor_profiles_table_exists:
+                await db.execute(
+                    text(
+                        "ALTER TABLE IF EXISTS doctor_profiles "
+                        "ADD COLUMN IF NOT EXISTS total_revenue DOUBLE PRECISION NOT NULL DEFAULT 0"
+                    )
+                )
+                await db.execute(
+                    text(
+                        "UPDATE doctor_profiles SET total_revenue = 0 WHERE total_revenue IS NULL"
                     )
                 )
 

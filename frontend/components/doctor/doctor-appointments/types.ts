@@ -26,6 +26,8 @@ export type DoctorAppointment = {
   patient_phone?: string | null;
   reason?: string | null;
   notes?: string | null;
+  completed_at?: string | null;
+  revenue_amount?: number | null;
   cancellation_reason_key?: string | null;
   cancellation_reason_note?: string | null;
   cancelled_at?: string | null;

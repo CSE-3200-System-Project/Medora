@@ -42,7 +42,9 @@ export type NotificationType =
   | "consultation_completed"
   | "prescription_created"
   | "prescription_accepted"
-  | "prescription_rejected";
+  | "prescription_rejected"
+  | "review_approved"
+  | "review_rejected";
 
 export type NotificationPriority = "low" | "medium" | "high" | "urgent";
 
@@ -54,7 +56,7 @@ export interface Notification {
   title: string;
   message: string;
   action_url?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   is_read: boolean;
   is_archived: boolean;
   created_at: string;

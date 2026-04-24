@@ -1,11 +1,22 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import String, Integer, Text, DateTime, ForeignKey, Index, UniqueConstraint, CheckConstraint
+from sqlalchemy import (
+    String,
+    Integer,
+    Text,
+    DateTime,
+    ForeignKey,
+    Index,
+    UniqueConstraint,
+    CheckConstraint,
+    Enum,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.db.base import Base
+from app.db.models.enums import ReviewModerationStatus
 
 
 class DoctorReview(Base):
@@ -15,6 +26,7 @@ class DoctorReview(Base):
         CheckConstraint("rating BETWEEN 1 AND 5", name="ck_doctor_reviews_rating_range"),
         Index("ix_doctor_reviews_doctor_created", "doctor_id", "created_at"),
         Index("ix_doctor_reviews_patient", "patient_id"),
+        Index("ix_doctor_reviews_status_created", "status", "created_at"),
     )
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -24,6 +36,17 @@ class DoctorReview(Base):
 
     rating: Mapped[int] = mapped_column(Integer, nullable=False)
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[ReviewModerationStatus] = mapped_column(
+        Enum(
+            ReviewModerationStatus,
+            values_callable=lambda x: [e.value for e in x],
+            name="reviewmoderationstatus",
+        ),
+        nullable=False,
+        default=ReviewModerationStatus.PENDING,
+        server_default=ReviewModerationStatus.PENDING.value,
+    )
+    admin_feedback: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(

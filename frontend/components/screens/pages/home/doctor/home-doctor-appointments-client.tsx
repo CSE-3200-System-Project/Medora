@@ -27,10 +27,13 @@ const AppointmentDensityChart = dynamic(
 import { DoctorAppointment, MetricCard } from "@/components/doctor/doctor-appointments/types";
 import { AppBackground } from "@/components/ui/app-background";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Navbar } from "@/components/ui/navbar";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import {
   cancelAppointment,
+  completeAppointment,
+  getDoctorRevenueSummary,
   getMyAppointments,
   syncAppointmentStatus,
   updateAppointment,
@@ -65,6 +68,13 @@ interface RescheduleResponseState {
 
 export default function DoctorAppointmentsPage() {
   const [appointments, setAppointments] = React.useState<DoctorAppointment[]>([]);
+  const [revenueSummary, setRevenueSummary] = React.useState({
+    total_revenue: 0,
+    monthly_revenue: 0,
+    completed_appointments: 0,
+    completed_this_month: 0,
+    consultation_fee: null as number | null,
+  });
   const [doctorName, setDoctorName] = React.useState("Doctor");
   const [doctorId, setDoctorId] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -79,8 +89,8 @@ export default function DoctorAppointmentsPage() {
 
   React.useEffect(() => {
     const init = async () => {
-      await Promise.all([syncAppointmentStatus(), loadDoctorProfile()]);
-      await loadAppointments();
+      await syncAppointmentStatus();
+      await Promise.all([loadDoctorProfile(), loadAppointments(), loadRevenueSummary()]);
     };
 
     init();
@@ -116,6 +126,24 @@ export default function DoctorAppointmentsPage() {
       setActionError("Failed to load appointments. Please refresh and try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadRevenueSummary = async () => {
+    try {
+      const summary = await getDoctorRevenueSummary();
+      setRevenueSummary({
+        ...summary,
+        consultation_fee: summary.consultation_fee ?? null,
+      });
+    } catch {
+      setRevenueSummary({
+        total_revenue: 0,
+        monthly_revenue: 0,
+        completed_appointments: 0,
+        completed_this_month: 0,
+        consultation_fee: null,
+      });
     }
   };
 
@@ -304,9 +332,21 @@ export default function DoctorAppointmentsPage() {
       } else {
         await updateAppointment(id, { status });
       }
-      await loadAppointments();
+      await Promise.all([loadAppointments(), loadRevenueSummary()]);
     } catch {
       setActionError("Could not update appointment status. Please try again.");
+    }
+  };
+
+  const handleCompleteAppointment = async (appointmentId: string) => {
+    setActionError(null);
+
+    try {
+      await completeAppointment(appointmentId);
+      await Promise.all([loadAppointments(), loadRevenueSummary()]);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Could not complete this appointment.";
+      setActionError(errorMessage);
     }
   };
 
@@ -325,7 +365,7 @@ export default function DoctorAppointmentsPage() {
         proposed_time: slotTime,
         reason: notes || "Doctor requested reschedule",
       });
-      await loadAppointments();
+      await Promise.all([loadAppointments(), loadRevenueSummary()]);
       setRescheduleTarget(null);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Could not reschedule this appointment";
@@ -435,7 +475,7 @@ export default function DoctorAppointmentsPage() {
       accept,
       accept ? "Accepted by doctor" : "Rejected by doctor",
     );
-    await loadAppointments();
+    await Promise.all([loadAppointments(), loadRevenueSummary()]);
     setRescheduleResponseTarget(null);
     setRescheduleResponseError(null);
     setRescheduleResponseLoading(false);
@@ -447,7 +487,7 @@ export default function DoctorAppointmentsPage() {
     try {
       const resolved = await resolveOwnPendingRescheduleRequest(appointment);
       await withdrawRescheduleRequest(resolved.id, "Withdrawn by doctor");
-      await loadAppointments();
+      await Promise.all([loadAppointments(), loadRevenueSummary()]);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unable to withdraw this reschedule request.";
       setActionError(errorMessage);
@@ -496,6 +536,27 @@ export default function DoctorAppointmentsPage() {
 
           <ScheduleMetrics metrics={metrics} />
 
+          <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <Card className="border-emerald-200/70 bg-emerald-50/70">
+              <CardContent className="pt-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-emerald-700">Total Revenue</p>
+                <p className="mt-2 text-3xl font-bold text-emerald-900">৳{Math.round(revenueSummary.total_revenue).toLocaleString()}</p>
+                <p className="mt-2 text-sm text-emerald-800">
+                  {revenueSummary.completed_appointments.toLocaleString()} completed appointments recorded
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="border-amber-200/70 bg-amber-50/80">
+              <CardContent className="pt-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-amber-700">Revenue This Month</p>
+                <p className="mt-2 text-3xl font-bold text-amber-900">৳{Math.round(revenueSummary.monthly_revenue).toLocaleString()}</p>
+                <p className="mt-2 text-sm text-amber-800">
+                  {revenueSummary.completed_this_month.toLocaleString()} appointments completed this month
+                </p>
+              </CardContent>
+            </Card>
+          </section>
+
           <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <DailyWorkloadChart data={workloadData} averageLabel={workloadAverageLabel} />
             <AppointmentDensityChart data={densityData} deltaLabel={densityDeltaLabel} />
@@ -528,6 +589,7 @@ export default function DoctorAppointmentsPage() {
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
         onApprove={(id) => handleStatusUpdate(id, "CONFIRMED")}
+        onComplete={handleCompleteAppointment}
         onCancel={(id) => handleStatusUpdate(id, "CANCELLED")}
         onRescheduleRequest={(appointment) => setRescheduleTarget(appointment)}
         onRespondReschedule={handleRespondReschedule}
@@ -642,6 +704,8 @@ function normalizeAppointment(raw: unknown): DoctorAppointment | null {
     patient_phone: toStringOrNull(row.patient_phone),
     reason: toStringOrNull(row.reason),
     notes: toStringOrNull(row.notes),
+    completed_at: toStringOrNull(row.completed_at),
+    revenue_amount: typeof row.revenue_amount === "number" ? row.revenue_amount : null,
     cancellation_reason_key: toStringOrNull(row.cancellation_reason_key),
     cancellation_reason_note: toStringOrNull(row.cancellation_reason_note),
     cancelled_at: toStringOrNull(row.cancelled_at),

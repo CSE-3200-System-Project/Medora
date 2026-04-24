@@ -18,6 +18,7 @@ const MESSAGE_LOADERS: Record<AppLocale, Record<I18nNamespace, NamespaceLoader>>
     voice: async () => (await import("@/i18n/messages/en/voice.json")).default as NamespaceMessages,
     consultation: async () => (await import("@/i18n/messages/en/consultation.json")).default as NamespaceMessages,
     prescription: async () => (await import("@/i18n/messages/en/prescription.json")).default as NamespaceMessages,
+    onboarding: async () => (await import("@/i18n/messages/en/onboarding.json")).default as NamespaceMessages,
   },
   bn: {
     common: async () => (await import("@/i18n/messages/bn/common.json")).default as NamespaceMessages,
@@ -30,6 +31,7 @@ const MESSAGE_LOADERS: Record<AppLocale, Record<I18nNamespace, NamespaceLoader>>
     voice: async () => (await import("@/i18n/messages/bn/voice.json")).default as NamespaceMessages,
     consultation: async () => (await import("@/i18n/messages/bn/consultation.json")).default as NamespaceMessages,
     prescription: async () => (await import("@/i18n/messages/bn/prescription.json")).default as NamespaceMessages,
+    onboarding: async () => (await import("@/i18n/messages/bn/onboarding.json")).default as NamespaceMessages,
   },
 };
 

@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models.appointment import Appointment
@@ -55,10 +56,23 @@ async def create_appointment_completed_action(
     *,
     appointment: Appointment,
 ) -> DoctorAction:
+    existing = (
+        await db.execute(
+            select(DoctorAction).where(
+                DoctorAction.doctor_id == appointment.doctor_id,
+                DoctorAction.action_type == DoctorActionType.APPOINTMENT_COMPLETED,
+                DoctorAction.related_appointment_id == appointment.id,
+            )
+        )
+    ).scalar_one_or_none()
+    if existing:
+        return existing
+
     doctor_profile = (
         await db.get(DoctorProfile, appointment.doctor_id)
     )
     consultation_fee = _safe_amount(getattr(doctor_profile, "consultation_fee", None))
+    revenue_amount = _safe_amount(getattr(appointment, "revenue_amount", None))
     return await create_doctor_action(
         db,
         doctor_id=appointment.doctor_id,
@@ -69,8 +83,8 @@ async def create_appointment_completed_action(
         status=DoctorActionStatus.COMPLETED,
         related_patient_id=appointment.patient_id,
         related_appointment_id=appointment.id,
-        revenue_amount=consultation_fee,
-        completed_at=datetime.now(timezone.utc),
+        revenue_amount=revenue_amount if revenue_amount is not None else consultation_fee,
+        completed_at=appointment.completed_at or datetime.now(timezone.utc),
     )
 
 

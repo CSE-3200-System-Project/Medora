@@ -1,7 +1,6 @@
 "use client";
 
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff, Shield, CheckCircle2 } from "lucide-react";
@@ -29,7 +28,6 @@ const LOGIN_HERO_IMAGES = [
 
 function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: boolean }) {
   const tAuth = useT("auth");
-  const { theme, systemTheme } = useTheme();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -39,9 +37,6 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
   const [showVerifiedMessage, setShowVerifiedMessage] = useState(initiallyVerified);
   const activeImage = LOGIN_HERO_IMAGES[currentImageIndex] ?? LOGIN_HERO_IMAGES[0];
   const isPrimaryHeroImage = currentImageIndex === 0;
-
-  const currentTheme = theme === "system" ? systemTheme : theme;
-  const medoraLogo = currentTheme === "dark" ? medoraLogoLight : medoraLogoDark;
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -172,16 +167,26 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
             <div className="w-full max-w-md mx-auto space-y-6 sm:space-y-7">
               <div className="flex flex-col items-center space-y-2 text-center">
                 <div className="relative hidden sm:block w-24 h-24 md:w-32 md:h-32">
-                   <Image
-                     src={medoraLogo}
-                     alt="Medora Logo"
-                     fill
-                     sizes="128px"
-                     className="object-contain"
-                     priority
-                     loading="eager"
-                     fetchPriority="high"
-                   />
+                  <Image
+                    src={medoraLogoDark}
+                    alt="Medora Logo"
+                    fill
+                    sizes="128px"
+                    className="object-contain dark:hidden"
+                    priority
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                  <Image
+                    src={medoraLogoLight}
+                    alt="Medora Logo"
+                    fill
+                    sizes="128px"
+                    className="hidden object-contain dark:block"
+                    priority
+                    loading="eager"
+                    fetchPriority="high"
+                  />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">{tAuth("signInToAccount")}</h2>
                 <p className="text-muted-foreground">

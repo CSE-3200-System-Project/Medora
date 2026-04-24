@@ -106,6 +106,8 @@ class AppointmentResponse(AppointmentBase):
     cancelled_by_id: Optional[str] = None
     cancelled_at: Optional[datetime] = None
     hold_expires_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+    revenue_amount: Optional[float] = None
     reschedule_request_id: Optional[str] = None
     reschedule_requested_by_role: Optional[str] = None
     proposed_date: Optional[date] = None

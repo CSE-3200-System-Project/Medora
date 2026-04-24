@@ -1,6 +1,6 @@
 import enum
 from sqlalchemy import (
-    String, Integer, ForeignKey, DateTime, Enum, Text, Time, Index,
+    String, Integer, ForeignKey, DateTime, Enum, Text, Time, Index, Float,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -70,6 +70,10 @@ class Appointment(Base):
     hold_expires_at: Mapped[DateTime | None] = mapped_column(
         DateTime(timezone=True), nullable=True, index=True
     )
+    completed_at: Mapped[DateTime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    revenue_amount: Mapped[float | None] = mapped_column(Float, nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
