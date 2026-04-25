@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: medora-rg
+  RESOURCE_GROUP: medora-rg-us
   BACKEND_APP: medora-backend
   IMAGE_NAME: medora-backend
 
