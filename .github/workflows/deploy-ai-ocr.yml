@@ -10,11 +10,12 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: medora-rg
-  AI_APP: medora-ai-ocr
-  IMAGE_NAME: medora-ai-ocr
-  CONTAINER_APP_ENV: medora-env
-  AZURE_LOCATION: westindia
+  RESOURCE_GROUP: medora-rg-us
+  AI_APP: medora-ai-service
+  IMAGE_NAME: medora-ai-service
+  CONTAINER_APP_ENV: medora-env-us
+  AZURE_LOCATION: eastus
+
 
 jobs:
   build-and-deploy:
