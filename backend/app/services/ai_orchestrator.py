@@ -345,6 +345,20 @@ class AIOrchestrator:
         sanitized = self.ADDRESS_PATTERN.sub(r"\1: [redacted-address]", sanitized)
         return sanitized
 
+    def _normalize_api_key(self, value: str | None) -> str | None:
+        if value is None:
+            return None
+        normalized = value.strip().strip("\"'")
+        return normalized or None
+
+    def _provider_error_from_http(self, provider: str, exc: httpx.HTTPStatusError) -> AIProviderError:
+        status = exc.response.status_code
+        body = (exc.response.text or "").strip()
+        if len(body) > 400:
+            body = f"{body[:400]}..."
+        body = self._sanitize_text(body) if body else "<empty>"
+        return AIProviderError(f"{provider} HTTP {status}: {body}")
+
     # ------------------------------------------------------------------
     # Core execution
     # ------------------------------------------------------------------
@@ -435,7 +449,8 @@ class AIOrchestrator:
             if not spec:
                 continue
 
-            api_key = getattr(settings, spec["api_key_attr"], None)
+            raw_api_key = getattr(settings, spec["api_key_attr"], None)
+            api_key = self._normalize_api_key(raw_api_key)
             if not api_key:
                 last_error = AIProviderError(f"{spec['api_key_attr']} is not configured.")
                 continue
@@ -504,8 +519,11 @@ class AIOrchestrator:
 
         timeout = httpx.Timeout(self.timeout_seconds)
         async with httpx.AsyncClient(timeout=timeout) as client:
-            response = await client.post(url, headers=headers, json=payload)
-            response.raise_for_status()
+            try:
+                response = await client.post(url, headers=headers, json=payload)
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise self._provider_error_from_http("openai_compatible", exc) from exc
             response_json = response.json()
 
         content = (
@@ -544,13 +562,17 @@ class AIOrchestrator:
         }
         headers = {
             "Content-Type": "application/json",
+            "x-goog-api-key": api_key,
             "X-Medora-Subject-Token": subject_token[:80],
         }
 
         timeout = httpx.Timeout(self.timeout_seconds)
         async with httpx.AsyncClient(timeout=timeout) as client:
-            response = await client.post(url, params={"key": api_key}, headers=headers, json=payload)
-            response.raise_for_status()
+            try:
+                response = await client.post(url, headers=headers, json=payload)
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                raise self._provider_error_from_http("gemini", exc) from exc
             response_json = response.json()
 
         content = (

@@ -45,7 +45,6 @@ from app.services.medical_knowledge import (
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
-client = Groq(api_key=settings.GROQ_API_KEY)
 SPECIALTY_CACHE_TTL_SECONDS = max(60, settings.PERF_API_CACHE_TTL)
 _all_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
 _available_specialties_cache: dict[str, object] = {"value": None, "expires_at": 0.0}
@@ -54,6 +53,25 @@ VAPI_DOCTOR_SEARCH_TOOL_NAMES = {"search_doctors_ai", "find_doctor", "ai_doctor_
 # gets a spoken apology instead of a silent hang. Stays under Vapi's own
 # tool-call deadline with headroom.
 VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS = 12.0
+
+
+def _normalize_secret(value: str | None) -> str | None:
+    if value is None:
+        return None
+    normalized = value.strip().strip("\"'")
+    return normalized or None
+
+
+def _get_groq_client() -> Groq:
+    api_key = _normalize_secret(settings.GROQ_API_KEY)
+    if not api_key:
+        raise RuntimeError("GROQ_API_KEY is not configured.")
+    return Groq(api_key=api_key)
+
+
+def _get_groq_model() -> str:
+    model = _normalize_secret(settings.GROQ_MODEL)
+    return model or "llama-3.1-8b-instant"
 
 
 def _safe_vapi_text(value: object, *, max_length: int = 5000) -> str:
@@ -508,10 +526,11 @@ RULES:
 
     # 3. Call Groq LLM (PRD Section 4.3)
     try:
+        groq_client = _get_groq_client()
         completion = await asyncio.wait_for(
             asyncio.to_thread(
-                client.chat.completions.create,
-                model="llama-3.1-8b-instant",
+                groq_client.chat.completions.create,
+                model=_get_groq_model(),
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt},
@@ -531,10 +550,11 @@ RULES:
     except Exception as e:
         # PRD Section 10: LLM Failure - fallback to manual search
         logger.warning("LLM error in AI search: %s", e)
+        public_error = "llm_unavailable"
         return AIDoctorSearchResponse(
             doctors=[], 
             ambiguity="high", 
-            medical_intent={"error": str(e), "fallback": "manual_search"},
+            medical_intent={"error": public_error, "fallback": "manual_search"},
             patient_context_factors=patient_context_factors if patient_context_factors else None
         )
 
