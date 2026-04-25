@@ -196,12 +196,12 @@ export function HeroCarousel() {
             {activeSlide.badge}
           </span>
 
-          <h1 className="h-[6.75rem] overflow-hidden text-3xl font-bold leading-tight tracking-tight md:h-[8.5rem] md:text-4xl xl:text-5xl">
+          <h1 className="min-h-[7.5rem] text-3xl font-bold leading-tight tracking-tight md:min-h-[8.5rem] md:text-4xl xl:text-5xl">
             {activeSlide.title}
             <span className="mt-2 block text-primary">{activeSlide.accent}</span>
           </h1>
 
-          <p className="mt-5 h-[4.5rem] max-w-xl overflow-hidden text-base leading-relaxed text-muted-foreground md:h-[5.5rem] md:text-lg">
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:min-h-[5.5rem] md:text-lg">
             {activeSlide.description}
           </p>
 
