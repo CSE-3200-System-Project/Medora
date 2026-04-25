@@ -1,51 +1,31 @@
-# ============================================================================
-# STAGE 1: BUILD — install dependencies in an isolated layer
-# ============================================================================
-FROM python:3.11-slim AS builder
+FROM --platform=linux/amd64 python:3.11-slim
 
 WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel && \
-    pip install --prefix=/install -r requirements.txt
-
-# ============================================================================
-# STAGE 2: RUNTIME — lean production image
-# ============================================================================
-FROM python:3.11-slim AS runtime
-
-WORKDIR /app
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PORT=8000 \
     PYTHONPATH=/app
 
-# postgresql-client is needed by entrypoint.sh for DB readiness check
+# gcc — needed to compile some Python packages at install time
+# postgresql-client — used by entrypoint.sh for DB readiness check
+# curl — health check
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
     curl \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy installed packages from builder
-COPY --from=builder /install /usr/local
+COPY requirements.txt .
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install -r requirements.txt
 
-# Copy application code
 COPY . .
 
-# Fix line endings and set permissions before dropping privileges
 RUN sed -i 's/\r$//' app/entrypoint.sh && chmod +x app/entrypoint.sh
 
-# Non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 

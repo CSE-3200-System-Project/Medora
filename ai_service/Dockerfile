@@ -1,7 +1,7 @@
 # ============================================================================
 # STAGE 1: BUILD — install heavy dependencies in isolation
 # ============================================================================
-FROM python:3.11-slim AS builder
+FROM --platform=linux/amd64 python:3.11-slim AS builder
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ RUN pip install --upgrade pip setuptools wheel && \
 # ============================================================================
 # STAGE 2: RUNTIME — lean production image
 # ============================================================================
-FROM python:3.11-slim AS runtime
+FROM --platform=linux/amd64 python:3.11-slim AS runtime
 
 WORKDIR /app
 
