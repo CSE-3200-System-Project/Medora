@@ -110,10 +110,10 @@ function LoginPageContent({ initiallyVerified = false }: { initiallyVerified?: b
   return (
     <AppBackground className="min-h-dvh min-h-app flex items-center justify-center px-4 py-6 sm:px-6 md:px-8 lg:px-10 xl:px-12 relative animate-page-enter">
       <Card className="w-full max-w-md xl:max-w-7xl mx-auto overflow-hidden p-0 sm:p-0 gap-0 shadow-xl border-border relative">
-        {/* Admin Access Button - Mobile: Top-right of card, Desktop: Left side */}
+        {/* Admin Access Button - Mobile: Top-right, Desktop: top-center split */}
         <button
           onClick={() => setShowAdminDialog(true)}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 xl:left-1/2 xl:top-1/2 xl:-translate-x-32 xl:-translate-y-1/2 xl:right-auto size-11 sm:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/50 transition-all hover:scale-105 group z-40"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 xl:left-1/2 xl:top-6 xl:right-auto xl:-translate-x-1/2 xl:translate-y-0 size-11 sm:size-12 xl:size-12 flex items-center justify-center bg-linear-to-br from-background to-surface hover:from-surface hover:to-card rounded-full shadow-lg border border-border/60 transition-all hover:scale-105 group z-40"
           aria-label={tAuth("adminAccess")}
         >
           <Shield className="w-5 h-5 text-primary-light group-hover:text-primary transition-colors" />

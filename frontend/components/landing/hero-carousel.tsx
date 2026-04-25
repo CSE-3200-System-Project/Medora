@@ -59,7 +59,7 @@ const HERO_SLIDES: Slide[] = [
     title: "One timeline, one source of truth",
     accent: "for every consultation",
     description:
-      "Medication, tests, and history stay connected — so every visit builds on the last instead of starting over.",
+      "Medication, tests, and history stay connected - so every visit builds on the last instead of starting over.",
     primaryLabel: "Get started",
     secondaryLabel: "How it works",
     primaryHref: "/selection",
@@ -73,7 +73,7 @@ const HERO_SLIDES: Slide[] = [
     title: "Healthcare that remembers you",
     accent: "reliable, private, continuous",
     description:
-      "Private by design, role-aware, and ready for long-term care — reminders and summaries that actually help.",
+      "Private by design, role-aware, and ready for long-term care - reminders and summaries that actually help.",
     primaryLabel: "Join Medora",
     secondaryLabel: "Why Medora",
     primaryHref: "/selection",
@@ -196,14 +196,16 @@ export function HeroCarousel() {
             {activeSlide.badge}
           </span>
 
-          <h1 className="min-h-[7.5rem] text-3xl font-bold leading-tight tracking-tight md:min-h-[8.5rem] md:text-4xl xl:text-5xl">
-            {activeSlide.title}
-            <span className="mt-2 block text-primary">{activeSlide.accent}</span>
-          </h1>
+          <div className="max-w-[34rem] space-y-4 sm:space-y-5">
+            <h1 className="text-3xl font-bold leading-[1.12] tracking-tight text-balance sm:text-4xl md:text-[2.7rem]">
+              <span className="block">{activeSlide.title}</span>
+              <span className="mt-2 block text-primary">{activeSlide.accent}</span>
+            </h1>
 
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:min-h-[5.5rem] md:text-lg">
-            {activeSlide.description}
-          </p>
+            <p className="text-base leading-relaxed text-muted-foreground sm:text-[1.05rem]">
+              {activeSlide.description}
+            </p>
+          </div>
 
           <div className="mt-8 button-row">
             <Button size="lg" asChild className="w-full sm:w-auto px-7">
