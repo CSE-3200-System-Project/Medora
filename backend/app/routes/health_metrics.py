@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import and_, func, select
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
+from sqlalchemy import and_, cast, Date, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.dependencies import get_db
+from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.db.models.enums import HealthMetricType, UserRole
 from app.db.models.health_metric import HealthMetric
 from app.db.models.profile import Profile
@@ -98,6 +99,8 @@ async def list_health_metrics(
 
 @router.get("/today", response_model=HealthMetricTodayResponse)
 async def get_today_metrics(
+    request: Request,
+    response: Response,
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -107,6 +110,7 @@ async def get_today_metrics(
     start_of_day = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
     end_of_day = start_of_day + timedelta(days=1)
 
+    # SQL-side: pick the latest row per metric_type using DISTINCT ON.
     rows = (
         await db.execute(
             select(HealthMetric)
@@ -115,15 +119,10 @@ async def get_today_metrics(
                 HealthMetric.recorded_at >= start_of_day,
                 HealthMetric.recorded_at < end_of_day,
             )
-            .order_by(HealthMetric.recorded_at.desc())
+            .order_by(HealthMetric.metric_type.asc(), HealthMetric.recorded_at.desc())
+            .distinct(HealthMetric.metric_type)
         )
     ).scalars().all()
-
-    latest_by_type: dict[str, HealthMetric] = {}
-    for metric in rows:
-        key = metric.metric_type.value
-        if key not in latest_by_type:
-            latest_by_type[key] = metric
 
     summary = [
         HealthMetricTodaySummary(
@@ -133,14 +132,22 @@ async def get_today_metrics(
             source=item.source,
             recorded_at=item.recorded_at,
         )
-        for item in latest_by_type.values()
+        for item in rows
     ]
 
-    return HealthMetricTodayResponse(date=start_of_day.date().isoformat(), summary=summary)
+    payload = HealthMetricTodayResponse(date=start_of_day.date().isoformat(), summary=summary)
+    body_for_etag = payload.model_dump(mode="json")
+    etag = build_etag(body_for_etag)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=20, stale_while_revalidate_seconds=120)
+    return payload
 
 
 @router.get("/trends", response_model=HealthMetricTrendsResponse)
 async def get_metric_trends(
+    request: Request,
+    response: Response,
     days: int = Query(default=7, ge=1, le=730),
     metric_type: HealthMetricType | None = Query(default=None),
     user: Any = Depends(get_current_user_token),
@@ -153,47 +160,67 @@ async def get_metric_trends(
     if metric_type:
         filters.append(HealthMetric.metric_type == metric_type)
 
-    rows = (
+    # SQL-side aggregation: bucket by (metric_type, date) so we never load full rows.
+    day_col = cast(HealthMetric.recorded_at, Date).label("day")
+    agg_rows = (
         await db.execute(
-            select(HealthMetric)
+            select(
+                HealthMetric.metric_type.label("metric_type"),
+                day_col,
+                func.avg(HealthMetric.value).label("avg_value"),
+                func.min(HealthMetric.value).label("min_value"),
+                func.max(HealthMetric.value).label("max_value"),
+                func.count(HealthMetric.id).label("entries"),
+            )
             .where(and_(*filters))
-            .order_by(HealthMetric.metric_type.asc(), HealthMetric.recorded_at.asc())
+            .group_by(HealthMetric.metric_type, day_col)
+            .order_by(HealthMetric.metric_type.asc(), day_col.asc())
         )
-    ).scalars().all()
+    ).all()
 
-    grouped: dict[str, dict[str, list[HealthMetric]]] = {}
-    for item in rows:
-        metric_key = item.metric_type.value
-        day_key = item.recorded_at.date().isoformat()
-        grouped.setdefault(metric_key, {})
-        grouped[metric_key].setdefault(day_key, [])
-        grouped[metric_key][day_key].append(item)
+    # One small query to get the latest unit per metric_type (cheap).
+    unit_rows = (
+        await db.execute(
+            select(HealthMetric.metric_type, HealthMetric.unit)
+            .where(and_(*filters))
+            .order_by(HealthMetric.metric_type.asc(), HealthMetric.recorded_at.desc())
+            .distinct(HealthMetric.metric_type)
+        )
+    ).all()
+    units_by_metric: dict[str, str] = {
+        (m.value if hasattr(m, "value") else str(m)): u for (m, u) in unit_rows
+    }
 
-    trends: list[HealthMetricTrendSeries] = []
-    for metric_key, by_day in grouped.items():
-        points: list[HealthMetricTrendPoint] = []
-        unit = ""
-        for day, entries in sorted(by_day.items(), key=lambda pair: pair[0]):
-            values = [float(item.value) for item in entries]
-            unit = entries[-1].unit
-            points.append(
-                HealthMetricTrendPoint(
-                    date=day,
-                    average_value=round(sum(values) / len(values), 2),
-                    min_value=min(values),
-                    max_value=max(values),
-                    entries=len(values),
-                )
-            )
-        trends.append(
-            HealthMetricTrendSeries(
-                metric_type=HealthMetricType(metric_key),
-                unit=unit,
-                points=points,
+    grouped_points: dict[str, list[HealthMetricTrendPoint]] = {}
+    for row in agg_rows:
+        metric_key = row.metric_type.value if hasattr(row.metric_type, "value") else str(row.metric_type)
+        grouped_points.setdefault(metric_key, []).append(
+            HealthMetricTrendPoint(
+                date=row.day.isoformat(),
+                average_value=round(float(row.avg_value), 2),
+                min_value=float(row.min_value),
+                max_value=float(row.max_value),
+                entries=int(row.entries),
             )
         )
 
-    return HealthMetricTrendsResponse(days=days, trends=trends)
+    trends = [
+        HealthMetricTrendSeries(
+            metric_type=HealthMetricType(metric_key),
+            unit=units_by_metric.get(metric_key, ""),
+            points=points,
+        )
+        for metric_key, points in grouped_points.items()
+    ]
+
+    payload = HealthMetricTrendsResponse(days=days, trends=trends)
+    body_for_etag = payload.model_dump(mode="json")
+    etag = build_etag(body_for_etag)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    # Trends rarely change mid-day; longer SWR window is fine.
+    set_cache_headers(response, etag=etag, max_age_seconds=60, stale_while_revalidate_seconds=300)
+    return payload
 
 
 @router.patch("/{metric_id}", response_model=HealthMetricResponse)

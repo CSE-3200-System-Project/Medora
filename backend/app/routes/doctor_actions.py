@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.dependencies import get_db
+from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.doctor_action import DoctorAction
 from app.db.models.enums import (
@@ -158,6 +159,8 @@ async def get_pending_doctor_actions(
 
 @router.get("/stats", response_model=DoctorActionStatsResponse)
 async def get_doctor_action_stats(
+    request: Request,
+    response: Response,
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -365,7 +368,7 @@ async def get_doctor_action_stats(
             DoctorActionDemographicPoint(range="65+ Years", value=0.0),
         ]
 
-    return DoctorActionStatsResponse(
+    payload = DoctorActionStatsResponse(
         monthly_revenue=float(round(monthly_revenue, 2)),
         weekly_wsi=weekly_wsi,
         pending_actions_count=int(pending_actions_total),
@@ -374,6 +377,12 @@ async def get_doctor_action_stats(
         revenue_trend=revenue_trend,
         demographic_breakdown=demographics,
     )
+    body_for_etag = payload.model_dump(mode="json")
+    etag = build_etag(body_for_etag)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=60, stale_while_revalidate_seconds=300)
+    return payload
 
 
 @router.patch("/{action_id}", response_model=DoctorActionResponse)

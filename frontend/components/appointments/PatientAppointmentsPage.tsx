@@ -270,10 +270,17 @@ export default function PatientAppointmentsPage() {
   const [cancelBufferMinutes, setCancelBufferMinutes] = React.useState<number>(60);
   const [actionFeedback, setActionFeedback] = React.useState<{ type: "success" | "error"; message: string } | null>(null);
 
-  const reloadAppointments = React.useCallback(async () => {
-    const response = await getPatientCalendarAppointments();
+  const [showAllAppointments, setShowAllAppointments] = React.useState(false);
+  const [appointmentsHasMore, setAppointmentsHasMore] = React.useState(false);
+  const [appointmentsTotal, setAppointmentsTotal] = React.useState(0);
+
+  const reloadAppointments = React.useCallback(async (overrideShowAll?: boolean) => {
+    const showAll = overrideShowAll ?? showAllAppointments;
+    const response = await getPatientCalendarAppointments(showAll ? { showAll: true } : {});
     setAppointments(normalizeAppointments(response?.appointments || []));
-  }, []);
+    setAppointmentsHasMore(Boolean(response?.has_more));
+    setAppointmentsTotal(Number(response?.total || 0));
+  }, [showAllAppointments]);
 
   const handleRescheduleConfirm = async (appointmentId: string, newDate: string, slotTime: string, notes?: string) => {
     setActionFeedback(null);
@@ -463,16 +470,23 @@ export default function PatientAppointmentsPage() {
   React.useEffect(() => {
     const load = async () => {
       try {
-        await syncAppointmentStatus();
+        // Critical render path: parallelize calendar + profile + cancellation reasons.
+        // syncAppointmentStatus is fire-and-forget (auto-completes past appointments)
+        // and runs in parallel rather than blocking initial paint.
+        const syncPromise = syncAppointmentStatus().catch((error) => {
+          console.warn("Background appointment status sync failed", error);
+        });
 
         const [appointmentResponse, profileResponse, cancellationCatalog] = await Promise.all([
-          getPatientCalendarAppointments(),
+          getPatientCalendarAppointments(showAllAppointments ? { showAll: true } : {}),
           fetchWithAuth("/api/auth/me"),
           getCancellationReasons("patient").catch(() => ({ bufferMinutes: 60, reasons: [] })),
         ]);
 
         const normalizedAppointments = normalizeAppointments(appointmentResponse?.appointments || []);
         setAppointments(normalizedAppointments);
+        setAppointmentsHasMore(Boolean(appointmentResponse?.has_more));
+        setAppointmentsTotal(Number(appointmentResponse?.total || 0));
         setCancelReasonOptions(cancellationCatalog.reasons || []);
         setCancelBufferMinutes(cancellationCatalog.bufferMinutes || 60);
 
@@ -486,6 +500,12 @@ export default function PatientAppointmentsPage() {
             avatarUrl: profileData.profile_photo_url || null,
           });
         }
+
+        // After first paint, await the sync; if it changed anything we silently refresh.
+        const syncResult = await syncPromise;
+        if (syncResult && typeof syncResult === "object" && "updated_count" in syncResult && (syncResult as { updated_count?: number }).updated_count) {
+          await reloadAppointments();
+        }
       } catch (error) {
         console.error("Failed to load appointments dashboard:", error);
       } finally {
@@ -494,7 +514,8 @@ export default function PatientAppointmentsPage() {
     };
 
     load();
-  }, [defaultPatientName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultPatientName, showAllAppointments]);
 
   const sortedAppointments = React.useMemo(() => sortByDateAsc(appointments), [appointments]);
 
@@ -633,6 +654,24 @@ export default function PatientAppointmentsPage() {
                 </Button>
               </div>
             )}
+
+            {!showAllAppointments && (appointmentsHasMore || appointmentsTotal === 0) ? (
+              <div className="flex flex-col items-center justify-between gap-2 rounded-lg border border-border/60 bg-card/60 px-4 py-3 text-sm text-muted-foreground sm:flex-row">
+                <span>
+                  Showing the last 6 months and next 6 months by default for faster loading.
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setShowAllAppointments(true);
+                    setLoading(true);
+                  }}
+                >
+                  Show all appointments
+                </Button>
+              </div>
+            ) : null}
           </>
         )}
       </main>

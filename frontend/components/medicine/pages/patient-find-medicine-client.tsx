@@ -4,8 +4,9 @@ import React, { useState, useCallback } from "react";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
 import { MedicineCard, MedicineSearch, MedicineDetailDrawer } from "@/components/medicine";
-import { PrescriptionUploadDemo } from "@/components/medicine/prescription-upload-demo";
+import { PrescriptionUploadDemo, type EditableMedication } from "@/components/medicine/prescription-upload-demo";
 import { AddMedicationDialog, type Medication } from "@/components/medicine/add-medication-dialog";
+import { buildFrequencyFromDoseSchedule, normalizeMealInstruction } from "@/lib/patient-medication";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { MedoraLoader } from "@/components/ui/medora-loader";
@@ -97,22 +98,24 @@ export function PatientFindMedicineClient() {
   };
 
   const handleApproveScannedMedications = useCallback(
-    async (
-      scanned: Array<{
-        name: string;
-        dosage: string;
-        frequency: string;
-        quantity: string;
-      }>
-    ) => {
+    async (scanned: EditableMedication[]) => {
+      // Filter out empty rows and compute the canonical name from the matched DB record
+      // when available, falling back to the OCR'd name otherwise.
       const normalizedScanned = scanned
-        .map((item) => ({
-          name: item.name.trim(),
-          dosage: item.dosage.trim(),
-          frequency: item.frequency.trim(),
-          quantity: item.quantity.trim(),
-        }))
-        .filter((item) => item.name);
+        .map((item) => {
+          const matched = item.matched || null;
+          const canonicalName = (matched?.display_name || item.name || "").trim();
+          return {
+            canonicalName,
+            originalName: item.name.trim(),
+            dosage: item.dosage.trim(),
+            frequency: buildFrequencyFromDoseSchedule(item.schedule) || item.frequency || "0+0+0",
+            quantity: item.quantity.trim(),
+            schedule: item.schedule,
+            matched,
+          };
+        })
+        .filter((item) => item.canonicalName);
 
       if (normalizedScanned.length === 0) {
         throw new Error("No valid medicines to save.");
@@ -132,23 +135,34 @@ export function PatientFindMedicineClient() {
 
       const additions = normalizedScanned
         .filter((item) => {
-          const key = `${item.name.toLowerCase()}|${item.dosage.toLowerCase()}`;
+          const key = `${item.canonicalName.toLowerCase()}|${item.dosage.toLowerCase()}`;
           return !existingKeys.has(key);
         })
         .map((item) =>
           toBackendPatientMedication({
             id: crypto.randomUUID(),
-            drug_id: "",
-            display_name: item.name,
-            generic_name: item.name,
-            strength: item.dosage || "",
-            dosage_form: "",
-            dosage: item.dosage || "",
-            frequency: item.frequency || "1+0+1+0",
+            // Wire up the canonical DB record so the medication links to the official drug/brand.
+            drug_id: item.matched?.drug_id || "",
+            brand_id: item.matched?.brand_id || undefined,
+            display_name: item.matched?.display_name || item.canonicalName,
+            generic_name: item.matched?.generic_name || item.canonicalName,
+            strength: item.matched?.strength || item.dosage || "",
+            dosage_form: item.matched?.dosage_form || "",
+            dosage: item.dosage || item.matched?.strength || "",
+            frequency: item.frequency,
             duration: item.quantity || "7 days",
             status: "current",
-            meal_instruction: "after_meal",
+            meal_instruction: normalizeMealInstruction("after_meal"),
             notes: "Added from prescription scan",
+            // Structured dose schedule mirrors the manual add-medication flow.
+            dose_morning: item.schedule.dose_morning,
+            dose_afternoon: item.schedule.dose_afternoon,
+            dose_evening: false,
+            dose_night: item.schedule.dose_night,
+            dose_morning_amount: item.schedule.dose_morning_amount,
+            dose_afternoon_amount: item.schedule.dose_afternoon_amount,
+            dose_evening_amount: "1",
+            dose_night_amount: item.schedule.dose_night_amount,
           }),
         );
 

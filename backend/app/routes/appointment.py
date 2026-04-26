@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import distinct, func, select
+from sqlalchemy import distinct, func, select, and_
 from app.core.dependencies import get_db
+from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.core.patient_reference import patient_ref_from_uuid
 from app.routes.auth import get_current_user_token
 from app.db.models.appointment import Appointment, AppointmentStatus
@@ -880,7 +881,12 @@ async def update_appointment_status(
 # === Stats & Upcoming endpoints ===
 
 @router.get("/stats")
-async def get_appointment_stats(user: any = Depends(get_current_user_token), db: AsyncSession = Depends(get_db)):
+async def get_appointment_stats(
+    request: Request,
+    response: Response,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
     """Return summary stats for the current doctor"""
     user_id = user.id
     # Ensure profile exists
@@ -929,12 +935,17 @@ async def get_appointment_stats(user: any = Depends(get_current_user_token), db:
 
     completion_rate = (completed / total * 100) if total > 0 else 0
 
-    return {
+    payload = {
         "todays_appointments": int(todays_count),
         "total_patients": int(total_patients),
         "pending_reviews": int(pending_count),
         "completion_rate": round(completion_rate, 1)
     }
+    etag = build_etag(payload)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=30, stale_while_revalidate_seconds=180)
+    return payload
 
 @router.get("/upcoming")
 async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_current_user_token), db: AsyncSession = Depends(get_db)):
@@ -1116,37 +1127,176 @@ async def get_previously_visited_doctors(
     return {"doctors": doctors, "total": len(doctors)}
 
 
+@router.get("/patient/calendar/summary")
+async def get_patient_calendar_summary(
+    request: Request,
+    response: Response,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Tiny payload for cards that just need next/last/total counts.
+
+    Used by patient profile and medical-history headers — avoids the heavy join chain.
+    """
+    user_id = user.id
+
+    profile_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
+    role_value = profile_result.scalar_one_or_none()
+    if role_value is None:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    role_str = (role_value.value if hasattr(role_value, "value") else str(role_value)).upper()
+    if "PATIENT" not in role_str:
+        raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
+
+    now = datetime.now(timezone.utc)
+
+    # 4 small queries (all hit ix_appointments_patient_date_status):
+    total_q = await db.execute(
+        select(func.count(Appointment.id)).where(Appointment.patient_id == user_id)
+    )
+    total = int(total_q.scalar() or 0)
+
+    next_q = await db.execute(
+        select(Appointment.id, Appointment.appointment_date, Appointment.status)
+        .where(
+            Appointment.patient_id == user_id,
+            Appointment.appointment_date >= now,
+            ~Appointment.status.in_(list(UPCOMING_EXCLUDED_STATUSES)),
+        )
+        .order_by(Appointment.appointment_date.asc())
+        .limit(1)
+    )
+    next_row = next_q.first()
+
+    last_q = await db.execute(
+        select(Appointment.id, Appointment.appointment_date)
+        .where(
+            Appointment.patient_id == user_id,
+            Appointment.appointment_date < now,
+        )
+        .order_by(Appointment.appointment_date.desc())
+        .limit(1)
+    )
+    last_row = last_q.first()
+
+    upcoming_count_q = await db.execute(
+        select(func.count(Appointment.id)).where(
+            Appointment.patient_id == user_id,
+            Appointment.appointment_date >= now,
+            ~Appointment.status.in_(list(UPCOMING_EXCLUDED_STATUSES)),
+        )
+    )
+    upcoming_count = int(upcoming_count_q.scalar() or 0)
+
+    payload = {
+        "total": total,
+        "upcoming_count": upcoming_count,
+        "next_appointment": (
+            {
+                "id": next_row[0],
+                "appointment_date": next_row[1].isoformat(),
+                "status": _status_value(next_row[2]),
+            }
+            if next_row else None
+        ),
+        "last_visit": (
+            {"id": last_row[0], "appointment_date": last_row[1].isoformat()}
+            if last_row else None
+        ),
+    }
+
+    etag = build_etag(payload)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=20, stale_while_revalidate_seconds=120)
+    return payload
+
+
 @router.get("/patient/calendar")
 async def get_patient_calendar_appointments(
+    request: Request,
+    response: Response,
+    start_date: str | None = Query(None, description="ISO date inclusive lower bound"),
+    end_date: str | None = Query(None, description="ISO date inclusive upper bound"),
+    page: int = Query(1, ge=1),
+    size: int | None = Query(None, ge=1, le=500),
+    show_all: bool = Query(False, description="Backwards-compat: return every appointment"),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
     """
-    Get all appointments for patient formatted for calendar view.
-    Groups appointments by date with status info.
+    Get appointments for patient formatted for calendar view.
+
+    Defaults to a -180d / +180d window with size=200 to keep responses snappy.
+    Pass ``show_all=true`` to return every appointment (legacy behavior).
     """
     user_id = user.id
-    
+
     # Verify user is a patient
     result = await db.execute(select(Profile).where(Profile.id == user_id))
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
+
     role_str = str(profile.role).upper()
     if "PATIENT" not in role_str:
         raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
-    
-    # Get all patient appointments
-    query = select(Appointment).distinct().where(
-        Appointment.patient_id == user_id
-    ).order_by(Appointment.appointment_date.desc())
-    
+
+    # Build query with optional date window
+    filters = [Appointment.patient_id == user_id]
+    parsed_start: datetime | None = None
+    parsed_end: datetime | None = None
+
+    if not show_all:
+        # Apply default window when caller didn't override either bound.
+        now = datetime.now(timezone.utc)
+        if start_date:
+            try:
+                parsed_start = datetime.fromisoformat(start_date)
+                if parsed_start.tzinfo is None:
+                    parsed_start = parsed_start.replace(tzinfo=timezone.utc)
+            except ValueError:
+                raise HTTPException(status_code=400, detail="Invalid start_date")
+        elif end_date is None:
+            parsed_start = now - timedelta(days=180)
+
+        if end_date:
+            try:
+                parsed_end = datetime.fromisoformat(end_date)
+                if parsed_end.tzinfo is None:
+                    parsed_end = parsed_end.replace(tzinfo=timezone.utc)
+            except ValueError:
+                raise HTTPException(status_code=400, detail="Invalid end_date")
+        elif start_date is None:
+            parsed_end = now + timedelta(days=180)
+
+        if parsed_start is not None:
+            filters.append(Appointment.appointment_date >= parsed_start)
+        if parsed_end is not None:
+            filters.append(Appointment.appointment_date <= parsed_end)
+
+    effective_size = size if size is not None else (None if show_all else 200)
+
+    query = (
+        select(Appointment)
+        .distinct()
+        .where(and_(*filters))
+        .order_by(Appointment.appointment_date.desc())
+    )
+    if effective_size is not None:
+        query = query.limit(effective_size).offset((page - 1) * effective_size)
+
     result = await db.execute(query)
     appointments = result.scalars().all()
+
+    # Total count for pagination UI
+    total_query = select(func.count(Appointment.id)).where(and_(*filters))
+    total_result = await db.execute(total_query)
+    total_count = int(total_result.scalar() or 0)
+
     if not appointments:
-        return {"appointments": [], "by_date": [], "total": 0}
+        return {"appointments": [], "by_date": [], "total": total_count, "page": page, "size": effective_size, "has_more": False}
 
     latest_pending_reschedules = await _latest_pending_reschedules_by_appointment(
         db,
@@ -1248,10 +1398,18 @@ async def get_patient_calendar_appointments(
         appointments_by_date[date_key]["statuses"].append(_status_value(appt.status))
         appointments_by_date[date_key]["appointments"].append(appt_data)
     
+    has_more = (
+        effective_size is not None
+        and (page * effective_size) < total_count
+    )
+
     return {
         "appointments": all_appointments,
         "by_date": list(appointments_by_date.values()),
-        "total": len(appointments)
+        "total": total_count,
+        "page": page,
+        "size": effective_size,
+        "has_more": has_more,
     }
 
 
@@ -1373,6 +1531,8 @@ async def sync_appointment_status(
 
 @router.get("/doctor/revenue-summary")
 async def get_doctor_revenue_summary(
+    request: Request,
+    response: Response,
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -1424,7 +1584,7 @@ async def get_doctor_revenue_summary(
         )
     ).one()
 
-    return {
+    payload = {
         "total_revenue": round(float(doctor_profile.total_revenue or 0.0), 2),
         "monthly_revenue": round(float(aggregates.monthly_revenue or 0.0), 2),
         "completed_appointments": int(aggregates.completed_total or 0),
@@ -1435,6 +1595,11 @@ async def get_doctor_revenue_summary(
             else None
         ),
     }
+    etag = build_etag(payload)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=60, stale_while_revalidate_seconds=300)
+    return payload
 
 
 @router.get("/{appointment_id}/can-complete")

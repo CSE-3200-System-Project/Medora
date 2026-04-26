@@ -273,7 +273,7 @@ export async function updateDoctorOnboarding(data: Record<string, unknown>) {
 export async function getPatientOnboardingData() {
   try {
     const headers = await getAuthHeaders();
-    
+
     const response = await fetch(`${BACKEND_URL}/profile/patient/onboarding`, {
       method: "GET",
       headers,
@@ -287,6 +287,33 @@ export async function getPatientOnboardingData() {
     return await response.json();
   } catch (error) {
     console.error("Failed to fetch patient onboarding data:", error);
+    return null;
+  }
+}
+
+/**
+ * Lightweight patient summary — identity, vitals, conditions, top-3 previews.
+ * ~10x smaller payload than getPatientOnboardingData. Use this on read-only pages
+ * (profile cards, headers, dashboards) and reserve onboarding-data for the edit wizard.
+ */
+export async function getPatientSummary() {
+  try {
+    const headers = await getAuthHeaders();
+
+    const response = await fetch(`${BACKEND_URL}/profile/patient/summary`, {
+      method: "GET",
+      headers,
+      // Backend ETag + Cache-Control handles freshness; no need to bust the cache.
+      next: { revalidate: 30 },
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch patient summary:", error);
     return null;
   }
 }
