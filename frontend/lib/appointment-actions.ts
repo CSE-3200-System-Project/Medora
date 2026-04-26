@@ -65,7 +65,12 @@ export async function createAppointment(data: any) {
   return response.json();
 }
 
-export async function getMyAppointments() {
+export type MyAppointmentsOptions = {
+  page?: number;
+  size?: number;
+};
+
+export async function getMyAppointments(options: MyAppointmentsOptions = {}) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
@@ -73,13 +78,19 @@ export async function getMyAppointments() {
     return [];
   }
 
-  const response = await fetch(`${BACKEND_URL}/appointment/my-appointments`, {
+  const params = new URLSearchParams();
+  if (options.page) params.set("page", String(options.page));
+  if (typeof options.size === "number") params.set("size", String(options.size));
+  const queryString = params.toString();
+  const url = `${BACKEND_URL}/appointment/my-appointments${queryString ? `?${queryString}` : ""}`;
+
+  const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });
-  
+
   if (!response.ok) {
     if (response.status === 401) {
       return [];
@@ -278,9 +289,19 @@ export async function getPreviouslyVisitedDoctors() {
   return response.json();
 }
 
-// Get patient calendar appointments
-export async function getPatientCalendarAppointments() {
-  const fallbackPayload = { appointments: [], by_date: [], total: 0 };
+// Get patient calendar appointments.
+// Defaults to a -180d / +180d window (server-side) for performance.
+// Pass { showAll: true } to return every appointment (legacy behavior).
+export type PatientCalendarOptions = {
+  startDate?: string;        // ISO YYYY-MM-DD (or full ISO datetime)
+  endDate?: string;
+  page?: number;
+  size?: number;
+  showAll?: boolean;
+};
+
+export async function getPatientCalendarAppointments(options: PatientCalendarOptions = {}) {
+  const fallbackPayload = { appointments: [], by_date: [], total: 0, page: 1, size: null, has_more: false };
 
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
@@ -289,8 +310,18 @@ export async function getPatientCalendarAppointments() {
     return fallbackPayload;
   }
 
+  const params = new URLSearchParams();
+  if (options.startDate) params.set("start_date", options.startDate);
+  if (options.endDate) params.set("end_date", options.endDate);
+  if (options.page) params.set("page", String(options.page));
+  if (typeof options.size === "number") params.set("size", String(options.size));
+  if (options.showAll) params.set("show_all", "true");
+
+  const queryString = params.toString();
+  const url = `${BACKEND_URL}/appointment/patient/calendar${queryString ? `?${queryString}` : ""}`;
+
   try {
-    const response = await fetch(`${BACKEND_URL}/appointment/patient/calendar`, {
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -314,6 +345,36 @@ export async function getPatientCalendarAppointments() {
     return response.json();
   } catch (error) {
     console.warn("Calendar appointments request failed", error);
+    return fallbackPayload;
+  }
+}
+
+// Tiny payload for cards: total, upcoming_count, next_appointment, last_visit.
+export async function getPatientCalendarSummary() {
+  const fallbackPayload = { total: 0, upcoming_count: 0, next_appointment: null, last_visit: null };
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("session_token")?.value;
+
+  if (!token || !BACKEND_URL) {
+    return fallbackPayload;
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/appointment/patient/calendar/summary`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      next: { revalidate: 20 },
+    });
+
+    if (!response.ok) {
+      return fallbackPayload;
+    }
+
+    return response.json();
+  } catch (error) {
+    console.warn("Calendar summary request failed", error);
     return fallbackPayload;
   }
 }

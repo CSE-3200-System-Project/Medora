@@ -1,6 +1,6 @@
 from fastapi import Depends, Header, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, text
+from sqlalchemy import select
 from app.db.session import AsyncSessionLocal
 from app.db.models.profile import Profile
 from app.db.models.enums import UserRole
@@ -29,20 +29,11 @@ async def require_role(db: AsyncSession, user, role: UserRole, detail: str) -> P
     return profile
 
 async def get_db(authorization: str | None = Header(None)):
-    """Get database session with JWT context for RLS policies."""
+    """Get database session. Backend runs server-side queries as the DB user
+    (direct password auth), so RLS is bypassed at the Postgres level — no JWT
+    context injection needed. Supabase RLS applies to anon/service_role JWT
+    clients, not to direct asyncpg connections authenticated by password."""
     async with AsyncSessionLocal() as session:
-        if authorization and authorization.lower().startswith("bearer "):
-            token = authorization[7:].strip()
-            if token:
-                try:
-                    # Parameterized to avoid SQL injection via the Authorization header.
-                    await session.execute(
-                        text("SELECT set_config('request.jwt', :jwt, true)"),
-                        {"jwt": token},
-                    )
-                except Exception:
-                    # RLS might not be configured; continue anyway.
-                    pass
         yield session
 
 async def get_current_user(

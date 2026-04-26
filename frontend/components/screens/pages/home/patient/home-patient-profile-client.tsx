@@ -2,8 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { fetchWithAuth } from "@/lib/auth-utils";
-import { getMyAppointments } from "@/lib/appointment-actions";
+import { getPatientSummary } from "@/lib/auth-actions";
+import { getPatientCalendarSummary } from "@/lib/appointment-actions";
 import { Navbar } from "@/components/ui/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,10 +93,16 @@ interface PatientData {
   // Allergies & medications
   allergies?: string;
   medications?: Medication[];
+  medications_preview?: Medication[];
+  medications_count?: number;
   drug_allergies?: DrugAllergy[];
   // Medical history
   surgeries?: Surgery[];
+  surgeries_preview?: Surgery[];
+  surgeries_count?: number;
   hospitalizations?: Hospitalization[];
+  hospitalizations_preview?: Hospitalization[];
+  hospitalizations_count?: number;
   // Emergency contact
   emergency_contact_name?: string;
   emergency_contact_phone?: string;
@@ -105,6 +111,13 @@ interface PatientData {
 
 interface AppointmentSummary {
   appointment_date: string;
+}
+
+interface CalendarSummaryResponse {
+  total: number;
+  upcoming_count: number;
+  next_appointment: { id: string; appointment_date: string; status: string } | null;
+  last_visit: { id: string; appointment_date: string } | null;
 }
 
 export default function PatientProfilePage() {
@@ -122,38 +135,38 @@ export default function PatientProfilePage() {
 
   const loadPatientProfile = async () => {
     setLoadError(null);
+    setLoading(true);
     try {
-      const response = await fetchWithAuth('/api/auth/me');
-      if (response?.ok) {
-        const data = await response.json();
-        
-        // Fetch detailed patient data
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-        const token = document.cookie.split('session_token=')[1]?.split(';')[0];
-        const detailsResponse = await fetchWithAuth(`${backendUrl}/profile/patient/onboarding`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
-        // Fetch appointments
-        try {
-          const apps = await getMyAppointments();
-          if (Array.isArray(apps)) setAppointments(apps as AppointmentSummary[]);
-        } catch (e) {
-          console.error("Failed to load appointments", e);
-        }
+      // Run profile summary + calendar summary in parallel.
+      // Each fires immediately rather than waterfalling.
+      const [summary, calendarSummary] = await Promise.all([
+        getPatientSummary(),
+        getPatientCalendarSummary().catch(() => null),
+      ]);
 
-        if (detailsResponse?.ok) {
-          const details = await detailsResponse.json();
-          setPatient({ ...data, ...details });
-        } else {
-          setPatient(data);
-        }
-      } else {
+      if (!summary) {
         setPatient(null);
         setLoadError(tCommon("patientProfile.errors.sessionVerifyFailed"));
+        return;
       }
+
+      // Map backend summary fields to component shape (preserve preview arrays
+      // under their canonical names so existing render code keeps working).
+      const mapped: PatientData = {
+        ...summary,
+        medications: summary.medications_preview || summary.medications || [],
+        surgeries: summary.surgeries_preview || summary.surgeries || [],
+        hospitalizations: summary.hospitalizations_preview || summary.hospitalizations || [],
+      };
+      setPatient(mapped);
+
+      const cal = calendarSummary as CalendarSummaryResponse | null;
+      // The Recent Visits card only displays the last visit date; emit a tiny
+      // synthetic list so the existing JSX doesn't have to change shape.
+      const visitList: AppointmentSummary[] = [];
+      if (cal?.next_appointment) visitList.push({ appointment_date: cal.next_appointment.appointment_date });
+      if (cal?.last_visit) visitList.push({ appointment_date: cal.last_visit.appointment_date });
+      setAppointments(visitList);
     } catch (error) {
       console.error("Failed to load profile:", error);
       setPatient(null);

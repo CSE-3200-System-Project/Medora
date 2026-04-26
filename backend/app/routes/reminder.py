@@ -4,11 +4,12 @@ Reminder Routes
 CRUD endpoints for medication and test reminders.
 Supports multiple reminder times per day based on dosage.
 """
-from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 from app.core.dependencies import get_db
 from app.core.config import settings
+from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.routes.auth import get_current_user_token
 from app.db.models.reminder import Reminder, ReminderType
 from app.schemas.reminder import (
@@ -120,6 +121,8 @@ async def create_reminder(
 
 @router.get("/", response_model=ReminderListResponse)
 async def get_reminders(
+    request: Request,
+    response: Response,
     type_filter: Optional[str] = Query(None, description="Filter by type: medication, test"),
     active_only: bool = Query(True, description="Only return active reminders"),
     limit: int = Query(50, ge=1, le=100),
@@ -129,17 +132,17 @@ async def get_reminders(
 ):
     """Get all reminders for the current user."""
     conditions = [Reminder.user_id == user.id]
-    
+
     if active_only:
         conditions.append(Reminder.is_active == True)
-    
+
     if type_filter:
         try:
             reminder_type = ReminderType(type_filter.lower())
             conditions.append(Reminder.type == reminder_type)
         except ValueError:
             pass  # Ignore invalid type filter
-    
+
     # Get reminders
     query = (
         select(Reminder)
@@ -150,16 +153,22 @@ async def get_reminders(
     )
     result = await db.execute(query)
     reminders = result.scalars().all()
-    
+
     # Get total count
     count_query = select(func.count(Reminder.id)).where(and_(*conditions))
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0
-    
-    return ReminderListResponse(
+
+    payload = ReminderListResponse(
         reminders=[build_reminder_response(r) for r in reminders],
         total=total,
     )
+    body_for_etag = payload.model_dump(mode="json")
+    etag = build_etag(body_for_etag)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=15, stale_while_revalidate_seconds=120)
+    return payload
 
 
 @router.get("/{reminder_id}", response_model=ReminderResponse)

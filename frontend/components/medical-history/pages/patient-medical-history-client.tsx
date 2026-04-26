@@ -950,53 +950,52 @@ function PatientMedicalHistoryPage() {
     return [...mergedDoctorSurgeries, ...unmatchedPatientSurgeries];
   };
 
-  // Load all medical history data
+  // Load all medical history data — fire all three requests in parallel.
   useEffect(() => {
     async function loadMedicalHistory() {
       try {
         setLoading(true);
-        const data = await getPatientOnboardingData();
-        
+        const [data, appointmentsResult, prescriptionResult] = await Promise.all([
+          getPatientOnboardingData(),
+          getMyAppointments().catch((error) => {
+            console.error("Failed to load appointments", error);
+            return null;
+          }),
+          getMedicalHistoryPrescriptions().catch((error) => {
+            console.error("Failed to load doctor prescriptions", error);
+            return null;
+          }),
+        ]);
+
         if (data) {
           // Store full patient data for analytics
           setPatientData(data);
-          
+
           // Load medications
           const meds = data.medications || [];
           const convertedMeds = meds.map((med: BackendPatientMedication) => toPatientMedication(med));
           setMedications(convertedMeds);
-          
+
           // Load other medical history
           setSurgeries(data.surgeries || []);
           setHospitalizations(data.hospitalizations || []);
-
-          // Load appointments
-          try {
-            const apps = await getMyAppointments();
-            if (Array.isArray(apps)) setAppointments(apps);
-          } catch (e) {
-            console.error("Failed to load appointments", e);
-          }
-          
-          // Load doctor prescriptions (accepted prescriptions from consultations)
-          try {
-            const prescriptionData = await getMedicalHistoryPrescriptions();
-            setDoctorPrescriptions(prescriptionData.prescriptions || []);
-          } catch (e) {
-            console.error("Failed to load doctor prescriptions", e);
-          }
-          
           setVaccinations(data.vaccinations || []);
           setMedicalTests(data.medical_tests || []);
-          
-          setInitialLoaded(true);
         } else {
           console.error("Failed to load medical history data");
-          setInitialLoaded(true); // Allow saving even if loading failed
         }
+
+        if (Array.isArray(appointmentsResult)) {
+          setAppointments(appointmentsResult);
+        }
+        if (prescriptionResult?.prescriptions) {
+          setDoctorPrescriptions(prescriptionResult.prescriptions);
+        }
+
+        setInitialLoaded(true); // Allow saving even if any individual fetch failed.
       } catch (error) {
         console.error("Error loading medical history:", error);
-        setInitialLoaded(true); // Allow saving even if loading failed
+        setInitialLoaded(true);
       } finally {
         setLoading(false);
       }
@@ -1627,7 +1626,7 @@ function PatientMedicalHistoryPage() {
     return (
       <AppBackground className="container-padding">
         <Navbar />
-        <main className="container mx-auto py-8 pt-[var(--nav-content-offset)]">
+        <main className="container mx-auto py-6 sm:py-8 pt-[var(--nav-content-offset)] max-w-6xl">
           <PageLoadingShell label={tCommon("medicalHistory.loading")} cardCount={4} />
         </main>
       </AppBackground>
@@ -3192,9 +3191,9 @@ export default function MedicalHistoryPage() {
     <Suspense fallback={
       <AppBackground className="container-padding">
         <Navbar />
-        <div className="min-h-dvh min-h-app py-8 pt-[var(--nav-content-offset)]">
+        <main className="container mx-auto py-6 sm:py-8 pt-[var(--nav-content-offset)] max-w-6xl">
           <PageLoadingShell label={tCommon("medicalHistory.loading")} cardCount={4} />
-        </div>
+        </main>
       </AppBackground>
     }>
       <PatientMedicalHistoryPage />

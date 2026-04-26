@@ -233,7 +233,7 @@ export function Navbar() {
     >
       <div
         className={cn(
-          "mx-auto max-w-7xl overflow-hidden transform-gpu",
+          "mx-auto max-w-7xl transform-gpu",
           "rounded-2xl border border-border/70 bg-background/90 supports-[backdrop-filter]:bg-background/85 supports-[backdrop-filter]:backdrop-blur-xl",
           "shadow-[0_14px_32px_-24px_rgba(3,96,217,0.8)] dark:bg-card/85"
         )}

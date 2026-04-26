@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
 from app.core.dependencies import get_db, resolve_profile
+from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile
@@ -837,6 +838,96 @@ async def update_patient_ai_access(
         ai_general_chat_enabled=next_general,
         consent_ai=bool(next_personal or next_general),
     )
+
+@router.get("/patient/summary")
+async def get_patient_summary(
+    request: Request,
+    response: Response,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Lightweight patient summary for profile/medical-history headers.
+
+    Returns only identity, photo, vitals, chronic-condition flags, top-3 medications/
+    surgeries/hospitalizations, and emergency contact. Avoids the full onboarding
+    payload so list-style pages render in well under 100ms.
+    """
+    user_id = user.id
+
+    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
+    profile = profile_result.scalar_one_or_none()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    patient_result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = patient_result.scalar_one_or_none()
+    avatar_url = await _ensure_patient_avatar(db, user_id, patient)
+
+    payload: dict[str, Any] = {
+        "id": profile.id,
+        "first_name": profile.first_name,
+        "last_name": profile.last_name,
+        "email": profile.email,
+        "phone": profile.phone,
+        "role": profile.role.value if hasattr(profile.role, "value") else str(profile.role),
+        "onboarding_completed": profile.onboarding_completed,
+        "profile_photo_url": avatar_url,
+    }
+
+    if patient:
+        # Trim list fields to top 3 — pages only show previews.
+        medications = patient.medications or []
+        surgeries = patient.surgeries or []
+        hospitalizations = patient.hospitalizations or []
+        drug_allergies = patient.drug_allergies or []
+
+        payload.update({
+            "patient_id": patient.profile_id,
+            "date_of_birth": str(patient.date_of_birth) if patient.date_of_birth else None,
+            "gender": patient.gender,
+            "blood_group": patient.blood_group,
+            "height": patient.height,
+            "weight": patient.weight,
+            "marital_status": patient.marital_status,
+            "occupation": patient.occupation,
+            "address": patient.address,
+            "city": patient.city,
+            "district": patient.district,
+            "country": patient.country,
+            "postal_code": patient.postal_code,
+            # Chronic condition flags (booleans only — no notes/details)
+            "has_diabetes": patient.has_diabetes,
+            "has_hypertension": patient.has_hypertension,
+            "has_heart_disease": patient.has_heart_disease,
+            "has_asthma": patient.has_asthma,
+            "has_kidney_disease": patient.has_kidney_disease,
+            "has_liver_disease": patient.has_liver_disease,
+            "has_thyroid": patient.has_thyroid,
+            "has_mental_health": getattr(patient, "has_mental_health", False),
+            "conditions": patient.conditions or [],
+            # Lists trimmed for preview cards
+            "medications_count": len(medications),
+            "medications_preview": medications[:3],
+            "surgeries_count": len(surgeries),
+            "surgeries_preview": surgeries[:3],
+            "hospitalizations_count": len(hospitalizations),
+            "hospitalizations_preview": hospitalizations[:3],
+            "drug_allergies": drug_allergies,
+            "allergies": patient.allergies,
+            # Emergency contact
+            "emergency_contact_name": patient.emergency_name,
+            "emergency_contact_phone": patient.emergency_phone,
+            "emergency_contact_relation": patient.emergency_relation,
+        })
+
+    etag = build_etag(payload)
+    if is_not_modified(request, etag):
+        return not_modified_response(response)
+    set_cache_headers(response, etag=etag, max_age_seconds=30, stale_while_revalidate_seconds=120)
+    return payload
+
 
 @router.get("/patient/onboarding")
 async def get_patient_onboarding_data(

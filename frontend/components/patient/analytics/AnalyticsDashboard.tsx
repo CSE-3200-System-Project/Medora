@@ -216,6 +216,10 @@ export default function AnalyticsDashboard({
   const [selectedRange, setSelectedRange] = React.useState<DateRangeOption>(DATE_RANGE_OPTIONS[0]);
   const consentsPagination = usePagination(consents, 8);
 
+  // Track whether the server already pre-loaded reminders; if so we skip
+  // the redundant first poll so the page doesn't re-fetch on hydration.
+  const hasInitialRemindersRef = React.useRef(initialReminders.length > 0);
+
   React.useEffect(() => {
     let isDisposed = false;
     let reminderTimeoutId: number | null = null;
@@ -240,18 +244,19 @@ export default function AnalyticsDashboard({
       }
     };
 
-    const pollReminders = async () => {
+    const pollReminders = async (skipFirstFetch = false) => {
       if (isDisposed) return;
-      if (document.visibilityState === "visible") await syncReminders();
+      if (!skipFirstFetch && document.visibilityState === "visible") await syncReminders();
       const nextInterval = document.visibilityState === "visible" ? REMINDER_POLL_VISIBLE_MS : REMINDER_POLL_HIDDEN_MS;
-      reminderTimeoutId = window.setTimeout(pollReminders, nextInterval);
+      reminderTimeoutId = window.setTimeout(() => pollReminders(false), nextInterval);
     };
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") void syncReminders();
     };
 
-    void pollReminders();
+    // Skip the first network fetch if SSR already supplied reminders.
+    void pollReminders(hasInitialRemindersRef.current);
     document.addEventListener("visibilitychange", onVisibilityChange);
     const clockInterval = window.setInterval(() => setClock(new Date()), 30_000);
 

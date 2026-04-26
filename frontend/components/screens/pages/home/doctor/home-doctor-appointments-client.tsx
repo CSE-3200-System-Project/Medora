@@ -86,11 +86,25 @@ export default function DoctorAppointmentsPage() {
   const [rescheduleResponseError, setRescheduleResponseError] = React.useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [actionError, setActionError] = React.useState<string | null>(null);
+  const [showAllAppointments, setShowAllAppointments] = React.useState(false);
+  const [appointmentsHasMore, setAppointmentsHasMore] = React.useState(false);
 
   React.useEffect(() => {
     const init = async () => {
-      await syncAppointmentStatus();
+      // Run the auto-complete sweep in parallel with the initial reads so the
+      // dashboard renders without waiting on a write round-trip.
+      const syncPromise = syncAppointmentStatus().catch((error) => {
+        console.warn("Background appointment status sync failed", error);
+        return null;
+      });
+
       await Promise.all([loadDoctorProfile(), loadAppointments(), loadRevenueSummary()]);
+
+      // Refresh once if the sync changed any rows (typically zero per visit).
+      const syncResult = await syncPromise;
+      if (syncResult && typeof syncResult === "object" && "updated_count" in syncResult && (syncResult as { updated_count?: number }).updated_count) {
+        await loadAppointments();
+      }
     };
 
     init();
@@ -116,18 +130,23 @@ export default function DoctorAppointmentsPage() {
     }
   };
 
-  const loadAppointments = async () => {
+  const loadAppointments = React.useCallback(async (overrideShowAll?: boolean) => {
     try {
       setActionError(null);
-      const data = await getMyAppointments();
-      const normalized = (Array.isArray(data) ? data : []).map(normalizeAppointment).filter(Boolean) as DoctorAppointment[];
+      const showAll = overrideShowAll ?? showAllAppointments;
+      // Default to 200 most-recent appointments to keep payload sane; toggle for full history.
+      const data = await getMyAppointments(showAll ? {} : { page: 1, size: 200 });
+      const list = Array.isArray(data) ? data : [];
+      const normalized = list.map(normalizeAppointment).filter(Boolean) as DoctorAppointment[];
       setAppointments(uniqueById(normalized));
+      // If we hit the configured size cap and we're not in "show all" mode, more rows likely exist.
+      setAppointmentsHasMore(!showAll && list.length >= 200);
     } catch {
       setActionError("Failed to load appointments. Please refresh and try again.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [showAllAppointments]);
 
   const loadRevenueSummary = async () => {
     try {
@@ -581,6 +600,23 @@ export default function DoctorAppointmentsPage() {
               />
             </div>
           </section>
+
+          {!showAllAppointments && appointmentsHasMore ? (
+            <div className="flex flex-col items-center justify-between gap-2 rounded-lg border border-border/60 bg-card/60 px-4 py-3 text-sm text-muted-foreground sm:flex-row">
+              <span>Showing the most recent 200 appointments for faster loading.</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={async () => {
+                  setShowAllAppointments(true);
+                  setLoading(true);
+                  await loadAppointments(true);
+                }}
+              >
+                Load full history
+              </Button>
+            </div>
+          ) : null}
         </div>
       </main>
 

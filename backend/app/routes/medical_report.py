@@ -214,6 +214,62 @@ async def _can_doctor_see_report(db: AsyncSession, report: MedicalReport, doctor
     return report.shared_with_doctors
 
 
+async def _filter_reports_for_doctor(
+    db: AsyncSession,
+    reports: list[MedicalReport],
+    doctor_id: str,
+) -> list[MedicalReport]:
+    """Batch version of ``_can_doctor_see_report`` for list responses.
+
+    Issues two queries total instead of 2N:
+      * one fetch of MedicalReportDoctorAccess for all reports
+      * one fetch of PatientDataSharingPreference for all distinct patient_ids
+    """
+    if not reports:
+        return []
+
+    report_ids = [r.id for r in reports]
+    patient_ids = list({r.patient_id for r in reports})
+
+    override_rows = (
+        await db.execute(
+            select(MedicalReportDoctorAccess).where(
+                MedicalReportDoctorAccess.report_id.in_(report_ids),
+                MedicalReportDoctorAccess.doctor_id == doctor_id,
+            )
+        )
+    ).scalars().all()
+    overrides_by_report: dict[str, MedicalReportDoctorAccess] = {
+        ov.report_id: ov for ov in override_rows
+    }
+
+    pref_rows = (
+        await db.execute(
+            select(PatientDataSharingPreference).where(
+                PatientDataSharingPreference.patient_id.in_(patient_ids),
+                PatientDataSharingPreference.doctor_id == doctor_id,
+            )
+        )
+    ).scalars().all()
+    prefs_by_patient: dict[str, PatientDataSharingPreference] = {
+        p.patient_id: p for p in pref_rows
+    }
+
+    visible: list[MedicalReport] = []
+    for r in reports:
+        override = overrides_by_report.get(r.id)
+        if override is not None:
+            if override.can_view:
+                visible.append(r)
+            continue
+
+        pref = prefs_by_patient.get(r.patient_id)
+        if pref and pref.can_view_reports and r.shared_with_doctors:
+            visible.append(r)
+
+    return visible
+
+
 async def _require_user_ai_consent_for_report_ocr(db: AsyncSession, user_id: str) -> None:
     role_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
     role = role_result.scalar_one_or_none()
@@ -420,13 +476,9 @@ async def list_medical_reports(
     result = await db.execute(stmt)
     reports = result.scalars().all()
 
-    # If doctor is querying, filter to only reports they're allowed to see
+    # If doctor is querying, filter to only reports they're allowed to see (batched).
     if is_doctor_query:
-        visible_reports = []
-        for r in reports:
-            if await _can_doctor_see_report(db, r, user.id):
-                visible_reports.append(r)
-        reports = visible_reports
+        reports = await _filter_reports_for_doctor(db, list(reports), user.id)
 
     items = []
     for r in reports:
