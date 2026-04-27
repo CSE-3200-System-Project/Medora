@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.db.models.appointment import Appointment
+from app.db.models.consultation import Consultation
 
 UUID_PATTERN = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
@@ -65,12 +66,27 @@ def match_patient_ref_token(patient_id: str, ref: str) -> bool:
 
 
 async def list_doctor_patient_ids(db: AsyncSession, doctor_id: str) -> list[str]:
-    result = await db.execute(
+    appointment_result = await db.execute(
         select(Appointment.patient_id)
         .where(Appointment.doctor_id == doctor_id)
         .distinct()
     )
-    return [str(row[0]) for row in result.fetchall() if row and row[0]]
+    consultation_result = await db.execute(
+        select(Consultation.patient_id)
+        .where(Consultation.doctor_id == doctor_id)
+        .distinct()
+    )
+
+    candidate_ids: set[str] = set()
+    for row in appointment_result.fetchall():
+        if row and row[0]:
+            candidate_ids.add(str(row[0]))
+
+    for row in consultation_result.fetchall():
+        if row and row[0]:
+            candidate_ids.add(str(row[0]))
+
+    return list(candidate_ids)
 
 
 async def resolve_doctor_patient_identifier(

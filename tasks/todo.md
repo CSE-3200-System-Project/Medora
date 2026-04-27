@@ -1,3 +1,44 @@
+# Voice Card Visibility + Avatar Sync + Doctor Revenue Unification (2026-04-27)
+
+## Status: completed
+
+### Todo
+- [x] Fix patient find-doctor voice transcription review card visibility/contrast in dark mode
+- [x] Ensure avatar refresh/sync after profile photo updates so latest photo appears across app surfaces
+- [x] Fix doctor appointments fetch failure by aligning frontend request size with backend validation constraints
+- [x] Unify doctor revenue source across appointments page, doctor home dashboard, and advanced analytics
+- [x] Validate touched frontend/backend files and update review summary
+
+### Review
+- Root cause 1: voice transcription review warning state used hardcoded light yellow classes, which reduced contrast/readability in dark mode.
+- Fix 1: updated `voice-transcription-review.tsx` medium-confidence and warning styles to dark-mode-aware amber tokenized classes.
+- Root cause 2: navbar user cache returned early and skipped network revalidation, so recently-updated profile photos could remain stale for up to cache TTL.
+- Fix 2: navbar now uses cached user for instant paint but always revalidates `/api/auth/me` in background and refreshes cache/state.
+- Root cause 3: doctor appointments page requests `size=200` while backend `/appointment/my-appointments` enforced `size<=100`, causing backend validation failure and frontend `Failed to fetch appointments` error.
+- Fix 3: increased backend query constraint to `size<=500` and improved frontend error surfacing in `getMyAppointments(...)`.
+- Root cause 4: revenue figures were sourced from different datasets (`doctor_profile.total_revenue`, `doctor_actions.revenue_amount`, and appointment-completion data), creating drift between appointments, doctor dashboard, and advanced analytics.
+- Fix 4: unified revenue aggregates to appointment-completion revenue (`appointments.revenue_amount` with `status=COMPLETED`) in both `/appointment/doctor/revenue-summary` and `/doctor/actions/stats` (monthly + weekly trend).
+- Validation: backend syntax check passed (`python -m py_compile` on touched backend routes) and targeted frontend lint passed on touched files.
+
+# Doctor Consultation 404 + End-to-End Flow Sync (2026-04-27)
+
+## Status: completed
+
+### Todo
+- [x] Identify and fix the doctor-side patient details consultation entry path causing 404
+- [x] Harden patient identifier resolution so consultation start works for valid doctor-patient relationships consistently
+- [x] Add frontend consultation-start fallback handling for API 404/mismatch cases to preserve doctor workflow continuity
+- [x] Validate touched frontend/backend files and update review summary
+
+### Review
+- Root cause 1: doctor patient-details "Start Consultation" entered the AI pre-step route directly (`/consultation/ai`), which was brittle when users expected immediate consultation workspace entry and could surface as a broken path in real flows.
+- Fix 1: patient-details consultation CTA now routes directly to `/doctor/patient/{id}/consultation` (stable primary consultation workspace), while AI pre-step remains available inside consultation flow.
+- Root cause 2: doctor-patient identifier resolution only sourced candidate patients from appointments, so consultation start could return `404 Patient not found for this doctor` in valid historical workflows.
+- Fix 2: `list_doctor_patient_ids(...)` now unions distinct patient IDs from both appointments and consultations, improving doctor-patient resolution continuity for consultation start.
+- Root cause 3: frontend consultation start fallback was too narrow (primarily active-consultation 400 flow) and could fail hard on other client-side 4xx cases.
+- Fix 3: hardened start-consultation fallbacks in both `prescription-actions.ts` and AI pre-consultation client by attempting active-consultation reuse via normalized `patient_id`/`patient_ref` matching for broader recoverability.
+- Validation: backend `py_compile` passed for touched backend files; targeted frontend lint surfaced pre-existing `no-explicit-any` violations in `home-doctor-patient-id-client.tsx` (legacy issues, not introduced by this patch).
+
 # Medical History Surgery Parity + Full Localization (2026-04-23)
 
 ## Status: in-progress

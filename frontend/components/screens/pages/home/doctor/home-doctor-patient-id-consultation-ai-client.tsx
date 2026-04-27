@@ -15,7 +15,6 @@ import { Navbar } from "@/components/ui/navbar";
 import { PageLoadingShell } from "@/components/ui/page-loading-shell";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  getDoctorActiveConsultations,
   saveConsultationDraft,
   startConsultation,
 } from "@/lib/prescription-actions";
@@ -176,39 +175,15 @@ export default function ConsultationAIPreStepPage() {
   };
 
   const continueToConsultation = async () => {
-    const resolveConsultationId = async (): Promise<string> => {
-      try {
-        const startedConsultation = await startConsultation({ patient_id: patientId });
-        const startedConsultationId = normalizeConsultationId(startedConsultation?.id);
-        if (startedConsultationId) {
-          return startedConsultationId;
-        }
-        throw new Error("Consultation ID is missing.");
-      } catch (error: unknown) {
-        const message = getErrorMessage(error, "Unable to create consultation");
-        if (!message.includes("Active consultation already exists")) {
-          throw error;
-        }
-
-        const activeConsultations = await getDoctorActiveConsultations();
-        const existingConsultation = activeConsultations.consultations.find(
-          (consultation) => consultation.patient_ref === patientId || consultation.patient_id === patientId
-        );
-        const existingConsultationId = normalizeConsultationId(existingConsultation?.id);
-
-        if (!existingConsultationId) {
-          throw new Error("Unable to load the existing consultation for this patient.");
-        }
-
-        return existingConsultationId;
-      }
-    };
-
     try {
       setContinuing(true);
       setError(null);
 
-      const consultationId = await resolveConsultationId();
+      const startedConsultation = await startConsultation({ patient_id: patientId });
+      const consultationId = normalizeConsultationId(startedConsultation?.id);
+      if (!consultationId) {
+        throw new Error("Consultation ID is missing.");
+      }
       const draftMedications = selectedMedications
         .map((name) => name.trim())
         .filter((name) => name.length > 0)

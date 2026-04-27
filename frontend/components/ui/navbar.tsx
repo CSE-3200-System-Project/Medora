@@ -124,10 +124,6 @@ export function Navbar() {
     if (cachedUser) {
       setUser(cachedUser);
       setLoading(false);
-      return () => {
-        isMounted = false;
-        window.removeEventListener("medora:logged_out", handleLogout);
-      };
     }
 
     async function fetchUser() {
@@ -155,7 +151,7 @@ export function Navbar() {
       }
     }
 
-    fetchUser();
+    void fetchUser();
 
     return () => {
       isMounted = false;

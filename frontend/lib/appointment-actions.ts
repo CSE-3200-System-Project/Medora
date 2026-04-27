@@ -41,7 +41,7 @@ function getErrorMessage(detail: unknown, fallback: string): string {
 
 // === APPOINTMENT ACTIONS ===
 
-export async function createAppointment(data: any) {
+export async function createAppointment(data: Record<string, unknown>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
@@ -95,7 +95,8 @@ export async function getMyAppointments(options: MyAppointmentsOptions = {}) {
     if (response.status === 401) {
       return [];
     }
-    throw new Error("Failed to fetch appointments");
+    const error = await response.json().catch(() => null);
+    throw new Error(getErrorMessage(error?.detail, "Failed to fetch appointments"));
   }
 
   return response.json();
@@ -151,7 +152,7 @@ export async function getDoctorUpcomingAppointments(limit: number = 3) {
   return response.json();
 }
 
-export async function updateAppointment(id: string, data: any) {
+export async function updateAppointment(id: string, data: Record<string, unknown>) {
   const cookieStore = await cookies();
   const token = cookieStore.get("session_token")?.value;
 
