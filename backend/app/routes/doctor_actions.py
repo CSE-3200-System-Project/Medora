@@ -174,18 +174,10 @@ async def get_doctor_action_stats(
     today_utc = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
     weeks_start = today_utc - timedelta(days=28)  # 4 weeks back
 
-    # ─── Single aggregate query: monthly revenue + totals + completed + pending ──
-    # Collapses 4 separate count/sum queries into one round-trip via FILTER.
+    # ─── Single aggregate query: action totals ──
     action_stats_row = (
         await db.execute(
             select(
-                func.coalesce(
-                    func.sum(DoctorAction.revenue_amount).filter(
-                        DoctorAction.created_at >= month_start,
-                        DoctorAction.created_at < month_end,
-                    ),
-                    0.0,
-                ).label("monthly_revenue"),
                 func.count(DoctorAction.id).label("total_actions"),
                 func.count(DoctorAction.id)
                 .filter(DoctorAction.status == DoctorActionStatus.COMPLETED)
@@ -197,11 +189,27 @@ async def get_doctor_action_stats(
                     )
                 )
                 .label("pending_total"),
-            ).where(DoctorAction.doctor_id == user.id)
+            ).select_from(DoctorAction)
+            .where(DoctorAction.doctor_id == user.id)
         )
     ).one()
 
-    monthly_revenue = float(action_stats_row.monthly_revenue or 0.0)
+    monthly_revenue = (
+        await db.execute(
+            select(
+                func.coalesce(
+                    func.sum(Appointment.revenue_amount).filter(
+                        Appointment.status == AppointmentStatus.COMPLETED,
+                        Appointment.completed_at >= month_start,
+                        Appointment.completed_at < month_end,
+                    ),
+                    0.0,
+                )
+            ).where(Appointment.doctor_id == user.id)
+        )
+    ).scalar_one()
+
+    monthly_revenue = float(monthly_revenue or 0.0)
     total_actions = int(action_stats_row.total_actions or 0)
     completed_actions = int(action_stats_row.completed_actions or 0)
     pending_actions_total = int(action_stats_row.pending_total or 0)
@@ -258,7 +266,7 @@ async def get_doctor_action_stats(
         )
     ).one()
 
-    # ─── Weekly action metrics: 12 queries → 1 ────────────────────────────────
+    # ─── Weekly action metrics: 8 queries → 1 ─────────────────────────────────
     action_cols = []
     for i in range(4):
         we = today_utc - timedelta(days=i * 7)
@@ -285,19 +293,28 @@ async def get_doctor_action_stats(
             )
             .label(f"overdue_{i}")
         )
-        action_cols.append(
+    action_row = (
+        await db.execute(
+            select(*action_cols).select_from(DoctorAction).where(DoctorAction.doctor_id == user.id)
+        )
+    ).one()
+
+    revenue_cols = []
+    for i in range(4):
+        we = today_utc - timedelta(days=i * 7)
+        ws = we - timedelta(days=7)
+        revenue_cols.append(
             func.coalesce(
-                func.sum(DoctorAction.revenue_amount).filter(
-                    DoctorAction.created_at >= ws,
-                    DoctorAction.created_at < we,
+                func.sum(Appointment.revenue_amount).filter(
+                    Appointment.status == AppointmentStatus.COMPLETED,
+                    Appointment.completed_at >= ws,
+                    Appointment.completed_at < we,
                 ),
                 0.0,
             ).label(f"revenue_{i}")
         )
-    action_row = (
-        await db.execute(
-            select(*action_cols).where(DoctorAction.doctor_id == user.id)
-        )
+    revenue_row = (
+        await db.execute(select(*revenue_cols).where(Appointment.doctor_id == user.id))
     ).one()
 
     weekly_wsi: list[DoctorActionWeeklyWsiPoint] = []
@@ -307,7 +324,7 @@ async def get_doctor_action_stats(
         no_shows = int(getattr(appt_row, f"noshow_{index}", 0) or 0)
         pending_tasks = int(getattr(action_row, f"pending_{index}", 0) or 0)
         overdue_tasks = int(getattr(action_row, f"overdue_{index}", 0) or 0)
-        revenue = float(getattr(action_row, f"revenue_{index}", 0.0) or 0.0)
+        revenue = float(getattr(revenue_row, f"revenue_{index}", 0.0) or 0.0)
         weekly_wsi.append(
             DoctorActionWeeklyWsiPoint(
                 week=f"Week {4 - index:02d}",

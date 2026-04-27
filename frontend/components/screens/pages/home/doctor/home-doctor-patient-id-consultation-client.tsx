@@ -31,7 +31,7 @@ import {
   saveConsultationDraftById,
   completeConsultation,
   addPrescription,
-  getDoctorActiveConsultations,
+
   getFullPrescriptionByConsultation,
   Consultation,
   ConsultationDraftPayload,
@@ -40,8 +40,10 @@ import {
   TestPrescriptionInput,
   SurgeryRecommendationInput,
   PrescriptionType,
+  FullPrescriptionResponse,
 } from "@/lib/prescription-actions";
 import { buildClinicalPrescriptionDocumentHtml } from "@/lib/clinical-prescription-document";
+import { downloadPrescriptionPdfFromElement } from "@/lib/prescription-document-export";
 import { extractPrescriptionFromImage } from "@/lib/file-storage-actions";
 import { getPatientForDoctor } from "@/lib/patient-access-actions";
 import {
@@ -59,6 +61,8 @@ import {
   Sparkles,
   Printer,
   Camera,
+  X,
+  Download,
 } from "lucide-react";
 import { handleUnauthorized } from "@/lib/auth-utils";
 
@@ -122,31 +126,6 @@ function parseIsoDateToTimestamp(value?: string): number {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-function selectActiveConsultationForPatient(
-  consultations: Consultation[],
-  patientId: string
-): Consultation | null {
-  const matching = consultations.filter(
-    (consultationItem) => consultationItem.patient_ref === patientId || consultationItem.patient_id === patientId
-  );
-  if (matching.length === 0) return null;
-
-  const sorted = [...matching].sort((a, b) => {
-    const draftPriority = Number(Boolean(b.draft_id)) - Number(Boolean(a.draft_id));
-    if (draftPriority !== 0) {
-      return draftPriority;
-    }
-
-    const updatedDelta = parseIsoDateToTimestamp(b.created_at) - parseIsoDateToTimestamp(a.created_at);
-    if (updatedDelta !== 0) {
-      return updatedDelta;
-    }
-
-    return parseIsoDateToTimestamp(b.consultation_date) - parseIsoDateToTimestamp(a.consultation_date);
-  });
-
-  return sorted[0] ?? null;
-}
 
 export default function ConsultationPage() {
   const params = useParams();
@@ -190,6 +169,13 @@ export default function ConsultationPage() {
   const [ocrAttachmentName, setOcrAttachmentName] = React.useState<string>("");
   const [ocrAttachmentKind, setOcrAttachmentKind] = React.useState<"image" | "pdf" | null>(null);
   const [ocrDetectedMedicines, setOcrDetectedMedicines] = React.useState<OcrDetectedMedication[]>([]);
+
+  const [showInlinePreview, setShowInlinePreview] = React.useState(false);
+  const [inlinePreviewData, setInlinePreviewData] = React.useState<FullPrescriptionResponse | null>(null);
+  const [inlinePreviewHtml, setInlinePreviewHtml] = React.useState("");
+  const [inlinePreviewConsultationId, setInlinePreviewConsultationId] = React.useState("");
+  const [isDownloadingPreviewPdf, setIsDownloadingPreviewPdf] = React.useState(false);
+
   const isHydratingDraftRef = React.useRef(false);
   const autosaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSavedDraftHashRef = React.useRef<string>("");
@@ -635,26 +621,8 @@ export default function ConsultationPage() {
         return;
       }
 
-      try {
-        const newConsultation = await startConsultation({ patient_id: patientId });
-        await hydrateConsultationState(newConsultation.id);
-      } catch (err: unknown) {
-        const message = getErrorMessage(err, "Failed to start consultation");
-
-        if (message.includes("Active consultation already exists")) {
-          const activeConsultations = await getDoctorActiveConsultations();
-          const existingConsultation = selectActiveConsultationForPatient(activeConsultations.consultations, patientId);
-
-          if (existingConsultation) {
-            await hydrateConsultationState(existingConsultation.id);
-            setSuccess("Loaded existing active consultation");
-          } else {
-            setError("An active consultation exists but could not be loaded. Please try again.");
-          }
-        } else {
-          throw err;
-        }
-      }
+      const newConsultation = await startConsultation({ patient_id: patientId });
+      await hydrateConsultationState(newConsultation.id);
     } catch (err: unknown) {
       if (handleAuthError(err)) {
         return;
@@ -808,7 +776,31 @@ export default function ConsultationPage() {
         return;
       }
 
-      router.push(`/prescription/preview/${consultation.id}?draft_id=${activeDraftId}`);
+      const queryParams = new URLSearchParams();
+      queryParams.set("draft_id", activeDraftId);
+      const url = `/api/consultations/${consultation.id}/full?${queryParams.toString()}`;
+      const response = await fetch(url, { method: "GET", cache: "no-store" });
+      const json = (await response.json().catch(() => null)) as FullPrescriptionResponse | { detail?: string; error?: string } | null;
+
+      if (!response.ok) {
+        const message =
+          (json && "detail" in json && typeof json.detail === "string" && json.detail) ||
+          (json && "error" in json && typeof json.error === "string" && json.error) ||
+          "Failed to load prescription preview";
+        throw new Error(message);
+      }
+
+      const previewData = json as FullPrescriptionResponse;
+      const generatedAt = new Date().toISOString();
+      const html = buildClinicalPrescriptionDocumentHtml(previewData, {
+        consultationId: consultation.id,
+        generatedAtIso: previewData.snapshot_generated_at || generatedAt,
+      });
+
+      setInlinePreviewData(previewData);
+      setInlinePreviewHtml(html);
+      setInlinePreviewConsultationId(consultation.id);
+      setShowInlinePreview(true);
     } catch (err: unknown) {
       if (handleAuthError(err)) {
         return;
@@ -819,6 +811,26 @@ export default function ConsultationPage() {
       setPreviewLoading(false);
     }
   };
+
+  const handleCloseInlinePreview = React.useCallback(() => {
+    setShowInlinePreview(false);
+    setInlinePreviewData(null);
+    setInlinePreviewHtml("");
+    setInlinePreviewConsultationId("");
+  }, []);
+
+  const handleDownloadPreviewPdf = React.useCallback(async () => {
+    const paper = document.getElementById("inline-prescription-paper");
+    if (!paper) return;
+    try {
+      setIsDownloadingPreviewPdf(true);
+      await downloadPrescriptionPdfFromElement(paper, `prescription-${inlinePreviewConsultationId}.pdf`);
+    } catch (err) {
+      console.error("Failed to generate PDF", err);
+    } finally {
+      setIsDownloadingPreviewPdf(false);
+    }
+  }, [inlinePreviewConsultationId]);
 
   const handleImportHandwrittenPrescription = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -1334,6 +1346,53 @@ export default function ConsultationPage() {
           </div>
         </div>
       </main>
+
+      {showInlinePreview && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-surface/95 dark:bg-background/98 print:bg-white">
+          <div className="preview-actions flex w-full items-center justify-between gap-3 border-b border-border/60 bg-background/80 px-4 py-3 backdrop-blur-sm sm:px-6 print:hidden">
+            <Button variant="outline" onClick={handleCloseInlinePreview} className="gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Consultation
+            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => window.print()} className="gap-2">
+                <Printer className="h-4 w-4" />
+                Print
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleDownloadPreviewPdf}
+                disabled={isDownloadingPreviewPdf || !inlinePreviewData}
+                className="gap-2"
+              >
+                {isDownloadingPreviewPdf ? (
+                  <ButtonLoader className="mr-1" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                Download PDF
+              </Button>
+              <Button variant="ghost" size="icon" onClick={handleCloseInlinePreview} className="shrink-0">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-2 py-4 sm:px-6 sm:py-6">
+            <div
+              id="inline-prescription-paper"
+              className="mx-auto w-full max-w-[210mm] bg-card px-4 py-6 text-card-foreground shadow-[0_24px_48px_rgba(15,23,42,0.18)] sm:px-8 sm:py-10 dark:shadow-[0_16px_40px_rgba(0,0,0,0.5)] print:max-w-none print:shadow-none"
+            >
+              {inlinePreviewHtml ? (
+                <div dangerouslySetInnerHTML={{ __html: inlinePreviewHtml }} />
+              ) : (
+                <div className="flex min-h-[60vh] items-center justify-center">
+                  <ButtonLoader />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
         <DialogContent className="sm:max-w-md">

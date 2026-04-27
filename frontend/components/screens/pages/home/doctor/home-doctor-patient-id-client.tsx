@@ -485,7 +485,7 @@ export default function DoctorPatientViewPage() {
                 <span>Timeline</span>
               </Button>
               <Button
-                onClick={() => router.push(`/doctor/patient/${patientId}/consultation/ai`)}
+                onClick={() => router.push(`/doctor/patient/${patientId}/consultation`)}
                 className="shrink-0 gap-2"
               >
                 <MessageSquarePlus className="w-4 h-4" />

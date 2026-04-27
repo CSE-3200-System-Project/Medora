@@ -1361,183 +1361,6 @@ async def complete_consultation(
     return build_consultation_response(consultation, doctor_profile)
 
 
-@router.patch("/{consultation_id}/draft", response_model=ConsultationDraftResponse)
-async def save_consultation_draft(
-    consultation_id: str,
-    request: Request,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
-):
-    """Persist consultation editor draft state with backend as source of truth."""
-    try:
-        raw_payload = await request.json()
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid draft payload")
-
-    data = _validate_consultation_draft_payload(raw_payload)
-
-    result = await db.execute(
-        select(Consultation)
-        .options(selectinload(Consultation.draft))
-        .where(Consultation.id == consultation_id)
-    )
-    consultation = result.scalar_one_or_none()
-
-    if not consultation:
-        raise HTTPException(status_code=404, detail="Consultation not found")
-
-    if consultation.doctor_id != user.id:
-        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
-
-    if consultation.status == ConsultationStatus.COMPLETED:
-        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
-
-    draft_record = await _apply_consultation_draft_update(db, consultation, data)
-
-    try:
-        await db.commit()
-        await db.refresh(consultation)
-        await db.refresh(draft_record)
-    except SQLAlchemyError:
-        await db.rollback()
-        logger.exception(
-            "Database error while saving consultation draft (consultation_id=%s, doctor_id=%s)",
-            consultation_id,
-            user.id,
-        )
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "message": "Failed to save consultation draft",
-                "code": "consultation_draft_save_failed",
-            },
-        )
-
-    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
-    if not refreshed:
-        raise HTTPException(status_code=404, detail="Consultation not found")
-
-    return _build_consultation_draft_response(refreshed)
-
-
-@router.get("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
-async def get_consultation_draft_by_id(
-    draft_id: str,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
-):
-    """Get consultation draft by draft_id."""
-    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
-
-    if not consultation:
-        raise HTTPException(status_code=404, detail="Draft not found")
-
-    if consultation.doctor_id != user.id and consultation.patient_id != user.id:
-        raise HTTPException(status_code=403, detail="You don't have access to this draft")
-
-    return _build_consultation_draft_response(consultation)
-
-
-@router.patch("/drafts/{draft_id}", response_model=ConsultationDraftResponse)
-async def save_consultation_draft_by_id(
-    draft_id: str,
-    request: Request,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
-):
-    """Persist consultation draft updates directly by draft_id."""
-    try:
-        raw_payload = await request.json()
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid draft payload")
-
-    data = _validate_consultation_draft_payload(raw_payload)
-    consultation = await _resolve_consultation_by_draft_id(db, draft_id)
-
-    if not consultation:
-        raise HTTPException(status_code=404, detail="Draft not found")
-
-    if consultation.doctor_id != user.id:
-        raise HTTPException(status_code=403, detail="Only the consultation doctor can update draft")
-
-    if consultation.status == ConsultationStatus.COMPLETED:
-        raise HTTPException(status_code=400, detail="Cannot update draft for a completed consultation")
-
-    draft_record = await _apply_consultation_draft_update(db, consultation, data)
-
-    try:
-        await db.commit()
-        await db.refresh(consultation)
-        await db.refresh(draft_record)
-    except SQLAlchemyError:
-        await db.rollback()
-        logger.exception(
-            "Database error while saving consultation draft by draft_id (draft_id=%s, doctor_id=%s)",
-            draft_id,
-            user.id,
-        )
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "message": "Failed to save consultation draft",
-                "code": "consultation_draft_save_failed",
-            },
-        )
-
-    refreshed = await _resolve_consultation_with_draft(db, consultation.id)
-    if not refreshed:
-        raise HTTPException(status_code=404, detail="Consultation not found")
-
-    return _build_consultation_draft_response(refreshed)
-
-
-@router.patch("/{consultation_id:uuid}/complete", response_model=ConsultationResponse)
-async def complete_consultation(
-    consultation_id: uuid.UUID,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
-):
-    """Complete a consultation. Only the doctor can complete."""
-    consultation_id_str = str(consultation_id)
-    result = await db.execute(
-        select(Consultation).where(Consultation.id == consultation_id_str)
-    )
-    consultation = result.scalar_one_or_none()
-    
-    if not consultation:
-        raise HTTPException(status_code=404, detail="Consultation not found")
-    
-    if consultation.doctor_id != user.id:
-        raise HTTPException(status_code=403, detail="Only the consultation doctor can complete")
-    
-    if consultation.status == ConsultationStatus.COMPLETED:
-        raise HTTPException(status_code=400, detail="Consultation already completed")
-    
-    consultation.status = ConsultationStatus.COMPLETED
-    consultation.completed_at = datetime.now(timezone.utc)
-    await create_consultation_completed_action(db, consultation=consultation)
-    
-    # Get doctor profile info (cached on user by auth dep)
-    doctor_profile = await resolve_profile(db, user)
-    doctor_name = f"Dr. {doctor_profile.first_name or ''} {doctor_profile.last_name or ''}".strip() if doctor_profile else "Your doctor"
-    
-    # Notify patient
-    await create_notification(
-        db=db,
-        user_id=consultation.patient_id,
-        notification_type=NotificationType.CONSULTATION_COMPLETED,
-        title="Consultation Completed",
-        message=f"Your consultation with {doctor_name} has been completed. Please review any prescriptions.",
-        action_url=f"/patient/prescriptions",
-        metadata={"consultation_id": consultation.id, "doctor_id": user.id},
-        priority=NotificationPriority.MEDIUM,
-    )
-    
-    await db.commit()
-    await db.refresh(consultation)
-    
-    return build_consultation_response(consultation, doctor_profile)
-
 
 # ========== PRESCRIPTION ROUTES (DOCTOR) ==========
 
@@ -2263,6 +2086,7 @@ async def accept_prescription(
     patient_profile = await resolve_profile(db, user)
     patient_name = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip() if patient_profile else "Your patient"
     
+    patient_ref = patient_ref_from_uuid(user.id)
     # Notify doctor
     await create_notification(
         db=db,
@@ -2270,10 +2094,11 @@ async def accept_prescription(
         notification_type=NotificationType.PRESCRIPTION_ACCEPTED,
         title="Prescription Accepted",
         message=f"{patient_name} has accepted your prescription.",
-        action_url=f"/doctor/patients",
+        action_url=f"/doctor/patient/{patient_ref}",
         metadata={
             "prescription_id": prescription.id,
             "patient_id": user.id,
+            "patient_ref": patient_ref,
         },
         priority=NotificationPriority.MEDIUM,
     )
@@ -2314,6 +2139,7 @@ async def reject_prescription(
     patient_profile = await resolve_profile(db, user)
     patient_name = f"{patient_profile.first_name or ''} {patient_profile.last_name or ''}".strip() if patient_profile else "Your patient"
     
+    reject_patient_ref = patient_ref_from_uuid(user.id)
     # Notify doctor
     await create_notification(
         db=db,
@@ -2321,10 +2147,11 @@ async def reject_prescription(
         notification_type=NotificationType.PRESCRIPTION_REJECTED,
         title="Prescription Rejected",
         message=f"{patient_name} has rejected your prescription." + (f" Reason: {data.reason}" if data.reason else ""),
-        action_url=f"/doctor/patients",
+        action_url=f"/doctor/patient/{reject_patient_ref}",
         metadata={
             "prescription_id": prescription.id,
             "patient_id": user.id,
+            "patient_ref": reject_patient_ref,
             "reason": data.reason,
         },
         priority=NotificationPriority.HIGH,

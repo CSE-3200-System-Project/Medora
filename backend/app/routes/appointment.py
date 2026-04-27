@@ -337,7 +337,7 @@ async def create_appointment(
 @router.get("/my-appointments", response_model=List[AppointmentResponse])
 async def get_my_appointments(
     page: int = Query(1, ge=1),
-    size: int | None = Query(None, ge=1, le=100),
+    size: int | None = Query(None, ge=1, le=500),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
@@ -1548,9 +1548,7 @@ async def get_doctor_revenue_summary(
     if "DOCTOR" not in role_str:
         raise HTTPException(status_code=403, detail="Only doctors can access revenue summary")
 
-    doctor_result = await db.execute(
-        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
-    )
+    doctor_result = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
     doctor_profile = doctor_result.scalar_one_or_none()
     if not doctor_profile:
         raise HTTPException(status_code=404, detail="Doctor profile not found")
@@ -1565,6 +1563,12 @@ async def get_doctor_revenue_summary(
                 func.count(Appointment.id)
                 .filter(Appointment.status == AppointmentStatus.COMPLETED)
                 .label("completed_total"),
+                func.coalesce(
+                    func.sum(Appointment.revenue_amount).filter(
+                        Appointment.status == AppointmentStatus.COMPLETED,
+                    ),
+                    0.0,
+                ).label("total_revenue"),
                 func.count(Appointment.id)
                 .filter(
                     Appointment.status == AppointmentStatus.COMPLETED,
@@ -1585,7 +1589,7 @@ async def get_doctor_revenue_summary(
     ).one()
 
     payload = {
-        "total_revenue": round(float(doctor_profile.total_revenue or 0.0), 2),
+        "total_revenue": round(float(aggregates.total_revenue or 0.0), 2),
         "monthly_revenue": round(float(aggregates.monthly_revenue or 0.0), 2),
         "completed_appointments": int(aggregates.completed_total or 0),
         "completed_this_month": int(aggregates.completed_this_month or 0),

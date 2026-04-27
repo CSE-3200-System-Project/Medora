@@ -83,9 +83,9 @@ export function VoiceTranscriptionReview({
       case "medium":
         return {
           icon: AlertTriangle,
-          color: "text-yellow-600",
-          bgColor: "bg-yellow-50",
-          borderColor: "border-yellow-200",
+          color: "text-amber-700 dark:text-amber-300",
+          bgColor: "bg-amber-50/90 dark:bg-amber-500/10",
+          borderColor: "border-amber-200 dark:border-amber-500/40",
           label: REVIEW_COPY.reviewNeeded,
           message: REVIEW_COPY.reviewMessage
         };
@@ -136,7 +136,9 @@ export function VoiceTranscriptionReview({
       {config.message && (
         <div className={cn(
           "flex items-start gap-2 p-2 rounded-lg text-xs",
-          confidenceLevel === "low" ? "bg-destructive/10" : "bg-yellow-100"
+          confidenceLevel === "low"
+            ? "bg-destructive/10"
+            : "bg-amber-100/80 text-amber-800 dark:bg-amber-500/15 dark:text-amber-200"
         )}>
           <AlertCircle className={cn("w-4 h-4 shrink-0 mt-0.5", config.color)} />
           <span className={config.color}>{config.message}</span>
