@@ -97,6 +97,7 @@ async def test_ai_doctor_search_pipeline_returns_ranked_doctor_results(
         bmdc_verified=True,
         years_of_experience=15,
         hospital_city="Dhaka",
+        consultation_mode="offline",
     )
     db_session.add_all([doctor_account, doctor_profile])
     await db_session.commit()

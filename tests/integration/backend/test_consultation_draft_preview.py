@@ -154,6 +154,7 @@ async def test_consultation_draft_persists_and_full_preview_uses_draft(
                 "duration_value": 5,
                 "duration_unit": "days",
                 "meal_instruction": "after_meal",
+                "quantity": 10,
             }
         ],
         "tests": [{"name": "CBC", "urgency": "normal", "expected_date": ""}],
