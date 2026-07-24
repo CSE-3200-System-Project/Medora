@@ -121,10 +121,12 @@ def postgres_container():
 
 @pytest.fixture(scope="session")
 def postgres_async_url(postgres_container) -> str:
+    from sqlalchemy.engine import make_url
+
     sync_url = postgres_container.get_connection_url()
-    if sync_url.startswith("postgresql://"):
-        return sync_url.replace("postgresql://", "postgresql+asyncpg://", 1)
-    return sync_url
+    return make_url(sync_url).set(drivername="postgresql+asyncpg").render_as_string(
+        hide_password=False
+    )
 
 
 @pytest.fixture(scope="session")
