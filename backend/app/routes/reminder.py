@@ -159,9 +159,16 @@ async def get_reminders(
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0
 
+    reminder_list = [build_reminder_response(r) for r in reminders]
     payload = ReminderListResponse(
-        reminders=[build_reminder_response(r) for r in reminders],
+        reminders=reminder_list,
+        items=reminder_list,
         total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(reminder_list) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
     )
     body_for_etag = payload.model_dump(mode="json")
     etag = build_etag(body_for_etag)

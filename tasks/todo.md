@@ -1,3 +1,85 @@
+# Backend/Database Round-Trip Performance Fix (2026-07-25)
+
+## Status: completed (backend + frontend code; re-measurement pending a running instance)
+
+### Problem
+Pages load slowly in both local dev and the Azure deployment. The database is async
+and SQLAlchemy uses asyncpg correctly — the async layer is not at fault. The cost is
+**round trips**, and they compound:
+
+1. `session.py` detects the `:6543` pgBouncer URL and uses `NullPool`, so every request
+   pays a full TCP+TLS+auth handshake before its first query. `DB_POOL_SIZE`/`DB_MAX_OVERFLOW`
+   are dead settings in that branch.
+2. `execution_options={"compiled_cache": None}` disables SQLAlchemy's SQL compilation cache.
+   That option is client-side and unrelated to pgBouncer; only asyncpg's `statement_cache_size=0`
+   is actually required.
+3. `select(Profile).where(Profile.id == user_id)` is re-issued 42 times across 14 route files
+   even though `get_current_user_token` already attaches `user.profile` and `resolve_profile()`
+   exists to reuse it.
+4. Independent queries run in series — `/patient/dashboard` ~8, `/appointment/my-appointments` ~6.
+5. `/auth/me` costs 3 queries and runs on every page via the `(home)` layout guard.
+6. 77 frontend fetches use `cache: "no-store"`.
+
+Production additionally crosses a region boundary (Azure `medora-rg-us` → Supabase `ap-south-1`).
+
+### Baseline (Phase 0)
+| Endpoint | Queries | X-Response-Time (local) | X-Response-Time (deployed) |
+|---|---|---|---|
+| `GET /health` | | | |
+| `GET /auth/me` | | | |
+| `GET /patient/dashboard` | | | |
+
+### Todo
+- [x] Phase 0: add diagnostic logging to the `verify_jwt` fallback (rate-limited warning; needs a running instance to read the count)
+- [x] Phase 1: replace `NullPool` with real client-side pooling and restore the compiled cache in `session.py`
+- [x] Phase 2c: wrap the blocking `supabase.auth.get_user` fallback in a thread and narrow its trigger
+- [x] Phase 2b: drop the redundant profile re-SELECT in `/auth/me`
+- [x] Phase 2a: replace the redundant caller-own `Profile` re-queries with `resolve_profile()`
+- [x] Phase 3: add a read-only concurrency helper; apply to `/patient/dashboard` and `/appointment/my-appointments`
+- [x] Phase 4: audit frontend cached authenticated fetches, dedup `getCurrentUser()`, tag-cache shared reads
+- [x] Run backend unit + security suites
+- [ ] Re-measure and record results (needs a live backend; see "Verification still owed")
+
+### Review
+
+**Phase 1 — connection transport (`backend/app/db/session.py`, `config.py`)**
+- Collapsed the pgbouncer/direct branch fork into one real client-side pool. `NullPool` (a fresh TCP+TLS+auth handshake per request) is gone; the engine now reports `AsyncAdaptedQueuePool`. pgbouncer mode keeps only `connect_args` (`statement_cache_size=0`, `prepared_statement_cache_size=0`) — the two settings transaction pooling genuinely needs.
+- Removed `execution_options={"compiled_cache": None}`, which was re-compiling every ORM statement to SQL on every execution for no reason (that cache is client-side, unrelated to pgBouncer).
+- Root cause found along the way: the backend never calls `load_dotenv`, so every `os.getenv("DB_*")` in this module was inert — `DB_POOL_SIZE` etc. never took effect locally. Moved all `DB_*` knobs into `Settings` (which reads `.env`), so they now actually apply. Real env vars still win.
+
+**Phase 2 — authenticated hot path**
+- `2c` (`security.py`): rewrote `verify_jwt`. The Supabase Auth fallback was the sync supabase-py client called inline — blocking the event loop for every request that hit it. It's now `asyncio.to_thread`, and it only triggers when local verification is genuinely *unavailable* (no `kid`, JWKS unreachable) via a new `_LocalVerificationUnavailable` exception. A real bad/expired signature now returns 401 directly instead of making a network call. Rate-limited warning added so a systemic fallback can't hide again.
+- `2b` (`auth.py` `/auth/me`): was 3 queries (the profile the auth dep already loaded + a raw re-SELECT + avatar lookup). Now reads `user.profile` and mutates it in place for the verification-status sync. Dropped the unused `text`/`update` imports.
+- `2a`: replaced redundant *caller-own* `Profile` re-queries with `resolve_profile(db, user)` across `appointment.py` (19), `profile.py` (6), `consultation.py` (2 helpers, signatures changed `user_id`→`user`), `reschedule.py` (3), `ai_consultation.py` (`_get_user_role` + VAPI user now carries `.profile`), and `review.py`. Left untouched: lookups keyed on someone *other* than the caller (admin ban/unban by path param, reschedule counterpart, review author) and the guards that already reuse `user.profile`.
+
+**Phase 3 — query parallelization (`backend/app/core/db_concurrency.py` new)**
+- Added `gather_reads(*queries, max_concurrency)`: runs independent read-only callables each on its own `AsyncSessionLocal` session (a shared `AsyncSession` cannot run concurrent queries — asyncpg is not concurrency-safe). Bounded by a semaphore so fan-out can't exhaust the pool.
+- `/patient/dashboard`: 5 independent reads (patient profile, upcoming appts, today's metrics, active reminders, 7-day delivery logs) now issue in one wave. `await db.execute` count in the handler dropped 8 → 3.
+- `/appointment/my-appointments`: count + page run together; the 3 post-fetch enrichment lookups run together. Verified every returned object is read by column only — no lazy relationships touched after session close.
+
+**Phase 4 — frontend (`frontend/lib/current-user.ts` new)**
+- `4a`: read Next 16's cache-key builder (`incremental-cache/index.js`) — headers, incl. `Authorization`, **are** part of the key. So the two existing `revalidate` fetches on authed endpoints are per-user isolated, not a cross-user leak. Left as-is.
+- `4b`: wrapped `getCurrentUser` in React `cache()` (`getCachedCurrentUser`), used in `(home)/layout.tsx` and the two server-component chorui pages that nest under it — removes the duplicate `/auth/me` per render. Deliberately not the Data Cache (that would go stale on JWT rotation); `cache()` is render-scoped, zero cross-user risk.
+- `4c`: `getCancellationReasons` (static, unauthenticated, backend-constant catalog) → `revalidate: 86400` + tag. Specialities are fetched browser-side from a client component, so they're outside the server Data Cache — left alone.
+
+**Testing**
+- Backend unit suite: 21 passed, 2 failed. Both failures (`test_rls_context::test_get_db_sets_request_jwt_context`, `test_data_sharing_guard::...masks_unshared_fields`) reproduce identically on clean `HEAD` with all my changes stashed — pre-existing, and neither touches code I changed. The RLS one asserts `get_db` injects `request.jwt`, which the code has never done (RLS is bypassed; see CLAUDE.md).
+- Legacy smoke test passes. `app.main` imports cleanly (239 routes), pool confirmed `AsyncAdaptedQueuePool`.
+- Security suite (`tests/security`) can't collect — `factory_boy` isn't installed in the venv (pre-existing env gap, not a code failure). Per repo rules I did not install into the environment.
+- `py_compile` clean on all touched backend modules; `eslint` clean on all touched frontend files.
+
+### Verification still owed (needs a live backend)
+- Re-run the Phase 0 baseline table (query count + `X-Response-Time` for `/health`, `/auth/me`, `/patient/dashboard`) local and deployed, and fill it in above.
+- Read the `verify_jwt` fallback warning count once under real traffic — if it fires per-request, the HS256/no-`kid` token config is a bigger win than the pooling change and should be addressed at the Supabase project level.
+- Load test for pool exhaustion under Phase 3 fan-out (`tests/k6` / `tests/locust`), watching for `pool_timeout`. Tune `DB_POOL_SIZE` against Azure replica count × the Supabase pooler client limit.
+- Install `factory_boy` (`tests/requirements-test.txt`) and run `tests/security` to exercise RBAC across the Phase 2a edits.
+
+### Out of scope (unchanged, by decision)
+- Region mismatch (Azure `medora-rg-us` ↔ Supabase `ap-south-1`) — largest remaining production cost, but infra not code.
+- Changing `SUPABASE_DATABASE_URL` (`:6543` transaction pooler stays).
+
+---
+
 # Voice Card Visibility + Avatar Sync + Doctor Revenue Unification (2026-04-27)
 
 ## Status: completed

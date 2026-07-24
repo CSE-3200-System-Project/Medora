@@ -39,6 +39,7 @@ from app.schemas.medical_report import (
     DoctorCommentCreate,
     DoctorCommentResponse,
     MedicalReportListItem,
+    MedicalReportListResponse,
     MedicalReportResponse,
     MedicalReportUploadResponse,
     ReportDoctorAccessItem,
@@ -445,29 +446,34 @@ async def upload_medical_report(
 # ── List reports ─────────────────────────────────────────────────────────────
 
 
-@router.get("", response_model=list[MedicalReportListItem])
+@router.get("", response_model=MedicalReportListResponse)
 async def list_medical_reports(
     patient_id: str | None = Query(None),
-    limit: int = Query(20, le=100),
+    limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """List medical reports. Patients see their own; doctors see only shared ones."""
-    # Determine target patient
     target_patient = patient_id or user.id
     is_doctor_query = target_patient != user.id
 
-    # Check permission: if querying another patient, must be a doctor
     if is_doctor_query:
         profile = await resolve_profile(db, user)
         if not profile or str(profile.role.value) != "doctor":
             raise HTTPException(status_code=403, detail="Only doctors can view other patients' reports")
 
+    where_clause = MedicalReport.patient_id == target_patient
+
+    # Total count (before doctor-visibility filtering — approximate for doctors)
+    total = (
+        await db.execute(select(func.count(MedicalReport.id)).where(where_clause))
+    ).scalar() or 0
+
     stmt = (
         select(MedicalReport)
         .options(selectinload(MedicalReport.results), selectinload(MedicalReport.comments))
-        .where(MedicalReport.patient_id == target_patient)
+        .where(where_clause)
         .order_by(MedicalReport.created_at.desc())
         .limit(limit)
         .offset(offset)
@@ -476,20 +482,18 @@ async def list_medical_reports(
     result = await db.execute(stmt)
     reports = result.scalars().all()
 
-    # If doctor is querying, filter to only reports they're allowed to see (batched).
     if is_doctor_query:
         reports = await _filter_reports_for_doctor(db, list(reports), user.id)
 
-    items = []
+    report_items = []
     for r in reports:
-        # Build summary from first few test results
         summary_parts = []
         for res in (r.results or [])[:3]:
             status_icon = {"normal": "Normal", "high": "High", "low": "Low"}.get(res.status or "", "")
             summary_parts.append(f"{res.test_name}: {res.value_text or res.value or '?'} {status_icon}".strip())
         summary = "; ".join(summary_parts) if summary_parts else None
 
-        items.append(MedicalReportListItem(
+        report_items.append(MedicalReportListItem(
             id=r.id,
             patient_id=r.patient_id,
             file_url=r.file_url,
@@ -503,7 +507,16 @@ async def list_medical_reports(
             summary=summary,
         ))
 
-    return items
+    return MedicalReportListResponse(
+        reports=report_items,
+        items=report_items,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(report_items) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 # ── Get single report ────────────────────────────────────────────────────────

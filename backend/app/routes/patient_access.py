@@ -548,9 +548,16 @@ async def get_my_access_history(
             "accessed_at": log.accessed_at.isoformat()
         })
     
+    has_more = offset + len(access_history) < total
     return {
         "access_history": access_history,
-        "total": total
+        "items": access_history,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+        "page_size": limit,
     }
 
 
@@ -622,16 +629,24 @@ async def get_my_ai_access_history(
             }
         )
 
+    has_more = offset + len(access_history) < total_count
     return {
         "access_history": access_history,
+        "items": access_history,
         "total": total_count,
         "limit": limit,
         "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+        "page_size": limit,
     }
 
 
 @router.get("/my-doctor-access")
 async def get_my_doctor_access_settings(
+    limit: int | None = Query(None, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+    # backward-compat aliases
     page: int = Query(1, ge=1),
     size: int | None = Query(None, ge=1, le=100),
     user: any = Depends(get_current_user_token),
@@ -664,12 +679,18 @@ async def get_my_doctor_access_settings(
     all_doctor_ids = [row[0] for row in appointments_result.fetchall()]
     doctor_ids = all_doctor_ids
 
-    if size is not None:
-        start = (page - 1) * size
-        doctor_ids = all_doctor_ids[start:start + size]
+    # Resolve canonical limit/offset or page/size aliases
+    eff_limit = limit if limit is not None else size
+    eff_offset = offset if offset > 0 else ((page - 1) * (size or 50) if page > 1 else 0)
+
+    total = len(all_doctor_ids)
+    if eff_limit is not None:
+        doctor_ids = all_doctor_ids[eff_offset: eff_offset + eff_limit]
+    else:
+        doctor_ids = all_doctor_ids[eff_offset:]
 
     if not doctor_ids:
-        return {"doctors": [], "total": len(all_doctor_ids)}
+        return {"doctors": [], "items": [], "total": total, "limit": eff_limit or 0, "offset": eff_offset, "has_more": False}
 
     doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
     doctors_by_id = {row.id: row for row in doctor_rows.scalars().all()}
@@ -731,7 +752,17 @@ async def get_my_doctor_access_settings(
             "revoked_at": access_record.revoked_at.isoformat() if access_record and access_record.revoked_at else None,
         })
 
-    return {"doctors": doctors_list, "total": len(all_doctor_ids)}
+    has_more = eff_offset + len(doctors_list) < total
+    return {
+        "doctors": doctors_list,
+        "items": doctors_list,
+        "total": total,
+        "limit": eff_limit or len(doctors_list),
+        "offset": eff_offset,
+        "has_more": has_more,
+        "page": (eff_offset // (eff_limit or 1)) + 1 if eff_limit else 1,
+        "page_size": eff_limit or len(doctors_list),
+    }
 
 
 @router.post("/revoke-access/{doctor_id}")

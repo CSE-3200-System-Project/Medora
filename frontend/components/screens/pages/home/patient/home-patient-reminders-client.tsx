@@ -36,12 +36,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 const DAYS_OF_WEEK = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+const PAGE_SIZE = 20;
 
 export default function PatientRemindersPage() {
   const router = useRouter();
   const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<ReminderType | "all">("all");
@@ -50,15 +55,21 @@ export default function PatientRemindersPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchReminders();
-  }, []);
+    fetchReminders(currentPage);
+  }, [currentPage, filter]);
 
-  const fetchReminders = async () => {
+  const fetchReminders = async (page: number) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await getReminders();
-      setReminders(data.reminders);
+      const offset = (page - 1) * PAGE_SIZE;
+      const data = await getReminders({
+        type_filter: filter !== "all" ? filter : undefined,
+        limit: PAGE_SIZE,
+        offset,
+      });
+      setReminders(data.reminders ?? data.items ?? []);
+      setTotal(data.total ?? 0);
     } catch (err: any) {
       setError(err.message || "Failed to load reminders");
     } finally {
@@ -94,10 +105,9 @@ export default function PatientRemindersPage() {
     }
   };
 
-  const filteredReminders = filter === "all" 
-    ? reminders 
-    : reminders.filter(r => r.type === filter);
-
+  // Filtering is now server-side; reminders already filtered by type
+  const filteredReminders = reminders;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const medicationCount = reminders.filter(r => r.type === "medication").length;
   const testCount = reminders.filter(r => r.type === "test").length;
   const activeCount = reminders.filter(r => r.is_active).length;
@@ -163,27 +173,27 @@ export default function PatientRemindersPage() {
               <Button
                 variant={filter === "all" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setFilter("all")}
+                onClick={() => { setFilter("all"); setCurrentPage(1); }}
               >
-                All ({reminders.length})
+                All ({total})
               </Button>
               <Button
                 variant={filter === "medication" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setFilter("medication")}
+                onClick={() => { setFilter("medication"); setCurrentPage(1); }}
                 className="gap-1"
               >
                 <Pill className="w-3 h-3" />
-                Medications ({medicationCount})
+                Medications
               </Button>
               <Button
                 variant={filter === "test" ? "default" : "outline"}
                 size="sm"
-                onClick={() => setFilter("test")}
+                onClick={() => { setFilter("test"); setCurrentPage(1); }}
                 className="gap-1"
               >
                 <FlaskConical className="w-3 h-3" />
-                Tests ({testCount})
+                Tests
               </Button>
             </div>
 
@@ -205,7 +215,7 @@ export default function PatientRemindersPage() {
                   <div className="flex flex-col items-center gap-3 text-center">
                     <AlertCircle className="w-10 h-10 text-destructive" />
                     <p className="text-destructive">{error}</p>
-                    <Button variant="outline" onClick={fetchReminders}>
+                    <Button variant="outline" onClick={() => fetchReminders(currentPage)}>
                       Try Again
                     </Button>
                   </div>
@@ -355,6 +365,17 @@ export default function PatientRemindersPage() {
                     </CardContent>
                   </Card>
                 ))}
+                <PaginationControls
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={total}
+                  startIndex={(currentPage - 1) * PAGE_SIZE + 1}
+                  endIndex={Math.min(total, currentPage * PAGE_SIZE)}
+                  itemLabel="reminders"
+                  onPrev={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  onNext={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  className="mt-4"
+                />
               </div>
             )}
           </div>

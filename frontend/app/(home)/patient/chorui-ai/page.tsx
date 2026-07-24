@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { ChoruiChat } from "@/components/ai/ChoruiChat";
 import { AppBackground } from "@/components/ui/app-background";
 import { Navbar } from "@/components/ui/navbar";
-import { getCurrentUser } from "@/lib/auth-actions";
+import { getCachedCurrentUser } from "@/lib/current-user";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export default async function ChoruiAIPage() {
-  const user = await getCurrentUser();
+  const user = await getCachedCurrentUser();
   if (!user) {
     redirect("/login");
   }

@@ -65,7 +65,13 @@ export interface Notification {
 
 export interface NotificationListResponse {
   notifications: Notification[];
+  items?: Notification[];
   total: number;
+  limit?: number;
+  offset?: number;
+  has_more?: boolean;
+  page?: number;
+  page_size?: number;
   unread_count: number;
 }
 
@@ -100,10 +106,15 @@ export async function getNotifications(
       throw new Error(errorData.detail || "Failed to fetch notifications");
     }
 
-    return await response.json();
+    const data = await response.json();
+    return {
+      ...data,
+      notifications: data.notifications ?? data.items ?? [],
+      items: data.items ?? data.notifications ?? [],
+    };
   } catch (error) {
     console.error("Error fetching notifications:", error);
-    return { notifications: [], total: 0, unread_count: 0 };
+    return { notifications: [], items: [], total: 0, unread_count: 0 };
   }
 }
 

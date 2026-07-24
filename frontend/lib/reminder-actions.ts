@@ -33,7 +33,14 @@ export interface Reminder {
 
 export interface ReminderListResponse {
   reminders: Reminder[];
+  // Unified pagination envelope (also present in new responses)
+  items?: Reminder[];
   total: number;
+  limit?: number;
+  offset?: number;
+  has_more?: boolean;
+  page?: number;
+  page_size?: number;
 }
 
 export interface CreateReminderInput {
@@ -75,17 +82,22 @@ export async function createReminder(data: CreateReminderInput): Promise<Reminde
 }
 
 /**
- * Get all reminders for the current user
+ * Get reminders for the current user (server-paginated).
+ * Pass limit/offset for numbered-page or infinite-scroll UIs.
  */
 export async function getReminders(options?: {
   type_filter?: ReminderType;
   active_only?: boolean;
+  limit?: number;
+  offset?: number;
 }): Promise<ReminderListResponse> {
   const headers = await getAuthHeaders();
-  
+
   const params = new URLSearchParams();
   if (options?.type_filter) params.append("type_filter", options.type_filter);
   if (options?.active_only !== undefined) params.append("active_only", String(options.active_only));
+  if (options?.limit !== undefined) params.append("limit", String(options.limit));
+  if (options?.offset !== undefined) params.append("offset", String(options.offset));
 
   const response = await fetch(`${BACKEND_URL}/reminders/?${params.toString()}`, {
     method: "GET",
@@ -98,7 +110,13 @@ export async function getReminders(options?: {
     throw new Error(error.detail || "Failed to fetch reminders");
   }
 
-  return await response.json();
+  const data = await response.json();
+  // Normalize: backend now returns items + reminders (legacy key)
+  return {
+    ...data,
+    reminders: data.reminders ?? data.items ?? [],
+    items: data.items ?? data.reminders ?? [],
+  };
 }
 
 /**

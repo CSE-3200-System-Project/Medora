@@ -126,19 +126,28 @@ export type AdminReviewRow = {
 
 export async function getAdminReviews(status: AdminReviewStatus = "PENDING", page = 1, limit = 20) {
   const headers = await getAdminHeaders();
+  // Send both page alias AND canonical offset for new backend
+  const offset = (page - 1) * limit;
   const response = await fetch(
-    `${BACKEND_URL}/admin/reviews?status=${status}&page=${page}&limit=${limit}`,
+    `${BACKEND_URL}/admin/reviews?status=${status}&limit=${limit}&offset=${offset}&page=${page}`,
     { headers, cache: "no-store" },
   );
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error((error as { detail?: string }).detail || "Failed to fetch reviews");
   }
-  return (await response.json()) as {
+  const data = await response.json();
+  return {
+    ...data,
+    reviews: data.reviews ?? data.items ?? [],
+    items: data.items ?? data.reviews ?? [],
+  } as {
     reviews: AdminReviewRow[];
+    items: AdminReviewRow[];
     total: number;
     page: number;
     limit: number;
+    offset: number;
     has_more: boolean;
   };
 }
@@ -278,11 +287,13 @@ export async function getAllPatients(limit = 50, offset = 0) {
   const fallback = {
     success: false,
     message: "Failed to fetch patients",
+    items: [],
     data: [],
     patients: [],
     total: 0,
     limit,
     offset,
+    has_more: false,
   };
 
   try {
@@ -309,11 +320,19 @@ export async function getAllPatients(limit = 50, offset = 0) {
     }
 
     const payload = await response.json();
+    const patients = Array.isArray(payload?.patients)
+      ? payload.patients
+      : Array.isArray(payload?.items)
+      ? payload.items
+      : [];
     return {
       ...fallback,
       ...payload,
-      patients: Array.isArray(payload?.patients) ? payload.patients : [],
+      patients,
+      items: patients,
+      data: patients,
       total: typeof payload?.total === "number" ? payload.total : 0,
+      has_more: payload?.has_more ?? false,
       success: payload?.success !== false,
       message: payload?.message || "Patients fetched successfully",
     };

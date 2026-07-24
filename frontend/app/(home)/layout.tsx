@@ -1,6 +1,6 @@
 import React from 'react'
 import { redirect } from 'next/navigation'
-import { getCurrentUser } from '@/lib/auth-actions'
+import { getCachedCurrentUser } from '@/lib/current-user'
 import { ReminderNotificationService } from '@/components/ui/reminder-notification-service'
 
 export default async function HomeLayout({
@@ -11,7 +11,7 @@ export default async function HomeLayout({
   // Server-side authentication check
   let user = null;
   try {
-    user = await getCurrentUser();
+    user = await getCachedCurrentUser();
   } catch (error) {
     console.error("Failed to resolve current user in home layout:", error);
     redirect("/logout?redirect=login");

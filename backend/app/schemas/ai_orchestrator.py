@@ -83,6 +83,17 @@ class ChoruiConversationSummary(BaseModel):
 
 class ChoruiConversationListResponse(BaseModel):
     conversations: list[ChoruiConversationSummary] = Field(default_factory=list)
+    items: list[ChoruiConversationSummary] = Field(default_factory=list)
+    total: int = 0
+    limit: int = 25
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 25
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.conversations:
+            object.__setattr__(self, "items", self.conversations)
 
 
 class ChoruiConversationMessage(BaseModel):
@@ -97,6 +108,10 @@ class ChoruiConversationHistoryResponse(BaseModel):
     conversation_id: str
     context_mode: str = "general"
     messages: list[ChoruiConversationMessage] = Field(default_factory=list)
+    total: int = 0
+    limit: int = 120
+    offset: int = 0
+    has_more: bool = False
 
 
 class ChoruiConversationDeleteResponse(BaseModel):

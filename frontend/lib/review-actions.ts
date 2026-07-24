@@ -37,11 +37,13 @@ export type DoctorReview = {
 
 export type ReviewListResponse = {
   reviews: DoctorReview[];
+  items?: DoctorReview[];
   total: number;
   rating_avg: number;
   rating_count: number;
   page: number;
   limit: number;
+  offset?: number;
   has_more: boolean;
 };
 
@@ -55,15 +57,22 @@ export async function getDoctorReviews(
   doctorId: string,
   page = 1,
   limit = 5,
+  offset?: number,
 ): Promise<ReviewListResponse> {
+  const effectiveOffset = offset ?? (page - 1) * limit;
   const res = await fetch(
-    `${BACKEND_URL}/doctor/${doctorId}/reviews?page=${page}&limit=${limit}`,
+    `${BACKEND_URL}/doctor/${doctorId}/reviews?limit=${limit}&offset=${effectiveOffset}&page=${page}`,
     { cache: "no-store" },
   );
   if (!res.ok) {
-    return { reviews: [], total: 0, rating_avg: 0, rating_count: 0, page, limit, has_more: false };
+    return { reviews: [], items: [], total: 0, rating_avg: 0, rating_count: 0, page, limit, offset: effectiveOffset, has_more: false };
   }
-  return res.json();
+  const data = await res.json();
+  return {
+    ...data,
+    reviews: data.reviews ?? data.items ?? [],
+    items: data.items ?? data.reviews ?? [],
+  };
 }
 
 export async function getReviewEligibility(doctorId: string): Promise<ReviewEligibility> {

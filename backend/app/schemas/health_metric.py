@@ -41,7 +41,17 @@ class HealthMetricResponse(BaseModel):
 
 class HealthMetricListResponse(BaseModel):
     metrics: list[HealthMetricResponse]
+    items: list[HealthMetricResponse] = []
     total: int
+    limit: int = 100
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 100
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.metrics:
+            object.__setattr__(self, "items", self.metrics)
 
 
 class HealthMetricTodaySummary(BaseModel):

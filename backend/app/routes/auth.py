@@ -2,7 +2,6 @@ import asyncio
 
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text, update
 from app.core.dependencies import get_db
 from app.schemas.auth import PatientSignup, DoctorSignup, UserLogin
 from app.db.supabase import supabase, storage_supabase as admin_supabase
@@ -264,38 +263,28 @@ async def get_my_profile(
     db: AsyncSession = Depends(get_db)
 ):
     user_id = user.id
-    
-    result = await db.execute(
-        text("SELECT id, role, first_name, last_name, email, phone, verification_status, onboarding_completed FROM profiles WHERE id = :id"),
-        {"id": user_id}
-    )
-    profile = result.fetchone()
-    
+
+    # get_current_user_token already loaded this row for its ban check. This
+    # endpoint runs on every page load via the (home) layout guard, so
+    # re-SELECTing the same profile cost a round trip on every navigation.
+    profile = user.profile
+
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
+
     # Sync verification status
     email_verified = user.email_confirmed_at is not None
-    
+
     # If email is verified but DB says unverified, update it
     # For patients, we can mark as verified. For doctors, maybe keep as pending/unverified until admin check?
     # For now, let's assume email verification is enough to move out of "unverified" state for patients
     if email_verified and profile.verification_status == VerificationStatus.unverified:
         new_status = VerificationStatus.verified if profile.role == UserRole.PATIENT else VerificationStatus.pending
-        
-        await db.execute(
-            update(Profile)
-            .where(Profile.id == user_id)
-            .values(verification_status=new_status)
-        )
+
+        # Mutating the loaded instance lets the session flush the UPDATE and
+        # keeps the object current, replacing a separate UPDATE + re-SELECT.
+        profile.verification_status = new_status
         await db.commit()
-        
-        # Refresh profile data
-        result = await db.execute(
-            text("SELECT id, role, first_name, last_name, email, phone, verification_status, onboarding_completed FROM profiles WHERE id = :id"),
-            {"id": user_id}
-        )
-        profile = result.fetchone()
 
     avatar_url = await _resolve_user_avatar_url(db, user_id, profile.role if profile else None)
 

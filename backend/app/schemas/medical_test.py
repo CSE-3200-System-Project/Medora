@@ -19,8 +19,34 @@ class MedicalTestResult(BaseModel):
 class MedicalTestSearchResponse(BaseModel):
     """Response for medical test search endpoint."""
     results: List[MedicalTestResult]
+    items: List[MedicalTestResult] = []
     total: int
     query: str
+    limit: int = 20
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 20
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.results:
+            object.__setattr__(self, "items", self.results)
+
+
+class MedicalTestListResponse(BaseModel):
+    """Response for listing all medical tests."""
+    results: List[MedicalTestResult]
+    items: List[MedicalTestResult] = []
+    total: int
+    limit: int = 100
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 100
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.results:
+            object.__setattr__(self, "items", self.results)
 
 
 class MedicalTestDetailResponse(BaseModel):

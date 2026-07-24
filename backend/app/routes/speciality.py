@@ -1,8 +1,8 @@
 import time
 
-from fastapi import APIRouter, Depends, Request, Response
+from fastapi import APIRouter, Depends, Query, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from app.core.dependencies import get_db
 from app.core.http_cache import build_etag, is_not_modified, not_modified_response, set_cache_headers
@@ -24,37 +24,50 @@ _specialities_cache: dict[str, object] = {"payload": None, "etag": None, "expire
 async def get_specialities(
     request: Request,
     response: Response,
+    limit: int = Query(200, ge=1, le=500, description="Max specialities to return"),
+    offset: int = Query(0, ge=0, description="Number of specialities to skip"),
     db: AsyncSession = Depends(get_db),
 ):
-    """Get all specialities for dropdowns. Cached in-process for 5 minutes."""
+    """Get specialities for dropdowns. Cached in-process for 5 minutes (when using defaults)."""
     now = time.monotonic()
-    cached_payload = _specialities_cache.get("payload")
-    cached_etag = _specialities_cache.get("etag")
-    if cached_payload is not None and now < float(_specialities_cache.get("expires_at") or 0):
-        set_cache_headers(
-            response,
-            etag=str(cached_etag),
-            max_age_seconds=_SPECIALITIES_CACHE_TTL_SECONDS,
-            stale_while_revalidate_seconds=600,
-            is_private=False,
-        )
-        if is_not_modified(request, str(cached_etag)):
-            return not_modified_response(response)
-        return cached_payload
+    is_default_params = limit == 200 and offset == 0
+    if is_default_params:
+        cached_payload = _specialities_cache.get("payload")
+        cached_etag = _specialities_cache.get("etag")
+        if cached_payload is not None and now < float(_specialities_cache.get("expires_at") or 0):
+            set_cache_headers(
+                response,
+                etag=str(cached_etag),
+                max_age_seconds=_SPECIALITIES_CACHE_TTL_SECONDS,
+                stale_while_revalidate_seconds=600,
+                is_private=False,
+            )
+            if is_not_modified(request, str(cached_etag)):
+                return not_modified_response(response)
+            return cached_payload
 
-    stmt = select(Speciality).order_by(Speciality.name)
+    total = (await db.execute(select(func.count(Speciality.id)))).scalar() or 0
+    stmt = select(Speciality).order_by(Speciality.name).limit(limit).offset(offset)
     result = await db.execute(stmt)
     specialities = result.scalars().all()
 
+    spec_list = [SpecialitySchema.model_validate(s) for s in specialities]
     payload = SpecialityListResponse(
-        specialities=[SpecialitySchema.model_validate(s) for s in specialities],
-        total=len(specialities),
+        specialities=spec_list,
+        items=spec_list,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(spec_list) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
     )
     etag = build_etag(payload.model_dump(mode="json"))
 
-    _specialities_cache["payload"] = payload
-    _specialities_cache["etag"] = etag
-    _specialities_cache["expires_at"] = now + _SPECIALITIES_CACHE_TTL_SECONDS
+    if is_default_params:
+        _specialities_cache["payload"] = payload
+        _specialities_cache["etag"] = etag
+        _specialities_cache["expires_at"] = now + _SPECIALITIES_CACHE_TTL_SECONDS
 
     set_cache_headers(
         response,

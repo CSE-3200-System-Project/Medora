@@ -39,8 +39,18 @@ class MedicineSearchResult(BaseModel):
 class MedicineSearchResponse(BaseModel):
     """Response for medicine search endpoint."""
     results: List[MedicineSearchResult]
+    items: List[MedicineSearchResult] = []
     total: int
     query: str
+    limit: int = 20
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 20
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.results:
+            object.__setattr__(self, "items", self.results)
 
 
 class MedicineDetailResponse(BaseModel):

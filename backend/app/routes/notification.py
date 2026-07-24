@@ -170,25 +170,32 @@ async def get_notifications(
     unread_result = await db.execute(unread_query)
     unread_count = unread_result.scalar() or 0
 
+    items = [
+        NotificationResponse(
+            id=n.id,
+            user_id=n.user_id,
+            type=n.type,
+            priority=n.priority,
+            title=n.title,
+            message=n.message,
+            action_url=n.action_url,
+            metadata=n.data,
+            is_read=n.is_read,
+            is_archived=n.is_archived,
+            created_at=n.created_at,
+            read_at=n.read_at,
+        )
+        for n in notifications
+    ]
     return NotificationListResponse(
-        notifications=[
-            NotificationResponse(
-                id=n.id,
-                user_id=n.user_id,
-                type=n.type,
-                priority=n.priority,
-                title=n.title,
-                message=n.message,
-                action_url=n.action_url,
-                metadata=n.data,
-                is_read=n.is_read,
-                is_archived=n.is_archived,
-                created_at=n.created_at,
-                read_at=n.read_at,
-            )
-            for n in notifications
-        ],
+        notifications=items,
+        items=items,
         total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(items) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
         unread_count=unread_count,
     )
 

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Header
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Header, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import func, select, update, desc
@@ -12,7 +12,7 @@ from app.db.models.enums import VerificationStatus, UserRole, AccountStatus, Rev
 from app.schemas.review import AdminReviewDecision, AdminReviewItem, AdminReviewListResponse, ReviewAuthor, ReviewResponse
 from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
-from typing import Any
+from typing import Any, Optional
 import re
 import uuid
 import logging
@@ -223,14 +223,21 @@ async def mark_admin_notifications_read(
 @router.get("/reviews", response_model=AdminReviewListResponse)
 async def list_admin_reviews(
     status: ReviewModerationStatus = ReviewModerationStatus.PENDING,
-    page: int = 1,
-    limit: int = 20,
+    limit: int = Query(20, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    # backward-compat alias
+    page: Optional[int] = Query(None, ge=1),
     admin_access = Depends(require_admin_access),
     db: AsyncSession = Depends(get_db),
 ):
-    safe_page = max(1, page)
-    safe_limit = max(1, min(limit, 100))
-    offset = (safe_page - 1) * safe_limit
+    safe_limit = limit
+    # Resolve page alias → offset
+    if page is not None and offset == 0:
+        safe_offset = (page - 1) * safe_limit
+        safe_page = page
+    else:
+        safe_offset = offset
+        safe_page = (offset // safe_limit) + 1 if safe_limit > 0 else 1
 
     total = int(
         (
@@ -246,12 +253,12 @@ async def list_admin_reviews(
             select(DoctorReview)
             .where(DoctorReview.status == status)
             .order_by(desc(DoctorReview.created_at))
-            .limit(safe_limit + 1)
-            .offset(offset)
+            .limit(safe_limit)
+            .offset(safe_offset)
         )
     ).scalars().all()
-    has_more = len(rows) > safe_limit
-    reviews = rows[:safe_limit]
+    reviews = list(rows)
+    has_more = safe_offset + len(reviews) < total
 
     profile_ids: set[str] = set()
     for review in reviews:
@@ -263,7 +270,7 @@ async def list_admin_reviews(
         profile_rows = await db.execute(select(Profile).where(Profile.id.in_(profile_ids)))
         profiles_by_id = {profile.id: profile for profile in profile_rows.scalars().all()}
 
-    items = [
+    review_items = [
         await _serialize_admin_review(
             db,
             review,
@@ -274,11 +281,14 @@ async def list_admin_reviews(
     ]
 
     return AdminReviewListResponse(
-        reviews=items,
+        reviews=review_items,
+        items=review_items,
         total=total,
-        page=safe_page,
         limit=safe_limit,
+        offset=safe_offset,
         has_more=has_more,
+        page=safe_page,
+        page_size=safe_limit,
     )
 
 
@@ -409,17 +419,33 @@ class CreatePatientRequest(BaseModel):
 
 @router.get("/pending-doctors")
 async def get_pending_doctors(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access)
+    admin_access = Depends(require_admin_access),
 ):
     """Get all doctors pending verification"""
+    where_clause = (
+        Profile.role == UserRole.DOCTOR,
+        Profile.verification_status == VerificationStatus.pending,
+    )
+    total = (
+        await db.execute(
+            select(func.count(Profile.id))
+            .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
+            .where(*where_clause)
+        )
+    ).scalar() or 0
+
     result = await db.execute(
         select(Profile, DoctorProfile)
         .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
-        .where(Profile.role == UserRole.DOCTOR)
-        .where(Profile.verification_status == VerificationStatus.pending)
+        .where(*where_clause)
+        .order_by(Profile.created_at.desc())
+        .limit(limit)
+        .offset(offset)
     )
-    
+
     doctors = []
     for profile, doctor in result.all():
         doctors.append({
@@ -432,8 +458,17 @@ async def get_pending_doctors(
             "bmdc_document_url": doctor.bmdc_document_url,
             "created_at": profile.created_at.isoformat() if profile.created_at else None,
         })
-    
-    return {"doctors": doctors}
+
+    has_more = offset + len(doctors) < total
+    return {
+        "doctors": doctors,
+        "items": doctors,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+    }
 
 @router.post("/verify-doctor/{doctor_id}")
 async def verify_doctor(
@@ -482,16 +517,30 @@ async def verify_doctor(
 
 @router.get("/doctors")
 async def get_all_doctors(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
-    admin_access = Depends(require_admin_access)
+    admin_access = Depends(require_admin_access),
 ):
     """Get all doctors with their verification status"""
+    where_clause = (Profile.role == UserRole.DOCTOR,)
+    total = (
+        await db.execute(
+            select(func.count(Profile.id))
+            .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
+            .where(*where_clause)
+        )
+    ).scalar() or 0
+
     result = await db.execute(
         select(Profile, DoctorProfile)
         .join(DoctorProfile, Profile.id == DoctorProfile.profile_id)
-        .where(Profile.role == UserRole.DOCTOR)
+        .where(*where_clause)
+        .order_by(Profile.created_at.desc())
+        .limit(limit)
+        .offset(offset)
     )
-    
+
     doctors = []
     for profile, doctor in result.all():
         doctors.append({
@@ -504,8 +553,17 @@ async def get_all_doctors(
             "verified_at": profile.verified_at.isoformat() if profile.verified_at else None,
             "account_status": profile.status.value if profile.status else "active",
         })
-    
-    return {"doctors": doctors}
+
+    has_more = offset + len(doctors) < total
+    return {
+        "doctors": doctors,
+        "items": doctors,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+    }
 
 @router.get("/stats")
 async def get_admin_stats(
@@ -627,21 +685,26 @@ async def get_admin_stats(
 async def get_all_patients(
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
-    limit: int = 50,
-    offset: int = 0
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
+    page: Optional[int] = Query(None, ge=1),
 ):
     """Get all patients with pagination"""
     try:
-        safe_limit = max(1, limit)
-        safe_offset = max(0, offset)
+        safe_limit = limit
+        safe_offset = (page - 1) * safe_limit if page is not None and offset == 0 else offset
+        safe_page = page or (safe_offset // safe_limit) + 1 if safe_limit > 0 else 1
+
+        where_clause = (Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
 
         result = await db.execute(
             select(Profile)
-            .where(Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
+            .where(*where_clause)
+            .order_by(Profile.created_at.desc())
             .limit(safe_limit)
             .offset(safe_offset)
         )
-        
+
         patients = []
         for profile in result.scalars().all():
             patients.append({
@@ -658,21 +721,24 @@ async def get_all_patients(
                 "avatar_url": None,
                 "medical_reports_count": 0,
             })
-        
-        # Get total count
-        count_result = await db.execute(
-            select(func.count(Profile.id)).where(Profile.role == UserRole.PATIENT, Profile.status != AccountStatus.deleted)
-        )
-        total = count_result.scalar() or 0
 
+        total = (
+            await db.execute(select(func.count(Profile.id)).where(*where_clause))
+        ).scalar() or 0
+
+        has_more = safe_offset + len(patients) < total
         return {
             "success": True,
             "message": "Patients fetched successfully",
+            "items": patients,
             "data": patients,
             "patients": patients,
             "total": total,
             "limit": safe_limit,
-            "offset": safe_offset
+            "offset": safe_offset,
+            "has_more": has_more,
+            "page": safe_page,
+            "page_size": safe_limit,
         }
     except Exception as error:
         logger.exception("Failed to fetch patients list", extra={"limit": limit, "offset": offset})
@@ -681,11 +747,13 @@ async def get_all_patients(
             content={
                 "success": False,
                 "message": "Failed to fetch patients",
+                "items": [],
                 "data": [],
                 "patients": [],
                 "total": 0,
-                "limit": max(1, limit),
-                "offset": max(0, offset),
+                "limit": limit,
+                "offset": offset,
+                "has_more": False,
                 "error": str(error),
             },
         )

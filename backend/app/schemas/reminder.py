@@ -67,7 +67,18 @@ class ReminderResponse(BaseModel):
 class ReminderListResponse(BaseModel):
     """Schema for paginated reminder list"""
     reminders: List[ReminderResponse]
+    # Unified pagination envelope fields
+    items: List[ReminderResponse] = []
     total: int
+    limit: int = 50
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 50
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.reminders:
+            object.__setattr__(self, "items", self.reminders)
 
 
 def validate_timezone_name(timezone_name: str) -> str:

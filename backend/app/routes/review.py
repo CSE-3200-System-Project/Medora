@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
 
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
@@ -23,10 +23,8 @@ from app.services import review_service
 router = APIRouter()
 
 
-async def _ensure_patient(db: AsyncSession, user_id: str) -> Profile:
-    profile = (
-        await db.execute(select(Profile).where(Profile.id == user_id))
-    ).scalar_one_or_none()
+async def _ensure_patient(db: AsyncSession, user) -> Profile:
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     if "PATIENT" not in str(profile.role).upper():
@@ -99,7 +97,7 @@ async def review_eligibility(
     """Tells the UI whether the current patient can leave a review (has a
     completed appointment) and surfaces any existing review so the dialog
     can open in edit mode."""
-    profile = await _ensure_patient(db, user.id)
+    profile = await _ensure_patient(db, user)
 
     can_review = await review_service.patient_has_completed_appointment(
         db, patient_id=profile.id, doctor_id=doctor_id
@@ -123,7 +121,7 @@ async def create_or_update_review(
 ):
     """Patient creates (or updates their existing) review for a doctor.
     Eligibility requires at least one COMPLETED appointment."""
-    profile = await _ensure_patient(db, user.id)
+    profile = await _ensure_patient(db, user)
 
     eligible = await review_service.patient_has_completed_appointment(
         db, patient_id=profile.id, doctor_id=payload.doctor_id
@@ -176,7 +174,7 @@ async def update_review(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    profile = await _ensure_patient(db, user.id)
+    profile = await _ensure_patient(db, user)
     review = (
         await db.execute(select(DoctorReview).where(DoctorReview.id == review_id))
     ).scalar_one_or_none()
@@ -214,7 +212,7 @@ async def delete_review(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    profile = await _ensure_patient(db, user.id)
+    profile = await _ensure_patient(db, user)
     review = (
         await db.execute(select(DoctorReview).where(DoctorReview.id == review_id))
     ).scalar_one_or_none()
