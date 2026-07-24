@@ -48,7 +48,7 @@ curl http://localhost:8000/health
 
 **Optional:**
 - `ALLOWED_ORIGINS` - CORS origins (default: `http://localhost:3000`)
-- `ADMIN_PASSWORD` - Admin panel password (default: `admin123`)
+- `ADMIN_PASSWORD` - Required admin panel secret; use a long, randomly generated value
 - `RELOAD` - Enable hot reload in dev (`true`/`false`, default: `false`)
 - `RUN_MIGRATIONS` - Run Alembic on container startup (`true`/`false`, default: `true`)
 

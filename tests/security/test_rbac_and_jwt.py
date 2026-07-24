@@ -34,7 +34,10 @@ async def test_admin_boundary_blocks_non_admin_password_access(backend_client) -
     denied = await backend_client.get("/admin/test")
     assert denied.status_code == 403
 
-    allowed = await backend_client.get("/admin/test", headers={"x-admin-password": "admin123"})
+    allowed = await backend_client.get(
+        "/admin/test",
+        headers={"x-admin-password": "test-admin-password-123"},
+    )
     assert allowed.status_code == 200
 
 

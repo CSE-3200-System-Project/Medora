@@ -16,14 +16,14 @@ from typing import Any, Optional
 import re
 import uuid
 import logging
+import secrets
+from app.core.config import settings
 from app.services.email_service import send_account_suspension_email
 from app.services import notification_service, review_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-# Simple admin key for password-only access
-ADMIN_PASSWORD = "admin123"
 SYSTEM_ADMIN_PROFILE_ID = "admin"
 
 
@@ -58,7 +58,11 @@ async def require_admin_access(
     db: AsyncSession = Depends(get_db)
 ):
     """Verify admin access via password (no account required)"""
-    if x_admin_password != ADMIN_PASSWORD:
+    admin_password = settings.ADMIN_PASSWORD
+    if not admin_password:
+        logger.error("ADMIN_PASSWORD is not configured; admin access is disabled")
+        raise HTTPException(status_code=503, detail="Admin access is not configured")
+    if not x_admin_password or not secrets.compare_digest(x_admin_password, admin_password):
         raise HTTPException(status_code=403, detail="Invalid admin credentials")
     return True
 

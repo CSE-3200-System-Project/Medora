@@ -115,7 +115,7 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
 
     approve_response = await backend_client.post(
         f"/admin/reviews/{created_review['id']}/approve",
-        headers={"X-Admin-Password": "admin123"},
+        headers={"X-Admin-Password": "test-admin-password-123"},
     )
     assert approve_response.status_code == 200, approve_response.text
     assert approve_response.json()["status"] == "APPROVED"
@@ -163,7 +163,7 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
 
     reject_response = await backend_client.post(
         f"/admin/reviews/{created_review['id']}/reject",
-        headers={"X-Admin-Password": "admin123"},
+        headers={"X-Admin-Password": "test-admin-password-123"},
         json={"admin_feedback": "Please avoid personal attacks."},
     )
     assert reject_response.status_code == 200, reject_response.text

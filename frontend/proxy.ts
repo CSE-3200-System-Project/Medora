@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { getAdminSecret, verifyAdminAccessToken } from '@/lib/admin-auth'
 
 // Routes only accessible when logged OUT
 const authRoutes = [
@@ -50,7 +51,7 @@ export async function proxy(request: NextRequest) {
   const blockedReason = request.cookies.get('account_blocked_reason')?.value
 
   const isLoggedIn = !!sessionToken
-  const isAdmin = adminAccess === 'true' || userRole === 'admin'
+  const isAdmin = await verifyAdminAccessToken(adminAccess, getAdminSecret())
 
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))

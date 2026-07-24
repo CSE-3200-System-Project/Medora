@@ -49,6 +49,7 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_SECRET: str | None = None
     GOOGLE_REDIRECT_URI: str = "http://localhost:8000/oauth/google/callback"
     FRONTEND_URL: str = "http://localhost:3000"
+    ADMIN_PASSWORD: str | None = None
 
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True

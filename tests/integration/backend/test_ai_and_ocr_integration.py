@@ -54,7 +54,13 @@ async def test_prescription_ocr_endpoint_returns_structured_payload(
                 }
             ],
             "raw_text": "Napa 500mg 1+0+1 5 days",
-            "meta": {"model": "azure_prebuilt-read", "processing_time_ms": 420},
+            "meta": {
+                "model": "azure_prebuilt-read",
+                "model_type": "read",
+                "processing_time_ms": 420,
+                "detected_regions": 1,
+                "ocr_line_count": 1,
+            },
         }
 
     monkeypatch.setattr("app.routes.upload._extract_prescription_with_ai_service", _fake_extract)
