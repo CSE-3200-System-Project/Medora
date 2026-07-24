@@ -260,9 +260,9 @@ async def search_doctors(
             int(doc.rating_count or 0),
             DoctorCardSchema(
                 profile_id=doc.profile_id,
-                first_name=prof.first_name,
-                last_name=prof.last_name,
-                title=doc.title,
+                first_name=prof.first_name.strip() if prof.first_name else None,
+                last_name=prof.last_name.strip() if prof.last_name else None,
+                title=doc.title.strip() if doc.title else None,
                 specialization=spec.name if spec else doc.specialization,
                 qualifications=doc.qualifications,
                 years_of_experience=doc.years_of_experience,
