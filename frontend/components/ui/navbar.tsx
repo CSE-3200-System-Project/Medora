@@ -7,6 +7,10 @@ import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { fetchWithAuth } from "@/lib/auth-utils";
+import {
+  type CurrentUserData,
+  useServerResolvedCurrentUser,
+} from "@/lib/current-user-context";
 import { Menu, User, LogOut, FileText, Calendar, Shield, Activity, Users, FlaskConical, Pill, Sun, Moon, Settings } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -44,14 +48,6 @@ import medoraDarkLogo from "@/assets/images/Medora-Logo-Dark.png";
 import medoraLightLogo from "@/assets/images/Medora-Logo-Light.png";
 
 
-interface UserData {
-  first_name: string;
-  last_name: string;
-  email: string;
-  role: string;
-  profile_photo_url?: string;
-}
-
 const USER_CACHE_KEY = "medora:user-cache:v1";
 const USER_CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -60,14 +56,14 @@ function hasSessionToken() {
   return document.cookie.includes("session_token=");
 }
 
-function readCachedUser(): UserData | null {
+function readCachedUser(): CurrentUserData | null {
   if (typeof window === "undefined") return null;
 
   const fromCache = sessionStorage.getItem(USER_CACHE_KEY);
   if (!fromCache) return null;
 
   try {
-    const parsed = JSON.parse(fromCache) as { ts: number; user: UserData };
+    const parsed = JSON.parse(fromCache) as { ts: number; user: CurrentUserData };
     if (Date.now() - parsed.ts < USER_CACHE_TTL_MS) {
       return parsed.user;
     }
@@ -86,13 +82,16 @@ function inferRoleFromPath(pathname: string) {
 }
 
 export function Navbar() {
+  const serverResolvedUser = useServerResolvedCurrentUser();
   const tNav = useT("nav");
   const pathname = usePathname();
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
-  const [user, setUser] = React.useState<UserData | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [hasToken, setHasToken] = React.useState(false);
+  const [user, setUser] = React.useState<CurrentUserData | null>(
+    serverResolvedUser ?? null,
+  );
+  const [loading, setLoading] = React.useState<boolean>(!serverResolvedUser);
+  const [hasToken, setHasToken] = React.useState(Boolean(serverResolvedUser));
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [themeMounted, setThemeMounted] = React.useState(false);
@@ -109,11 +108,27 @@ export function Navbar() {
 
     window.addEventListener("medora:logged_out", handleLogout);
 
-    const tokenPresent = hasSessionToken();
+    const tokenPresent = Boolean(serverResolvedUser) || hasSessionToken();
     setHasToken(tokenPresent);
 
     if (!tokenPresent) {
       setLoading(false);
+      return () => {
+        isMounted = false;
+        window.removeEventListener("medora:logged_out", handleLogout);
+      };
+    }
+
+    if (serverResolvedUser) {
+      setUser(serverResolvedUser);
+      setLoading(false);
+      sessionStorage.setItem(
+        USER_CACHE_KEY,
+        JSON.stringify({
+          ts: Date.now(),
+          user: serverResolvedUser,
+        }),
+      );
       return () => {
         isMounted = false;
         window.removeEventListener("medora:logged_out", handleLogout);
@@ -157,7 +172,7 @@ export function Navbar() {
       isMounted = false;
       window.removeEventListener("medora:logged_out", handleLogout);
     };
-  }, []);
+  }, [serverResolvedUser]);
 
   React.useEffect(() => {
     setThemeMounted(true);

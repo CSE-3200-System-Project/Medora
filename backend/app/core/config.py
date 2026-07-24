@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     SUPABASE_DATABASE_URL: str  # For SQLAlchemy (postgresql+asyncpg://...)
     SUPABASE_URL: str           # For Supabase Auth API
     SUPABASE_KEY: str           # Public/anon key for auth flows
+    SUPABASE_JWT_SECRET: str | None = None  # Legacy HS256 projects; enables local verification
     SUPABASE_SERVICE_ROLE_KEY: str | None = None  # Required for server-side storage writes
     SUPABASE_STORAGE_BUCKET: str 
     GROQ_API_KEY: str | None = None
@@ -56,11 +57,12 @@ class Settings(BaseSettings):
     # Declared here (rather than read via os.getenv) so they resolve from .env
     # like every other setting; real process env vars still take precedence.
     DB_POOL_MODE: str = "auto"
-    DB_POOL_SIZE: int = 10
-    DB_MAX_OVERFLOW: int = 10
-    DB_POOL_TIMEOUT: int = 30
-    DB_POOL_RECYCLE: int = 1800
-    DB_POOL_PRE_PING: bool = True
+    DB_POOL_SIZE: int = 5
+    DB_MAX_OVERFLOW: int = 0
+    DB_POOL_TIMEOUT: int = 10
+    DB_POOL_RECYCLE: int = 300
+    DB_POOL_PRE_PING: bool = False
+    DB_READ_CONCURRENCY: int = 3
     DB_ECHO: bool = False
 
     PERF_API_CACHE_TTL: int = 60

@@ -17,11 +17,11 @@ We auto-detect (1)/(2) vs (3) from the URL but allow explicit override via env.
 Overrides (all optional):
 
   DB_POOL_MODE              = "auto" | "direct" | "pgbouncer"   (default "auto")
-  DB_POOL_SIZE              = int  (default 10)
-  DB_MAX_OVERFLOW           = int  (default 10)
-  DB_POOL_TIMEOUT           = int seconds (default 30)
-  DB_POOL_RECYCLE           = int seconds (default 1800)
-  DB_POOL_PRE_PING          = "true"|"false" (default "true")
+  DB_POOL_SIZE              = int  (default 5)
+  DB_MAX_OVERFLOW           = int  (default 0)
+  DB_POOL_TIMEOUT           = int seconds (default 10)
+  DB_POOL_RECYCLE           = int seconds (default 300)
+  DB_POOL_PRE_PING          = "true"|"false" (default "false")
   DB_ECHO                   = "true"|"false" (default "false")
 """
 
@@ -77,9 +77,9 @@ _engine_kwargs: dict = {
     "max_overflow": max_overflow,
     "pool_timeout": DB_POOL_TIMEOUT,
     "pool_recycle": DB_POOL_RECYCLE,
-    # Costs one extra round trip per checkout. Worth it against a remote pooler
-    # that can drop idle connections; disable it (and lower DB_POOL_RECYCLE below
-    # the pooler's idle timeout) if measurement says otherwise.
+    # Costs one extra cross-region round trip per checkout. Optimistic
+    # invalidation plus a short recycle window avoids paying that cost on every
+    # request. Set true only when the pooler is observed dropping live clients.
     "pool_pre_ping": DB_POOL_PRE_PING,
 }
 

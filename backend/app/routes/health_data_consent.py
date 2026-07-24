@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db_concurrency import gather_reads
 from app.core.dependencies import get_db, resolve_profile
 from app.db.models.enums import HealthMetricType, UserRole
 from app.db.models.health_data_consent import HealthDataConsent
@@ -254,50 +255,71 @@ async def get_patient_health_for_doctor(
             detail="Patient has not granted you access to their health data",
         )
 
-    # Get patient name
-    patient_profile = (await db.execute(select(Profile).where(Profile.id == patient_id))).scalar_one_or_none()
+    # End the consent-check transaction before isolated reads fan out so the
+    # request does not pin an additional pooled connection.
+    await db.commit()
+
+    now = datetime.now(timezone.utc)
+    since = now - timedelta(days=days)
+
+    async def _load_patient(session: AsyncSession):
+        return (
+            await session.execute(select(Profile).where(Profile.id == patient_id))
+        ).scalar_one_or_none()
+
+    async def _load_trends(session: AsyncSession):
+        return (
+            await session.execute(
+                select(HealthMetric)
+                .where(
+                    HealthMetric.user_id == patient_id,
+                    HealthMetric.recorded_at >= since,
+                )
+                .order_by(
+                    HealthMetric.metric_type.asc(),
+                    HealthMetric.recorded_at.asc(),
+                )
+            )
+        ).scalars().all()
+
+    queries = [_load_patient, _load_trends]
+
+    if consent.share_medical_tests:
+        async def _load_medical_tests(session: AsyncSession):
+            return (
+                await session.execute(
+                    select(PatientProfile).where(
+                        PatientProfile.profile_id == patient_id
+                    )
+                )
+            ).scalar_one_or_none()
+
+        queries.append(_load_medical_tests)
+
+    results = await gather_reads(*queries, max_concurrency=3)
+    patient_profile = results[0]
+    trend_rows = results[1]
+
     if not patient_profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
 
     patient_name = f"{patient_profile.first_name} {patient_profile.last_name}"
 
-    # Get today's metrics
-    now = datetime.now(timezone.utc)
     start_of_day = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
     end_of_day = start_of_day + timedelta(days=1)
 
-    today_rows = (
-        await db.execute(
-            select(HealthMetric)
-            .where(
-                HealthMetric.user_id == patient_id,
-                HealthMetric.recorded_at >= start_of_day,
-                HealthMetric.recorded_at < end_of_day,
-            )
-            .order_by(HealthMetric.recorded_at.desc())
-        )
-    ).scalars().all()
-
     latest_by_type: dict[str, dict] = {}
-    for metric in today_rows:
+    for metric in trend_rows:
+        if not (start_of_day <= metric.recorded_at < end_of_day):
+            continue
         key = metric.metric_type.value
-        if key not in latest_by_type:
-            latest_by_type[key] = {
-                "metric_type": key,
-                "value": metric.value,
-                "unit": metric.unit,
-                "recorded_at": metric.recorded_at.isoformat(),
-            }
-
-    # Get trends
-    since = now - timedelta(days=days)
-    trend_rows = (
-        await db.execute(
-            select(HealthMetric)
-            .where(HealthMetric.user_id == patient_id, HealthMetric.recorded_at >= since)
-            .order_by(HealthMetric.metric_type.asc(), HealthMetric.recorded_at.asc())
-        )
-    ).scalars().all()
+        # Rows are ascending, so replacement leaves the latest value per type.
+        latest_by_type[key] = {
+            "metric_type": key,
+            "value": metric.value,
+            "unit": metric.unit,
+            "recorded_at": metric.recorded_at.isoformat(),
+        }
 
     grouped: dict[str, dict[str, list]] = {}
     for item in trend_rows:
@@ -329,11 +351,7 @@ async def get_patient_health_for_doctor(
 
     medical_tests: list[dict[str, Any]] | None = None
     if consent.share_medical_tests:
-        patient_profile_row = (
-            await db.execute(
-                select(PatientProfile).where(PatientProfile.profile_id == patient_id)
-            )
-        ).scalar_one_or_none()
+        patient_profile_row = results[2]
         if patient_profile_row and patient_profile_row.medical_tests:
             tests = patient_profile_row.medical_tests
             medical_tests = tests if isinstance(tests, list) else []

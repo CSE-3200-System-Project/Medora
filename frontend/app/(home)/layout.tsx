@@ -1,7 +1,10 @@
 import React from 'react'
 import { redirect } from 'next/navigation'
 import { getCachedCurrentUser } from '@/lib/current-user'
+import { CurrentUserProvider } from '@/lib/current-user-context'
 import { ReminderNotificationService } from '@/components/ui/reminder-notification-service'
+
+export const dynamic = 'force-dynamic'
 
 export default async function HomeLayout({
   children,
@@ -27,13 +30,22 @@ export default async function HomeLayout({
       ? user.role
       : (user?.role?.value ?? "");
   const isPatient = roleValue.toLowerCase() === "patient";
+  const clientUser = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: roleValue.toLowerCase(),
+    profile_photo_url: user.profile_photo_url,
+  };
   
   return (
-    <div className="min-h-dvh min-h-app w-full overflow-x-hidden">
-      {isPatient ? <ReminderNotificationService /> : null}
-      <div className="min-h-dvh min-h-app w-full">
-        {children}
+    <CurrentUserProvider user={clientUser}>
+      <div className="min-h-dvh min-h-app w-full overflow-x-hidden">
+        {isPatient ? <ReminderNotificationService /> : null}
+        <div className="min-h-dvh min-h-app w-full">
+          {children}
+        </div>
       </div>
-    </div>
+    </CurrentUserProvider>
   )
 }

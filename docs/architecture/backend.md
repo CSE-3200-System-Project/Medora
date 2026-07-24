@@ -1,6 +1,6 @@
 # Backend Architecture
 
-Medora's backend is a **FastAPI** application using **async SQLAlchemy 2.x** with PostgreSQL (hosted on Supabase). All endpoints are async. Authentication is JWT-based via Supabase, with Row-Level Security (RLS) enforced at the database layer.
+Medora's backend is a **FastAPI** application using **async SQLAlchemy 2.x** with PostgreSQL (hosted on Supabase). Authentication is JWT-based via Supabase. Direct backend connections use a database role with `BYPASSRLS`, so authorization and consent checks are enforced in application dependencies and route services.
 
 **Entry point:** `backend/app/main.py`
 
@@ -80,14 +80,16 @@ On startup the app runs three initialization steps, then launches two background
 Request arrives with: Authorization: Bearer <supabase_jwt>
 
 Primary path:
-  1. Decode header → extract kid + alg
-  2. Fetch JWKS from Supabase (cached 5 min in-process)
-  3. Verify signature with matching key
+  1. Decode the header and inspect the signing algorithm
+  2. Verify HS256 with `SUPABASE_JWT_SECRET`, or fetch JWKS for RS256/ES256
+  3. Verify the signature locally (empty JWKS responses are cached too)
   4. Check audience="authenticated", issuer=<SUPABASE_URL>/auth/v1
 
-Fallback path (if JWKS fails):
+Fallback path (only when local verification is unavailable):
   1. Call supabase.auth.get_user(token)
-  2. Return minimal payload {sub, email, email_confirmed_at}
+  2. Cache success for at most 60 seconds or until JWT expiry
+  3. Coalesce concurrent requests carrying the same token
+  4. Return minimal payload {sub, email, email_confirmed_at}
 ```
 
 ### Dependency Chain (`dependencies.py`)
@@ -95,7 +97,6 @@ Fallback path (if JWKS fails):
 ```python
 get_db(authorization)
   # Opens AsyncSession
-  # Sets request.jwt via set_config() for PostgreSQL RLS enforcement
   # Yields session
 
 get_current_user(authorization, db)
@@ -208,7 +209,7 @@ FastAPI app
 Route handler: create_appointment()
   ├─ Depends(get_db)
   │     └─ Opens AsyncSession
-  │     └─ set_config('request.jwt', token) → enables PostgreSQL RLS
+  │     └─ Opens a bounded async SQLAlchemy session
   │
   ├─ Depends(get_current_user)
   │     └─ verify_jwt(token) → JWKS lookup or Supabase fallback
@@ -216,7 +217,7 @@ Route handler: create_appointment()
   │
   ├─ Business logic (appointment_service.py)
   │     └─ INSERT INTO appointments ...
-  │     └─ RLS policies filter/allow based on request.jwt
+  │     └─ Route and service guards enforce ownership and consent
   │
   └─ Return AppointmentResponse
        └─ Middleware: set X-Response-Time header
@@ -226,8 +227,14 @@ Route handler: create_appointment()
 
 ## Database Connection (`app/db/`)
 
-- `session.py` — async SQLAlchemy engine using `asyncpg` driver, `AsyncSessionLocal` factory
+- `session.py` — async SQLAlchemy engine using a bounded client pool and `AsyncSessionLocal`
 - `base.py` — declarative base class shared by all models
-- `supabase.py` — Supabase Python client (used for auth fallback and RLS context)
+- `supabase.py` — Supabase Python client (used for Auth API fallback and Storage)
+
+Production defaults are one Uvicorn worker, five pooled clients, no overflow,
+and three process-wide isolated read branches. With ten replicas this caps the
+backend at 50 persistent pooler clients. `pool_pre_ping` is disabled because it
+adds a cross-region round trip to every checkout; a five-minute recycle window
+provides optimistic stale-connection handling.
 
 **Migrations:** 58 Alembic files in `backend/alembic/versions/`. Schema evolution covers initial schema, onboarding fields, specialties, AI tables, health data consent, consultation drafts, doctor actions, admin approval, Chorui permissions, and performance indexes.

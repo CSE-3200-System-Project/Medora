@@ -210,7 +210,7 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
 @router.post("/logout")
 async def logout():
     try:
-        supabase.auth.sign_out()
+        await asyncio.to_thread(supabase.auth.sign_out)
         return {"message": "Logged out successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -253,6 +253,12 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
                 "reason": profile.ban_reason or "No reason provided",
             },
         )
+
+    # The authentication SELECT starts an implicit transaction. End it before
+    # entering the route so this request does not pin a pooled connection while
+    # independent read branches use their own sessions. expire_on_commit=False
+    # keeps the attached profile available to role checks and handlers.
+    await db.commit()
 
     user.profile = profile
     return user

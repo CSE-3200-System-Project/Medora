@@ -25,7 +25,7 @@ class FakeSessionContextManager:
         return False
 
 
-def test_get_db_sets_request_jwt_context(monkeypatch) -> None:
+def test_get_db_yields_session_without_fake_rls_context(monkeypatch) -> None:
     fake_session = FakeSession()
     monkeypatch.setattr(
         dependencies_module,
@@ -40,4 +40,6 @@ def test_get_db_sets_request_jwt_context(monkeypatch) -> None:
         await generator.aclose()
 
     asyncio.run(_run())
-    assert any("set_config('request.jwt'" in stmt for stmt in fake_session.executed)
+    # Direct password-authenticated backend connections use a BYPASSRLS role.
+    # Authorization is application-owned; no request.jwt setting is injected.
+    assert fake_session.executed == []
