@@ -239,12 +239,16 @@ export function HeroCarousel() {
                   type="button"
                   key={slide.id}
                   onClick={() => setSlideIndex(index)}
-                  className={`h-2.5 w-2.5 rounded-full transition-colors duration-300 ${
-                    index === slideIndex ? "bg-primary" : "bg-primary/35"
-                  }`}
+                  className="flex size-11 items-center justify-center rounded-full"
                   aria-label={`Show ${slide.badge}`}
                   aria-current={index === slideIndex}
-                />
+                >
+                  <span
+                    className={`h-2.5 w-2.5 rounded-full transition-colors duration-300 ${
+                      index === slideIndex ? "bg-primary" : "bg-primary/35"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
           </div>

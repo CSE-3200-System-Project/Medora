@@ -44,8 +44,8 @@ jobs:
       - name: Lighthouse CI (Mobile)
         run: npm run perf:lhci:mobile
 
+      - name: Frontend Web Vitals Regression Guard (Mobile)
+        run: node ../tests/performance/frontend_perf_guard.mjs
+
       - name: Lighthouse CI (Desktop)
         run: npm run perf:lhci:desktop
-
-      - name: Frontend Web Vitals Regression Guard
-        run: node ../tests/performance/frontend_perf_guard.mjs

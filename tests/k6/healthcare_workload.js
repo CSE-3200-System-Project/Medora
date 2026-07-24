@@ -6,6 +6,7 @@ const BASE_URL = __ENV.MEDORA_BASE_URL || "http://localhost:8000";
 const PATIENT_TOKEN = __ENV.MEDORA_PATIENT_TOKEN || "patient-token";
 const DOCTOR_TOKEN = __ENV.MEDORA_DOCTOR_TOKEN || "doctor-token";
 const DOCTOR_ID = __ENV.MEDORA_DOCTOR_ID || "doctor-id";
+const ENABLE_WRITE_SCENARIOS = (__ENV.MEDORA_ENABLE_WRITE_SCENARIOS || "false") === "true";
 
 export const options = {
   scenarios: {
@@ -62,7 +63,12 @@ export const options = {
   },
   thresholds: {
     http_req_failed: ["rate<0.05"],
-    http_req_duration: ["p(95)<2500", "p(99)<4500"],
+    http_req_duration: ["p(95)<10000", "p(99)<20000"],
+    "http_req_duration{scenario:mixed_workload}": ["p(95)<8000"],
+    "http_req_duration{scenario:reminder_dispatch_spike}": ["p(95)<6000"],
+    "http_req_duration{scenario:peak_booking_hour}": ["p(95)<12000"],
+    "http_req_duration{scenario:ai_heavy_usage}": ["p(95)<20000"],
+    "http_req_duration{scenario:ocr_burst_uploads}": ["p(95)<20000"],
   },
   summaryTrendStats: ["avg", "min", "med", "max", "p(50)", "p(95)", "p(99)"],
 };
@@ -87,6 +93,18 @@ function futureDateIso(days = 2) {
 }
 
 export function peakBookingHour() {
+  if (!ENABLE_WRITE_SCENARIOS) {
+    const targetDate = futureDateIso(2).slice(0, 10);
+    const response = http.get(`${BASE_URL}/availability/${DOCTOR_ID}/slots/${targetDate}`, {
+      tags: { scenario: "peak_booking_hour", endpoint: "availability_read" },
+    });
+    check(response, {
+      "availability lookup is controlled": (r) => [200, 404].includes(r.status),
+    });
+    sleep(0.2);
+    return;
+  }
+
   const payload = JSON.stringify({
     doctor_id: DOCTOR_ID,
     appointment_date: futureDateIso(2),

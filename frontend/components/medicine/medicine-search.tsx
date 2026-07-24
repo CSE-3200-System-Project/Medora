@@ -130,6 +130,7 @@ export function MedicineSearch({ onSearch, loading, resultCount }: MedicineSearc
               size="icon-sm"
               onClick={() => setQuery("")}
               className="h-8 w-8"
+              aria-label={tCommon("medicine.search.clearAll")}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -139,6 +140,8 @@ export function MedicineSearch({ onSearch, loading, resultCount }: MedicineSearc
             size="icon-sm"
             onClick={() => setShowFilters(!showFilters)}
             className="h-8 w-8 relative"
+            aria-label={tCommon("medicine.search.filters")}
+            aria-expanded={showFilters}
           >
             <Filter className="h-4 w-4" />
             {activeFilterCount > 0 && (

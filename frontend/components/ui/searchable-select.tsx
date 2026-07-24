@@ -25,6 +25,7 @@ export function SearchableSelect({
   const [isSearching, setIsSearching] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const listboxId = React.useId()
 
   const filteredOptions = options.filter(option =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -83,15 +84,13 @@ export function SearchableSelect({
 
   return (
     <div ref={containerRef} className="relative">
-      <button
-        type="button"
-        onClick={handleTriggerClick}
-        className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-          className
-        )}
-      >
-        {isSearching ? (
+      {isSearching ? (
+        <div
+          className={cn(
+            "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-2 ring-ring ring-offset-2",
+            className
+          )}
+        >
           <input
             ref={inputRef}
             type="text"
@@ -99,18 +98,42 @@ export function SearchableSelect({
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
             placeholder={placeholder}
+            role="combobox"
+            aria-label={placeholder}
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
+            aria-autocomplete="list"
             className="flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
-        ) : (
+          <ChevronDown className="ml-2 h-4 w-4 rotate-180 text-muted-foreground" />
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={handleTriggerClick}
+          aria-label={value || placeholder}
+          aria-expanded={isOpen}
+          aria-haspopup="listbox"
+          aria-controls={listboxId}
+          className={cn(
+            "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+            className
+          )}
+        >
           <span className={cn("truncate", !value && "text-muted-foreground")}>
             {value || placeholder}
           </span>
-        )}
-        <ChevronDown className={cn("ml-2 h-4 w-4 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
-      </button>
+          <ChevronDown className="ml-2 h-4 w-4 text-muted-foreground" />
+        </button>
+      )}
 
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md max-h-60 overflow-y-auto">
+        <div
+          id={listboxId}
+          className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-md max-h-60 overflow-y-auto"
+          role="listbox"
+          aria-label={placeholder}
+        >
           <div className="p-1">
             {filteredOptions.length === 0 ? (
               <div className="p-2 text-sm text-muted-foreground text-center">
@@ -120,7 +143,8 @@ export function SearchableSelect({
               filteredOptions.map((option) => (
                 <div
                   key={option}
-                  role="button"
+                  role="option"
+                  aria-selected={value === option}
                   onClick={() => handleSelect(option)}
                   className={cn(
                     "flex items-center cursor-pointer rounded-md px-3 py-1 text-sm text-popover-foreground hover:bg-primary-more-light hover:text-primary",

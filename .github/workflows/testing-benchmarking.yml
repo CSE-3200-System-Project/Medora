@@ -73,26 +73,43 @@ jobs:
     name: Benchmark Regression Gate
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    if: ${{ secrets.MEDORA_BENCHMARK_BASE_URL != '' }}
+    env:
+      MEDORA_BENCHMARK_BASE_URL: ${{ secrets.MEDORA_BENCHMARK_BASE_URL }}
+      MEDORA_PATIENT_TOKEN: ${{ secrets.MEDORA_PATIENT_TOKEN }}
+      MEDORA_DOCTOR_TOKEN: ${{ secrets.MEDORA_DOCTOR_TOKEN }}
+      MEDORA_DOCTOR_IDS: ${{ secrets.MEDORA_DOCTOR_ID }}
     steps:
+      - name: Check benchmark configuration
+        id: benchmark-config
+        shell: bash
+        run: |
+          if [ -n "$MEDORA_BENCHMARK_BASE_URL" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Benchmark secrets are not configured; regression gate is skipped."
+          fi
+
       - name: Checkout
+        if: steps.benchmark-config.outputs.enabled == 'true'
         uses: actions/checkout@v4
 
       - name: Setup Python
+        if: steps.benchmark-config.outputs.enabled == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
       - name: Install benchmark deps
+        if: steps.benchmark-config.outputs.enabled == 'true'
         run: pip install -r tests/requirements-test.txt
 
       - name: Run short locust benchmark
+        if: steps.benchmark-config.outputs.enabled == 'true'
         env:
-          MEDORA_BASE_URL: ${{ secrets.MEDORA_BENCHMARK_BASE_URL }}
-          MEDORA_PATIENT_TOKEN: ${{ secrets.MEDORA_PATIENT_TOKEN }}
-          MEDORA_DOCTOR_TOKEN: ${{ secrets.MEDORA_DOCTOR_TOKEN }}
-          MEDORA_DOCTOR_IDS: ${{ secrets.MEDORA_DOCTOR_ID }}
+          MEDORA_BASE_URL: ${{ env.MEDORA_BENCHMARK_BASE_URL }}
+          MEDORA_ENABLE_WRITE_SCENARIOS: "false"
         run: |
           mkdir -p tests/benchmarks/reports/current
           locust -f tests/locust/locustfile.py \
@@ -103,6 +120,7 @@ jobs:
             -t 2m
 
       - name: Fail on >20% latency regression or rising error rate
+        if: steps.benchmark-config.outputs.enabled == 'true'
         run: |
           python tests/scripts/benchmark_regression_guard.py \
             --baseline tests/benchmarks/baselines/locust_baseline.json \
@@ -111,6 +129,7 @@ jobs:
             --error-rate-increase-threshold 0.01
 
       - name: Upload benchmark reports
+        if: steps.benchmark-config.outputs.enabled == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: medora-benchmark-reports

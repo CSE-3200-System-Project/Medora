@@ -264,7 +264,12 @@ export function UpcomingAppointmentsList({
         </Button>
       </div>
 
-      <div className="scrollbar-themed mt-4 max-h-140 space-y-4 overflow-y-auto pr-1">
+      <div
+        className="scrollbar-themed mt-4 max-h-140 space-y-4 overflow-y-auto pr-1"
+        role="region"
+        aria-label="Upcoming appointments"
+        tabIndex={0}
+      >
         {appointments.length === 0 ? (
           <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
             {tCommon("patientAppointments.upcoming.empty")}

@@ -332,7 +332,7 @@ function PreviouslyVisitedDoctors({
                   <p className="text-xs text-muted-foreground truncate">
                     {doc.specialization}
                   </p>
-                  <p className="text-xs text-primary/70 mt-0.5">
+                  <p className="text-xs text-primary mt-0.5">
                     {tCommon("findDoctor.previouslyVisited.lastPrefix")}: {doc.last_visit
                       ? new Date(doc.last_visit).toLocaleDateString(toIntlLocale(locale))
                       : tCommon("findDoctor.previouslyVisited.recently")}

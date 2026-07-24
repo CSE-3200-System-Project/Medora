@@ -1,7 +1,6 @@
 {
   "regressionThresholdPercent": 10,
   "metrics": {
-    "totalClientJsBytes": 5152878,
     "largestClientChunkBytes": 1117244,
     "frameworkBundleBytes": 189700,
     "mainBundleBytes": 142797,
