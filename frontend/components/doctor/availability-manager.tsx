@@ -545,6 +545,7 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
                       size="icon"
                       onClick={() => removeTimeBlock(day, block.id)}
                       className="h-8 w-8 text-destructive hover:text-destructive shrink-0"
+                      aria-label={`Remove ${day} time block`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -724,6 +725,7 @@ export function AvailabilityManager({ doctorId }: AvailabilityManagerProps) {
                         size="icon"
                         onClick={() => handleRemoveOverride(override.id)}
                         className="h-8 w-8 text-destructive hover:text-destructive"
+                        aria-label={`Remove special schedule for ${override.override_date}`}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

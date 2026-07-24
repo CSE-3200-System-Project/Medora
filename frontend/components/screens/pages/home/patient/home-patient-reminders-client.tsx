@@ -125,6 +125,7 @@ export default function PatientRemindersPage() {
                   variant="ghost" 
                   size="icon"
                   onClick={() => router.back()}
+                  aria-label="Go back"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </Button>

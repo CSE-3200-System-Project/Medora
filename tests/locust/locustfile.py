@@ -13,6 +13,7 @@ from locust import HttpUser, between, events, tag, task
 PATIENT_TOKEN = os.getenv("MEDORA_PATIENT_TOKEN", "patient-token")
 DOCTOR_TOKEN = os.getenv("MEDORA_DOCTOR_TOKEN", "doctor-token")
 DOCTOR_IDS = [item.strip() for item in os.getenv("MEDORA_DOCTOR_IDS", "").split(",") if item.strip()]
+ENABLE_WRITE_SCENARIOS = os.getenv("MEDORA_ENABLE_WRITE_SCENARIOS", "false").lower() == "true"
 REPORT_PATH = Path(os.getenv("MEDORA_LOCUST_SUMMARY_PATH", "tests/benchmarks/reports/current/locust_summary.json"))
 
 _CREATED_APPOINTMENTS: list[str] = []
@@ -27,6 +28,10 @@ def _future_iso(days: int = 1) -> str:
     ).isoformat()
 
 
+def _future_date(days: int = 1) -> str:
+    return (datetime.now(timezone.utc) + timedelta(days=days)).date().isoformat()
+
+
 class MedoraHealthcareUser(HttpUser):
     wait_time = between(0.3, 2.5)
 
@@ -38,6 +43,18 @@ class MedoraHealthcareUser(HttpUser):
     @task(6)
     @tag("peak_booking")
     def peak_booking_hour(self) -> None:
+        if not ENABLE_WRITE_SCENARIOS:
+            with self.client.get(
+                f"/availability/{self.doctor_id}/slots/{_future_date(days=2)}",
+                name="peak_booking:read_availability",
+                catch_response=True,
+            ) as response:
+                if response.status_code in {200, 404}:
+                    response.success()
+                else:
+                    response.failure(f"availability lookup failed: {response.status_code}")
+            return
+
         payload = {
             "doctor_id": self.doctor_id,
             "appointment_date": _future_iso(days=2),

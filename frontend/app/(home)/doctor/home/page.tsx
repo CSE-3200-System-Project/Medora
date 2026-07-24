@@ -437,7 +437,7 @@ export default async function DoctorHomePage() {
                     {actionStats.revenue_trend.length > 0
                       ? actionStats.revenue_trend.reduce((sum, item) => sum + Math.round(item.revenue), 0)
                       : 0}{" "}
-                    <span className="ml-1 text-base text-emerald-600 dark:text-emerald-300">
+                    <span className="ml-1 text-base text-emerald-700 dark:text-emerald-300">
                       +{actionStats.completion_rate.toFixed(1)}%
                     </span>
                   </p>

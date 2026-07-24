@@ -138,7 +138,7 @@ def _parse_by_line_blocks(
         frequency = _extract_frequency(text)
         quantity = _extract_quantity(text)
 
-        if _looks_like_medicine_line(text, dosage):
+        if _looks_like_medicine_line(text, dosage, quantity):
             if current is not None:
                 medications.append(
                     _finalize_medication(current, current_lines, current_match_score, medicine_names, threshold)
@@ -228,8 +228,14 @@ def _extract_name_with_score(
     return candidate, med_score, match_meta
 
 
-def _looks_like_medicine_line(text: str, dosage: str | None) -> bool:
+def _looks_like_medicine_line(
+    text: str,
+    dosage: str | None,
+    quantity: str | None,
+) -> bool:
     if PURE_FREQUENCY_LINE_PATTERN.match(text) and not dosage:
+        return False
+    if quantity and not dosage and not MEDICINE_PREFIX_PATTERN.search(text):
         return False
     if MEDICINE_PREFIX_PATTERN.search(text):
         return True
@@ -319,7 +325,9 @@ def _match_medicine_name(
     matched_name, score, _ = match
     if score < threshold:
         return None, float(score), None
-    return str(matched_name), float(score), None
+    # The fallback catalogue is normalized to lowercase for matching; restore
+    # a readable display form in parsed prescription output.
+    return str(matched_name).title(), float(score), None
 
 
 def _first_match(pattern: re.Pattern[str], text: str) -> str | None:

@@ -1,7 +1,7 @@
 {
-  "performance_score": 0.82,
-  "lcp": 2600,
-  "inp": 190,
-  "cls": 0.05,
-  "ttfb": 420
+  "profile": "mobile-simulated-production-build",
+  "performance_score": 0.78,
+  "lcp": 4700,
+  "cls": 0.02,
+  "ttfb": 100
 }

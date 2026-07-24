@@ -118,7 +118,12 @@ class MedicineMatcher:
             confidence = _compute_confidence(
                 base_score=base_score,
                 matched_term=row.term,
-                normalized_input=normalize_medicine_text(search_term or normalized_input),
+                # An exact repository hit has already established identity.
+                # Compare it with the canonical row term rather than penalizing
+                # dosage/form noise retained in the OCR search candidate.
+                normalized_input=normalize_medicine_text(
+                    row.term if stage == "exact" else (search_term or normalized_input)
+                ),
                 input_dosages=input_dosages,
             )
             if confidence < settings.MEDICINE_MATCH_MIN_CONFIDENCE:

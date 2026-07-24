@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
-from app.core.dependencies import get_db, resolve_profile
+from app.core.dependencies import get_db, require_role, resolve_profile
 from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
@@ -1256,17 +1256,20 @@ async def get_patient_profile(
 ):
     """Get complete patient profile"""
     user_id = user.id
-    result = await db.execute(
-        select(Profile, PatientProfile)
-        .join(PatientProfile, Profile.id == PatientProfile.profile_id)
-        .where(Profile.id == user_id)
+    profile = await require_role(
+        db,
+        user,
+        UserRole.PATIENT,
+        "Only patients can access the patient profile endpoint",
     )
-    row = result.first()
+    result = await db.execute(
+        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+    )
+    patient = result.scalar_one_or_none()
     
-    if not row:
+    if not patient:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
-    profile, patient = row
+
     return {
         "profile": {
             "id": profile.id,
@@ -1303,11 +1306,12 @@ async def get_doctor_profile(
     """Get complete doctor profile - flattened for easy consumption"""
     user_id = user.id
     
-    # Get base profile
-    profile = await resolve_profile(db, user)
-    
-    if not profile:
-        raise HTTPException(status_code=404, detail="Profile not found")
+    profile = await require_role(
+        db,
+        user,
+        UserRole.DOCTOR,
+        "Only doctors can access the doctor profile endpoint",
+    )
     
     # Get doctor profile
     doctor_result = await db.execute(

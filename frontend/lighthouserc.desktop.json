@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "numberOfRuns": 2,
+      "numberOfRuns": 3,
       "startServerCommand": "npm run start -- --hostname 127.0.0.1 --port 3000",
       "startServerReadyPattern": "Ready",
       "url": [

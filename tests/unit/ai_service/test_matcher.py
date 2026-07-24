@@ -6,11 +6,13 @@ pytest.importorskip("rapidfuzz")
 pytest.importorskip("psycopg")
 
 from app.db import MedicineSearchRow
+from app.config import settings
 from app.matcher import MedicineMatcher
 
 
 def test_matcher_prefers_exact_matches(monkeypatch) -> None:
     matcher = MedicineMatcher()
+    monkeypatch.setattr(settings, "DISABLE_MEDICINE_MATCHING", False)
 
     monkeypatch.setattr(
         matcher._repository,

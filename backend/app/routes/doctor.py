@@ -213,29 +213,34 @@ async def search_doctors(
 
     # General text search
     if query:
-        search_term = f"%{query}%"
-        stmt = stmt.where(
-            or_(
-                Profile.first_name.ilike(search_term),
-                Profile.last_name.ilike(search_term),
-                DoctorProfile.specialization.ilike(search_term),
-                Speciality.name.ilike(search_term),
-                DoctorProfile.about.ilike(search_term),
-                DoctorProfile.hospital_name.ilike(search_term),
-                DoctorProfile.hospital_city.ilike(search_term),
-                select(DoctorLocation.id)
-                .where(
-                    DoctorLocation.doctor_id == DoctorProfile.profile_id,
-                    or_(
-                        DoctorLocation.location_name.ilike(search_term),
-                        DoctorLocation.address.ilike(search_term),
-                        DoctorLocation.city.ilike(search_term),
-                        DoctorLocation.display_name.ilike(search_term),
-                    ),
+        # Match each word independently so natural full-name searches such
+        # as "Maruf Morshed" can span first_name and last_name. Previously
+        # the entire phrase had to occur in one column, returning no result.
+        search_tokens = [token for token in query.split() if token]
+        for token in search_tokens:
+            search_term = f"%{token}%"
+            stmt = stmt.where(
+                or_(
+                    Profile.first_name.ilike(search_term),
+                    Profile.last_name.ilike(search_term),
+                    DoctorProfile.specialization.ilike(search_term),
+                    Speciality.name.ilike(search_term),
+                    DoctorProfile.about.ilike(search_term),
+                    DoctorProfile.hospital_name.ilike(search_term),
+                    DoctorProfile.hospital_city.ilike(search_term),
+                    select(DoctorLocation.id)
+                    .where(
+                        DoctorLocation.doctor_id == DoctorProfile.profile_id,
+                        or_(
+                            DoctorLocation.location_name.ilike(search_term),
+                            DoctorLocation.address.ilike(search_term),
+                            DoctorLocation.city.ilike(search_term),
+                            DoctorLocation.display_name.ilike(search_term),
+                        ),
+                    )
+                    .exists(),
                 )
-                .exists(),
             )
-        )
 
     result = await db.execute(stmt)
     rows = result.all()
