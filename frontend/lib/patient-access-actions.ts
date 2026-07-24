@@ -77,7 +77,14 @@ export async function getMyAccessHistory(limit = 50, offset = 0) {
       throw new Error(errorData.detail || "Failed to fetch access history");
     }
 
-    return await response.json();
+    const data = await response.json();
+    return {
+      ...data,
+      access_history: data.access_history ?? data.items ?? [],
+      items: data.items ?? data.access_history ?? [],
+      total: data.total ?? 0,
+      has_more: data.has_more ?? false,
+    };
   } catch (error: any) {
     console.error("Get access history error:", error);
     throw error;
@@ -87,21 +94,28 @@ export async function getMyAccessHistory(limit = 50, offset = 0) {
 /**
  * Get patient's doctor access settings (for patients)
  */
-export async function getMyDoctorAccess() {
+export async function getMyDoctorAccess(limit = 50, offset = 0) {
   try {
     const headers = await getAuthHeaders();
-    
-    const response = await fetch(`${BACKEND_URL}/patient-access/my-doctor-access`, {
-      method: "GET",
-      headers,
-    });
+
+    const response = await fetch(
+      `${BACKEND_URL}/patient-access/my-doctor-access?limit=${limit}&offset=${offset}`,
+      { method: "GET", headers }
+    );
 
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.detail || "Failed to fetch doctor access");
     }
 
-    return await response.json();
+    const data = await response.json();
+    return {
+      ...data,
+      doctors: data.doctors ?? data.items ?? [],
+      items: data.items ?? data.doctors ?? [],
+      total: data.total ?? 0,
+      has_more: data.has_more ?? false,
+    };
   } catch (error: any) {
     console.error("Get doctor access error:", error);
     throw error;

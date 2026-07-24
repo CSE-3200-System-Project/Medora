@@ -29,7 +29,17 @@ class HealthDataConsentResponse(BaseModel):
 
 class HealthDataConsentListResponse(BaseModel):
     consents: list[HealthDataConsentResponse]
+    items: list[HealthDataConsentResponse] = []
     total: int
+    limit: int = 50
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 50
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.consents:
+            object.__setattr__(self, "items", self.consents)
 
 
 class PatientHealthOverview(BaseModel):

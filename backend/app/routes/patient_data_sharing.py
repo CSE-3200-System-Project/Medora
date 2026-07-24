@@ -9,8 +9,8 @@ lab reports, health metrics, and prescriptions.
 import logging
 import uuid
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select, distinct
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy import func, select, distinct
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.dependencies import get_db
@@ -25,6 +25,7 @@ from app.db.models.profile import Profile
 from app.routes.auth import get_current_user_token
 from app.schemas.patient_data_sharing import (
     DoctorSharingSummary,
+    DoctorSharingListResponse,
     PatientDoctorListItem,
     SharingBulkUpdate,
     SharingCategoryResponse,
@@ -173,24 +174,31 @@ async def get_sharing_for_doctor(
 # ── Get all sharing preferences (all doctors at once) ────────────────────────
 
 
-@router.get("", response_model=list[DoctorSharingSummary])
+@router.get("", response_model=DoctorSharingListResponse)
 async def list_all_sharing_preferences(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     user=Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     """Return sharing preferences for every doctor the patient has a record for."""
     await _require_patient(user, db)
 
+    where_clause = (PatientDataSharingPreference.patient_id == user.id,)
+    total = (await db.execute(select(func.count(PatientDataSharingPreference.id)).where(*where_clause))).scalar() or 0
+
     prefs = (
         await db.execute(
-            select(PatientDataSharingPreference).where(
-                PatientDataSharingPreference.patient_id == user.id
-            )
+            select(PatientDataSharingPreference)
+            .where(*where_clause)
+            .order_by(PatientDataSharingPreference.created_at.desc())
+            .limit(limit)
+            .offset(offset)
         )
     ).scalars().all()
 
     if not prefs:
-        return []
+        return DoctorSharingListResponse(sharing=[], items=[], total=total, limit=limit, offset=offset, has_more=False)
 
     doctor_ids = [p.doctor_id for p in prefs]
     docs = (
@@ -225,7 +233,18 @@ async def list_all_sharing_preferences(
                 updated_at=pref.updated_at,
             )
         )
-    return results
+
+    has_more = offset + len(results) < total
+    return DoctorSharingListResponse(
+        sharing=results,
+        items=results,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=has_more,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 # ── Update sharing preferences (partial — toggle individual categories) ──────

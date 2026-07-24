@@ -41,12 +41,19 @@ class ReviewResponse(BaseModel):
 
 class ReviewListResponse(BaseModel):
     reviews: List[ReviewResponse]
+    items: List[ReviewResponse] = []
     total: int
     rating_avg: float
     rating_count: int
-    page: int
     limit: int
+    offset: int = 0
     has_more: bool
+    page: int = 1
+    page_size: int = 5
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.reviews:
+            object.__setattr__(self, "items", self.reviews)
 
 
 class ReviewEligibilityResponse(BaseModel):
@@ -68,7 +75,14 @@ class AdminReviewItem(BaseModel):
 
 class AdminReviewListResponse(BaseModel):
     reviews: List[AdminReviewItem]
+    items: List[AdminReviewItem] = []
     total: int
-    page: int
     limit: int
+    offset: int = 0
     has_more: bool
+    page: int = 1
+    page_size: int = 20
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.reviews:
+            object.__setattr__(self, "items", self.reviews)

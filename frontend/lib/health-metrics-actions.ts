@@ -103,7 +103,16 @@ export async function getHealthMetrics(params?: {
     throw new Error(error.detail || "Failed to fetch health metrics");
   }
 
-  return (await response.json()) as { metrics: HealthMetric[]; total: number };
+  const data = await response.json();
+  return {
+    ...data,
+    metrics: data.metrics ?? data.items ?? [],
+    items: data.items ?? data.metrics ?? [],
+    total: data.total ?? 0,
+    has_more: data.has_more ?? false,
+    limit: data.limit ?? params?.limit ?? 100,
+    offset: data.offset ?? params?.offset ?? 0,
+  } as { metrics: HealthMetric[]; items: HealthMetric[]; total: number; limit: number; offset: number; has_more: boolean };
 }
 
 export async function getTodayMetrics() {

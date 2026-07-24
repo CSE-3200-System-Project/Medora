@@ -96,8 +96,20 @@ class NotificationResponse(BaseModel):
 class NotificationListResponse(BaseModel):
     """Schema for paginated notification list"""
     notifications: List[NotificationResponse]
+    # Unified pagination envelope fields
+    items: List[NotificationResponse] = []
     total: int
+    limit: int = 20
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 20
     unread_count: int
+
+    def model_post_init(self, __context: Any) -> None:
+        # Keep items in sync with notifications (dual-key for transition)
+        if not self.items and self.notifications:
+            object.__setattr__(self, "items", self.notifications)
 
 
 class NotificationMarkRead(BaseModel):

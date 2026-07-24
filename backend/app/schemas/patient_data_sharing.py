@@ -67,3 +67,19 @@ class PatientDoctorListItem(BaseModel):
     doctor_photo_url: Optional[str] = None
     specialization: Optional[str] = None
     has_sharing_record: bool = False
+
+
+class DoctorSharingListResponse(BaseModel):
+    """Paginated list of doctors the patient has shared data with."""
+    sharing: list[DoctorSharingSummary]
+    items: list[DoctorSharingSummary] = []
+    total: int
+    limit: int = 50
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 50
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.sharing:
+            object.__setattr__(self, "items", self.sharing)

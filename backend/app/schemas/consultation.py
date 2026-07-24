@@ -404,12 +404,32 @@ class PrescriptionReject(BaseModel):
 
 class ConsultationListResponse(BaseModel):
     consultations: List[ConsultationResponse]
+    items: List[ConsultationResponse] = []
     total: int
+    limit: int = 20
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 20
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.consultations:
+            object.__setattr__(self, "items", self.consultations)
 
 
 class PrescriptionListResponse(BaseModel):
     prescriptions: List[PrescriptionResponse]
+    items: List[PrescriptionResponse] = []
     total: int
+    limit: int = 20
+    offset: int = 0
+    has_more: bool = False
+    page: int = 1
+    page_size: int = 20
+
+    def model_post_init(self, __context) -> None:
+        if not self.items and self.prescriptions:
+            object.__setattr__(self, "items", self.prescriptions)
 
 
 # ========== FULL CONSULTATION WITH PRESCRIPTIONS ==========

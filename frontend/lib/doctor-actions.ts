@@ -121,12 +121,19 @@ export async function getDoctorActions(params?: {
     throw new Error(error.detail || "Failed to fetch doctor actions");
   }
 
-  return (await response.json()) as { actions: DoctorAction[]; total: number };
+  const data = await response.json();
+  return {
+    ...data,
+    actions: data.actions ?? data.items ?? [],
+    items: data.items ?? data.actions ?? [],
+    total: data.total ?? 0,
+    has_more: data.has_more ?? false,
+  } as { actions: DoctorAction[]; items: DoctorAction[]; total: number; has_more: boolean };
 }
 
-export async function getPendingDoctorActions() {
+export async function getPendingDoctorActions(limit = 50, offset = 0) {
   const headers = await getAuthHeaders();
-  const response = await fetch(`${BACKEND_URL}/doctor/actions/pending`, {
+  const response = await fetch(`${BACKEND_URL}/doctor/actions/pending?limit=${limit}&offset=${offset}`, {
     method: "GET",
     headers,
     cache: "no-store",
@@ -137,7 +144,14 @@ export async function getPendingDoctorActions() {
     throw new Error(error.detail || "Failed to fetch pending actions");
   }
 
-  return (await response.json()) as { actions: DoctorAction[]; total: number };
+  const data = await response.json();
+  return {
+    ...data,
+    actions: data.actions ?? data.items ?? [],
+    items: data.items ?? data.actions ?? [],
+    total: data.total ?? 0,
+    has_more: data.has_more ?? false,
+  } as { actions: DoctorAction[]; items: DoctorAction[]; total: number; has_more: boolean };
 }
 
 export async function getDoctorActionStats() {

@@ -163,6 +163,8 @@ async def revoke_consent(
 
 @router.get("/consents", response_model=HealthDataConsentListResponse)
 async def list_my_consents(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -171,15 +173,19 @@ async def list_my_consents(
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can view their consents")
 
+    where_clause = (HealthDataConsent.patient_id == user.id,)
+    total = (await db.execute(select(func.count(HealthDataConsent.id)).where(*where_clause))).scalar() or 0
+
     rows = (
         await db.execute(
             select(HealthDataConsent)
-            .where(HealthDataConsent.patient_id == user.id)
+            .where(*where_clause)
             .order_by(HealthDataConsent.granted_at.desc())
+            .limit(limit)
+            .offset(offset)
         )
     ).scalars().all()
 
-    # Batch-fetch doctor profiles in a single IN query instead of N+1.
     doctor_ids = {consent.doctor_id for consent in rows}
     doctors_by_id: dict[str, Profile] = {}
     if doctor_ids:
@@ -204,7 +210,16 @@ async def list_my_consents(
             )
         )
 
-    return HealthDataConsentListResponse(consents=results, total=len(results))
+    return HealthDataConsentListResponse(
+        consents=results,
+        items=results,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(results) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 # ---------- Doctor endpoint: view patient health data ----------
@@ -336,6 +351,8 @@ async def get_patient_health_for_doctor(
 
 @router.get("/doctor/patients-with-consent")
 async def list_patients_with_consent(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -344,18 +361,22 @@ async def list_patients_with_consent(
     if not doctor_profile or doctor_profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only doctors can access this endpoint")
 
+    where_clause = (
+        HealthDataConsent.doctor_id == user.id,
+        HealthDataConsent.is_active == True,
+    )
+    total = (await db.execute(select(func.count(HealthDataConsent.id)).where(*where_clause))).scalar() or 0
+
     consents = (
         await db.execute(
             select(HealthDataConsent)
-            .where(
-                HealthDataConsent.doctor_id == user.id,
-                HealthDataConsent.is_active == True,
-            )
+            .where(*where_clause)
             .order_by(HealthDataConsent.granted_at.desc())
+            .limit(limit)
+            .offset(offset)
         )
     ).scalars().all()
 
-    # Batch-fetch patient profiles in a single IN query instead of N+1.
     patient_ids = {consent.patient_id for consent in consents}
     patients_by_id: dict[str, Profile] = {}
     if patient_ids:
@@ -375,4 +396,14 @@ async def list_patients_with_consent(
                 "share_medical_tests": consent.share_medical_tests,
             })
 
-    return {"patients": results, "total": len(results)}
+    has_more = offset + len(results) < total
+    return {
+        "patients": results,
+        "items": results,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+        "page_size": limit,
+    }

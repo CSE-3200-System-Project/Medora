@@ -405,8 +405,10 @@ async def get_doctor_profile(
 @router.get("/{profile_id}/reviews", response_model=ReviewListResponse)
 async def get_doctor_reviews(
     profile_id: str,
-    page: int = Query(1, ge=1),
     limit: int = Query(5, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    # backward-compat aliases
+    page: Optional[int] = Query(None, ge=1),
     db: AsyncSession = Depends(get_db),
 ):
     doctor = (
@@ -415,18 +417,30 @@ async def get_doctor_reviews(
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found")
 
+    # Resolve page alias → offset
+    effective_offset = offset
+    effective_page = page or 1
+    if page is not None and offset == 0:
+        effective_offset = (page - 1) * limit
+    else:
+        effective_page = (effective_offset // limit) + 1 if limit > 0 else 1
+
     rows, total, has_more = await review_service.list_approved_reviews(
-        db, doctor_id=profile_id, page=page, limit=limit
+        db, doctor_id=profile_id, page=effective_page, limit=limit
     )
 
+    serialized = [await _serialize_review(db, review) for review in rows]
     return ReviewListResponse(
-        reviews=[await _serialize_review(db, review) for review in rows],
+        reviews=serialized,
+        items=serialized,
         total=total,
         rating_avg=float(doctor.rating_avg or 0.0),
         rating_count=int(doctor.rating_count or 0),
-        page=page,
         limit=limit,
+        offset=effective_offset,
         has_more=has_more,
+        page=effective_page,
+        page_size=limit,
     )
 
 

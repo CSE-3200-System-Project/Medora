@@ -94,7 +94,18 @@ async def list_health_metrics(
         await db.execute(select(func.count(HealthMetric.id)).where(and_(*filters)))
     ).scalar() or 0
 
-    return HealthMetricListResponse(metrics=metrics, total=int(total))
+    metric_list = list(metrics)
+    total_int = int(total)
+    return HealthMetricListResponse(
+        metrics=metric_list,
+        items=metric_list,
+        total=total_int,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(metric_list) < total_int,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/today", response_model=HealthMetricTodayResponse)

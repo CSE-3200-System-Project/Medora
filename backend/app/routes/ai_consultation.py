@@ -20,7 +20,7 @@ from app.core.patient_reference import (
     patient_ref_from_uuid,
     resolve_doctor_patient_identifier,
 )
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.db.models.ai_interaction import AIInteraction
 from app.db.models.chorui_chat import ChoruiChatMessage
 from app.db.models.appointment import Appointment, AppointmentStatus
@@ -329,6 +329,9 @@ async def _resolve_vapi_user_from_token(session_token: str, db: AsyncSession) ->
         id=user_id,
         email=payload.get("email"),
         email_confirmed_at=payload.get("email_confirmed_at") or payload.get("confirmed_at"),
+        # Mirror get_current_user_token: carry the loaded profile so downstream
+        # role checks reuse it instead of re-querying.
+        profile=profile,
     )
 
 
@@ -611,9 +614,9 @@ async def _persist_ai_interaction(
     return interaction.id
 
 
-async def _get_user_role(db: AsyncSession, user_id: str) -> UserRole | None:
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+async def _get_user_role(db: AsyncSession, user) -> UserRole | None:
+    """Resolve the caller's role, reusing the profile the auth dependency loaded."""
+    profile = await resolve_profile(db, user)
     return profile.role if profile else None
 
 
@@ -2814,7 +2817,7 @@ async def get_patient_prescription_assistant_summary(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    role = await _get_user_role(db, user.id)
+    role = await _get_user_role(db, user)
     if role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can access this resource")
     await _require_patient_personal_ai_context_enabled(db, user.id)
@@ -3243,7 +3246,7 @@ async def _run_chorui_assistant(
     db: AsyncSession,
     request: Request | None = None,
 ) -> ChoruiAssistantResponse:
-    role = await _get_user_role(db, user.id)
+    role = await _get_user_role(db, user)
     if role is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
     if role == UserRole.DOCTOR:
@@ -4213,7 +4216,7 @@ async def _handle_vapi_upcoming_appointments(
     vapi_user: Any,
     db: AsyncSession,
 ) -> str:
-    role = await _get_user_role(db, vapi_user.id)
+    role = await _get_user_role(db, vapi_user)
     if role is None:
         return "I could not find your Medora profile for this voice session."
 
@@ -4251,7 +4254,7 @@ async def _handle_vapi_find_patient(
     vapi_user: Any,
     db: AsyncSession,
 ) -> str:
-    role = await _get_user_role(db, vapi_user.id)
+    role = await _get_user_role(db, vapi_user)
     if role != UserRole.DOCTOR:
         return "Patient search is only available for doctor voice sessions."
 
@@ -4294,7 +4297,7 @@ async def _handle_vapi_get_context(
     vapi_user: Any,
     db: AsyncSession,
 ) -> str:
-    role = await _get_user_role(db, vapi_user.id)
+    role = await _get_user_role(db, vapi_user)
     if role is None:
         return "I could not find your Medora profile for this voice session."
 
@@ -4352,7 +4355,7 @@ async def _handle_vapi_navigate(
     db: AsyncSession,
     request: Request,
 ) -> str:
-    role = await _get_user_role(db, vapi_user.id)
+    role = await _get_user_role(db, vapi_user)
     if role is None:
         return "I could not verify your Medora profile for this voice session."
 
@@ -4689,12 +4692,13 @@ async def chorui_vapi_tool_webhook(
 @router.get("/assistant/conversations", response_model=ChoruiConversationListResponse)
 async def list_chorui_conversations(
     limit: int = Query(25, ge=1, le=50),
+    offset: int = Query(0, ge=0),
     role_context: str | None = Query(default=None),
     patient_id: str | None = Query(default=None),
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    role = await _get_user_role(db, user.id)
+    role = await _get_user_role(db, user)
     if role is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
 
@@ -4717,6 +4721,13 @@ async def list_chorui_conversations(
     if resolved_patient_id:
         filters.append(ChoruiChatMessage.patient_id == resolved_patient_id)
 
+    # Count total conversations for this user/context
+    total_conversations = (
+        await db.execute(
+            select(func.count(func.distinct(ChoruiChatMessage.conversation_id))).where(*filters)
+        )
+    ).scalar() or 0
+
     grouped_result = await db.execute(
         select(
             ChoruiChatMessage.conversation_id,
@@ -4726,6 +4737,7 @@ async def list_chorui_conversations(
         .group_by(ChoruiChatMessage.conversation_id)
         .order_by(func.max(ChoruiChatMessage.created_at).desc())
         .limit(limit)
+        .offset(offset)
     )
     grouped_rows = grouped_result.all()
 
@@ -4773,13 +4785,23 @@ async def list_chorui_conversations(
             )
         )
 
-    return ChoruiConversationListResponse(conversations=conversations)
+    return ChoruiConversationListResponse(
+        conversations=conversations,
+        items=conversations,
+        total=total_conversations,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(conversations) < total_conversations,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/assistant/conversations/{conversation_id}", response_model=ChoruiConversationHistoryResponse)
 async def get_chorui_conversation_messages(
     conversation_id: str,
     limit: int = Query(120, ge=1, le=300),
+    offset: int = Query(0, ge=0),
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -4787,27 +4809,24 @@ async def get_chorui_conversation_messages(
     if not target_id:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="conversation_id is required")
 
-    first_result = await db.execute(
-        select(ChoruiChatMessage)
-        .where(
-            ChoruiChatMessage.user_id == user.id,
-            ChoruiChatMessage.conversation_id == target_id,
-        )
-        .order_by(ChoruiChatMessage.created_at.asc())
-        .limit(1)
+    where_clause = (
+        ChoruiChatMessage.user_id == user.id,
+        ChoruiChatMessage.conversation_id == target_id,
     )
-    first_message = first_result.scalar_one_or_none()
-    if not first_message:
+
+    total_messages = (
+        await db.execute(select(func.count(ChoruiChatMessage.id)).where(*where_clause))
+    ).scalar() or 0
+
+    if total_messages == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Conversation not found")
 
     messages_result = await db.execute(
         select(ChoruiChatMessage)
-        .where(
-            ChoruiChatMessage.user_id == user.id,
-            ChoruiChatMessage.conversation_id == target_id,
-        )
+        .where(*where_clause)
         .order_by(ChoruiChatMessage.created_at.asc())
         .limit(limit)
+        .offset(offset)
     )
     rows = messages_result.scalars().all()
 
@@ -4830,6 +4849,10 @@ async def get_chorui_conversation_messages(
         conversation_id=target_id,
         context_mode=context_mode,
         messages=messages,
+        total=total_messages,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(messages) < total_messages,
     )
 
 
@@ -4884,7 +4907,7 @@ async def chorui_intake_save(
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    role = await _get_user_role(db, user.id)
+    role = await _get_user_role(db, user)
     if role != UserRole.PATIENT:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only patients can save intake data")
 

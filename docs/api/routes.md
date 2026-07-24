@@ -6,6 +6,60 @@ Auth: `Authorization: Bearer <supabase_jwt>` on all protected endpoints.
 
 ---
 
+## Pagination Conventions
+
+All collection (list) endpoints follow the **same canonical contract**.
+
+### Query parameters
+
+| Parameter | Type | Default | Max | Notes |
+|---|---|---|---|---|
+| `limit` | int | 20 (varies per route) | 100–200 | Number of items to return |
+| `offset` | int | 0 | — | Number of items to skip |
+| `page` | int | — | — | **Alias**: if sent instead of `offset`, computed as `offset = (page-1) * limit` |
+| `size` | int | — | — | **Alias**: if sent instead of `limit`, treated as `limit = size` |
+
+Canonical params (`limit`/`offset`) take precedence over aliases (`page`/`size`). Both work.
+
+### Response envelope
+
+Every list endpoint returns:
+
+```json
+{
+  "items":      [...],        // canonical items array
+  "<legacy>":   [...],        // legacy named key (e.g. "notifications", "reminders") — same data
+  "total":      123,          // total matching records in DB (for pagination math)
+  "limit":      20,           // effective limit used
+  "offset":     0,            // effective offset used
+  "has_more":   true,         // offset + len(items) < total
+  "page":       1,            // computed 1-indexed page number
+  "page_size":  20            // same as limit
+}
+```
+
+### Frontend helpers
+
+- **`frontend/lib/pagination.ts`** — `fetchPaginated<T>(path, params, legacyKey?)` normalizes the envelope and returns `PageResult<T>`.
+- **`frontend/lib/use-server-pagination.ts`** — `useServerPagination({ pageSize })` hook for client components with numbered pages, drives `PaginationControls`.
+- **`frontend/lib/use-pagination.ts`** — client-side `usePagination(items)` for small in-memory arrays only.
+
+### Intentionally non-paginated endpoints
+
+These always return a complete, bounded result and are not paginated:
+- `GET /ai/search` — top-10 doctor recommendations (fixed)
+- `POST /ocr/prescription`, `POST /ocr/medical-report` — single-image extraction
+- `GET /appointment/stats`, `GET /appointment/patient/calendar/summary` — aggregations
+- `GET /appointment/upcoming` — capped at `limit=3`
+- `GET /appointment/patient/previously-visited` — capped at `limit=5`
+- `GET /medicine/filters` — reference data, ~50 rows
+
+### DB indexes added (migration `pag_idx_001`)
+
+Composite indexes on `(user_id, created_at)` or `(patient_id/doctor_id, created_at)` were added to: notifications, reminders, health_metrics, doctor_actions, medical_reports, consultations, appointments, chorui_chat_messages, patient_access_logs, health_data_consents, patient_data_sharing_preferences, prescriptions, doctor_reviews.
+
+---
+
 ## Authentication — `/auth`
 
 | Method | Path | Auth | Description |

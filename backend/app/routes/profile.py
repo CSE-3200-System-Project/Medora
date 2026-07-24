@@ -854,8 +854,7 @@ async def get_patient_summary(
     """
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -938,10 +937,7 @@ async def get_patient_onboarding_data(
     user_id = user.id
     
     # Get base profile
-    profile_result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = profile_result.scalar()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1122,10 +1118,7 @@ async def get_doctor_onboarding_data(
     user_id = user.id
     
     # Get base profile
-    profile_result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = profile_result.scalar()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1311,10 +1304,7 @@ async def get_doctor_profile(
     user_id = user.id
     
     # Get base profile
-    profile_result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = profile_result.scalar()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1600,9 +1590,8 @@ async def update_doctor_schedule(
     
     try:
         # Verify user is a doctor
-        result = await db.execute(select(Profile).where(Profile.id == user_id))
-        profile = result.scalar_one_or_none()
-        
+        profile = await resolve_profile(db, user)
+
         if not profile:
             raise HTTPException(status_code=404, detail="Profile not found")
         
@@ -1707,9 +1696,7 @@ async def update_doctor_location_schedule(
     """
     user_id = user.id
 
-    profile_row = (
-        await db.execute(select(Profile).where(Profile.id == user_id))
-    ).scalar_one_or_none()
+    profile_row = await resolve_profile(db, user)
     if not profile_row:
         raise HTTPException(status_code=404, detail="Profile not found")
     if "DOCTOR" not in str(profile_row.role).upper():

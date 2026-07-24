@@ -134,11 +134,21 @@ export interface MedicalReportUploadResponse {
 
 // ─── Server Actions ──────────────────────────────────────────────────────────
 
+export interface MedicalReportListResponse {
+  reports: MedicalReportListItem[];
+  items: MedicalReportListItem[];
+  total: number;
+  limit: number;
+  offset: number;
+  has_more: boolean;
+  page: number;
+}
+
 export async function listMedicalReports(
   patientId?: string,
   limit = 20,
   offset = 0
-): Promise<MedicalReportListItem[]> {
+): Promise<MedicalReportListResponse> {
   const headers = await getAuthHeaders();
   const params = new URLSearchParams({
     limit: String(limit),
@@ -162,7 +172,22 @@ export async function listMedicalReports(
     throw new Error(errorMessage || "Failed to fetch medical reports");
   }
 
-  return await response.json();
+  const data = await response.json();
+  // Handle both bare array (legacy) and envelope (new)
+  if (Array.isArray(data)) {
+    return { reports: data, items: data, total: data.length, limit, offset, has_more: false, page: 1 };
+  }
+  const reports = data.reports ?? data.items ?? [];
+  return {
+    ...data,
+    reports,
+    items: reports,
+    total: data.total ?? reports.length,
+    limit: data.limit ?? limit,
+    offset: data.offset ?? offset,
+    has_more: data.has_more ?? false,
+    page: data.page ?? 1,
+  };
 }
 
 export async function getMedicalReport(

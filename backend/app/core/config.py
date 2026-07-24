@@ -52,6 +52,17 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: str = ""   # Comma-separated list of origins
     PRELOAD_WHISPER_ON_STARTUP: bool = True
 
+    # Database pool tuning — see app/db/session.py for what each one does.
+    # Declared here (rather than read via os.getenv) so they resolve from .env
+    # like every other setting; real process env vars still take precedence.
+    DB_POOL_MODE: str = "auto"
+    DB_POOL_SIZE: int = 10
+    DB_MAX_OVERFLOW: int = 10
+    DB_POOL_TIMEOUT: int = 30
+    DB_POOL_RECYCLE: int = 1800
+    DB_POOL_PRE_PING: bool = True
+    DB_ECHO: bool = False
+
     PERF_API_CACHE_TTL: int = 60
     PERF_ENABLE_SERVER_DATA_PATH: bool = True
     PERF_STRICT_MOBILE_ANIM: bool = True

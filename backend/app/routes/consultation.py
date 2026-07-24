@@ -72,45 +72,47 @@ logger = logging.getLogger(__name__)
 
 # ========== HELPER FUNCTIONS ==========
 
-async def get_doctor_profile(db: AsyncSession, user_id: str) -> DoctorProfile:
-    """Get doctor profile and verify user is a doctor."""
-    result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = result.scalar_one_or_none()
-    
+async def get_doctor_profile(db: AsyncSession, user) -> DoctorProfile:
+    """Get doctor profile and verify user is a doctor.
+
+    Takes the auth `user` rather than a bare id so the Profile already loaded by
+    get_current_user_token is reused instead of re-queried.
+    """
+    profile = await resolve_profile(db, user)
+
     if not profile or profile.role != UserRole.DOCTOR:
         raise HTTPException(status_code=403, detail="Only doctors can access this resource")
-    
+
     result = await db.execute(
-        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
+        select(DoctorProfile).where(DoctorProfile.profile_id == user.id)
     )
     doctor = result.scalar_one_or_none()
-    
+
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor profile not found")
-    
+
     return doctor
 
 
-async def get_patient_profile(db: AsyncSession, user_id: str) -> PatientProfile:
-    """Get patient profile and verify user is a patient."""
-    result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = result.scalar_one_or_none()
-    
+async def get_patient_profile(db: AsyncSession, user) -> PatientProfile:
+    """Get patient profile and verify user is a patient.
+
+    Takes the auth `user` rather than a bare id so the Profile already loaded by
+    get_current_user_token is reused instead of re-queried.
+    """
+    profile = await resolve_profile(db, user)
+
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=403, detail="Only patients can access this resource")
-    
+
     result = await db.execute(
-        select(PatientProfile).where(PatientProfile.profile_id == user_id)
+        select(PatientProfile).where(PatientProfile.profile_id == user.id)
     )
     patient = result.scalar_one_or_none()
-    
+
     if not patient:
         raise HTTPException(status_code=404, detail="Patient profile not found")
-    
+
     return patient
 
 
@@ -882,7 +884,7 @@ async def start_consultation(
     Only doctors can start consultations.
     """
     try:
-        doctor = await get_doctor_profile(db, user.id)
+        doctor = await get_doctor_profile(db, user)
         
         resolved_patient_id = await resolve_doctor_patient_identifier(
             db,
@@ -982,7 +984,7 @@ async def get_doctor_active_consultations(
     db: AsyncSession = Depends(get_db),
 ):
     """Get all active consultations for the current doctor."""
-    await get_doctor_profile(db, user.id)
+    await get_doctor_profile(db, user)
     
     result = await db.execute(
         select(Consultation)
@@ -1016,7 +1018,17 @@ async def get_doctor_active_consultations(
         response = build_consultation_response(consultation, patient_profile=patient_profile)
         response_list.append(response)
     
-    return {"consultations": response_list, "total": len(response_list)}
+    total_active = len(response_list)
+    return ConsultationListResponse(
+        consultations=response_list,
+        items=response_list,
+        total=total_active,
+        limit=200,
+        offset=0,
+        has_more=False,
+        page=1,
+        page_size=200,
+    )
 
 
 @router.get("/doctor/history", response_model=ConsultationListResponse)
@@ -1027,7 +1039,7 @@ async def get_doctor_consultation_history(
     db: AsyncSession = Depends(get_db),
 ):
     """Get consultation history for the current doctor."""
-    await get_doctor_profile(db, user.id)
+    await get_doctor_profile(db, user)
     
     result = await db.execute(
         select(Consultation)
@@ -1058,7 +1070,16 @@ async def get_doctor_consultation_history(
         response = build_consultation_response(consultation, patient_profile=patient_profile)
         response_list.append(response)
     
-    return {"consultations": response_list, "total": total}
+    return ConsultationListResponse(
+        consultations=response_list,
+        items=response_list,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(response_list) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/{consultation_id:uuid}", response_model=ConsultationWithPrescriptions)
@@ -2005,7 +2026,16 @@ async def get_patient_prescriptions(
             doctor_profile = doctor_profiles.get(prescription.doctor_id)
             response_list.append(build_prescription_response(prescription, doctor_profile))
 
-        return {"prescriptions": response_list, "total": total}
+        return PrescriptionListResponse(
+            prescriptions=response_list,
+            items=response_list,
+            total=total,
+            limit=limit,
+            offset=offset,
+            has_more=offset + len(response_list) < total,
+            page=(offset // limit) + 1 if limit > 0 else 1,
+            page_size=limit,
+        )
     except HTTPException:
         raise
     except Exception:
@@ -2173,7 +2203,7 @@ async def get_medical_history_prescriptions(
     db: AsyncSession = Depends(get_db),
 ):
     """Get accepted prescriptions for medical history."""
-    await get_patient_profile(db, user.id)
+    await get_patient_profile(db, user)
     
     query = select(Prescription).options(
         selectinload(Prescription.medications),

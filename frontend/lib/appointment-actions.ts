@@ -66,7 +66,13 @@ export async function createAppointment(data: Record<string, unknown>) {
 }
 
 export type MyAppointmentsOptions = {
+  /** Preferred: number of items per page */
+  limit?: number;
+  /** Preferred: number of items to skip */
+  offset?: number;
+  /** Legacy alias for offset calculation */
   page?: number;
+  /** Legacy alias for limit */
   size?: number;
 };
 
@@ -75,31 +81,43 @@ export async function getMyAppointments(options: MyAppointmentsOptions = {}) {
   const token = cookieStore.get("session_token")?.value;
 
   if (!token) {
-    return [];
+    return { appointments: [], items: [], total: 0, limit: 20, offset: 0, has_more: false };
   }
 
   const params = new URLSearchParams();
-  if (options.page) params.set("page", String(options.page));
-  if (typeof options.size === "number") params.set("size", String(options.size));
+  // Prefer canonical limit/offset; fall back to page/size aliases
+  if (options.limit !== undefined) params.set("limit", String(options.limit));
+  if (options.offset !== undefined) params.set("offset", String(options.offset));
+  if (options.page !== undefined) params.set("page", String(options.page));
+  if (options.size !== undefined) params.set("size", String(options.size));
+
   const queryString = params.toString();
   const url = `${BACKEND_URL}/appointment/my-appointments${queryString ? `?${queryString}` : ""}`;
 
   const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
 
   if (!response.ok) {
     if (response.status === 401) {
-      return [];
+      return { appointments: [], items: [], total: 0, limit: 20, offset: 0, has_more: false };
     }
     const error = await response.json().catch(() => null);
     throw new Error(getErrorMessage(error?.detail, "Failed to fetch appointments"));
   }
 
-  return response.json();
+  const data = await response.json();
+  // Backend now returns { appointments, items, total, limit, offset, has_more }
+  // Handle legacy bare-array responses too
+  if (Array.isArray(data)) {
+    return { appointments: data, items: data, total: data.length, limit: options.limit ?? 20, offset: options.offset ?? 0, has_more: false };
+  }
+  return {
+    ...data,
+    appointments: data.appointments ?? data.items ?? [],
+    items: data.items ?? data.appointments ?? [],
+  };
 }
 
 export async function getDoctorAppointmentStats() {
@@ -178,8 +196,10 @@ export async function updateAppointment(id: string, data: Record<string, unknown
 }
 
 export async function getCancellationReasons(role: "patient" | "doctor" = "patient") {
+  // Static reference catalog — no auth, no DB, derived from backend constants.
+  // Safe to cache for a day rather than refetching on every cancel dialog open.
   const response = await fetch(`${BACKEND_URL}/appointment/cancellation-reasons`, {
-    cache: "no-store",
+    next: { revalidate: 86400, tags: ["cancellation-reasons"] },
   });
 
   if (!response.ok) {

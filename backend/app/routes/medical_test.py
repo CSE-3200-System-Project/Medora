@@ -14,6 +14,7 @@ from app.routes.auth import get_current_user_token
 from app.schemas.medical_test import (
     MedicalTestResult,
     MedicalTestSearchResponse,
+    MedicalTestListResponse,
     MedicalTestDetailResponse,
     PatientMedicalTestPatchRequest,
     PatientMedicalTestPatchResponse,
@@ -30,85 +31,87 @@ def _normalize_test_value(value: str | None) -> str:
 async def search_medical_tests(
     q: str = Query(..., min_length=2, description="Search term"),
     limit: int = Query(20, ge=1, le=100, description="Max results"),
+    offset: int = Query(0, ge=0, description="Number of results to skip"),
     db: AsyncSession = Depends(get_db)
 ):
-    """
-    Search medical tests by name.
-    Uses ILIKE for prefix and contains matching.
-    
-    Priority:
-    1. Exact match
-    2. Prefix match
-    3. Contains match
-    """
+    """Search medical tests by name with pagination."""
     search_term = q.strip().lower()
-    
-    # Build search query - only active tests
+
+    where_clause = (
+        MedicalTest.is_active == True,
+        MedicalTest.normalized_name.ilike(f"%{search_term}%"),
+    )
+    total = (await db.execute(select(func.count(MedicalTest.id)).where(*where_clause))).scalar() or 0
+
     stmt = (
         select(MedicalTest)
-        .where(
-            MedicalTest.is_active == True,
-            MedicalTest.normalized_name.ilike(f"%{search_term}%")
-        )
+        .where(*where_clause)
         .order_by(
-            # Exact match gets highest priority
             (MedicalTest.normalized_name == search_term).desc(),
-            # Prefix match second
             MedicalTest.normalized_name.ilike(f"{search_term}%").desc(),
-            # Alphabetical order for remaining
             MedicalTest.display_name.asc()
         )
         .limit(limit)
+        .offset(offset)
     )
-    
+
     result = await db.execute(stmt)
     rows = result.scalars().all()
-    
+
     results: List[MedicalTestResult] = [
-        MedicalTestResult(
-            id=row.id,
-            display_name=row.display_name,
-            normalized_name=row.normalized_name,
-        )
+        MedicalTestResult(id=row.id, display_name=row.display_name, normalized_name=row.normalized_name)
         for row in rows
     ]
-    
+
     return MedicalTestSearchResponse(
         results=results,
-        total=len(results),
-        query=q
+        items=results,
+        total=total,
+        query=q,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(results) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
     )
 
 
-@router.get("/all", response_model=List[MedicalTestResult])
+@router.get("/all", response_model=MedicalTestListResponse)
 async def get_all_medical_tests(
-    limit: int = Query(500, ge=1, le=2000, description="Max results"),
+    limit: int = Query(100, ge=1, le=2000, description="Max results"),
     offset: int = Query(0, ge=0, description="Offset for pagination"),
     db: AsyncSession = Depends(get_db)
 ):
-    """
-    Get all active medical tests.
-    Useful for dropdown/autocomplete that loads all options.
-    """
+    """Get all active medical tests with pagination and total count."""
+    where_clause = (MedicalTest.is_active == True,)
+    total = (await db.execute(select(func.count(MedicalTest.id)).where(*where_clause))).scalar() or 0
+
     stmt = (
         select(MedicalTest)
-        .where(MedicalTest.is_active == True)
+        .where(*where_clause)
         .order_by(MedicalTest.display_name.asc())
         .limit(limit)
         .offset(offset)
     )
-    
+
     result = await db.execute(stmt)
     rows = result.scalars().all()
-    
-    return [
-        MedicalTestResult(
-            id=row.id,
-            display_name=row.display_name,
-            normalized_name=row.normalized_name,
-        )
+
+    test_list = [
+        MedicalTestResult(id=row.id, display_name=row.display_name, normalized_name=row.normalized_name)
         for row in rows
     ]
+
+    return MedicalTestListResponse(
+        results=test_list,
+        items=test_list,
+        total=total,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(test_list) < total,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/count")

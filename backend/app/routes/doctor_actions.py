@@ -133,28 +133,58 @@ async def list_doctor_actions(
         await db.execute(select(func.count(DoctorAction.id)).where(and_(*filters)))
     ).scalar() or 0
 
-    return DoctorActionListResponse(actions=actions, total=int(total))
+    action_list = list(actions)
+    total_int = int(total)
+    return DoctorActionListResponse(
+        actions=action_list,
+        items=action_list,
+        total=total_int,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(action_list) < total_int,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/pending", response_model=DoctorActionListResponse)
 async def get_pending_doctor_actions(
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
     user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
     await _require_doctor(db, user)
+    pending_filters = [
+        DoctorAction.doctor_id == user.id,
+        DoctorAction.status.in_([DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]),
+    ]
     actions = (
         await db.execute(
             select(DoctorAction)
-            .where(
-                DoctorAction.doctor_id == user.id,
-                DoctorAction.status.in_([DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]),
-            )
+            .where(and_(*pending_filters))
             .order_by(DoctorAction.priority.desc(), DoctorAction.created_at.desc())
-            .limit(50)
+            .limit(limit)
+            .offset(offset)
         )
     ).scalars().all()
 
-    return DoctorActionListResponse(actions=actions, total=len(actions))
+    total_pending = (
+        await db.execute(select(func.count(DoctorAction.id)).where(and_(*pending_filters)))
+    ).scalar() or 0
+
+    action_list = list(actions)
+    total_int = int(total_pending)
+    return DoctorActionListResponse(
+        actions=action_list,
+        items=action_list,
+        total=total_int,
+        limit=limit,
+        offset=offset,
+        has_more=offset + len(action_list) < total_int,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
+    )
 
 
 @router.get("/stats", response_model=DoctorActionStatsResponse)

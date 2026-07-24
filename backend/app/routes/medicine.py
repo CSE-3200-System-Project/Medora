@@ -30,6 +30,7 @@ async def search_medicines(
     response: Response,
     q: str = Query(..., min_length=2, description="Search term"),
     limit: int = Query(20, ge=1, le=100, description="Max results"),
+    offset: int = Query(0, ge=0, description="Number of results to skip"),
     dosage_form: Optional[str] = Query(None, description="Filter by dosage form"),
     medicine_type: Optional[str] = Query(None, description="Filter by medicine type"),
     db: AsyncSession = Depends(get_db)
@@ -81,33 +82,28 @@ async def search_medicines(
         )
     
     # Order by relevance: exact match first, then prefix, then contains
-    stmt = stmt.order_by(
-        # Exact match gets highest priority
+    ordering_stmt = stmt.order_by(
         (MedicineSearchIndex.term == search_term).desc(),
-        # Prefix match second
         MedicineSearchIndex.term.ilike(f"{search_term}%").desc(),
-        # Alphabetical order for remaining
         MedicineSearchIndex.term.asc()
-    ).limit(limit)
-    
-    result = await db.execute(stmt)
-    rows = result.all()
-    
-    # Build response with deduplication
-    seen_combinations = set()
-    results: List[MedicineSearchResult] = []
-    
-    for row in rows:
-        # Create unique key to avoid duplicates
+    )
+
+    # Fetch offset+limit+1 to compute has_more without a separate count query
+    fetch_stmt = ordering_stmt.limit(offset + limit + 1)
+    result = await db.execute(fetch_stmt)
+    all_rows = result.all()
+
+    # Build full deduplicated list, then slice for offset
+    seen_combinations: set = set()
+    all_results: List[MedicineSearchResult] = []
+    for row in all_rows:
         key = (str(row.drug_id), str(row.brand_id) if row.brand_id else "generic")
         if key in seen_combinations:
             continue
         seen_combinations.add(key)
-        
         is_brand = row.brand_id is not None
         display_name = row.brand_name if is_brand else row.generic_name
-        
-        results.append(MedicineSearchResult(
+        all_results.append(MedicineSearchResult(
             drug_id=row.drug_id,
             brand_id=row.brand_id,
             display_name=display_name,
@@ -118,11 +114,21 @@ async def search_medicines(
             manufacturer=row.manufacturer,
             is_brand=is_brand,
         ))
-    
+
+    total_approx = len(all_results)
+    results = all_results[offset: offset + limit]
+    has_more = total_approx > offset + limit
+
     payload = MedicineSearchResponse(
         results=results,
-        total=len(results),
-        query=q
+        items=results,
+        total=total_approx,
+        query=q,
+        limit=limit,
+        offset=offset,
+        has_more=has_more,
+        page=(offset // limit) + 1 if limit > 0 else 1,
+        page_size=limit,
     )
     etag = build_etag(payload.model_dump(mode="json"))
     set_cache_headers(

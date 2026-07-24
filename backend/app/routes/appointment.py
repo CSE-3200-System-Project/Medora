@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import distinct, func, select, and_
-from app.core.dependencies import get_db
+from app.core.db_concurrency import gather_reads
+from app.core.dependencies import get_db, resolve_profile
 from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.core.patient_reference import patient_ref_from_uuid
 from app.routes.auth import get_current_user_token
@@ -275,8 +276,7 @@ async def create_appointment(
     user_id = user.id
 
     # Verify user is a patient
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
 
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -334,8 +334,11 @@ async def create_appointment(
         await db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/my-appointments", response_model=List[AppointmentResponse])
+@router.get("/my-appointments")
 async def get_my_appointments(
+    limit: int | None = Query(None, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    # backward-compat aliases
     page: int = Query(1, ge=1),
     size: int | None = Query(None, ge=1, le=500),
     user: any = Depends(get_current_user_token),
@@ -347,8 +350,7 @@ async def get_my_appointments(
     user_id = user.id
     
     # Determine role
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -373,32 +375,70 @@ async def get_my_appointments(
         
     query = query.order_by(Appointment.appointment_date.desc())
 
-    if size is not None:
-        query = query.limit(size).offset((page - 1) * size)
-    
-    result = await db.execute(query)
-    appointments = result.scalars().all()
-    if not appointments:
-        return []
+    # Resolve limit/offset from canonical or alias params
+    effective_limit = limit if limit is not None else (size if size is not None else None)
+    effective_offset = offset if offset > 0 else ((page - 1) * (size or 20) if page > 1 else 0)
 
-    latest_pending_reschedules = await _latest_pending_reschedules_by_appointment(
-        db,
-        [appointment.id for appointment in appointments],
+    # The total count and the page itself are independent — one wave instead of
+    # two serial round trips.
+    count_query = select(func.count()).select_from(query.subquery())
+    paged_query = (
+        query.limit(effective_limit).offset(effective_offset)
+        if effective_limit is not None
+        else query
     )
-    
-    related_profile_ids = {appt.patient_id for appt in appointments} | {appt.doctor_id for appt in appointments}
-    profile_rows = await db.execute(select(Profile).where(Profile.id.in_(related_profile_ids)))
-    profiles_by_id = {row.id: row for row in profile_rows.scalars().all()}
 
-    patient_profiles_by_id: dict[str, PatientProfile] = {}
-    if "DOCTOR" in role_str:
+    async def _load_total(session: AsyncSession):
+        return (await session.execute(count_query)).scalar() or 0
+
+    async def _load_page(session: AsyncSession):
+        return (await session.execute(paged_query)).scalars().all()
+
+    total, appointments = await gather_reads(_load_total, _load_page, max_concurrency=2)
+
+    if not appointments:
+        eff_lim = effective_limit or 0
+        return {
+            "appointments": [],
+            "items": [],
+            "total": total,
+            "limit": eff_lim,
+            "offset": effective_offset,
+            "has_more": False,
+            "page": 1,
+            "page_size": eff_lim,
+        }
+
+    # Three independent enrichment lookups over the fetched page.
+    appointment_ids = [appointment.id for appointment in appointments]
+    related_profile_ids = {appt.patient_id for appt in appointments} | {appt.doctor_id for appt in appointments}
+
+    async def _load_pending_reschedules(session: AsyncSession):
+        return await _latest_pending_reschedules_by_appointment(session, appointment_ids)
+
+    async def _load_related_profiles(session: AsyncSession):
+        rows = await session.execute(select(Profile).where(Profile.id.in_(related_profile_ids)))
+        return {row.id: row for row in rows.scalars().all()}
+
+    async def _load_patient_profiles(session: AsyncSession) -> dict[str, PatientProfile]:
+        if "DOCTOR" not in role_str:
+            return {}
         patient_ids = {appt.patient_id for appt in appointments}
-        patient_profile_rows = await db.execute(
+        rows = await session.execute(
             select(PatientProfile).where(PatientProfile.profile_id.in_(patient_ids))
         )
-        patient_profiles_by_id = {
-            row.profile_id: row for row in patient_profile_rows.scalars().all()
-        }
+        return {row.profile_id: row for row in rows.scalars().all()}
+
+    (
+        latest_pending_reschedules,
+        profiles_by_id,
+        patient_profiles_by_id,
+    ) = await gather_reads(
+        _load_pending_reschedules,
+        _load_related_profiles,
+        _load_patient_profiles,
+        max_concurrency=3,
+    )
 
     out = []
     for appt in appointments:
@@ -458,7 +498,18 @@ async def get_my_appointments(
             "updated_at": appt.updated_at.isoformat() if appt.updated_at else None,
         })
 
-    return out
+    eff_lim = effective_limit or len(out)
+    eff_offset = effective_offset
+    return {
+        "appointments": out,
+        "items": out,
+        "total": total,
+        "limit": eff_lim,
+        "offset": eff_offset,
+        "has_more": eff_offset + len(out) < total if effective_limit is not None else False,
+        "page": (eff_offset // eff_lim) + 1 if eff_lim > 0 else 1,
+        "page_size": eff_lim,
+    }
 
 @router.get("/by-date/{date}")
 async def get_appointments_by_date(
@@ -473,8 +524,7 @@ async def get_appointments_by_date(
     user_id = user.id
     
     # Verify user is a doctor
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -637,8 +687,7 @@ async def cancel_appointment(
     requests via /pending-request endpoint."""
     user_id = user.id
 
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="User profile not found")
 
@@ -721,8 +770,7 @@ async def delete_pending_request(
     """Patient can delete only their own pending appointment requests."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="User profile not found")
 
@@ -782,8 +830,7 @@ async def update_appointment_status(
     """
     user_id = user.id
 
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="User profile not found")
 
@@ -890,8 +937,7 @@ async def get_appointment_stats(
     """Return summary stats for the current doctor"""
     user_id = user.id
     # Ensure profile exists
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -951,8 +997,7 @@ async def get_appointment_stats(
 async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_current_user_token), db: AsyncSession = Depends(get_db)):
     """Return next upcoming appointments for the current user (doctor or patient)"""
     user_id = user.id
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -1066,8 +1111,7 @@ async def get_previously_visited_doctors(
     user_id = user.id
     
     # Verify user is a patient
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1140,10 +1184,10 @@ async def get_patient_calendar_summary(
     """
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
-    role_value = profile_result.scalar_one_or_none()
-    if role_value is None:
+    caller_profile = await resolve_profile(db, user)
+    if caller_profile is None:
         raise HTTPException(status_code=404, detail="Profile not found")
+    role_value = caller_profile.role
     role_str = (role_value.value if hasattr(role_value, "value") else str(role_value)).upper()
     if "PATIENT" not in role_str:
         raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
@@ -1233,8 +1277,7 @@ async def get_patient_calendar_appointments(
     user_id = user.id
 
     # Verify user is a patient
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
 
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1415,26 +1458,27 @@ async def get_patient_calendar_appointments(
 
 @router.get("/doctor/patients")
 async def get_doctor_patients(
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
 ):
     """
     Get list of patients who have had completed appointments with this doctor.
-    Returns patient info with visit history summary.
+    Returns patient info with visit history summary, paginated.
     """
     user_id = user.id
-    
-    # Verify user is a doctor
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
-    
+
+    profile = await resolve_profile(db, user)
+
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
-    
+
     role_str = str(profile.role).upper()
     if "DOCTOR" not in role_str:
         raise HTTPException(status_code=403, detail="Only doctors can access this endpoint")
-    
+
+    # Fetch all completed appointments to aggregate patient stats (can't paginate before aggregation)
     query = (
         select(Appointment)
         .where(
@@ -1447,7 +1491,7 @@ async def get_doctor_patients(
     result = await db.execute(query)
     appointments = result.scalars().all()
     if not appointments:
-        return {"patients": [], "total": 0}
+        return {"patients": [], "items": [], "total": 0, "limit": limit, "offset": offset, "has_more": False}
 
     stats_by_patient: dict[str, dict] = {}
     for appt in appointments:
@@ -1495,7 +1539,19 @@ async def get_doctor_patients(
             "last_reason": stats["last_reason"],
         })
 
-    return {"patients": patients, "total": len(patients)}
+    total = len(patients)
+    paginated = patients[offset: offset + limit]
+    has_more = offset + len(paginated) < total
+    return {
+        "patients": paginated,
+        "items": paginated,
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "has_more": has_more,
+        "page": (offset // limit) + 1 if limit > 0 else 1,
+        "page_size": limit,
+    }
 
 
 @router.post("/sync-status")
@@ -1511,8 +1567,7 @@ async def sync_appointment_status(
     user_id = user.id
     
     # Get user role
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1539,8 +1594,7 @@ async def get_doctor_revenue_summary(
     """Return appointment-completion revenue summary for the current doctor."""
     user_id = user.id
 
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -1619,8 +1673,7 @@ async def can_complete_appointment(
     user_id = user.id
 
     # Get user role
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
 
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1665,8 +1718,7 @@ async def complete_appointment(
     user_id = user.id
     
     # Get user role
-    result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -1738,8 +1790,7 @@ async def create_appointment_reschedule_request(
     """Canonical endpoint for doctor/patient reschedule proposals."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -1798,8 +1849,7 @@ async def respond_to_appointment_reschedule_request(
     """Canonical endpoint for accepting/rejecting a reschedule proposal."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -1853,8 +1903,7 @@ async def withdraw_appointment_reschedule_request(
     """Allow the original requester to withdraw their pending reschedule request."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 

@@ -353,12 +353,23 @@ export interface ConsultationDraftUpdateInput {
 
 export interface ConsultationListResponse {
   consultations: Consultation[];
+  items?: Consultation[];
   total: number;
+  limit?: number;
+  offset?: number;
+  has_more?: boolean;
+  page?: number;
 }
 
 export interface PrescriptionListResponse {
   prescriptions: Prescription[];
+  items?: Prescription[];
   total: number;
+  limit?: number;
+  offset?: number;
+  has_more?: boolean;
+  page?: number;
+  page_size?: number;
 }
 
 export interface PrescriptionAttachment {
@@ -451,7 +462,12 @@ export async function getDoctorConsultationHistory(
     throw new Error(errorMessage || "Failed to fetch consultation history");
   }
 
-  return await response.json();
+  const data = await response.json();
+  return {
+    ...data,
+    consultations: data.consultations ?? data.items ?? [],
+    items: data.items ?? data.consultations ?? [],
+  };
 }
 
 /**
@@ -788,7 +804,12 @@ export async function getPatientPrescriptions(
     throw new Error(errorMessage || "Failed to fetch prescriptions");
   }
 
-  return await response.json();
+  const data = await response.json();
+  return {
+    ...data,
+    prescriptions: data.prescriptions ?? data.items ?? [],
+    items: data.items ?? data.prescriptions ?? [],
+  };
 }
 
 /**

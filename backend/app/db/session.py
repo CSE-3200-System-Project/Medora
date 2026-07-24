@@ -7,12 +7,18 @@ Supabase can be reached three ways, and the right engine config differs for each
   2. Session-mode pooler (port 5432 pooler) → real pooling + prepared statements OK
   3. Transaction-mode pgBouncer (port 6543) → MUST disable prepared-statement caches
 
+All three use a real client-side pool. pgBouncer multiplexes *server* connections
+per transaction, but the client↔pgBouncer TCP+TLS session is ours to hold open —
+so transaction mode only rules out server-side prepared statements, not pooling.
+(This module previously used NullPool in mode 3, which made every request pay a
+full handshake before its first query.)
+
 We auto-detect (1)/(2) vs (3) from the URL but allow explicit override via env.
 Overrides (all optional):
 
   DB_POOL_MODE              = "auto" | "direct" | "pgbouncer"   (default "auto")
-  DB_POOL_SIZE              = int  (default 10; ignored in pgbouncer mode)
-  DB_MAX_OVERFLOW           = int  (default 10; ignored in pgbouncer mode)
+  DB_POOL_SIZE              = int  (default 10)
+  DB_MAX_OVERFLOW           = int  (default 10)
   DB_POOL_TIMEOUT           = int seconds (default 30)
   DB_POOL_RECYCLE           = int seconds (default 1800)
   DB_POOL_PRE_PING          = "true"|"false" (default "true")
@@ -21,11 +27,9 @@ Overrides (all optional):
 
 from __future__ import annotations
 
-import os
 from urllib.parse import urlparse
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy.pool import NullPool
 
 from app.core.config import settings
 
@@ -45,18 +49,12 @@ def _detect_pgbouncer(url: str) -> bool:
     return False
 
 
-def _as_bool(value: str | None, default: bool) -> bool:
-    if value is None:
-        return default
-    return value.strip().lower() in {"1", "true", "yes", "on"}
-
-
 DB_URL = settings.SUPABASE_DATABASE_URL
-DB_POOL_MODE = os.getenv("DB_POOL_MODE", "auto").lower()
-DB_POOL_RECYCLE = int(os.getenv("DB_POOL_RECYCLE", "1800"))
-DB_POOL_TIMEOUT = int(os.getenv("DB_POOL_TIMEOUT", "30"))
-DB_POOL_PRE_PING = _as_bool(os.getenv("DB_POOL_PRE_PING"), True)
-DB_ECHO = _as_bool(os.getenv("DB_ECHO"), False)
+DB_POOL_MODE = settings.DB_POOL_MODE.lower()
+DB_POOL_RECYCLE = settings.DB_POOL_RECYCLE
+DB_POOL_TIMEOUT = settings.DB_POOL_TIMEOUT
+DB_POOL_PRE_PING = settings.DB_POOL_PRE_PING
+DB_ECHO = settings.DB_ECHO
 
 if DB_POOL_MODE == "auto":
     _is_pgbouncer = _detect_pgbouncer(DB_URL)
@@ -68,35 +66,35 @@ else:
     _is_pgbouncer = _detect_pgbouncer(DB_URL)
 
 
+# Keep pool_size * replica_count under the Supabase pooler's client connection
+# limit — Azure Container Apps can scale this process horizontally.
+pool_size = settings.DB_POOL_SIZE
+max_overflow = settings.DB_MAX_OVERFLOW
+
+_engine_kwargs: dict = {
+    "echo": DB_ECHO,
+    "pool_size": pool_size,
+    "max_overflow": max_overflow,
+    "pool_timeout": DB_POOL_TIMEOUT,
+    "pool_recycle": DB_POOL_RECYCLE,
+    # Costs one extra round trip per checkout. Worth it against a remote pooler
+    # that can drop idle connections; disable it (and lower DB_POOL_RECYCLE below
+    # the pooler's idle timeout) if measurement says otherwise.
+    "pool_pre_ping": DB_POOL_PRE_PING,
+}
+
 if _is_pgbouncer:
-    # Transaction-mode pgBouncer: no server-side prepared statements survive
-    # between checkouts, so asyncpg's caches must be disabled and we can't reuse
-    # connections ourselves (pgBouncer is the pool).
-    engine = create_async_engine(
-        DB_URL,
-        echo=DB_ECHO,
-        poolclass=NullPool,
-        pool_recycle=DB_POOL_RECYCLE,
-        execution_options={"compiled_cache": None},
-        connect_args={
-            "statement_cache_size": 0,
-            "prepared_statement_cache_size": 0,
-            "server_settings": {"jit": "off"},
-        },
-    )
-else:
-    # Direct Postgres (or session-mode pooler): real pooling + asyncpg caches.
-    pool_size = int(os.getenv("DB_POOL_SIZE", "10"))
-    max_overflow = int(os.getenv("DB_MAX_OVERFLOW", "10"))
-    engine = create_async_engine(
-        DB_URL,
-        echo=DB_ECHO,
-        pool_size=pool_size,
-        max_overflow=max_overflow,
-        pool_timeout=DB_POOL_TIMEOUT,
-        pool_recycle=DB_POOL_RECYCLE,
-        pool_pre_ping=DB_POOL_PRE_PING,
-    )
+    # Transaction-mode pgBouncer: no server-side prepared statement survives
+    # between transactions, so both statement caches must be off. SQLAlchemy's
+    # compiled_cache is a client-side SQL-string cache and is unaffected by
+    # pgBouncer — leaving it enabled avoids re-compiling every ORM statement.
+    _engine_kwargs["connect_args"] = {
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+        "server_settings": {"jit": "off"},
+    }
+
+engine = create_async_engine(DB_URL, **_engine_kwargs)
 
 
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)

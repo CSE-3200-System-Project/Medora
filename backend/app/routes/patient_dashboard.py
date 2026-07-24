@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db_concurrency import gather_reads
 from app.core.dependencies import get_db
 from app.db.models.appointment import Appointment
 from app.db.models.doctor import DoctorProfile
@@ -191,20 +192,88 @@ async def get_patient_dashboard(
     profile = await _require_patient(db, user)
     user_name = f"{profile.first_name or ''} {profile.last_name or ''}".strip() if profile else "Patient"
 
-    patient_profile = (
-        await db.execute(select(PatientProfile).where(PatientProfile.profile_id == user.id))
-    ).scalar_one_or_none()
-
     now = datetime.now(timezone.utc)
+    day_start = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
+    day_end = day_start + timedelta(days=1)
+    trend_days = [day_start.date() - timedelta(days=index) for index in reversed(range(7))]
 
-    upcoming_appts = (
-        await db.execute(
-            select(Appointment)
-            .where(Appointment.patient_id == user.id, Appointment.appointment_date >= now)
-            .order_by(Appointment.appointment_date.asc())
-            .limit(5)
-        )
-    ).scalars().all()
+    # These five reads are mutually independent. Issued in series they cost five
+    # round trips to a remote database; one wave costs roughly one.
+    async def _load_patient_profile(session: AsyncSession):
+        return (
+            await session.execute(
+                select(PatientProfile).where(PatientProfile.profile_id == user.id)
+            )
+        ).scalar_one_or_none()
+
+    async def _load_upcoming_appointments(session: AsyncSession):
+        return (
+            await session.execute(
+                select(Appointment)
+                .where(Appointment.patient_id == user.id, Appointment.appointment_date >= now)
+                .order_by(Appointment.appointment_date.asc())
+                .limit(5)
+            )
+        ).scalars().all()
+
+    async def _load_todays_metrics(session: AsyncSession):
+        return (
+            await session.execute(
+                select(HealthMetric)
+                .where(
+                    HealthMetric.user_id == user.id,
+                    HealthMetric.recorded_at >= day_start,
+                    HealthMetric.recorded_at < day_end,
+                )
+                .order_by(HealthMetric.recorded_at.desc())
+            )
+        ).scalars().all()
+
+    async def _load_medication_reminders(session: AsyncSession):
+        return (
+            await session.execute(
+                select(Reminder)
+                .where(
+                    Reminder.user_id == user.id,
+                    Reminder.type == ReminderType.MEDICATION,
+                    Reminder.is_active == True,
+                )
+                # Defensive cap: a single user is never expected to have hundreds
+                # of active medication reminders; this bounds the dashboard cost.
+                .limit(200)
+            )
+        ).scalars().all()
+
+    async def _load_delivery_logs(session: AsyncSession):
+        return (
+            await session.execute(
+                select(
+                    func.date(ReminderDeliveryLog.scheduled_for_utc).label("day"),
+                    func.count(ReminderDeliveryLog.id).label("count"),
+                )
+                .where(
+                    ReminderDeliveryLog.user_id == user.id,
+                    ReminderDeliveryLog.scheduled_for_utc >= datetime.combine(trend_days[0], time.min, tzinfo=timezone.utc),
+                    ReminderDeliveryLog.scheduled_for_utc < datetime.combine(day_end.date(), time.min, tzinfo=timezone.utc) + timedelta(days=1),
+                )
+                .group_by(func.date(ReminderDeliveryLog.scheduled_for_utc))
+            )
+        ).all()
+
+    (
+        patient_profile,
+        upcoming_appts,
+        todays_metrics,
+        reminders,
+        delivery_logs,
+    ) = await gather_reads(
+        _load_patient_profile,
+        _load_upcoming_appointments,
+        _load_todays_metrics,
+        _load_medication_reminders,
+        _load_delivery_logs,
+        max_concurrency=5,
+    )
 
     doctor_ids = list({item.doctor_id for item in upcoming_appts})
     doctor_profiles: dict[str, DoctorProfile] = {}
@@ -250,21 +319,6 @@ async def get_patient_dashboard(
             )
         )
 
-    day_start = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
-    day_end = day_start + timedelta(days=1)
-
-    todays_metrics = (
-        await db.execute(
-            select(HealthMetric)
-            .where(
-                HealthMetric.user_id == user.id,
-                HealthMetric.recorded_at >= day_start,
-                HealthMetric.recorded_at < day_end,
-            )
-            .order_by(HealthMetric.recorded_at.desc())
-        )
-    ).scalars().all()
-
     latest_by_type: dict[str, HealthMetric] = {}
     for metric in todays_metrics:
         key = metric.metric_type.value
@@ -273,35 +327,6 @@ async def get_patient_dashboard(
 
     today_values = {key: float(item.value) for key, item in latest_by_type.items()}
 
-    reminders = (
-        await db.execute(
-            select(Reminder)
-            .where(
-                Reminder.user_id == user.id,
-                Reminder.type == ReminderType.MEDICATION,
-                Reminder.is_active == True,
-            )
-            # Defensive cap: a single user is never expected to have hundreds
-            # of active medication reminders; this bounds the dashboard cost.
-            .limit(200)
-        )
-    ).scalars().all()
-
-    trend_days = [day_start.date() - timedelta(days=index) for index in reversed(range(7))]
-    delivery_logs = (
-        await db.execute(
-            select(
-                func.date(ReminderDeliveryLog.scheduled_for_utc).label("day"),
-                func.count(ReminderDeliveryLog.id).label("count"),
-            )
-            .where(
-                ReminderDeliveryLog.user_id == user.id,
-                ReminderDeliveryLog.scheduled_for_utc >= datetime.combine(trend_days[0], time.min, tzinfo=timezone.utc),
-                ReminderDeliveryLog.scheduled_for_utc < datetime.combine(day_end.date(), time.min, tzinfo=timezone.utc) + timedelta(days=1),
-            )
-            .group_by(func.date(ReminderDeliveryLog.scheduled_for_utc))
-        )
-    ).all()
     delivered_by_day = {str(row.day): int(row.count or 0) for row in delivery_logs}
 
     adherence_values: list[int] = []

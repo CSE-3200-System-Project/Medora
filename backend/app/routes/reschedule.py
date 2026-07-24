@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.dependencies import get_db
+from app.core.dependencies import get_db, resolve_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.appointment import Appointment
 from app.db.models.appointment_request import AppointmentRescheduleRequest
@@ -29,8 +29,7 @@ async def create_reschedule_request(
     """Compatibility wrapper for creating reschedule requests."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -92,8 +91,7 @@ async def respond_to_reschedule(
     """Compatibility wrapper for accepting/rejecting reschedule requests."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
@@ -140,8 +138,7 @@ async def withdraw_reschedule_request(
     """Compatibility wrapper for requester-withdrawal of pending reschedule requests."""
     user_id = user.id
 
-    profile_result = await db.execute(select(Profile).where(Profile.id == user_id))
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
