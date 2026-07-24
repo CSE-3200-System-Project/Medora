@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import uuid
+from datetime import datetime, timezone
+
 import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
+from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.consultation import Consultation
 from app.db.models.enums import UserRole
 from app.db.models.patient import PatientProfile
@@ -25,8 +29,18 @@ async def test_consultation_draft_persists_and_full_preview_uses_draft(
 
     patient_medical: PatientProfile = PatientProfileFactory(profile_id=patient_account.id)
     doctor_profile = DoctorProfileFactory(profile_id=doctor_account.id)
+    appointment = Appointment(
+        id=str(uuid.uuid4()),
+        doctor_id=doctor_account.id,
+        patient_id=patient_account.id,
+        status=AppointmentStatus.CONFIRMED,
+        appointment_date=datetime.now(timezone.utc),
+        reason="Draft preview integration test",
+    )
 
-    db_session.add_all([patient_account, doctor_account, patient_medical, doctor_profile])
+    db_session.add_all(
+        [patient_account, doctor_account, patient_medical, doctor_profile, appointment]
+    )
     await db_session.commit()
 
     auth_token_map["patient-token"] = {"sub": patient_account.id, "email": patient_account.email}
@@ -37,6 +51,7 @@ async def test_consultation_draft_persists_and_full_preview_uses_draft(
         headers={"Authorization": "Bearer doctor-token"},
         json={
             "patient_id": patient_account.id,
+            "appointment_id": appointment.id,
             "chief_complaint": "Initial note",
             "notes": "Initial doctor note",
         },

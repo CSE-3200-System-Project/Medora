@@ -113,9 +113,14 @@ async def test_ai_doctor_search_pipeline_returns_ranked_doctor_results(
     fake_completion = SimpleNamespace(
         choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(llm_payload)))]
     )
+    fake_client = SimpleNamespace(
+        chat=SimpleNamespace(
+            completions=SimpleNamespace(create=lambda **kwargs: fake_completion)
+        )
+    )
     monkeypatch.setattr(
-        "app.routes.ai_doctor.client.chat.completions.create",
-        lambda **kwargs: fake_completion,
+        "app.routes.ai_doctor._get_groq_client",
+        lambda: fake_client,
     )
 
     response = await backend_client.post(
