@@ -99,45 +99,20 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
     )
     assert create_response.status_code == 201, create_response.text
     created_review = create_response.json()
-    assert created_review["status"] == "PENDING"
+    assert created_review["status"] == "APPROVED"
 
     public_before_approval = await backend_client.get(f"/doctor/{doctor.profile_id}/reviews?page=1&limit=5")
     assert public_before_approval.status_code == 200
-    assert public_before_approval.json()["reviews"] == []
-    assert public_before_approval.json()["rating_count"] == 0
+    assert len(public_before_approval.json()["reviews"]) == 1
+    assert public_before_approval.json()["rating_count"] == 1
+    assert public_before_approval.json()["rating_avg"] == 5.0
 
     eligibility = await backend_client.get(
         f"/reviews/doctor/{doctor.profile_id}/eligibility",
         headers={"Authorization": "Bearer patient-token"},
     )
     assert eligibility.status_code == 200
-    assert eligibility.json()["existing_review"]["status"] == "PENDING"
-
-    approve_response = await backend_client.post(
-        f"/admin/reviews/{created_review['id']}/approve",
-        headers={"X-Admin-Password": "test-admin-password-123"},
-    )
-    assert approve_response.status_code == 200, approve_response.text
-    assert approve_response.json()["status"] == "APPROVED"
-
-    public_after_approval = await backend_client.get(f"/doctor/{doctor.profile_id}/reviews?page=1&limit=5")
-    assert public_after_approval.status_code == 200
-    approved_payload = public_after_approval.json()
-    assert len(approved_payload["reviews"]) == 1
-    assert approved_payload["reviews"][0]["status"] == "APPROVED"
-    assert approved_payload["rating_count"] == 1
-    assert approved_payload["rating_avg"] == 5.0
-
-    approval_notification = (
-        await db_session.execute(
-            select(Notification).where(
-                Notification.user_id == patient_profile.id,
-                Notification.type == NotificationType.REVIEW_APPROVED,
-            )
-        )
-    ).scalar_one_or_none()
-    assert approval_notification is not None
-    assert approval_notification.message == "Your review has been approved and published."
+    assert eligibility.json()["existing_review"]["status"] == "APPROVED"
 
     edit_response = await backend_client.post(
         "/reviews",
@@ -152,14 +127,14 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
     assert edit_response.status_code == 201, edit_response.text
     edited_review = edit_response.json()
     assert edited_review["id"] == created_review["id"]
-    assert edited_review["status"] == "PENDING"
+    assert edited_review["status"] == "APPROVED"
 
     public_after_edit = await backend_client.get(f"/doctor/{doctor.profile_id}/reviews?page=1&limit=5")
     assert public_after_edit.status_code == 200
     edited_public_payload = public_after_edit.json()
-    assert edited_public_payload["reviews"] == []
-    assert edited_public_payload["rating_count"] == 0
-    assert edited_public_payload["rating_avg"] == 0.0
+    assert len(edited_public_payload["reviews"]) == 1
+    assert edited_public_payload["rating_count"] == 1
+    assert edited_public_payload["rating_avg"] == 2.0
 
     reject_response = await backend_client.post(
         f"/admin/reviews/{created_review['id']}/reject",
@@ -169,6 +144,13 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
     assert reject_response.status_code == 200, reject_response.text
     assert reject_response.json()["status"] == "REJECTED"
     assert reject_response.json()["admin_feedback"] == "Please avoid personal attacks."
+
+    public_after_reject = await backend_client.get(
+        f"/doctor/{doctor.profile_id}/reviews?page=1&limit=5"
+    )
+    assert public_after_reject.status_code == 200
+    assert public_after_reject.json()["reviews"] == []
+    assert public_after_reject.json()["rating_count"] == 0
 
     eligibility_after_reject = await backend_client.get(
         f"/reviews/doctor/{doctor.profile_id}/eligibility",
