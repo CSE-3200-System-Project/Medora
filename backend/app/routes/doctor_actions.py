@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response,
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db_concurrency import gather_reads
 from app.core.dependencies import get_db
 from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.db.models.appointment import Appointment, AppointmentStatus
@@ -202,72 +203,51 @@ async def get_doctor_action_stats(
 
     # Reference day for weekly rollup (UTC midnight today).
     today_utc = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
-    weeks_start = today_utc - timedelta(days=28)  # 4 weeks back
 
     # ─── Single aggregate query: action totals ──
-    action_stats_row = (
-        await db.execute(
-            select(
-                func.count(DoctorAction.id).label("total_actions"),
-                func.count(DoctorAction.id)
-                .filter(DoctorAction.status == DoctorActionStatus.COMPLETED)
-                .label("completed_actions"),
-                func.count(DoctorAction.id)
-                .filter(
-                    DoctorAction.status.in_(
-                        [DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]
-                    )
+    action_stats_stmt = (
+        select(
+            func.count(DoctorAction.id).label("total_actions"),
+            func.count(DoctorAction.id)
+            .filter(DoctorAction.status == DoctorActionStatus.COMPLETED)
+            .label("completed_actions"),
+            func.count(DoctorAction.id)
+            .filter(
+                DoctorAction.status.in_(
+                    [DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]
                 )
-                .label("pending_total"),
-            ).select_from(DoctorAction)
-            .where(DoctorAction.doctor_id == user.id)
+            )
+            .label("pending_total"),
         )
-    ).one()
+        .select_from(DoctorAction)
+        .where(DoctorAction.doctor_id == user.id)
+    )
 
-    monthly_revenue = (
-        await db.execute(
-            select(
-                func.coalesce(
-                    func.sum(Appointment.revenue_amount).filter(
-                        Appointment.status == AppointmentStatus.COMPLETED,
-                        Appointment.completed_at >= month_start,
-                        Appointment.completed_at < month_end,
-                    ),
-                    0.0,
-                )
-            ).where(Appointment.doctor_id == user.id)
-        )
-    ).scalar_one()
-
-    monthly_revenue = float(monthly_revenue or 0.0)
-    total_actions = int(action_stats_row.total_actions or 0)
-    completed_actions = int(action_stats_row.completed_actions or 0)
-    pending_actions_total = int(action_stats_row.pending_total or 0)
-    completion_rate = round((completed_actions / total_actions) * 100.0, 1) if total_actions else 0.0
+    monthly_revenue_stmt = (
+        select(
+            func.coalesce(
+                func.sum(Appointment.revenue_amount).filter(
+                    Appointment.status == AppointmentStatus.COMPLETED,
+                    Appointment.completed_at >= month_start,
+                    Appointment.completed_at < month_end,
+                ),
+                0.0,
+            )
+        ).where(Appointment.doctor_id == user.id)
+    )
 
     # Top-N pending items (unchanged — single query already).
-    pending_rows = (
-        await db.execute(
-            select(DoctorAction)
-            .where(
-                DoctorAction.doctor_id == user.id,
-                DoctorAction.status.in_([DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]),
-            )
-            .order_by(DoctorAction.priority.desc(), DoctorAction.created_at.desc())
-            .limit(6)
+    pending_stmt = (
+        select(DoctorAction)
+        .where(
+            DoctorAction.doctor_id == user.id,
+            DoctorAction.status.in_(
+                [DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]
+            ),
         )
-    ).scalars().all()
-    pending_actions = [
-        DoctorActionStatsPendingItem(
-            id=item.id,
-            title=item.title,
-            priority=item.priority,
-            status=item.status,
-            due_date=item.due_date.isoformat() if item.due_date else None,
-            related_patient_id=item.related_patient_id,
-        )
-        for item in pending_rows
-    ]
+        .order_by(DoctorAction.priority.desc(), DoctorAction.created_at.desc())
+        .limit(6)
+    )
 
     # ─── Weekly appointment metrics: 8 queries → 1 ─────────────────────────────
     # For each of the 4 weeks, emit a FILTER-aggregated count. No GROUP BY, one
@@ -290,11 +270,7 @@ async def get_doctor_action_stats(
             )
             .label(f"noshow_{i}")
         )
-    appt_row = (
-        await db.execute(
-            select(*appt_cols).where(Appointment.doctor_id == user.id)
-        )
-    ).one()
+    appt_stmt = select(*appt_cols).where(Appointment.doctor_id == user.id)
 
     # ─── Weekly action metrics: 8 queries → 1 ─────────────────────────────────
     action_cols = []
@@ -323,11 +299,11 @@ async def get_doctor_action_stats(
             )
             .label(f"overdue_{i}")
         )
-    action_row = (
-        await db.execute(
-            select(*action_cols).select_from(DoctorAction).where(DoctorAction.doctor_id == user.id)
-        )
-    ).one()
+    action_stmt = (
+        select(*action_cols)
+        .select_from(DoctorAction)
+        .where(DoctorAction.doctor_id == user.id)
+    )
 
     revenue_cols = []
     for i in range(4):
@@ -343,9 +319,78 @@ async def get_doctor_action_stats(
                 0.0,
             ).label(f"revenue_{i}")
         )
-    revenue_row = (
-        await db.execute(select(*revenue_cols).where(Appointment.doctor_id == user.id))
-    ).one()
+    revenue_stmt = select(*revenue_cols).where(Appointment.doctor_id == user.id)
+
+    patient_profiles_stmt = (
+        select(PatientProfile.date_of_birth)
+        .join(Appointment, Appointment.patient_id == PatientProfile.profile_id)
+        .where(Appointment.doctor_id == user.id)
+        .group_by(PatientProfile.profile_id, PatientProfile.date_of_birth)
+    )
+
+    def _load_row(statement):
+        async def run(session: AsyncSession):
+            return (await session.execute(statement)).one()
+
+        return run
+
+    def _load_scalar(statement):
+        async def run(session: AsyncSession):
+            return (await session.execute(statement)).scalar_one()
+
+        return run
+
+    def _load_scalars(statement):
+        async def run(session: AsyncSession):
+            return (await session.execute(statement)).scalars().all()
+
+        return run
+
+    def _load_rows(statement):
+        async def run(session: AsyncSession):
+            return (await session.execute(statement)).all()
+
+        return run
+
+    (
+        action_stats_row,
+        monthly_revenue,
+        pending_rows,
+        appt_row,
+        action_row,
+        revenue_row,
+        patient_profile_rows,
+    ) = await gather_reads(
+        _load_row(action_stats_stmt),
+        _load_scalar(monthly_revenue_stmt),
+        _load_scalars(pending_stmt),
+        _load_row(appt_stmt),
+        _load_row(action_stmt),
+        _load_row(revenue_stmt),
+        _load_rows(patient_profiles_stmt),
+        max_concurrency=3,
+    )
+
+    monthly_revenue = float(monthly_revenue or 0.0)
+    total_actions = int(action_stats_row.total_actions or 0)
+    completed_actions = int(action_stats_row.completed_actions or 0)
+    pending_actions_total = int(action_stats_row.pending_total or 0)
+    completion_rate = (
+        round((completed_actions / total_actions) * 100.0, 1)
+        if total_actions
+        else 0.0
+    )
+    pending_actions = [
+        DoctorActionStatsPendingItem(
+            id=item.id,
+            title=item.title,
+            priority=item.priority,
+            status=item.status,
+            due_date=item.due_date.isoformat() if item.due_date else None,
+            related_patient_id=item.related_patient_id,
+        )
+        for item in pending_rows
+    ]
 
     weekly_wsi: list[DoctorActionWeeklyWsiPoint] = []
     revenue_trend: list[DoctorActionRevenuePoint] = []
@@ -377,15 +422,6 @@ async def get_doctor_action_stats(
     revenue_trend.reverse()
 
     # ─── Demographics: 2 queries → 1 JOIN ──────────────────────────────────────
-    patient_profile_rows = (
-        await db.execute(
-            select(PatientProfile.date_of_birth)
-            .join(Appointment, Appointment.patient_id == PatientProfile.profile_id)
-            .where(Appointment.doctor_id == user.id)
-            .group_by(PatientProfile.profile_id, PatientProfile.date_of_birth)
-        )
-    ).all()
-
     demographics: list[DoctorActionDemographicPoint] = []
     if patient_profile_rows:
         buckets = {

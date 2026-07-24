@@ -935,38 +935,36 @@ async def get_patient_stats(
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
 ):
-    total_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.status != AccountStatus.deleted,
+    stats = (
+        await db.execute(
+            select(
+                func.count(Profile.id)
+                .filter(Profile.status != AccountStatus.deleted)
+                .label("total"),
+                func.count(Profile.id)
+                .filter(
+                    Profile.status == AccountStatus.active,
+                    Profile.onboarding_completed.is_(True),
+                )
+                .label("active"),
+                func.count(Profile.id)
+                .filter(
+                    Profile.status != AccountStatus.banned,
+                    Profile.onboarding_completed.is_(False),
+                )
+                .label("incomplete"),
+                func.count(Profile.id)
+                .filter(Profile.status == AccountStatus.banned)
+                .label("banned"),
+            ).where(Profile.role == UserRole.PATIENT)
         )
-    )
-    active_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.status == AccountStatus.active,
-            Profile.onboarding_completed.is_(True),
-        )
-    )
-    incomplete_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.status != AccountStatus.banned,
-            Profile.onboarding_completed.is_(False),
-        )
-    )
-    banned_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.status == AccountStatus.banned,
-        )
-    )
+    ).one()
 
     return {
-        "total": total_result.scalar() or 0,
-        "active": active_result.scalar() or 0,
-        "incomplete": incomplete_result.scalar() or 0,
-        "banned": banned_result.scalar() or 0,
+        "total": stats.total or 0,
+        "active": stats.active or 0,
+        "incomplete": stats.incomplete or 0,
+        "banned": stats.banned or 0,
     }
 
 
@@ -1031,20 +1029,21 @@ async def get_patient_insights(
     now = datetime.now(timezone.utc)
     day_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
-    todays_registrations_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.created_at >= day_start,
+    insight_counts = (
+        await db.execute(
+            select(
+                func.count(Profile.id)
+                .filter(Profile.created_at >= day_start)
+                .label("today"),
+                func.count(Profile.id)
+                .filter(
+                    Profile.status != AccountStatus.banned,
+                    Profile.onboarding_completed.is_(False),
+                )
+                .label("pending"),
+            ).where(Profile.role == UserRole.PATIENT)
         )
-    )
-
-    pending_reviews_result = await db.execute(
-        select(func.count(Profile.id)).where(
-            Profile.role == UserRole.PATIENT,
-            Profile.status != AccountStatus.banned,
-            Profile.onboarding_completed.is_(False),
-        )
-    )
+    ).one()
 
     recent_result = await db.execute(
         select(Profile)
@@ -1077,8 +1076,8 @@ async def get_patient_insights(
         })
 
     return {
-        "todaysRegistrations": todays_registrations_result.scalar() or 0,
-        "pendingReviews": pending_reviews_result.scalar() or 0,
+        "todaysRegistrations": insight_counts.today or 0,
+        "pendingReviews": insight_counts.pending or 0,
         "recentActivity": activity,
     }
 

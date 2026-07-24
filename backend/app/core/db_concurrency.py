@@ -17,8 +17,8 @@ Constraints for anything passed in:
     sets ``expire_on_commit=False`` so already-loaded attributes stay readable
     after the session closes, but touching an unloaded lazy relationship on a
     returned object will fail — its session is gone.
-  * Concurrency multiplies pool usage: ``max_concurrency`` connections per
-    in-flight request. Keep it small relative to DB_POOL_SIZE.
+  * Concurrency multiplies pool usage. A process-wide limiter caps aggregate
+    fan-out across all requests; ``max_concurrency`` additionally caps one wave.
 """
 
 from __future__ import annotations
@@ -28,15 +28,22 @@ from typing import Any, Awaitable, Callable
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.db.session import AsyncSessionLocal
 
 ReadQuery = Callable[[AsyncSession], Awaitable[Any]]
 
+# One limiter per Uvicorn worker. With the production default of one worker and
+# no pool overflow, fan-out can use at most three of the five pooled clients,
+# leaving capacity for ordinary request sessions and background work.
+_process_read_semaphore = asyncio.Semaphore(max(1, settings.DB_READ_CONCURRENCY))
 
-async def _run_isolated(query: ReadQuery, semaphore: asyncio.Semaphore) -> Any:
-    async with semaphore:
-        async with AsyncSessionLocal() as session:
-            return await query(session)
+
+async def _run_isolated(query: ReadQuery, request_semaphore: asyncio.Semaphore) -> Any:
+    async with request_semaphore:
+        async with _process_read_semaphore:
+            async with AsyncSessionLocal() as session:
+                return await query(session)
 
 
 async def gather_reads(*queries: ReadQuery, max_concurrency: int = 4) -> list[Any]:
@@ -49,5 +56,10 @@ async def gather_reads(*queries: ReadQuery, max_concurrency: int = 4) -> list[An
     if not queries:
         return []
 
-    semaphore = asyncio.Semaphore(max_concurrency)
-    return await asyncio.gather(*(_run_isolated(query, semaphore) for query in queries))
+    if max_concurrency < 1:
+        raise ValueError("max_concurrency must be at least 1")
+
+    request_semaphore = asyncio.Semaphore(max_concurrency)
+    return await asyncio.gather(
+        *(_run_isolated(query, request_semaphore) for query in queries)
+    )

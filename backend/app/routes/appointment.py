@@ -950,34 +950,33 @@ async def get_appointment_stats(
     start_of_day = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
     end_of_day = start_of_day + timedelta(days=1)
 
-    # Counts
-    todays_count = await db.execute(
-        select(func.count()).where(
-            Appointment.doctor_id == user_id,
-            Appointment.appointment_date >= start_of_day,
-            Appointment.appointment_date < end_of_day
+    # One aggregate replaces five cross-region count round trips.
+    counts = (
+        await db.execute(
+            select(
+                func.count(Appointment.id)
+                .filter(
+                    Appointment.appointment_date >= start_of_day,
+                    Appointment.appointment_date < end_of_day,
+                )
+                .label("today"),
+                func.count(Appointment.id)
+                .filter(Appointment.status == AppointmentStatus.PENDING)
+                .label("pending"),
+                func.count(distinct(Appointment.patient_id)).label("patients"),
+                func.count(Appointment.id).label("total"),
+                func.count(Appointment.id)
+                .filter(Appointment.status == AppointmentStatus.COMPLETED)
+                .label("completed"),
+            ).where(Appointment.doctor_id == user_id)
         )
-    )
-    todays_count = todays_count.scalar() or 0
+    ).one()
 
-    pending_count = await db.execute(
-        select(func.count()).where(
-            Appointment.doctor_id == user_id,
-            Appointment.status == AppointmentStatus.PENDING
-        )
-    )
-    pending_count = pending_count.scalar() or 0
-
-    total_patients_q = await db.execute(
-        select(func.count(distinct(Appointment.patient_id))).where(Appointment.doctor_id == user_id)
-    )
-    total_patients = total_patients_q.scalar() or 0
-
-    total_q = await db.execute(select(func.count()).where(Appointment.doctor_id == user_id))
-    total = total_q.scalar() or 0
-
-    completed_q = await db.execute(select(func.count()).where(Appointment.doctor_id == user_id, Appointment.status == AppointmentStatus.COMPLETED))
-    completed = completed_q.scalar() or 0
+    todays_count = int(counts.today or 0)
+    pending_count = int(counts.pending or 0)
+    total_patients = int(counts.patients or 0)
+    total = int(counts.total or 0)
+    completed = int(counts.completed or 0)
 
     completion_rate = (completed / total * 100) if total > 0 else 0
 

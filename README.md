@@ -95,7 +95,7 @@ Medora follows a service-oriented architecture with explicit workload boundaries
            v                                                       v
 +----------------------+                                +----------------------+
 | Supabase             | <----------------------------> | PostgreSQL (Supabase)|
-| Auth/Storage/Realtime|                                | RLS + Transactions   |
+| Auth/Storage/Realtime|                                | App Auth + Transactions|
 +----------------------+                                +----------------------+
                                                            |
                                                            | OCR delegation

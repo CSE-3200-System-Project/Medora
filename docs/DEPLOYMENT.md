@@ -216,17 +216,18 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
 - Supabase Auth (JWT-based authentication)
 - Supabase Storage (file uploads, documents)
 - Supabase Realtime (websocket channels for live updates)
-- Row Level Security (RLS) for data access control
+- Application-owned role, ownership, and consent authorization for backend queries
 
 **Connection Pooling**:
-- Connection pool managed by Supabase PgBouncer
-- Async sessions in FastAPI backend
-- Pool size: Configurable via environment variables
+- Supabase transaction pooler plus a bounded SQLAlchemy client pool
+- Production budget: `5 clients × 1 worker × 10 replicas = 50` clients
+- Process-wide isolated-read concurrency is capped at three per worker
+- Backend/database regions should be colocated when deployment constraints permit
 
 **Migrations**:
 - Alembic migration framework
-- Auto-applied on container startup (development)
-- Manual migration in production via CI/CD or admin control
+- Auto-applied by `app/entrypoint.sh` before Uvicorn starts
+- `alembic heads` must report exactly one head before deployment
 
 ---
 
@@ -421,8 +422,19 @@ All CI/CD pipelines are defined in `.github/workflows/` and trigger on push/PR t
 SUPABASE_DATABASE_URL=postgresql+asyncpg://<credentials>@<host>:5432/postgres
 SUPABASE_URL=https://<project>.supabase.co
 SUPABASE_KEY=<anon_key>
+SUPABASE_JWT_SECRET=<legacy_hs256_secret_if_project_uses_hs256>
 SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
 SUPABASE_STORAGE_BUCKET=medora-storage
+
+# Bounded database connection budget
+UVICORN_WORKERS=1
+DB_POOL_MODE=pgbouncer
+DB_POOL_SIZE=5
+DB_MAX_OVERFLOW=0
+DB_POOL_TIMEOUT=10
+DB_POOL_RECYCLE=300
+DB_POOL_PRE_PING=false
+DB_READ_CONCURRENCY=3
 
 # AI Providers
 AI_PROVIDER=groq

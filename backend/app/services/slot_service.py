@@ -20,6 +20,7 @@ import logging
 from sqlalchemy import select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db_concurrency import gather_reads
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.appointment_request import (
     AppointmentRescheduleRequest,
@@ -302,32 +303,143 @@ async def get_available_slots(
       - total_available: int
     """
     # 1. Check for exceptions (leave/holiday)
+    exception_location_predicate = (
+        or_(
+            DoctorException.doctor_location_id == doctor_location_id,
+            DoctorException.doctor_location_id.is_(None),
+        )
+        if doctor_location_id
+        else DoctorException.doctor_location_id.is_(None)
+    )
     exception_result = await db.execute(
-        select(DoctorException).where(
+        select(DoctorException)
+        .where(
             DoctorException.doctor_id == doctor_id,
             DoctorException.exception_date == target_date,
-            or_(
-                DoctorException.doctor_location_id == doctor_location_id,
-                DoctorException.doctor_location_id.is_(None),
-            ) if doctor_location_id else True,
+            exception_location_predicate,
+        )
+        .order_by(
+            (DoctorException.doctor_location_id == doctor_location_id).desc()
+            if doctor_location_id
+            else DoctorException.created_at.desc()
         )
     )
-    exception = exception_result.scalar_one_or_none()
+    exception = exception_result.scalars().first()
     if exception and not exception.is_available:
         return _empty_response(doctor_id, target_date)
 
-    # 2. Check for schedule overrides
-    override_result = await db.execute(
-        select(DoctorScheduleOverride).where(
-            DoctorScheduleOverride.doctor_id == doctor_id,
-            DoctorScheduleOverride.override_date == target_date,
-            or_(
-                DoctorScheduleOverride.doctor_location_id == doctor_location_id,
-                DoctorScheduleOverride.doctor_location_id.is_(None),
-            ) if doctor_location_id else True,
-        )
+    # Release the exception-check transaction before the isolated schedule
+    # reads fan out, otherwise this request would pin one extra pool client.
+    await db.commit()
+
+    day_of_week = target_date.weekday()  # 0=Monday
+    start_of_day = datetime(
+        target_date.year, target_date.month, target_date.day, tzinfo=timezone.utc
     )
-    overrides = override_result.scalars().all()
+    end_of_day = start_of_day + timedelta(days=1)
+    now_utc = datetime.now(timezone.utc)
+
+    async def _load_overrides(session: AsyncSession):
+        return (
+            await session.execute(
+                select(DoctorScheduleOverride).where(
+                    DoctorScheduleOverride.doctor_id == doctor_id,
+                    DoctorScheduleOverride.override_date == target_date,
+                    (
+                        or_(
+                            DoctorScheduleOverride.doctor_location_id
+                            == doctor_location_id,
+                            DoctorScheduleOverride.doctor_location_id.is_(None),
+                        )
+                        if doctor_location_id
+                        else DoctorScheduleOverride.doctor_location_id.is_(None)
+                    ),
+                )
+            )
+        ).scalars().all()
+
+    async def _load_structured_schedule(session: AsyncSession):
+        location_predicate = (
+            or_(
+                DoctorAvailability.doctor_location_id == doctor_location_id,
+                DoctorAvailability.doctor_location_id.is_(None),
+            )
+            if doctor_location_id
+            else DoctorAvailability.doctor_location_id.is_(None)
+        )
+        rows = (
+            await session.execute(
+                select(DoctorAvailability, DoctorTimeBlock)
+                .outerjoin(
+                    DoctorTimeBlock,
+                    DoctorTimeBlock.availability_id == DoctorAvailability.id,
+                )
+                .where(
+                    DoctorAvailability.doctor_id == doctor_id,
+                    DoctorAvailability.day_of_week == day_of_week,
+                    DoctorAvailability.is_active == True,
+                    location_predicate,
+                )
+                .order_by(
+                    (
+                        DoctorAvailability.doctor_location_id
+                        == doctor_location_id
+                    ).desc()
+                    if doctor_location_id
+                    else DoctorAvailability.created_at.desc()
+                )
+            )
+        ).all()
+        if not rows:
+            return None, []
+        selected = rows[0][0]
+        blocks = [
+            block
+            for availability, block in rows
+            if availability.id == selected.id and block is not None
+        ]
+        return selected, blocks
+
+    async def _load_legacy_schedule(session: AsyncSession):
+        location_join_id = doctor_location_id or "__no_location__"
+        return (
+            await session.execute(
+                select(DoctorProfile, DoctorLocation)
+                .outerjoin(
+                    DoctorLocation,
+                    and_(
+                        DoctorLocation.doctor_id == DoctorProfile.profile_id,
+                        DoctorLocation.id == location_join_id,
+                    ),
+                )
+                .where(DoctorProfile.profile_id == doctor_id)
+            )
+        ).one_or_none()
+
+    async def _load_booked(session: AsyncSession):
+        return (
+            await session.execute(
+                select(Appointment).where(
+                    Appointment.doctor_id == doctor_id,
+                    Appointment.appointment_date >= start_of_day,
+                    Appointment.appointment_date < end_of_day,
+                    _active_slot_occupancy_condition(now_utc),
+                )
+            )
+        ).scalars().all()
+
+    (
+        overrides,
+        structured_schedule,
+        legacy_schedule,
+        booked_appointments,
+    ) = await gather_reads(
+        _load_overrides,
+        _load_structured_schedule,
+        _load_legacy_schedule,
+        _load_booked,
+        max_concurrency=3,
+    )
 
     all_slots: list[time] = []
     appointment_duration = 30
@@ -343,39 +455,10 @@ async def get_available_slots(
             all_slots.extend(slots)
             appointment_duration = override.slot_duration_minutes
     else:
-        # 3. Check structured availability
-        day_of_week = target_date.weekday()  # 0=Monday
-        availability_predicates = [
-            DoctorAvailability.doctor_id == doctor_id,
-            DoctorAvailability.day_of_week == day_of_week,
-            DoctorAvailability.is_active == True,
-        ]
-        if doctor_location_id:
-            availability_predicates.append(DoctorAvailability.doctor_location_id == doctor_location_id)
-
-        avail_result = await db.execute(select(DoctorAvailability).where(*availability_predicates))
-        availability = avail_result.scalar_one_or_none()
-
-        if doctor_location_id and not availability:
-            avail_result = await db.execute(
-                select(DoctorAvailability).where(
-                    DoctorAvailability.doctor_id == doctor_id,
-                    DoctorAvailability.day_of_week == day_of_week,
-                    DoctorAvailability.is_active == True,
-                    DoctorAvailability.doctor_location_id.is_(None),
-                )
-            )
-            availability = avail_result.scalar_one_or_none()
-
+        # 3. Check structured availability (location-specific rows win over
+        # generic rows, and their blocks were loaded in the same query).
+        availability, time_blocks = structured_schedule
         if availability:
-            # Load time blocks
-            blocks_result = await db.execute(
-                select(DoctorTimeBlock).where(
-                    DoctorTimeBlock.availability_id == availability.id,
-                )
-            )
-            time_blocks = blocks_result.scalars().all()
-
             for block in time_blocks:
                 slots = generate_slots_from_block(
                     block.start_time,
@@ -386,22 +469,9 @@ async def get_available_slots(
                 appointment_duration = block.slot_duration_minutes
         else:
             # 4. Fall back to DoctorProfile.day_time_slots JSON
-            doc_result = await db.execute(
-                select(DoctorProfile).where(DoctorProfile.profile_id == doctor_id)
-            )
-            doctor = doc_result.scalar_one_or_none()
+            doctor, location = legacy_schedule if legacy_schedule else (None, None)
             if not doctor:
                 return _empty_response(doctor_id, target_date)
-
-            location = None
-            if doctor_location_id:
-                location_result = await db.execute(
-                    select(DoctorLocation).where(
-                        DoctorLocation.id == doctor_location_id,
-                        DoctorLocation.doctor_id == doctor_id,
-                    )
-                )
-                location = location_result.scalar_one_or_none()
 
             appointment_duration = (
                 (location.appointment_duration if location else None)
@@ -454,22 +524,7 @@ async def get_available_slots(
     # Deduplicate and sort
     all_slots = sorted(set(all_slots))
 
-    # 5. Remove booked slots
-    start_of_day = datetime(
-        target_date.year, target_date.month, target_date.day, tzinfo=timezone.utc
-    )
-    end_of_day = start_of_day + timedelta(days=1)
-
-    now_utc = datetime.now(timezone.utc)
-    booked_result = await db.execute(
-        select(Appointment).where(
-            Appointment.doctor_id == doctor_id,
-            Appointment.appointment_date >= start_of_day,
-            Appointment.appointment_date < end_of_day,
-            _active_slot_occupancy_condition(now_utc),
-        )
-    )
-    booked_appointments = booked_result.scalars().all()
+    # 5. Remove booked slots (loaded concurrently with the schedule).
     _debug_slot_appointments(
         doctor_id=doctor_id,
         target_date=target_date,

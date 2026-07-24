@@ -61,7 +61,7 @@ export default function PatientMedicalReportsPage() {
       setLoading(true);
       setError(null);
       const data = await listMedicalReports(undefined, 50, 0);
-      setReports(data);
+      setReports(data.reports);
     } catch (err: any) {
       console.error("Failed to load reports:", err);
       setError(err.message || "Failed to load reports");

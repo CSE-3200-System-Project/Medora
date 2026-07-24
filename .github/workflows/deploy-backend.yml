@@ -52,14 +52,51 @@ jobs:
           IMAGE_LATEST="$REGISTRY/$IMAGE_NAME:latest"
 
           docker build -t "$IMAGE_SHA" -t "$IMAGE_LATEST" ./backend
+
+          ALEMBIC_HEADS=$(docker run --rm \
+            --entrypoint alembic \
+            -e SUPABASE_DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/postgres \
+            -e SUPABASE_URL=https://example.supabase.co \
+            -e SUPABASE_KEY=test-key \
+            -e SUPABASE_STORAGE_BUCKET=test-bucket \
+            "$IMAGE_SHA" heads)
+          HEAD_COUNT=$(printf '%s\n' "$ALEMBIC_HEADS" | grep -c '(head)' || true)
+          if [ "$HEAD_COUNT" -ne 1 ]; then
+            printf 'Expected exactly one Alembic head, found %s:\n%s\n' \
+              "$HEAD_COUNT" "$ALEMBIC_HEADS"
+            exit 1
+          fi
+
           docker push "$IMAGE_SHA"
           docker push "$IMAGE_LATEST"
 
           echo "image=$IMAGE_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Deploy backend to Azure Container Apps
+        env:
+          SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
         run: |
+          ENV_VARS=(
+            "UVICORN_WORKERS=1"
+            "DB_POOL_MODE=pgbouncer"
+            "DB_POOL_SIZE=5"
+            "DB_MAX_OVERFLOW=0"
+            "DB_POOL_TIMEOUT=10"
+            "DB_POOL_RECYCLE=300"
+            "DB_POOL_PRE_PING=false"
+            "DB_READ_CONCURRENCY=3"
+          )
+
+          if [ -n "$SUPABASE_JWT_SECRET" ]; then
+            az containerapp secret set \
+              --name "$BACKEND_APP" \
+              --resource-group "$RESOURCE_GROUP" \
+              --secrets "supabase-jwt-secret=$SUPABASE_JWT_SECRET"
+            ENV_VARS+=("SUPABASE_JWT_SECRET=secretref:supabase-jwt-secret")
+          fi
+
           az containerapp update \
             --name "$BACKEND_APP" \
             --resource-group "$RESOURCE_GROUP" \
-            --image "${{ steps.build-image.outputs.image }}"
+            --image "${{ steps.build-image.outputs.image }}" \
+            --set-env-vars "${ENV_VARS[@]}"

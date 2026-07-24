@@ -11,7 +11,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, or_, func
 from sqlalchemy.orm import selectinload
-from app.core.dependencies import get_db
+from app.core.db_concurrency import gather_reads
+from app.core.dependencies import get_db, resolve_profile
 from app.core.patient_reference import patient_ref_from_uuid, resolve_doctor_patient_identifier
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
@@ -31,6 +32,16 @@ from typing import Optional
 import uuid
 
 router = APIRouter()
+
+
+def _doctor_display_name(
+    profile: Profile | None,
+    details: DoctorProfile | None,
+) -> str:
+    if not profile:
+        return "Unknown"
+    title = details.title if details and details.title else "Dr."
+    return f"{title} {profile.first_name} {profile.last_name}"
 
 
 async def check_doctor_patient_access(
@@ -491,11 +502,7 @@ async def get_my_access_history(
     """
     patient_id = user.id
     
-    # Verify user is a patient
-    profile_result = await db.execute(
-        select(Profile).where(Profile.id == patient_id)
-    )
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -504,34 +511,42 @@ async def get_my_access_history(
     if "PATIENT" not in role_str:
         raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
     
-    # Get access logs
-    logs_query = await db.execute(
-        select(PatientAccessLog)
-        .where(PatientAccessLog.patient_id == patient_id)
-        .order_by(PatientAccessLog.accessed_at.desc())
-        .limit(limit)
-        .offset(offset)
-    )
-    logs = logs_query.scalars().all()
-    
-    # Get total count
-    count_result = await db.execute(
-        select(func.count(PatientAccessLog.id))
-        .where(PatientAccessLog.patient_id == patient_id)
-    )
-    total = count_result.scalar() or 0
+    async def _load_logs(session: AsyncSession):
+        return (
+            await session.execute(
+                select(PatientAccessLog)
+                .where(PatientAccessLog.patient_id == patient_id)
+                .order_by(PatientAccessLog.accessed_at.desc())
+                .limit(limit)
+                .offset(offset)
+            )
+        ).scalars().all()
+
+    async def _load_total(session: AsyncSession):
+        return (
+            await session.execute(
+                select(func.count(PatientAccessLog.id)).where(
+                    PatientAccessLog.patient_id == patient_id
+                )
+            )
+        ).scalar_one()
+
+    logs, total = await gather_reads(_load_logs, _load_total, max_concurrency=2)
     
     # Build response with doctor details
     doctor_ids = {log.doctor_id for log in logs}
     profiles_by_id = {}
     doctor_profiles_by_id = {}
     if doctor_ids:
-        doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
-        profiles_by_id = {row.id: row for row in doctor_rows.scalars().all()}
-        doctor_profile_rows = await db.execute(
-            select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
+        doctor_rows = await db.execute(
+            select(Profile, DoctorProfile)
+            .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
+            .where(Profile.id.in_(doctor_ids))
         )
-        doctor_profiles_by_id = {row.profile_id: row for row in doctor_profile_rows.scalars().all()}
+        for doctor, doctor_details in doctor_rows.all():
+            profiles_by_id[doctor.id] = doctor
+            if doctor_details:
+                doctor_profiles_by_id[doctor_details.profile_id] = doctor_details
 
     access_history = []
     for log in logs:
@@ -541,7 +556,7 @@ async def get_my_access_history(
         access_history.append({
             "id": log.id,
             "doctor_id": log.doctor_id,
-            "doctor_name": f"{doctor_details.title or 'Dr.'} {doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
+            "doctor_name": _doctor_display_name(doctor, doctor_details),
             "doctor_specialization": doctor_details.specialization if doctor_details else None,
             "doctor_photo_url": doctor_details.profile_photo_url if doctor_details else None,
             "access_type": log.access_type.value if hasattr(log.access_type, 'value') else str(log.access_type),
@@ -573,8 +588,7 @@ async def get_my_ai_access_history(
     """
     patient_id = user.id
 
-    patient_profile_result = await db.execute(select(Profile).where(Profile.id == patient_id))
-    patient_profile = patient_profile_result.scalar_one_or_none()
+    patient_profile = await resolve_profile(db, user)
 
     if not patient_profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -583,36 +597,49 @@ async def get_my_ai_access_history(
     if "PATIENT" not in role_str:
         raise HTTPException(status_code=403, detail="Only patients can view their access history")
 
-    logs_result = await db.execute(
-        select(PatientAccessLog)
-        .where(
-            PatientAccessLog.patient_id == patient_id,
-            PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value
-        )
-        .order_by(PatientAccessLog.accessed_at.desc())
-        .limit(limit)
-        .offset(offset)
-    )
-    logs = logs_result.scalars().all()
+    async def _load_logs(session: AsyncSession):
+        return (
+            await session.execute(
+                select(PatientAccessLog)
+                .where(
+                    PatientAccessLog.patient_id == patient_id,
+                    PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value,
+                )
+                .order_by(PatientAccessLog.accessed_at.desc())
+                .limit(limit)
+                .offset(offset)
+            )
+        ).scalars().all()
 
-    count_result = await db.execute(
-        select(func.count(PatientAccessLog.id)).where(
-            PatientAccessLog.patient_id == patient_id,
-            PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value
-        )
+    async def _load_total(session: AsyncSession):
+        return (
+            await session.execute(
+                select(func.count(PatientAccessLog.id)).where(
+                    PatientAccessLog.patient_id == patient_id,
+                    PatientAccessLog.access_type == AccessType.VIEW_AI_QUERY.value,
+                )
+            )
+        ).scalar_one()
+
+    logs, total_count = await gather_reads(
+        _load_logs,
+        _load_total,
+        max_concurrency=2,
     )
-    total_count = count_result.scalar() or 0
 
     doctor_ids = {log.doctor_id for log in logs}
     profiles_by_id = {}
     doctor_profiles_by_id = {}
     if doctor_ids:
-        doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
-        profiles_by_id = {row.id: row for row in doctor_rows.scalars().all()}
-        doctor_profile_rows = await db.execute(
-            select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
+        doctor_rows = await db.execute(
+            select(Profile, DoctorProfile)
+            .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
+            .where(Profile.id.in_(doctor_ids))
         )
-        doctor_profiles_by_id = {row.profile_id: row for row in doctor_profile_rows.scalars().all()}
+        for doctor, doctor_details in doctor_rows.all():
+            profiles_by_id[doctor.id] = doctor
+            if doctor_details:
+                doctor_profiles_by_id[doctor_details.profile_id] = doctor_details
 
     access_history = []
     for log in logs:
@@ -623,7 +650,7 @@ async def get_my_ai_access_history(
             {
                 "id": log.id,
                 "doctor_id": log.doctor_id,
-                "doctor_name": f"{doctor_details.title or 'Dr.'} {doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
+                "doctor_name": _doctor_display_name(doctor, doctor_details),
                 "accessed_at": log.accessed_at.isoformat(),
                 "access_type": log.access_type.value if hasattr(log.access_type, 'value') else str(log.access_type),
             }
@@ -658,11 +685,7 @@ async def get_my_doctor_access_settings(
     """
     patient_id = user.id
     
-    # Verify user is a patient
-    profile_result = await db.execute(
-        select(Profile).where(Profile.id == patient_id)
-    )
-    profile = profile_result.scalar_one_or_none()
+    profile = await resolve_profile(db, user)
     
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
@@ -671,84 +694,97 @@ async def get_my_doctor_access_settings(
     if "PATIENT" not in role_str:
         raise HTTPException(status_code=403, detail="Only patients can access this endpoint")
     
-    # Get all doctors who have appointments with this patient
-    appointments_result = await db.execute(
-        select(Appointment.doctor_id).distinct()
-        .where(Appointment.patient_id == patient_id)
-    )
-    all_doctor_ids = [row[0] for row in appointments_result.fetchall()]
-    doctor_ids = all_doctor_ids
-
     # Resolve canonical limit/offset or page/size aliases
     eff_limit = limit if limit is not None else size
     eff_offset = offset if offset > 0 else ((page - 1) * (size or 50) if page > 1 else 0)
 
-    total = len(all_doctor_ids)
-    if eff_limit is not None:
-        doctor_ids = all_doctor_ids[eff_offset: eff_offset + eff_limit]
-    else:
-        doctor_ids = all_doctor_ids[eff_offset:]
+    async def _load_doctor_ids(session: AsyncSession):
+        query = (
+            select(Appointment.doctor_id)
+            .where(Appointment.patient_id == patient_id)
+            .group_by(Appointment.doctor_id)
+            .order_by(Appointment.doctor_id)
+            .offset(eff_offset)
+        )
+        if eff_limit is not None:
+            query = query.limit(eff_limit)
+        return list((await session.execute(query)).scalars().all())
+
+    async def _load_total(session: AsyncSession):
+        return (
+            await session.execute(
+                select(func.count(func.distinct(Appointment.doctor_id))).where(
+                    Appointment.patient_id == patient_id
+                )
+            )
+        ).scalar_one()
+
+    doctor_ids, total = await gather_reads(
+        _load_doctor_ids,
+        _load_total,
+        max_concurrency=2,
+    )
 
     if not doctor_ids:
         return {"doctors": [], "items": [], "total": total, "limit": eff_limit or 0, "offset": eff_offset, "has_more": False}
 
-    doctor_rows = await db.execute(select(Profile).where(Profile.id.in_(doctor_ids)))
-    doctors_by_id = {row.id: row for row in doctor_rows.scalars().all()}
-
-    doctor_detail_rows = await db.execute(
-        select(DoctorProfile).where(DoctorProfile.profile_id.in_(doctor_ids))
-    )
-    doctor_details_by_id = {row.profile_id: row for row in doctor_detail_rows.scalars().all()}
-
-    access_rows = await db.execute(
-        select(PatientDoctorAccess).where(
-            and_(
-                PatientDoctorAccess.patient_id == patient_id,
-                PatientDoctorAccess.doctor_id.in_(doctor_ids),
-            )
+    appointment_count = (
+        select(func.count(Appointment.id))
+        .where(
+            Appointment.patient_id == patient_id,
+            Appointment.doctor_id == Profile.id,
         )
+        .correlate(Profile)
+        .scalar_subquery()
     )
-    access_by_doctor_id = {row.doctor_id: row for row in access_rows.scalars().all()}
-
-    appointment_count_rows = await db.execute(
-        select(
-            Appointment.doctor_id,
-            func.count(Appointment.id).label("appointment_count"),
-        )
-        .where(Appointment.patient_id == patient_id, Appointment.doctor_id.in_(doctor_ids))
-        .group_by(Appointment.doctor_id)
-    )
-    appointment_counts = {row.doctor_id: row.appointment_count for row in appointment_count_rows}
-
-    last_access_rows = await db.execute(
-        select(
-            PatientAccessLog.doctor_id,
-            func.max(PatientAccessLog.accessed_at).label("last_access"),
-        )
+    last_access = (
+        select(func.max(PatientAccessLog.accessed_at))
         .where(
             PatientAccessLog.patient_id == patient_id,
-            PatientAccessLog.doctor_id.in_(doctor_ids),
+            PatientAccessLog.doctor_id == Profile.id,
         )
-        .group_by(PatientAccessLog.doctor_id)
+        .correlate(Profile)
+        .scalar_subquery()
     )
-    last_access_by_doctor_id = {row.doctor_id: row.last_access for row in last_access_rows}
+    detail_rows = await db.execute(
+        select(
+            Profile,
+            DoctorProfile,
+            PatientDoctorAccess,
+            appointment_count.label("appointment_count"),
+            last_access.label("last_access"),
+        )
+        .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
+        .outerjoin(
+            PatientDoctorAccess,
+            and_(
+                PatientDoctorAccess.patient_id == patient_id,
+                PatientDoctorAccess.doctor_id == Profile.id,
+            ),
+        )
+        .where(Profile.id.in_(doctor_ids))
+    )
+    details_by_id = {
+        doctor.id: (doctor, doctor_details, access_record, count, accessed_at)
+        for doctor, doctor_details, access_record, count, accessed_at in detail_rows.all()
+    }
 
     doctors_list = []
     for doctor_id in doctor_ids:
-        doctor = doctors_by_id.get(doctor_id)
-        doctor_details = doctor_details_by_id.get(doctor_id)
-        access_record = access_by_doctor_id.get(doctor_id)
-        last_access = last_access_by_doctor_id.get(doctor_id)
+        detail = details_by_id.get(doctor_id)
+        doctor, doctor_details, access_record, appointment_count_value, last_access_value = (
+            detail if detail else (None, None, None, 0, None)
+        )
 
         doctors_list.append({
             "doctor_id": doctor_id,
-            "doctor_name": f"{doctor_details.title or 'Dr.'} {doctor.first_name} {doctor.last_name}" if doctor else "Unknown",
+            "doctor_name": _doctor_display_name(doctor, doctor_details),
             "doctor_specialization": doctor_details.specialization if doctor_details else None,
             "doctor_photo_url": doctor_details.profile_photo_url if doctor_details else None,
             "hospital_name": doctor_details.hospital_name if doctor_details else None,
             "access_status": access_record.status.value if access_record else "active",
-            "appointment_count": appointment_counts.get(doctor_id, 0),
-            "last_access": last_access.isoformat() if last_access else None,
+            "appointment_count": appointment_count_value or 0,
+            "last_access": last_access_value.isoformat() if last_access_value else None,
             "revoked_at": access_record.revoked_at.isoformat() if access_record and access_record.revoked_at else None,
         })
 

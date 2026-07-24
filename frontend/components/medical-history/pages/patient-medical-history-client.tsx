@@ -1252,7 +1252,7 @@ function PatientMedicalHistoryPage() {
       setReportsLoading(true);
       setReportsError(null);
       const data = await listMedicalReports(undefined, 50, 0);
-      setReports(data);
+      setReports(data.reports);
     } catch (err: unknown) {
       console.error("Failed to load reports:", err);
       setReportsError(err instanceof Error ? err.message : tCommon("medicalHistory.reports.errors.loadFailed"));
