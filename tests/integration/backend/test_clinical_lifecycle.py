@@ -46,7 +46,15 @@ async def test_auth_booking_consultation_prescription_lifecycle(backend_client, 
     )
     assert create_appointment.status_code == 201, create_appointment.text
     appointment_id = create_appointment.json()["id"]
-    assert create_appointment.json()["status"] == "PENDING"
+    assert create_appointment.json()["status"] == "PENDING_ADMIN_REVIEW"
+
+    admin_approval = await backend_client.post(
+        f"/admin/appointments/{appointment_id}/approve",
+        headers={"X-Admin-Password": "test-admin-password-123"},
+        json={"notes": "Approved by integration test"},
+    )
+    assert admin_approval.status_code == 200, admin_approval.text
+    assert admin_approval.json()["status"] == "PENDING_DOCTOR_CONFIRMATION"
 
     confirm_appointment = await backend_client.patch(
         f"/appointment/{appointment_id}",

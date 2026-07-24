@@ -1,18 +1,27 @@
 "use server";
 
 import { cookies } from "next/headers";
+import {
+  ADMIN_COOKIE_NAME,
+  createAdminAccessToken,
+  getAdminSecret,
+  verifyAdminAccessToken,
+  verifyAdminPassword,
+} from "@/lib/admin-auth";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
-const ADMIN_PASSWORD = "admin123";
 
 // Admin Authentication
 export async function setAdminAccess(password: string) {
-  if (password === ADMIN_PASSWORD) {
+  const adminSecret = getAdminSecret();
+  if (adminSecret && await verifyAdminPassword(password, adminSecret)) {
     const cookieStore = await cookies();
-    cookieStore.set("admin_access", "true", {
+    cookieStore.set(ADMIN_COOKIE_NAME, await createAdminAccessToken(adminSecret), {
       path: "/",
       maxAge: 86400, // 24 hours
       sameSite: "lax",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
     });
     cookieStore.set("user_role", "admin", {
       path: "/",
@@ -26,14 +35,21 @@ export async function setAdminAccess(password: string) {
 
 export async function clearAdminAccess() {
   const cookieStore = await cookies();
-  cookieStore.delete("admin_access");
+  cookieStore.delete(ADMIN_COOKIE_NAME);
   cookieStore.delete("user_role");
 }
 
 async function getAdminHeaders() {
+  const adminSecret = getAdminSecret();
+  const cookieStore = await cookies();
+  const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+  if (!adminSecret || !(await verifyAdminAccessToken(token, adminSecret))) {
+    throw new Error("Admin session is missing or expired");
+  }
+
   return {
     "Content-Type": "application/json",
-    "X-Admin-Password": ADMIN_PASSWORD,
+    "X-Admin-Password": adminSecret,
   };
 }
 

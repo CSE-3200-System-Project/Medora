@@ -40,6 +40,7 @@ def _configure_backend_env_defaults() -> None:
     os.environ.setdefault("PRELOAD_WHISPER_ON_STARTUP", "false")
     os.environ.setdefault("REMINDER_DISPATCH_ENABLED", "false")
     os.environ.setdefault("ALLOWED_ORIGINS", "http://localhost:3000")
+    os.environ.setdefault("ADMIN_PASSWORD", "test-admin-password-123")
 
 
 def _configure_ai_service_env_defaults() -> None:
@@ -129,7 +130,7 @@ def postgres_async_url(postgres_container) -> str:
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 async def backend_engine(postgres_async_url: str, backend_models_loaded):
     if TARGET != "backend":
         pytest.skip("Backend engine fixture is backend-only.")
