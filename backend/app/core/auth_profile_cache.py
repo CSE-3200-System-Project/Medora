@@ -9,6 +9,7 @@ from typing import Any
 
 from sqlalchemy import event, select
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.db.models.doctor import DoctorProfile
@@ -59,20 +60,27 @@ def prime_auth_profile(profile: Profile, profile_photo_url: str | None = None) -
     _store(str(profile.id), snapshot)
 
 
-async def _load_snapshot(user_id: str) -> dict[str, Any] | None:
-    async with AsyncSessionLocal() as session:
-        row = (
-            await session.execute(
-                select(
-                    Profile,
-                    PatientProfile.profile_photo_url.label("patient_photo"),
-                    DoctorProfile.profile_photo_url.label("doctor_photo"),
-                )
-                .outerjoin(PatientProfile, PatientProfile.profile_id == Profile.id)
-                .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
-                .where(Profile.id == user_id)
-            )
-        ).one_or_none()
+async def _load_snapshot(
+    user_id: str,
+    session: AsyncSession | None = None,
+) -> dict[str, Any] | None:
+    statement = (
+        select(
+            Profile,
+            PatientProfile.profile_photo_url.label("patient_photo"),
+            DoctorProfile.profile_photo_url.label("doctor_photo"),
+        )
+        .outerjoin(PatientProfile, PatientProfile.profile_id == Profile.id)
+        .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
+        .where(Profile.id == user_id)
+    )
+    if session is not None:
+        row = (await session.execute(statement)).one_or_none()
+    else:
+        async with AsyncSessionLocal() as owned_session:
+            row = (
+                await owned_session.execute(statement)
+            ).one_or_none()
 
     if row is None:
         return None
@@ -87,7 +95,10 @@ async def _load_snapshot(user_id: str) -> dict[str, Any] | None:
     return snapshot
 
 
-async def get_auth_profile(user_id: str) -> tuple[SimpleNamespace | None, bool]:
+async def get_auth_profile(
+    user_id: str,
+    session: AsyncSession | None = None,
+) -> tuple[SimpleNamespace | None, bool]:
     """Return a fresh namespace and whether it came from the memory cache."""
     user_id = str(user_id)
     cached = _cache.get(user_id)
@@ -100,7 +111,8 @@ async def get_auth_profile(user_id: str) -> tuple[SimpleNamespace | None, bool]:
 
     task = _inflight.get(user_id)
     if task is None:
-        task = asyncio.create_task(_load_snapshot(user_id))
+        load = _load_snapshot(user_id, session) if session is not None else _load_snapshot(user_id)
+        task = asyncio.create_task(load)
         _inflight[user_id] = task
 
     try:
