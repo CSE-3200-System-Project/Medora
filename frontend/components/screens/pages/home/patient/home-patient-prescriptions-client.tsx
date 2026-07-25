@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { AppBackground } from "@/components/ui/app-background";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -29,31 +29,54 @@ import { MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
 import { useT } from "@/i18n/client";
 
+const PAGE_SIZE = 20;
+
 export default function PatientPrescriptionsPage() {
   const tCommon = useT("common");
   const router = useRouter();
   const [prescriptions, setPrescriptions] = React.useState<Prescription[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const [hasMore, setHasMore] = React.useState(false);
+  const [total, setTotal] = React.useState(0);
   const [error, setError] = React.useState<string | null>(null);
   const [filter, setFilter] = React.useState<"all" | "pending" | "accepted" | "rejected">("all");
 
-  React.useEffect(() => {
-    loadPrescriptions();
-  }, []);
-
-  const loadPrescriptions = async () => {
+  const loadPrescriptions = React.useCallback(async (offset = 0) => {
+    const reset = offset === 0;
     try {
-      setLoading(true);
+      if (reset) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
       setError(null);
-      const data = await getPatientPrescriptions(undefined, 100, 0);
-      setPrescriptions(data.prescriptions);
-    } catch (err: any) {
+      const data = await getPatientPrescriptions(
+        filter === "all" ? undefined : filter,
+        PAGE_SIZE,
+        offset,
+      );
+      setPrescriptions((current) =>
+        reset ? data.prescriptions : [...current, ...data.prescriptions],
+      );
+      setHasMore(Boolean(data.has_more));
+      setTotal(data.total);
+    } catch (err: unknown) {
       console.error("Failed to load prescriptions:", err);
-      setError(err.message || tCommon("prescriptions.errors.loadFailed"));
+      setError(
+        err instanceof Error
+          ? err.message
+          : tCommon("prescriptions.errors.loadFailed"),
+      );
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
-  };
+  }, [filter, tCommon]);
+
+  React.useEffect(() => {
+    void loadPrescriptions(0);
+  }, [loadPrescriptions]);
 
   const getPrescriptionIcon = (type: PrescriptionType) => {
     switch (type) {
@@ -195,7 +218,11 @@ export default function PatientPrescriptionsPage() {
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-10 w-10 text-destructive mx-auto mb-3" />
               <p className="text-destructive">{error}</p>
-              <Button variant="outline" onClick={loadPrescriptions} className="mt-4">
+              <Button
+                variant="outline"
+                onClick={() => void loadPrescriptions(0)}
+                className="mt-4"
+              >
                 {tCommon("prescriptions.actions.tryAgain")}
               </Button>
             </CardContent>
@@ -277,6 +304,20 @@ export default function PatientPrescriptionsPage() {
                 </CardContent>
               </Card>
             ))}
+            {hasMore && (
+              <div className="flex justify-center pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={loadingMore}
+                  onClick={() => void loadPrescriptions(prescriptions.length)}
+                >
+                  {loadingMore
+                    ? tCommon("prescriptions.loading")
+                    : `Load more (${prescriptions.length} of ${total})`}
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </main>

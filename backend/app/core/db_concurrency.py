@@ -34,7 +34,7 @@ from app.db.session import AsyncSessionLocal
 ReadQuery = Callable[[AsyncSession], Awaitable[Any]]
 
 # One limiter per Uvicorn worker. With the production default of one worker and
-# no pool overflow, fan-out can use at most three of the five pooled clients,
+# no pool overflow, fan-out can use at most four of the five pooled clients,
 # leaving capacity for ordinary request sessions and background work.
 _process_read_semaphore = asyncio.Semaphore(max(1, settings.DB_READ_CONCURRENCY))
 

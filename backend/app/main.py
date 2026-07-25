@@ -11,7 +11,10 @@ from time import perf_counter
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from sqlalchemy import text
+from app.core.config import settings
+from app.core.performance_metrics import begin_request_metrics, end_request_metrics
 from app.routes import health, auth, profile, upload, admin, doctor, speciality, appointment, ai_doctor, ai_consultation, medicine, medical_test, notification, patient_access, reminder, consultation, consultation_ai, availability, reschedule, oauth, health_metrics, doctor_actions, patient_dashboard, health_data_consent, medical_report, patient_data_sharing, review
 from app.services.reminder_dispatcher import start_reminder_dispatcher, stop_reminder_dispatcher
 from app.db.session import AsyncSessionLocal
@@ -283,23 +286,36 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(
+    GZipMiddleware,
+    minimum_size=settings.PERF_GZIP_MINIMUM_SIZE,
+)
 
 
 @app.middleware("http")
 async def add_performance_headers(request: Request, call_next):
     start = perf_counter()
-    response = await call_next(request)
-    duration_ms = (perf_counter() - start) * 1000
+    metrics, metrics_token = begin_request_metrics()
+    try:
+        response = await call_next(request)
+        duration_ms = (perf_counter() - start) * 1000
 
-    response.headers["X-Response-Time"] = f"{duration_ms:.1f}ms"
-    server_timing_value = f"app;dur={duration_ms:.1f}"
-    existing_server_timing = response.headers.get("Server-Timing")
-    if existing_server_timing:
-        response.headers["Server-Timing"] = f"{existing_server_timing}, {server_timing_value}"
-    else:
-        response.headers["Server-Timing"] = server_timing_value
-
-    return response
+        response.headers["X-Response-Time"] = f"{duration_ms:.1f}ms"
+        response.headers["X-DB-Query-Count"] = str(metrics.query_count)
+        response.headers["Timing-Allow-Origin"] = "*"
+        timing_parts = [
+            f"app;dur={duration_ms:.1f}",
+            f"db;dur={metrics.database_ms:.1f}",
+            f'sql;desc="{metrics.query_count} queries"',
+            f'profile_cache;desc="{metrics.profile_cache}"',
+        ]
+        existing_server_timing = response.headers.get("Server-Timing")
+        if existing_server_timing:
+            timing_parts.insert(0, existing_server_timing)
+        response.headers["Server-Timing"] = ", ".join(timing_parts)
+        return response
+    finally:
+        end_request_metrics(metrics_token)
 
 
 app.include_router(health.router)

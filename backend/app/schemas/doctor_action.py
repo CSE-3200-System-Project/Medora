@@ -101,3 +101,7 @@ class DoctorActionStatsResponse(BaseModel):
     completion_rate: float
     revenue_trend: list[DoctorActionRevenuePoint]
     demographic_breakdown: list[DoctorActionDemographicPoint]
+    todays_appointments: int = 0
+    total_patients: int = 0
+    pending_reviews: int = 0
+    appointment_completion_rate: float = 0.0

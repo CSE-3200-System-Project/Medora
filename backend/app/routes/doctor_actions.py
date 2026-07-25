@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
-from sqlalchemy import and_, func, select
+from sqlalchemy import and_, distinct, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db_concurrency import gather_reads
@@ -205,36 +205,19 @@ async def get_doctor_action_stats(
     today_utc = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
 
     # ─── Single aggregate query: action totals ──
-    action_stats_stmt = (
-        select(
-            func.count(DoctorAction.id).label("total_actions"),
-            func.count(DoctorAction.id)
-            .filter(DoctorAction.status == DoctorActionStatus.COMPLETED)
-            .label("completed_actions"),
-            func.count(DoctorAction.id)
-            .filter(
-                DoctorAction.status.in_(
-                    [DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]
-                )
+    action_summary_cols = [
+        func.count(DoctorAction.id).label("total_actions"),
+        func.count(DoctorAction.id)
+        .filter(DoctorAction.status == DoctorActionStatus.COMPLETED)
+        .label("completed_actions"),
+        func.count(DoctorAction.id)
+        .filter(
+            DoctorAction.status.in_(
+                [DoctorActionStatus.PENDING, DoctorActionStatus.IN_PROGRESS]
             )
-            .label("pending_total"),
         )
-        .select_from(DoctorAction)
-        .where(DoctorAction.doctor_id == user.id)
-    )
-
-    monthly_revenue_stmt = (
-        select(
-            func.coalesce(
-                func.sum(Appointment.revenue_amount).filter(
-                    Appointment.status == AppointmentStatus.COMPLETED,
-                    Appointment.completed_at >= month_start,
-                    Appointment.completed_at < month_end,
-                ),
-                0.0,
-            )
-        ).where(Appointment.doctor_id == user.id)
-    )
+        .label("pending_total"),
+    ]
 
     # Top-N pending items (unchanged — single query already).
     pending_stmt = (
@@ -270,8 +253,6 @@ async def get_doctor_action_stats(
             )
             .label(f"noshow_{i}")
         )
-    appt_stmt = select(*appt_cols).where(Appointment.doctor_id == user.id)
-
     # ─── Weekly action metrics: 8 queries → 1 ─────────────────────────────────
     action_cols = []
     for i in range(4):
@@ -300,7 +281,7 @@ async def get_doctor_action_stats(
             .label(f"overdue_{i}")
         )
     action_stmt = (
-        select(*action_cols)
+        select(*action_summary_cols, *action_cols)
         .select_from(DoctorAction)
         .where(DoctorAction.doctor_id == user.id)
     )
@@ -319,7 +300,33 @@ async def get_doctor_action_stats(
                 0.0,
             ).label(f"revenue_{i}")
         )
-    revenue_stmt = select(*revenue_cols).where(Appointment.doctor_id == user.id)
+    day_end = today_utc + timedelta(days=1)
+    appointment_stmt = select(
+        func.coalesce(
+            func.sum(Appointment.revenue_amount).filter(
+                Appointment.status == AppointmentStatus.COMPLETED,
+                Appointment.completed_at >= month_start,
+                Appointment.completed_at < month_end,
+            ),
+            0.0,
+        ).label("monthly_revenue"),
+        func.count(Appointment.id)
+        .filter(
+            Appointment.appointment_date >= today_utc,
+            Appointment.appointment_date < day_end,
+        )
+        .label("todays_appointments"),
+        func.count(Appointment.id)
+        .filter(Appointment.status == AppointmentStatus.PENDING)
+        .label("pending_reviews"),
+        func.count(distinct(Appointment.patient_id)).label("total_patients"),
+        func.count(Appointment.id).label("total_appointments"),
+        func.count(Appointment.id)
+        .filter(Appointment.status == AppointmentStatus.COMPLETED)
+        .label("completed_appointments"),
+        *appt_cols,
+        *revenue_cols,
+    ).where(Appointment.doctor_id == user.id)
 
     patient_profiles_stmt = (
         select(PatientProfile.date_of_birth)
@@ -331,12 +338,6 @@ async def get_doctor_action_stats(
     def _load_row(statement):
         async def run(session: AsyncSession):
             return (await session.execute(statement)).one()
-
-        return run
-
-    def _load_scalar(statement):
-        async def run(session: AsyncSession):
-            return (await session.execute(statement)).scalar_one()
 
         return run
 
@@ -353,28 +354,22 @@ async def get_doctor_action_stats(
         return run
 
     (
-        action_stats_row,
-        monthly_revenue,
-        pending_rows,
-        appt_row,
         action_row,
-        revenue_row,
+        pending_rows,
+        appointment_row,
         patient_profile_rows,
     ) = await gather_reads(
-        _load_row(action_stats_stmt),
-        _load_scalar(monthly_revenue_stmt),
-        _load_scalars(pending_stmt),
-        _load_row(appt_stmt),
         _load_row(action_stmt),
-        _load_row(revenue_stmt),
+        _load_scalars(pending_stmt),
+        _load_row(appointment_stmt),
         _load_rows(patient_profiles_stmt),
-        max_concurrency=3,
+        max_concurrency=4,
     )
 
-    monthly_revenue = float(monthly_revenue or 0.0)
-    total_actions = int(action_stats_row.total_actions or 0)
-    completed_actions = int(action_stats_row.completed_actions or 0)
-    pending_actions_total = int(action_stats_row.pending_total or 0)
+    monthly_revenue = float(appointment_row.monthly_revenue or 0.0)
+    total_actions = int(action_row.total_actions or 0)
+    completed_actions = int(action_row.completed_actions or 0)
+    pending_actions_total = int(action_row.pending_total or 0)
     completion_rate = (
         round((completed_actions / total_actions) * 100.0, 1)
         if total_actions
@@ -395,11 +390,11 @@ async def get_doctor_action_stats(
     weekly_wsi: list[DoctorActionWeeklyWsiPoint] = []
     revenue_trend: list[DoctorActionRevenuePoint] = []
     for index in range(4):
-        appts = int(getattr(appt_row, f"appts_{index}", 0) or 0)
-        no_shows = int(getattr(appt_row, f"noshow_{index}", 0) or 0)
+        appts = int(getattr(appointment_row, f"appts_{index}", 0) or 0)
+        no_shows = int(getattr(appointment_row, f"noshow_{index}", 0) or 0)
         pending_tasks = int(getattr(action_row, f"pending_{index}", 0) or 0)
         overdue_tasks = int(getattr(action_row, f"overdue_{index}", 0) or 0)
-        revenue = float(getattr(revenue_row, f"revenue_{index}", 0.0) or 0.0)
+        revenue = float(getattr(appointment_row, f"revenue_{index}", 0.0) or 0.0)
         weekly_wsi.append(
             DoctorActionWeeklyWsiPoint(
                 week=f"Week {4 - index:02d}",
@@ -459,6 +454,21 @@ async def get_doctor_action_stats(
         completion_rate=completion_rate,
         revenue_trend=revenue_trend,
         demographic_breakdown=demographics,
+        todays_appointments=int(appointment_row.todays_appointments or 0),
+        total_patients=int(appointment_row.total_patients or 0),
+        pending_reviews=int(appointment_row.pending_reviews or 0),
+        appointment_completion_rate=(
+            round(
+                (
+                    int(appointment_row.completed_appointments or 0)
+                    / int(appointment_row.total_appointments or 1)
+                )
+                * 100.0,
+                1,
+            )
+            if int(appointment_row.total_appointments or 0) > 0
+            else 0.0
+        ),
     )
     body_for_etag = payload.model_dump(mode="json")
     etag = build_etag(body_for_etag)

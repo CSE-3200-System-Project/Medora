@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, update, and_
+from sqlalchemy.orm import aliased
 from app.core.dependencies import get_db
 from app.routes.auth import get_current_user_token
 from app.db.models.notification import Notification, NotificationType, NotificationPriority, PushSubscription
@@ -143,32 +144,53 @@ async def get_notifications(
     if not include_archived:
         base_conditions.append(Notification.is_archived == False)
 
-    # Get notifications
+    unread_notification = aliased(Notification)
+    unread_count_subquery = (
+        select(func.count(unread_notification.id))
+        .where(
+            unread_notification.user_id == user_id,
+            unread_notification.is_read == False,
+            unread_notification.is_archived == False,
+        )
+        .scalar_subquery()
+    )
+
+    # Windowed total and scalar unread count replace two follow-up queries.
     query = (
-        select(Notification)
+        select(
+            Notification,
+            func.count(Notification.id).over().label("total_count"),
+            unread_count_subquery.label("unread_count"),
+        )
         .where(and_(*base_conditions))
         .order_by(Notification.created_at.desc())
         .limit(limit)
         .offset(offset)
     )
-    result = await db.execute(query)
-    notifications = result.scalars().all()
-
-    # Get total count
-    count_query = select(func.count(Notification.id)).where(and_(*base_conditions))
-    total_result = await db.execute(count_query)
-    total = total_result.scalar() or 0
-
-    # Get unread count
-    unread_query = select(func.count(Notification.id)).where(
-        and_(
-            Notification.user_id == user_id,
-            Notification.is_read == False,
-            Notification.is_archived == False,
-        )
-    )
-    unread_result = await db.execute(unread_query)
-    unread_count = unread_result.scalar() or 0
+    rows = (await db.execute(query)).all()
+    notifications = [row[0] for row in rows]
+    if rows:
+        total = int(rows[0].total_count or 0)
+        unread_count = int(rows[0].unread_count or 0)
+    else:
+        counts = (
+            await db.execute(
+                select(
+                    func.count(Notification.id)
+                    .filter(and_(*base_conditions))
+                    .label("total_count"),
+                    func.count(Notification.id)
+                    .filter(
+                        Notification.user_id == user_id,
+                        Notification.is_read == False,
+                        Notification.is_archived == False,
+                    )
+                    .label("unread_count"),
+                )
+            )
+        ).one()
+        total = int(counts.total_count or 0)
+        unread_count = int(counts.unread_count or 0)
 
     items = [
         NotificationResponse(

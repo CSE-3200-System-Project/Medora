@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
 from app.core.dependencies import get_db, require_role, resolve_profile
+from app.core.db_concurrency import gather_reads
+from app.core.auth_profile_cache import invalidate_auth_profile
 from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
 from app.routes.auth import get_current_user_token
 from app.db.models.patient import PatientProfile
@@ -348,6 +350,7 @@ async def update_patient_onboarding(
                 )
         
         await db.commit()
+        invalidate_auth_profile(user_id)
         return {"message": "Profile updated successfully"}
     except Exception as e:
         await db.rollback()
@@ -749,6 +752,7 @@ async def update_doctor_onboarding(
                 # Just log the error and continue
         
         await db.commit()
+        invalidate_auth_profile(user_id)
         # Debug: show updated speciality_id
         updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))
         updated_doc = updated.scalar_one_or_none()
@@ -772,6 +776,7 @@ async def complete_onboarding(
         .values(onboarding_completed=True)
     )
     await db.commit()
+    invalidate_auth_profile(user_id)
     return {"message": "Onboarding completed"}
 
 
@@ -1123,11 +1128,31 @@ async def get_doctor_onboarding_data(
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
     
-    # Get doctor profile
-    doctor_result = await db.execute(
-        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
+    async def _load_doctor_and_speciality(session: AsyncSession):
+        return (
+            await session.execute(
+                select(DoctorProfile, Speciality)
+                .outerjoin(Speciality, Speciality.id == DoctorProfile.speciality_id)
+                .where(DoctorProfile.profile_id == user_id)
+            )
+        ).one_or_none()
+
+    async def _load_locations(session: AsyncSession):
+        return (
+            await session.execute(
+                select(DoctorLocation)
+                .where(DoctorLocation.doctor_id == user_id)
+                .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
+            )
+        ).scalars().all()
+
+    doctor_row, location_rows = await gather_reads(
+        _load_doctor_and_speciality,
+        _load_locations,
+        max_concurrency=2,
     )
-    doctor = doctor_result.scalar()
+    doctor = doctor_row[0] if doctor_row else None
+    speciality = doctor_row[1] if doctor_row else None
     avatar_url = await _ensure_doctor_avatar(db, user_id, doctor)
     
     # Build response with all fields for pre-fill
@@ -1141,17 +1166,6 @@ async def get_doctor_onboarding_data(
     }
     
     if doctor:
-        location_rows = (
-            (
-                await db.execute(
-                    select(DoctorLocation)
-                    .where(DoctorLocation.doctor_id == user_id)
-                    .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
-                )
-            )
-            .scalars()
-            .all()
-        )
         practice_locations = [
             {
                 "id": location.id,
@@ -1172,13 +1186,7 @@ async def get_doctor_onboarding_data(
             for location in location_rows
         ]
 
-        # Resolve speciality name if a speciality_id is set
-        speciality_name = None
-        if getattr(doctor, 'speciality_id', None):
-            spec_res = await db.execute(select(Speciality).where(Speciality.id == doctor.speciality_id))
-            spec_row = spec_res.scalar_one_or_none()
-            if spec_row:
-                speciality_name = spec_row.name
+        speciality_name = speciality.name if speciality else None
 
         response.update({
             # Personal Identity
@@ -1313,11 +1321,31 @@ async def get_doctor_profile(
         "Only doctors can access the doctor profile endpoint",
     )
     
-    # Get doctor profile
-    doctor_result = await db.execute(
-        select(DoctorProfile).where(DoctorProfile.profile_id == user_id)
+    async def _load_doctor_and_speciality(session: AsyncSession):
+        return (
+            await session.execute(
+                select(DoctorProfile, Speciality)
+                .outerjoin(Speciality, Speciality.id == DoctorProfile.speciality_id)
+                .where(DoctorProfile.profile_id == user_id)
+            )
+        ).one_or_none()
+
+    async def _load_locations(session: AsyncSession):
+        return (
+            await session.execute(
+                select(DoctorLocation)
+                .where(DoctorLocation.doctor_id == user_id)
+                .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
+            )
+        ).scalars().all()
+
+    doctor_row, location_rows = await gather_reads(
+        _load_doctor_and_speciality,
+        _load_locations,
+        max_concurrency=2,
     )
-    doctor = doctor_result.scalar()
+    doctor = doctor_row[0] if doctor_row else None
+    speciality = doctor_row[1] if doctor_row else None
     avatar_url = await _ensure_doctor_avatar(db, user_id, doctor)
     
     # Build flattened response
@@ -1334,17 +1362,6 @@ async def get_doctor_profile(
     }
     
     if doctor:
-        location_rows = (
-            (
-                await db.execute(
-                    select(DoctorLocation)
-                    .where(DoctorLocation.doctor_id == user_id)
-                    .order_by(DoctorLocation.is_primary.desc(), DoctorLocation.created_at.asc())
-                )
-            )
-            .scalars()
-            .all()
-        )
         practice_locations = [
             {
                 "id": location.id,
@@ -1365,13 +1382,7 @@ async def get_doctor_profile(
             for location in location_rows
         ]
 
-        # Resolve speciality name if `speciality_id` is present
-        speciality_name = None
-        if getattr(doctor, 'speciality_id', None):
-            spec_res = await db.execute(select(Speciality).where(Speciality.id == doctor.speciality_id))
-            spec_row = spec_res.scalar_one_or_none()
-            if spec_row:
-                speciality_name = spec_row.name
+        speciality_name = speciality.name if speciality else None
 
         response.update({
             # Personal Identity
@@ -1560,6 +1571,7 @@ async def update_doctor_profile(
             )
 
         await db.commit()
+        invalidate_auth_profile(user_id)
         
         # Debug: show updated speciality_id
         updated = await db.execute(select(DoctorProfile).where(DoctorProfile.profile_id == user_id))

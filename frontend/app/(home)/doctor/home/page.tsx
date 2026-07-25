@@ -12,22 +12,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OnboardingBanner } from "@/components/onboarding/onboarding-banner";
 import { AppBackground } from "@/components/ui/app-background";
-import { getDoctorAppointmentStats } from "@/lib/appointment-actions";
-import { getDoctorProfile } from "@/lib/auth-actions";
 import { getDoctorActionStats } from "@/lib/doctor-actions";
+import { getCachedCurrentUser } from "@/lib/current-user";
 import {
   DoctorWorkloadStressChart,
   type WsiWeekPoint,
 } from "@/components/doctor/doctor-workload-stress-chart";
 import { DoctorRevenueBillingChart } from "@/components/doctor/doctor-revenue-billing-chart";
-
-type DoctorProfile = {
-  last_name?: string | null;
-  bmdc_verified?: boolean;
-  locations?: Array<{
-    time_slots_needs_review?: boolean;
-  }>;
-};
 
 type DoctorStats = {
   todays_appointments: number;
@@ -86,14 +77,10 @@ export default async function DoctorHomePage() {
   const cookieStore = await cookies();
   const showOnboardingBanner = cookieStore.get("onboarding_completed")?.value !== "true";
 
-  const [doctorData, statsData, actionStatsData] = await Promise.all([
-    getDoctorProfile().catch(() => null),
-    getDoctorAppointmentStats().catch(() => null),
+  const [currentUser, actionStatsData] = await Promise.all([
+    getCachedCurrentUser().catch(() => null),
     getDoctorActionStats().catch(() => null),
   ]);
-
-  const doctor = doctorData as DoctorProfile | null;
-  const stats: DoctorStats = { ...DEFAULT_STATS, ...(statsData ?? {}) };
   const actionStats = actionStatsData ?? {
     monthly_revenue: 0,
     weekly_wsi: [],
@@ -102,9 +89,20 @@ export default async function DoctorHomePage() {
     completion_rate: 0,
     revenue_trend: [],
     demographic_breakdown: [],
+    todays_appointments: 0,
+    total_patients: 0,
+    pending_reviews: 0,
+    appointment_completion_rate: 0,
+  };
+  const stats: DoctorStats = {
+    ...DEFAULT_STATS,
+    todays_appointments: actionStats.todays_appointments,
+    total_patients: actionStats.total_patients,
+    pending_reviews: actionStats.pending_reviews,
+    completion_rate: actionStats.appointment_completion_rate,
   };
 
-  if (!doctor) {
+  if (!currentUser) {
     return (
       <AppBackground className="container-padding">
         <Navbar />
@@ -120,9 +118,7 @@ export default async function DoctorHomePage() {
     );
   }
 
-  const doctorProfileNeedsScheduleReview = Boolean(
-    doctor.locations?.some((location) => Boolean(location?.time_slots_needs_review)),
-  );
+  const doctorProfileNeedsScheduleReview = false;
 
   const wsiWeeklyData: WsiWeekPoint[] = actionStats.weekly_wsi.map((item) => ({
     week: item.week,
@@ -197,7 +193,7 @@ export default async function DoctorHomePage() {
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
-              Welcome back, Dr. {doctor.last_name ?? "Doctor"}!
+              Welcome back, Dr. {currentUser.last_name ?? "Doctor"}!
             </h1>
             <p className="text-muted-foreground text-lg">
               Here&apos;s what&apos;s happening with your practice today

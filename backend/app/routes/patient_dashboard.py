@@ -2,8 +2,9 @@ from datetime import date, datetime, time, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import func, select
+from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import aliased
 
 from app.core.db_concurrency import gather_reads
 from app.core.dependencies import get_db
@@ -197,37 +198,57 @@ async def get_patient_dashboard(
     day_end = day_start + timedelta(days=1)
     trend_days = [day_start.date() - timedelta(days=index) for index in reversed(range(7))]
 
-    # These five reads are mutually independent. Issued in series they cost five
-    # round trips to a remote database; one wave costs roughly one.
-    async def _load_patient_profile(session: AsyncSession):
-        return (
-            await session.execute(
-                select(PatientProfile).where(PatientProfile.profile_id == user.id)
+    # Four independent reads fit in one bounded pool wave. Related objects are
+    # joined into the same statements so there is no enrichment round trip.
+    async def _load_patient_and_metrics(session: AsyncSession):
+        latest_device_metric = aliased(HealthMetric)
+        latest_device_sync = (
+            select(func.max(latest_device_metric.recorded_at))
+            .where(
+                latest_device_metric.user_id == user.id,
+                latest_device_metric.source == HealthMetricSource.DEVICE,
             )
-        ).scalar_one_or_none()
+            .scalar_subquery()
+        )
+        rows = (
+            await session.execute(
+                select(
+                    PatientProfile,
+                    HealthMetric,
+                    latest_device_sync.label("latest_device_sync"),
+                )
+                .outerjoin(
+                    HealthMetric,
+                    and_(
+                        HealthMetric.user_id == PatientProfile.profile_id,
+                        HealthMetric.recorded_at >= day_start,
+                        HealthMetric.recorded_at < day_end,
+                    ),
+                )
+                .where(PatientProfile.profile_id == user.id)
+                .order_by(HealthMetric.recorded_at.desc())
+            )
+        ).all()
+        if not rows:
+            return None, [], None
+        return (
+            rows[0][0],
+            [row[1] for row in rows if row[1] is not None],
+            rows[0][2],
+        )
 
     async def _load_upcoming_appointments(session: AsyncSession):
         return (
             await session.execute(
-                select(Appointment)
+                select(Appointment, Profile, DoctorProfile, Speciality)
+                .outerjoin(Profile, Profile.id == Appointment.doctor_id)
+                .outerjoin(DoctorProfile, DoctorProfile.profile_id == Appointment.doctor_id)
+                .outerjoin(Speciality, Speciality.id == DoctorProfile.speciality_id)
                 .where(Appointment.patient_id == user.id, Appointment.appointment_date >= now)
                 .order_by(Appointment.appointment_date.asc())
                 .limit(5)
             )
-        ).scalars().all()
-
-    async def _load_todays_metrics(session: AsyncSession):
-        return (
-            await session.execute(
-                select(HealthMetric)
-                .where(
-                    HealthMetric.user_id == user.id,
-                    HealthMetric.recorded_at >= day_start,
-                    HealthMetric.recorded_at < day_end,
-                )
-                .order_by(HealthMetric.recorded_at.desc())
-            )
-        ).scalars().all()
+        ).all()
 
     async def _load_medication_reminders(session: AsyncSession):
         return (
@@ -261,48 +282,21 @@ async def get_patient_dashboard(
         ).all()
 
     (
-        patient_profile,
-        upcoming_appts,
-        todays_metrics,
+        patient_and_metrics,
+        upcoming_rows,
         reminders,
         delivery_logs,
     ) = await gather_reads(
-        _load_patient_profile,
+        _load_patient_and_metrics,
         _load_upcoming_appointments,
-        _load_todays_metrics,
         _load_medication_reminders,
         _load_delivery_logs,
-        max_concurrency=5,
+        max_concurrency=4,
     )
-
-    doctor_ids = list({item.doctor_id for item in upcoming_appts})
-    doctor_profiles: dict[str, DoctorProfile] = {}
-    doctor_name_profiles: dict[str, Profile] = {}
-    speciality_map: dict[str, Speciality] = {}
-    if doctor_ids:
-        # Single LEFT JOIN fetches Profile + DoctorProfile + Speciality in one
-        # round-trip instead of three sequential IN queries.
-        doctor_rows = (
-            await db.execute(
-                select(Profile, DoctorProfile, Speciality)
-                .outerjoin(DoctorProfile, DoctorProfile.profile_id == Profile.id)
-                .outerjoin(Speciality, Speciality.id == DoctorProfile.speciality_id)
-                .where(Profile.id.in_(doctor_ids))
-            )
-        ).all()
-        for name_profile, doctor_profile, speciality in doctor_rows:
-            if name_profile is not None:
-                doctor_name_profiles[name_profile.id] = name_profile
-            if doctor_profile is not None:
-                doctor_profiles[doctor_profile.profile_id] = doctor_profile
-            if speciality is not None:
-                speciality_map[speciality.id] = speciality
+    patient_profile, todays_metrics, latest_device_sync = patient_and_metrics
 
     upcoming_appointments = []
-    for item in upcoming_appts:
-        doctor_name_profile = doctor_name_profiles.get(item.doctor_id)
-        doctor_profile = doctor_profiles.get(item.doctor_id)
-        speciality = speciality_map.get(doctor_profile.speciality_id) if doctor_profile and doctor_profile.speciality_id else None
+    for item, doctor_name_profile, doctor_profile, speciality in upcoming_rows:
         upcoming_appointments.append(
             PatientDashboardAppointment(
                 id=item.id,
@@ -652,19 +646,10 @@ async def get_patient_dashboard(
             icon="CalendarClock",
         ))
 
-    latest_device_metric = (
-        await db.execute(
-            select(HealthMetric)
-            .where(HealthMetric.user_id == user.id, HealthMetric.source == HealthMetricSource.DEVICE)
-            .order_by(HealthMetric.recorded_at.desc())
-            .limit(1)
-        )
-    ).scalar_one_or_none()
-
     device_status = PatientDashboardDeviceStatus(
         title="Health Device Sync",
-        last_synced=(latest_device_metric.recorded_at.isoformat() if latest_device_metric else "No device sync yet"),
-        connected=latest_device_metric is not None,
+        last_synced=(latest_device_sync.isoformat() if latest_device_sync else "No device sync yet"),
+        connected=latest_device_sync is not None,
     )
 
     return PatientDashboardResponse(

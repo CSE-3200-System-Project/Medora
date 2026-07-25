@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import distinct, func, select, and_
+from sqlalchemy import distinct, func, literal, select, and_
+from sqlalchemy.orm import aliased, load_only
 from app.core.db_concurrency import gather_reads
 from app.core.dependencies import get_db, resolve_profile
 from app.core.http_cache import build_etag, is_not_modified, set_cache_headers, not_modified_response
@@ -355,25 +356,54 @@ async def get_my_appointments(
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
         
-    query = select(Appointment).distinct()
-
     # Handle uppercase role values from database
     role_str = str(profile.role).upper()
     if "PATIENT" in role_str:
         # Patients see all of their own appointments, including PENDING_ADMIN_REVIEW
         # so they can see that their request is awaiting approval.
-        query = query.where(Appointment.patient_id == user_id)
+        role_filters = (Appointment.patient_id == user_id,)
+        patient_clinical_column = literal(None).label("patient_clinical")
     elif "DOCTOR" in role_str:
         # Doctors only see appointments after admin has approved them.
-        query = query.where(
+        role_filters = (
             Appointment.doctor_id == user_id,
             Appointment.status != AppointmentStatus.PENDING_ADMIN_REVIEW,
         )
+        patient_clinical_column = PatientProfile
     else: # Admin or other
         # Admin might want to see all? For now restrict.
         return []
-        
-    query = query.order_by(Appointment.appointment_date.desc())
+
+    patient_profile_row = aliased(Profile, name="appointment_patient")
+    doctor_profile_row = aliased(Profile, name="appointment_doctor")
+    query = (
+        select(
+            Appointment,
+            patient_profile_row,
+            doctor_profile_row,
+            patient_clinical_column,
+        )
+        .outerjoin(patient_profile_row, patient_profile_row.id == Appointment.patient_id)
+        .outerjoin(doctor_profile_row, doctor_profile_row.id == Appointment.doctor_id)
+    )
+    if "DOCTOR" in role_str:
+        query = query.outerjoin(
+            PatientProfile,
+            PatientProfile.profile_id == Appointment.patient_id,
+        ).options(
+            load_only(
+                PatientProfile.profile_id,
+                PatientProfile.date_of_birth,
+                PatientProfile.gender,
+                PatientProfile.blood_group,
+                PatientProfile.has_diabetes,
+                PatientProfile.has_hypertension,
+                PatientProfile.has_heart_disease,
+                PatientProfile.has_asthma,
+                PatientProfile.has_kidney_disease,
+            )
+        )
+    query = query.where(*role_filters).order_by(Appointment.appointment_date.desc())
 
     # Resolve limit/offset from canonical or alias params
     effective_limit = limit if limit is not None else (size if size is not None else None)
@@ -381,7 +411,7 @@ async def get_my_appointments(
 
     # The total count and the page itself are independent — one wave instead of
     # two serial round trips.
-    count_query = select(func.count()).select_from(query.subquery())
+    count_query = select(func.count(Appointment.id)).where(*role_filters)
     paged_query = (
         query.limit(effective_limit).offset(effective_offset)
         if effective_limit is not None
@@ -392,11 +422,11 @@ async def get_my_appointments(
         return (await session.execute(count_query)).scalar() or 0
 
     async def _load_page(session: AsyncSession):
-        return (await session.execute(paged_query)).scalars().all()
+        return (await session.execute(paged_query)).all()
 
-    total, appointments = await gather_reads(_load_total, _load_page, max_concurrency=2)
+    total, appointment_rows = await gather_reads(_load_total, _load_page, max_concurrency=2)
 
-    if not appointments:
+    if not appointment_rows:
         eff_lim = effective_limit or 0
         return {
             "appointments": [],
@@ -409,43 +439,28 @@ async def get_my_appointments(
             "page_size": eff_lim,
         }
 
-    # Three independent enrichment lookups over the fetched page.
-    appointment_ids = [appointment.id for appointment in appointments]
-    related_profile_ids = {appt.patient_id for appt in appointments} | {appt.doctor_id for appt in appointments}
-
-    async def _load_pending_reschedules(session: AsyncSession):
-        return await _latest_pending_reschedules_by_appointment(session, appointment_ids)
-
-    async def _load_related_profiles(session: AsyncSession):
-        rows = await session.execute(select(Profile).where(Profile.id.in_(related_profile_ids)))
-        return {row.id: row for row in rows.scalars().all()}
-
-    async def _load_patient_profiles(session: AsyncSession) -> dict[str, PatientProfile]:
-        if "DOCTOR" not in role_str:
-            return {}
-        patient_ids = {appt.patient_id for appt in appointments}
-        rows = await session.execute(
-            select(PatientProfile).where(PatientProfile.profile_id.in_(patient_ids))
+    appointments = [row[0] for row in appointment_rows]
+    page_data = {
+        row[0].id: (
+            row[1],
+            row[2],
+            row[3] if "DOCTOR" in role_str else None,
         )
-        return {row.profile_id: row for row in rows.scalars().all()}
+        for row in appointment_rows
+    }
 
-    (
-        latest_pending_reschedules,
-        profiles_by_id,
-        patient_profiles_by_id,
-    ) = await gather_reads(
-        _load_pending_reschedules,
-        _load_related_profiles,
-        _load_patient_profiles,
-        max_concurrency=3,
+    # Reschedule state is the only remaining enrichment round trip; patient,
+    # doctor, and clinical summary fields came from the paged JOIN above.
+    appointment_ids = [appointment.id for appointment in appointments]
+    latest_pending_reschedules = await _latest_pending_reschedules_by_appointment(
+        db,
+        appointment_ids,
     )
 
     out = []
     for appt in appointments:
         pending_reschedule = latest_pending_reschedules.get(appt.id)
-        patient = profiles_by_id.get(appt.patient_id)
-        doctor = profiles_by_id.get(appt.doctor_id)
-        patient_profile = patient_profiles_by_id.get(appt.patient_id)
+        patient, doctor, patient_profile = page_data[appt.id]
         # Keep slot_time as a proper time object to satisfy AppointmentResponse validation.
         slot_time = appt.slot_time
         if slot_time is None and appt.notes:
@@ -1002,9 +1017,16 @@ async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_curr
 
     now = datetime.now(timezone.utc)
 
-    query = select(Appointment).where(
-        Appointment.appointment_date >= now,
-        Appointment.status.notin_(list(UPCOMING_EXCLUDED_STATUSES)),
+    upcoming_patient = aliased(Profile, name="upcoming_patient")
+    upcoming_doctor = aliased(Profile, name="upcoming_doctor")
+    query = (
+        select(Appointment, upcoming_patient, upcoming_doctor)
+        .outerjoin(upcoming_patient, upcoming_patient.id == Appointment.patient_id)
+        .outerjoin(upcoming_doctor, upcoming_doctor.id == Appointment.doctor_id)
+        .where(
+            Appointment.appointment_date >= now,
+            Appointment.status.notin_(list(UPCOMING_EXCLUDED_STATUSES)),
+        )
     )
     role_str = str(profile.role).upper()
     if "PATIENT" in role_str:
@@ -1014,20 +1036,12 @@ async def get_upcoming_appointments(limit: int = 3, user: any = Depends(get_curr
 
     query = query.order_by(Appointment.appointment_date.asc()).limit(limit)
 
-    result = await db.execute(query)
-    appts = result.scalars().all()
-    if not appts:
+    rows = (await db.execute(query)).all()
+    if not rows:
         return []
 
-    related_profile_ids = {appt.patient_id for appt in appts} | {appt.doctor_id for appt in appts}
-    profile_rows = await db.execute(select(Profile).where(Profile.id.in_(related_profile_ids)))
-    profiles_by_id = {row.id: row for row in profile_rows.scalars().all()}
-
     out = []
-    for appt in appts:
-        patient = profiles_by_id.get(appt.patient_id)
-        doctor = profiles_by_id.get(appt.doctor_id)
-
+    for appt, patient, doctor in rows:
         out.append({
             "id": appt.id,
             "appointment_date": appt.appointment_date.isoformat(),
