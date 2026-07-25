@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import func, select, update, desc
 from sqlalchemy.orm import aliased
 from app.core.dependencies import get_db, resolve_profile
+from app.core.auth_profile_cache import invalidate_auth_profile
 from app.routes.auth import get_current_user_token
 from app.db.models.profile import Profile
 from app.db.models.doctor import DoctorProfile
@@ -1552,6 +1553,7 @@ async def ban_user(
             .values(status=AccountStatus.banned, updated_at=datetime.utcnow())
         )
         await db.commit()
+        invalidate_auth_profile(user_id)
         
         return {
             "status": "success",
@@ -1588,6 +1590,7 @@ async def unban_user(
             .values(status=AccountStatus.active, updated_at=datetime.utcnow())
         )
         await db.commit()
+        invalidate_auth_profile(user_id)
         
         return {
             "status": "success",

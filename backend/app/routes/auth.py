@@ -11,30 +11,18 @@ from app.db.models.patient import PatientProfile
 from app.db.models.doctor import DoctorProfile 
 from app.db.models.enums import UserRole, VerificationStatus, AccountStatus
 from app.core.avatar_defaults import generate_default_avatar_url
-from sqlalchemy import select
+from sqlalchemy import select, update
 import os
 from types import SimpleNamespace
 from app.core.security import verify_jwt
+from app.core.auth_profile_cache import (
+    get_auth_profile,
+    invalidate_auth_profile,
+)
+from app.core.performance_metrics import mark_profile_cache
 
 router = APIRouter()
 
-
-async def _resolve_user_avatar_url(db: AsyncSession, user_id: str, role: UserRole | None) -> str:
-    if role == UserRole.PATIENT:
-        result = await db.execute(
-            select(PatientProfile.profile_photo_url).where(PatientProfile.profile_id == user_id)
-        )
-        photo_url = result.scalar_one_or_none()
-        return photo_url or generate_default_avatar_url(user_id)
-
-    if role == UserRole.DOCTOR:
-        result = await db.execute(
-            select(DoctorProfile.profile_photo_url).where(DoctorProfile.profile_id == user_id)
-        )
-        photo_url = result.scalar_one_or_none()
-        return photo_url or generate_default_avatar_url(user_id)
-
-    return generate_default_avatar_url(user_id)
 
 class AuthCode(BaseModel):
     code: str
@@ -160,7 +148,7 @@ async def signup_doctor(user_data: DoctorSignup, db: AsyncSession = Depends(get_
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/login")
-async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
+async def login(user_data: UserLogin):
     try:
         # Avatar backfill moved to startup lifespan — don't block user login.
         # supabase-py is sync; run in a thread so we don't block the event loop.
@@ -172,16 +160,19 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
         if not auth_response.user:
             raise HTTPException(status_code=401, detail="Invalid credentials")
         
-        # Check if user is banned
-        result = await db.execute(
-            select(Profile).where(Profile.id == auth_response.user.id)
+        # Force a fresh, joined profile snapshot for the ban check, then reuse
+        # it for the first burst of authenticated page requests.
+        invalidate_auth_profile(auth_response.user.id)
+        profile, _ = await get_auth_profile(auth_response.user.id)
+        avatar_url = (
+            profile.profile_photo_url
+            if profile and profile.profile_photo_url
+            else generate_default_avatar_url(auth_response.user.id)
         )
-        profile = result.scalar_one_or_none()
-        avatar_url = await _resolve_user_avatar_url(db, auth_response.user.id, profile.role if profile else None)
         
         if profile and profile.status == AccountStatus.banned:
             # Sign out the user immediately
-            supabase.auth.sign_out()
+            await asyncio.to_thread(supabase.auth.sign_out)
             raise HTTPException(
                 status_code=403, 
                 detail={
@@ -190,7 +181,7 @@ async def login(user_data: UserLogin, db: AsyncSession = Depends(get_db)):
                     "reason": profile.ban_reason or "No reason provided",
                 },
             )
-        
+
         # Return profile info including verification status
         return {
             "session": auth_response.session,
@@ -238,11 +229,10 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
     except Exception:
         raise HTTPException(status_code=401, detail="Token verification failed")
 
-    # Load the profile once and attach it to `user` so downstream role-guards
-    # and handlers don't have to re-query it. This is THE hot query — it runs
-    # on every authenticated request in the system.
-    result = await db.execute(select(Profile).where(Profile.id == user.id))
-    profile = result.scalar_one_or_none()
+    # Reuse one identity snapshot across the short burst of API requests made
+    # by a page so downstream role guards do not repeat the hottest query.
+    profile, profile_cache_hit = await get_auth_profile(user.id)
+    mark_profile_cache(profile_cache_hit)
 
     if profile and profile.status == AccountStatus.banned:
         raise HTTPException(
@@ -254,13 +244,11 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
             },
         )
 
-    # The authentication SELECT starts an implicit transaction. End it before
-    # entering the route so this request does not pin a pooled connection while
-    # independent read branches use their own sessions. expire_on_commit=False
-    # keeps the attached profile available to role checks and handlers.
-    await db.commit()
-
+    # The cache loader owns its short database session, so this route session
+    # remains available to route handlers without holding a connection.
     user.profile = profile
+    user.profile_photo_url = getattr(profile, "profile_photo_url", None)
+    user.profile_cache_hit = profile_cache_hit
     return user
 
 @router.get("/me")
@@ -287,12 +275,18 @@ async def get_my_profile(
     if email_verified and profile.verification_status == VerificationStatus.unverified:
         new_status = VerificationStatus.verified if profile.role == UserRole.PATIENT else VerificationStatus.pending
 
-        # Mutating the loaded instance lets the session flush the UPDATE and
-        # keeps the object current, replacing a separate UPDATE + re-SELECT.
-        profile.verification_status = new_status
+        # The cached profile is a detached snapshot, so persist the rare
+        # verification transition explicitly and invalidate that snapshot.
+        await db.execute(
+            update(Profile)
+            .where(Profile.id == user_id)
+            .values(verification_status=new_status)
+        )
         await db.commit()
+        profile.verification_status = new_status
+        invalidate_auth_profile(user_id)
 
-    avatar_url = await _resolve_user_avatar_url(db, user_id, profile.role if profile else None)
+    avatar_url = user.profile_photo_url or generate_default_avatar_url(user_id)
 
     return {
         "id": profile.id,

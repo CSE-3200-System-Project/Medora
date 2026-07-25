@@ -65,6 +65,10 @@ export type DoctorActionStats = {
   completion_rate: number;
   revenue_trend: Array<{ week: string; revenue: number }>;
   demographic_breakdown: Array<{ range: string; value: number }>;
+  todays_appointments: number;
+  total_patients: number;
+  pending_reviews: number;
+  appointment_completion_rate: number;
 };
 
 export async function createDoctorAction(input: {

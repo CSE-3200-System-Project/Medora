@@ -63,10 +63,13 @@ class Settings(BaseSettings):
     DB_POOL_TIMEOUT: int = 10
     DB_POOL_RECYCLE: int = 300
     DB_POOL_PRE_PING: bool = False
-    DB_READ_CONCURRENCY: int = 3
+    DB_READ_CONCURRENCY: int = 4
     DB_ECHO: bool = False
 
     PERF_API_CACHE_TTL: int = 60
+    PERF_AUTH_PROFILE_CACHE_TTL: int = 15
+    PERF_AUTH_PROFILE_CACHE_MAX_ENTRIES: int = 4096
+    PERF_GZIP_MINIMUM_SIZE: int = 1000
     PERF_ENABLE_SERVER_DATA_PATH: bool = True
     PERF_STRICT_MOBILE_ANIM: bool = True
 

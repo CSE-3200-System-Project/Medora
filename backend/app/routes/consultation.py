@@ -11,10 +11,11 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select, func, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import defer, selectinload
 from pydantic import ValidationError
 
 from app.core.dependencies import get_db, resolve_profile
+from app.core.db_concurrency import gather_reads
 from app.core.patient_reference import (
     patient_ref_from_uuid,
     resolve_doctor_patient_identifier,
@@ -179,6 +180,10 @@ def build_prescription_response(
     prescription: Prescription,
     doctor_profile: Optional[Profile] = None,
     include_snapshot: bool = False,
+    include_rendered: bool = True,
+    medications: Optional[list[MedicationPrescription]] = None,
+    tests: Optional[list[TestPrescription]] = None,
+    surgeries: Optional[list[SurgeryRecommendation]] = None,
 ) -> dict:
     """Build prescription response with all items."""
     response = {
@@ -195,8 +200,12 @@ def build_prescription_response(
         "accepted_at": prescription.accepted_at,
         "rejected_at": prescription.rejected_at,
         "added_to_history": prescription.added_to_history,
-        "rendered_prescription_html": prescription.rendered_prescription_html,
-        "rendered_prescription_generated_at": prescription.rendered_prescription_generated_at,
+        "rendered_prescription_html": (
+            prescription.rendered_prescription_html if include_rendered else None
+        ),
+        "rendered_prescription_generated_at": (
+            prescription.rendered_prescription_generated_at if include_rendered else None
+        ),
         "medications": [],
         "tests": [],
         "surgeries": [],
@@ -213,8 +222,9 @@ def build_prescription_response(
         response["doctor_specialization"] = None  # Not available in this context
     
     # Add medications
-    if prescription.medications:
-        for med in prescription.medications:
+    medication_items = medications if medications is not None else prescription.medications
+    if medication_items:
+        for med in medication_items:
             response["medications"].append({
                 "id": med.id,
                 "prescription_id": med.prescription_id,
@@ -246,8 +256,9 @@ def build_prescription_response(
             })
     
     # Add tests
-    if prescription.tests:
-        for test in prescription.tests:
+    test_items = tests if tests is not None else prescription.tests
+    if test_items:
+        for test in test_items:
             response["tests"].append({
                 "id": test.id,
                 "prescription_id": test.prescription_id,
@@ -261,8 +272,9 @@ def build_prescription_response(
             })
     
     # Add surgeries
-    if prescription.surgeries:
-        for surgery in prescription.surgeries:
+    surgery_items = surgeries if surgeries is not None else prescription.surgeries
+    if surgery_items:
+        for surgery in surgery_items:
             response["surgeries"].append({
                 "id": surgery.id,
                 "prescription_id": surgery.prescription_id,
@@ -984,39 +996,32 @@ async def get_doctor_active_consultations(
     db: AsyncSession = Depends(get_db),
 ):
     """Get all active consultations for the current doctor."""
-    await get_doctor_profile(db, user)
-    
-    result = await db.execute(
-        select(Consultation)
-        .options(
-            selectinload(Consultation.patient),
-            selectinload(Consultation.prescriptions)
-        )
-        .where(
-            and_(
-                Consultation.doctor_id == user.id,
-                Consultation.status == ConsultationStatus.OPEN
+    async def _verify_doctor(session: AsyncSession):
+        return await get_doctor_profile(session, user)
+
+    async def _load_active(session: AsyncSession):
+        return (
+            await session.execute(
+                select(Consultation, Profile)
+                .outerjoin(Profile, Profile.id == Consultation.patient_id)
+                .where(
+                    and_(
+                        Consultation.doctor_id == user.id,
+                        Consultation.status == ConsultationStatus.OPEN,
+                    )
+                )
+                .order_by(Consultation.created_at.desc())
+                # Defensive cap: OPEN consultations should be a small working
+                # set, but never return more than this without pagination.
+                .limit(200)
             )
-        )
-        .order_by(Consultation.created_at.desc())
-        # Defensive cap: OPEN consultations should be a small working set, but
-        # never return more than this without pagination.
-        .limit(200)
-    )
-    consultations = result.scalars().all()
-    
-    # Get patient profiles
-    patient_ids = [c.patient_id for c in consultations]
-    result = await db.execute(
-        select(Profile).where(Profile.id.in_(patient_ids))
-    )
-    patient_profiles = {p.id: p for p in result.scalars().all()}
-    
-    response_list = []
-    for consultation in consultations:
-        patient_profile = patient_profiles.get(consultation.patient_id)
-        response = build_consultation_response(consultation, patient_profile=patient_profile)
-        response_list.append(response)
+        ).all()
+
+    _, rows = await gather_reads(_verify_doctor, _load_active, max_concurrency=2)
+    response_list = [
+        build_consultation_response(consultation, patient_profile=patient_profile)
+        for consultation, patient_profile in rows
+    ]
     
     total_active = len(response_list)
     return ConsultationListResponse(
@@ -1039,36 +1044,38 @@ async def get_doctor_consultation_history(
     db: AsyncSession = Depends(get_db),
 ):
     """Get consultation history for the current doctor."""
-    await get_doctor_profile(db, user)
-    
-    result = await db.execute(
-        select(Consultation)
-        .options(selectinload(Consultation.patient))
-        .where(Consultation.doctor_id == user.id)
-        .order_by(Consultation.created_at.desc())
-        .limit(limit)
-        .offset(offset)
-    )
-    consultations = result.scalars().all()
-    
-    # Get total count
-    count_result = await db.execute(
-        select(func.count(Consultation.id)).where(Consultation.doctor_id == user.id)
-    )
-    total = count_result.scalar() or 0
-    
-    # Get patient profiles
-    patient_ids = [c.patient_id for c in consultations]
-    result = await db.execute(
-        select(Profile).where(Profile.id.in_(patient_ids))
-    )
-    patient_profiles = {p.id: p for p in result.scalars().all()}
-    
-    response_list = []
-    for consultation in consultations:
-        patient_profile = patient_profiles.get(consultation.patient_id)
-        response = build_consultation_response(consultation, patient_profile=patient_profile)
-        response_list.append(response)
+    async def _verify_doctor(session: AsyncSession):
+        return await get_doctor_profile(session, user)
+
+    async def _load_history(session: AsyncSession):
+        return (
+            await session.execute(
+                select(
+                    Consultation,
+                    Profile,
+                    func.count(Consultation.id).over().label("total_count"),
+                )
+                .outerjoin(Profile, Profile.id == Consultation.patient_id)
+                .where(Consultation.doctor_id == user.id)
+                .order_by(Consultation.created_at.desc())
+                .limit(limit)
+                .offset(offset)
+            )
+        ).all()
+
+    _, rows = await gather_reads(_verify_doctor, _load_history, max_concurrency=2)
+    total = int(rows[0].total_count or 0) if rows else 0
+    if not rows and offset:
+        total = (
+            await db.execute(
+                select(func.count(Consultation.id)).where(Consultation.doctor_id == user.id)
+            )
+        ).scalar() or 0
+
+    response_list = [
+        build_consultation_response(consultation, patient_profile=patient_profile)
+        for consultation, patient_profile, _ in rows
+    ]
     
     return ConsultationListResponse(
         consultations=response_list,
@@ -1989,42 +1996,113 @@ async def get_patient_prescriptions(
 ):
     """Get all prescriptions for the current patient."""
     try:
-        # Query prescriptions directly - don't require consultation to exist
-        query = select(Prescription).options(
-            selectinload(Prescription.medications),
-            selectinload(Prescription.tests),
-            selectinload(Prescription.surgeries),
-        ).where(Prescription.patient_id == user.id)
-        
+        filters = [Prescription.patient_id == user.id]
         if status_filter:
-            query = query.where(Prescription.status == status_filter)
-        
-        query = query.order_by(Prescription.created_at.desc()).limit(limit).offset(offset)
-        
-        result = await db.execute(query)
-        prescriptions = result.scalars().all()
-        
-        # Get total count
-        count_query = select(func.count(Prescription.id)).where(Prescription.patient_id == user.id)
-        if status_filter:
-            count_query = count_query.where(Prescription.status == status_filter)
-        count_result = await db.execute(count_query)
-        total = count_result.scalar() or 0
-        
-        # Get doctor profiles
-        doctor_ids = list(set([p.doctor_id for p in prescriptions]))
-        if doctor_ids:  # Only query if we have doctor IDs
-            result = await db.execute(
-                select(Profile).where(Profile.id.in_(doctor_ids))
+            filters.append(Prescription.status == status_filter)
+
+        # The list view does not render stored HTML/snapshot documents. Defer
+        # those large columns and join doctor names into the base page query.
+        rows = (
+            await db.execute(
+                select(
+                    Prescription,
+                    Profile,
+                    func.count(Prescription.id).over().label("total_count"),
+                )
+                .outerjoin(Profile, Profile.id == Prescription.doctor_id)
+                .options(
+                    defer(Prescription.rendered_prescription_html),
+                    defer(Prescription.rendered_prescription_snapshot),
+                )
+                .where(*filters)
+                .order_by(Prescription.created_at.desc())
+                .limit(limit)
+                .offset(offset)
             )
-            doctor_profiles = {p.id: p for p in result.scalars().all()}
-        else:
-            doctor_profiles = {}
-        
+        ).all()
+
+        if not rows:
+            total = (
+                await db.execute(
+                    select(func.count(Prescription.id)).where(*filters)
+                )
+            ).scalar() or 0
+            return PrescriptionListResponse(
+                prescriptions=[],
+                items=[],
+                total=int(total),
+                limit=limit,
+                offset=offset,
+                has_more=False,
+                page=(offset // limit) + 1,
+                page_size=limit,
+            )
+
+        prescriptions = [row[0] for row in rows]
+        doctor_profiles = {
+            row[1].id: row[1]
+            for row in rows
+            if row[1] is not None
+        }
+        total = int(rows[0].total_count or 0)
+        prescription_ids = [item.id for item in prescriptions]
+
+        async def _load_medications(session: AsyncSession):
+            return (
+                await session.execute(
+                    select(MedicationPrescription).where(
+                        MedicationPrescription.prescription_id.in_(prescription_ids)
+                    )
+                )
+            ).scalars().all()
+
+        async def _load_tests(session: AsyncSession):
+            return (
+                await session.execute(
+                    select(TestPrescription).where(
+                        TestPrescription.prescription_id.in_(prescription_ids)
+                    )
+                )
+            ).scalars().all()
+
+        async def _load_surgeries(session: AsyncSession):
+            return (
+                await session.execute(
+                    select(SurgeryRecommendation).where(
+                        SurgeryRecommendation.prescription_id.in_(prescription_ids)
+                    )
+                )
+            ).scalars().all()
+
+        medication_rows, test_rows, surgery_rows = await gather_reads(
+            _load_medications,
+            _load_tests,
+            _load_surgeries,
+            max_concurrency=3,
+        )
+        medications_by_id: dict[str, list[MedicationPrescription]] = {}
+        tests_by_id: dict[str, list[TestPrescription]] = {}
+        surgeries_by_id: dict[str, list[SurgeryRecommendation]] = {}
+        for item in medication_rows:
+            medications_by_id.setdefault(item.prescription_id, []).append(item)
+        for item in test_rows:
+            tests_by_id.setdefault(item.prescription_id, []).append(item)
+        for item in surgery_rows:
+            surgeries_by_id.setdefault(item.prescription_id, []).append(item)
+
         response_list = []
         for prescription in prescriptions:
             doctor_profile = doctor_profiles.get(prescription.doctor_id)
-            response_list.append(build_prescription_response(prescription, doctor_profile))
+            response_list.append(
+                build_prescription_response(
+                    prescription,
+                    doctor_profile,
+                    include_rendered=False,
+                    medications=medications_by_id.get(prescription.id, []),
+                    tests=tests_by_id.get(prescription.id, []),
+                    surgeries=surgeries_by_id.get(prescription.id, []),
+                )
+            )
 
         return PrescriptionListResponse(
             prescriptions=response_list,

@@ -3,8 +3,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.db.session import AsyncSessionLocal
 from app.db.models.profile import Profile
-from app.db.models.enums import UserRole
+from app.db.models.enums import AccountStatus, UserRole
 from app.core.security import verify_jwt
+from app.core.auth_profile_cache import get_auth_profile
+from app.core.performance_metrics import mark_profile_cache
 
 
 async def resolve_profile(db: AsyncSession, user) -> Profile | None:
@@ -44,13 +46,13 @@ async def get_current_user(
     payload = await verify_jwt(token)
 
     user_id = payload.get("sub")
-    result = await db.execute(
-        select(Profile).where(Profile.id == user_id)
-    )
-    profile = result.scalar_one_or_none()
+    profile, profile_cache_hit = await get_auth_profile(user_id)
+    mark_profile_cache(profile_cache_hit)
 
     if not profile:
         raise HTTPException(401, "Profile not found")
+    if profile.status == AccountStatus.banned:
+        raise HTTPException(403, "Account banned")
 
     return profile
 
