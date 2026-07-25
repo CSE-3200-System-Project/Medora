@@ -63,11 +63,11 @@ import {
   type BackendPatientMedication,
 } from "@/lib/patient-medication";
 
-import { getMyAppointments } from "@/lib/appointment-actions";
 import { formatMeridiemTime, humanizeConsultationType, humanizeAppointmentType, parseCompositeReason } from "@/lib/utils";
 import { MEDICAL_MODULE_TAB_ACCENTS } from "@/components/medical-history/module-tab-accents";
 
-import { getMedicalHistoryPrescriptions, type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
+import { type Prescription, type MedicationPrescription, type TestPrescription, type SurgeryRecommendation } from "@/lib/prescription-actions";
+import { getPatientMedicalHistoryBundle } from "@/lib/medical-history-actions";
 import { PrescriptionReminderDialog } from "@/components/ui/reminder-dialog";
 import { ReminderDialog } from "@/components/ui/reminder-dialog";
 
@@ -955,17 +955,11 @@ function PatientMedicalHistoryPage() {
     async function loadMedicalHistory() {
       try {
         setLoading(true);
-        const [data, appointmentsResult, prescriptionResult] = await Promise.all([
-          getPatientOnboardingData(),
-          getMyAppointments().catch((error) => {
-            console.error("Failed to load appointments", error);
-            return null;
-          }),
-          getMedicalHistoryPrescriptions().catch((error) => {
-            console.error("Failed to load doctor prescriptions", error);
-            return null;
-          }),
-        ]);
+        const {
+          patientData: data,
+          appointmentsResult,
+          prescriptionResult,
+        } = await getPatientMedicalHistoryBundle();
 
         if (data) {
           // Store full patient data for analytics
@@ -985,8 +979,11 @@ function PatientMedicalHistoryPage() {
           console.error("Failed to load medical history data");
         }
 
-        if (Array.isArray(appointmentsResult)) {
-          setAppointments(appointmentsResult);
+        const appointmentItems = Array.isArray(appointmentsResult)
+          ? appointmentsResult
+          : appointmentsResult?.appointments;
+        if (Array.isArray(appointmentItems)) {
+          setAppointments(appointmentItems);
         }
         if (prescriptionResult?.prescriptions) {
           setDoctorPrescriptions(prescriptionResult.prescriptions);

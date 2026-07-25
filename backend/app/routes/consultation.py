@@ -1989,6 +1989,7 @@ async def delete_prescription(
 @router.get("/patient/prescriptions", response_model=PrescriptionListResponse)
 async def get_patient_prescriptions(
     status_filter: Optional[str] = Query(None, description="Filter by status: pending, accepted, rejected"),
+    prescription_type: Optional[str] = Query(None, description="Filter by prescription type"),
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
     user: any = Depends(get_current_user_token),
@@ -1999,6 +2000,8 @@ async def get_patient_prescriptions(
         filters = [Prescription.patient_id == user.id]
         if status_filter:
             filters.append(Prescription.status == status_filter)
+        if prescription_type:
+            filters.append(Prescription.type == prescription_type)
 
         # The list view does not render stored HTML/snapshot documents. Defer
         # those large columns and join doctor names into the base page query.
@@ -2118,9 +2121,10 @@ async def get_patient_prescriptions(
         raise
     except Exception:
         logger.exception(
-            "Failed to get patient prescriptions (patient_id=%s, status_filter=%s)",
+            "Failed to get patient prescriptions (patient_id=%s, status_filter=%s, type=%s)",
             user.id,
             status_filter,
+            prescription_type,
         )
         raise HTTPException(status_code=500, detail="Failed to fetch patient prescriptions")
 
@@ -2281,49 +2285,17 @@ async def get_medical_history_prescriptions(
     db: AsyncSession = Depends(get_db),
 ):
     """Get accepted prescriptions for medical history."""
-    await get_patient_profile(db, user)
-    
-    query = select(Prescription).options(
-        selectinload(Prescription.medications),
-        selectinload(Prescription.tests),
-        selectinload(Prescription.surgeries),
-    ).where(
-        and_(
-            Prescription.patient_id == user.id,
-            Prescription.status == PrescriptionStatus.ACCEPTED,
-        )
+    profile = await resolve_profile(db, user)
+    if not profile or profile.role != UserRole.PATIENT:
+        raise HTTPException(status_code=403, detail="Only patients can access this resource")
+
+    # Reuse the optimized, paginated prescription loader. The former
+    # implementation paid seven serial database operations for the same shape.
+    return await get_patient_prescriptions(
+        status_filter=PrescriptionStatus.ACCEPTED.value,
+        prescription_type=prescription_type,
+        limit=limit,
+        offset=offset,
+        user=user,
+        db=db,
     )
-    
-    if prescription_type:
-        query = query.where(Prescription.type == prescription_type)
-    
-    query = query.order_by(Prescription.accepted_at.desc()).limit(limit).offset(offset)
-    
-    result = await db.execute(query)
-    prescriptions = result.scalars().all()
-    
-    # Get total count
-    count_query = select(func.count(Prescription.id)).where(
-        and_(
-            Prescription.patient_id == user.id,
-            Prescription.status == PrescriptionStatus.ACCEPTED,
-        )
-    )
-    if prescription_type:
-        count_query = count_query.where(Prescription.type == prescription_type)
-    count_result = await db.execute(count_query)
-    total = count_result.scalar() or 0
-    
-    # Get doctor profiles
-    doctor_ids = list(set([p.doctor_id for p in prescriptions]))
-    result = await db.execute(
-        select(Profile).where(Profile.id.in_(doctor_ids))
-    )
-    doctor_profiles = {p.id: p for p in result.scalars().all()}
-    
-    response_list = []
-    for prescription in prescriptions:
-        doctor_profile = doctor_profiles.get(prescription.doctor_id)
-        response_list.append(build_prescription_response(prescription, doctor_profile))
-    
-    return {"prescriptions": response_list, "total": total}
