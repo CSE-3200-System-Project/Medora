@@ -46,8 +46,10 @@ async def get_current_user(
     payload = await verify_jwt(token)
 
     user_id = payload.get("sub")
-    profile, profile_cache_hit = await get_auth_profile(user_id)
+    profile, profile_cache_hit = await get_auth_profile(user_id, db)
     mark_profile_cache(profile_cache_hit)
+    if not profile_cache_hit:
+        await db.commit()
 
     if not profile:
         raise HTTPException(401, "Profile not found")

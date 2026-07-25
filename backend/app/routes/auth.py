@@ -231,8 +231,12 @@ async def get_current_user_token(authorization: str = Header(...), db: AsyncSess
 
     # Reuse one identity snapshot across the short burst of API requests made
     # by a page so downstream role guards do not repeat the hottest query.
-    profile, profile_cache_hit = await get_auth_profile(user.id)
+    profile, profile_cache_hit = await get_auth_profile(user.id, db)
     mark_profile_cache(profile_cache_hit)
+    if not profile_cache_hit:
+        # A miss used this dependency's session. End its implicit read
+        # transaction before route-level fan-out borrows pooled connections.
+        await db.commit()
 
     if profile and profile.status == AccountStatus.banned:
         raise HTTPException(
