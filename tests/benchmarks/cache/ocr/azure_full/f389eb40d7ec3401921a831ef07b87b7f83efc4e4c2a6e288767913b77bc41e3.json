@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "f389eb40d7ec3401921a831ef07b87b7f83efc4e4c2a6e288767913b77bc41e3",
+  "record_id": "RX-0015",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 50948.979099994176,
+  "failure": null,
+  "response_sha256": "0db4d055ba67a002928b9a095b3be397166669681cb737bb890ee1dd97d2d7fc",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वावशूनज\nएटकन नर5010\nMedical Center\nPassport No\nA09061412\nMaxtab No37\nPilgrim ID0 38024\nName\nMST RAHIMA KHATUN\nAgu 48\nGender\nFEMALE\nDistriDHAKA\nTASALLABI\nHEALTH PROFILE\n120/80\n1. Blood Group: NO\n3. Heart Disease: NO\n4. Lung Disease:\nNO\n5. Kidney DiseaseNO\n6 Diabetes:\n5.24\n7. Mental Disease;o\n8. Blood Sugar (RBS); NO\n9. Weight\n10 Liver Disease:\nNE\n11 Drug History:\n1\n19 May 2024\nDate\nChief Complaints:\nVisit No:\n410\n10 Menstruation\nRx\nNorethisterone (5mg)\nOJE -\nPulse\nBP\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\n2. Blood Pressuret-\nNO\n12. Any other abnormalities;\n. Tab.\n-",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "TREATMENT CARD / वावशूनज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "एटकन नर5010",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "A09061412",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Maxtab No37",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Pilgrim ID0 38024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "MST RAHIMA KHATUN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Agu 48",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "DistriDHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "TASALLABI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "1. Blood Group: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "3. Heart Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "5. Kidney DiseaseNO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "6 Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "5.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "7. Mental Disease;o",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "8. Blood Sugar (RBS); NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "9. Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "NE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "11 Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "19 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "410",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "10 Menstruation",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Norethisterone (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "OJE -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "2. Blood Pressuret-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "12. Any other abnormalities;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.807
+      }
+    ]
+  }
+}

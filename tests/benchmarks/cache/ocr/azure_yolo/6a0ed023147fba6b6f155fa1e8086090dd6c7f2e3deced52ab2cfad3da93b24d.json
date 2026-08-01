@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "6a0ed023147fba6b6f155fa1e8086090dd6c7f2e3deced52ab2cfad3da93b24d",
+  "record_id": "RX-0082",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 14501.212700008182,
+  "failure": null,
+  "response_sha256": "2db2dfb2f9447fe61c2c8247b33bca6e52d48ac6a842c875bbe040399c1c82e9",
+  "response": {
+    "raw_text": "· 1 Taj Gomes 2/ 50mg +To meglio\nEs 展开开展工业区 Tems A 2015\n3 Tas. 201 52 1+00 00\n(4) Ta. Hewolx 15L\nITOPIMAÇON 220\n8) Ts, ROSU 5W other we Mag\nItdel wo\nla.\nPantomx 29\nChamber :\nHitech Multicare Hospital Ltd.\nNome of care\n164, East Kafrul, Dhaka Cantonment DLI.",
+    "lines": [
+      {
+        "text": "· 1 Taj Gomes 2/ 50mg +To meglio",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Es 展开开展工业区 Tems A 2015",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "3 Tas. 201 52 1+00 00",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "(4) Ta. Hewolx 15L",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "ITOPIMAÇON 220",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "8) Ts, ROSU 5W other we Mag",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Itdel wo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "la.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Pantomx 29",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Nome of care",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment DLI.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.548
+      }
+    ]
+  }
+}

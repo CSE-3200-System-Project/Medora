@@ -1,0 +1,321 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
+  "record_id": "RX-0049",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 37616.11119999725,
+  "failure": null,
+  "response_sha256": "f7fd2ff460f2b3e037a8ac0b1c02b9e28e8def06b2db312b45cf66fc741b7b37",
+  "response": {
+    "raw_text": "SG\n4\nge\na\nSosenrsy\nmoroyr\nonywr\n900\nnoa\nC\n2\nC\nhntn\n5\n51291\n2\nJmnt-Wy\nR\nmcot\nBtortt\nma\n87\n3\n-\nO\nplpol\nAgla",
+    "lines": [
+      {
+        "text": "SG",
+        "bbox": {
+          "x_min": 931.0,
+          "y_min": 46.0,
+          "x_max": 1031.0,
+          "y_max": 195.0
+        },
+        "page": 1,
+        "confidence": 0.41
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 3710.0,
+          "y_min": 97.0,
+          "x_max": 3854.0,
+          "y_max": 223.0
+        },
+        "page": 1,
+        "confidence": 0.329
+      },
+      {
+        "text": "ge",
+        "bbox": {
+          "x_min": 269.0,
+          "y_min": 113.0,
+          "x_max": 427.0,
+          "y_max": 295.0
+        },
+        "page": 1,
+        "confidence": 0.184
+      },
+      {
+        "text": "a",
+        "bbox": {
+          "x_min": 4229.0,
+          "y_min": 97.0,
+          "x_max": 4624.0,
+          "y_max": 467.0
+        },
+        "page": 1,
+        "confidence": 0.222
+      },
+      {
+        "text": "Sosenrsy",
+        "bbox": {
+          "x_min": 1625.0,
+          "y_min": 350.0,
+          "x_max": 1824.0,
+          "y_max": 1466.0
+        },
+        "page": 1,
+        "confidence": 0.411
+      },
+      {
+        "text": "moroyr",
+        "bbox": {
+          "x_min": 2478.0,
+          "y_min": 368.0,
+          "x_max": 2647.0,
+          "y_max": 1387.0
+        },
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "onywr",
+        "bbox": {
+          "x_min": 2952.0,
+          "y_min": 407.0,
+          "x_max": 3127.0,
+          "y_max": 1440.0
+        },
+        "page": 1,
+        "confidence": 0.578
+      },
+      {
+        "text": "900",
+        "bbox": {
+          "x_min": 2299.0,
+          "y_min": 569.0,
+          "x_max": 2389.0,
+          "y_max": 962.0
+        },
+        "page": 1,
+        "confidence": 0.17
+      },
+      {
+        "text": "noa",
+        "bbox": {
+          "x_min": 1840.0,
+          "y_min": 584.0,
+          "x_max": 1991.0,
+          "y_max": 970.0
+        },
+        "page": 1,
+        "confidence": 0.236
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3549.0,
+          "y_min": 687.0,
+          "x_max": 3777.0,
+          "y_max": 949.0
+        },
+        "page": 1,
+        "confidence": 0.302
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 1830.0,
+          "y_min": 898.0,
+          "x_max": 2028.0,
+          "y_max": 1104.0
+        },
+        "page": 1,
+        "confidence": 0.448
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 1917.0,
+          "y_min": 1152.0,
+          "x_max": 2010.0,
+          "y_max": 1267.0
+        },
+        "page": 1,
+        "confidence": 0.418
+      },
+      {
+        "text": "hntn",
+        "bbox": {
+          "x_min": 968.0,
+          "y_min": 1285.0,
+          "x_max": 1156.0,
+          "y_max": 1867.0
+        },
+        "page": 1,
+        "confidence": 0.335
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 1962.0,
+          "y_min": 1740.0,
+          "x_max": 2062.0,
+          "y_max": 1855.0
+        },
+        "page": 1,
+        "confidence": 0.259
+      },
+      {
+        "text": "51291",
+        "bbox": {
+          "x_min": 1253.0,
+          "y_min": 1960.0,
+          "x_max": 1404.0,
+          "y_max": 2404.0
+        },
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 605.0,
+          "y_min": 2061.0,
+          "x_max": 726.0,
+          "y_max": 2494.0
+        },
+        "page": 1,
+        "confidence": 0.599
+      },
+      {
+        "text": "Jmnt-Wy",
+        "bbox": {
+          "x_min": 1459.0,
+          "y_min": 2172.0,
+          "x_max": 1597.0,
+          "y_max": 2893.0
+        },
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 1519.0,
+          "y_min": 2210.0,
+          "x_max": 1533.0,
+          "y_max": 2218.0
+        },
+        "page": 1,
+        "confidence": 0.105
+      },
+      {
+        "text": "mcot",
+        "bbox": {
+          "x_min": 2712.0,
+          "y_min": 2282.0,
+          "x_max": 2887.0,
+          "y_max": 2884.0
+        },
+        "page": 1,
+        "confidence": 0.661
+      },
+      {
+        "text": "Btortt",
+        "bbox": {
+          "x_min": 3912.0,
+          "y_min": 2355.0,
+          "x_max": 4391.0,
+          "y_max": 2792.0
+        },
+        "page": 1,
+        "confidence": 0.6
+      },
+      {
+        "text": "ma",
+        "bbox": {
+          "x_min": 853.0,
+          "y_min": 2407.0,
+          "x_max": 1119.0,
+          "y_max": 2963.0
+        },
+        "page": 1,
+        "confidence": 0.393
+      },
+      {
+        "text": "87",
+        "bbox": {
+          "x_min": 3439.0,
+          "y_min": 2626.0,
+          "x_max": 3572.0,
+          "y_max": 2789.0
+        },
+        "page": 1,
+        "confidence": 0.365
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 3508.0,
+          "y_min": 2751.0,
+          "x_max": 3562.0,
+          "y_max": 2810.0
+        },
+        "page": 1,
+        "confidence": 0.367
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3593.0,
+          "y_min": 2824.0,
+          "x_max": 3599.0,
+          "y_max": 2830.0
+        },
+        "page": 1,
+        "confidence": 0.277
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3597.0,
+          "y_min": 2824.0,
+          "x_max": 3603.0,
+          "y_max": 2830.0
+        },
+        "page": 1,
+        "confidence": 0.075
+      },
+      {
+        "text": "plpol",
+        "bbox": {
+          "x_min": 3552.0,
+          "y_min": 2956.0,
+          "x_max": 3735.0,
+          "y_max": 3292.0
+        },
+        "page": 1,
+        "confidence": 0.341
+      },
+      {
+        "text": "Agla",
+        "bbox": {
+          "x_min": 633.0,
+          "y_min": 3106.0,
+          "x_max": 742.0,
+          "y_max": 3325.0
+        },
+        "page": 1,
+        "confidence": 0.451
+      }
+    ]
+  }
+}

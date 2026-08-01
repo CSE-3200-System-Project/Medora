@@ -1,0 +1,395 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0088",
+  "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:06:23.972564+00:00",
+  "runtime_ms": 19984.32160000084,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hell Offire\nMakkah annat: Jeddah\nTREATMENT CARD : KRIZIOM\nMedical Carter\nSTUNT: G140\nWasich n _!!\nB\nHEALTH PROFILE\nК. 11 я:18+.\n6.5\n24 Muy 2004\nChiel Complaints:\nR:\nTab Tolan (ing)\n0+++3-20 Mm\nAndsova\nDehyuralita -\nTab. Moren ( wong)\n. Tab. E somconnou | 20 ~5\n20\nFSSRBS-\nProvisional Diagonosis\nCommon Cita\né coretigation.\nरूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।\nTE\n7 V",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Bangladesh Hell Offire",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Makkah annat: Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TREATMENT CARD : KRIZIOM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Medical Carter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "STUNT: G140",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Wasich n _!!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "B",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "К. 11 я:18+.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "6.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "24 Muy 2004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "R:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab Tolan (ing)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "0+++3-20 Mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Andsova",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Dehyuralita -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab. Moren ( wong)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": ". Tab. E somconnou | 20 ~5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "FSSRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Common Cita",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "é coretigation.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "रूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "7 V",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Bangladesh Hell Offire",
+        "matched_term": "Bangladesh Hell Offire",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Makkah Annat Jeddah",
+        "matched_term": "Makkah Annat Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Treatment Card Kriziom",
+        "matched_term": "Treatment Card Kriziom",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Stunt",
+        "matched_term": "Stunt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Wasich",
+        "matched_term": "Wasich",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Muy",
+        "matched_term": "Muy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Chiel Complaints",
+        "matched_term": "Chiel Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Tolan Ing Mm",
+        "matched_term": "Tolan Ing Mm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Andsova",
+        "matched_term": "Andsova",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Dehyuralita",
+        "matched_term": "Dehyuralita",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Memoren",
+        "matched_term": "Memoren",
+        "drug_id": "798f99a9-29a2-4d4c-8e04-e6705e5e7ab6",
+        "brand_id": "f95d68fb-d4ce-44d7-9c1a-80dbf09c6eb6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Lnc 5 Tablet",
+        "matched_term": "Lnc 5 Tablet",
+        "drug_id": "071aa341-8b90-45e4-a884-48ec05010243",
+        "brand_id": "0e3d4bb0-7a2e-4562-a688-ee0b61d2e8fb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Fssrbs",
+        "matched_term": "Fssrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Common Cita",
+        "matched_term": "Common Cita",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Coretigation Te",
+        "matched_term": "Coretigation Te",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      }
+    ]
+  }
+}

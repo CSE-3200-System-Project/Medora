@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-import json
-from types import SimpleNamespace
-
 import pytest
 
 from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import UserRole
 from app.db.models.patient import PatientProfile
+from app.db.models.processing_consent import ProcessingConsentGrant
 from app.db.models.profile import Profile
 from app.db.models.speciality import Speciality
+from app.services.ai_orchestrator import ai_orchestrator
 from tests.helpers.backend_factories import DoctorProfileFactory, PatientProfileFactory, ProfileFactory
 
 
@@ -41,8 +40,16 @@ async def test_prescription_ocr_endpoint_returns_structured_payload(
 
     auth_token_map["patient-token"] = {"sub": patient_account.id, "email": patient_account.email}
 
-    async def _fake_extract(*, file_name: str, content: bytes, content_type: str, subject_token: str | None = None):
+    async def _fake_extract(
+        *,
+        file_name: str,
+        content: bytes,
+        content_type: str,
+        subject_token: str | None = None,
+        processing_mode: str,
+    ):
         assert content_type == "image/png"
+        assert processing_mode == "local"
         return {
             "medications": [
                 {
@@ -84,6 +91,7 @@ async def test_prescription_ocr_endpoint_returns_structured_payload(
 async def test_ai_doctor_search_pipeline_returns_ranked_doctor_results(
     backend_client,
     db_session,
+    auth_token_map,
     monkeypatch,
 ) -> None:
     cardiology = Speciality(name="Cardiology")
@@ -99,35 +107,48 @@ async def test_ai_doctor_search_pipeline_returns_ranked_doctor_results(
         hospital_city="Dhaka",
         consultation_mode="offline",
     )
-    db_session.add_all([doctor_account, doctor_profile])
+    patient_account: Profile = ProfileFactory(role=UserRole.PATIENT, first_name="Nusrat", last_name="Jahan")
+    patient_profile: PatientProfile = PatientProfileFactory(profile_id=patient_account.id)
+    consent = ProcessingConsentGrant(
+        subject_id=patient_account.id,
+        purpose="external_text_ai",
+        version=1,
+        scopes=["external_text_ai"],
+        provider=ai_orchestrator.provider,
+        policy_version="softwarex-v1",
+        granted_by_id=patient_account.id,
+        audit_note="Integration-test fixture",
+    )
+    db_session.add_all([doctor_account, doctor_profile, patient_account, patient_profile])
+    await db_session.flush()
+    db_session.add(consent)
     await db_session.commit()
+    auth_token_map["patient-token"] = {"sub": patient_account.id, "email": patient_account.email}
+
+    async def _fake_verify_jwt(token: str):
+        return auth_token_map[token]
+
+    monkeypatch.setattr("app.routes.ai_doctor.verify_jwt", _fake_verify_jwt)
 
     llm_payload = {
         "language_detected": "mixed",
         "symptoms": [{"name": "chest pain", "confidence": 0.94}],
         "duration_days": 3,
-        "severity": "high",
         "specialties": [{"name": "Cardiology", "confidence": 0.95}],
         "ambiguity": "low",
     }
 
-    fake_completion = SimpleNamespace(
-        choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(llm_payload)))]
-    )
-    fake_client = SimpleNamespace(
-        chat=SimpleNamespace(
-            completions=SimpleNamespace(create=lambda **kwargs: fake_completion)
-        )
-    )
-    monkeypatch.setattr(
-        "app.routes.ai_doctor._get_groq_client",
-        lambda: fake_client,
-    )
+    async def _fake_navigation_intent(**kwargs):
+        assert "available_specialties" in kwargs
+        return llm_payload
+
+    monkeypatch.setattr(ai_orchestrator, "extract_navigation_intent", _fake_navigation_intent)
 
     response = await backend_client.post(
         "/ai/search",
+        headers={"Authorization": "Bearer patient-token"},
         json={
-            "user_text": "আমার chest pain হচ্ছে ৩ দিন ধরে",
+            "user_text": "আমার বুক অস্বস্তি হচ্ছে তিন দিন ধরে",
             "consultation_mode": "offline",
             "location": "Dhaka",
         },

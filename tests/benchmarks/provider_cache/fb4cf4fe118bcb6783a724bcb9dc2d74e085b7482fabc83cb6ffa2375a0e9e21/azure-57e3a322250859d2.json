@@ -1,0 +1,393 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0023",
+  "source_sha256": "fb4cf4fe118bcb6783a724bcb9dc2d74e085b7482fabc83cb6ffa2375a0e9e21",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:32:43.488258+00:00",
+  "runtime_ms": 27565.60060000629,
+  "output": {
+    "raw_text": "Hargladest Hal Drian\nMakkatı/ Vindinary Jaddazt\nTREATMENT CARD: TRU TE\nG220\nMovicel Conter\nHEALTH PROFILE\nChief Compras\ndry cough\nTab comprido\nTab Fexa\n01041\nPaso-\nBP\nTemp\nAnaemia\nDehydrator\nRespiration-\nOthers-\n(13)\ncap omeprazole (20m) (13)\n1-1 0+ J.\nTab. Manes (ow)\n1g\nF95/RBS\nEOG\nProvisional Diagonosis\nएस दर्गाहटवण (अनजान किविद्या (मदा राजगढ़ बना । दावदानगी अष्टवाद कबनाये मात्र अंगदः शुद्र।",
+    "lines": [
+      {
+        "text": "Hargladest Hal Drian",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Makkatı/ Vindinary Jaddazt",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "TREATMENT CARD: TRU TE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "G220",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Movicel Conter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Chief Compras",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "dry cough",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab comprido",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab Fexa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "01041",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Paso-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Temp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Anaemia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Dehydrator",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "(13)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "cap omeprazole (20m) (13)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "1-1 0+ J.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab. Manes (ow)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "1g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "F95/RBS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "EOG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "एस दर्गाहटवण (अनजान किविद्या (मदा राजगढ़ बना । दावदानगी अष्टवाद कबनाये मात्र अंगदः शुद्र।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      }
+    ],
+    "medications": [
+      {
+        "name": "Hargladest Hal Drian",
+        "matched_term": "Hargladest Hal Drian",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Makkat Vindinary Jaddazt",
+        "matched_term": "Makkat Vindinary Jaddazt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Treatment Card Tru",
+        "matched_term": "Treatment Card Tru",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Movicol",
+        "matched_term": "Movicol",
+        "drug_id": "9ca725a4-3958-4635-9a68-933f75c32627",
+        "brand_id": "e1d3a095-35ef-421b-8ac6-a39d36b9b56a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Chief Compras",
+        "matched_term": "Chief Compras",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "D-Cough",
+        "matched_term": "D-Cough",
+        "drug_id": "41fb5024-8d5a-4f7a-b0bd-6f520a4e1f59",
+        "brand_id": "f242b009-f763-4e20-b71b-92c2e03a0bbc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Comprid",
+        "matched_term": "Comprid",
+        "drug_id": "86e5ecac-94b4-4883-9f89-d9a611e51b23",
+        "brand_id": "85540f49-40e1-46b0-b82b-da6bf05b5475",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Fexan",
+        "matched_term": "Fexan",
+        "drug_id": "f4e6b863-1be1-44fa-8c59-ad1d8cbd2624",
+        "brand_id": "5e7cb480-3121-465a-904b-06f8d9a9a83b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Paso Bp-Z",
+        "matched_term": "Paso Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Temp",
+        "matched_term": "Temp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Re Anaemia",
+        "matched_term": "Re Anaemia",
+        "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+        "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Dehydrator",
+        "matched_term": "Dehydrator",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+1+0",
+        "quantity": null,
+        "confidence": 0.637
+      },
+      {
+        "name": "Manes Ow",
+        "matched_term": "Manes Ow",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "1g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Rbs",
+        "matched_term": "Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      },
+      {
+        "name": "Neogen",
+        "matched_term": "Neogen",
+        "drug_id": "1fcdbf79-ff09-4089-84fd-507b979f6744",
+        "brand_id": "9be22430-2764-44c2-b5e9-c3c1d7dcd164",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.587
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.207
+      }
+    ]
+  }
+}

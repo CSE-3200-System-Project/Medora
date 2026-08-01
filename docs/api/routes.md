@@ -354,4 +354,6 @@ Base URL: configured by `OCR_SERVICE_URL` in backend env.
 | POST | `/ocr/prescription` | Header token | Extract medications from prescription image |
 | POST | `/ocr/medical-report` | Header token | Extract test results from lab report |
 
-OCR requests use `X-Medora-Subject-Token` header (anonymized user token, not a JWT).
+The backend authenticates the user and forwards a random `X-Request-ID`. Local OCR
+needs no external-processing grant. Azure OCR additionally requires an active
+`cloud_document_ocr` grant for the named provider; no stable subject token is sent.

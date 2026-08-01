@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ba2527762360c4748df0a4e30445f81ad33a56e2e434f82306c15574e8f88bfa",
+  "record_id": "RX-0007",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 24527.103900007205,
+  "failure": null,
+  "response_sha256": "34f0bbc7b1c5397c3f15766191c4942e4e56692c7a28f288f9fd7a8b640f04c5",
+  "response": {
+    "raw_text": "5)\nछिकिश्मक कड़क स्वाभीन यावश शेख\nवाशीन नाम\nतथाम\nस्वादजन नांग\nडिकरिश्माकर बाबश मना\nट्वीट निक बद्ध विकास\nखार\n20-08-17\nलिए नए\nR-2\nTS 4 - 50.01\nT4 - 25.77\n10:92 Um\nAmenmunchen\nHeat in toleral\n/\n, Diawhura\nFlora\nHET N\n1. use of Thyroid gland\n2. Radio iodine uptake\ntest\ncanpac\n3. TSA, FT4\n1Tas Indever (10mg)\n1+0+1\nMD ABDULLAH-AL-MAMUN\nMajor\nClassified Spl in Medicine\n(Endocrinologist)\n& N H Dheka",
+    "lines": [
+      {
+        "text": "5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "छिकिश्मक कड़क स्वाभीन यावश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "वाशीन नाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "तथाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "स्वादजन नांग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "डिकरिश्माकर बाबश मना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "ट्वीट निक बद्ध विकास",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "खार",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "20-08-17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "लिए नए",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "R-2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "TS 4 - 50.01",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "T4 - 25.77",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "10:92 Um",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Amenmunchen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Heat in toleral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": ", Diawhura",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Flora",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "HET N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "1. use of Thyroid gland",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "2. Radio iodine uptake",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "test",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "canpac",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "3. TSA, FT4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "1Tas Indever (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "MD ABDULLAH-AL-MAMUN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Major",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Classified Spl in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "(Endocrinologist)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "& N H Dheka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.568
+      }
+    ]
+  }
+}

@@ -1,0 +1,2043 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0105",
+  "source_sha256": "f0ef1919ebad9d5007a95a09c3fb02c8f733b986aa1e354fd309a225ae395e31",
+  "raw_transcription": "Date\nRx\n- Db. Naproxen (500mg)-20\nร้องกิจ)\n- Cap. fratid (como)-",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Date Rx",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "naproxen",
+      "strength": "500mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fratid Como",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "cf298431d3c2e95ecf7c288bd53caf72c820c5abdcc46d697878206873f21fc4"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "c57f897721e74076fb71d2774be4f0eb2486cb96c7f5d43e670bc6173d5785e9"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "dd94461352d62985397efe246b5a0f85bbc57f7cce81c07862093a1fc936b8cf"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "MINISTRY OF RELIGIOUS AFFAIRS\nBangladesh HajjOffice\nMakkah/Madinah/Jeddah\nModical Center:\nTREATMENT CARD/\nG017\nPilgrlmD.174060\nLAKHTAR\nPassport No\nA00380027\nMaktab No\n800\nName.\nAS\nGender\nMALE\nDisct _CHATTOGRAM\nThan\nHEALTH PROFILE\n1.Blood Group:\n3.Heart Dise\nN0\n5.Kidney Disease\n2.Blood Pressure\n7.Menta Disese\n4.Lung Disease\n9.Weight\nNO\n52\n6.Diabetes\nNO\n11.Drug History\n10.Liver Disease\nNO\nChief Complaints:\nmaibes\n-Feet Ain\nVisit No:\n2nd COPY\nDate:\n27May 2024\nO/E\nPulse\n120H\nTemp-\n60\nAnaemia-\nS\nDehydration-\nRespiration-\nOthers\n+04\nFBS/RBS.\nECG\nProvisional Diagonosis",
+      "lines": [
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 235.0,
+            "y_min": 43.0,
+            "x_max": 407.0,
+            "y_max": 65.0
+          },
+          "page": 1,
+          "confidence": 0.962
+        },
+        {
+          "text": "Bangladesh HajjOffice",
+          "bbox": {
+            "x_min": 269.0,
+            "y_min": 57.0,
+            "x_max": 374.0,
+            "y_max": 76.0
+          },
+          "page": 1,
+          "confidence": 0.973
+        },
+        {
+          "text": "Makkah/Madinah/Jeddah",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 69.0,
+            "x_max": 379.0,
+            "y_max": 87.0
+          },
+          "page": 1,
+          "confidence": 0.995
+        },
+        {
+          "text": "Modical Center:",
+          "bbox": {
+            "x_min": 118.0,
+            "y_min": 94.0,
+            "x_max": 189.0,
+            "y_max": 110.0
+          },
+          "page": 1,
+          "confidence": 0.945
+        },
+        {
+          "text": "TREATMENT CARD/",
+          "bbox": {
+            "x_min": 251.0,
+            "y_min": 89.0,
+            "x_max": 397.0,
+            "y_max": 111.0
+          },
+          "page": 1,
+          "confidence": 0.949
+        },
+        {
+          "text": "G017",
+          "bbox": {
+            "x_min": 457.0,
+            "y_min": 90.0,
+            "x_max": 494.0,
+            "y_max": 112.0
+          },
+          "page": 1,
+          "confidence": 0.96
+        },
+        {
+          "text": "PilgrlmD.174060",
+          "bbox": {
+            "x_min": 118.0,
+            "y_min": 109.0,
+            "x_max": 199.0,
+            "y_max": 123.0
+          },
+          "page": 1,
+          "confidence": 0.741
+        },
+        {
+          "text": "LAKHTAR",
+          "bbox": {
+            "x_min": 163.0,
+            "y_min": 119.0,
+            "x_max": 221.0,
+            "y_max": 137.0
+          },
+          "page": 1,
+          "confidence": 0.813
+        },
+        {
+          "text": "Passport No",
+          "bbox": {
+            "x_min": 270.0,
+            "y_min": 117.0,
+            "x_max": 314.0,
+            "y_max": 130.0
+          },
+          "page": 1,
+          "confidence": 0.97
+        },
+        {
+          "text": "A00380027",
+          "bbox": {
+            "x_min": 346.0,
+            "y_min": 116.0,
+            "x_max": 383.0,
+            "y_max": 130.0
+          },
+          "page": 1,
+          "confidence": 0.977
+        },
+        {
+          "text": "Maktab No",
+          "bbox": {
+            "x_min": 412.0,
+            "y_min": 116.0,
+            "x_max": 457.0,
+            "y_max": 132.0
+          },
+          "page": 1,
+          "confidence": 0.77
+        },
+        {
+          "text": "800",
+          "bbox": {
+            "x_min": 461.0,
+            "y_min": 108.0,
+            "x_max": 481.0,
+            "y_max": 124.0
+          },
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Name.",
+          "bbox": {
+            "x_min": 118.0,
+            "y_min": 121.0,
+            "x_max": 143.0,
+            "y_max": 135.0
+          },
+          "page": 1,
+          "confidence": 0.8
+        },
+        {
+          "text": "AS",
+          "bbox": {
+            "x_min": 461.0,
+            "y_min": 120.0,
+            "x_max": 477.0,
+            "y_max": 135.0
+          },
+          "page": 1,
+          "confidence": 0.645
+        },
+        {
+          "text": "Gender",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 133.0,
+            "x_max": 146.0,
+            "y_max": 146.0
+          },
+          "page": 1,
+          "confidence": 0.978
+        },
+        {
+          "text": "MALE",
+          "bbox": {
+            "x_min": 166.0,
+            "y_min": 137.0,
+            "x_max": 186.0,
+            "y_max": 145.0
+          },
+          "page": 1,
+          "confidence": 0.973
+        },
+        {
+          "text": "Disct _CHATTOGRAM",
+          "bbox": {
+            "x_min": 215.0,
+            "y_min": 135.0,
+            "x_max": 304.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.813
+        },
+        {
+          "text": "Than",
+          "bbox": {
+            "x_min": 392.0,
+            "y_min": 147.0,
+            "x_max": 411.0,
+            "y_max": 155.0
+          },
+          "page": 1,
+          "confidence": 0.995
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": {
+            "x_min": 284.0,
+            "y_min": 159.0,
+            "x_max": 363.0,
+            "y_max": 176.0
+          },
+          "page": 1,
+          "confidence": 0.963
+        },
+        {
+          "text": "1.Blood Group:",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 169.0,
+            "x_max": 264.0,
+            "y_max": 186.0
+          },
+          "page": 1,
+          "confidence": 0.833
+        },
+        {
+          "text": "3.Heart Dise",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 181.0,
+            "x_max": 250.0,
+            "y_max": 192.0
+          },
+          "page": 1,
+          "confidence": 0.855
+        },
+        {
+          "text": "N0",
+          "bbox": {
+            "x_min": 278.0,
+            "y_min": 176.0,
+            "x_max": 295.0,
+            "y_max": 201.0
+          },
+          "page": 1,
+          "confidence": 0.325
+        },
+        {
+          "text": "5.Kidney Disease",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 186.0,
+            "x_max": 270.0,
+            "y_max": 204.0
+          },
+          "page": 1,
+          "confidence": 0.875
+        },
+        {
+          "text": "2.Blood Pressure",
+          "bbox": {
+            "x_min": 365.0,
+            "y_min": 178.0,
+            "x_max": 426.0,
+            "y_max": 189.0
+          },
+          "page": 1,
+          "confidence": 0.928
+        },
+        {
+          "text": "7.Menta Disese",
+          "bbox": {
+            "x_min": 200.0,
+            "y_min": 192.0,
+            "x_max": 272.0,
+            "y_max": 214.0
+          },
+          "page": 1,
+          "confidence": 0.661
+        },
+        {
+          "text": "4.Lung Disease",
+          "bbox": {
+            "x_min": 366.0,
+            "y_min": 188.0,
+            "x_max": 421.0,
+            "y_max": 202.0
+          },
+          "page": 1,
+          "confidence": 0.949
+        },
+        {
+          "text": "9.Weight",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 205.0,
+            "x_max": 242.0,
+            "y_max": 220.0
+          },
+          "page": 1,
+          "confidence": 0.943
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 281.0,
+            "y_min": 198.0,
+            "x_max": 293.0,
+            "y_max": 207.0
+          },
+          "page": 1,
+          "confidence": 0.997
+        },
+        {
+          "text": "52",
+          "bbox": {
+            "x_min": 281.0,
+            "y_min": 206.0,
+            "x_max": 291.0,
+            "y_max": 215.0
+          },
+          "page": 1,
+          "confidence": 0.908
+        },
+        {
+          "text": "6.Diabetes",
+          "bbox": {
+            "x_min": 366.0,
+            "y_min": 197.0,
+            "x_max": 410.0,
+            "y_max": 207.0
+          },
+          "page": 1,
+          "confidence": 0.967
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 463.0,
+            "y_min": 201.0,
+            "x_max": 477.0,
+            "y_max": 213.0
+          },
+          "page": 1,
+          "confidence": 0.994
+        },
+        {
+          "text": "11.Drug History",
+          "bbox": {
+            "x_min": 198.0,
+            "y_min": 212.0,
+            "x_max": 261.0,
+            "y_max": 232.0
+          },
+          "page": 1,
+          "confidence": 0.918
+        },
+        {
+          "text": "10.Liver Disease",
+          "bbox": {
+            "x_min": 362.0,
+            "y_min": 213.0,
+            "x_max": 422.0,
+            "y_max": 223.0
+          },
+          "page": 1,
+          "confidence": 0.945
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 464.0,
+            "y_min": 210.0,
+            "x_max": 475.0,
+            "y_max": 220.0
+          },
+          "page": 1,
+          "confidence": 0.996
+        },
+        {
+          "text": "Chief Complaints:",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 230.0,
+            "x_max": 202.0,
+            "y_max": 251.0
+          },
+          "page": 1,
+          "confidence": 0.946
+        },
+        {
+          "text": "maibes",
+          "bbox": {
+            "x_min": 429.0,
+            "y_min": 222.0,
+            "x_max": 456.0,
+            "y_max": 229.0
+          },
+          "page": 1,
+          "confidence": 0.83
+        },
+        {
+          "text": "-Feet Ain",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 246.0,
+            "x_max": 216.0,
+            "y_max": 268.0
+          },
+          "page": 1,
+          "confidence": 0.663
+        },
+        {
+          "text": "Visit No:",
+          "bbox": {
+            "x_min": 241.0,
+            "y_min": 240.0,
+            "x_max": 277.0,
+            "y_max": 254.0
+          },
+          "page": 1,
+          "confidence": 0.94
+        },
+        {
+          "text": "2nd COPY",
+          "bbox": {
+            "x_min": 277.0,
+            "y_min": 239.0,
+            "x_max": 314.0,
+            "y_max": 249.0
+          },
+          "page": 1,
+          "confidence": 0.899
+        },
+        {
+          "text": "Date:",
+          "bbox": {
+            "x_min": 387.0,
+            "y_min": 241.0,
+            "x_max": 411.0,
+            "y_max": 257.0
+          },
+          "page": 1,
+          "confidence": 0.95
+        },
+        {
+          "text": "27May 2024",
+          "bbox": {
+            "x_min": 408.0,
+            "y_min": 235.0,
+            "x_max": 453.0,
+            "y_max": 248.0
+          },
+          "page": 1,
+          "confidence": 0.891
+        },
+        {
+          "text": "O/E",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 281.0,
+            "x_max": 138.0,
+            "y_max": 293.0
+          },
+          "page": 1,
+          "confidence": 0.966
+        },
+        {
+          "text": "Pulse",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 293.0,
+            "x_max": 139.0,
+            "y_max": 305.0
+          },
+          "page": 1,
+          "confidence": 0.983
+        },
+        {
+          "text": "120H",
+          "bbox": {
+            "x_min": 106.0,
+            "y_min": 304.0,
+            "x_max": 212.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.762
+        },
+        {
+          "text": "Temp-",
+          "bbox": {
+            "x_min": 114.0,
+            "y_min": 318.0,
+            "x_max": 144.0,
+            "y_max": 338.0
+          },
+          "page": 1,
+          "confidence": 0.964
+        },
+        {
+          "text": "60",
+          "bbox": {
+            "x_min": 510.0,
+            "y_min": 313.0,
+            "x_max": 529.0,
+            "y_max": 325.0
+          },
+          "page": 1,
+          "confidence": 0.62
+        },
+        {
+          "text": "Anaemia-",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 336.0,
+            "x_max": 152.0,
+            "y_max": 347.0
+          },
+          "page": 1,
+          "confidence": 0.926
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 518.0,
+            "y_min": 338.0,
+            "x_max": 530.0,
+            "y_max": 347.0
+          },
+          "page": 1,
+          "confidence": 0.181
+        },
+        {
+          "text": "Dehydration-",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 349.0,
+            "x_max": 168.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.962
+        },
+        {
+          "text": "Respiration-",
+          "bbox": {
+            "x_min": 115.0,
+            "y_min": 360.0,
+            "x_max": 165.0,
+            "y_max": 376.0
+          },
+          "page": 1,
+          "confidence": 0.957
+        },
+        {
+          "text": "Others",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 374.0,
+            "x_max": 145.0,
+            "y_max": 387.0
+          },
+          "page": 1,
+          "confidence": 0.982
+        },
+        {
+          "text": "+04",
+          "bbox": {
+            "x_min": 389.0,
+            "y_min": 361.0,
+            "x_max": 446.0,
+            "y_max": 379.0
+          },
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "FBS/RBS.",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 475.0,
+            "x_max": 159.0,
+            "y_max": 489.0
+          },
+          "page": 1,
+          "confidence": 0.884
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 490.0,
+            "x_max": 138.0,
+            "y_max": 502.0
+          },
+          "page": 1,
+          "confidence": 0.997
+        },
+        {
+          "text": "Provisional Diagonosis",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 517.0,
+            "x_max": 213.0,
+            "y_max": 530.0
+          },
+          "page": 1,
+          "confidence": 0.979
+        }
+      ],
+      "medications": [
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.813
+        },
+        {
+          "name": "Bangladesh Hajjoffice",
+          "matched_term": "Bangladesh Hajjoffice",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.438
+        },
+        {
+          "name": "Makkah Madinah Jeddah",
+          "matched_term": "Makkah Madinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.448
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.43
+        },
+        {
+          "name": "Lodical",
+          "matched_term": "Lodical",
+          "drug_id": "83b1372d-43ef-4277-afee-9fcbaabc9f34",
+          "brand_id": "b4b9ff4d-5dff-439e-8d13-addba88ebfd5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.763
+        },
+        {
+          "name": "Pilgrlmd",
+          "matched_term": "Pilgrlmd",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.387
+        },
+        {
+          "name": "Maktab No",
+          "matched_term": "Maktab No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.347
+        },
+        {
+          "name": "Passport No",
+          "matched_term": "Passport No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.436
+        },
+        {
+          "name": "Lakhtar As",
+          "matched_term": "Lakhtar As",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Name",
+          "matched_term": "Name",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.36
+        },
+        {
+          "name": "Gender",
+          "matched_term": "Gender",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.44
+        },
+        {
+          "name": "Disct Chattogram",
+          "matched_term": "Disct Chattogram",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.366
+        },
+        {
+          "name": "Malex",
+          "matched_term": "Malex",
+          "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+          "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.818
+        },
+        {
+          "name": "Than",
+          "matched_term": "Than",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.448
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.813
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Pressure Cure",
+          "matched_term": "Pressure Cure",
+          "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+          "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.798
+        },
+        {
+          "name": "Heart Raj",
+          "matched_term": "Heart Raj",
+          "drug_id": "a7fd22e6-a136-4acb-988e-6b7adc2a00ab",
+          "brand_id": "b88ceb73-a6ee-4a85-89a7-be23f8aa3b62",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.765
+        },
+        {
+          "name": "Kidney Disease",
+          "matched_term": "Kidney Disease",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.394
+        },
+        {
+          "name": "Lung Disease",
+          "matched_term": "Lung Disease",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.427
+        },
+        {
+          "name": "Momenta",
+          "matched_term": "Momenta",
+          "drug_id": "8d336b38-3a77-4e97-be46-72fdf04f8ff9",
+          "brand_id": "57bb9b10-3c8e-4c1d-a9aa-dc36a5feffb2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.677
+        },
+        {
+          "name": "Diabetex",
+          "matched_term": "Diabetex",
+          "drug_id": "ac05c239-f317-474c-ab2c-6bf81c84a925",
+          "brand_id": "25a6e199-b4b5-498e-a853-b9cfc2410186",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.824
+        },
+        {
+          "name": "Weight No",
+          "matched_term": "Weight No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.427
+        },
+        {
+          "name": "Drug History",
+          "matched_term": "Drug History",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.413
+        },
+        {
+          "name": "MU Liver",
+          "matched_term": "MU Liver",
+          "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+          "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.805
+        },
+        {
+          "name": "Maibes",
+          "matched_term": "Maibes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.373
+        },
+        {
+          "name": "Chief Complaints May",
+          "matched_term": "Chief Complaints May",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.413
+        },
+        {
+          "name": "Nd Copy",
+          "matched_term": "Nd Copy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.405
+        },
+        {
+          "name": "Visin",
+          "matched_term": "Visin",
+          "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+          "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.803
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.427
+        },
+        {
+          "name": "Feet Ain",
+          "matched_term": "Feet Ain",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.367
+        },
+        {
+          "name": "Pulse",
+          "matched_term": "Pulse",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.355
+        },
+        {
+          "name": "Tempac",
+          "matched_term": "Tempac",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.814
+        },
+        {
+          "name": "Re Anaemia",
+          "matched_term": "Re Anaemia",
+          "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+          "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.629
+        },
+        {
+          "name": "G Rehydration",
+          "matched_term": "G Rehydration",
+          "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+          "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.813
+        },
+        {
+          "name": "Respira",
+          "matched_term": "Respira",
+          "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+          "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.726
+        },
+        {
+          "name": "Othera",
+          "matched_term": "Othera",
+          "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+          "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.822
+        },
+        {
+          "name": "Fbs Rbs",
+          "matched_term": "Fbs Rbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.398
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.449
+        },
+        {
+          "name": "Provisional Diagonosis",
+          "matched_term": "Provisional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.441
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वानशनज\nG017\nकार्बन नएं\nPilgrim ID ____ 0174068\nPasaport No\nA00380027\nMaktab No.\nGender ....\nMALE\nDistrict CHATTOGRAM\nKHULSHI\nThana\nHEALTH PROFILE\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\n5. Kidney Disease:\nNO\n4. Lung Disease:\n5.67\n7. Mental Disease:\nNO\n6. Diabetes:\nNO\n9, Weight:\n10. Liver Disease:\n11. Drug History:\n12. Any other abnormalities:\nChief Complaints:\n- Feet pim\nVisit No:\n2nd COPY\n27 May 2024\nRx,\n- 04. Naproxen (500mg)-20\nPulso-\nTop- 120/80 months\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nFBS/RBS-\nECG\nProvisional Diagonosis\nDate:\n50\n- Cap. fratid (como)\n29.04.2018\nएम एसविटिकन गणेशव डिकिदिया गया अटपटा सभा । बारह गमणि अधिवाता वरनाई ऋण वामटर पटना।\nNO\n8. Blood Sugar (RBS);\nNO\nMedical Center:\nNamo _.\nJANIL AKHTAR\n... Ago",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Bangladesh Hajj Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Makkah/Madinah/Jeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "TREATMENT CARD / वानशनज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "G017",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "कार्बन नएं",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Pilgrim ID ____ 0174068",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Pasaport No",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "A00380027",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Maktab No.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Gender ....",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "MALE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "District CHATTOGRAM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "KHULSHI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Thana",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "1. Blood Group:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "2. Blood Pressure:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "3. Heart Disease:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "5. Kidney Disease:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "4. Lung Disease:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "5.67",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "7. Mental Disease:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "6. Diabetes:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "9, Weight:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "10. Liver Disease:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "11. Drug History:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "12. Any other abnormalities:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Chief Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "- Feet pim",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Visit No:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "2nd COPY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "27 May 2024",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Rx,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "- 04. Naproxen (500mg)-20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Pulso-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Top- 120/80 months",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Temp-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Anaemia-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Dehydration-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Respiration-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Others-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "FBS/RBS-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "ECG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Provisional Diagonosis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Date:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "- Cap. fratid (como)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "29.04.2018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "एम एसविटिकन गणेशव डिकिदिया गया अटपटा सभा । बारह गमणि अधिवाता वरनाई ऋण वामटर पटना।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "8. Blood Sugar (RBS);",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Medical Center:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "Namo _.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "JANIL AKHTAR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        },
+        {
+          "text": "... Ago",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.757
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Bangladesh Hajj Office",
+          "matched_term": "Bangladesh Hajj Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Makkah Madinah Jeddah",
+          "matched_term": "Makkah Madinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Pilgrim Id",
+          "matched_term": "Pilgrim Id",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Pasaport No",
+          "matched_term": "Pasaport No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Maktab No",
+          "matched_term": "Maktab No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Gender",
+          "matched_term": "Gender",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Malex",
+          "matched_term": "Malex",
+          "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+          "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "District Chattogram",
+          "matched_term": "District Chattogram",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Khulshi",
+          "matched_term": "Khulshi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Thana",
+          "matched_term": "Thana",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Pressure Cure",
+          "matched_term": "Pressure Cure",
+          "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+          "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Heart Raj",
+          "matched_term": "Heart Raj",
+          "drug_id": "a7fd22e6-a136-4acb-988e-6b7adc2a00ab",
+          "brand_id": "b88ceb73-a6ee-4a85-89a7-be23f8aa3b62",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Kidney Disease No",
+          "matched_term": "Kidney Disease No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Lung Disease",
+          "matched_term": "Lung Disease",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Mental Disease No",
+          "matched_term": "Mental Disease No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Diabetex",
+          "matched_term": "Diabetex",
+          "drug_id": "ac05c239-f317-474c-ab2c-6bf81c84a925",
+          "brand_id": "25a6e199-b4b5-498e-a853-b9cfc2410186",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Weight",
+          "matched_term": "Weight",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "MU Liver",
+          "matched_term": "MU Liver",
+          "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+          "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Drug History",
+          "matched_term": "Drug History",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Any Other Abnormalities",
+          "matched_term": "Any Other Abnormalities",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Chief Complaints",
+          "matched_term": "Chief Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Feet Pim",
+          "matched_term": "Feet Pim",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Visin",
+          "matched_term": "Visin",
+          "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+          "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Nd Copy",
+          "matched_term": "Nd Copy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Mahi-27",
+          "matched_term": "Mahi-27",
+          "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+          "brand_id": "f0efd4e9-e1e5-4d58-b75e-122af88df60e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "naproxen",
+          "matched_term": "naproxen",
+          "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+          "brand_id": null,
+          "dosage": "500mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.772
+        },
+        {
+          "name": "Pulso",
+          "matched_term": "Pulso",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "80 months",
+          "confidence": 0.39
+        },
+        {
+          "name": "Tempac",
+          "matched_term": "Tempac",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Re Anaemia",
+          "matched_term": "Re Anaemia",
+          "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+          "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "G Rehydration",
+          "matched_term": "G Rehydration",
+          "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+          "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Respira",
+          "matched_term": "Respira",
+          "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+          "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Othera",
+          "matched_term": "Othera",
+          "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+          "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Fbs Rbs",
+          "matched_term": "Fbs Rbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Provisional Diagonosis",
+          "matched_term": "Provisional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Fratid Como No",
+          "matched_term": "Fratid Como No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Namo",
+          "matched_term": "Namo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        },
+        {
+          "name": "Janis",
+          "matched_term": "Janis",
+          "drug_id": "d9988ba2-9056-4b67-b367-5cf1e588ae3c",
+          "brand_id": "a3cfecc4-452b-47a0-83d1-042e02aa1cf0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.721
+        },
+        {
+          "name": "Ago",
+          "matched_term": "Ago",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.341
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Date Rx",
+          "matched_term": "Date Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "naproxen",
+          "matched_term": "naproxen",
+          "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+          "brand_id": null,
+          "dosage": "500mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.678
+        },
+        {
+          "name": "Fratid Como",
+          "matched_term": "Fratid Como",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        }
+      ],
+      "raw_text": "Date\nRx\n- Db. Naproxen (500mg)-20\nร้องกิจ)\n- Cap. fratid (como)-",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 9136,
+        "detected_regions": 1,
+        "ocr_line_count": 5,
+        "yolo_avg_confidence": 0.8827,
+        "yolo_min_confidence": 0.8827,
+        "yolo_max_confidence": 0.8827,
+        "ocr_avg_confidence": 0.548,
+        "ocr_min_confidence": 0.548,
+        "ocr_max_confidence": 0.548,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 300.638671875,
+              "y_min": 252.46240234375,
+              "x_max": 547.366943359375,
+              "y_max": 401.5440979003906
+            },
+            "score": 0.8827
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Date",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "- Db. Naproxen (500mg)-20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "ร้องกิจ)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "- Cap. fratid (como)-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

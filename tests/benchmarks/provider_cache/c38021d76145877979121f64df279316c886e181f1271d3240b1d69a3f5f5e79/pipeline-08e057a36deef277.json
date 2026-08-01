@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0059",
+  "source_sha256": "c38021d76145877979121f64df279316c886e181f1271d3240b1d69a3f5f5e79",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:32:36.830176+00:00",
+  "runtime_ms": 13573.390300007304,
+  "output": {
+    "medications": [
+      {
+        "name": "furosemide",
+        "matched_term": "furosemide",
+        "drug_id": "72df38a8-9b03-4132-8f60-ddceea23f437",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.592
+      },
+      {
+        "name": "Petroleum",
+        "matched_term": "Petroleum",
+        "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.592
+      },
+      {
+        "name": "Magnide",
+        "matched_term": "Magnide",
+        "drug_id": "92b1472c-d8bc-41b8-bf31-ef374ccbcea2",
+        "brand_id": "bc2376f7-613b-4f4f-8d8e-acf94666edaa",
+        "dosage": "20g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.643
+      },
+      {
+        "name": "Tata Pha",
+        "matched_term": "Tata Pha",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.212
+      }
+    ],
+    "raw_text": "Rx\n.Tab. Furosemid + stinonolachine\n(2015m)\n2+40- 6AT\n· petroleum cully-\n· cap. magnaside (20g)\n+ tata - @ Pha",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 13533,
+      "detected_regions": 1,
+      "ocr_line_count": 7,
+      "yolo_avg_confidence": 0.8703,
+      "yolo_min_confidence": 0.8703,
+      "yolo_max_confidence": 0.8703,
+      "ocr_avg_confidence": 0.471,
+      "ocr_min_confidence": 0.471,
+      "ocr_max_confidence": 0.471,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 188.0086669921875,
+            "y_min": 244.16622924804688,
+            "x_max": 545.36962890625,
+            "y_max": 427.1116638183594
+          },
+          "score": 0.8703
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": ".Tab. Furosemid + stinonolachine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "(2015m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "2+40- 6AT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "· petroleum cully-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "· cap. magnaside (20g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "+ tata - @ Pha",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.471
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

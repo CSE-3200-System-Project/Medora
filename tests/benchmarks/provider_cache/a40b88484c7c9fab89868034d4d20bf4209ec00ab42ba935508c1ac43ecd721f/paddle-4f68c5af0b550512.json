@@ -1,0 +1,760 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0086",
+  "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:09:20.480799+00:00",
+  "runtime_ms": 22150.753299996722,
+  "output": {
+    "raw_text": "Bangladesh Haj Offc\nModica e\nTREATMENT CARD/\nPigono\nG255\n1N\n4374\nVaksuo\nMCE\nC\nNC\nDure.\nDOACR\n56\n1.\n89\nHEALTH PROFILE\n2.Bed Pressro\n3989\n12020\nMyrey\nCher Compains\n12 Any e obnmai\nYE9\nD\nVOENo\nPa\nOE-\n.\nFus\n+\nJo\ne\nTernp-\nAraemia\nDonydracon-\nTsM+ms\nRespuation\nDEers\nC0\nDo\nOnepret\n2cw\nECG\nProvisiona/ Diagonosis",
+    "lines": [
+      {
+        "text": "Bangladesh Haj Offc",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 108.0,
+          "x_max": 376.0,
+          "y_max": 122.0
+        },
+        "page": 1,
+        "confidence": 0.799
+      },
+      {
+        "text": "Modica e",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 127.0,
+          "x_max": 225.0,
+          "y_max": 155.0
+        },
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 269.0,
+          "y_min": 132.0,
+          "x_max": 395.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.877
+      },
+      {
+        "text": "Pigono",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 145.0,
+          "x_max": 188.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.551
+      },
+      {
+        "text": "G255",
+        "bbox": {
+          "x_min": 407.0,
+          "y_min": 138.0,
+          "x_max": 484.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.941
+      },
+      {
+        "text": "1N",
+        "bbox": {
+          "x_min": 275.0,
+          "y_min": 154.0,
+          "x_max": 324.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.198
+      },
+      {
+        "text": "4374",
+        "bbox": {
+          "x_min": 352.0,
+          "y_min": 152.0,
+          "x_max": 383.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Vaksuo",
+        "bbox": {
+          "x_min": 409.0,
+          "y_min": 152.0,
+          "x_max": 452.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.566
+      },
+      {
+        "text": "MCE",
+        "bbox": {
+          "x_min": 193.0,
+          "y_min": 162.0,
+          "x_max": 214.0,
+          "y_max": 173.0
+        },
+        "page": 1,
+        "confidence": 0.793
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 454.0,
+          "y_min": 157.0,
+          "x_max": 467.0,
+          "y_max": 164.0
+        },
+        "page": 1,
+        "confidence": 0.196
+      },
+      {
+        "text": "NC",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 168.0,
+          "x_max": 178.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.204
+      },
+      {
+        "text": "Dure.",
+        "bbox": {
+          "x_min": 233.0,
+          "y_min": 174.0,
+          "x_max": 270.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.607
+      },
+      {
+        "text": "DOACR",
+        "bbox": {
+          "x_min": 266.0,
+          "y_min": 168.0,
+          "x_max": 306.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.335
+      },
+      {
+        "text": "56",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 166.0,
+          "x_max": 467.0,
+          "y_max": 175.0
+        },
+        "page": 1,
+        "confidence": 0.275
+      },
+      {
+        "text": "1.",
+        "bbox": {
+          "x_min": 222.0,
+          "y_min": 197.0,
+          "x_max": 276.0,
+          "y_max": 216.0
+        },
+        "page": 1,
+        "confidence": 0.817
+      },
+      {
+        "text": "89",
+        "bbox": {
+          "x_min": 284.0,
+          "y_min": 200.0,
+          "x_max": 304.0,
+          "y_max": 241.0
+        },
+        "page": 1,
+        "confidence": 0.39
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 289.0,
+          "y_min": 192.0,
+          "x_max": 365.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "2.Bed Pressro",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 207.0,
+          "x_max": 422.0,
+          "y_max": 218.0
+        },
+        "page": 1,
+        "confidence": 0.731
+      },
+      {
+        "text": "3989",
+        "bbox": {
+          "x_min": 451.0,
+          "y_min": 207.0,
+          "x_max": 470.0,
+          "y_max": 246.0
+        },
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "12020",
+        "bbox": {
+          "x_min": 452.0,
+          "y_min": 197.0,
+          "x_max": 479.0,
+          "y_max": 214.0
+        },
+        "page": 1,
+        "confidence": 0.64
+      },
+      {
+        "text": "Myrey",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 239.0,
+          "x_max": 335.0,
+          "y_max": 256.0
+        },
+        "page": 1,
+        "confidence": 0.279
+      },
+      {
+        "text": "Cher Compains",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 250.0,
+          "x_max": 219.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.806
+      },
+      {
+        "text": "12 Any e obnmai",
+        "bbox": {
+          "x_min": 361.0,
+          "y_min": 244.0,
+          "x_max": 451.0,
+          "y_max": 258.0
+        },
+        "page": 1,
+        "confidence": 0.702
+      },
+      {
+        "text": "YE9",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 242.0,
+          "x_max": 468.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.829
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 260.0,
+          "x_max": 217.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.339
+      },
+      {
+        "text": "VOENo",
+        "bbox": {
+          "x_min": 254.0,
+          "y_min": 262.0,
+          "x_max": 280.0,
+          "y_max": 273.0
+        },
+        "page": 1,
+        "confidence": 0.503
+      },
+      {
+        "text": "Pa",
+        "bbox": {
+          "x_min": 294.0,
+          "y_min": 275.0,
+          "x_max": 315.0,
+          "y_max": 292.0
+        },
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "OE-",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 291.0,
+          "x_max": 158.0,
+          "y_max": 309.0
+        },
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 305.0,
+          "y_min": 290.0,
+          "x_max": 363.0,
+          "y_max": 308.0
+        },
+        "page": 1,
+        "confidence": 0.671
+      },
+      {
+        "text": "Fus",
+        "bbox": {
+          "x_min": 136.0,
+          "y_min": 307.0,
+          "x_max": 156.0,
+          "y_max": 319.0
+        },
+        "page": 1,
+        "confidence": 0.456
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 303.0,
+          "x_max": 440.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.705
+      },
+      {
+        "text": "Jo",
+        "bbox": {
+          "x_min": 469.0,
+          "y_min": 301.0,
+          "x_max": 515.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.32
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 318.0,
+          "x_max": 148.0,
+          "y_max": 329.0
+        },
+        "page": 1,
+        "confidence": 0.283
+      },
+      {
+        "text": "Ternp-",
+        "bbox": {
+          "x_min": 134.0,
+          "y_min": 332.0,
+          "x_max": 158.0,
+          "y_max": 343.0
+        },
+        "page": 1,
+        "confidence": 0.77
+      },
+      {
+        "text": "Araemia",
+        "bbox": {
+          "x_min": 132.0,
+          "y_min": 343.0,
+          "x_max": 166.0,
+          "y_max": 355.0
+        },
+        "page": 1,
+        "confidence": 0.772
+      },
+      {
+        "text": "Donydracon-",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 354.0,
+          "x_max": 181.0,
+          "y_max": 370.0
+        },
+        "page": 1,
+        "confidence": 0.718
+      },
+      {
+        "text": "TsM+ms",
+        "bbox": {
+          "x_min": 317.0,
+          "y_min": 342.0,
+          "x_max": 538.0,
+          "y_max": 381.0
+        },
+        "page": 1,
+        "confidence": 0.658
+      },
+      {
+        "text": "Respuation",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 369.0,
+          "x_max": 174.0,
+          "y_max": 382.0
+        },
+        "page": 1,
+        "confidence": 0.812
+      },
+      {
+        "text": "DEers",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 382.0,
+          "x_max": 154.0,
+          "y_max": 394.0
+        },
+        "page": 1,
+        "confidence": 0.714
+      },
+      {
+        "text": "C0",
+        "bbox": {
+          "x_min": 372.0,
+          "y_min": 374.0,
+          "x_max": 455.0,
+          "y_max": 397.0
+        },
+        "page": 1,
+        "confidence": 0.428
+      },
+      {
+        "text": "Do",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 391.0,
+          "x_max": 458.0,
+          "y_max": 419.0
+        },
+        "page": 1,
+        "confidence": 0.144
+      },
+      {
+        "text": "Onepret",
+        "bbox": {
+          "x_min": 386.0,
+          "y_min": 423.0,
+          "x_max": 485.0,
+          "y_max": 442.0
+        },
+        "page": 1,
+        "confidence": 0.583
+      },
+      {
+        "text": "2cw",
+        "bbox": {
+          "x_min": 497.0,
+          "y_min": 422.0,
+          "x_max": 529.0,
+          "y_max": 433.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 115.0,
+          "y_min": 496.0,
+          "x_max": 135.0,
+          "y_max": 508.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      },
+      {
+        "text": "Provisiona/ Diagonosis",
+        "bbox": {
+          "x_min": 111.0,
+          "y_min": 524.0,
+          "x_max": 209.0,
+          "y_max": 542.0
+        },
+        "page": 1,
+        "confidence": 0.979
+      }
+    ],
+    "medications": [
+      {
+        "name": "Bangladesh Haj Offc",
+        "matched_term": "Bangladesh Haj Offc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.36
+      },
+      {
+        "name": "Modica",
+        "matched_term": "Modica",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.409
+      },
+      {
+        "name": "Pigono",
+        "matched_term": "Pigono",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Vaksuo",
+        "matched_term": "Vaksuo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.144
+      },
+      {
+        "name": "Mce Nc",
+        "matched_term": "Mce Nc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.191
+      },
+      {
+        "name": "Doacr",
+        "matched_term": "Doacr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.151
+      },
+      {
+        "name": "Durex",
+        "matched_term": "Durex",
+        "drug_id": "3197103f-2401-4c10-a286-bd973c2c54e0",
+        "brand_id": "cc7aaf27-7228-4f60-a036-eb5659a07e53",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.653
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.694
+      },
+      {
+        "name": "Bed Pressro",
+        "matched_term": "Bed Pressro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.298
+      },
+      {
+        "name": "Myrey Ye",
+        "matched_term": "Myrey Ye",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.249
+      },
+      {
+        "name": "Dpl20",
+        "matched_term": "Dpl20",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.532
+      },
+      {
+        "name": "Cher Compains",
+        "matched_term": "Cher Compains",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Voeno Pa Aloe",
+        "matched_term": "Voeno Pa Aloe",
+        "drug_id": "497977fe-7383-418b-8239-c016268333ac",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "FuSo",
+        "matched_term": "FuSo",
+        "drug_id": "f89cb020-0a61-4738-97c9-bee9b3a4b833",
+        "brand_id": "fc24b294-2b9f-4d06-86a2-e5ef7ceadf53",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.546
+      },
+      {
+        "name": "Ternp",
+        "matched_term": "Ternp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.347
+      },
+      {
+        "name": "Tsm Ms",
+        "matched_term": "Tsm Ms",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      },
+      {
+        "name": "Araemia",
+        "matched_term": "Araemia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.347
+      },
+      {
+        "name": "Donydracon",
+        "matched_term": "Donydracon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.323
+      },
+      {
+        "name": "Respuation",
+        "matched_term": "Respuation",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.279
+      },
+      {
+        "name": "Deers Do Cw",
+        "matched_term": "Deers Do Cw",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      },
+      {
+        "name": "Onepro",
+        "matched_term": "Onepro",
+        "drug_id": "7c43c194-2c56-4b11-8f86-5d97549a387d",
+        "brand_id": "6cb67478-3bb2-42b5-a5cc-2b5d583a2b1f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.642
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.447
+      },
+      {
+        "name": "Provisiona Diagonosis",
+        "matched_term": "Provisiona Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.441
+      }
+    ]
+  }
+}

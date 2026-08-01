@@ -1,0 +1,627 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0069",
+  "source_sha256": "39e7c5fda64db4b12951fb6ca8820b0d8863378bf9882839ad907feed09aa2a2",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:59:35.131098+00:00",
+  "runtime_ms": 26705.99330001278,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkahvMadinahJeddah\nTREATMENT CARD / *******\n-TANG027\nMadcal Griffer\nPuespod tia\nPlight Ata\nMO ASI AM USOIN\nfaunder\nMALI\nGisimet HATORE\nHEALTH PROFILE\n6. Diabetes !!\n5 Kidney Disease\n6. Blood Sugar (RSS),\n10 Liver Disease:\n12. Any other abnfirmattive NO\nChief Complaints:\nVISI No:\nPUD\n1ch ompregole\n120\nAtútima\nDehydration\nKooperation:\nOthers-\nBinacodyl 5\n5\n1016.\n0:075\n1. Nye Extral\n60\n22075\n2015.\nY\nProvisional Diagononis\n- ABS, > 6.7 mg\n2\nFBS/RBS-\nEDE\n11. Doug History\nDate:25 May 2504\n57077\n10 b.",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MakkahvMadinahJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "TREATMENT CARD / *******",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "-TANG027",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Madcal Griffer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Puespod tia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Plight Ata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MO ASI AM USOIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "faunder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MALI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Gisimet HATORE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "6. Diabetes !!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "5 Kidney Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "6. Blood Sugar (RSS),",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "12. Any other abnfirmattive NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "VISI No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1ch ompregole",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Atútima",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Dehydration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Kooperation:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Binacodyl 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1016.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "0:075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1. Nye Extral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "60",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "22075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "2015.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Provisional Diagononis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "- ABS, > 6.7 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "EDE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "11. Doug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Date:25 May 2504",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "57077",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "10 b.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Makkahvmadinahjeddah",
+        "matched_term": "Makkahvmadinahjeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Treatment Card Tang",
+        "matched_term": "Treatment Card Tang",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Madcal Griffer",
+        "matched_term": "Madcal Griffer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Puespod Tia",
+        "matched_term": "Puespod Tia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Plight Ata",
+        "matched_term": "Plight Ata",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Mo Asi Am",
+        "matched_term": "Mo Asi Am",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Faunder",
+        "matched_term": "Faunder",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Mali",
+        "matched_term": "Mali",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Gisimet Hatore",
+        "matched_term": "Gisimet Hatore",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Diabetex",
+        "matched_term": "Diabetex",
+        "drug_id": "ac05c239-f317-474c-ab2c-6bf81c84a925",
+        "brand_id": "25a6e199-b4b5-498e-a853-b9cfc2410186",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Kidney Disease",
+        "matched_term": "Kidney Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Any Other Abnfirmattive",
+        "matched_term": "Any Other Abnfirmattive",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Pud",
+        "matched_term": "Pud",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "C-Rich",
+        "matched_term": "C-Rich",
+        "drug_id": "30b8fd7b-f9bb-4bf5-84cb-9112108f6019",
+        "brand_id": "cae4927f-e4ac-481b-82d2-6c774b453b5a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.597
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Kooperation",
+        "matched_term": "Kooperation",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Bisacodyl 5",
+        "matched_term": "Bisacodyl 5",
+        "drug_id": "81097a17-588c-4fcb-8f98-e6e6bdf5586b",
+        "brand_id": "09509f0d-eaf5-4d04-b91d-d484e2032e60",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Nye Extral",
+        "matched_term": "Nye Extral",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Provisional Diagononis",
+        "matched_term": "Provisional Diagononis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Absi",
+        "matched_term": "Absi",
+        "drug_id": "d8bc5ebf-2ccc-470a-a93f-54daaef46800",
+        "brand_id": "1e9650e0-a0ff-46ad-97ed-564b2d619394",
+        "dosage": "6.7 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.715
+      },
+      {
+        "name": "Fbs Rbs",
+        "matched_term": "Fbs Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Edex",
+        "matched_term": "Edex",
+        "drug_id": "36606e7c-9e09-492e-a23b-3489b0bfdd78",
+        "brand_id": "e09fe971-e3d1-4f62-ba7b-d5da310dc828",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.664
+      },
+      {
+        "name": "Doug History",
+        "matched_term": "Doug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      },
+      {
+        "name": "Date May",
+        "matched_term": "Date May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.284
+      }
+    ]
+  }
+}

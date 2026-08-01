@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0014",
+  "source_sha256": "ad17df15f7b833cde091c8571b0b170e9fe5186eabe958199cb1ecfbe157f032",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:24:02.869820+00:00",
+  "runtime_ms": 12147.41399999184,
+  "output": {
+    "medications": [
+      {
+        "name": "AD-R",
+        "matched_term": "AD-R",
+        "drug_id": "b054c37c-0833-4382-be5b-bd7352e70209",
+        "brand_id": "d28c714e-b328-4b12-9ac1-04703e14e4d6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.629
+      },
+      {
+        "name": "Flux",
+        "matched_term": "Flux",
+        "drug_id": "1701e537-9eb5-4e41-8286-db15e8ce82c2",
+        "brand_id": "0f375e2a-72f2-4f88-8965-e6189257a6d3",
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "Final",
+        "matched_term": "Final",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "100 mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.35
+      },
+      {
+        "name": "Somet",
+        "matched_term": "Somet",
+        "drug_id": "c4faf554-1855-4ea3-b4f7-329e09cd2c16",
+        "brand_id": "c2a40efa-66fa-481f-8e57-d67b65a47e52",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.629
+      },
+      {
+        "name": "Mardil",
+        "matched_term": "Mardil",
+        "drug_id": "bb6408d9-c56b-4bd2-aa4b-106aa9c367eb",
+        "brand_id": "7b39aa55-2010-41d5-9181-9e8e29d78cf4",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.629
+      }
+    ],
+    "raw_text": "Ad_ Excision + 4/A.\nRx\n- Cap. Flux (500 mg)\n-40\n- 26. Final (100 mg) -10\n0 +0+2.\nsome\n- Mardin-@",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 12110,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.8824,
+      "yolo_min_confidence": 0.8824,
+      "yolo_max_confidence": 0.8824,
+      "ocr_avg_confidence": 0.554,
+      "ocr_min_confidence": 0.554,
+      "ocr_max_confidence": 0.554,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 292.9868469238281,
+            "y_min": 250.06698608398438,
+            "x_max": 534.1849975585938,
+            "y_max": 455.794189453125
+          },
+          "score": 0.8824
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Ad_ Excision + 4/A.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "- Cap. Flux (500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "-40",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "- 26. Final (100 mg) -10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "0 +0+2.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "some",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "- Mardin-@",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.554
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

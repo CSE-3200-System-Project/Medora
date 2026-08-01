@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0048",
+  "source_sha256": "df4a53feffd701249545ddc49d02bfaf97cba5aa159fe8c841d9787f6102c010",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:30:24.591460+00:00",
+  "runtime_ms": 14556.659599998966,
+  "output": {
+    "medications": [
+      {
+        "name": "Hypervismidisom",
+        "matched_term": "Hypervismidisom",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Carbizol",
+        "matched_term": "Carbizol",
+        "drug_id": "124288ab-652e-430c-8412-e438f6281147",
+        "brand_id": "daf3959d-3ba5-4305-acfc-cfd0e435fa83",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.626
+      },
+      {
+        "name": "Tcl-R",
+        "matched_term": "Tcl-R",
+        "drug_id": "86fdb62c-f8ac-41c3-b7a0-0e695a222c68",
+        "brand_id": "9e6f726b-9100-4bb3-8e1a-08757a6231e8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.626
+      },
+      {
+        "name": "Level-K",
+        "matched_term": "Level-K",
+        "drug_id": "0f507477-d702-4821-ba76-1bae3500e5ab",
+        "brand_id": "09d4b008-3330-4fc7-afea-0abb2ebdd625",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.626
+      },
+      {
+        "name": "No Anwar Kabir",
+        "matched_term": "No Anwar Kabir",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Brig Lien",
+        "matched_term": "Brig Lien",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Ady Spl In",
+        "matched_term": "Ady Spl In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Endocrinologist",
+        "matched_term": "Endocrinologist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Cmh Dhaka",
+        "matched_term": "Cmh Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Til",
+        "matched_term": "Til",
+        "drug_id": "654b7cd1-5571-4387-a406-40c7ded996d9",
+        "brand_id": "6c230c98-5f37-4310-95d5-6c44f42ead40",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.626
+      },
+      {
+        "name": "El Indevar",
+        "matched_term": "El Indevar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Talen",
+        "matched_term": "Talen",
+        "drug_id": "b21b4106-6f08-43d9-ab81-1712ea1e47b1",
+        "brand_id": "6aa28265-6173-4058-8ce5-4dee932813f2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.626
+      },
+      {
+        "name": "Oconel Afines",
+        "matched_term": "Oconel Afines",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      }
+    ],
+    "raw_text": "4 Hypervismidisom\nVB,. Tab. Carbizol 5r\n2×242\n2. Tcl Indevan 10\nlevel\n1\nRu .\nNO. ANWARÜL KABIR\nBrig lien\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n621\n13.7.2018\nw1 600\nTil Cambizol 52\n2004/\nMI.\nc .\n2.\nEl Indevar 10\n18\n3. Tale Prosmajor\noconel afines\nनाम M\n10",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 14520,
+      "detected_regions": 1,
+      "ocr_line_count": 26,
+      "yolo_avg_confidence": 0.8647,
+      "yolo_min_confidence": 0.8647,
+      "yolo_max_confidence": 0.8647,
+      "ocr_avg_confidence": 0.546,
+      "ocr_min_confidence": 0.546,
+      "ocr_max_confidence": 0.546,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1676.8597045898437,
+            "y_min": 962.9138153076171,
+            "x_max": 3447.491830444336,
+            "y_max": 4359.932070922851
+          },
+          "score": 0.8647
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "4 Hypervismidisom",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "VB,. Tab. Carbizol 5r",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "2×242",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "2. Tcl Indevan 10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "level",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "Ru .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "NO. ANWARÜL KABIR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "Brig lien",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "· Ady Spl in Medicine unut",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "Endocrinologist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "CMH Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "621",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "13.7.2018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "w1 600",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "Til Cambizol 52",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "2004/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "MI.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "c .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "2.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "El Indevar 10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "3. Tale Prosmajor",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "oconel afines",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "नाम M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.546
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

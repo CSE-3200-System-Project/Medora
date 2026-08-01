@@ -1,0 +1,287 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0043",
+  "source_sha256": "cba2c10d7dfe3b8bd790296d0ba71d6e0688eb3d8aa530e4dc13f0721ae97a5c",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:41:44.399526+00:00",
+  "runtime_ms": 13160.116400002153,
+  "output": {
+    "raw_text": "S10\nणिकिश्मक कड़क ब्बाभीव वादशं भरज\nजांगीन नाम 820377M24 Seddiand uckइन\n15 Pm\nवोटगव नाग\nडिकिस्मतकर बातशुभ\nनिर\nS.NO-12\n19.01.17\nc/c\nThen weakness\n@ Anorexia\nB/c\nTub .\nund i AM.\n19.1.17.\nTub. Kuntid (150)\nAdv\nTab. Alben-DS\n2\nग्राह काशिन (शुक्र\nगगलवान वाकमान\nको ढना जा रही गर्मीन\nनाग :\n00\nयाशाम\nसम्भव\nब्राड\nचाइना\nम\nजातिया",
+    "lines": [
+      {
+        "text": "S10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "णिकिश्मक कड़क ब्बाभीव वादशं भरज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "जांगीन नाम 820377M24 Seddiand uckइन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "15 Pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "वोटगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "डिकिस्मतकर बातशुभ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "निर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "S.NO-12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "19.01.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "c/c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Then weakness",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "@ Anorexia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "B/c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tub .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "und i AM.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "19.1.17.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tub. Kuntid (150)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "Tab. Alben-DS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ग्राह काशिन (शुक्र",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "गगलवान वाकमान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "को ढना जा रही गर्मीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "नाग :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "00",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "याशाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "सम्भव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "ब्राड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "चाइना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "म",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "जातिया",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.444
+      }
+    ],
+    "medications": [
+      {
+        "name": "Seddiand Uck Pm No",
+        "matched_term": "Seddiand Uck Pm No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.2
+      },
+      {
+        "name": "Then Weakness",
+        "matched_term": "Then Weakness",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.2
+      },
+      {
+        "name": "Anorex",
+        "matched_term": "Anorex",
+        "drug_id": "a9db1a7e-8d62-4155-927d-09e8cb39976c",
+        "brand_id": "47853f7f-6e68-4788-831a-4cb12cc62059",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.58
+      },
+      {
+        "name": "Tuba",
+        "matched_term": "Tuba",
+        "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+        "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.58
+      },
+      {
+        "name": "Undo",
+        "matched_term": "Undo",
+        "drug_id": "b1a57ff2-c018-4e8e-8094-8a3bc31986f9",
+        "brand_id": "c0b41b98-8ee5-4ecb-9916-426276099b53",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.58
+      },
+      {
+        "name": "Tuba",
+        "matched_term": "Tuba",
+        "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+        "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.58
+      },
+      {
+        "name": "Adv",
+        "matched_term": "Adv",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.2
+      },
+      {
+        "name": "Alben-Ds",
+        "matched_term": "Alben-Ds",
+        "drug_id": "58d629f6-1d4c-4a6a-932c-f27ad32e400b",
+        "brand_id": "25c8a1da-4995-48fc-aedf-cb032343f9fb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.58
+      }
+    ]
+  }
+}

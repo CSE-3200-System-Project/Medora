@@ -1,5 +1,9 @@
 # Testing & Quality Assurance Report
 
+> **Archived pre-SoftwareX testing report.** Sample and approximate numbers below are
+> not v1.0.0 results. Only frozen generated artifacts named in
+> `docs/REPRODUCING.md` may support manuscript claims.
+
 ## Overview
 
 Medora employs a **comprehensive, multi-layered testing strategy** designed to validate correctness, performance, security, and resilience in a production healthcare environment. The test suite covers **unit correctness**, **integration workflows**, **end-to-end user journeys**, **security boundaries**, and **performance benchmarks**.
@@ -401,7 +405,7 @@ Four pre-configured dashboards provisioned automatically:
 
 ### OCR Accuracy Benchmark
 
-**Ground Truth Dataset**: `tests/benchmarks/datasets/ocr_ground_truth.jsonl`
+**Archived synthetic parser examples**: `tests/benchmarks/datasets/ocr_synthetic_parser_examples.jsonl` (not OCR gold-standard evidence)
 - 100+ annotated prescription images with known structured output
 - Used to measure OCR extraction accuracy
 

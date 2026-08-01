@@ -1,0 +1,411 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0050",
+  "source_sha256": "e49c9dc6ec176376b8ef61850a843b303b85e6095fa6b41d4d03ee192e9766f2",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:31:04.682666+00:00",
+  "runtime_ms": 31320.02559999819,
+  "output": {
+    "medications": [
+      {
+        "name": "Fluelex",
+        "matched_term": "Fluelex",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": "2+2+2+2",
+        "quantity": null,
+        "confidence": 0.323
+      },
+      {
+        "name": "Cleo",
+        "matched_term": "Cleo",
+        "drug_id": "98e550e5-0be7-41ef-a8a2-5473db976000",
+        "brand_id": "056badc8-4cbe-4aa2-8c7d-fcbcfd15b164",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Paronychia",
+        "matched_term": "Paronychia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Hyperthyroidism",
+        "matched_term": "Hyperthyroidism",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Tube Pantonika To",
+        "matched_term": "Tube Pantonika To",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Closer",
+        "matched_term": "Closer",
+        "drug_id": "a55dd57b-fd65-4757-a6a5-f59a512b1705",
+        "brand_id": "88b54c64-608f-4cdb-91da-61355ed13786",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "From",
+        "matched_term": "From",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Monas",
+        "matched_term": "Monas",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "ac1a6318-4236-42a8-bd92-65cc166299bf",
+        "dosage": "10 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Ogtt",
+        "matched_term": "Ogtt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Hab Cevil",
+        "matched_term": "Hab Cevil",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Wooo Skuncal Create",
+        "matched_term": "Wooo Skuncal Create",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Rt To Spl",
+        "matched_term": "Rt To Spl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Slun Vd Depira",
+        "matched_term": "Slun Vd Depira",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Mbr Vx Na",
+        "matched_term": "Mbr Vx Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Ent Dak For",
+        "matched_term": "Ent Dak For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Hab Ale",
+        "matched_term": "Hab Ale",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      }
+    ],
+    "raw_text": "देश\n22.11. 18 वोटनव नाग\nR· Cap. Fluelex 500 mg\n2+2 +2+2-\nCle :-\nParonychia\n1\nH/ Hyperthyroidism\n7\n10\nTube. Pantonika\n2to 40\n18\n1- close\nFrom\n›\nTab. mona 10 mg\n. OGTT\n-\nhab. Cevil-\n2\n070+2->(5).\nWooo Skuncal Create\nRt to SPL of\nSlun & VD Depira(or)\nn\n1\nMBR VX na Siddique\nLady Medical\nent DAK for\nhab. Ale",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 31283,
+      "detected_regions": 1,
+      "ocr_line_count": 31,
+      "yolo_avg_confidence": 0.8755,
+      "yolo_min_confidence": 0.8755,
+      "yolo_max_confidence": 0.8755,
+      "ocr_avg_confidence": 0.495,
+      "ocr_min_confidence": 0.495,
+      "ocr_max_confidence": 0.495,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 268.8413614273071,
+            "y_min": 740.242569732666,
+            "x_max": 3343.852062988281,
+            "y_max": 4305.786904907226
+          },
+          "score": 0.8755
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "देश",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "22.11. 18 वोटनव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "R· Cap. Fluelex 500 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "2+2 +2+2-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Cle :-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Paronychia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "H/ Hyperthyroidism",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "7",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tube. Pantonika",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "2to 40",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "1- close",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "From",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "›",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tab. mona 10 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": ". OGTT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "hab. Cevil-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "070+2->(5).",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Wooo Skuncal Create",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Rt to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Slun & VD Depira(or)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "n",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "MBR VX na Siddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Lady Medical",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "ent DAK for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "hab. Ale",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

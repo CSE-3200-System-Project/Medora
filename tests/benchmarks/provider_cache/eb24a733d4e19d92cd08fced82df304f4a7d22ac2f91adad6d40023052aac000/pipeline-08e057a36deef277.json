@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0004",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:21:40.308202+00:00",
+  "runtime_ms": 7488.256000011461,
+  "output": {
+    "medications": [
+      {
+        "name": "Tamen",
+        "matched_term": "Tamen",
+        "drug_id": "2caa88c8-f042-4a8f-8fca-ac8bed3de633",
+        "brand_id": "7ebc059e-ac8d-467a-8ea3-66f6b5721ccc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "G-Sec",
+        "matched_term": "G-Sec",
+        "drug_id": "20dce4ea-f470-41ea-9e67-b91f4c4217b6",
+        "brand_id": "9928cfa4-1478-4392-a56b-f11faa6cf02c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "Beniticken",
+        "matched_term": "Beniticken",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.286
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      },
+      {
+        "name": "Deslor",
+        "matched_term": "Deslor",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+        "dosage": "30mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.717
+      },
+      {
+        "name": "Lab",
+        "matched_term": "Lab",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.286
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.666
+      }
+    ],
+    "raw_text": "Tamen (ro)\n. Tab\n2tata-\nSec/10/20)\nBeniticken\nCap\n2+0+)-\nDeslor(30mg)\nlab\n@\n.\nORS -\n2",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 7452,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8471,
+      "yolo_min_confidence": 0.8471,
+      "yolo_max_confidence": 0.8471,
+      "ocr_avg_confidence": 0.636,
+      "ocr_min_confidence": 0.636,
+      "ocr_max_confidence": 0.636,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1740.53751373291,
+            "y_min": 1514.8510742187498,
+            "x_max": 3148.437950134277,
+            "y_max": 3853.6017425537107
+          },
+          "score": 0.8471
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tamen (ro)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": ". Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "2tata-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "Sec/10/20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "Beniticken",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "2+0+)-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "Deslor(30mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "lab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "@",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "ORS -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.636
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

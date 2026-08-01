@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "b4b734b5da2d9930db7d64e51fbcf0d25f3faee75906715c38c1e5e089c8a126",
+  "record_id": "RX-0061",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9497.448900001473,
+  "failure": null,
+  "response_sha256": "e9c8f59179fc8a019649bd77aad01712681fc445563fca7f9d716995bc048718",
+  "response": {
+    "raw_text": "3 21 max /500 (5)\n01043\n3 Acuplus\n2 Alatrol\n18.5.24",
+    "lines": [
+      {
+        "text": "3 21 max /500 (5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.404
+      },
+      {
+        "text": "01043",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.404
+      },
+      {
+        "text": "3 Acuplus",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.404
+      },
+      {
+        "text": "2 Alatrol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.404
+      },
+      {
+        "text": "18.5.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.404
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "record_id": "RX-0090",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 14235.66999999457,
+  "failure": null,
+  "response_sha256": "a6c5a8223bd8e4b65a01a39052c228de4f5d084951b3a385f8275a3a15abdbc7",
+  "response": {
+    "raw_text": "Rx\nTab_\nNaproxen ( 5mmg)\namopragile crant many\n2.to12- cr2\nFexofenadin (120m)\nTab.\nparacetamol (sr)\n0-+++3-674-",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "Tab_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "Naproxen ( 5mmg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "amopragile crant many",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "2.to12- cr2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "Fexofenadin (120m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "paracetamol (sr)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "0-+++3-674-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.486
+      }
+    ]
+  }
+}

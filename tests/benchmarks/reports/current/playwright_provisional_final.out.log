@@ -1,0 +1,18 @@
+
+Running 12 tests using 6 workers
+
+  -   5 [chromium-en] › specs\prescription-upload-ocr.spec.ts:6:7 › Prescription Upload + OCR › patient can upload prescription and view extracted text
+  -   3 [chromium-en] › specs\patient-onboarding.spec.ts:6:7 › Patient Onboarding › patient onboarding supports bilingual input (Bangla + English)
+  -   1 [chromium-en] › specs\appointment-booking-reschedule.spec.ts:6:7 › Appointment Booking and Rescheduling › patient can use AI doctor search input with Bangla + English query
+  ok  4 [chromium-en] › specs\doctor-verification.spec.ts:6:7 › Doctor Verification › verify pending page renders verification state content (4.0s)
+  ok  6 [chromium-en] › specs\sensitive-browser-storage.spec.ts:36:7 › Sensitive browser storage › session cleanup purges private local, session, cache, and IndexedDB data (4.7s)
+  ok  2 [chromium-en] › specs\sensitive-browser-storage.spec.ts:4:7 › Sensitive browser storage › service worker does not cache private API responses (5.3s)
+  -   9 [chromium-bn] › specs\appointment-booking-reschedule.spec.ts:6:7 › Appointment Booking and Rescheduling › patient can use AI doctor search input with Bangla + English query
+  -   8 [chromium-bn] › specs\patient-onboarding.spec.ts:6:7 › Patient Onboarding › patient onboarding supports bilingual input (Bangla + English)
+  -  10 [chromium-bn] › specs\prescription-upload-ocr.spec.ts:6:7 › Prescription Upload + OCR › patient can upload prescription and view extracted text
+  ok  7 [chromium-bn] › specs\doctor-verification.spec.ts:6:7 › Doctor Verification › verify pending page renders verification state content (2.2s)
+  ok 11 [chromium-bn] › specs\sensitive-browser-storage.spec.ts:4:7 › Sensitive browser storage › service worker does not cache private API responses (3.1s)
+  ok 12 [chromium-bn] › specs\sensitive-browser-storage.spec.ts:36:7 › Sensitive browser storage › session cleanup purges private local, session, cache, and IndexedDB data (2.5s)
+
+  6 skipped
+  6 passed (14.4s)

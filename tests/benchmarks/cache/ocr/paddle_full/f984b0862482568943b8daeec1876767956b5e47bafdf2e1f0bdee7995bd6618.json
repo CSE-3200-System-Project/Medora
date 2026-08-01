@@ -1,0 +1,794 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "record_id": "RX-0076",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 46783.304100012174,
+  "failure": null,
+  "response_sha256": "b89f9dc70d08b0392418dcd615fcc5854f05bdb3e2b6fb71a90f30f8ef0f73dc",
+  "response": {
+    "raw_text": "te\nPhrrrrrrrray\nareeeeases\n217\nM\n8106-60-0\nC\nmu\n5\nW\nS1\nT\nnas)y2b\nwn\nCaareooe\n1T\nMmnnnor\nt\n3\nvwour\nSATTS\nL0+0\nC\nDaaabneebhhmneehneg\n+\nR\nRrrrrnnnrrarran nnn ennnarnnnn\nhareanes\n1\nDenrnnnng\nNIH.\nbo\nSISCAY\nBonnaonnp\n2\nysseee\nAgeesex\nEAACTIEES\nn\nTne\neae\nPE\nC\nPaahooey\nEanrerraaenrrry\n4\nBN SNT\nC\nO\nPOOOISHZ\n00\nS\nUnrrrrrrrrrren\n-\nP\n311307\nPP\n6d\n81.b0c0x5hpS1\nFV\n-\neheaaisst\nW\nXray\n3\n1\nON O/d\nName\nRany\nunt",
+    "lines": [
+      {
+        "text": "te",
+        "bbox": {
+          "x_min": 2994.0,
+          "y_min": 321.0,
+          "x_max": 3067.0,
+          "y_max": 489.0
+        },
+        "page": 1,
+        "confidence": 0.245
+      },
+      {
+        "text": "Phrrrrrrrray",
+        "bbox": {
+          "x_min": 4025.0,
+          "y_min": 349.0,
+          "x_max": 4088.0,
+          "y_max": 667.0
+        },
+        "page": 1,
+        "confidence": 0.412
+      },
+      {
+        "text": "areeeeases",
+        "bbox": {
+          "x_min": 4093.0,
+          "y_min": 346.0,
+          "x_max": 4158.0,
+          "y_max": 654.0
+        },
+        "page": 1,
+        "confidence": 0.395
+      },
+      {
+        "text": "217",
+        "bbox": {
+          "x_min": 2553.0,
+          "y_min": 399.0,
+          "x_max": 2607.0,
+          "y_max": 543.0
+        },
+        "page": 1,
+        "confidence": 0.623
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 3645.0,
+          "y_min": 528.0,
+          "x_max": 3716.0,
+          "y_max": 653.0
+        },
+        "page": 1,
+        "confidence": 0.215
+      },
+      {
+        "text": "8106-60-0",
+        "bbox": {
+          "x_min": 1551.0,
+          "y_min": 643.0,
+          "x_max": 1658.0,
+          "y_max": 1251.0
+        },
+        "page": 1,
+        "confidence": 0.739
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 1337.0,
+          "y_min": 657.0,
+          "x_max": 1377.0,
+          "y_max": 706.0
+        },
+        "page": 1,
+        "confidence": 0.401
+      },
+      {
+        "text": "mu",
+        "bbox": {
+          "x_min": 3168.0,
+          "y_min": 672.0,
+          "x_max": 3316.0,
+          "y_max": 1105.0
+        },
+        "page": 1,
+        "confidence": 0.426
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 3782.0,
+          "y_min": 679.0,
+          "x_max": 3880.0,
+          "y_max": 878.0
+        },
+        "page": 1,
+        "confidence": 0.823
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 1332.0,
+          "y_min": 698.0,
+          "x_max": 1390.0,
+          "y_max": 799.0
+        },
+        "page": 1,
+        "confidence": 0.712
+      },
+      {
+        "text": "S1",
+        "bbox": {
+          "x_min": 2804.0,
+          "y_min": 734.0,
+          "x_max": 2878.0,
+          "y_max": 875.0
+        },
+        "page": 1,
+        "confidence": 0.43
+      },
+      {
+        "text": "T",
+        "bbox": {
+          "x_min": 3402.0,
+          "y_min": 739.0,
+          "x_max": 3439.0,
+          "y_max": 791.0
+        },
+        "page": 1,
+        "confidence": 0.347
+      },
+      {
+        "text": "nas)y2b",
+        "bbox": {
+          "x_min": 2366.0,
+          "y_min": 756.0,
+          "x_max": 2482.0,
+          "y_max": 1323.0
+        },
+        "page": 1,
+        "confidence": 0.482
+      },
+      {
+        "text": "wn",
+        "bbox": {
+          "x_min": 3623.0,
+          "y_min": 776.0,
+          "x_max": 3712.0,
+          "y_max": 1032.0
+        },
+        "page": 1,
+        "confidence": 0.314
+      },
+      {
+        "text": "Caareooe",
+        "bbox": {
+          "x_min": 4045.0,
+          "y_min": 779.0,
+          "x_max": 4115.0,
+          "y_max": 1010.0
+        },
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "1T",
+        "bbox": {
+          "x_min": 3383.0,
+          "y_min": 797.0,
+          "x_max": 3439.0,
+          "y_max": 983.0
+        },
+        "page": 1,
+        "confidence": 0.268
+      },
+      {
+        "text": "Mmnnnor",
+        "bbox": {
+          "x_min": 4111.0,
+          "y_min": 795.0,
+          "x_max": 4190.0,
+          "y_max": 1005.0
+        },
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "t",
+        "bbox": {
+          "x_min": 2983.0,
+          "y_min": 826.0,
+          "x_max": 3047.0,
+          "y_max": 1053.0
+        },
+        "page": 1,
+        "confidence": 0.401
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 3663.0,
+          "y_min": 840.0,
+          "x_max": 3671.0,
+          "y_max": 857.0
+        },
+        "page": 1,
+        "confidence": 0.158
+      },
+      {
+        "text": "vwour",
+        "bbox": {
+          "x_min": 2778.0,
+          "y_min": 876.0,
+          "x_max": 2898.0,
+          "y_max": 1169.0
+        },
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "SATTS",
+        "bbox": {
+          "x_min": 1326.0,
+          "y_min": 897.0,
+          "x_max": 1416.0,
+          "y_max": 1237.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "L0+0",
+        "bbox": {
+          "x_min": 2544.0,
+          "y_min": 923.0,
+          "x_max": 2608.0,
+          "y_max": 1188.0
+        },
+        "page": 1,
+        "confidence": 0.488
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3390.0,
+          "y_min": 963.0,
+          "x_max": 3426.0,
+          "y_max": 1027.0
+        },
+        "page": 1,
+        "confidence": 0.371
+      },
+      {
+        "text": "Daaabneebhhmneehneg",
+        "bbox": {
+          "x_min": 843.0,
+          "y_min": 1067.0,
+          "x_max": 954.0,
+          "y_max": 2188.0
+        },
+        "page": 1,
+        "confidence": 0.309
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 1469.0,
+          "y_min": 1063.0,
+          "x_max": 1547.0,
+          "y_max": 1292.0
+        },
+        "page": 1,
+        "confidence": 0.728
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 2839.0,
+          "y_min": 1123.0,
+          "x_max": 2845.0,
+          "y_max": 1131.0
+        },
+        "page": 1,
+        "confidence": 0.087
+      },
+      {
+        "text": "Rrrrrnnnrrarran nnn ennnarnnnn",
+        "bbox": {
+          "x_min": 1206.0,
+          "y_min": 1135.0,
+          "x_max": 1306.0,
+          "y_max": 2373.0
+        },
+        "page": 1,
+        "confidence": 0.388
+      },
+      {
+        "text": "hareanes",
+        "bbox": {
+          "x_min": 4152.0,
+          "y_min": 1144.0,
+          "x_max": 4260.0,
+          "y_max": 1451.0
+        },
+        "page": 1,
+        "confidence": 0.463
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 3673.0,
+          "y_min": 1203.0,
+          "x_max": 3707.0,
+          "y_max": 1243.0
+        },
+        "page": 1,
+        "confidence": 0.236
+      },
+      {
+        "text": "Denrnnnng",
+        "bbox": {
+          "x_min": 4089.0,
+          "y_min": 1204.0,
+          "x_max": 4180.0,
+          "y_max": 1455.0
+        },
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "NIH.",
+        "bbox": {
+          "x_min": 2089.0,
+          "y_min": 1302.0,
+          "x_max": 2170.0,
+          "y_max": 1470.0
+        },
+        "page": 1,
+        "confidence": 0.771
+      },
+      {
+        "text": "bo",
+        "bbox": {
+          "x_min": 2166.0,
+          "y_min": 1300.0,
+          "x_max": 2236.0,
+          "y_max": 1404.0
+        },
+        "page": 1,
+        "confidence": 0.243
+      },
+      {
+        "text": "SISCAY",
+        "bbox": {
+          "x_min": 660.0,
+          "y_min": 1323.0,
+          "x_max": 804.0,
+          "y_max": 1972.0
+        },
+        "page": 1,
+        "confidence": 0.509
+      },
+      {
+        "text": "Bonnaonnp",
+        "bbox": {
+          "x_min": 1497.0,
+          "y_min": 1320.0,
+          "x_max": 1561.0,
+          "y_max": 1618.0
+        },
+        "page": 1,
+        "confidence": 0.458
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 2801.0,
+          "y_min": 1339.0,
+          "x_max": 2876.0,
+          "y_max": 1425.0
+        },
+        "page": 1,
+        "confidence": 0.151
+      },
+      {
+        "text": "ysseee",
+        "bbox": {
+          "x_min": 1615.0,
+          "y_min": 1389.0,
+          "x_max": 1678.0,
+          "y_max": 1611.0
+        },
+        "page": 1,
+        "confidence": 0.603
+      },
+      {
+        "text": "Ageesex",
+        "bbox": {
+          "x_min": 1377.0,
+          "y_min": 1422.0,
+          "x_max": 1448.0,
+          "y_max": 1625.0
+        },
+        "page": 1,
+        "confidence": 0.591
+      },
+      {
+        "text": "EAACTIEES",
+        "bbox": {
+          "x_min": 4037.0,
+          "y_min": 1434.0,
+          "x_max": 4134.0,
+          "y_max": 1701.0
+        },
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "n",
+        "bbox": {
+          "x_min": 2402.0,
+          "y_min": 1462.0,
+          "x_max": 2485.0,
+          "y_max": 1528.0
+        },
+        "page": 1,
+        "confidence": 0.117
+      },
+      {
+        "text": "Tne",
+        "bbox": {
+          "x_min": 1734.0,
+          "y_min": 1486.0,
+          "x_max": 1794.0,
+          "y_max": 1612.0
+        },
+        "page": 1,
+        "confidence": 0.819
+      },
+      {
+        "text": "eae",
+        "bbox": {
+          "x_min": 3772.0,
+          "y_min": 1511.0,
+          "x_max": 3882.0,
+          "y_max": 1652.0
+        },
+        "page": 1,
+        "confidence": 0.352
+      },
+      {
+        "text": "PE",
+        "bbox": {
+          "x_min": 3869.0,
+          "y_min": 1572.0,
+          "x_max": 3932.0,
+          "y_max": 1644.0
+        },
+        "page": 1,
+        "confidence": 0.252
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3751.0,
+          "y_min": 1591.0,
+          "x_max": 3798.0,
+          "y_max": 1651.0
+        },
+        "page": 1,
+        "confidence": 0.443
+      },
+      {
+        "text": "Paahooey",
+        "bbox": {
+          "x_min": 4176.0,
+          "y_min": 1641.0,
+          "x_max": 4257.0,
+          "y_max": 1867.0
+        },
+        "page": 1,
+        "confidence": 0.513
+      },
+      {
+        "text": "Eanrerraaenrrry",
+        "bbox": {
+          "x_min": 4264.0,
+          "y_min": 1708.0,
+          "x_max": 4411.0,
+          "y_max": 2240.0
+        },
+        "page": 1,
+        "confidence": 0.349
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 629.0,
+          "y_min": 1774.0,
+          "x_max": 650.0,
+          "y_max": 1807.0
+        },
+        "page": 1,
+        "confidence": 0.552
+      },
+      {
+        "text": "BN SNT",
+        "bbox": {
+          "x_min": 601.0,
+          "y_min": 1787.0,
+          "x_max": 684.0,
+          "y_max": 2253.0
+        },
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3875.0,
+          "y_min": 1805.0,
+          "x_max": 3904.0,
+          "y_max": 1848.0
+        },
+        "page": 1,
+        "confidence": 0.206
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3925.0,
+          "y_min": 1877.0,
+          "x_max": 3943.0,
+          "y_max": 1910.0
+        },
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "POOOISHZ",
+        "bbox": {
+          "x_min": 1616.0,
+          "y_min": 1993.0,
+          "x_max": 1723.0,
+          "y_max": 2800.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "00",
+        "bbox": {
+          "x_min": 3979.0,
+          "y_min": 2012.0,
+          "x_max": 4026.0,
+          "y_max": 2062.0
+        },
+        "page": 1,
+        "confidence": 0.781
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 4010.0,
+          "y_min": 2058.0,
+          "x_max": 4050.0,
+          "y_max": 2122.0
+        },
+        "page": 1,
+        "confidence": 0.38
+      },
+      {
+        "text": "Unrrrrrrrrrren",
+        "bbox": {
+          "x_min": 4246.0,
+          "y_min": 2087.0,
+          "x_max": 4358.0,
+          "y_max": 2483.0
+        },
+        "page": 1,
+        "confidence": 0.345
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3244.0,
+          "y_min": 2223.0,
+          "x_max": 3254.0,
+          "y_max": 2233.0
+        },
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "P",
+        "bbox": {
+          "x_min": 1741.0,
+          "y_min": 2318.0,
+          "x_max": 1854.0,
+          "y_max": 2886.0
+        },
+        "page": 1,
+        "confidence": 0.296
+      },
+      {
+        "text": "311307",
+        "bbox": {
+          "x_min": 1373.0,
+          "y_min": 2359.0,
+          "x_max": 1469.0,
+          "y_max": 2844.0
+        },
+        "page": 1,
+        "confidence": 0.337
+      },
+      {
+        "text": "PP",
+        "bbox": {
+          "x_min": 1494.0,
+          "y_min": 2349.0,
+          "x_max": 1597.0,
+          "y_max": 2881.0
+        },
+        "page": 1,
+        "confidence": 0.216
+      },
+      {
+        "text": "6d",
+        "bbox": {
+          "x_min": 2687.0,
+          "y_min": 2386.0,
+          "x_max": 2815.0,
+          "y_max": 2874.0
+        },
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "81.b0c0x5hpS1",
+        "bbox": {
+          "x_min": 1971.0,
+          "y_min": 2429.0,
+          "x_max": 2106.0,
+          "y_max": 3155.0
+        },
+        "page": 1,
+        "confidence": 0.682
+      },
+      {
+        "text": "FV",
+        "bbox": {
+          "x_min": 3248.0,
+          "y_min": 2453.0,
+          "x_max": 3325.0,
+          "y_max": 2600.0
+        },
+        "page": 1,
+        "confidence": 0.353
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3148.0,
+          "y_min": 2535.0,
+          "x_max": 3155.0,
+          "y_max": 2541.0
+        },
+        "page": 1,
+        "confidence": 0.202
+      },
+      {
+        "text": "eheaaisst",
+        "bbox": {
+          "x_min": 4389.0,
+          "y_min": 2526.0,
+          "x_max": 4512.0,
+          "y_max": 2923.0
+        },
+        "page": 1,
+        "confidence": 0.391
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 1651.0,
+          "y_min": 2768.0,
+          "x_max": 1731.0,
+          "y_max": 2917.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "Xray",
+        "bbox": {
+          "x_min": 4356.0,
+          "y_min": 2782.0,
+          "x_max": 4416.0,
+          "y_max": 2918.0
+        },
+        "page": 1,
+        "confidence": 0.351
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 821.0,
+          "y_min": 2890.0,
+          "x_max": 913.0,
+          "y_max": 3012.0
+        },
+        "page": 1,
+        "confidence": 0.29
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 665.0,
+          "y_min": 2919.0,
+          "x_max": 707.0,
+          "y_max": 2975.0
+        },
+        "page": 1,
+        "confidence": 0.248
+      },
+      {
+        "text": "ON O/d",
+        "bbox": {
+          "x_min": 1415.0,
+          "y_min": 2911.0,
+          "x_max": 1483.0,
+          "y_max": 3167.0
+        },
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Name",
+        "bbox": {
+          "x_min": 1674.0,
+          "y_min": 2955.0,
+          "x_max": 1735.0,
+          "y_max": 3134.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "Rany",
+        "bbox": {
+          "x_min": 1543.0,
+          "y_min": 2991.0,
+          "x_max": 1612.0,
+          "y_max": 3149.0
+        },
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "unt",
+        "bbox": {
+          "x_min": 1792.0,
+          "y_min": 2995.0,
+          "x_max": 1861.0,
+          "y_max": 3124.0
+        },
+        "page": 1,
+        "confidence": 0.598
+      }
+    ]
+  }
+}

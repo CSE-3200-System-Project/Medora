@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0029",
+  "source_sha256": "fb15e80f78d1c5bea1e6b98b9409f5bb7189680511a67a2f41e8ebbaf47bb03a",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:26:46.145339+00:00",
+  "runtime_ms": 5966.193399988697,
+  "output": {
+    "medications": [
+      {
+        "name": "aceclofenac",
+        "matched_term": "aceclofenac",
+        "drug_id": "f4ab9b86-cffb-4b58-9b19-e7c1d99ae734",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Myolax",
+        "matched_term": "Myolax",
+        "drug_id": "072b7067-7ef7-4285-ad3c-3b2095fb8777",
+        "brand_id": "8cf4b120-aabe-46ac-aeab-aafb108c6302",
+        "dosage": "50 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.719
+      },
+      {
+        "name": "Don A",
+        "matched_term": "Don A",
+        "drug_id": "9be00680-287a-4d77-b894-f7e1af72ef33",
+        "brand_id": "67c7115c-aebb-4202-8744-cb579d701e73",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Onetid Top",
+        "matched_term": "Onetid Top",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.288
+      }
+    ],
+    "raw_text": "Rx\n- Tab. Aceclofenae\n21012\n- They Myolax (50 mg)-\n20\nKb. DON-A (20\nCap. onetid (10\n2top)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5931,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.8713,
+      "yolo_min_confidence": 0.8713,
+      "yolo_max_confidence": 0.8713,
+      "ocr_avg_confidence": 0.639,
+      "ocr_min_confidence": 0.639,
+      "ocr_max_confidence": 0.639,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 232.8422088623047,
+            "y_min": 338.49609375,
+            "x_max": 548.9199829101562,
+            "y_max": 584.908203125
+          },
+          "score": 0.8713
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "- Tab. Aceclofenae",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "21012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "- They Myolax (50 mg)-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "Kb. DON-A (20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "Cap. onetid (10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "2top)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.639
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

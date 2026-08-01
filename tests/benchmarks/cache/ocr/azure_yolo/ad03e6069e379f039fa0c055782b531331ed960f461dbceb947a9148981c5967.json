@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ad03e6069e379f039fa0c055782b531331ed960f461dbceb947a9148981c5967",
+  "record_id": "RX-0017",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 15324.553500002366,
+  "failure": null,
+  "response_sha256": "4ff86779390cb422374dc8cf8d5bbc478933b6c9953d31292f27072fdfec6f24",
+  "response": {
+    "raw_text": "2\n1 . Tato\nlexotoradin 120 mg\n0+0+1 - 2203 12\n2. Tab Montelukast 10 mg\n0-+0+1\n- 2 Night\nAzithromyun wrong\n3. Tab\notHO -ETT",
+    "lines": [
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "1 . Tato",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "lexotoradin 120 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "0+0+1 - 2203 12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "2. Tab Montelukast 10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "0-+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "- 2 Night",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "Azithromyun wrong",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "3. Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      },
+      {
+        "text": "otHO -ETT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.606
+      }
+    ]
+  }
+}

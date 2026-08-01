@@ -1,0 +1,565 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0022",
+  "source_sha256": "04153280130237c0a05a67ec67436f8e881af99dc8895e1c3570b23cf0002cfa",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:32:15.914351+00:00",
+  "runtime_ms": 46153.45359999628,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / TREM\nTime: G160\nMedical Center:\nN-mo\nFener\nHEALTH PROFILE\n12025\n1. Bioce Group\n1 Limą Chicasel\nI! Bucc Sugar (REST\nF. Monta Dlicaso 79\n10. Liver Disease:\n11; Dnig History\n21 M.9 2024\nChiel Complaints:\nVil: No:\nTen Penanatural\nCup Monthkucin 400 mg\nAnsemis-\nDehydration-\nRespiracun-\nOtriers\nConspira Some\nMeni Petroleum 24-1\nEconozile Cream\nLABSIRBS- 16.3 mm/2\nECG\nProvisional Diagonosis\n1\nบ้านยาย หอม ชง165 1\nएम यदिहम दमनारत फिनिश्मा (त्वचा आदतपड बना 4 कुटुआणि आफियान जमुई भटक खानाक बाड़।\nBRUINE NAOGAON\n19998\nL-AR- 120/ 80 mm- HA\nPoviser Oralment",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "TREATMENT CARD / TREM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Time: G160",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "N-mo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Fener",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "12025",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1. Bioce Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1 Limą Chicasel",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "I! Bucc Sugar (REST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "F. Monta Dlicaso 79",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "11; Dnig History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "21 M.9 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Vil: No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Ten Penanatural",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Cup Monthkucin 400 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Ansemis-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Respiracun-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Otriers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Conspira Some",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Meni Petroleum 24-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Econozile Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "LABSIRBS- 16.3 mm/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "บ้านยาย หอม ชง165 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "एम यदिहम दमनारत फिनिश्मा (त्वचा आदतपड बना 4 कुटुआणि आफियान जमुई भटक खानाक बाड़।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "BRUINE NAOGAON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "19998",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "L-AR- 120/ 80 mm- HA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      },
+      {
+        "text": "Poviser Oralment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.523
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Bangladesh Hall Office",
+        "matched_term": "Bangladesh Hall Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Treatment Card Trem",
+        "matched_term": "Treatment Card Trem",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Timem",
+        "matched_term": "Timem",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Fener",
+        "matched_term": "Fener",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Biocef",
+        "matched_term": "Biocef",
+        "drug_id": "aa991d98-bfc5-4752-9b26-e2f39eec3b2a",
+        "brand_id": "71ed42b7-49cb-4b9c-a03b-699f9acea0cb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Lim Chicasel",
+        "matched_term": "Lim Chicasel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Bucc Sugar Rest",
+        "matched_term": "Bucc Sugar Rest",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Montair",
+        "matched_term": "Montair",
+        "drug_id": "0f412746-c47f-4559-956b-6fcf9077655b",
+        "brand_id": "b0420163-6d60-437e-9365-d0666c115244",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Dnig History",
+        "matched_term": "Dnig History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Chiel Complaints",
+        "matched_term": "Chiel Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Vil No",
+        "matched_term": "Vil No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Z-Ten",
+        "matched_term": "Z-Ten",
+        "drug_id": "172b1620-c84b-45ae-9296-00fe27a19734",
+        "brand_id": "114a0ad4-6712-4a47-937f-3c246964bb60",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Cup Monthkucin",
+        "matched_term": "Cup Monthkucin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "400 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.286
+      },
+      {
+        "name": "Ansemis",
+        "matched_term": "Ansemis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Otriers",
+        "matched_term": "Otriers",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Conspira Some",
+        "matched_term": "Conspira Some",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Petroleum",
+        "matched_term": "Petroleum",
+        "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Econatril Cream",
+        "matched_term": "Econatril Cream",
+        "drug_id": "83abce71-cbde-4c33-9d77-8c9325f6f06b",
+        "brand_id": "f5d05673-8ac4-42ad-a070-fea5d248ea84",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      },
+      {
+        "name": "Labsirbs- Mm",
+        "matched_term": "Labsirbs- Mm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Bruine Naogaon L-Ar- Mm- Ha",
+        "matched_term": "Bruine Naogaon L-Ar- Mm- Ha",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.235
+      },
+      {
+        "name": "Povisep",
+        "matched_term": "Povisep",
+        "drug_id": "be4a9465-3800-4c98-be93-e3aac417b2c9",
+        "brand_id": "9f7cebaa-6acd-4478-b2e2-371f20550553",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.615
+      }
+    ]
+  }
+}

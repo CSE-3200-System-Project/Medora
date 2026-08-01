@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0028",
+  "source_sha256": "08a0c7f2a1502139d885112749af9bc74fc471cf86516ebff0640998923b7bf0",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:26:40.134198+00:00",
+  "runtime_ms": 5476.755499999854,
+  "output": {
+    "medications": [
+      {
+        "name": "Ketordac",
+        "matched_term": "Ketordac",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": "200g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Trots",
+        "matched_term": "Trots",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Calcium-A",
+        "matched_term": "Calcium-A",
+        "drug_id": "0ce59c9f-0d4d-4bfd-9705-64272510ddd2",
+        "brand_id": "a6d9059f-2dce-4235-86e7-5836ff9d530a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "diclofenac",
+        "matched_term": "diclofenac",
+        "drug_id": "82ecb5bf-1ffb-4c71-ad07-3f5d963f9c12",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      }
+    ],
+    "raw_text": "R\n& Tab. Ketordac (10mg)\n· Cup. Omeprazol (200g)\nTrots\n16\n· Job. Calcium\n$ 20\n4\n· Diclofena - gel.\n0",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5432,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.9058,
+      "yolo_min_confidence": 0.9058,
+      "yolo_max_confidence": 0.9058,
+      "ocr_avg_confidence": 0.594,
+      "ocr_min_confidence": 0.594,
+      "ocr_max_confidence": 0.594,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 247.55337524414062,
+            "y_min": 235.1820068359375,
+            "x_max": 531.2159423828125,
+            "y_max": 579.7243041992188
+          },
+          "score": 0.9058
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "& Tab. Ketordac (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "· Cup. Omeprazol (200g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "Trots",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "· Job. Calcium",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "$ 20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "· Diclofena - gel.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.594
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

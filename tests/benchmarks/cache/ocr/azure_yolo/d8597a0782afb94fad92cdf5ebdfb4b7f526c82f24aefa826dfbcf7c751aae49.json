@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "record_id": "RX-0081",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6871.252500000992,
+  "failure": null,
+  "response_sha256": "49ab3226ed85d0da14b1b1050a4d37acd4ef715672bd6e6b2e582732af539017",
+  "response": {
+    "raw_text": "15. ROSU5V Other no\nTab. Albenos BrownW",
+    "lines": [
+      {
+        "text": "15. ROSU5V Other no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.463
+      },
+      {
+        "text": "Tab. Albenos BrownW",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.463
+      }
+    ]
+  }
+}

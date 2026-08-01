@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "b9e7a55326614dcb11e1dae959c7930c8fbd391baa6b4773297fca14778f84a3",
+  "record_id": "RX-0011",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 9135.956200014334,
+  "failure": null,
+  "response_sha256": "f5582181c802225730d2aaeff51e6ac4ec4dec8dcc18ae659c8ae906e2b0702b",
+  "response": {
+    "raw_text": "1.\nTy- Acos - 500 kg\n2.\n0+0+2- 8RR RRGM\nap - Dexilend - (30mq)\n3\n2+3+2- RAW OM SNAT\n@ - Anokast - gowy\nO+6+2- Blue ME Drea!\nFossical -D\n4.\n5.\n2+0+2- 4 2\nFlexi - Jockey\n6\n2+0+2- 2014 MA al\nShop - Djecuex plus-1ph\nStep - Coughlin - 3ph",
+    "lines": [
+      {
+        "text": "1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "Ty- Acos - 500 kg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "0+0+2- 8RR RRGM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "ap - Dexilend - (30mq)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "2+3+2- RAW OM SNAT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "@ - Anokast - gowy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "O+6+2- Blue ME Drea!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "Fossical -D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "4.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "5.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "2+0+2- 4 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "Flexi - Jockey",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "2+0+2- 2014 MA al",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "Shop - Djecuex plus-1ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      },
+      {
+        "text": "Step - Coughlin - 3ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.53
+      }
+    ]
+  }
+}

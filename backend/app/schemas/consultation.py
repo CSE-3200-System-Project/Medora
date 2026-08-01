@@ -21,9 +21,9 @@ class PrescriptionType(str, Enum):
 
 
 class PrescriptionStatus(str, Enum):
-    PENDING = "pending"
-    ACCEPTED = "accepted"
-    REJECTED = "rejected"
+    PENDING_ACKNOWLEDGMENT = "pending_acknowledgment"
+    RECEIPT_ACKNOWLEDGED = "receipt_acknowledged"
+    DISCREPANCY_REPORTED = "discrepancy_reported"
 
 
 class MedicineType(str, Enum):
@@ -366,11 +366,12 @@ class PrescriptionResponse(BaseModel):
     patient_ref: Optional[str] = None
     type: PrescriptionType
     status: PrescriptionStatus
-    rejection_reason: Optional[str] = None
+    clinical_approval: bool = False
+    discrepancy_reason: Optional[str] = None
     notes: Optional[str] = None
     created_at: datetime
-    accepted_at: Optional[datetime] = None
-    rejected_at: Optional[datetime] = None
+    acknowledged_at: Optional[datetime] = None
+    discrepancy_reported_at: Optional[datetime] = None
     added_to_history: bool
     rendered_prescription_html: Optional[str] = None
     rendered_prescription_snapshot: Optional[dict] = None
@@ -392,12 +393,17 @@ class PrescriptionResponse(BaseModel):
 
 # ========== PATIENT ACTION SCHEMAS ==========
 
-class PrescriptionAccept(BaseModel):
+class PrescriptionAcknowledge(BaseModel):
     pass  # No additional data needed
 
 
-class PrescriptionReject(BaseModel):
+class PrescriptionDiscrepancyReport(BaseModel):
     reason: Optional[str] = Field(None, max_length=500)
+
+
+# One-release request compatibility aliases.
+PrescriptionAccept = PrescriptionAcknowledge
+PrescriptionReject = PrescriptionDiscrepancyReport
 
 
 # ========== LIST RESPONSE SCHEMAS ==========

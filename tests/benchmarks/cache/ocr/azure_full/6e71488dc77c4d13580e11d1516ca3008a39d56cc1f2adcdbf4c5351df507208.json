@@ -1,0 +1,356 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "6e71488dc77c4d13580e11d1516ca3008a39d56cc1f2adcdbf4c5351df507208",
+  "record_id": "RX-0020",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 45665.271100006066,
+  "failure": null,
+  "response_sha256": "d9d257f43cfdfe5ffcccc44e8460b5111c75c0dfcedd45f42f8eed10cc575ca7",
+  "response": {
+    "raw_text": "TREATMENT CARD / बावडानज\nछिटकन 020\nledical Center:\nilgrim 10 0297203\nMaktab No43\nNILUFAR NARGIS\nGender\nFEMALE\nDHIn& AJGANJ\nTHEMAIGANJ SADAR\nHEALTH PROFILE\n12080\n2. Blood Pressure:\nNO\n1. Blood Group. NO\n4. Lung Disanse:\nNO\n3. Heart Disease: NO\n6. Diabetes:\n56\n5. Kidney DiseaseNo\n8. Blood Sugar (RBS)\n7. Mental Disease;4\n10. Liver Disease:\nNO\n9. Weight:\n12. Any other abnormalities\n11. Drug History: Antihypertensive\n3rd COPY\nVisit No:\n19 May 2024\nDale\nChief Complaints:\nO/E:\nPulse\nBP-\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nHE NE wertig\nFBS/RBS-\nECG\nProvisional Diagonosis\ncap\nomeprazole (20mg)\n2++1 - 9Rx-\n14\n· Tab. Reflex (10mg)\n2+1+2- 3M2\n1.\n( invertor saturi )\nPassport No\nA08561847\nAgn 50",
+    "lines": [
+      {
+        "text": "TREATMENT CARD / बावडानज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "छिटकन 020",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "ledical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "ilgrim 10 0297203",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Maktab No43",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NILUFAR NARGIS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "DHIn& AJGANJ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "THEMAIGANJ SADAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "12080",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "1. Blood Group. NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "4. Lung Disanse:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "3. Heart Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "56",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "5. Kidney DiseaseNo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "7. Mental Disease;4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "12. Any other abnormalities",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "11. Drug History: Antihypertensive",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "3rd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "19 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Dale",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "O/E:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "BP-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "HE NE wertig",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "omeprazole (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "2++1 - 9Rx-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "14",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "· Tab. Reflex (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "2+1+2- 3M2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "( invertor saturi )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "A08561847",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Agn 50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      }
+    ]
+  }
+}

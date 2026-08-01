@@ -1,0 +1,265 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0046",
+  "source_sha256": "7ad10198590fb55c7acffc40b7386c4ef40eb07c4fe5fd9b8f7922e3c2046070",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:30:03.098301+00:00",
+  "runtime_ms": 10764.458599995123,
+  "output": {
+    "medications": [
+      {
+        "name": "Rti",
+        "matched_term": "Rti",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Moras",
+        "matched_term": "Moras",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.353
+      },
+      {
+        "name": "Lab",
+        "matched_term": "Lab",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Jab",
+        "matched_term": "Jab",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Aminomax",
+        "matched_term": "Aminomax",
+        "drug_id": "b2fc7d60-a10c-4e1e-9362-b67f43160b08",
+        "brand_id": "2de12ab4-a497-4161-acdc-0146534129c8",
+        "dosage": "350ml",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.782
+      },
+      {
+        "name": "Mucomist Dt",
+        "matched_term": "Mucomist Dt",
+        "drug_id": "d074c4e0-0c7a-45dd-86a4-179169888417",
+        "brand_id": "ef862175-f614-42b0-95ea-ce64eed405b0",
+        "dosage": "600mg",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.782
+      },
+      {
+        "name": "Kofen",
+        "matched_term": "Kofen",
+        "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+        "brand_id": "8595506b-65a2-4f11-ab02-a50d6efb5606",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "Mg",
+        "matched_term": "Mg",
+        "drug_id": "92b1472c-d8bc-41b8-bf31-ef374ccbcea2",
+        "brand_id": "32e5760b-cccd-4343-8348-24845711024b",
+        "dosage": "1 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.733
+      },
+      {
+        "name": "Din",
+        "matched_term": "Din",
+        "drug_id": "f0ca115c-8bf1-468b-b81e-afc5d8f4b361",
+        "brand_id": "a681d405-dd44-4fe6-86cc-8cf24e3265ae",
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.731
+      }
+    ],
+    "raw_text": "A ? RTI\nMoras (10 mg\n1.\nlab.\n(0-1)\n20\n2\nJab\nAminomal /350ml)\n1 -0-0\n10\n3. Tab Nucomist DT (600mg)\n11-0-1\n10\n4.\nTab. Kofen\n1 mg\nDiN/A\n0-0-11\n10%",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10728,
+      "detected_regions": 1,
+      "ocr_line_count": 20,
+      "yolo_avg_confidence": 0.9013,
+      "yolo_min_confidence": 0.9013,
+      "yolo_max_confidence": 0.9013,
+      "ocr_avg_confidence": 0.671,
+      "ocr_min_confidence": 0.671,
+      "ocr_max_confidence": 0.671,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1711.8330879211424,
+            "y_min": 1101.5658824920654,
+            "x_max": 3380.4030487060545,
+            "y_max": 4019.3882400512693
+          },
+          "score": 0.9013
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "A ? RTI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "Moras (10 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "1.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "lab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "(0-1)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "Jab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "Aminomal /350ml)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "1 -0-0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "3. Tab Nucomist DT (600mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "11-0-1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "4.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "Tab. Kofen",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "1 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "DiN/A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "0-0-11",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "10%",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.671
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

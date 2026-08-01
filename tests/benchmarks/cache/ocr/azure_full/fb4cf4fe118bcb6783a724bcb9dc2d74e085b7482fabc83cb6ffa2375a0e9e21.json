@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "fb4cf4fe118bcb6783a724bcb9dc2d74e085b7482fabc83cb6ffa2375a0e9e21",
+  "record_id": "RX-0023",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 27565.60060000629,
+  "failure": null,
+  "response_sha256": "08d4ff1474e575bd9a4c4bd459b561b2f8918d1316c12017bce1b743b8cf6d87",
+  "response": {
+    "raw_text": "Hargladest Hal Drian\nMakkatı/ Vindinary Jaddazt\nTREATMENT CARD: TRU TE\nG220\nMovicel Conter\nHEALTH PROFILE\nChief Compras\ndry cough\nTab comprido\nTab Fexa\n01041\nPaso-\nBP\nTemp\nAnaemia\nDehydrator\nRespiration-\nOthers-\n(13)\ncap omeprazole (20m) (13)\n1-1 0+ J.\nTab. Manes (ow)\n1g\nF95/RBS\nEOG\nProvisional Diagonosis\nएस दर्गाहटवण (अनजान किविद्या (मदा राजगढ़ बना । दावदानगी अष्टवाद कबनाये मात्र अंगदः शुद्र।",
+    "lines": [
+      {
+        "text": "Hargladest Hal Drian",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Makkatı/ Vindinary Jaddazt",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "TREATMENT CARD: TRU TE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "G220",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Movicel Conter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Chief Compras",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "dry cough",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab comprido",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab Fexa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "01041",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Paso-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Temp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Anaemia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Dehydrator",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "(13)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "cap omeprazole (20m) (13)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "1-1 0+ J.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Tab. Manes (ow)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "1g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "F95/RBS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "EOG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "एस दर्गाहटवण (अनजान किविद्या (मदा राजगढ़ बना । दावदानगी अष्टवाद कबनाये मात्र अंगदः शुद्र।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.461
+      }
+    ]
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "9dc46aaba21d031b1a50a4b4011ad0b74b5be2cc1027621ba2510880a2f3416b",
+  "record_id": "RX-0057",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 30684.459700001753,
+  "failure": null,
+  "response_sha256": "c70b7da8c1f42300aa4d506afcde61badb3ade8e3dae6d17ec2489d1299a4576",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / WISHI*ET\nG221\nMedical Center:\nPassport No\n3.1.785122\nMaktab No\nPilgrim 10 ---- POMOZIBAR HAHNAN\nGender\nNATORE\nGURUDASPUR\nHEALTH PROFILE\n120.80\n1. Blood Group:\n4. Lung Disease\n6. Dlabeles\n40\n5. Kidney Disease: NO\n7. Mental Disease 61\n8. Blood Sugar (RBST\nNO\n9, Wie ght\nIT. Drug History\n10. Liver Disease:\n12. Any other Sungmalities.\n2: COPY\n24 May 2024\nChief Complaints:\nVigil No:\nDate:\nTre lock 17\nInflam- 4w (14)\nTemp-\nDehydration-\nRespiration-\nOthers-\n-10-2\nZimax /500\n0-+ > 10\n24.524\nIS/RBS-\nG\nvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "TREATMENT CARD / WISHI*ET",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "G221",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "3.1.785122",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Maktab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Pilgrim 10 ---- POMOZIBAR HAHNAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "NATORE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "GURUDASPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "120.80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "6. Dlabeles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "40",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "7. Mental Disease 61",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "8. Blood Sugar (RBST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "9, Wie ght",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "IT. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "12. Any other Sungmalities.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "2: COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Vigil No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Tre lock 17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Inflam- 4w (14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "-10-2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Zimax /500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "0-+ > 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "24.524",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "IS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "G",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "visional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      }
+    ]
+  }
+}

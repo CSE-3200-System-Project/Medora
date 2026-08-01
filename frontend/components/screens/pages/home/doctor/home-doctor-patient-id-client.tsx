@@ -140,6 +140,18 @@ interface PatientData {
   access_timestamp: string
 }
 
+interface GroundedSummarySource {
+  source_type: string
+  source_id: string
+  source_timestamp?: string | null
+}
+
+interface GroundedSummaryItem {
+  text: string
+  status?: string
+  sources?: GroundedSummarySource[]
+}
+
 export default function DoctorPatientViewPage() {
   const params = useParams()
   const router = useRouter()
@@ -519,6 +531,12 @@ export default function DoctorPatientViewPage() {
 
                   {assistantSummary ? <DoctorPatientVapiVoiceSummary patientId={patientId} /> : null}
 
+                  {assistantSummary?.summary ? (
+                    <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+                      Generated, read-only draft. Verify every statement against its source before clinical use. It cannot update the record.
+                    </div>
+                  ) : null}
+
                   {assistantSummary?.highlight_points?.length ? (
                     <div>
                       <h4 className="text-sm font-semibold text-foreground mb-2">Priority Highlights</h4>
@@ -549,6 +567,25 @@ export default function DoctorPatientViewPage() {
                           ))}
                         </ul>
                       </div>
+
+                      {(((assistantSummary.summary as { grounded_items?: GroundedSummaryItem[] }).grounded_items) || []).length ? (
+                        <div>
+                          <h4 className="text-sm font-semibold text-foreground mb-2">Source-linked statements</h4>
+                          <ul className="space-y-2">
+                            {(((assistantSummary.summary as { grounded_items?: GroundedSummaryItem[] }).grounded_items) || []).map((item, itemIndex) => (
+                              <li key={`${item.text}-${itemIndex}`} className="rounded-md border border-border p-2 text-sm text-foreground">
+                                <p>{item.text}</p>
+                                <p className="mt-1 text-xs text-muted-foreground">
+                                  {(item.sources || []).map((source) =>
+                                    `${source.source_type}: ${source.source_id}${source.source_timestamp ? ` (${source.source_timestamp})` : ""}`
+                                  ).join("; ")}
+                                  {item.status && item.status !== "supported" ? ` · ${item.status}` : ""}
+                                </p>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
 
                       <div>
                         <h4 className="text-sm font-semibold text-foreground mb-2">Current Conditions</h4>

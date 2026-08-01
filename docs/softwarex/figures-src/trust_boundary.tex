@@ -1,0 +1,27 @@
+\begin{tikzpicture}[
+  node distance=7mm and 10mm,
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, text width=30mm, fill=white},
+  boundary/.style={draw, dashed, rounded corners=3pt, inner sep=5mm},
+  flow/.style={-{Latex[length=2mm]}, thick},
+  consent/.style={-{Latex[length=2mm]}, thick, teal!70!black},
+  external/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, text width=29mm, fill=orange!8}
+]
+\node[box] (browser) {Next.js browser client};
+\node[box, right=of browser] (backend) {FastAPI core\\authorization and consent};
+\node[box, right=of backend] (db) {PostgreSQL\\authoritative records};
+\node[box, below=of backend] (ocr) {OCR service\\Paddle, YOLO, review gate};
+\node[box, below=of browser] (whisper) {Local faster-whisper};
+\node[external, right=18mm of ocr] (azure) {Azure Document Intelligence};
+\node[external, above=of azure] (llm) {Hosted text models};
+\node[external, below=of azure] (vapi) {Vapi live audio};
+\draw[flow] (browser) -- node[above, font=\scriptsize]{authenticated HTTPS} (backend);
+\draw[flow] (backend) -- (db);
+\draw[flow] (backend) -- (ocr);
+\draw[flow] (browser) -- (whisper);
+\draw[consent] (backend) -- node[above, sloped, font=\scriptsize]{external text grant} (llm);
+\draw[consent] (ocr) -- node[above, sloped, font=\scriptsize]{cloud OCR grant; local crop} (azure);
+\draw[consent] (browser) to[bend right=20] node[below, sloped, font=\scriptsize]{live-audio grant} (vapi);
+\node[boundary, fit=(browser)(backend)(db)(ocr)(whisper), label={[font=\small]above:Medora-controlled boundary}] {};
+\node[boundary, fit=(azure)(llm)(vapi), label={[font=\small]above:External provider boundaries}] {};
+\end{tikzpicture}
+

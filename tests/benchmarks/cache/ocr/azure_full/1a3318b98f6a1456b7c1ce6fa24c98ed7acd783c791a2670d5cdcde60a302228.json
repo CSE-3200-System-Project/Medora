@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "1a3318b98f6a1456b7c1ce6fa24c98ed7acd783c791a2670d5cdcde60a302228",
+  "record_id": "RX-0042",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 12389.186100001098,
+  "failure": null,
+  "response_sha256": "426172397899f1bdebf39dafd2b24169224d3ff4ae0e446657aa9a56a63e6574",
+  "response": {
+    "raw_text": "W/O\nत्यागीव नाग\nशर (ब्याडि) - एक\nडिकिश्यक कड़क ब्बाभीन वारशु श्रज\nMEH Siddque. MCDO (X) 3IST\n40 years\n3.11.16.\nप्लाटगव नाग\n820377\nडिकिस्मटकर बारशनना\nMel. Allergy\n· PUD\nLub. Alatrol\n000+0->(18\nCap. Suelo 20 mg\n2 +0 +> -5/16\n- 20Bur 2/2 31 cmpor\nR",
+    "lines": [
+      {
+        "text": "W/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "त्यागीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "शर (ब्याडि) - एक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "डिकिश्यक कड़क ब्बाभीन वारशु श्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "MEH Siddque. MCDO (X) 3IST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "40 years",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "3.11.16.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "प्लाटगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "डिकिस्मटकर बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Mel. Allergy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "· PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Lub. Alatrol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "000+0->(18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Cap. Suelo 20 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "2 +0 +> -5/16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "- 20Bur 2/2 31 cmpor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      }
+    ]
+  }
+}

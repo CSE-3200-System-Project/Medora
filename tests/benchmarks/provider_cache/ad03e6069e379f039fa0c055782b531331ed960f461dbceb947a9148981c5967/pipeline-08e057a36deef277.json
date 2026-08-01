@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0017",
+  "source_sha256": "ad03e6069e379f039fa0c055782b531331ed960f461dbceb947a9148981c5967",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:24:46.834092+00:00",
+  "runtime_ms": 15324.553500002366,
+  "output": {
+    "medications": [
+      {
+        "name": "Vitaton",
+        "matched_term": "Vitaton",
+        "drug_id": "6291eb3f-545f-4a6e-9b0e-8ae47b3de7e5",
+        "brand_id": "538517f7-3a11-4af9-b0b5-5c47f8b4c3d7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.653
+      },
+      {
+        "name": "Lexotoradin",
+        "matched_term": "Lexotoradin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "120 mg",
+        "frequency": "0+0+1+2",
+        "quantity": null,
+        "confidence": 0.373
+      },
+      {
+        "name": "montelukast",
+        "matched_term": "montelukast",
+        "drug_id": "38cb7239-130a-4de5-83be-c81fb77ed462",
+        "brand_id": null,
+        "dosage": "10 mg",
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.753
+      },
+      {
+        "name": "Night Ex",
+        "matched_term": "Night Ex",
+        "drug_id": "91593e04-811c-479f-826f-345e0c27d9c1",
+        "brand_id": "57127ac5-5772-47b8-b32c-5f2e8b392169",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.653
+      },
+      {
+        "name": "azithromycin",
+        "matched_term": "azithromycin",
+        "drug_id": "5f81f6da-fd4e-4846-890f-948589962d9d",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.653
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.653
+      },
+      {
+        "name": "Otho -Ett",
+        "matched_term": "Otho -Ett",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.273
+      }
+    ],
+    "raw_text": "2\n1 . Tato\nlexotoradin 120 mg\n0+0+1 - 2203 12\n2. Tab Montelukast 10 mg\n0-+0+1\n- 2 Night\nAzithromyun wrong\n3. Tab\notHO -ETT",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 15285,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.8874,
+      "yolo_min_confidence": 0.8874,
+      "yolo_max_confidence": 0.8874,
+      "ocr_avg_confidence": 0.606,
+      "ocr_min_confidence": 0.606,
+      "ocr_max_confidence": 0.606,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 270.94134521484375,
+            "y_min": 241.76841735839844,
+            "x_max": 542.5377807617188,
+            "y_max": 408.152587890625
+          },
+          "score": 0.8874
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "1 . Tato",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "lexotoradin 120 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "0+0+1 - 2203 12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "2. Tab Montelukast 10 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "0-+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "- 2 Night",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "Azithromyun wrong",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "3. Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "otHO -ETT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.606
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

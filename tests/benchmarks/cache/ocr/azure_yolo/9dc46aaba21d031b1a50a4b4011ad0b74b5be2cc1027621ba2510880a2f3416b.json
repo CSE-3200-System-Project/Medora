@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "9dc46aaba21d031b1a50a4b4011ad0b74b5be2cc1027621ba2510880a2f3416b",
+  "record_id": "RX-0057",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5990.766700007953,
+  "failure": null,
+  "response_sha256": "eab196d9f2b53ee6466684714e7be462a6af385cb7b3bd34286289563c25cb79",
+  "response": {
+    "raw_text": "2 Inflam - 4w ( 14)\n12 Esstid\nZimax for\n0",
+    "lines": [
+      {
+        "text": "2 Inflam - 4w ( 14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "12 Esstid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "Zimax for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.553
+      }
+    ]
+  }
+}

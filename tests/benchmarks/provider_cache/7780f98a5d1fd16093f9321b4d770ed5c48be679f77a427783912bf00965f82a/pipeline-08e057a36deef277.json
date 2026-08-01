@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0067",
+  "source_sha256": "7780f98a5d1fd16093f9321b4d770ed5c48be679f77a427783912bf00965f82a",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:34:08.715963+00:00",
+  "runtime_ms": 25574.477000001934,
+  "output": {
+    "medications": [
+      {
+        "name": "Toto",
+        "matched_term": "Toto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "ketotifen",
+        "matched_term": "ketotifen",
+        "drug_id": "befc8831-545e-4a07-8852-154775c66fbe",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "Doxyphylive",
+        "matched_term": "Doxyphylive",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Petroleum",
+        "matched_term": "Petroleum",
+        "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "paracetamol",
+        "matched_term": "paracetamol",
+        "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      }
+    ],
+    "raw_text": "toto -\nTur ketotifen I may\n0+0+1 -- 26\nTab Doxyphylive 200mg.\n/ Menit Petroleum Jelly\nTak: Paracetamol 500 mg.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 25531,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8777,
+      "yolo_min_confidence": 0.8777,
+      "yolo_max_confidence": 0.8777,
+      "ocr_avg_confidence": 0.495,
+      "ocr_min_confidence": 0.495,
+      "ocr_max_confidence": 0.495,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 261.13525390625,
+            "y_min": 252.72140502929688,
+            "x_max": 541.0242309570312,
+            "y_max": 495.630126953125
+          },
+          "score": 0.8777
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "toto -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tur ketotifen I may",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "0+0+1 -- 26",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tab Doxyphylive 200mg.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "/ Menit Petroleum Jelly",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tak: Paracetamol 500 mg.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

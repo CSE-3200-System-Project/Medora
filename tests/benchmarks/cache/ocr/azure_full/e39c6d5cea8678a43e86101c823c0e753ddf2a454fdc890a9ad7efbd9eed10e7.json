@@ -1,0 +1,416 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e39c6d5cea8678a43e86101c823c0e753ddf2a454fdc890a9ad7efbd9eed10e7",
+  "record_id": "RX-0104",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 32739.964200009126,
+  "failure": null,
+  "response_sha256": "1afc19939a7dcbd25dcc5e36d3a0a3225f7dfb37d89105bcb9c7393572d0a055",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 3142190\nS004\nMedical Center:\nPilgrim ID\n1029228\nPassport No\nMaktab No.\nName\n8. M SABUR\nBANTAD .-\nGender\nMALE\nDistrict\nThena\nHEALTH PROFILE\n130/90\n1. Blood Group:\nNO\n2. Blood Pressure:\n3. Heart Disease:\nND\n4. Lung Disease:\n5. Kidney Disease:\nNO\n8. Diabales:\n7. Mental Disease:\n70\n8. Blood Sugar (RBS)\nNO\n9. Weight:\n10. Liver Disease:\n11. Drug History:\nAntihypertenshe\n12. Any other abnormalities:\n27-May 2024\nChief Complaints:\n- Weakness.\nVisit No:\nDate:\nDIE :-\nPulse-\nBP- 140/25 mm f Hg\nTemp\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nFBSIRDS =13.2\nECG\nProvisional Diagonosis\nRx\n- Pd. Cinazin pln\n010+2.\n29.00.2028\nएवं व्यष्टियन लगण्डव हिंकिपता लगना अयट्रम्त्र चन्दा • गायशुनवी चचिनात चननारे नाम खानाक स्टन।\n25\nकादकन नए:\n82\nA13321166\nPADNA\nNO\nYES",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "TREATMENT CARD / 3142190",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "S004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "1029228",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Maktab No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "8. M SABUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "BANTAD .-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Thena",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "130/90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "ND",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "8. Diabales:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Antihypertenshe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "27-May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "- Weakness.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "DIE :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "BP- 140/25 mm f Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Temp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "FBSIRDS =13.2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "- Pd. Cinazin pln",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "010+2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "29.00.2028",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "एवं व्यष्टियन लगण्डव हिंकिपता लगना अयट्रम्त्र चन्दा • गायशुनवी चचिनात चननारे नाम खानाक स्टन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "कादकन नए:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "82",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "A13321166",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "PADNA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "YES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.734
+      }
+    ]
+  }
+}

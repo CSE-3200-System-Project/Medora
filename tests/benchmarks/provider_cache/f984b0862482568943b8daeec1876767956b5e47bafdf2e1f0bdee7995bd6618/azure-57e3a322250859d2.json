@@ -1,0 +1,683 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0076",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:01:22.220710+00:00",
+  "runtime_ms": 26824.534200000926,
+  "output": {
+    "raw_text": "या टनो खा रखी पश्मीन\nBNS HAJI MOTOWN\nSICK BAY\nDhaka Cantonment, Dhaka - 1206\nEmergency Contact: MI Room- 01769-702685, W/M- 01769-702679\nReferred Form For Admission/Examination\nP/O No :\n820377\nAge/Sex\n:\n54 yrs Male.\nRank :\nMCPO (X)\nBlood Group :\nA +\nName: M Z H SIDDIQUI\nVisit Date\n:\n03-09-2018\nUnit\n: H/M (PR)\nTime\n:\n15 days × 03.09.18\nA HIN\nDM\nAngelock (som\n0+0+1\nBP. 170196\nF- 7.5\n2-1 -11.4\n1\nTax.\nComnet ( 5-\n0+11c\nPantano (m)\n11011\n1\nडा: त्या नाडामूल एक\nप्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)\nयाफिरमिन 3 रूमसबाग निर्ण बढ़\nकि वन जम शाखी यश्जीन\nFACILITIES\nPathology\nDental Wing\nHaemodialysis\nCardiology\nMinor OT\nPhysiotherapy\nEye Specialist\nUltrasonography\nEmergency & Casualty\nX-ray\nChild Specialist\nCinamon C13-\n1+011\n-",
+    "lines": [
+      {
+        "text": "या टनो खा रखी पश्मीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "BNS HAJI MOTOWN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "SICK BAY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Dhaka Cantonment, Dhaka - 1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Emergency Contact: MI Room- 01769-702685, W/M- 01769-702679",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Referred Form For Admission/Examination",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "P/O No :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Age/Sex",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "54 yrs Male.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Rank :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "MCPO (X)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Blood Group :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "A +",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Name: M Z H SIDDIQUI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Visit Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "03-09-2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Unit",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ": H/M (PR)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Time",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": ":",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "15 days × 03.09.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "A HIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "DM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Angelock (som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "0+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "BP. 170196",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "F- 7.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "2-1 -11.4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Tax.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Comnet ( 5-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "0+11c",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Pantano (m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "11011",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "डा: त्या नाडामूल एक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "प्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "याफिरमिन 3 रूमसबाग निर्ण बढ़",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "कि वन जम शाखी यश्जीन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "FACILITIES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Pathology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Dental Wing",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Haemodialysis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Cardiology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Minor OT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Physiotherapy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Eye Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Ultrasonography",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Emergency & Casualty",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "X-ray",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Child Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "Cinamon C13-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "1+011",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.729
+      }
+    ],
+    "medications": [
+      {
+        "name": "Bns Haji Motown",
+        "matched_term": "Bns Haji Motown",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Sick Bay",
+        "matched_term": "Sick Bay",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Gandhakadi Malahar / Gandhak Malam",
+        "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+        "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Emergency Contact Mi",
+        "matched_term": "Emergency Contact Mi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Referred Form For No",
+        "matched_term": "Referred Form For No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Yrs Male",
+        "matched_term": "Yrs Male",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Rank",
+        "matched_term": "Rank",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Mcpo",
+        "matched_term": "Mcpo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Name Siddiqui",
+        "matched_term": "Name Siddiqui",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Unit Pr",
+        "matched_term": "Unit Pr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Timem",
+        "matched_term": "Timem",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "15 days",
+        "confidence": 0.758
+      },
+      {
+        "name": "Hin Dm",
+        "matched_term": "Hin Dm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Angilock",
+        "matched_term": "Angilock",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.758
+      },
+      {
+        "name": "Tax-B",
+        "matched_term": "Tax-B",
+        "drug_id": "a88a26f7-1385-40df-9677-36fd1452d10e",
+        "brand_id": "f577afba-0d3c-407e-b539-a2deec278e54",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Comnet",
+        "matched_term": "Comnet",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Pantac",
+        "matched_term": "Pantac",
+        "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+        "brand_id": "088b7903-da26-4424-8e59-7a9928944830",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Facilities",
+        "matched_term": "Facilities",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Pathology",
+        "matched_term": "Pathology",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Aid-Dental",
+        "matched_term": "Aid-Dental",
+        "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+        "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "G Haemodialysis",
+        "matched_term": "G Haemodialysis",
+        "drug_id": "59347684-7431-4c4b-b2f7-3c1b174b6c20",
+        "brand_id": "6c7dfd70-e4c3-4c85-89f6-cb9948b1f24b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Cardiolex",
+        "matched_term": "Cardiolex",
+        "drug_id": "9051e37a-120a-49d8-ada8-a55918be2240",
+        "brand_id": "f0303a6a-7d39-4954-8f06-1b5625b8e4e7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Minor Ot",
+        "matched_term": "Minor Ot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Physiotherapy",
+        "matched_term": "Physiotherapy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Eye-Q",
+        "matched_term": "Eye-Q",
+        "drug_id": "7cdc7c0a-3a36-45a9-8801-b6e7f2c25aa3",
+        "brand_id": "9e5f6d54-d69e-4ee4-af4b-d786928701e8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Ultrasonography",
+        "matched_term": "Ultrasonography",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Emergency Casualty",
+        "matched_term": "Emergency Casualty",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Raj X",
+        "matched_term": "Raj X",
+        "drug_id": "55605964-60fc-4b7d-b8a5-5b1a29c1958e",
+        "brand_id": "4fec4283-9b86-4a99-9aee-c98bce96b537",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Child Specialist",
+        "matched_term": "Child Specialist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.328
+      },
+      {
+        "name": "Cinamom",
+        "matched_term": "Cinamom",
+        "drug_id": "81870563-c397-44a9-a2b9-efd4bca36617",
+        "brand_id": "a2597fe5-928b-4f54-ab6d-b8c69e6863ea",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.708
+      }
+    ]
+  }
+}

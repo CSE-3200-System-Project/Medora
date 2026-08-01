@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "record_id": "RX-0008",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 12854.70300000452,
+  "failure": null,
+  "response_sha256": "a8d8a918ab050a7ac7802a7aed780c1c089fdf178e52b327027b91414a11a5ca",
+  "response": {
+    "raw_text": "31\nबस् (बर्माफि)- ७५\n420\n1737 820 377 Melo M 3H Siback 9673\nछिकिश्मक कड़क बांगीव बारश शेख\nडिकिशमाकन वासशमना\n1-8-85\n23-8-12\nye-\n0\nDermatitis.\nTab.\nDes\n(sy)\notota\n-बधि\nTab.\nB/C\not) to\n20\nTab.\nRanitid 150g\nS TSH\nFBS & 2 HABP\nPerition Cream\n9[0]-uph\nR\nbeen\nAdr\n0)\nबक (ख्याजि)\nबिशनना\nस्वादश्व नाथ",
+    "lines": [
+      {
+        "text": "31",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बस् (बर्माफि)- ७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "420",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1737 820 377 Melo M 3H Siback 9673",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "छिकिश्मक कड़क बांगीव बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "डिकिशमाकन वासशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "1-8-85",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "23-8-12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "ye-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Dermatitis.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Des",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "(sy)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "otota",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "-बधि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "B/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "ot) to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Ranitid 150g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "S TSH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "FBS & 2 HABP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Perition Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "9[0]-uph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "been",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Adr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "0)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बक (ख्याजि)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "बिशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "स्वादश्व नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.525
+      }
+    ]
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0066",
+  "source_sha256": "12b4344ebc54bec70fdaa67330a356a1ce6382c89529d8d033235fe41698039e",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:58:26.575599+00:00",
+  "runtime_ms": 20252.325099994778,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBinganesh Hajj Office\nMakkan/Madinahvedoah\nTREATMENT CARD: 31\nMedical Cancer\nWilcow mn: G171\nMALE\nTHEY-RAPUIPA\nHEALTH PROFILE\n. HUNI DIDMH4H\nH\n11. Drug Hi-tary:\n12. Any other ctnaimaitcs.\nChief Complaints:\n: 21 Wa: 2024\n6. madryt um\nTerr of\nDehyrmation-\nAnsniration-\nOffiere-\n26.05.24\nFBSRBS-\nECG\nProvisional Dlagonosis\nE",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Binganesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Makkan/Madinahvedoah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "TREATMENT CARD: 31",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Medical Cancer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Wilcow mn: G171",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "THEY-RAPUIPA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": ". HUNI DIDMH4H",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "H",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "11. Drug Hi-tary:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "12. Any other ctnaimaitcs.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": ": 21 Wa: 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "6. madryt um",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Terr of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Dehyrmation-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Ansniration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Offiere-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "26.05.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "FBSRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "Provisional Dlagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "E",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.614
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.656
+      },
+      {
+        "name": "Binganesh Hajj Office",
+        "matched_term": "Binganesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Makkan Madinahvedoah",
+        "matched_term": "Makkan Madinahvedoah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.656
+      },
+      {
+        "name": "Wilcow Mn",
+        "matched_term": "Wilcow Mn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Malex",
+        "matched_term": "Malex",
+        "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+        "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.656
+      },
+      {
+        "name": "They-Rapuipa",
+        "matched_term": "They-Rapuipa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.656
+      },
+      {
+        "name": "Huni Didmh",
+        "matched_term": "Huni Didmh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Drug Hi-Tary",
+        "matched_term": "Drug Hi-Tary",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Any Other Ctnaimaitcs",
+        "matched_term": "Any Other Ctnaimaitcs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Chief Complaints Wa",
+        "matched_term": "Chief Complaints Wa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Madryt Um",
+        "matched_term": "Madryt Um",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Terr Of",
+        "matched_term": "Terr Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Dehyrmation",
+        "matched_term": "Dehyrmation",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Ansniration",
+        "matched_term": "Ansniration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Offiere",
+        "matched_term": "Offiere",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Fbsrbs",
+        "matched_term": "Fbsrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Provisional Dlagonosis",
+        "matched_term": "Provisional Dlagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      }
+    ]
+  }
+}

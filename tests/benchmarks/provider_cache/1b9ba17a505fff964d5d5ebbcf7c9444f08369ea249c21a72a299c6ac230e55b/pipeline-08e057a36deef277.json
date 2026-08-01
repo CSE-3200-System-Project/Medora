@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0038",
+  "source_sha256": "1b9ba17a505fff964d5d5ebbcf7c9444f08369ea249c21a72a299c6ac230e55b",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:28:10.055049+00:00",
+  "runtime_ms": 12124.6695999871,
+  "output": {
+    "medications": [
+      {
+        "name": "Im Sheikh",
+        "matched_term": "Im Sheikh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Bc Healtm",
+        "matched_term": "Bc Healtm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Dch Dhaka",
+        "matched_term": "Dch Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Ofessar Child",
+        "matched_term": "Ofessar Child",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Dicalat",
+        "matched_term": "Dicalat",
+        "drug_id": "875ee697-5737-4325-adec-6dcdd005e1c9",
+        "brand_id": "4bab60d1-d1b7-4c8c-bcd5-8834867da7a2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Atunnesa Math",
+        "matched_term": "Atunnesa Math",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Sical",
+        "matched_term": "Sical",
+        "drug_id": "7b2b2e92-ca78-4063-bd0c-e84cf51072ac",
+        "brand_id": "9af9b2d1-086c-4146-b0ac-7c44b32cec0a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Monas",
+        "matched_term": "Monas",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "ac1a6318-4236-42a8-bd92-65cc166299bf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Ototi",
+        "matched_term": "Ototi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Werostan",
+        "matched_term": "Werostan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Contan",
+        "matched_term": "Contan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "SP-Azib",
+        "matched_term": "SP-Azib",
+        "drug_id": "3bd81339-f92a-40ff-94ae-fcd9e2657323",
+        "brand_id": "e7bb0c69-7632-4f5b-9a9c-f43692acfbae",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Babin",
+        "matched_term": "Babin",
+        "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+        "brand_id": "97c625f5-e2e0-44a2-b274-89eb2c7a96c8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Axadin Orby",
+        "matched_term": "Axadin Orby",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Stato- Sonia",
+        "matched_term": "Stato- Sonia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Mucosol",
+        "matched_term": "Mucosol",
+        "drug_id": "4a80597c-fec7-4129-8681-586f80115729",
+        "brand_id": "f3315b3c-0388-4bb0-b729-d96a472f6052",
+        "dosage": null,
+        "frequency": "2+2+2",
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "And Em",
+        "matched_term": "And Em",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      }
+    ],
+    "raw_text": "im Sheikh\n5. BC5 (Healtm)\nDCH (Dhaka)\nofessar (Child)\ndical College F\natunnesa Math\nsical, Sirai\n80\nTab. monas a\nototi-80\nwerostan\ncontan\nSp. Azinox ( 200)\náp.\nBabix.\n20 021228\n-\nTab Axadin orby\nstato- sonia\nMucosol\n2+2+2-Mhp\nTab and 200 EM1 90",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 12090,
+      "detected_regions": 1,
+      "ocr_line_count": 22,
+      "yolo_avg_confidence": 0.8497,
+      "yolo_min_confidence": 0.8497,
+      "yolo_max_confidence": 0.8497,
+      "ocr_avg_confidence": 0.544,
+      "ocr_min_confidence": 0.544,
+      "ocr_max_confidence": 0.544,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 184.55955505371094,
+            "y_min": 145.43270874023438,
+            "x_max": 538.927734375,
+            "y_max": 513.6012573242188
+          },
+          "score": 0.8497
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "im Sheikh",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "5. BC5 (Healtm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "DCH (Dhaka)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "ofessar (Child)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "dical College F",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "atunnesa Math",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "sical, Sirai",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "80",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Tab. monas a",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "ototi-80",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "werostan",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "contan",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Sp. Azinox ( 200)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "áp.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Babix.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "20 021228",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Tab Axadin orby",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "stato- sonia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Mucosol",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "2+2+2-Mhp",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Tab and 200 EM1 90",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

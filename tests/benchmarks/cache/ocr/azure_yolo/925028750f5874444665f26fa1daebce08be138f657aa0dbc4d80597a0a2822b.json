@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "925028750f5874444665f26fa1daebce08be138f657aa0dbc4d80597a0a2822b",
+  "record_id": "RX-0091",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 15537.028699996881,
+  "failure": null,
+  "response_sha256": "e5c8f029e8c23c4f7cc926ad40c2fd0d35f583d27099fda9e35459d89081e7a7",
+  "response": {
+    "raw_text": ". Tab. Naproxen ( hwmg)\nsemprecin sistment\n\" Mensi petrolium jelly\n- Ega 200 -(5)\n\"Tab. Omep ( 20 mg)\n€20\nplease add ~ 24.05.211\n20\n7th pochiwell (36)\n2+0-10 -\n(100)(1)\n(50mg) (10\n- Tab Le Sustan\n2,0-0",
+    "lines": [
+      {
+        "text": ". Tab. Naproxen ( hwmg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "semprecin sistment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "\" Mensi petrolium jelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "- Ega 200 -(5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "\"Tab. Omep ( 20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "€20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "please add ~ 24.05.211",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "7th pochiwell (36)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "2+0-10 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "(100)(1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "(50mg) (10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "- Tab Le Sustan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "2,0-0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      }
+    ]
+  }
+}

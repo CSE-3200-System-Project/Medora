@@ -40,7 +40,7 @@ export default function PatientPrescriptionsPage() {
   const [hasMore, setHasMore] = React.useState(false);
   const [total, setTotal] = React.useState(0);
   const [error, setError] = React.useState<string | null>(null);
-  const [filter, setFilter] = React.useState<"all" | "pending" | "accepted" | "rejected">("all");
+  const [filter, setFilter] = React.useState<"all" | "pending_acknowledgment" | "receipt_acknowledged" | "discrepancy_reported">("all");
 
   const loadPrescriptions = React.useCallback(async (offset = 0) => {
     const reset = offset === 0;
@@ -93,25 +93,25 @@ export default function PatientPrescriptionsPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "pending":
+      case "pending_acknowledgment":
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
             <Clock className="h-3 w-3 mr-1" />
-            {tCommon("medicalHistory.status.pending")}
+            Awaiting acknowledgment
           </Badge>
         );
-      case "accepted":
+      case "receipt_acknowledged":
         return (
           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
             <CheckCircle2 className="h-3 w-3 mr-1" />
-            {tCommon("prescriptions.status.accepted")}
+            Receipt acknowledged
           </Badge>
         );
-      case "rejected":
+      case "discrepancy_reported":
         return (
           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
             <XCircle className="h-3 w-3 mr-1" />
-            {tCommon("prescriptions.status.rejected")}
+            Discrepancy reported
           </Badge>
         );
       default:
@@ -154,7 +154,7 @@ export default function PatientPrescriptionsPage() {
     return p.status === filter;
   });
 
-  const pendingCount = prescriptions.filter((p) => p.status === "pending").length;
+  const pendingCount = prescriptions.filter((p) => p.status === "pending_acknowledgment").length;
 
   return (
     <AppBackground className="animate-page-enter">
@@ -185,7 +185,7 @@ export default function PatientPrescriptionsPage() {
 
         {/* Filter Tabs */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-6 overflow-hidden">
-          {(["all", "pending", "accepted", "rejected"] as const).map((f) => (
+          {(["all", "pending_acknowledgment", "receipt_acknowledged", "discrepancy_reported"] as const).map((f) => (
             <Button
               key={f}
               variant={filter === f ? "default" : "outline"}
@@ -193,8 +193,8 @@ export default function PatientPrescriptionsPage() {
               onClick={() => setFilter(f)}
               className="capitalize whitespace-nowrap"
             >
-              {f === "all" ? tCommon("prescriptions.filters.all") : tCommon(`prescriptions.filters.${f}`)}
-              {f === "pending" && pendingCount > 0 && (
+              {f === "all" ? tCommon("prescriptions.filters.all") : f.replaceAll("_", " ")}
+              {f === "pending_acknowledgment" && pendingCount > 0 && (
                 <span className="ml-1 bg-card/20 px-1.5 rounded text-xs">{pendingCount}</span>
               )}
             </Button>

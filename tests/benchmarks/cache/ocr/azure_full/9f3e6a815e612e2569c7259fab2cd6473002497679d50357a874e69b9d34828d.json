@@ -1,0 +1,416 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "9f3e6a815e612e2569c7259fab2cd6473002497679d50357a874e69b9d34828d",
+  "record_id": "RX-0034",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 40456.363600009354,
+  "failure": null,
+  "response_sha256": "d5c1862f6799b283eb919e4787ec4fad737e386f1e1696725117ef8202a4eeb0",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ बावहभेज\nG028\nMedical Center:\nPagnim ID\n8500014\nPassport No\nMaktab No __ 50\nGender\nMALE\nDistrict\nThana.\nHEALTH PROFILE\n130080\n1. Blood Group:\n2\n2. Blood Pressure\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\n5. Kidney Disease:\nNO\n6. Diabetes:\n7. Mental Disease:\n70\n8. Blood Sugar (RBS):\nNC\n9. Weight:\n10. Liver Disease:\n11. Drug History\nAntickabelic\n12. Any other abnormalities:\nChief Complaints:\nVisit No:\nDate:\nPulse-\nBP- 130/20mmHg\nTemp-\nจนพอ นาฬิกาละ 1\nAnaemia-\nDehydration-\nRespiration-\nOthers-\n- a4. Triback (2008) 3\n0042.\n29.04.2018.\nFBS/RES.\n14.6\nECG\nProvisional Diagonosis\nएका दमिरयन जैसा किविदित लसर्वा अस्मत उन्हें में बानशानबडि बाफियर चरनाबे गार जानाठ पाव।\nconco wen Lamp connor\nA1314057G\nName\nKM JINNATH ALI\nCHAKA\nSTERE BANGLA-NAOMA\nYES\n13.3\nNO\n2nd COPY\n27 May 2024",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "TREATMENT CARD/ बावहभेज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "G028",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Pagnim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "8500014",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Maktab No __ 50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Thana.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "130080",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "2. Blood Pressure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "11. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Antickabelic",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "BP- 130/20mmHg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "จนพอ นาฬิกาละ 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "- a4. Triback (2008) 3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "0042.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "29.04.2018.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "FBS/RES.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "14.6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "एका दमिरयन जैसा किविदित लसर्वा अस्मत उन्हें में बानशानबडि बाफियर चरनाबे गार जानाठ पाव।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "conco wen Lamp connor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "A1314057G",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "KM JINNATH ALI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "CHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "STERE BANGLA-NAOMA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "YES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "13.3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "2nd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      }
+    ]
+  }
+}

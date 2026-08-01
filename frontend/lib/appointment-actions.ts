@@ -1,5 +1,6 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -47,13 +48,21 @@ export async function createAppointment(data: Record<string, unknown>) {
 
   if (!token) throw new Error("Not authenticated");
 
+  const idempotencyKey =
+    typeof data.idempotency_key === "string" && data.idempotency_key.length >= 8
+      ? data.idempotency_key
+      : randomUUID();
+  const bookingPayload = { ...data };
+  delete bookingPayload.idempotency_key;
+
   const response = await fetch(`${BACKEND_URL}/appointment/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      "Idempotency-Key": idempotencyKey,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(bookingPayload),
   });
 
   if (!response.ok) {

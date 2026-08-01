@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "a6236531d8bca5c01575b2ea2cb315c10a0e3d436c55c2b185ba0c4b37e3900a",
+  "record_id": "RX-0001",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 35057.70969999139,
+  "failure": null,
+  "response_sha256": "749cd030fed1d3806cc8792b42f735aab2cd4a6b6e3c9020c03e1eb9d66b2192",
+  "response": {
+    "raw_text": "Dr. Pran Krishna Shadhu Kha\nMBBS, BCS (Health), CCD (Bardeam)\nFCPS (Medicine) Final Part\nSpecialized Training in Neurology & Rheumatology\nRegistrar (RMO incharge) Chest Disease Hospital, Khulna.\nEx. Assistant Registrar (Cardiology Unit)\nShahid Sk. Abu Naser Specialized Hospital, Khulna\nजगनिविजाम, विनियम (वाड्या), मिमिफि (बावाउम)\nपयामिनियम (एपिडिजिन) लम न्द\nल्नानारेखा अनिर बन निकटजानखि 40 विकेमार्जिनखि\nस्वजिम्यान (छातवाढ वातजम) वकवाशि रामनाछान, चूमना।\nथाऊन मडकानी (विज्ञान (कार्डिएनजी हैंडनिए)\nनशेम लय आलू नाटमत विद्याग्रिक राजभाषान\nName: Mrs. Zahanara\nAge: 63 yrs\nDate: 17.08.25\nAddress: Khalishpur, Khulna\nRef. By:\nC/C\nR\nNection Nasal spray- E-\n· SPA\n6 Tab. cildip (5mg) +0+1-6ml\n(improved\n(+) ve F/H of Arthritis.\nThallaraemia B. Miner\nMultiple joint pain\nTab. maxineb (25mg)\n2+0+0-EnTO\n\" Tab. Flexibac (5mg) {+0+12-5m]\n\" Tab. Sindola (2.5mg) 1/2+0+12 2:23-5ml\nO/E:\n\" Cap. sergel (20mg)\nBP-140/80 mm Hg\n\"Tab. Folison (5mg)\n*\"Inj. Aristo D3 DE 25 Tha Laza uner . fr.\n1+0+02: 00-2335\n1+o+1 20: 2 222 2md-5.70\nPulse- 68/min\nW\" Tab. Bone Guard (150mg)\nII. Indo-A Suppository (100mg)\n1\n17.08.8\nAdv:\n0\nVCBCE ESRe Hb% VS. creatinine VSGPT\n* s. uric acid.\nThalassaemia E HTN\né SPA é Osteoporosis.\nबागी जवान जयद्र : थकि यदि 3 मगलवान\nविकाल 8:00 णे (शिटक बाब b:oo जे पर्यंत\nजिबियान: ०१४५-७४१११४",
+    "lines": [
+      {
+        "text": "Dr. Pran Krishna Shadhu Kha",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "MBBS, BCS (Health), CCD (Bardeam)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "FCPS (Medicine) Final Part",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Specialized Training in Neurology & Rheumatology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Registrar (RMO incharge) Chest Disease Hospital, Khulna.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Ex. Assistant Registrar (Cardiology Unit)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Shahid Sk. Abu Naser Specialized Hospital, Khulna",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "जगनिविजाम, विनियम (वाड्या), मिमिफि (बावाउम)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "पयामिनियम (एपिडिजिन) लम न्द",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ल्नानारेखा अनिर बन निकटजानखि 40 विकेमार्जिनखि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "स्वजिम्यान (छातवाढ वातजम) वकवाशि रामनाछान, चूमना।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "थाऊन मडकानी (विज्ञान (कार्डिएनजी हैंडनिए)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "नशेम लय आलू नाटमत विद्याग्रिक राजभाषान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Name: Mrs. Zahanara",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Age: 63 yrs",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Date: 17.08.25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Address: Khalishpur, Khulna",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Ref. By:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "C/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Nection Nasal spray- E-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "· SPA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "6 Tab. cildip (5mg) +0+1-6ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "(improved",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "(+) ve F/H of Arthritis.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Thallaraemia B. Miner",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Multiple joint pain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Tab. maxineb (25mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "2+0+0-EnTO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "\" Tab. Flexibac (5mg) {+0+12-5m]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "\" Tab. Sindola (2.5mg) 1/2+0+12 2:23-5ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "O/E:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "\" Cap. sergel (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "BP-140/80 mm Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "\"Tab. Folison (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "*\"Inj. Aristo D3 DE 25 Tha Laza uner . fr.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1+0+02: 00-2335",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1+o+1 20: 2 222 2md-5.70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Pulse- 68/min",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "W\" Tab. Bone Guard (150mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "II. Indo-A Suppository (100mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "17.08.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Adv:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "VCBCE ESRe Hb% VS. creatinine VSGPT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "* s. uric acid.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Thalassaemia E HTN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "é SPA é Osteoporosis.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "बागी जवान जयद्र : थकि यदि 3 मगलवान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "विकाल 8:00 णे (शिटक बाब b:oo जे पर्यंत",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "जिबियान: ०१४५-७४१११४",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      }
+    ]
+  }
+}

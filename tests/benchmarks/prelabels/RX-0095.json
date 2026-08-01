@@ -1,0 +1,1350 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0095",
+  "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
+  "raw_transcription": "Cap Fucksacin (20)30)\nCap Amoxyelite tele Maaco\n---\nNeomicina sont (2)\n-7de clarzepam's\nam\nponses aintrat e cotone",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Fucksacin",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Amoxyelite Tele Maaco",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Neomicina Sont",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "De Clarzepam Am",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ponses Aintrat Cotone",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "c459b16459dce79991957389c578cb8b87f7928d7b614c8eadc33e7bc776c79a"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "ae65165d623d7146c7cd7f499acb92d727c04270d4451fb8adae402ad38c0325"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "4b4fd76e31bcc4de0a733cc44710366deab3262d681b0cdd5afe61bbc243e048"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "MINISTRY OF RELIGIOUS AFFAIRS\nMakkah/Matinah/Jeddah\nBengadesh Hajj Ornca\ncCeg\nTREATMENT CARD/\nG597\nWMECEIEFOPRAN\nPNo\n05102445\nVathwn Na\nDIAKA\nAge.\nDbras\n.HEALTHPROFLE\n1.roup\nNO\nX\na\n.\n1\n.\n0\n12.y ch\nmelfec\nNO\nf Complaints:\nVlC\nD\nCap Fn\n3t\nCapAmoxyeiticnin\n340\nNerniciwnt )\nwu\n456\npovpoinmco\nongl88\n4",
+      "lines": [
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 221.0,
+            "y_min": 35.0,
+            "x_max": 372.0,
+            "y_max": 52.0
+          },
+          "page": 1,
+          "confidence": 0.949
+        },
+        {
+          "text": "Makkah/Matinah/Jeddah",
+          "bbox": {
+            "x_min": 246.0,
+            "y_min": 55.0,
+            "x_max": 347.0,
+            "y_max": 70.0
+          },
+          "page": 1,
+          "confidence": 0.882
+        },
+        {
+          "text": "Bengadesh Hajj Ornca",
+          "bbox": {
+            "x_min": 251.0,
+            "y_min": 47.0,
+            "x_max": 341.0,
+            "y_max": 60.0
+          },
+          "page": 1,
+          "confidence": 0.846
+        },
+        {
+          "text": "cCeg",
+          "bbox": {
+            "x_min": 140.0,
+            "y_min": 84.0,
+            "x_max": 191.0,
+            "y_max": 103.0
+          },
+          "page": 1,
+          "confidence": 0.713
+        },
+        {
+          "text": "TREATMENT CARD/",
+          "bbox": {
+            "x_min": 237.0,
+            "y_min": 74.0,
+            "x_max": 363.0,
+            "y_max": 90.0
+          },
+          "page": 1,
+          "confidence": 0.942
+        },
+        {
+          "text": "G597",
+          "bbox": {
+            "x_min": 376.0,
+            "y_min": 82.0,
+            "x_max": 446.0,
+            "y_max": 98.0
+          },
+          "page": 1,
+          "confidence": 0.875
+        },
+        {
+          "text": "WMECEIEFOPRAN",
+          "bbox": {
+            "x_min": 161.0,
+            "y_min": 102.0,
+            "x_max": 227.0,
+            "y_max": 113.0
+          },
+          "page": 1,
+          "confidence": 0.455
+        },
+        {
+          "text": "PNo",
+          "bbox": {
+            "x_min": 249.0,
+            "y_min": 97.0,
+            "x_max": 294.0,
+            "y_max": 108.0
+          },
+          "page": 1,
+          "confidence": 0.719
+        },
+        {
+          "text": "05102445",
+          "bbox": {
+            "x_min": 311.0,
+            "y_min": 94.0,
+            "x_max": 351.0,
+            "y_max": 107.0
+          },
+          "page": 1,
+          "confidence": 0.754
+        },
+        {
+          "text": "Vathwn Na",
+          "bbox": {
+            "x_min": 378.0,
+            "y_min": 97.0,
+            "x_max": 436.0,
+            "y_max": 108.0
+          },
+          "page": 1,
+          "confidence": 0.545
+        },
+        {
+          "text": "DIAKA",
+          "bbox": {
+            "x_min": 233.0,
+            "y_min": 114.0,
+            "x_max": 259.0,
+            "y_max": 125.0
+          },
+          "page": 1,
+          "confidence": 0.81
+        },
+        {
+          "text": "Age.",
+          "bbox": {
+            "x_min": 395.0,
+            "y_min": 107.0,
+            "x_max": 433.0,
+            "y_max": 118.0
+          },
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "Dbras",
+          "bbox": {
+            "x_min": 207.0,
+            "y_min": 119.0,
+            "x_max": 234.0,
+            "y_max": 129.0
+          },
+          "page": 1,
+          "confidence": 0.493
+        },
+        {
+          "text": ".HEALTHPROFLE",
+          "bbox": {
+            "x_min": 256.0,
+            "y_min": 129.0,
+            "x_max": 335.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.866
+        },
+        {
+          "text": "1.roup",
+          "bbox": {
+            "x_min": 198.0,
+            "y_min": 149.0,
+            "x_max": 245.0,
+            "y_max": 159.0
+          },
+          "page": 1,
+          "confidence": 0.678
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 257.0,
+            "y_min": 148.0,
+            "x_max": 269.0,
+            "y_max": 156.0
+          },
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "X",
+          "bbox": {
+            "x_min": 255.0,
+            "y_min": 151.0,
+            "x_max": 269.0,
+            "y_max": 165.0
+          },
+          "page": 1,
+          "confidence": 0.156
+        },
+        {
+          "text": "a",
+          "bbox": {
+            "x_min": 204.0,
+            "y_min": 161.0,
+            "x_max": 209.0,
+            "y_max": 167.0
+          },
+          "page": 1,
+          "confidence": 0.598
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 335.0,
+            "y_min": 155.0,
+            "x_max": 384.0,
+            "y_max": 173.0
+          },
+          "page": 1,
+          "confidence": 0.575
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 190.0,
+            "y_min": 176.0,
+            "x_max": 248.0,
+            "y_max": 201.0
+          },
+          "page": 1,
+          "confidence": 0.203
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 331.0,
+            "y_min": 167.0,
+            "x_max": 412.0,
+            "y_max": 188.0
+          },
+          "page": 1,
+          "confidence": 0.578
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 356.0,
+            "y_min": 175.0,
+            "x_max": 370.0,
+            "y_max": 182.0
+          },
+          "page": 1,
+          "confidence": 0.154
+        },
+        {
+          "text": "12.y ch",
+          "bbox": {
+            "x_min": 332.0,
+            "y_min": 185.0,
+            "x_max": 395.0,
+            "y_max": 196.0
+          },
+          "page": 1,
+          "confidence": 0.844
+        },
+        {
+          "text": "melfec",
+          "bbox": {
+            "x_min": 393.0,
+            "y_min": 182.0,
+            "x_max": 430.0,
+            "y_max": 196.0
+          },
+          "page": 1,
+          "confidence": 0.485
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 419.0,
+            "y_min": 176.0,
+            "x_max": 430.0,
+            "y_max": 184.0
+          },
+          "page": 1,
+          "confidence": 0.988
+        },
+        {
+          "text": "f Complaints:",
+          "bbox": {
+            "x_min": 141.0,
+            "y_min": 206.0,
+            "x_max": 194.0,
+            "y_max": 217.0
+          },
+          "page": 1,
+          "confidence": 0.888
+        },
+        {
+          "text": "VlC",
+          "bbox": {
+            "x_min": 226.0,
+            "y_min": 204.0,
+            "x_max": 257.0,
+            "y_max": 218.0
+          },
+          "page": 1,
+          "confidence": 0.448
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 198.0,
+            "x_max": 411.0,
+            "y_max": 216.0
+          },
+          "page": 1,
+          "confidence": 0.614
+        },
+        {
+          "text": "Cap Fn",
+          "bbox": {
+            "x_min": 259.0,
+            "y_min": 226.0,
+            "x_max": 454.0,
+            "y_max": 252.0
+          },
+          "page": 1,
+          "confidence": 0.79
+        },
+        {
+          "text": "3t",
+          "bbox": {
+            "x_min": 282.0,
+            "y_min": 250.0,
+            "x_max": 396.0,
+            "y_max": 276.0
+          },
+          "page": 1,
+          "confidence": 0.238
+        },
+        {
+          "text": "CapAmoxyeiticnin",
+          "bbox": {
+            "x_min": 271.0,
+            "y_min": 275.0,
+            "x_max": 471.0,
+            "y_max": 305.0
+          },
+          "page": 1,
+          "confidence": 0.569
+        },
+        {
+          "text": "340",
+          "bbox": {
+            "x_min": 300.0,
+            "y_min": 306.0,
+            "x_max": 344.0,
+            "y_max": 324.0
+          },
+          "page": 1,
+          "confidence": 0.299
+        },
+        {
+          "text": "Nerniciwnt )",
+          "bbox": {
+            "x_min": 289.0,
+            "y_min": 319.0,
+            "x_max": 470.0,
+            "y_max": 356.0
+          },
+          "page": 1,
+          "confidence": 0.755
+        },
+        {
+          "text": "wu",
+          "bbox": {
+            "x_min": 283.0,
+            "y_min": 354.0,
+            "x_max": 385.0,
+            "y_max": 378.0
+          },
+          "page": 1,
+          "confidence": 0.409
+        },
+        {
+          "text": "456",
+          "bbox": {
+            "x_min": 306.0,
+            "y_min": 414.0,
+            "x_max": 481.0,
+            "y_max": 434.0
+          },
+          "page": 1,
+          "confidence": 0.694
+        },
+        {
+          "text": "povpoinmco",
+          "bbox": {
+            "x_min": 295.0,
+            "y_min": 434.0,
+            "x_max": 452.0,
+            "y_max": 465.0
+          },
+          "page": 1,
+          "confidence": 0.643
+        },
+        {
+          "text": "ongl88",
+          "bbox": {
+            "x_min": 146.0,
+            "y_min": 458.0,
+            "x_max": 178.0,
+            "y_max": 465.0
+          },
+          "page": 1,
+          "confidence": 0.576
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 417.0,
+            "y_min": 456.0,
+            "x_max": 440.0,
+            "y_max": 472.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        }
+      ],
+      "medications": [
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.807
+        },
+        {
+          "name": "Bengadesh Hajj Ornca",
+          "matched_term": "Bengadesh Hajj Ornca",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.381
+        },
+        {
+          "name": "Makkah Matinah Jeddah",
+          "matched_term": "Makkah Matinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.397
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.409
+        },
+        {
+          "name": "Cceg",
+          "matched_term": "Cceg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.33
+        },
+        {
+          "name": "Pno",
+          "matched_term": "Pno",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.324
+        },
+        {
+          "name": "Vathwn Na",
+          "matched_term": "Vathwn Na",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "Wmeceiefopran",
+          "matched_term": "Wmeceiefopran",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.205
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.646
+        },
+        {
+          "name": "Diaka",
+          "matched_term": "Diaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.365
+        },
+        {
+          "name": "Dbras",
+          "matched_term": "Dbras",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.222
+        },
+        {
+          "name": "Healthprofle No",
+          "matched_term": "Healthprofle No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.333
+        },
+        {
+          "name": "Roup No",
+          "matched_term": "Roup No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.221
+        },
+        {
+          "name": "Melfec Dpl20",
+          "matched_term": "Melfec Dpl20",
+          "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+          "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.291
+        },
+        {
+          "name": "Vlc",
+          "matched_term": "Vlc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.202
+        },
+        {
+          "name": "Complaints",
+          "matched_term": "Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.4
+        },
+        {
+          "name": "Tfn",
+          "matched_term": "Tfn",
+          "drug_id": "ab9a0b2a-60ce-486b-b4ca-8a1427486295",
+          "brand_id": "7637fd76-7cc6-4fd8-aac9-9ba93b754b97",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.561
+        },
+        {
+          "name": "Capamoxyeiticnin",
+          "matched_term": "Capamoxyeiticnin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.195
+        },
+        {
+          "name": "Nerniciwnt Wu",
+          "matched_term": "Nerniciwnt Wu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.279
+        },
+        {
+          "name": "Povpoinmco Ongl",
+          "matched_term": "Povpoinmco Ongl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 14 911\nIcal Copia\nफैशन नया G597\n40510214G\nAge __ M.\nDHAKA\nThơm BỊ//THONCI\nHEALTH PROFILE\n1. Dkxsi! Group:\n2 Bind Pressure:\nNO\nS. KISTAY DECORA\nA. Disboks\nB. Blood Sugar IRBS)\n10. Lhvor brechen:\n11. Diog Hebory:\n12. Ary clher phonevattes NO\nif Complaints:\nCap Fuberlin\n2038\ndration-\niration\nNeomicina sint (2)\n-The clonazepam's\nam\n0-1440-50\npenses sintrad & cotture\nleonel Diagonvers\nएवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।\nNO\nCamp Amoxyelite Velmi Marco",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Bangladesh Hajj Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Makkah/Madinah/Jeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "TREATMENT CARD / 14 911",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Ical Copia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "फैशन नया G597",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "40510214G",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Age __ M.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "DHAKA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Thơm BỊ//THONCI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "1. Dkxsi! Group:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "2 Bind Pressure:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "S. KISTAY DECORA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "A. Disboks",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "B. Blood Sugar IRBS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "10. Lhvor brechen:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "11. Diog Hebory:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "12. Ary clher phonevattes NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "if Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Cap Fuberlin",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "2038",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "dration-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "iration",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Neomicina sint (2)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "-The clonazepam's",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "am",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "0-1440-50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "penses sintrad & cotture",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "leonel Diagonvers",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "एवं :पस्रिन और रिकिए। अब अक्षका बता से राशनंती अत्यंत उनकारे ग्राम प्रभाष गुन।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        },
+        {
+          "text": "Camp Amoxyelite Velmi Marco",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.502
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Bangladesh Hajj Office",
+          "matched_term": "Bangladesh Hajj Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Makkah Madinah Jeddah",
+          "matched_term": "Makkah Madinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Ical Copia",
+          "matched_term": "Ical Copia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "40510214G",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Gandhakadi Malahar / Gandhak Malam",
+          "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+          "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "A Th",
+          "matched_term": "A Th",
+          "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+          "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Dkxsi Group",
+          "matched_term": "Dkxsi Group",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Pressure Cure",
+          "matched_term": "Pressure Cure",
+          "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+          "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Kistay Decora",
+          "matched_term": "Kistay Decora",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Disboks",
+          "matched_term": "Disboks",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "A-Lo",
+          "matched_term": "A-Lo",
+          "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+          "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Diog Hebory",
+          "matched_term": "Diog Hebory",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Dpl20",
+          "matched_term": "Dpl20",
+          "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+          "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.442
+        },
+        {
+          "name": "If Complaints",
+          "matched_term": "If Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Fuberlin",
+          "matched_term": "Fuberlin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Dration",
+          "matched_term": "Dration",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Iration",
+          "matched_term": "Iration",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Neomicina Sint",
+          "matched_term": "Neomicina Sint",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "clonazepam",
+          "matched_term": "clonazepam",
+          "drug_id": "5675d7e0-bfd0-41b2-993f-ab7767861dbe",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        },
+        {
+          "name": "Penses Sintrad Cotture",
+          "matched_term": "Penses Sintrad Cotture",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Leonel Diagonvers No",
+          "matched_term": "Leonel Diagonvers No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Campl",
+          "matched_term": "Campl",
+          "drug_id": "fd68488a-0dcb-4331-8136-371a78d44a02",
+          "brand_id": "11ad11ca-89be-4120-adfd-0b7ee5374b8d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.606
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Fucksacin",
+          "matched_term": "Fucksacin",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        },
+        {
+          "name": "Amoxyelite Tele Maaco",
+          "matched_term": "Amoxyelite Tele Maaco",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        },
+        {
+          "name": "Neomicina Sont",
+          "matched_term": "Neomicina Sont",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        },
+        {
+          "name": "De Clarzepam Am",
+          "matched_term": "De Clarzepam Am",
+          "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+          "brand_id": "f6135d7e-618c-463b-a19c-2ddcc870838d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        },
+        {
+          "name": "Ponses Aintrat Cotone",
+          "matched_term": "Ponses Aintrat Cotone",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        }
+      ],
+      "raw_text": "Cap Fucksacin (20)30)\nCap Amoxyelite tele Maaco\n---\nNeomicina sont (2)\n-7de clarzepam's\nam\nponses aintrat e cotone",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 9717,
+        "detected_regions": 1,
+        "ocr_line_count": 7,
+        "yolo_avg_confidence": 0.9198,
+        "yolo_min_confidence": 0.9198,
+        "yolo_max_confidence": 0.9198,
+        "ocr_avg_confidence": 0.436,
+        "ocr_min_confidence": 0.436,
+        "ocr_max_confidence": 0.436,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 243.6186981201172,
+              "y_min": 216.60552978515625,
+              "x_max": 501.8697814941406,
+              "y_max": 485.37664794921875
+            },
+            "score": 0.9198
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Cap Fucksacin (20)30)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "Cap Amoxyelite tele Maaco",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "---",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "Neomicina sont (2)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "-7de clarzepam's",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "am",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          },
+          {
+            "text": "ponses aintrat e cotone",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.436
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

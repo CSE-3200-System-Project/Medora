@@ -19,11 +19,25 @@ class OCRPipeline:
     def __init__(self) -> None:
         self._azure_client: AzureReadClient | None = None
 
-    def run(self, image_bytes: bytes, debug: bool = False, subject_token: str | None = None) -> OCRResponse:
+    def run(
+        self,
+        image_bytes: bytes,
+        debug: bool = False,
+        subject_token: str | None = None,
+        processing_mode: str = "cloud",
+    ) -> OCRResponse:
         started_at = time.perf_counter()
 
+        processing_mode = processing_mode.lower().strip()
+        if processing_mode not in {"local", "cloud"}:
+            raise ValueError("processing_mode must be 'local' or 'cloud'")
+
         model_type = settings.MODEL_TYPE.lower().strip()
-        if model_type == "read":
+        if processing_mode == "local":
+            medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_local_pipeline(
+                image_bytes
+            )
+        elif model_type == "read":
             medications, all_lines, model_name, region_count, crop_count, regions, vocab_size = self._run_read_pipeline(
                 image_bytes,
                 subject_token=subject_token,
@@ -64,7 +78,7 @@ class OCRPipeline:
 
         if settings.OCR_LOG_FULL_TEXT:
             logger.debug("ocr_raw_text full=%r", raw_text)
-        else:
+        elif settings.OCR_LOG_MAX_CHARS > 0:
             logger.debug("ocr_raw_text preview=%r", raw_text[: settings.OCR_LOG_MAX_CHARS])
         logger.debug("ocr_parsed_medications_count=%d", len(medications))
 
@@ -83,6 +97,10 @@ class OCRPipeline:
                 ocr_avg_confidence=ocr_stats["avg"],
                 ocr_min_confidence=ocr_stats["min"],
                 ocr_max_confidence=ocr_stats["max"],
+                processing_mode=processing_mode,
+                provider="paddleocr_local" if processing_mode == "local" else "azure_document_intelligence",
+                review_required=True,
+                authoritative_writeback=False,
             ),
         )
         if debug:
@@ -93,6 +111,14 @@ class OCRPipeline:
                 medicine_candidates_loaded=vocab_size,
             )
         return response
+
+    def _run_local_pipeline(self, image_bytes: bytes):
+        from app.local_ocr import paddleocr_extract_lines
+
+        lines = paddleocr_extract_lines(image_bytes)
+        ordered_lines = _sort_lines(lines)
+        medications = parse_prescription(ordered_lines, [])
+        return medications, ordered_lines, "paddleocr_pp-ocrv4", 0, 1, [], 0
 
     def _run_read_pipeline(self, image_bytes: bytes, *, subject_token: str | None = None):
         if self._azure_client is None:

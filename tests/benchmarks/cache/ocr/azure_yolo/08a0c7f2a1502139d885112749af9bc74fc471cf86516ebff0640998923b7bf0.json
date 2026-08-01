@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "08a0c7f2a1502139d885112749af9bc74fc471cf86516ebff0640998923b7bf0",
+  "record_id": "RX-0028",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5476.755499999854,
+  "failure": null,
+  "response_sha256": "c8240d68cb2f435add3740052a55e983606ab81f3612d4e8ad898f9e4f08ccfe",
+  "response": {
+    "raw_text": "R\n& Tab. Ketordac (10mg)\n· Cup. Omeprazol (200g)\nTrots\n16\n· Job. Calcium\n$ 20\n4\n· Diclofena - gel.\n0",
+    "lines": [
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "& Tab. Ketordac (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "· Cup. Omeprazol (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Trots",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "· Job. Calcium",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "$ 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "· Diclofena - gel.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      }
+    ]
+  }
+}

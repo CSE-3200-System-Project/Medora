@@ -2,7 +2,7 @@
 Medical Knowledge Service for AI Doctor Search
 Provides specialty relationships, symptom mappings, and intelligent fallback chains.
 """
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Set, Tuple
 
 
 # === UNIVERSAL FALLBACKS ===
@@ -98,25 +98,14 @@ SPECIALTY_RELATIONSHIPS: Dict[str, List[str]] = {
     "vision": ["Ophthalmologist"],
     "cataract": ["Ophthalmologist"],
     
-    # General/Emergency
+    # General concerns. Emergency phrases are handled by deterministic red-flag
+    # rules before specialty matching and never produce ranked candidates.
     "fever": ["Internal Medicine", "General Physician"],
     "pain": ["Internal Medicine", "General Physician"],
     "weakness": ["Internal Medicine", "General Physician"],
     "fatigue": ["Internal Medicine", "General Physician"],
     "infection": ["Internal Medicine", "General Physician"],
-    "emergency": ["Emergency Medicine", "General Physician"],
 }
-
-
-# === SEVERITY-BASED SPECIALTY PREFERENCES ===
-# High-severity cases should prefer more specialized doctors
-HIGH_SEVERITY_PREFER = [
-    "Cardiologist",
-    "Neurologist",
-    "Emergency Medicine",
-    "Neurosurgeon",
-    "Oncologist"
-]
 
 
 def normalize_symptom(text: str) -> str:
@@ -126,15 +115,13 @@ def normalize_symptom(text: str) -> str:
 
 def get_related_specialties(
     symptoms: List[str],
-    severity: str = "medium",
     max_results: int = 5
 ) -> List[str]:
     """
-    Get related specialties based on symptoms and severity.
+    Get navigation candidates based on symptom terms.
     
     Args:
         symptoms: List of symptom keywords
-        severity: "low", "medium", or "high"
         max_results: Maximum number of specialties to return
     
     Returns:
@@ -164,12 +151,6 @@ def get_related_specialties(
                     score = (len(related) - i) // 2  # Lower weight for partial matches
                     specialty_scores[spec] = specialty_scores.get(spec, 0) + score
     
-    # Boost high-severity specialties if severity is high
-    if severity == "high":
-        for spec in HIGH_SEVERITY_PREFER:
-            if spec in specialty_scores:
-                specialty_scores[spec] *= 1.5
-    
     # Sort by score
     sorted_specialties = sorted(
         specialty_scores.items(),
@@ -190,7 +171,6 @@ def get_related_specialties(
 def get_fallback_chain(
     primary_specialties: List[str],
     available_specialties: Set[str],
-    severity: str = "medium",
     min_count: int = 2
 ) -> Tuple[List[str], List[str]]:
     """
@@ -199,7 +179,6 @@ def get_fallback_chain(
     Args:
         primary_specialties: Specialties extracted from LLM or symptoms
         available_specialties: Set of specialties that actually have doctors in DB
-        severity: Patient severity level
         min_count: Minimum number of specialties to return
     
     Returns:
@@ -227,14 +206,6 @@ def get_fallback_chain(
             if len(primary_available) + len(secondary_list) >= min_count:
                 break
     
-    # If still not enough, add any high-severity specialties if severity is high
-    if severity == "high" and len(primary_available) + len(secondary_list) < min_count:
-        for spec in HIGH_SEVERITY_PREFER:
-            if spec in available_specialties and spec not in primary_available and spec not in secondary_list:
-                secondary_list.append(spec)
-                if len(primary_available) + len(secondary_list) >= min_count:
-                    break
-    
     # Last resort: add any available specialty to meet min_count
     if len(primary_available) + len(secondary_list) < min_count:
         for spec in sorted(available_specialties):
@@ -244,35 +215,3 @@ def get_fallback_chain(
                     break
     
     return primary_available, secondary_list
-
-
-def should_always_include_gp(severity: str, symptoms: List[str]) -> bool:
-    """
-    Determine if General Physician should always be included.
-    GP is suitable for most non-emergency, general health concerns.
-    """
-    # For low/medium severity with general symptoms, GP is always relevant
-    if severity in ["low", "medium"]:
-        return True
-    
-    # For high severity, still include GP if symptoms are non-specific
-    if not symptoms or len(symptoms) < 2:
-        return True
-    
-    return False
-
-
-def should_include_internal_medicine(severity: str, symptoms: List[str]) -> bool:
-    """
-    Determine if Internal Medicine should be included.
-    Internal Medicine is excellent for diagnostic cases and systemic issues.
-    """
-    # Always good for diagnostic purposes
-    if len(symptoms) >= 2:  # Multiple symptoms = needs diagnosis
-        return True
-    
-    # Medium/high severity cases benefit from internal medicine
-    if severity in ["medium", "high"]:
-        return True
-    
-    return False

@@ -1,0 +1,365 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0040",
+  "source_sha256": "762fc38d4c1f699cf341aabbd997d914d9fa1ce30089b563e5275082da63a306",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:41:04.412290+00:00",
+  "runtime_ms": 16674.2002999963,
+  "output": {
+    "raw_text": "◌ॅनरऊना चाडा कमाभऊ मिश्रारेत मानिकत्र\nऊकरती विछात्र डिकिट\nName :\nAge\nबिछिया\n18 00.\nGenden Male/ Female\nMobile No:\nPatient ID: BDH\nDate: 6/2/2024\nAddress :\nsingair.Manikganj\nRoom No : Room No: 19 ( Emergency )\nPatient Type : Genera\nC/C\nRx\n26. Zoli vox (400mg)\nAbsen\nTwo. Fixeet plus 250\nO/E\nno. Flexi 100\n20. Vonopa 20\nINV\nno\nKalconst-D\n2013 93y\nभूतवको आकार\n.........\nमिन/मशाल/याम भाव",
+    "lines": [
+      {
+        "text": "◌ॅनरऊना चाडा कमाभऊ मिश्रारेत मानिकत्र",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "ऊकरती विछात्र डिकिट",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Name :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "बिछिया",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "18 00.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Genden Male/ Female",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Mobile No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Patient ID: BDH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Date: 6/2/2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Address :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "singair.Manikganj",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Room No : Room No: 19 ( Emergency )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Patient Type : Genera",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "C/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "26. Zoli vox (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Absen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Two. Fixeet plus 250",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "O/E",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "no. Flexi 100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "20. Vonopa 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "INV",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Kalconst-D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "2013 93y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "भूतवको आकार",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": ".........",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "मिन/मशाल/याम भाव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.719
+      }
+    ],
+    "medications": [
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.704
+      },
+      {
+        "name": "Gen",
+        "matched_term": "Gen",
+        "drug_id": "49b07d6d-c94f-4461-abd7-e3d1352682ea",
+        "brand_id": "3f36e600-7ec6-4d28-a473-1a14d6e90658",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.704
+      },
+      {
+        "name": "Mobile No",
+        "matched_term": "Mobile No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Patient Id Bdh",
+        "matched_term": "Patient Id Bdh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Address",
+        "matched_term": "Address",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Sinlair",
+        "matched_term": "Sinlair",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "6d9539ff-baa9-4544-bd39-3744102ee513",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.704
+      },
+      {
+        "name": "Room No Room",
+        "matched_term": "Room No Room",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Patient Type Genera Rx",
+        "matched_term": "Patient Type Genera Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Zolivox",
+        "matched_term": "Zolivox",
+        "drug_id": "a5caa618-2161-4a4c-90d3-480e4f778bc1",
+        "brand_id": "f5ab39a4-e65b-42ea-830a-2f681881b0d5",
+        "dosage": "400mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.599
+      },
+      {
+        "name": "Absen",
+        "matched_term": "Absen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Two Fixeet Plus",
+        "matched_term": "Two Fixeet Plus",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Flexi",
+        "matched_term": "Flexi",
+        "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+        "brand_id": "383e42ce-b82e-4c44-bbcf-4dc225550ece",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.704
+      },
+      {
+        "name": "Vonopa 20",
+        "matched_term": "Vonopa 20",
+        "drug_id": "55ebb327-c9ab-4e8e-9422-344e90e9d649",
+        "brand_id": "cf9aa7d5-0ada-4550-947a-4d628c05f1b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.594
+      },
+      {
+        "name": "Inv No",
+        "matched_term": "Inv No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.324
+      },
+      {
+        "name": "Kalcoral-D",
+        "matched_term": "Kalcoral-D",
+        "drug_id": "84b923fc-375e-4de6-a60d-722f8088a8e0",
+        "brand_id": "f67625aa-9efb-4f52-ace1-96db2bb8bf0c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.704
+      }
+    ]
+  }
+}

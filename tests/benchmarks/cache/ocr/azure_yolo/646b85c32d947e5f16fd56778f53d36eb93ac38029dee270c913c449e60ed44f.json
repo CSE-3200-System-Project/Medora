@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "646b85c32d947e5f16fd56778f53d36eb93ac38029dee270c913c449e60ed44f",
+  "record_id": "RX-0037",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6293.608099993435,
+  "failure": null,
+  "response_sha256": "125f99c40cc41e7d99674a5f6cd6658160d36489b7c85d4f943b6b08bab5d886",
+  "response": {
+    "raw_text": "मजीद)\nJiman Alt\nAge De, WC Rol, Date\nR\n. Gus. Fenolen (60 mg)\n01022\n· Ris. Ancakant (5mg).\n0.012\nProzent Cream.\n.\nศาล 2 การ",
+    "lines": [
+      {
+        "text": "मजीद)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "Jiman Alt",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "Age De, WC Rol, Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": ". Gus. Fenolen (60 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "01022",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "· Ris. Ancakant (5mg).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "0.012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "Prozent Cream.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "ศาล 2 การ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.527
+      }
+    ]
+  }
+}

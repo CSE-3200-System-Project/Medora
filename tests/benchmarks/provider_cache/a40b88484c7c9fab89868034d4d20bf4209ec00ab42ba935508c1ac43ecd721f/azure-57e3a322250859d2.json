@@ -1,0 +1,547 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0086",
+  "source_sha256": "a40b88484c7c9fab89868034d4d20bf4209ec00ab42ba935508c1ac43ecd721f",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:05:25.975210+00:00",
+  "runtime_ms": 26500.92279999808,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkah MadınalvJeddah\nTREATMENT CARD/ aFTE194\nMedical Center\n*****= > G255\nFignım D\nNome _..\n873HATA\nHEALTH PROFILE\n2. Pled Presa_ro\n120/20\n4 Lung Disease\n7 Men'si Dixocon\n8. Wagh!\n11 Ding History\n8. Rundt Sugar (RBS))\n10 Low Danasc:\nVES\n12 Any uthe obromaitny:\nChief Complaints\n71 May 2021\nO Tob. Mehanidad (400mg)\nTemp-\nAraemi-\nDehydration-\nRespiration\nOthers\n0 Tas Metformin/Informaty $100\n(20)\no Coro. Omeprazol (2001)\n* Mesil gelles\nDÉSIRES |0-3 mmol/L\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Makkah MadınalvJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "TREATMENT CARD/ aFTE194",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "*****= > G255",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Fignım D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Nome _..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "873HATA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "2. Pled Presa_ro",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "120/20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "4 Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "7 Men'si Dixocon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "8. Wagh!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "11 Ding History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "8. Rundt Sugar (RBS))",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "10 Low Danasc:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "VES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "12 Any uthe obromaitny:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "71 May 2021",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "O Tob. Mehanidad (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Araemi-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Others",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "0 Tas Metformin/Informaty $100",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "o Coro. Omeprazol (2001)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "* Mesil gelles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "DÉSIRES |0-3 mmol/L",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.569
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Bangladesh Haj Office",
+        "matched_term": "Bangladesh Haj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Makkah Mad Nalvjeddah",
+        "matched_term": "Makkah Mad Nalvjeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Treatment Card Afte",
+        "matched_term": "Treatment Card Afte",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Nome Hata",
+        "matched_term": "Nome Hata",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Pled Presa Ro",
+        "matched_term": "Pled Presa Ro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Lung Disease",
+        "matched_term": "Lung Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "B-Men",
+        "matched_term": "B-Men",
+        "drug_id": "923e3334-ab2d-4552-9023-38cdccb2bd12",
+        "brand_id": "d79d618a-557e-42eb-89e5-102d128e4707",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Wagh",
+        "matched_term": "Wagh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Din",
+        "matched_term": "Din",
+        "drug_id": "f0ca115c-8bf1-468b-b81e-afc5d8f4b361",
+        "brand_id": "a681d405-dd44-4fe6-86cc-8cf24e3265ae",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.459
+      },
+      {
+        "name": "Rundt Sugar Rbs",
+        "matched_term": "Rundt Sugar Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "A-Lo",
+        "matched_term": "A-Lo",
+        "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+        "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Ves",
+        "matched_term": "Ves",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Dpl20",
+        "matched_term": "Dpl20",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.472
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Tobi",
+        "matched_term": "Tobi",
+        "drug_id": "8a86cdee-2fcf-4e7c-9ff1-7b9f5cbe963c",
+        "brand_id": "f12d01f6-fb0a-4262-aeb9-35cacd831746",
+        "dosage": "400mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.687
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Araemi",
+        "matched_term": "Araemi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "V-Tas",
+        "matched_term": "V-Tas",
+        "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+        "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.636
+      },
+      {
+        "name": "Mesil Gelles",
+        "matched_term": "Mesil Gelles",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Sires Mmol",
+        "matched_term": "Sires Mmol",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.256
+      }
+    ]
+  }
+}

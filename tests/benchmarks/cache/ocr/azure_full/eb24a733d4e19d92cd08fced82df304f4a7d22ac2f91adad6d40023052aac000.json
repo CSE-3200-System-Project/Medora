@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "record_id": "RX-0004",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 34305.686399995466,
+  "failure": null,
+  "response_sha256": "be982ba38c4d7302824a67e829994ddace89bc45d6a2b7c613fd2d806b114d0d",
+  "response": {
+    "raw_text": "किकिश्मक कड़क ब्बाभीव यार शेख\nW/O MEH Siddique Mcpo (x).\nबाभीव नाथ\n40 years\n820377\nडिकिश्माकब बादशमना\nजानिए\n26-7-16\nqe-\nFever for\n5 days.\nRx -\n1 Headache\n. Tab. Pamen(mg)\n-(6).\nSec10/20)\n· Cap\nBenitickou\nTab\nDeslor (30g)\nP\nORS\n-\n2\nth\nAdv\n· CBC\n· Widal test\n· Urine R/E\nबानी\nणविथ",
+    "lines": [
+      {
+        "text": "किकिश्मक कड़क ब्बाभीव यार शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "W/O MEH Siddique Mcpo (x).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "बाभीव नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "40 years",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "डिकिश्माकब बादशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "जानिए",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "26-7-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "qe-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Fever for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "5 days.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Rx -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1 Headache",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": ". Tab. Pamen(mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "-(6).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Sec10/20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Benitickou",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Deslor (30g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "ORS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "th",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· CBC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Widal test",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Urine R/E",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "बानी",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "णविथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      }
+    ]
+  }
+}

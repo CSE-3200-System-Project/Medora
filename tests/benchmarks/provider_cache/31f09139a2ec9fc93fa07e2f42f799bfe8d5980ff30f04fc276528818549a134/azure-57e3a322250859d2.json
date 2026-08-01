@@ -1,0 +1,365 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0021",
+  "source_sha256": "31f09139a2ec9fc93fa07e2f42f799bfe8d5980ff30f04fc276528818549a134",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:31:29.749610+00:00",
+  "runtime_ms": 19165.540000001783,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMokkalv/MadinaliJeddah\nTREATMENT CARD/ REME\n******: 8035\nMiktu Hn.PT\nGender\nHALF\nHEALTH PROFILE\n1 Mloce Group\nU. B nod Sugar (ABST:\n10 Live DENNNA:\nChief Complaints\nViệt Na,-CF)\nD. 24 Muy 2224\n. Cap Cefixime\nPulsa\nDahydration-\nStitake off ( Pt deaire)\nPeauiration-\nOffers\n26/02/28\nProvisional Diagonosis\nवेज (जस्टिन ट्रगणित बिदिता जना गणण्ट खने का रुझानर्जी अदिनित खवभाई उदय जानदार मान।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Mokkalv/MadinaliJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "TREATMENT CARD/ REME",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "******: 8035",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Miktu Hn.PT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "HALF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "1 Mloce Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "U. B nod Sugar (ABST:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "10 Live DENNNA:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Việt Na,-CF)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "D. 24 Muy 2224",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": ". Cap Cefixime",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Pulsa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Dahydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Stitake off ( Pt deaire)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Peauiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Offers",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "26/02/28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "वेज (जस्टिन ट्रगणित बिदिता जना गणण्ट खने का रुझानर्जी अदिनित खवभाई उदय जानदार मान।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.514
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.611
+      },
+      {
+        "name": "Mokkalv Madinalijeddah",
+        "matched_term": "Mokkalv Madinalijeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Treatment Card Reme",
+        "matched_term": "Treatment Card Reme",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Miktu Hn Pt",
+        "matched_term": "Miktu Hn Pt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Half",
+        "matched_term": "Half",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.611
+      },
+      {
+        "name": "Mloce Group",
+        "matched_term": "Mloce Group",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Nod Sugar Abst",
+        "matched_term": "Nod Sugar Abst",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "U-Live",
+        "matched_term": "U-Live",
+        "drug_id": "a95cce13-0074-4a7f-b5a4-956572633acb",
+        "brand_id": "0d1f1631-e57c-4c66-b64a-ea3cc8618ce2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.611
+      },
+      {
+        "name": "Chief Complaints Vi Na -Cf",
+        "matched_term": "Chief Complaints Vi Na -Cf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Muy",
+        "matched_term": "Muy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "cefixime",
+        "matched_term": "cefixime",
+        "drug_id": "9ca14c81-ff6b-4d3a-b036-a998731b910f",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.611
+      },
+      {
+        "name": "Pulsa",
+        "matched_term": "Pulsa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Dahydration",
+        "matched_term": "Dahydration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Stitake Off Pt",
+        "matched_term": "Stitake Off Pt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Peauiration",
+        "matched_term": "Peauiration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Offers",
+        "matched_term": "Offers",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.231
+      }
+    ]
+  }
+}

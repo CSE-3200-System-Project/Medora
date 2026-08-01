@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0004",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:22:19.022813+00:00",
+  "runtime_ms": 34305.686399995466,
+  "output": {
+    "raw_text": "किकिश्मक कड़क ब्बाभीव यार शेख\nW/O MEH Siddique Mcpo (x).\nबाभीव नाथ\n40 years\n820377\nडिकिश्माकब बादशमना\nजानिए\n26-7-16\nqe-\nFever for\n5 days.\nRx -\n1 Headache\n. Tab. Pamen(mg)\n-(6).\nSec10/20)\n· Cap\nBenitickou\nTab\nDeslor (30g)\nP\nORS\n-\n2\nth\nAdv\n· CBC\n· Widal test\n· Urine R/E\nबानी\nणविथ",
+    "lines": [
+      {
+        "text": "किकिश्मक कड़क ब्बाभीव यार शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "W/O MEH Siddique Mcpo (x).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "बाभीव नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "40 years",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "डिकिश्माकब बादशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "जानिए",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "26-7-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "qe-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Fever for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "5 days.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Rx -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1 Headache",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": ". Tab. Pamen(mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "-(6).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Sec10/20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Benitickou",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Deslor (30g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "P",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "ORS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "th",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Adv",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· CBC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Widal test",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "· Urine R/E",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "बानी",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "णविथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      }
+    ],
+    "medications": [
+      {
+        "name": "Meh Siddique Mcpo",
+        "matched_term": "Meh Siddique Mcpo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Kushta Aqeeq",
+        "matched_term": "Kushta Aqeeq",
+        "drug_id": "e0f4d2cc-b077-4265-8d5c-ecc03663a26f",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "6+7+1",
+        "quantity": null,
+        "confidence": 0.59
+      },
+      {
+        "name": "C-Fever",
+        "matched_term": "C-Fever",
+        "drug_id": "b78611de-ddab-4f49-b68b-79a72591eb6d",
+        "brand_id": "da15bf35-00ac-4b7e-bd8e-852eadf7249f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "5 days",
+        "confidence": 0.711
+      },
+      {
+        "name": "Headache",
+        "matched_term": "Headache",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Pamel",
+        "matched_term": "Pamel",
+        "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+        "brand_id": "0871159b-65d5-45fd-8769-f8ab0a45dac0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      },
+      {
+        "name": "Benitickou",
+        "matched_term": "Benitickou",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      },
+      {
+        "name": "Deslor",
+        "matched_term": "Deslor",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+        "dosage": "30g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.713
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      },
+      {
+        "name": "Adv",
+        "matched_term": "Adv",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Cbc",
+        "matched_term": "Cbc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Widal Test",
+        "matched_term": "Widal Test",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.282
+      },
+      {
+        "name": "Urinex",
+        "matched_term": "Urinex",
+        "drug_id": "e980c126-ecb1-4e93-b906-3b0016bc7ba7",
+        "brand_id": "95131bae-f4e6-464f-a9ef-e9edd57979d7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.662
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "31f09139a2ec9fc93fa07e2f42f799bfe8d5980ff30f04fc276528818549a134",
+  "record_id": "RX-0021",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4429.081700000097,
+  "failure": null,
+  "response_sha256": "e92ff19f8ec75d6edf794afd1beb82c20f6eda92e9fb92ad7bc521a1f3a7f822",
+  "response": {
+    "raw_text": ". Cap Cefixime\n2+0+3 - 8 13 - (5)\nStitch off ( Pt deaire)\n28/00128",
+    "lines": [
+      {
+        "text": ". Cap Cefixime",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.507
+      },
+      {
+        "text": "2+0+3 - 8 13 - (5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.507
+      },
+      {
+        "text": "Stitch off ( Pt deaire)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.507
+      },
+      {
+        "text": "28/00128",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.507
+      }
+    ]
+  }
+}

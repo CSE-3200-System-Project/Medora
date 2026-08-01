@@ -1,0 +1,1665 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0048",
+  "source_sha256": "df4a53feffd701249545ddc49d02bfaf97cba5aa159fe8c841d9787f6102c010",
+  "raw_transcription": "4 Hypervismidisom\nVB,. Tab. Carbizol 5r\n2×242\n2. Tcl Indevan 10\nlevel\n1\nRu .\nNO. ANWARÜL KABIR\nBrig lien\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n621\n13.7.2018\nw1 600\nTil Cambizol 52\n2004/\nMI.\nc .\n2.\nEl Indevar 10\n18\n3. Tale Prosmajor\noconel afines\nनाम M\n10",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Hypervismidisom",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Carbizol",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tcl-R",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Level-K",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "No Anwar Kabir",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Brig Lien",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ady Spl In",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Endocrinologist",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cmh Dhaka",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Til",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "El Indevar",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Talen",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Oconel Afines",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "a8d8f477a3bf84d8c86e11af1f854270d4b12011b274313ec729466cb681ad48"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "c11790272de8e1c6fa47c1013b9be497c38dec5e3d5f1bf60ecd7f435f494915"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "3a7d277f29af48b345ccb1852da97a957ab57974f3d61fb4c1ac4fd7779f3f9e"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "O\nstsn\nSs\n191\ncesmuyo\ne60\nC1\nE\n~c\nSpmesyrorst\nMaxt\nV\n2\nIraoonis\n1t\n0\n18027\nMaHn\nVMVPar\n2\nO\nA\nT\n-\n8mt87\n2\nY\nR\n4\n6\n2\n5\nO\nO\n452'sotnt\n7\n2mo\nmnp\n1\nMuinss\nrrp\nS1Hponss\n2\nRsts\nHeatzi\n2\n241t0\nnTyU\nM\nt20338\nT",
+      "lines": [
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 4401.0,
+            "y_min": 93.0,
+            "x_max": 4415.0,
+            "y_max": 101.0
+          },
+          "page": 1,
+          "confidence": 0.197
+        },
+        {
+          "text": "stsn",
+          "bbox": {
+            "x_min": 1138.0,
+            "y_min": 157.0,
+            "x_max": 1304.0,
+            "y_max": 626.0
+          },
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Ss",
+          "bbox": {
+            "x_min": 3259.0,
+            "y_min": 452.0,
+            "x_max": 3390.0,
+            "y_max": 1331.0
+          },
+          "page": 1,
+          "confidence": 0.366
+        },
+        {
+          "text": "191",
+          "bbox": {
+            "x_min": 2993.0,
+            "y_min": 465.0,
+            "x_max": 3085.0,
+            "y_max": 784.0
+          },
+          "page": 1,
+          "confidence": 0.244
+        },
+        {
+          "text": "cesmuyo",
+          "bbox": {
+            "x_min": 3922.0,
+            "y_min": 484.0,
+            "x_max": 4040.0,
+            "y_max": 1320.0
+          },
+          "page": 1,
+          "confidence": 0.499
+        },
+        {
+          "text": "e60",
+          "bbox": {
+            "x_min": 1883.0,
+            "y_min": 512.0,
+            "x_max": 2008.0,
+            "y_max": 1312.0
+          },
+          "page": 1,
+          "confidence": 0.349
+        },
+        {
+          "text": "C1",
+          "bbox": {
+            "x_min": 3595.0,
+            "y_min": 507.0,
+            "x_max": 3687.0,
+            "y_max": 1244.0
+          },
+          "page": 1,
+          "confidence": 0.255
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 2690.0,
+            "y_min": 555.0,
+            "x_max": 2724.0,
+            "y_max": 662.0
+          },
+          "page": 1,
+          "confidence": 0.203
+        },
+        {
+          "text": "~c",
+          "bbox": {
+            "x_min": 2347.0,
+            "y_min": 695.0,
+            "x_max": 2595.0,
+            "y_max": 957.0
+          },
+          "page": 1,
+          "confidence": 0.323
+        },
+        {
+          "text": "Spmesyrorst",
+          "bbox": {
+            "x_min": 1008.0,
+            "y_min": 727.0,
+            "x_max": 1179.0,
+            "y_max": 1673.0
+          },
+          "page": 1,
+          "confidence": 0.558
+        },
+        {
+          "text": "Maxt",
+          "bbox": {
+            "x_min": 1648.0,
+            "y_min": 753.0,
+            "x_max": 1769.0,
+            "y_max": 1237.0
+          },
+          "page": 1,
+          "confidence": 0.28
+        },
+        {
+          "text": "V",
+          "bbox": {
+            "x_min": 4332.0,
+            "y_min": 753.0,
+            "x_max": 4500.0,
+            "y_max": 971.0
+          },
+          "page": 1,
+          "confidence": 0.452
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2439.0,
+            "y_min": 762.0,
+            "x_max": 2457.0,
+            "y_max": 779.0
+          },
+          "page": 1,
+          "confidence": 0.134
+        },
+        {
+          "text": "Iraoonis",
+          "bbox": {
+            "x_min": 2753.0,
+            "y_min": 775.0,
+            "x_max": 2802.0,
+            "y_max": 1092.0
+          },
+          "page": 1,
+          "confidence": 0.354
+        },
+        {
+          "text": "1t",
+          "bbox": {
+            "x_min": 3424.0,
+            "y_min": 780.0,
+            "x_max": 3504.0,
+            "y_max": 1219.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 3722.0,
+            "y_min": 775.0,
+            "x_max": 3770.0,
+            "y_max": 1026.0
+          },
+          "page": 1,
+          "confidence": 0.24
+        },
+        {
+          "text": "18027",
+          "bbox": {
+            "x_min": 2048.0,
+            "y_min": 827.0,
+            "x_max": 2159.0,
+            "y_max": 1189.0
+          },
+          "page": 1,
+          "confidence": 0.872
+        },
+        {
+          "text": "MaHn",
+          "bbox": {
+            "x_min": 2799.0,
+            "y_min": 862.0,
+            "x_max": 2858.0,
+            "y_max": 1243.0
+          },
+          "page": 1,
+          "confidence": 0.26
+        },
+        {
+          "text": "VMVPar",
+          "bbox": {
+            "x_min": 2564.0,
+            "y_min": 912.0,
+            "x_max": 2636.0,
+            "y_max": 1242.0
+          },
+          "page": 1,
+          "confidence": 0.327
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 0.0,
+            "y_min": 1017.0,
+            "x_max": 217.0,
+            "y_max": 2518.0
+          },
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2604.0,
+            "y_min": 1193.0,
+            "x_max": 2613.0,
+            "y_max": 1211.0
+          },
+          "page": 1,
+          "confidence": 0.078
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 2650.0,
+            "y_min": 1189.0,
+            "x_max": 2683.0,
+            "y_max": 1245.0
+          },
+          "page": 1,
+          "confidence": 0.146
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 2722.0,
+            "y_min": 1220.0,
+            "x_max": 2733.0,
+            "y_max": 1235.0
+          },
+          "page": 1,
+          "confidence": 0.116
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3960.0,
+            "y_min": 1250.0,
+            "x_max": 3971.0,
+            "y_max": 1261.0
+          },
+          "page": 1,
+          "confidence": 0.198
+        },
+        {
+          "text": "8mt87",
+          "bbox": {
+            "x_min": 2967.0,
+            "y_min": 1321.0,
+            "x_max": 3105.0,
+            "y_max": 1738.0
+          },
+          "page": 1,
+          "confidence": 0.645
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 3258.0,
+            "y_min": 1396.0,
+            "x_max": 3367.0,
+            "y_max": 1585.0
+          },
+          "page": 1,
+          "confidence": 0.148
+        },
+        {
+          "text": "Y",
+          "bbox": {
+            "x_min": 1956.0,
+            "y_min": 1477.0,
+            "x_max": 2011.0,
+            "y_max": 1541.0
+          },
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 3306.0,
+            "y_min": 1546.0,
+            "x_max": 3312.0,
+            "y_max": 1553.0
+          },
+          "page": 1,
+          "confidence": 0.237
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 3756.0,
+            "y_min": 1668.0,
+            "x_max": 4242.0,
+            "y_max": 2042.0
+          },
+          "page": 1,
+          "confidence": 0.06
+        },
+        {
+          "text": "6",
+          "bbox": {
+            "x_min": 3263.0,
+            "y_min": 1721.0,
+            "x_max": 3320.0,
+            "y_max": 1823.0
+          },
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 3289.0,
+            "y_min": 1743.0,
+            "x_max": 3301.0,
+            "y_max": 1755.0
+          },
+          "page": 1,
+          "confidence": 0.116
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 3911.0,
+            "y_min": 1831.0,
+            "x_max": 3923.0,
+            "y_max": 1844.0
+          },
+          "page": 1,
+          "confidence": 0.139
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3914.0,
+            "y_min": 1829.0,
+            "x_max": 3930.0,
+            "y_max": 1845.0
+          },
+          "page": 1,
+          "confidence": 0.164
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3926.0,
+            "y_min": 1845.0,
+            "x_max": 3948.0,
+            "y_max": 1857.0
+          },
+          "page": 1,
+          "confidence": 0.141
+        },
+        {
+          "text": "452'sotnt",
+          "bbox": {
+            "x_min": 3686.0,
+            "y_min": 1870.0,
+            "x_max": 3856.0,
+            "y_max": 2568.0
+          },
+          "page": 1,
+          "confidence": 0.394
+        },
+        {
+          "text": "7",
+          "bbox": {
+            "x_min": 4064.0,
+            "y_min": 1888.0,
+            "x_max": 4070.0,
+            "y_max": 1895.0
+          },
+          "page": 1,
+          "confidence": 0.149
+        },
+        {
+          "text": "2mo",
+          "bbox": {
+            "x_min": 2398.0,
+            "y_min": 2001.0,
+            "x_max": 2489.0,
+            "y_max": 2689.0
+          },
+          "page": 1,
+          "confidence": 0.199
+        },
+        {
+          "text": "mnp",
+          "bbox": {
+            "x_min": 2500.0,
+            "y_min": 2111.0,
+            "x_max": 2645.0,
+            "y_max": 2686.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 2546.0,
+            "y_min": 2138.0,
+            "x_max": 2556.0,
+            "y_max": 2150.0
+          },
+          "page": 1,
+          "confidence": 0.273
+        },
+        {
+          "text": "Muinss",
+          "bbox": {
+            "x_min": 2653.0,
+            "y_min": 2153.0,
+            "x_max": 2922.0,
+            "y_max": 2822.0
+          },
+          "page": 1,
+          "confidence": 0.467
+        },
+        {
+          "text": "rrp",
+          "bbox": {
+            "x_min": 3923.0,
+            "y_min": 2210.0,
+            "x_max": 4045.0,
+            "y_max": 2448.0
+          },
+          "page": 1,
+          "confidence": 0.358
+        },
+        {
+          "text": "S1Hponss",
+          "bbox": {
+            "x_min": 4047.0,
+            "y_min": 2222.0,
+            "x_max": 4217.0,
+            "y_max": 2810.0
+          },
+          "page": 1,
+          "confidence": 0.414
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 507.0,
+            "y_min": 2262.0,
+            "x_max": 613.0,
+            "y_max": 2617.0
+          },
+          "page": 1,
+          "confidence": 0.647
+        },
+        {
+          "text": "Rsts",
+          "bbox": {
+            "x_min": 927.0,
+            "y_min": 2324.0,
+            "x_max": 1138.0,
+            "y_max": 2811.0
+          },
+          "page": 1,
+          "confidence": 0.49
+        },
+        {
+          "text": "Heatzi",
+          "bbox": {
+            "x_min": 4210.0,
+            "y_min": 2347.0,
+            "x_max": 4343.0,
+            "y_max": 2737.0
+          },
+          "page": 1,
+          "confidence": 0.642
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 4400.0,
+            "y_min": 2335.0,
+            "x_max": 4410.0,
+            "y_max": 2345.0
+          },
+          "page": 1,
+          "confidence": 0.175
+        },
+        {
+          "text": "241t0",
+          "bbox": {
+            "x_min": 3057.0,
+            "y_min": 2403.0,
+            "x_max": 3343.0,
+            "y_max": 2816.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        },
+        {
+          "text": "nTyU",
+          "bbox": {
+            "x_min": 1443.0,
+            "y_min": 2522.0,
+            "x_max": 1559.0,
+            "y_max": 2801.0
+          },
+          "page": 1,
+          "confidence": 0.305
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 2149.0,
+            "y_min": 2523.0,
+            "x_max": 2235.0,
+            "y_max": 2634.0
+          },
+          "page": 1,
+          "confidence": 0.129
+        },
+        {
+          "text": "t20338",
+          "bbox": {
+            "x_min": 40.0,
+            "y_min": 2666.0,
+            "x_max": 227.0,
+            "y_max": 3208.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 526.0,
+            "y_min": 3144.0,
+            "x_max": 640.0,
+            "y_max": 3291.0
+          },
+          "page": 1,
+          "confidence": 0.071
+        }
+      ],
+      "medications": [
+        {
+          "name": "Stsn Vass",
+          "matched_term": "Stsn Vass",
+          "drug_id": "86fdb62c-f8ac-41c3-b7a0-0e695a222c68",
+          "brand_id": "9aa04e24-240e-415a-ab05-c4426f8700ae",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.187
+        },
+        {
+          "name": "Cesmuyo",
+          "matched_term": "Cesmuyo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.147
+        },
+        {
+          "name": "Spmesyrorst",
+          "matched_term": "Spmesyrorst",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.251
+        },
+        {
+          "name": "Maxt",
+          "matched_term": "Maxt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.13
+        },
+        {
+          "name": "Iraoonis",
+          "matched_term": "Iraoonis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.206
+        },
+        {
+          "name": "Mahn",
+          "matched_term": "Mahn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.117
+        },
+        {
+          "name": "Vmvpar Mt",
+          "matched_term": "Vmvpar Mt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.116
+        },
+        {
+          "name": "Sotnt Mo",
+          "matched_term": "Sotnt Mo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.111
+        },
+        {
+          "name": "Mnp",
+          "matched_term": "Mnp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.209
+        },
+        {
+          "name": "Muinss",
+          "matched_term": "Muinss",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.21
+        },
+        {
+          "name": "Rrp Hponss",
+          "matched_term": "Rrp Hponss",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.213
+        },
+        {
+          "name": "Rsts",
+          "matched_term": "Rsts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.15
+        },
+        {
+          "name": "Heatzi",
+          "matched_term": "Heatzi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Ntyu",
+          "matched_term": "Ntyu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.125
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "0\n820377\nडिकिश्मक कड़क स्वाभीन वारश शेख\n13 A W/ MZH SIDDIQUI MCPO(X) 47 YES.\nडिकिश्माकब वादशमना\nनोटेशन नाग\n27.5 w18\n4 Hypervismidisom\n-24- 76.1%\n120- 80 71\nRAIO.\nVB1. Tb. Carbizol 5g\n2×242\n2. Tcl Indevario\nlevel\nFea, F+3, TSH. For\nVALY, BLUCBL\n1\nMD. ANWAROL KABIR\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n18.7.2018\n1021 FG-9-20 21 -T Canbizal 52\nC.\n20041\n2. Ect Indever 10\nAu\nFen, Fe3, TSH\n15 days\n8/5/18\n3. Tale Prosmajor\nveoel atine\nIssued+15h\n22/07/8\n30/08/18\n13.000.10\nनाम M\nC/MI R\nव शनि\nISSU DATE\n10- 06-18x15ts\n29/06/18712",
+      "lines": [
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "डिकिश्मक कड़क स्वाभीन वारश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "13 A W/ MZH SIDDIQUI MCPO(X) 47 YES.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "डिकिश्माकब वादशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "नोटेशन नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "27.5 w18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "4 Hypervismidisom",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "-24- 76.1%",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "120- 80 71",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "RAIO.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "VB1. Tb. Carbizol 5g",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "2×242",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "2. Tcl Indevario",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "level",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "Fea, F+3, TSH. For",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "VALY, BLUCBL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "MD. ANWAROL KABIR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "· Ady Spl in Medicine unut",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "Endocrinologist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "CMH Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "18.7.2018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "1021 FG-9-20 21 -T Canbizal 52",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "C.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "20041",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "2. Ect Indever 10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "Au",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "Fen, Fe3, TSH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "15 days",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "8/5/18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "3. Tale Prosmajor",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "veoel atine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "Issued+15h",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "22/07/8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "30/08/18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "13.000.10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "नाम M",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "C/MI R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "व शनि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "ISSU DATE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "10- 06-18x15ts",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "29/06/18712",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.51
+        }
+      ],
+      "medications": [
+        {
+          "name": "Al-Sul3 Vet",
+          "matched_term": "Al-Sul3 Vet",
+          "drug_id": "76990da0-716a-41b9-bd0c-b14b9c9c99c0",
+          "brand_id": "9d71b2db-9fff-4966-b196-ad7a4c1844aa",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "Hypervismidisom",
+          "matched_term": "Hypervismidisom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Raio",
+          "matched_term": "Raio",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Carbizol",
+          "matched_term": "Carbizol",
+          "drug_id": "124288ab-652e-430c-8412-e438f6281147",
+          "brand_id": "daf3959d-3ba5-4305-acfc-cfd0e435fa83",
+          "dosage": "5g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.661
+        },
+        {
+          "name": "Tcl-R",
+          "matched_term": "Tcl-R",
+          "drug_id": "86fdb62c-f8ac-41c3-b7a0-0e695a222c68",
+          "brand_id": "9e6f726b-9100-4bb3-8e1a-08757a6231e8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "Level-K",
+          "matched_term": "Level-K",
+          "drug_id": "0f507477-d702-4821-ba76-1bae3500e5ab",
+          "brand_id": "09d4b008-3330-4fc7-afea-0abb2ebdd625",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "Fea",
+          "matched_term": "Fea",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "9d72436e-1ba9-4779-b55e-86e21f620dc8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "Valy Blucbl",
+          "matched_term": "Valy Blucbl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Md Anwarol Kabir",
+          "matched_term": "Md Anwarol Kabir",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Ady Spl In",
+          "matched_term": "Ady Spl In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Endocrinologist",
+          "matched_term": "Endocrinologist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Cmh Dhaka",
+          "matched_term": "Cmh Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Fg- -T Canbizal",
+          "matched_term": "Fg- -T Canbizal",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Indever",
+          "matched_term": "Indever",
+          "drug_id": "d75365ab-298a-41b5-b8bf-4c1e286c239e",
+          "brand_id": "1e712ba9-2e6a-44e5-b585-56556f9a9bce",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "D-Fen",
+          "matched_term": "D-Fen",
+          "drug_id": "c419e5b1-ccc7-451e-84a3-f12a331b1b4e",
+          "brand_id": "1d4b6b47-5f12-4639-89ae-255dd683b64a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.659
+        },
+        {
+          "name": "Talen",
+          "matched_term": "Talen",
+          "drug_id": "b21b4106-6f08-43d9-ab81-1712ea1e47b1",
+          "brand_id": "6aa28265-6173-4058-8ce5-4dee932813f2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.61
+        },
+        {
+          "name": "Veoel Atine",
+          "matched_term": "Veoel Atine",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Issued Mi",
+          "matched_term": "Issued Mi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        },
+        {
+          "name": "Issu Date A-Lo",
+          "matched_term": "Issu Date A-Lo",
+          "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+          "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.23
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Hypervismidisom",
+          "matched_term": "Hypervismidisom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Carbizol",
+          "matched_term": "Carbizol",
+          "drug_id": "124288ab-652e-430c-8412-e438f6281147",
+          "brand_id": "daf3959d-3ba5-4305-acfc-cfd0e435fa83",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "Tcl-R",
+          "matched_term": "Tcl-R",
+          "drug_id": "86fdb62c-f8ac-41c3-b7a0-0e695a222c68",
+          "brand_id": "9e6f726b-9100-4bb3-8e1a-08757a6231e8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "Level-K",
+          "matched_term": "Level-K",
+          "drug_id": "0f507477-d702-4821-ba76-1bae3500e5ab",
+          "brand_id": "09d4b008-3330-4fc7-afea-0abb2ebdd625",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "No Anwar Kabir",
+          "matched_term": "No Anwar Kabir",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Brig Lien",
+          "matched_term": "Brig Lien",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Ady Spl In",
+          "matched_term": "Ady Spl In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Endocrinologist",
+          "matched_term": "Endocrinologist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Cmh Dhaka",
+          "matched_term": "Cmh Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Til",
+          "matched_term": "Til",
+          "drug_id": "654b7cd1-5571-4387-a406-40c7ded996d9",
+          "brand_id": "6c230c98-5f37-4310-95d5-6c44f42ead40",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "El Indevar",
+          "matched_term": "El Indevar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Talen",
+          "matched_term": "Talen",
+          "drug_id": "b21b4106-6f08-43d9-ab81-1712ea1e47b1",
+          "brand_id": "6aa28265-6173-4058-8ce5-4dee932813f2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "Oconel Afines",
+          "matched_term": "Oconel Afines",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        }
+      ],
+      "raw_text": "4 Hypervismidisom\nVB,. Tab. Carbizol 5r\n2×242\n2. Tcl Indevan 10\nlevel\n1\nRu .\nNO. ANWARÜL KABIR\nBrig lien\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n621\n13.7.2018\nw1 600\nTil Cambizol 52\n2004/\nMI.\nc .\n2.\nEl Indevar 10\n18\n3. Tale Prosmajor\noconel afines\nनाम M\n10",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 14520,
+        "detected_regions": 1,
+        "ocr_line_count": 26,
+        "yolo_avg_confidence": 0.8647,
+        "yolo_min_confidence": 0.8647,
+        "yolo_max_confidence": 0.8647,
+        "ocr_avg_confidence": 0.546,
+        "ocr_min_confidence": 0.546,
+        "ocr_max_confidence": 0.546,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1676.8597045898437,
+              "y_min": 962.9138153076171,
+              "x_max": 3447.491830444336,
+              "y_max": 4359.932070922851
+            },
+            "score": 0.8647
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "4 Hypervismidisom",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "VB,. Tab. Carbizol 5r",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "2×242",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "2. Tcl Indevan 10",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "level",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "Ru .",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "NO. ANWARÜL KABIR",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "Brig lien",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "· Ady Spl in Medicine unut",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "Endocrinologist",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "CMH Dhaka",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "621",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "13.7.2018",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "w1 600",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "Til Cambizol 52",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "2004/",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "MI.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "c .",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "2.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "El Indevar 10",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "18",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "3. Tale Prosmajor",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "oconel afines",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "नाम M",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          },
+          {
+            "text": "10",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.546
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

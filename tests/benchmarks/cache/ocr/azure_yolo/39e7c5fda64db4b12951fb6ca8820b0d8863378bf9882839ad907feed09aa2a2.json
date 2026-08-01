@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "39e7c5fda64db4b12951fb6ca8820b0d8863378bf9882839ad907feed09aa2a2",
+  "record_id": "RX-0069",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6081.4131000079215,
+  "failure": null,
+  "response_sha256": "e05225ab7fbee4c6667d461d45e2664d8bd41e536cc208f7b9d5e50e623ef5d9",
+  "response": {
+    "raw_text": "PUD\n(20\n4. ompregole Lo\nTo. Binacodyl 5\n5\n01071\n1016.\n2. Nye Extral\n2015.\ny",
+    "lines": [
+      {
+        "text": "PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "(20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "4. ompregole Lo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "To. Binacodyl 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "01071",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "1016.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "2. Nye Extral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "2015.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      },
+      {
+        "text": "y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.535
+      }
+    ]
+  }
+}

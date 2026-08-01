@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0102",
+  "source_sha256": "e6269be695acbc13c707dae27ab0e497bfce267e892763e0840e2af49de0dbfb",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:48.353371+00:00",
+  "runtime_ms": 6625.50850000116,
+  "output": {
+    "medications": [
+      {
+        "name": "Vista",
+        "matched_term": "Vista",
+        "drug_id": "541d171c-bdd6-4f9e-89e0-2799ba1abb56",
+        "brand_id": "5163ee10-83e2-423d-a358-5036f8b3c3ef",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.646
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.266
+      },
+      {
+        "name": "Calci",
+        "matched_term": "Calci",
+        "drug_id": "a3d45392-2253-4c09-9001-9335e40f2c08",
+        "brand_id": "cf9a8767-266e-4046-b1e4-a45757529f17",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.646
+      },
+      {
+        "name": "Esotid",
+        "matched_term": "Esotid",
+        "drug_id": "d71d040a-cf0b-46ae-b67f-00e3787f0c6b",
+        "brand_id": "fe6e1172-e918-409a-a1e5-734c83e14d43",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.646
+      },
+      {
+        "name": "Seats Groves Goods",
+        "matched_term": "Seats Groves Goods",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.266
+      }
+    ],
+    "raw_text": "Vist No:\nDate:\nTab. calcio\n\" Cap. esotid-20\nseats groves goods\n0\n12\n26/5/24",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6591,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.8698,
+      "yolo_min_confidence": 0.8698,
+      "yolo_max_confidence": 0.8698,
+      "ocr_avg_confidence": 0.592,
+      "ocr_min_confidence": 0.592,
+      "ocr_max_confidence": 0.592,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 249.40721130371094,
+            "y_min": 237.0472869873047,
+            "x_max": 551.509765625,
+            "y_max": 391.88922119140625
+          },
+          "score": 0.8698
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Vist No:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "Date:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "Tab. calcio",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "\" Cap. esotid-20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "seats groves goods",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "26/5/24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.592
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

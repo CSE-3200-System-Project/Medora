@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0002",
+  "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:21:20.042886+00:00",
+  "runtime_ms": 12010.094299999764,
+  "output": {
+    "medications": [
+      {
+        "name": "C-Rich",
+        "matched_term": "C-Rich",
+        "drug_id": "30b8fd7b-f9bb-4bf5-84cb-9112108f6019",
+        "brand_id": "cae4927f-e4ac-481b-82d2-6c774b453b5a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.683
+      },
+      {
+        "name": "Kilbac",
+        "matched_term": "Kilbac",
+        "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+        "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.732
+      },
+      {
+        "name": "Diasy",
+        "matched_term": "Diasy",
+        "drug_id": "64a8c181-d38d-426b-8d5d-63d3c5d28e97",
+        "brand_id": "25eae96a-e9d4-4806-9a6c-d67fbd4ee428",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.683
+      },
+      {
+        "name": "Fexo",
+        "matched_term": "Fexo",
+        "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+        "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.683
+      },
+      {
+        "name": "Moram",
+        "matched_term": "Moram",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10mg",
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.403
+      }
+    ],
+    "raw_text": "Ch. Phanynings\n1\nKilbar\n5n\n1\n1+0+1\n7 dias\nTab- Fexo\n20\n16\n010+1\nTab-moram 10mg\n0-+0+1",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11443,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.8426,
+      "yolo_min_confidence": 0.8426,
+      "yolo_max_confidence": 0.8426,
+      "ocr_avg_confidence": 0.673,
+      "ocr_min_confidence": 0.673,
+      "ocr_max_confidence": 0.673,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1138.7987319946287,
+            "y_min": 755.9445091247558,
+            "x_max": 3351.73059387207,
+            "y_max": 3982.1546188354487
+          },
+          "score": 0.8426
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Ch. Phanynings",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "Kilbar",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "5n",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "7 dias",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "Tab- Fexo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "010+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "Tab-moram 10mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "0-+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.673
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

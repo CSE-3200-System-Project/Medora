@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
+  "record_id": "RX-0045",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 15778.561099999934,
+  "failure": null,
+  "response_sha256": "e3924dc0e7d34f0715d9861d32a4e6154adf786888a97170706b26349bfad394",
+  "response": {
+    "raw_text": "Date :-\n11 Find: 0 -YA\nSer No :-\nRoom No :-\nC-67\nSub- Acute lyrsidiler\n(Hypoth grand chose)\nFF25.\nTSH = 89.85 uschd.\nPT =5-1 Duath.\nIssoal 15 day\n11/10/17\nTil-\n1\nFT, TSH .\nThyrox (50 equ)\n2 -to-to (GwTO)\nST.\nMD ABDULLAH-AL-MAMU",
+    "lines": [
+      {
+        "text": "Date :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "11 Find: 0 -YA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Ser No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Room No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "C-67",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Sub- Acute lyrsidiler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "(Hypoth grand chose)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "FF25.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "TSH = 89.85 uschd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "PT =5-1 Duath.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Issoal 15 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "11/10/17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Til-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "FT, TSH .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Thyrox (50 equ)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "2 -to-to (GwTO)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "ST.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "MD ABDULLAH-AL-MAMU",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.625
+      }
+    ]
+  }
+}

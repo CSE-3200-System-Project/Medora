@@ -1,4 +1,4 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Header, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import func, select, update, desc
@@ -17,75 +17,27 @@ from typing import Any, Optional
 import re
 import uuid
 import logging
-import secrets
-from app.core.config import settings
 from app.services.email_service import send_account_suspension_email
 from app.services import notification_service, review_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-SYSTEM_ADMIN_PROFILE_ID = "admin"
-
-
-async def _get_admin_actor_profile_id(db: AsyncSession) -> str:
-    """Return a profile-backed admin actor ID for audit and FK-safe writes."""
-    result = await db.execute(
-        select(Profile).where(Profile.id == SYSTEM_ADMIN_PROFILE_ID)
-    )
-    profile = result.scalar_one_or_none()
-    if profile:
-        return profile.id
-
-    db.add(
-        Profile(
-            id=SYSTEM_ADMIN_PROFILE_ID,
-            role=UserRole.ADMIN,
-            status=AccountStatus.active,
-            verification_status=VerificationStatus.verified,
-            first_name="System",
-            last_name="Admin",
-            email=None,
-            phone=None,
-            onboarding_completed=True,
-        )
-    )
-    await db.flush()
-    return SYSTEM_ADMIN_PROFILE_ID
-
-# Helper to check admin access (password-based, no account needed)
 async def require_admin_access(
-    x_admin_password: str = Header(None),
+    user: Any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db)
-):
-    """Verify admin access via password (no account required)"""
-    admin_password = settings.ADMIN_PASSWORD
-    if not admin_password:
-        logger.error("ADMIN_PASSWORD is not configured; admin access is disabled")
-        raise HTTPException(status_code=503, detail="Admin access is not configured")
-    if not x_admin_password or not secrets.compare_digest(x_admin_password, admin_password):
-        raise HTTPException(status_code=403, detail="Invalid admin credentials")
-    return True
+)-> Profile:
+    """Require an authenticated, active profile with the administrator role."""
+    profile = await resolve_profile(db, user)
+    if not profile or profile.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return profile
 
 # Test endpoint
 @router.get("/test")
 async def test_admin(admin_access = Depends(require_admin_access)):
     """Test admin authentication"""
     return {"status": "ok", "message": "Admin authentication successful"}
-
-# Helper to check if user is admin (legacy - for logged-in admins)
-async def require_admin(
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db)
-):
-    """Verify that the current user is an admin (reuses cached profile)."""
-    profile = await resolve_profile(db, user)
-
-    if not profile or profile.role != UserRole.ADMIN:
-        raise HTTPException(status_code=403, detail="Admin access required")
-
-    return profile
-
 
 async def _serialize_admin_review(
     db: AsyncSession,
@@ -1125,7 +1077,7 @@ async def update_patient(
             profile.status = AccountStatus.banned
             profile.ban_reason = reason
             profile.banned_at = now
-            profile.banned_by = "admin_password_auth"
+            profile.banned_by = admin_access.id
 
     if data.first_name is not None:
         profile.first_name = data.first_name
@@ -1158,7 +1110,6 @@ async def ban_patient(
     patient_id: uuid.UUID,
     payload: BanPatientRequest,
     background_tasks: BackgroundTasks,
-    x_admin_user_id: str | None = Header(default=None),
     db: AsyncSession = Depends(get_db),
     admin_access = Depends(require_admin_access),
 ):
@@ -1178,7 +1129,7 @@ async def ban_patient(
     profile.status = AccountStatus.banned
     profile.ban_reason = reason
     profile.banned_at = now
-    profile.banned_by = (x_admin_user_id or "admin_password_auth").strip()[:128]
+    profile.banned_by = admin_access.id
     profile.updated_at = now
 
     await db.commit()
@@ -1273,7 +1224,7 @@ async def bulk_patient_action(
             profile.status = AccountStatus.banned
             profile.ban_reason = reason
             profile.banned_at = now
-            profile.banned_by = "admin_password_auth"
+            profile.banned_by = admin_access.id
         elif action == "delete":
             if not reason:
                 raise HTTPException(status_code=400, detail="Reason is required for bulk delete")
@@ -1683,7 +1634,7 @@ async def admin_approve_appointment(
     if appt.status != ApptStatus.PENDING_ADMIN_REVIEW:
         raise HTTPException(status_code=400, detail="Appointment is not pending admin review")
 
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
 
     try:
         await appointment_service.transition_status(
@@ -1756,7 +1707,7 @@ async def admin_reject_appointment(
     if appt.status != ApptStatus.PENDING_ADMIN_REVIEW:
         raise HTTPException(status_code=400, detail="Appointment is not pending admin review")
 
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
 
     try:
         await appointment_service.transition_status(
@@ -1861,7 +1812,7 @@ async def approve_appointment_request(
     if request.status != AppointmentRequestStatus.PENDING:
         raise HTTPException(status_code=400, detail="Request is no longer pending")
 
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
 
     # Create the actual appointment
     appointment_date = datetime(
@@ -2045,7 +1996,7 @@ async def admin_approve_reschedule(
 ):
     """Admin approves a reschedule request so the other party can respond."""
     from app.services import appointment_service
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_approve_reschedule_request(
             db,
@@ -2069,7 +2020,7 @@ async def admin_reject_reschedule(
 ):
     """Admin rejects a reschedule request; appointment returns to confirmed."""
     from app.services import appointment_service
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_reject_reschedule_request(
             db,
@@ -2162,7 +2113,7 @@ async def admin_approve_cancellation(
 ):
     """Admin approves cancellation; slot is freed."""
     from app.services import appointment_service
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_approve_cancellation_request(
             db,
@@ -2186,7 +2137,7 @@ async def admin_reject_cancellation(
 ):
     """Admin rejects cancellation; appointment returns to confirmed."""
     from app.services import appointment_service
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
     try:
         await appointment_service.admin_reject_cancellation_request(
             db,
@@ -2278,7 +2229,7 @@ async def admin_override_appointment_status(
         raise HTTPException(status_code=400, detail=f"Invalid status: {requested_status}")
 
     try:
-        admin_actor_id = await _get_admin_actor_profile_id(db)
+        admin_actor_id = admin_access.id
 
         # Backward-compatible admin flow: approving a reschedule from the generic
         # override panel must update the reschedule request admin status and emit
@@ -2384,7 +2335,7 @@ async def admin_approve_new_appointment(
     from app.db.models.appointment import AppointmentStatus as ApptStatus
     from app.services import appointment_service
 
-    admin_actor_id = await _get_admin_actor_profile_id(db)
+    admin_actor_id = admin_access.id
 
     try:
         appointment = await appointment_service.transition_status(

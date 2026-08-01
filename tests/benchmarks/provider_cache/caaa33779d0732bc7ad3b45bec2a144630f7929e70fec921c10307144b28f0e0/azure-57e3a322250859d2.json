@@ -1,0 +1,473 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0075",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:00:55.376219+00:00",
+  "runtime_ms": 20244.858900012332,
+  "output": {
+    "raw_text": "LPR\nडिकिश्माक कड़क थम ब्बाभीव बाबूभेज\n7- 820377\nMepo (2)\nबागीव नाम 14 2 H Siddique\n544\nCMH/CWC/MI ROOM\nH/M\nमिक विट्लार्डस काविश उ स्वाटशन वर्षना\nडिकिस्मटकन वारशुशंख, गडता ७ मार्फत\nChief Complaints :\n0\nS No ....\n13\nDate: 012.05.19\n13.05.19\nIssued - 30 days\nO/E :\n13.05.19\nPP-130/90\nCarl /\nTab Comit Jag\n1 e ol 1 A\nThe\nApara ley\n8.0\nAdv/ Investigation:\nFBS, 29 AnsA\nCep sich\nLipid (F) 245/310/35/148 Hay\nLUFT, G 1.5\nP/D ;\nHINIA\nR\nVAJE MOHSIN\nRX\nRende In\nTS Angilock Som\n0 days\n1.49\n7.19\n1 moo ??",
+    "lines": [
+      {
+        "text": "LPR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "डिकिश्माक कड़क थम ब्बाभीव बाबूभेज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "7- 820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Mepo (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "बागीव नाम 14 2 H Siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "544",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "CMH/CWC/MI ROOM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "H/M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "मिक विट्लार्डस काविश उ स्वाटशन वर्षना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "डिकिस्मटकन वारशुशंख, गडता ७ मार्फत",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Chief Complaints :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "S No ....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Date: 012.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Issued - 30 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "O/E :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "13.05.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "PP-130/90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Carl /",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tab Comit Jag",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1 e ol 1 A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "The",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Apara ley",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "8.0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Adv/ Investigation:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "FBS, 29 AnsA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Cep sich",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Lipid (F) 245/310/35/148 Hay",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "LUFT, G 1.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "P/D ;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "HINIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "VAJE MOHSIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "RX",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Rende In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "TS Angilock Som",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "0 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1.49",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "7.19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "1 moo ??",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      }
+    ],
+    "medications": [
+      {
+        "name": "Alpro",
+        "matched_term": "Alpro",
+        "drug_id": "10df6dcf-73db-4fb7-9c49-9fe23233983b",
+        "brand_id": "9d3e7930-ac2c-4a42-b576-025a4051300f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Mepol",
+        "matched_term": "Mepol",
+        "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+        "brand_id": "6c76f1c5-d615-4d8c-9d28-d95efcd38642",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Dpl40",
+        "matched_term": "Dpl40",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "caf0c5fb-4177-44db-bbb4-abebf19a50dc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.474
+      },
+      {
+        "name": "Cmh Cwc Mi",
+        "matched_term": "Cmh Cwc Mi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Chief Complaints No",
+        "matched_term": "Chief Complaints No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Date Pp",
+        "matched_term": "Date Pp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "30 days",
+        "confidence": 0.308
+      },
+      {
+        "name": "Carl",
+        "matched_term": "Carl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Comin",
+        "matched_term": "Comin",
+        "drug_id": "23d6efcc-6c77-4b09-9f8f-eac3518528c7",
+        "brand_id": "4c009a06-96d1-42ea-ab49-9ccb9cac0570",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "The",
+        "matched_term": "The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Apara Ley",
+        "matched_term": "Apara Ley",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Adv Investigation",
+        "matched_term": "Adv Investigation",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Fbs Ansa",
+        "matched_term": "Fbs Ansa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Cepa",
+        "matched_term": "Cepa",
+        "drug_id": "d49857e8-f04c-4948-854d-4855470c8b9d",
+        "brand_id": "17943008-a10a-47a7-b86d-36f3484a05b0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Lipidof",
+        "matched_term": "Lipidof",
+        "drug_id": "728e5d77-9ff0-465a-8475-1b5952aa3b89",
+        "brand_id": "86f219a8-1b97-47eb-ae9f-314cd8014b96",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Luf",
+        "matched_term": "Luf",
+        "drug_id": "1701e537-9eb5-4e41-8286-db15e8ce82c2",
+        "brand_id": "bc760080-c894-4bf6-9971-510036b5728d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      },
+      {
+        "name": "Hinia",
+        "matched_term": "Hinia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Ovajet 50",
+        "matched_term": "Ovajet 50",
+        "drug_id": "986149ca-4d27-4572-a5bc-3c85882155da",
+        "brand_id": "d3ddd7be-a4f4-4166-8a87-1cec4471c5cd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.529
+      },
+      {
+        "name": "Rende In",
+        "matched_term": "Rende In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.258
+      },
+      {
+        "name": "Angilock",
+        "matched_term": "Angilock",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": "0 days",
+        "confidence": 0.688
+      },
+      {
+        "name": "Moon",
+        "matched_term": "Moon",
+        "drug_id": "5e6ddb1c-1bb9-45ba-8971-def47453c11d",
+        "brand_id": "3ce27438-85e6-4e07-94e7-c1c3a94412f5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.638
+      }
+    ]
+  }
+}

@@ -12,13 +12,14 @@ from __future__ import annotations
 import json
 import logging
 import re
+import secrets
 from time import perf_counter
-from typing import Any, Mapping, Type
+from typing import Any, Literal, Mapping, Type
 
 import httpx
 from pydantic import BaseModel, Field, ValidationError
 
-from app.core.ai_privacy import anonymize_identifier_text, pick_subject_token
+from app.core.ai_privacy import redact_pii_text
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -59,12 +60,28 @@ class AIExecutionResult(BaseModel):
     provider: str
 
 
+class SummarySourceRef(BaseModel):
+    source_type: str
+    source_id: str
+    source_timestamp: str | None = None
+
+
+class GroundedSummaryItem(BaseModel):
+    text: str
+    sources: list[SummarySourceRef] = Field(min_length=1)
+    status: Literal["supported", "conflict", "missing"] = "supported"
+    conflict_group: str | None = None
+
+
 class PatientSummaryOutput(BaseModel):
     summary: str
     key_findings: list[str] = Field(default_factory=list)
     risk_flags: list[str] = Field(default_factory=list)
     follow_up_questions: list[str] = Field(default_factory=list)
     recommended_actions: list[str] = Field(default_factory=list)
+    items: list[GroundedSummaryItem] = Field(default_factory=list)
+    clinician_verification_required: bool = True
+    writeback_allowed: bool = False
 
 
 class StructuredIntakeOutput(BaseModel):
@@ -72,7 +89,20 @@ class StructuredIntakeOutput(BaseModel):
     symptom_timeline: list[str] = Field(default_factory=list)
     relevant_history: list[str] = Field(default_factory=list)
     red_flags: list[str] = Field(default_factory=list)
-    triage_priority: str = "medium"
+
+
+class NavigationTerm(BaseModel):
+    name: str
+    confidence: float = Field(ge=0.0, le=1.0)
+
+
+class NavigationIntentOutput(BaseModel):
+    language_detected: Literal["bn", "en", "mixed"] = "mixed"
+    symptoms: list[NavigationTerm] = Field(default_factory=list)
+    duration_days: int | None = Field(default=None, ge=0)
+    specialties: list[NavigationTerm] = Field(default_factory=list)
+    ambiguity: Literal["low", "medium", "high"] = "high"
+    error: str | None = None
 
 
 class SOAPNotesOutput(BaseModel):
@@ -138,6 +168,10 @@ class PrescriptionSuggestionsOutput(BaseModel):
 # ---------------------------------------------------------------------------
 
 _PROVIDER_REGISTRY: dict[str, dict[str, Any]] = {
+    "mock": {
+        "type": "mock",
+        "model_attr": "AI_MOCK_MODEL",
+    },
     "groq": {
         "type": "openai_compatible",
         "url": "https://api.groq.com/openai/v1/chat/completions",
@@ -159,9 +193,10 @@ _PROVIDER_REGISTRY: dict[str, dict[str, Any]] = {
 
 # Fallback chains: primary → fallback1 → fallback2
 _FALLBACK_CHAINS: dict[str, list[str]] = {
-    "groq": ["groq", "cerebras", "gemini"],
-    "cerebras": ["cerebras", "groq", "gemini"],
-    "gemini": ["gemini", "cerebras", "groq"],
+    "mock": ["mock"],
+    "groq": ["groq"],
+    "cerebras": ["cerebras"],
+    "gemini": ["gemini"],
 }
 
 
@@ -208,16 +243,34 @@ class AIOrchestrator:
         include_meta: bool = False,
         prompt_version: str = "v1",
     ) -> dict[str, Any] | AIExecutionResult:
+        source_refs = self._collect_source_refs(data)
+        sanitized_data = self._sanitize_structured_input(data)
         result = await self._execute(
             feature="generate_patient_summary",
             prompt_version=prompt_version,
-            payload=self._sanitize_structured_input(data),
+            payload=sanitized_data,
             output_model=PatientSummaryOutput,
             task_instruction=(
                 "Summarize the patient context for a doctor in concise clinical bullets. "
                 "Avoid diagnosis certainty. Mention missing critical context."
             ),
         )
+        sources = source_refs or [{"source_type": "request_context", "source_id": "provided_context"}]
+        if not result.validated_output.get("items"):
+            findings = result.validated_output.get("key_findings") or [result.validated_output.get("summary", "")]
+            result.validated_output["items"] = [
+                {"text": text, "sources": sources, "status": "supported", "conflict_group": None}
+                for text in findings
+                if text
+            ]
+        else:
+            # Providers never receive stable record IDs and cannot be trusted to
+            # invent source references. Attach the backend-collected references.
+            for item in result.validated_output["items"]:
+                item["sources"] = sources
+        result.validated_output["clinician_verification_required"] = True
+        result.validated_output["writeback_allowed"] = False
+        result.raw_output = dict(result.validated_output)
         return result if include_meta else result.validated_output
 
     async def structure_intake(
@@ -232,7 +285,37 @@ class AIOrchestrator:
             payload=self._sanitize_structured_input(data),
             output_model=StructuredIntakeOutput,
             task_instruction=(
-                "Convert the intake payload into structured clinical intake fields and triage priority."
+                "Convert the intake payload into structured fields for human review. "
+                "Do not assign urgency, severity, triage, or a diagnosis."
+            ),
+        )
+        return result if include_meta else result.validated_output
+
+    async def extract_navigation_intent(
+        self,
+        *,
+        user_text: str,
+        available_specialties: list[str],
+        patient_context: str = "",
+        include_meta: bool = False,
+        prompt_version: str = "softwarex-v1",
+    ) -> dict[str, Any] | AIExecutionResult:
+        cleaned = self._sanitize_text(user_text)
+        if not cleaned:
+            raise AIStructuredInputError("Navigation text cannot be empty.")
+        result = await self._execute(
+            feature="extract_navigation_intent",
+            prompt_version=prompt_version,
+            payload={
+                "user_text": cleaned,
+                "available_specialties": available_specialties,
+                "patient_context": self._sanitize_text(patient_context) if patient_context else "",
+            },
+            output_model=NavigationIntentOutput,
+            task_instruction=(
+                "Extract bilingual symptoms and specialty candidates for navigation only. "
+                "Choose specialty names from available_specialties when possible. Do not assign "
+                "severity, urgency, triage, diagnosis, or treatment. Use high ambiguity when unclear."
             ),
         )
         return result if include_meta else result.validated_output
@@ -334,16 +417,40 @@ class AIOrchestrator:
 
     def _is_pii_key(self, key: str) -> bool:
         normalized = key.strip().lower().replace("-", "_")
+        if normalized == "id" or normalized.endswith("_id"):
+            return True
         return any(token in normalized for token in self.PII_FIELD_KEYWORDS)
 
     def _sanitize_text(self, text: str) -> str:
-        sanitized = text.strip()
-        sanitized = self.EMAIL_PATTERN.sub("[redacted-email]", sanitized)
-        sanitized = self.PHONE_PATTERN.sub("[redacted-phone]", sanitized)
-        sanitized = anonymize_identifier_text(sanitized, token_namespace="subject")
-        sanitized = self.NAME_PATTERN.sub(r"\1: [redacted-name]", sanitized)
-        sanitized = self.ADDRESS_PATTERN.sub(r"\1: [redacted-address]", sanitized)
-        return sanitized
+        return redact_pii_text(text.strip()).text
+
+    def _collect_source_refs(self, payload: Any, path: str = "record") -> list[dict[str, str | None]]:
+        refs: list[dict[str, str | None]] = []
+        if isinstance(payload, Mapping):
+            raw_id = payload.get("id") or payload.get("record_id") or payload.get("source_id")
+            if raw_id is not None:
+                refs.append(
+                    {
+                        "source_type": str(payload.get("source_type") or path.split(".")[-1]),
+                        "source_id": str(raw_id),
+                        "source_timestamp": str(
+                            payload.get("source_timestamp")
+                            or payload.get("updated_at")
+                            or payload.get("created_at")
+                            or ""
+                        )
+                        or None,
+                    }
+                )
+            for key, value in payload.items():
+                refs.extend(self._collect_source_refs(value, f"{path}.{key}"))
+        elif isinstance(payload, list):
+            for item in payload:
+                refs.extend(self._collect_source_refs(item, path))
+        unique: dict[tuple[str, str], dict[str, str | None]] = {}
+        for ref in refs:
+            unique[(str(ref["source_type"]), str(ref["source_id"]))] = ref
+        return list(unique.values())[:20]
 
     def _normalize_api_key(self, value: str | None) -> str | None:
         if value is None:
@@ -372,10 +479,12 @@ class AIOrchestrator:
         output_model: Type[BaseModel],
         task_instruction: str,
     ) -> AIExecutionResult:
-        subject_token = pick_subject_token(payload, fallback_parts=[feature, prompt_version, self.provider])
+        # Correlation IDs are random per request and are never sent as stable
+        # subject identifiers to an external provider.
+        subject_token = f"req_{secrets.token_hex(10)}"
         schema_hint = output_model.model_json_schema()
         system_prompt = (
-            "You are Chorui, a clinical-grade healthcare assistant for the Medora platform, serving doctors and patients. "
+            "You are Chorui, a research workflow assistant for the Medora platform, serving doctors and patients. "
             "Always provide helpful, grounded, and role-aware support using only the structured context provided in the request. "
             "Never fabricate facts, records, or citations. If data is missing, state uncertainty explicitly and ask for clarification. "
             "Never provide autonomous diagnosis, prescribing, or dosage instructions as final medical decisions. "
@@ -449,15 +558,18 @@ class AIOrchestrator:
             if not spec:
                 continue
 
-            raw_api_key = getattr(settings, spec["api_key_attr"], None)
-            api_key = self._normalize_api_key(raw_api_key)
-            if not api_key:
-                last_error = AIProviderError(f"{spec['api_key_attr']} is not configured.")
-                continue
-
             model = getattr(settings, spec["model_attr"], "")
 
             try:
+                if spec["type"] == "mock":
+                    return self._mock_response(user_prompt), candidate
+
+                raw_api_key = getattr(settings, spec["api_key_attr"], None)
+                api_key = self._normalize_api_key(raw_api_key)
+                if not api_key:
+                    last_error = AIProviderError(f"{spec['api_key_attr']} is not configured.")
+                    continue
+
                 if spec["type"] == "openai_compatible":
                     content = await self._call_openai_compatible_provider(
                         url=spec["url"],
@@ -514,7 +626,7 @@ class AIOrchestrator:
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
-            "X-Medora-Subject-Token": subject_token[:80],
+            "X-Request-ID": subject_token[:80],
         }
 
         timeout = httpx.Timeout(self.timeout_seconds)
@@ -563,7 +675,7 @@ class AIOrchestrator:
         headers = {
             "Content-Type": "application/json",
             "x-goog-api-key": api_key,
-            "X-Medora-Subject-Token": subject_token[:80],
+            "X-Request-ID": subject_token[:80],
         }
 
         timeout = httpx.Timeout(self.timeout_seconds)
@@ -588,6 +700,56 @@ class AIOrchestrator:
     # ------------------------------------------------------------------
     # JSON extraction
     # ------------------------------------------------------------------
+
+    def _mock_response(self, user_prompt: str) -> dict[str, Any]:
+        """Return deterministic fixtures for offline tests and examples."""
+        request = json.loads(user_prompt)
+        feature = request.get("feature")
+        fixtures: dict[str, dict[str, Any]] = {
+            "generate_patient_summary": {
+                "summary": "Mock summary generated from the supplied structured record.",
+                "key_findings": [],
+                "risk_flags": [],
+                "follow_up_questions": ["Verify this summary against the source record."],
+                "recommended_actions": [],
+                "items": [],
+                "clinician_verification_required": True,
+                "writeback_allowed": False,
+            },
+            "structure_intake": {
+                "chief_complaint": None,
+                "symptom_timeline": [],
+                "relevant_history": [],
+                "red_flags": [],
+            },
+            "extract_navigation_intent": {
+                "language_detected": "mixed",
+                "symptoms": [],
+                "duration_days": None,
+                "specialties": [],
+                "ambiguity": "high",
+                "error": "mock_provider_no_intent",
+            },
+            "generate_soap_notes": {"subjective": [], "objective": [], "assessment": [], "plan": []},
+            "clinical_info_query": {
+                "answer": "Mock provider: no clinical answer was generated.",
+                "confidence": 0.0,
+                "suggested_conditions": [],
+                "suggested_tests": [],
+                "suggested_medications": [],
+                "references": [],
+                "cautions": ["Use a configured provider or verify the source record manually."],
+            },
+            "prescription_suggestions": {
+                "medications": [],
+                "tests": [],
+                "procedures": [],
+                "cautions": ["Mock provider returned no treatment suggestions."],
+            },
+        }
+        if feature not in fixtures:
+            raise AIProviderError(f"Mock fixture is not defined for {feature}")
+        return fixtures[feature]
 
     def _extract_json_object(self, content: str) -> dict[str, Any]:
         try:

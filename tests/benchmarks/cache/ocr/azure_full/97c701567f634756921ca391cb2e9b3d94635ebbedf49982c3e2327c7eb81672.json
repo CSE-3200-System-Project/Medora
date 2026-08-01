@@ -1,0 +1,302 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "97c701567f634756921ca391cb2e9b3d94635ebbedf49982c3e2327c7eb81672",
+  "record_id": "RX-0058",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 25898.531099999673,
+  "failure": null,
+  "response_sha256": "21d79d229cc664d07e1b2343b6771438f69a51ae2f8bf81ac7234464dea69ce8",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / RITET18\nMedical Center,\n1122215\nNamn_\nABDUL HAMID\n007278101\nG27:\nGurder\nDistrict\nThata\nADAMCKZHI\nHEALTH PROFILE\n1. Blood Group\nNO\nHout Dannse\n5 Kidney Disease\n7. Mente DMirage\n65\na Dinbelet\n54\n## Drug History,\n10. Livor DIG085C.\n12. Any other abnormalties\nChiet Complaints:\nVisit Na\n3d COPY\n24 May 2024\nOVE\n8 Fixe\n110\nClounte Gucan\nTemp-\nAnemia-\nDehydration-\nRespiration-\nOthers-\nVastina\n24.5.24\nFBS/RBS.\nECG\nrovisional Diagonosis\nPasapon No\n8 Blood Sugar (RBST:",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "TREATMENT CARD / RITET18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Medical Center,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "1122215",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Namn_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ABDUL HAMID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "007278101",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "G27:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Gurder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Thata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ADAMCKZHI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "1. Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Hout Dannse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "5 Kidney Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "7. Mente DMirage",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "65",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "a Dinbelet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "54",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "## Drug History,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "10. Livor DIG085C.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "12. Any other abnormalties",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Chiet Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Visit Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "3d COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "OVE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "8 Fixe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "110",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Clounte Gucan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Anemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Vastina",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "24.5.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "FBS/RBS.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "rovisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Pasapon No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "8 Blood Sugar (RBST:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      }
+    ]
+  }
+}

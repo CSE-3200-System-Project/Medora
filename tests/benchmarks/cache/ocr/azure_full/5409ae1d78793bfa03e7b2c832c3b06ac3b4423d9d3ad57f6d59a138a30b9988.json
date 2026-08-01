@@ -1,0 +1,416 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "5409ae1d78793bfa03e7b2c832c3b06ac3b4423d9d3ad57f6d59a138a30b9988",
+  "record_id": "RX-0101",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 33273.43960000144,
+  "failure": null,
+  "response_sha256": "d5b0d0406c83f1b189977af6e09324fa0100d672d099bf8124de1d9aaf5b74b5",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Offico\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 110\nG043\nMedical Center;\nPilgrim ID.\n1502015\nPasaport Na\nMaktab No __..... (0 .....\nGender\nMALE\nDistrict\nThonn\nHEALTH PROFILE\nNO\n1. Blood Group:\nNO\n3. Heart Disease:\nNO\n4. Lung DiBoaau!\n6.30\n5. Kidney Disease:\nNO\n6. Disboles:\nND\n7. Mantel Disease:\n91\n8. Blood Sugar (RB3):\nNŐ\n9. Weight\n10. Livor Disonso:\n11. Drug History.\n12. Any other abnormalities:\nChief Complaints:\nVisit No:\nDale:\nOVES\nPulse-\n25Kg.\nBP\nTemp-\nAnaemia-\nDehydration-\nTer . Napo\n(10\nRespiration-\n1-1x 3 days\nOthers.\nFBSIRBS-\nECG\nProvisional Diagonosis\nRTZ\n-Sted Crack\nबजटकून मार्ट\nA13053095\n37\nName\nMO NAZRUL ISLAM\n2. Blood Pressure:\n-37- May 2024\nTwo. Altre\nTu. Pero 120\nO\nएसणिएकन सम्मान हिकिदिमा ग्वा वाणमंत्र खण्ड के बादस नमहि कियात्र अवगावे जूम अमारा सय।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Bangladesh Hall Offico",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "TREATMENT CARD / 110",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "G043",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Pilgrim ID.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "1502015",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Pasaport Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Maktab No __..... (0 .....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Thonn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "4. Lung DiBoaau!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "6.30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "6. Disboles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "ND",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "7. Mantel Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "91",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "8. Blood Sugar (RB3):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "NŐ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "9. Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "10. Livor Disonso:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "11. Drug History.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Dale:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "OVES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "25Kg.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Ter . Napo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "(10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "1-1x 3 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Others.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "RTZ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "-Sted Crack",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "बजटकून मार्ट",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "A13053095",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "37",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "MO NAZRUL ISLAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "-37- May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Two. Altre",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Tu. Pero 120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "एसणिएकन सम्मान हिकिदिमा ग्वा वाणमंत्र खण्ड के बादस नमहि कियात्र अवगावे जूम अमारा सय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      }
+    ]
+  }
+}

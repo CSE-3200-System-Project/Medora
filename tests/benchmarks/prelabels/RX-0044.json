@@ -1,0 +1,1388 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0044",
+  "source_sha256": "283b3246cc6512d0c97359a9d0feb8a71876e98afa4f9f1ae5216f715ed304a1",
+  "raw_transcription": "SIM\nस्वादभव नाथ\nI hab. L'max 500 mg\n5\n26. Cough for 15 days. hur Manas\nBreathing difficulty\n07072-3(5)\nF/H10 Br. asthma\nun. Koti\n0 foto(5\nSyp. Ambrux\n> 1Ph\nRx to SPL of\nMedicine Dept of\nDAK for\nneedful advice\nxplean\nX-ray chert P/A\nview\n* Nepaligator I '5 ml N/s+ Comet\n1 ml 4/1 +3 ml M/S\n-stat\n09-17",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Sim 10",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hab Max",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "15 days",
+      "instructions": ""
+    },
+    {
+      "medicine": "Breathing Difficulty",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "B-Asthma Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Un Koti",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Foto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Adsulph",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rx To Spl",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Medicid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Dak For",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Needful Advice",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Xplean",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Raj X",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "View",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Nepaligator Comet",
+      "strength": "5 ml",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "",
+      "strength": "1 ml",
+      "dose": "",
+      "frequency": "1+4+1+3",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Stat",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "021b8597feee98356f49f31d0a54a6c7a23dd525a04526678e1092a5c9395fce"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "59e3a7964c4fb095345f2abdd8655bd4773b7a8adbf2152b107bedec81ea6fae"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "02447f897277ee0b95aba0e2dc6591d1a86934d717a7c91118aa6e0a47b6005f"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Dabopshawolo\n5\n3\nm\nC\ntEDES\nAt\nRE\nmyeo.egy\n0/t\n3\nMrn\n2\n-\nI\nmt4\n21\nhmHrec\nP\nolHIg\n2\n7\nELD\n7\n1-6001\nASlG",
+      "lines": [
+        {
+          "text": "Dabopshawolo",
+          "bbox": {
+            "x_min": 440.0,
+            "y_min": 1443.0,
+            "x_max": 699.0,
+            "y_max": 2865.0
+          },
+          "page": 1,
+          "confidence": 0.319
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 2240.0,
+            "y_min": 1491.0,
+            "x_max": 2295.0,
+            "y_max": 1546.0
+          },
+          "page": 1,
+          "confidence": 0.279
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 3010.0,
+            "y_min": 1568.0,
+            "x_max": 3199.0,
+            "y_max": 1746.0
+          },
+          "page": 1,
+          "confidence": 0.179
+        },
+        {
+          "text": "m",
+          "bbox": {
+            "x_min": 3785.0,
+            "y_min": 1629.0,
+            "x_max": 3863.0,
+            "y_max": 1758.0
+          },
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 2021.0,
+            "y_min": 1645.0,
+            "x_max": 2036.0,
+            "y_max": 1661.0
+          },
+          "page": 1,
+          "confidence": 0.13
+        },
+        {
+          "text": "tEDES",
+          "bbox": {
+            "x_min": 646.0,
+            "y_min": 1711.0,
+            "x_max": 792.0,
+            "y_max": 2225.0
+          },
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "At",
+          "bbox": {
+            "x_min": 37.0,
+            "y_min": 1733.0,
+            "x_max": 232.0,
+            "y_max": 2006.0
+          },
+          "page": 1,
+          "confidence": 0.312
+        },
+        {
+          "text": "RE",
+          "bbox": {
+            "x_min": 1648.0,
+            "y_min": 1805.0,
+            "x_max": 1654.0,
+            "y_max": 1814.0
+          },
+          "page": 1,
+          "confidence": 0.314
+        },
+        {
+          "text": "myeo.egy",
+          "bbox": {
+            "x_min": 2073.0,
+            "y_min": 1829.0,
+            "x_max": 2233.0,
+            "y_max": 2470.0
+          },
+          "page": 1,
+          "confidence": 0.377
+        },
+        {
+          "text": "0/t",
+          "bbox": {
+            "x_min": 3006.0,
+            "y_min": 1906.0,
+            "x_max": 3203.0,
+            "y_max": 2464.0
+          },
+          "page": 1,
+          "confidence": 0.317
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 1915.0,
+            "y_min": 1945.0,
+            "x_max": 1935.0,
+            "y_max": 1953.0
+          },
+          "page": 1,
+          "confidence": 0.202
+        },
+        {
+          "text": "Mrn",
+          "bbox": {
+            "x_min": 3216.0,
+            "y_min": 2035.0,
+            "x_max": 3345.0,
+            "y_max": 2311.0
+          },
+          "page": 1,
+          "confidence": 0.33
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1889.0,
+            "y_min": 2090.0,
+            "x_max": 1898.0,
+            "y_max": 2104.0
+          },
+          "page": 1,
+          "confidence": 0.111
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1594.0,
+            "y_min": 2142.0,
+            "x_max": 1602.0,
+            "y_max": 2156.0
+          },
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "I",
+          "bbox": {
+            "x_min": 1883.0,
+            "y_min": 2153.0,
+            "x_max": 2063.0,
+            "y_max": 2299.0
+          },
+          "page": 1,
+          "confidence": 0.374
+        },
+        {
+          "text": "mt4",
+          "bbox": {
+            "x_min": 3976.0,
+            "y_min": 2123.0,
+            "x_max": 4158.0,
+            "y_max": 2383.0
+          },
+          "page": 1,
+          "confidence": 0.266
+        },
+        {
+          "text": "21",
+          "bbox": {
+            "x_min": 753.0,
+            "y_min": 2215.0,
+            "x_max": 866.0,
+            "y_max": 2570.0
+          },
+          "page": 1,
+          "confidence": 0.58
+        },
+        {
+          "text": "hmHrec",
+          "bbox": {
+            "x_min": 1746.0,
+            "y_min": 2213.0,
+            "x_max": 1920.0,
+            "y_max": 2910.0
+          },
+          "page": 1,
+          "confidence": 0.308
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 1613.0,
+            "y_min": 2534.0,
+            "x_max": 1621.0,
+            "y_max": 2557.0
+          },
+          "page": 1,
+          "confidence": 0.181
+        },
+        {
+          "text": "olHIg",
+          "bbox": {
+            "x_min": 2000.0,
+            "y_min": 2525.0,
+            "x_max": 2294.0,
+            "y_max": 2915.0
+          },
+          "page": 1,
+          "confidence": 0.353
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2129.0,
+            "y_min": 2527.0,
+            "x_max": 2195.0,
+            "y_max": 2589.0
+          },
+          "page": 1,
+          "confidence": 0.078
+        },
+        {
+          "text": "7",
+          "bbox": {
+            "x_min": 1803.0,
+            "y_min": 2842.0,
+            "x_max": 1809.0,
+            "y_max": 2849.0
+          },
+          "page": 1,
+          "confidence": 0.108
+        },
+        {
+          "text": "ELD",
+          "bbox": {
+            "x_min": 590.0,
+            "y_min": 2867.0,
+            "x_max": 719.0,
+            "y_max": 3207.0
+          },
+          "page": 1,
+          "confidence": 0.225
+        },
+        {
+          "text": "7",
+          "bbox": {
+            "x_min": 4016.0,
+            "y_min": 2866.0,
+            "x_max": 4086.0,
+            "y_max": 2951.0
+          },
+          "page": 1,
+          "confidence": 0.214
+        },
+        {
+          "text": "1-6001",
+          "bbox": {
+            "x_min": 942.0,
+            "y_min": 2932.0,
+            "x_max": 1104.0,
+            "y_max": 3360.0
+          },
+          "page": 1,
+          "confidence": 0.917
+        },
+        {
+          "text": "ASlG",
+          "bbox": {
+            "x_min": 795.0,
+            "y_min": 3053.0,
+            "x_max": 912.0,
+            "y_max": 3246.0
+          },
+          "page": 1,
+          "confidence": 0.285
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dabopshawolo",
+          "matched_term": "Dabopshawolo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.129
+        },
+        {
+          "name": "Tedes At Re",
+          "matched_term": "Tedes At Re",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.148
+        },
+        {
+          "name": "Myeo Egy",
+          "matched_term": "Myeo Egy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.134
+        },
+        {
+          "name": "Mrn Mt",
+          "matched_term": "Mrn Mt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.144
+        },
+        {
+          "name": "Hmhrec",
+          "matched_term": "Hmhrec",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Olhig",
+          "matched_term": "Olhig",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.084
+        },
+        {
+          "name": "Eld",
+          "matched_term": "Eld",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.257
+        },
+        {
+          "name": "Aslg",
+          "matched_term": "Aslg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.128
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "77\nहिकिश्मक कड़क बाभीड़ बारश शेख\nW/OMEH Siddique\nजर (वर्माड)-9\nब्बाभीव नाग\n820377\nस्वादभव नाथ\n464\nS/m डिकिस्मतकब बारशनना\n10.09.17\nBx lub. Zimax 50\nofot ?- >\n5\n26. Cough for 15 days. Gub. mona\nBreathing differently 070+2 95\nF/H10 Br. asthma\nRub. Koti\no to to5\n· Lyje. Ambrux\n> 1Ph\n· X- ray chert P/A\n0\nview\n.\n*Nebulisation I '5 ml N/s+ Cmet\n1 ml 1/1 +3 ml M/S\n- stat.\nRif to SPL of\nMedicine Dept of\nDAK for\nneedful advice\nplean\nMOR\nS. No ...\nRoom N\nTime. ..\nDate.\nब्बाभीन ना\n8",
+      "lines": [
+        {
+          "text": "77",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "हिकिश्मक कड़क बाभीड़ बारश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "W/OMEH Siddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "जर (वर्माड)-9",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "ब्बाभीव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "स्वादभव नाथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "464",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "S/m डिकिस्मतकब बारशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "10.09.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Bx lub. Zimax 50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "ofot ?- >",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "26. Cough for 15 days. Gub. mona",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Breathing differently 070+2 95",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "F/H10 Br. asthma",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Rub. Koti",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "o to to5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "· Lyje. Ambrux",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "> 1Ph",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "· X- ray chert P/A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "view",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "*Nebulisation I '5 ml N/s+ Cmet",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "1 ml 1/1 +3 ml M/S",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "- stat.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Rif to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Medicine Dept of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "DAK for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "needful advice",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "plean",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "MOR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "S. No ...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Room N",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Time. ..",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "Date.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "ब्बाभीन ना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        },
+        {
+          "text": "8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.579
+        }
+      ],
+      "medications": [
+        {
+          "name": "Ome",
+          "matched_term": "Ome",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "8257b2ec-8dd7-4c06-adcd-f3036520fbd3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Bx Lub Zimax",
+          "matched_term": "Bx Lub Zimax",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Ofot",
+          "matched_term": "Ofot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.31
+        },
+        {
+          "name": "Breathing Differently",
+          "matched_term": "Breathing Differently",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "B-Asthma Tab",
+          "matched_term": "B-Asthma Tab",
+          "drug_id": "96437524-8208-4997-9108-5aa39e38656a",
+          "brand_id": "26db6db7-656b-4575-8d36-b08a4643a10e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.475
+        },
+        {
+          "name": "Rub-P",
+          "matched_term": "Rub-P",
+          "drug_id": "e14e658b-a01e-49a5-832f-5ecbf8ba0642",
+          "brand_id": "d8353f32-e766-4a48-b039-f831c336e872",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Lyje Ambrux Adsulph",
+          "matched_term": "Lyje Ambrux Adsulph",
+          "drug_id": "76990da0-716a-41b9-bd0c-b14b9c9c99c0",
+          "brand_id": "059385f2-8fb4-45dc-af92-efdb3306a6c0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Raj X",
+          "matched_term": "Raj X",
+          "drug_id": "55605964-60fc-4b7d-b8a5-5b1a29c1958e",
+          "brand_id": "4fec4283-9b86-4a99-9aee-c98bce96b537",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "View",
+          "matched_term": "View",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Nebulisation Cmet",
+          "matched_term": "Nebulisation Cmet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "5 ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.312
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "1 ml",
+          "frequency": "1+1+1+3",
+          "quantity": null,
+          "confidence": 0.361
+        },
+        {
+          "name": "Stat",
+          "matched_term": "Stat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Rif To Spl",
+          "matched_term": "Rif To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Dak For",
+          "matched_term": "Dak For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Needful Advice",
+          "matched_term": "Needful Advice",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Plean",
+          "matched_term": "Plean",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Mor No",
+          "matched_term": "Mor No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Room",
+          "matched_term": "Room",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Sim 10",
+          "matched_term": "Sim 10",
+          "drug_id": "7f207bd8-b9f9-454b-b2b9-1e82a32c96fb",
+          "brand_id": "2aa74c48-2b81-4119-8c4c-2b6cbca3b16f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.457
+        },
+        {
+          "name": "Hab Max",
+          "matched_term": "Hab Max",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.344
+        },
+        {
+          "name": "Breathing Difficulty",
+          "matched_term": "Breathing Difficulty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "B-Asthma Tab",
+          "matched_term": "B-Asthma Tab",
+          "drug_id": "96437524-8208-4997-9108-5aa39e38656a",
+          "brand_id": "26db6db7-656b-4575-8d36-b08a4643a10e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.457
+        },
+        {
+          "name": "Un Koti",
+          "matched_term": "Un Koti",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Foto",
+          "matched_term": "Foto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Adsulph",
+          "matched_term": "Adsulph",
+          "drug_id": "76990da0-716a-41b9-bd0c-b14b9c9c99c0",
+          "brand_id": "059385f2-8fb4-45dc-af92-efdb3306a6c0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.457
+        },
+        {
+          "name": "Rx To Spl",
+          "matched_term": "Rx To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.623
+        },
+        {
+          "name": "Dak For",
+          "matched_term": "Dak For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Needful Advice",
+          "matched_term": "Needful Advice",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Xplean",
+          "matched_term": "Xplean",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Raj X",
+          "matched_term": "Raj X",
+          "drug_id": "55605964-60fc-4b7d-b8a5-5b1a29c1958e",
+          "brand_id": "4fec4283-9b86-4a99-9aee-c98bce96b537",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.623
+        },
+        {
+          "name": "View",
+          "matched_term": "View",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Nepaligator Comet",
+          "matched_term": "Nepaligator Comet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "5 ml",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.294
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "1 ml",
+          "frequency": "1+4+1+3",
+          "quantity": null,
+          "confidence": 0.344
+        },
+        {
+          "name": "Stat",
+          "matched_term": "Stat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        }
+      ],
+      "raw_text": "SIM\nस्वादभव नाथ\nI hab. L'max 500 mg\n5\n26. Cough for 15 days. hur Manas\nBreathing difficulty\n07072-3(5)\nF/H10 Br. asthma\nun. Koti\n0 foto(5\nSyp. Ambrux\n> 1Ph\nRx to SPL of\nMedicine Dept of\nDAK for\nneedful advice\nxplean\nX-ray chert P/A\nview\n* Nepaligator I '5 ml N/s+ Comet\n1 ml 4/1 +3 ml M/S\n-stat\n09-17",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 19369,
+        "detected_regions": 1,
+        "ocr_line_count": 23,
+        "yolo_avg_confidence": 0.8505,
+        "yolo_min_confidence": 0.8505,
+        "yolo_max_confidence": 0.8505,
+        "ocr_avg_confidence": 0.54,
+        "ocr_min_confidence": 0.54,
+        "ocr_max_confidence": 0.54,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 262.35329246520996,
+              "y_min": 747.2190780639647,
+              "x_max": 3068.9521461486815,
+              "y_max": 4479.467367553711
+            },
+            "score": 0.8505
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "SIM",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "स्वादभव नाथ",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "I hab. L'max 500 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "5",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "26. Cough for 15 days. hur Manas",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "Breathing difficulty",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "07072-3(5)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "F/H10 Br. asthma",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "un. Koti",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "0 foto(5",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "Syp. Ambrux",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "> 1Ph",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "Rx to SPL of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "Medicine Dept of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "DAK for",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "needful advice",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "xplean",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "X-ray chert P/A",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "view",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "* Nepaligator I '5 ml N/s+ Comet",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "1 ml 4/1 +3 ml M/S",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "-stat",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          },
+          {
+            "text": "09-17",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.54
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

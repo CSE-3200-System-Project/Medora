@@ -1,0 +1,1128 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0008",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "raw_transcription": "Des (5)\nTab.\notota\nBK\nTab.\notto\n20\nRanitid 1 5oy\n. Tab.\nP\nPervitin Cream)\n9/05\noph.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Des",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sufoof Tabkheer",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Otto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ranitid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pevitin",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Oph",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "838117b2afe0aeec22ed3cfdb42acc8e5d2e705e11d0a359e04e9458c537b6fe"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "a1f845fd8498e6f66234a1c2c1cb4300a1753fd3c4a017fdd08ff96eb701f4ab"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "778442d7c1213e200cabf46de8132bee14b0317445a1eb1723172455ef5d6ab1"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "C\n-\nheripeoy\nR\nydr\n796\nE\nleebn)\n18\netoto\nsac\n01+0\nE\nwfindy\not\ny\nqob\nq0b\nqob\ns44ocid0\n2\n3\nf\n2\nISL5\n595\nAPV\no\n418-57\nAglG\nURb)\nHED",
+      "lines": [
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 2021.0,
+            "y_min": 165.0,
+            "x_max": 2187.0,
+            "y_max": 405.0
+          },
+          "page": 1,
+          "confidence": 0.142
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 166.0,
+            "y_min": 192.0,
+            "x_max": 314.0,
+            "y_max": 699.0
+          },
+          "page": 1,
+          "confidence": 0.773
+        },
+        {
+          "text": "heripeoy",
+          "bbox": {
+            "x_min": 2695.0,
+            "y_min": 197.0,
+            "x_max": 2943.0,
+            "y_max": 954.0
+          },
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 2554.0,
+            "y_min": 226.0,
+            "x_max": 2651.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.742
+        },
+        {
+          "text": "ydr",
+          "bbox": {
+            "x_min": 3483.0,
+            "y_min": 228.0,
+            "x_max": 3600.0,
+            "y_max": 422.0
+          },
+          "page": 1,
+          "confidence": 0.673
+        },
+        {
+          "text": "796",
+          "bbox": {
+            "x_min": 432.0,
+            "y_min": 246.0,
+            "x_max": 593.0,
+            "y_max": 674.0
+          },
+          "page": 1,
+          "confidence": 0.557
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 1772.0,
+            "y_min": 299.0,
+            "x_max": 2042.0,
+            "y_max": 605.0
+          },
+          "page": 1,
+          "confidence": 0.39
+        },
+        {
+          "text": "leebn)",
+          "bbox": {
+            "x_min": 3298.0,
+            "y_min": 350.0,
+            "x_max": 3450.0,
+            "y_max": 759.0
+          },
+          "page": 1,
+          "confidence": 0.7
+        },
+        {
+          "text": "18",
+          "bbox": {
+            "x_min": 2280.0,
+            "y_min": 549.0,
+            "x_max": 2453.0,
+            "y_max": 840.0
+          },
+          "page": 1,
+          "confidence": 0.775
+        },
+        {
+          "text": "etoto",
+          "bbox": {
+            "x_min": 2059.0,
+            "y_min": 683.0,
+            "x_max": 2173.0,
+            "y_max": 1051.0
+          },
+          "page": 1,
+          "confidence": 0.682
+        },
+        {
+          "text": "sac",
+          "bbox": {
+            "x_min": 1850.0,
+            "y_min": 695.0,
+            "x_max": 1959.0,
+            "y_max": 905.0
+          },
+          "page": 1,
+          "confidence": 0.261
+        },
+        {
+          "text": "01+0",
+          "bbox": {
+            "x_min": 2493.0,
+            "y_min": 701.0,
+            "x_max": 2611.0,
+            "y_max": 1101.0
+          },
+          "page": 1,
+          "confidence": 0.514
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 3527.0,
+            "y_min": 786.0,
+            "x_max": 3534.0,
+            "y_max": 792.0
+          },
+          "page": 1,
+          "confidence": 0.181
+        },
+        {
+          "text": "wfindy",
+          "bbox": {
+            "x_min": 3240.0,
+            "y_min": 845.0,
+            "x_max": 3428.0,
+            "y_max": 1337.0
+          },
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "ot",
+          "bbox": {
+            "x_min": 1510.0,
+            "y_min": 1025.0,
+            "x_max": 1674.0,
+            "y_max": 1150.0
+          },
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "y",
+          "bbox": {
+            "x_min": 4022.0,
+            "y_min": 1088.0,
+            "x_max": 4304.0,
+            "y_max": 1390.0
+          },
+          "page": 1,
+          "confidence": 0.174
+        },
+        {
+          "text": "qob",
+          "bbox": {
+            "x_min": 1851.0,
+            "y_min": 1119.0,
+            "x_max": 1978.0,
+            "y_max": 1365.0
+          },
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "q0b",
+          "bbox": {
+            "x_min": 2744.0,
+            "y_min": 1121.0,
+            "x_max": 2894.0,
+            "y_max": 1385.0
+          },
+          "page": 1,
+          "confidence": 0.342
+        },
+        {
+          "text": "qob",
+          "bbox": {
+            "x_min": 2309.0,
+            "y_min": 1158.0,
+            "x_max": 2452.0,
+            "y_max": 1414.0
+          },
+          "page": 1,
+          "confidence": 0.357
+        },
+        {
+          "text": "s44ocid0",
+          "bbox": {
+            "x_min": 1601.0,
+            "y_min": 1723.0,
+            "x_max": 1728.0,
+            "y_max": 2299.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 757.0,
+            "y_min": 2089.0,
+            "x_max": 854.0,
+            "y_max": 2417.0
+          },
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 257.0,
+            "y_min": 2328.0,
+            "x_max": 462.0,
+            "y_max": 2622.0
+          },
+          "page": 1,
+          "confidence": 0.109
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 1442.0,
+            "y_min": 2384.0,
+            "x_max": 1632.0,
+            "y_max": 2560.0
+          },
+          "page": 1,
+          "confidence": 0.408
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 387.0,
+            "y_min": 2399.0,
+            "x_max": 399.0,
+            "y_max": 2411.0
+          },
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "ISL5",
+          "bbox": {
+            "x_min": 2948.0,
+            "y_min": 2393.0,
+            "x_max": 3056.0,
+            "y_max": 2760.0
+          },
+          "page": 1,
+          "confidence": 0.481
+        },
+        {
+          "text": "595",
+          "bbox": {
+            "x_min": 3155.0,
+            "y_min": 2485.0,
+            "x_max": 3259.0,
+            "y_max": 2753.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "APV",
+          "bbox": {
+            "x_min": 2750.0,
+            "y_min": 2502.0,
+            "x_max": 2844.0,
+            "y_max": 2717.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 462.0,
+            "y_min": 2596.0,
+            "x_max": 595.0,
+            "y_max": 2781.0
+          },
+          "page": 1,
+          "confidence": 0.55
+        },
+        {
+          "text": "418-57",
+          "bbox": {
+            "x_min": 1000.0,
+            "y_min": 2742.0,
+            "x_max": 1135.0,
+            "y_max": 3106.0
+          },
+          "page": 1,
+          "confidence": 0.584
+        },
+        {
+          "text": "AglG",
+          "bbox": {
+            "x_min": 796.0,
+            "y_min": 2886.0,
+            "x_max": 879.0,
+            "y_max": 3069.0
+          },
+          "page": 1,
+          "confidence": 0.293
+        },
+        {
+          "text": "URb)",
+          "bbox": {
+            "x_min": 244.0,
+            "y_min": 3143.0,
+            "x_max": 405.0,
+            "y_max": 3365.0
+          },
+          "page": 1,
+          "confidence": 0.477
+        },
+        {
+          "text": "HED",
+          "bbox": {
+            "x_min": 639.0,
+            "y_min": 3184.0,
+            "x_max": 785.0,
+            "y_max": 3449.0
+          },
+          "page": 1,
+          "confidence": 0.32
+        }
+      ],
+      "medications": [
+        {
+          "name": "Heripeoy",
+          "matched_term": "Heripeoy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.276
+        },
+        {
+          "name": "Dydron",
+          "matched_term": "Dydron",
+          "drug_id": "492ad4a5-54dc-4ad5-9e41-2ee850b0c98d",
+          "brand_id": "018ea434-4b92-4eeb-9176-62ce8c0f948c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.623
+        },
+        {
+          "name": "Leebn",
+          "matched_term": "Leebn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.332
+        },
+        {
+          "name": "Eto",
+          "matched_term": "Eto",
+          "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+          "brand_id": "291bbda2-d1fb-4e65-9ba6-7c052737f7f6",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.687
+        },
+        {
+          "name": "Sac",
+          "matched_term": "Sac",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.143
+        },
+        {
+          "name": "Wfindy Ot",
+          "matched_term": "Wfindy Ot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Qob",
+          "matched_term": "Qob",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.182
+        },
+        {
+          "name": "Qob Ocid Isl",
+          "matched_term": "Qob Ocid Isl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.201
+        },
+        {
+          "name": "Apv",
+          "matched_term": "Apv",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Aglg",
+          "matched_term": "Aglg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.132
+        },
+        {
+          "name": "Urb",
+          "matched_term": "Urb",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.215
+        },
+        {
+          "name": "Hed",
+          "matched_term": "Hed",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.144
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "31\nबस् (बर्माफि)- ७५\n420\n1737 820 377 Melo M 3H Siback 9673\nछिकिश्मक कड़क बांगीव बारश शेख\nडिकिशमाकन वासशमना\n1-8-85\n23-8-12\nye-\n0\nDermatitis.\nTab.\nDes\n(sy)\notota\n-बधि\nTab.\nB/C\not) to\n20\nTab.\nRanitid 150g\nS TSH\nFBS & 2 HABP\nPerition Cream\n9[0]-uph\nR\nbeen\nAdr\n0)\nबक (ख्याजि)\nबिशनना\nस्वादश्व नाथ",
+      "lines": [
+        {
+          "text": "31",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "बस् (बर्माफि)- ७५",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "420",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1737 820 377 Melo M 3H Siback 9673",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "छिकिश्मक कड़क बांगीव बारश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "डिकिशमाकन वासशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "1-8-85",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "23-8-12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "ye-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Dermatitis.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Des",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "(sy)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "otota",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "-बधि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "B/C",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "ot) to",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Ranitid 150g",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "S TSH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "FBS & 2 HABP",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Perition Cream",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "9[0]-uph",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "been",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Adr",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "0)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "बक (ख्याजि)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "बिशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "स्वादश्व नाथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.525
+        }
+      ],
+      "medications": [
+        {
+          "name": "Melo",
+          "matched_term": "Melo",
+          "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+          "brand_id": "bcb65418-dbd2-4a66-af20-4260fdaae5d3",
+          "dosage": null,
+          "frequency": "1+8+8",
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "Dermatis",
+          "matched_term": "Dermatis",
+          "drug_id": "33734824-d9e4-4a0c-98ab-a558388aa63d",
+          "brand_id": "b1839730-3e96-4741-a283-368dbae7b975",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Des",
+          "matched_term": "Des",
+          "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+          "brand_id": "619f6d0c-e29b-4b7f-9ac5-c11d18401173",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Otota",
+          "matched_term": "Otota",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Ranitid",
+          "matched_term": "Ranitid",
+          "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+          "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+          "dosage": "150g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Batshulary",
+          "matched_term": "Batshulary",
+          "drug_id": "51551439-a8c9-4f23-a901-512010f618d5",
+          "brand_id": "7a2470f0-f45f-4e00-8403-411755b26ccb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.547
+        },
+        {
+          "name": "Fbs Habp",
+          "matched_term": "Fbs Habp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Perion",
+          "matched_term": "Perion",
+          "drug_id": "e8625404-8469-4452-904d-357bc4f52647",
+          "brand_id": "d25583a6-e252-4a2f-96d8-55054218e18a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Uph",
+          "matched_term": "Uph",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Been",
+          "matched_term": "Been",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        },
+        {
+          "name": "Adr",
+          "matched_term": "Adr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.236
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Des",
+          "matched_term": "Des",
+          "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+          "brand_id": "619f6d0c-e29b-4b7f-9ac5-c11d18401173",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.676
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.676
+        },
+        {
+          "name": "Sufoof Tabkheer",
+          "matched_term": "Sufoof Tabkheer",
+          "drug_id": "9cb371ec-cf0c-412b-b1df-33b5b961235a",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.571
+        },
+        {
+          "name": "Otto",
+          "matched_term": "Otto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.296
+        },
+        {
+          "name": "Ranitid",
+          "matched_term": "Ranitid",
+          "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+          "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.676
+        },
+        {
+          "name": "Pevitin",
+          "matched_term": "Pevitin",
+          "drug_id": "83abce71-cbde-4c33-9d77-8c9325f6f06b",
+          "brand_id": "31f6cccc-2953-421d-a1c0-8b09f11d1cb3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.676
+        },
+        {
+          "name": "Oph",
+          "matched_term": "Oph",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.296
+        }
+      ],
+      "raw_text": "Des (5)\nTab.\notota\nBK\nTab.\notto\n20\nRanitid 1 5oy\n. Tab.\nP\nPervitin Cream)\n9/05\noph.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 9142,
+        "detected_regions": 1,
+        "ocr_line_count": 13,
+        "yolo_avg_confidence": 0.8855,
+        "yolo_min_confidence": 0.8855,
+        "yolo_max_confidence": 0.8855,
+        "ocr_avg_confidence": 0.657,
+        "ocr_min_confidence": 0.657,
+        "ocr_max_confidence": 0.657,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1876.9667160034178,
+              "y_min": 1650.3846481323242,
+              "x_max": 3340.140342712402,
+              "y_max": 3821.0989440917965
+            },
+            "score": 0.8855
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Des (5)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "Tab.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "otota",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "BK",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "Tab.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "otto",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "Ranitid 1 5oy",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": ". Tab.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "P",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "Pervitin Cream)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "9/05",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          },
+          {
+            "text": "oph.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.657
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

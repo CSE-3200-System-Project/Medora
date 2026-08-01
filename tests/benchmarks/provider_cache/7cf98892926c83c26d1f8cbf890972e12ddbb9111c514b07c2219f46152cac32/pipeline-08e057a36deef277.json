@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0047",
+  "source_sha256": "7cf98892926c83c26d1f8cbf890972e12ddbb9111c514b07c2219f46152cac32",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:30:09.968851+00:00",
+  "runtime_ms": 6809.803099997225,
+  "output": {
+    "medications": [
+      {
+        "name": "Lap",
+        "matched_term": "Lap",
+        "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+        "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.632
+      },
+      {
+        "name": "Hon",
+        "matched_term": "Hon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.252
+      },
+      {
+        "name": "Monas",
+        "matched_term": "Monas",
+        "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+        "brand_id": "ac1a6318-4236-42a8-bd92-65cc166299bf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.632
+      },
+      {
+        "name": "Ofons",
+        "matched_term": "Ofons",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.252
+      },
+      {
+        "name": "Tofen",
+        "matched_term": "Tofen",
+        "drug_id": "4d63a98c-ddf0-4761-9e2c-01df3661c6f6",
+        "brand_id": "ccb1d7cc-a3a4-40c7-b7cb-543be2f9850b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.632
+      }
+    ],
+    "raw_text": "Lap SECholsom\nHon-\n3\n2. 702\n9 MONAS(A)\nofons\n15\n3. 700 TOFEN (JMS)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6775,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.8559,
+      "yolo_min_confidence": 0.8559,
+      "yolo_max_confidence": 0.8559,
+      "ocr_avg_confidence": 0.561,
+      "ocr_min_confidence": 0.561,
+      "ocr_max_confidence": 0.561,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 2127.2688240051266,
+            "y_min": 2278.6359695434567,
+            "x_max": 3398.66487121582,
+            "y_max": 3496.8437751770016
+          },
+          "score": 0.8559
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Lap SECholsom",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "Hon-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "2. 702",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "9 MONAS(A)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "ofons",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "15",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "3. 700 TOFEN (JMS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.561
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

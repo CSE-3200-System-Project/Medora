@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "9d794c95dc6989f53bf5efde998607ce9b4234f483fe11172aeaf90000d5c139",
+  "record_id": "RX-0026",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 25490.362399999867,
+  "failure": null,
+  "response_sha256": "6732726dcc6a0d180309fc0631ad11ee98d1cacdd60d9d9337d4652f0f3359e5",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkalıModinah/Jeddah\nTREATMENT CARDI ARTIME\n******* F291\nThata Harsi\nHEALTH PROFILE\n5. Kkincy 00wasy: 47\nChiat Complaints:\nTob. Glichizite 80\nTAM:\n2015\n29.1 month\nFESORES\nProvisunal Diagoncals\nएवं चिकन भुत हैवण एवं बयान जन । वापस यह हुल्यित गदगद गद, कानपुर शूट।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "MakkalıModinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "TREATMENT CARDI ARTIME",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "******* F291",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Thata Harsi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "5. Kkincy 00wasy: 47",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Chiat Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Tob. Glichizite 80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "TAM:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "2015",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "29.1 month",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "FESORES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "Provisunal Diagoncals",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      },
+      {
+        "text": "एवं चिकन भुत हैवण एवं बयान जन । वापस यह हुल्यित गदगद गद, कानपुर शूट।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.498
+      }
+    ]
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0056",
+  "source_sha256": "e125b94e2f91405f0fd8be7c811a3e4e5f13077b9f266a4b6bd58e8aae00d770",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:32:10.317693+00:00",
+  "runtime_ms": 9049.524699992617,
+  "output": {
+    "medications": [
+      {
+        "name": "The Parace Tam",
+        "matched_term": "The Parace Tam",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      },
+      {
+        "name": "Aexo Com",
+        "matched_term": "Aexo Com",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.24
+      }
+    ],
+    "raw_text": "10\nthe parace tam of\nコナローナーの です~\nTab Aexo Com\n入門\n0++)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9015,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8514,
+      "yolo_min_confidence": 0.8514,
+      "yolo_max_confidence": 0.8514,
+      "ocr_avg_confidence": 0.534,
+      "ocr_min_confidence": 0.534,
+      "ocr_max_confidence": 0.534,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 245.58111572265625,
+            "y_min": 235.08566284179688,
+            "x_max": 535.6166381835938,
+            "y_max": 366.7830810546875
+          },
+          "score": 0.8514
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "the parace tam of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "コナローナーの です~",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Tab Aexo Com",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "入門",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "0++)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

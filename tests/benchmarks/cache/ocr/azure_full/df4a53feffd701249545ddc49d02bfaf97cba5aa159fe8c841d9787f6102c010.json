@@ -1,0 +1,278 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "df4a53feffd701249545ddc49d02bfaf97cba5aa159fe8c841d9787f6102c010",
+  "record_id": "RX-0048",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 51042.03799999959,
+  "failure": null,
+  "response_sha256": "bb72672d5a23c70c735ff4d8a9015f1386632a11c3a02e0cff40fd99e3a8746f",
+  "response": {
+    "raw_text": "0\n820377\nडिकिश्मक कड़क स्वाभीन वारश शेख\n13 A W/ MZH SIDDIQUI MCPO(X) 47 YES.\nडिकिश्माकब वादशमना\nनोटेशन नाग\n27.5 w18\n4 Hypervismidisom\n-24- 76.1%\n120- 80 71\nRAIO.\nVB1. Tb. Carbizol 5g\n2×242\n2. Tcl Indevario\nlevel\nFea, F+3, TSH. For\nVALY, BLUCBL\n1\nMD. ANWAROL KABIR\n· Ady Spl in Medicine unut\nEndocrinologist\nCMH Dhaka\n18.7.2018\n1021 FG-9-20 21 -T Canbizal 52\nC.\n20041\n2. Ect Indever 10\nAu\nFen, Fe3, TSH\n15 days\n8/5/18\n3. Tale Prosmajor\nveoel atine\nIssued+15h\n22/07/8\n30/08/18\n13.000.10\nनाम M\nC/MI R\nव शनि\nISSU DATE\n10- 06-18x15ts\n29/06/18712",
+    "lines": [
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "डिकिश्मक कड़क स्वाभीन वारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "13 A W/ MZH SIDDIQUI MCPO(X) 47 YES.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "डिकिश्माकब वादशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "नोटेशन नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "27.5 w18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "4 Hypervismidisom",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "-24- 76.1%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "120- 80 71",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "RAIO.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "VB1. Tb. Carbizol 5g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "2×242",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "2. Tcl Indevario",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "level",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "Fea, F+3, TSH. For",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "VALY, BLUCBL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "MD. ANWAROL KABIR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "· Ady Spl in Medicine unut",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "Endocrinologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "CMH Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "18.7.2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "1021 FG-9-20 21 -T Canbizal 52",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "C.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "20041",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "2. Ect Indever 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "Au",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "Fen, Fe3, TSH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "15 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "8/5/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "3. Tale Prosmajor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "veoel atine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "Issued+15h",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "22/07/8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "30/08/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "13.000.10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "नाम M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "C/MI R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "व शनि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "ISSU DATE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "10- 06-18x15ts",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      },
+      {
+        "text": "29/06/18712",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.51
+      }
+    ]
+  }
+}

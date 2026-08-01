@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "1a3318b98f6a1456b7c1ce6fa24c98ed7acd783c791a2670d5cdcde60a302228",
+  "record_id": "RX-0042",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10479.766699994798,
+  "failure": null,
+  "response_sha256": "6840bed82d91e3e2bd924358d261b66b2e4ad8281d55420e4a91fb74a87e5c40",
+  "response": {
+    "raw_text": "14 lub. Alatrol\nYet. Allergy\nPUD\n(+0+)-\nCap. Suelo 20 mg\n2 +0 +>-\n16\nmoura 2/2 31 cmpor",
+    "lines": [
+      {
+        "text": "14 lub. Alatrol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "Yet. Allergy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "(+0+)-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "Cap. Suelo 20 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "2 +0 +>-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "moura 2/2 31 cmpor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      }
+    ]
+  }
+}

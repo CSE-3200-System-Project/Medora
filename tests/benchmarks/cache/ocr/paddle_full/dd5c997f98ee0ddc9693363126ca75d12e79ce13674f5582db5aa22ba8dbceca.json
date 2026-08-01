@@ -1,0 +1,387 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "dd5c997f98ee0ddc9693363126ca75d12e79ce13674f5582db5aa22ba8dbceca",
+  "record_id": "RX-0030",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 14860.576799997943,
+  "failure": null,
+  "response_sha256": "bde0ad96c2719ec4d3098b5f1d66cdec3ae921b74dd1ceb1a8be7d4e8031aaa2",
+  "response": {
+    "raw_text": "C\n60\nTE\nARL\nlou\nOmidony\n+\ntee\nSK\ny\nCop\nLosectil-v\n)\nTab\nRocipro sp\nW-65\n)\ntarca-2.\nCap\nIcm(\nHH)-\n2\nLower.abcomial pain\n(Llt-nde)\nTA6\nDinw\n50n\n++\nDM.\nS\n.303\n3-c8-yahoo.co\n49-38909-39",
+    "lines": [
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 113.0,
+          "y_min": 125.0,
+          "x_max": 124.0,
+          "y_max": 132.0
+        },
+        "page": 1,
+        "confidence": 0.065
+      },
+      {
+        "text": "60",
+        "bbox": {
+          "x_min": 331.0,
+          "y_min": 135.0,
+          "x_max": 350.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "TE",
+        "bbox": {
+          "x_min": 365.0,
+          "y_min": 141.0,
+          "x_max": 390.0,
+          "y_max": 152.0
+        },
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "ARL",
+        "bbox": {
+          "x_min": 387.0,
+          "y_min": 138.0,
+          "x_max": 421.0,
+          "y_max": 149.0
+        },
+        "page": 1,
+        "confidence": 0.185
+      },
+      {
+        "text": "lou",
+        "bbox": {
+          "x_min": 287.0,
+          "y_min": 153.0,
+          "x_max": 307.0,
+          "y_max": 165.0
+        },
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Omidony",
+        "bbox": {
+          "x_min": 303.0,
+          "y_min": 151.0,
+          "x_max": 357.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.833
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 317.0,
+          "y_min": 170.0,
+          "x_max": 368.0,
+          "y_max": 188.0
+        },
+        "page": 1,
+        "confidence": 0.767
+      },
+      {
+        "text": "tee",
+        "bbox": {
+          "x_min": 372.0,
+          "y_min": 170.0,
+          "x_max": 391.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "SK",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 179.0,
+          "x_max": 392.0,
+          "y_max": 191.0
+        },
+        "page": 1,
+        "confidence": 0.387
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 395.0,
+          "y_min": 176.0,
+          "x_max": 436.0,
+          "y_max": 187.0
+        },
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Cop",
+        "bbox": {
+          "x_min": 293.0,
+          "y_min": 187.0,
+          "x_max": 317.0,
+          "y_max": 207.0
+        },
+        "page": 1,
+        "confidence": 0.93
+      },
+      {
+        "text": "Losectil-v",
+        "bbox": {
+          "x_min": 328.0,
+          "y_min": 189.0,
+          "x_max": 380.0,
+          "y_max": 208.0
+        },
+        "page": 1,
+        "confidence": 0.798
+      },
+      {
+        "text": ")",
+        "bbox": {
+          "x_min": 330.0,
+          "y_min": 215.0,
+          "x_max": 369.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.469
+      },
+      {
+        "text": "Tab",
+        "bbox": {
+          "x_min": 304.0,
+          "y_min": 234.0,
+          "x_max": 323.0,
+          "y_max": 247.0
+        },
+        "page": 1,
+        "confidence": 0.708
+      },
+      {
+        "text": "Rocipro sp",
+        "bbox": {
+          "x_min": 335.0,
+          "y_min": 229.0,
+          "x_max": 426.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.77
+      },
+      {
+        "text": "W-65",
+        "bbox": {
+          "x_min": 143.0,
+          "y_min": 253.0,
+          "x_max": 232.0,
+          "y_max": 274.0
+        },
+        "page": 1,
+        "confidence": 0.832
+      },
+      {
+        "text": ")",
+        "bbox": {
+          "x_min": 338.0,
+          "y_min": 256.0,
+          "x_max": 379.0,
+          "y_max": 270.0
+        },
+        "page": 1,
+        "confidence": 0.55
+      },
+      {
+        "text": "tarca-2.",
+        "bbox": {
+          "x_min": 156.0,
+          "y_min": 279.0,
+          "x_max": 221.0,
+          "y_max": 297.0
+        },
+        "page": 1,
+        "confidence": 0.779
+      },
+      {
+        "text": "Cap",
+        "bbox": {
+          "x_min": 313.0,
+          "y_min": 277.0,
+          "x_max": 330.0,
+          "y_max": 291.0
+        },
+        "page": 1,
+        "confidence": 0.951
+      },
+      {
+        "text": "Icm(",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 269.0,
+          "x_max": 431.0,
+          "y_max": 293.0
+        },
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "HH)-",
+        "bbox": {
+          "x_min": 352.0,
+          "y_min": 294.0,
+          "x_max": 395.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.643
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 285.0,
+          "x_max": 459.0,
+          "y_max": 313.0
+        },
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Lower.abcomial pain",
+        "bbox": {
+          "x_min": 157.0,
+          "y_min": 297.0,
+          "x_max": 277.0,
+          "y_max": 324.0
+        },
+        "page": 1,
+        "confidence": 0.869
+      },
+      {
+        "text": "(Llt-nde)",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 314.0,
+          "x_max": 276.0,
+          "y_max": 343.0
+        },
+        "page": 1,
+        "confidence": 0.668
+      },
+      {
+        "text": "TA6",
+        "bbox": {
+          "x_min": 322.0,
+          "y_min": 319.0,
+          "x_max": 345.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.372
+      },
+      {
+        "text": "Dinw",
+        "bbox": {
+          "x_min": 358.0,
+          "y_min": 316.0,
+          "x_max": 395.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.755
+      },
+      {
+        "text": "50n",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 309.0,
+          "x_max": 437.0,
+          "y_max": 329.0
+        },
+        "page": 1,
+        "confidence": 0.481
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 358.0,
+          "y_min": 336.0,
+          "x_max": 396.0,
+          "y_max": 354.0
+        },
+        "page": 1,
+        "confidence": 0.555
+      },
+      {
+        "text": "DM.",
+        "bbox": {
+          "x_min": 175.0,
+          "y_min": 350.0,
+          "x_max": 210.0,
+          "y_max": 368.0
+        },
+        "page": 1,
+        "confidence": 0.816
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 146.0,
+          "y_min": 369.0,
+          "x_max": 300.0,
+          "y_max": 404.0
+        },
+        "page": 1,
+        "confidence": 0.306
+      },
+      {
+        "text": ".303",
+        "bbox": {
+          "x_min": 95.0,
+          "y_min": 535.0,
+          "x_max": 243.0,
+          "y_max": 557.0
+        },
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "3-c8-yahoo.co",
+        "bbox": {
+          "x_min": 95.0,
+          "y_min": 541.0,
+          "x_max": 278.0,
+          "y_max": 571.0
+        },
+        "page": 1,
+        "confidence": 0.597
+      },
+      {
+        "text": "49-38909-39",
+        "bbox": {
+          "x_min": 99.0,
+          "y_min": 554.0,
+          "x_max": 277.0,
+          "y_max": 581.0
+        },
+        "page": 1,
+        "confidence": 0.603
+      }
+    ]
+  }
+}

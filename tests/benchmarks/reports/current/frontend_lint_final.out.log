@@ -1,0 +1,356 @@
+
+> frontend@0.1.0 lint
+> eslint
+
+
+C:\Code\System\Medora\frontend\app\(admin)\admin\appointments\page.tsx
+  7:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\app\(admin)\admin\audit-log\page.tsx
+  7:20  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\app\(admin)\admin\doctors\page.tsx
+  7:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  8:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\app\(admin)\admin\patients\page.tsx
+  7:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\app\(admin)\admin\users\page.tsx
+   7:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\app\(auth)\auth\confirm\route.ts
+  10:9   warning  'next' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  25:53  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+  28:41  warning  Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\admin\pages\admin-patients-client.tsx
+  229:5  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Code\System\Medora\frontend\components\admin\pages\admin-patients-client.tsx:229:5
+  227 |
+  228 |   useEffect(() => {
+> 229 |     setIsMounted(true);
+      |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  230 |   }, []);
+  231 |
+  232 |   useEffect(() => {  react-hooks/set-state-in-effect
+
+C:\Code\System\Medora\frontend\components\appointments\sync-appointment-to-calendar.tsx
+  34:13  warning  'result' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\System\Medora\frontend\components\doctor\availability-manager.tsx
+   15:10  warning  'Switch' is defined but never used            @typescript-eslint/no-unused-vars
+   79:7   warning  'HOURS' is assigned a value but never used    @typescript-eslint/no-unused-vars
+   80:7   warning  'MINUTES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  111:10  warning  'parseLegacyRange' is defined but never used  @typescript-eslint/no-unused-vars
+  171:15  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  176:54  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  297:21  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  317:21  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  326:21  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  347:21  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+  356:21  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\doctor\doctor-information-section.tsx
+   21:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   27:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  148:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  253:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  282:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\doctor\map-view.tsx
+  131:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\doctor\pages\patient-find-doctor-client.tsx
+  14:56  warning  'Clock' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\System\Medora\frontend\components\doctor\schedule-setter.tsx
+    7:10  warning  'Badge' is defined but never used                                @typescript-eslint/no-unused-vars
+    8:24  warning  'Clock' is defined but never used                                @typescript-eslint/no-unused-vars
+    9:10  warning  'cn' is defined but never used                                   @typescript-eslint/no-unused-vars
+  114:12  warning  'formatTimeRanges' is defined but never used                     @typescript-eslint/no-unused-vars
+  204:21  warning  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  240:47  warning  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  279:43  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  279:53  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Code\System\Medora\frontend\components\doctor\time-slot-grid.tsx
+   50:10  warning  'checkingCanComplete' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  102:21  warning  Unexpected any. Specify a different type                  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\medical-history\enhanced-medical-history-timeline.tsx
+  26:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\medical-history\medical-timeline.tsx
+  2:29  warning  'CardHeader' is defined but never used  @typescript-eslint/no-unused-vars
+  2:41  warning  'CardTitle' is defined but never used   @typescript-eslint/no-unused-vars
+
+C:\Code\System\Medora\frontend\components\medical-history\pages\patient-medical-history-client.tsx
+    19:15  warning  'Hospitalization' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+    20:15  warning  'Vaccination' is defined but never used                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   344:9   warning  'router' is assigned a value but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   347:10  warning  'saving' is assigned a value but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   368:10  warning  'surgeryFilter' is assigned a value but never used                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   369:10  warning  'surgerySourceFilter' is assigned a value but never used                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   370:10  warning  'addSurgeryDialogOpen' is assigned a value but never used                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   712:9   warning  'deleteSurgeryByIndex' is assigned a value but never used                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   731:9   warning  'saveNewSurgery' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   878:9   warning  'buildUnifiedSurgeries' is assigned a value but never used                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  1005:9   warning  'handleSave' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  1260:6   warning  React Hook React.useCallback has a missing dependency: 'tCommon'. Either include it or remove the dependency array                                                                                                                                                                       react-hooks/exhaustive-deps
+  1274:6   warning  React Hook React.useCallback has a missing dependency: 'tCommon'. Either include it or remove the dependency array                                                                                                                                                                       react-hooks/exhaustive-deps
+  1427:9   warning  'getComputedSurgeryStatusBadge' is assigned a value but never used                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  2883:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Code\System\Medora\frontend\components\medical-history\prescription-history-chart.tsx
+  31:6  warning  React Hook useMemo has unnecessary dependencies: 'doctorPrescriptions' and 'medications'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Code\System\Medora\frontend\components\medical-history\timeline-node.tsx
+  22:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\medical-history\timeline-utils.ts
+   86:17  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  114:13  warning  'secondary' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  139:53  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  158:48  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  161:49  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\medical-history\vitals-summary-card.tsx
+  65:16  warning  '_patientData' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\System\Medora\frontend\components\onboarding\patient-onboarding.tsx
+   34:7   warning  'translatedSteps' is assigned a value but never used                                                                 @typescript-eslint/no-unused-vars
+   75:7   warning  'translatedChronicConditions' is assigned a value but never used                                                     @typescript-eslint/no-unused-vars
+   90:7   warning  'translatedFamilyHistory' is assigned a value but never used                                                         @typescript-eslint/no-unused-vars
+  111:7   warning  'translatedStepGuidance' is assigned a value but never used                                                          @typescript-eslint/no-unused-vars
+  608:52  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  882:67  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  884:5   warning  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  908:63  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  910:5   warning  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  930:71  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  932:5   warning  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  952:67  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  954:5   warning  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  986:67  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  988:5   warning  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+C:\Code\System\Medora\frontend\components\prescription\SurgeryForm.tsx
+  10:38  warning  'SurgeryUrgency' is defined but never used  @typescript-eslint/no-unused-vars
+  48:89  warning  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\prescription\TestForm.tsx
+  10:33  warning  'TestUrgency' is defined but never used   @typescript-eslint/no-unused-vars
+  51:81  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\reminders\sync-reminder-to-calendar.tsx
+  36:13  warning  'result' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\doctor\home-doctor-appointments-client.tsx
+  111:6  warning  React Hook React.useEffect has a missing dependency: 'loadAppointments'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\doctor\home-doctor-patient-id-client.tsx
+    68:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    69:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    74:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    75:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    77:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   184:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   196:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   225:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   260:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   352:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   353:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   354:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   354:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   355:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   356:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   370:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   371:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   372:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   373:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   373:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   388:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   389:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   390:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   391:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   391:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   406:30  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   407:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   408:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   409:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   409:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   556:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   557:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   565:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   593:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   602:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   611:59  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   793:72  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   842:78  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1356:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1357:63  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1358:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1359:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1443:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1460:75  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1478:67  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\doctor\home-doctor-patient-report-detail-client.tsx
+  55:6   warning  React Hook React.useEffect has a missing dependency: 'loadReport'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  63:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  87:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\doctor\home-doctor-patient-reports-client.tsx
+  10:3   warning  'CardHeader' is defined but never used                                                                                @typescript-eslint/no-unused-vars
+  11:3   warning  'CardTitle' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+  27:3   warning  'AlertTriangle' is defined but never used                                                                             @typescript-eslint/no-unused-vars
+  42:6   warning  React Hook React.useEffect has a missing dependency: 'loadReports'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  50:19  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\doctor\home-doctor-patients-client.tsx
+    8:29  warning  'CardHeader' is defined but never used                           @typescript-eslint/no-unused-vars
+    8:41  warning  'CardTitle' is defined but never used                            @typescript-eslint/no-unused-vars
+   10:10  warning  'Button' is defined but never used                               @typescript-eslint/no-unused-vars
+   18:3   warning  'Clock' is defined but never used                                @typescript-eslint/no-unused-vars
+   24:3   warning  'ChevronRight' is defined but never used                         @typescript-eslint/no-unused-vars
+  183:79  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  183:93  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\notifications\home-notifications-client.tsx
+    7:29  warning  'CardHeader' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+    7:41  warning  'CardTitle' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+    9:10  warning  'Badge' is defined but never used                                                                                      @typescript-eslint/no-unused-vars
+   26:3   warning  'Filter' is defined but never used                                                                                     @typescript-eslint/no-unused-vars
+  146:6   warning  React Hook useEffect has a missing dependency: 'fetchNotifications'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-doctor-id-client.tsx
+  35:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-medical-reports-client.tsx
+   28:3   warning  'AlertTriangle' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   65:19  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  132:19  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  204:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-medical-reports-id-client.tsx
+  119:6   warning  React Hook React.useEffect has a missing dependency: 'loadReport'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  127:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  180:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  218:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  241:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  256:19  warning  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  657:25  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+  657:36  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-my-prescriptions-client.tsx
+   10:16  warning  'TabsContent' is defined but never used                                                                                     @typescript-eslint/no-unused-vars
+   67:6   warning  React Hook React.useEffect has a missing dependency: 'loadPrescriptions'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   77:19  warning  Unexpected any. Specify a different type                                                                                    @typescript-eslint/no-explicit-any
+   98:19  warning  Unexpected any. Specify a different type                                                                                    @typescript-eslint/no-explicit-any
+  127:19  warning  Unexpected any. Specify a different type                                                                                    @typescript-eslint/no-explicit-any
+  220:79  warning  Unexpected any. Specify a different type                                                                                    @typescript-eslint/no-explicit-any
+  336:33  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                             react/no-unescaped-entities
+  336:60  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                             react/no-unescaped-entities
+  384:33  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                             react/no-unescaped-entities
+  384:53  warning  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                             react/no-unescaped-entities
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-profile-client.tsx
+  134:6  warning  React Hook React.useEffect has a missing dependency: 'loadPatientProfile'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Code\System\Medora\frontend\components\screens\pages\home\patient\home-patient-reminders-client.tsx
+   59:6   warning  React Hook useEffect has a missing dependency: 'fetchReminders'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   73:19  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+   85:19  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  101:19  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\ui\reminder-dialog.tsx
+   91:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  323:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\components\ui\text.tsx
+  115:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\lib\patient-access-actions.ts
+   54:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  119:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  147:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  171:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\lib\use-realtime-slots.ts
+   3:29  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  23:3   warning  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Code\System\Medora\frontend\lib\use-realtime-slots.ts:23:3
+  21 | ) {
+  22 |   const callbackRef = useRef(onSlotChange);
+> 23 |   callbackRef.current = onSlotChange;
+     |   ^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  24 |
+  25 |   useEffect(() => {
+  26 |     if (!doctorId || !date || !SUPABASE_URL || !SUPABASE_ANON_KEY) return;  react-hooks/refs
+  42:42  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  42:66  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+
+C:\Code\System\Medora\frontend\lib\use-voice-recorder.ts
+  136:11  warning  Error: Cannot access variable before it is declared
+
+`stopRecording` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Code\System\Medora\frontend\lib\use-voice-recorder.ts:136:11
+  134 |         // Auto-stop at max duration
+  135 |         if (elapsed >= maxDuration) {
+> 136 |           stopRecording();
+      |           ^^^^^^^^^^^^^ `stopRecording` accessed before it is declared
+  137 |         }
+  138 |       }, 100);
+  139 |
+
+C:\Code\System\Medora\frontend\lib\use-voice-recorder.ts:153:3
+  151 |   }, [isSupported, maxDuration, onRecordingComplete]);
+  152 |
+> 153 |   const stopRecording = useCallback(() => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 154 |     if (timerRef.current) {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 155 |       clearInterval(timerRef.current);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 156 |       timerRef.current = null;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 157 |     }
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 158 |
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 159 |     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 160 |       mediaRecorderRef.current.stop();
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 161 |     }
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 162 |   }, []);
+      | ^^^^^^^^^^ `stopRecording` is declared here
+  163 |
+  164 |   const resetRecorder = useCallback(() => {
+  165 |     // Stop any ongoing recording  react-hooks/immutability
+  140:19  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  151:6   warning  React Hook useCallback has a missing dependency: 'stopRecording'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/exhaustive-deps
+
+C:\Code\System\Medora\frontend\types\html2pdf.d.ts
+  2:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 198 problems (0 errors, 198 warnings)
+
+MEDORA_GATE_PASSED exit_code=0

@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0068",
+  "source_sha256": "292db0daec300ea1c371b756e79357f3abf36bd7cdb7037dd39d5dba6a132aa9",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:34:23.764539+00:00",
+  "runtime_ms": 14988.52870000701,
+  "output": {
+    "medications": [
+      {
+        "name": "Mernas",
+        "matched_term": "Mernas",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      },
+      {
+        "name": "aceclofenac",
+        "matched_term": "aceclofenac",
+        "drug_id": "f4ab9b86-cffb-4b58-9b19-e7c1d99ae734",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.577
+      },
+      {
+        "name": "Lap",
+        "matched_term": "Lap",
+        "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+        "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.577
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.577
+      }
+    ],
+    "raw_text": "Mernas\n0-++7) -\n4% Aceciofenac (1)\nLap americ (10)\nORS (2)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 14930,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8984,
+      "yolo_min_confidence": 0.8984,
+      "yolo_max_confidence": 0.8984,
+      "ocr_avg_confidence": 0.437,
+      "ocr_min_confidence": 0.437,
+      "ocr_max_confidence": 0.437,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 231.741943359375,
+            "y_min": 274.38507080078125,
+            "x_max": 540.89892578125,
+            "y_max": 548.7236938476562
+          },
+          "score": 0.8984
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Mernas",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.437
+        },
+        {
+          "text": "0-++7) -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.437
+        },
+        {
+          "text": "4% Aceciofenac (1)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.437
+        },
+        {
+          "text": "Lap americ (10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.437
+        },
+        {
+          "text": "ORS (2)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.437
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

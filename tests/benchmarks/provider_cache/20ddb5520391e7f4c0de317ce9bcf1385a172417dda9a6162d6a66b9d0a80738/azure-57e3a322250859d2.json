@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0031",
+  "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:36:37.412810+00:00",
+  "runtime_ms": 15055.661299993517,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Heti Office\nMaskan dudinahJeddah\nTREATMENT CARDI 3ITEMS\nCom S018\nHEALTH PROFILE\n2991\nChiết Complaints:\nRx\n( 1205 )\n+ Tab Fexofenadine\notper-\nOme prajete\nJisposting\nFrohnanaf Diegopires",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Bangladesh Heti Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Maskan dudinahJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "TREATMENT CARDI 3ITEMS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Com S018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "2991",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Chiết Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "( 1205 )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "+ Tab Fexofenadine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "otper-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Ome prajete",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Jisposting",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Frohnanaf Diegopires",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "Bangladesh Heti Office",
+        "matched_term": "Bangladesh Heti Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Maskan Dudinahjeddah",
+        "matched_term": "Maskan Dudinahjeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Treatment Cardi Items",
+        "matched_term": "Treatment Cardi Items",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Como",
+        "matched_term": "Como",
+        "drug_id": "df7e297a-58ba-422f-8f87-45d21e7eb094",
+        "brand_id": "96f96d55-113c-496b-bfc6-599baf96c709",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "Chi Complaints Rx",
+        "matched_term": "Chi Complaints Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Fexofenadine",
+        "matched_term": "Fexofenadine",
+        "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+        "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "Otper",
+        "matched_term": "Otper",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Ome",
+        "matched_term": "Ome",
+        "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+        "brand_id": "8257b2ec-8dd7-4c06-adcd-f3036520fbd3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.68
+      },
+      {
+        "name": "Jisposting",
+        "matched_term": "Jisposting",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      },
+      {
+        "name": "Frohnanaf Diegopires",
+        "matched_term": "Frohnanaf Diegopires",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      }
+    ]
+  }
+}

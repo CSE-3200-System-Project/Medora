@@ -1,0 +1,1321 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0003",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "raw_transcription": ". Cap.\nsecto (20g)\n2tot?\n20\n. Tab.\nDomingoy\nessyro\n2+2+3.\n20\n· Cap. Ferfol\n>toto\nRend to SPL of\nGynae & obs.\nof DCMH for needful\naction.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "D-Cap",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Secto Tot",
+      "strength": "20g",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Domingoy",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Essyro",
+      "strength": "",
+      "dose": "",
+      "frequency": "2+2+3",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ferofol",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Toto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rend To Spl",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Gynae Obs",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Of Dcmh For",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Actinion",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "6370f2c24a7d363fb99e19b98d3a03a02dbee57c21e6b7b02e8010a38ef1af87"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "0f21484a4b7e608aec4f5ea91b7eedc8ed258c0d83967d05ab656d539cb72119"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "a10d60780231673e1b42a8cd69e8e2c4e2c93eeba7ea10a706045591e93b36d9"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Solo\nhoc Weoc\ne\nC\no\nO\n+\nictso\nhua\nhleneenrir\nlofey\n0+0+C\nos e+Pyoy\n+c+c\nC+o+c\nD\nof\nf\nqbL\nLepton\no\nA\nO\nf\nerfes\nS\n16\nO\nAng\n2\nHSt\nNPU\nU\nO\nof\n-90b0\nAgla",
+      "lines": [
+        {
+          "text": "Solo",
+          "bbox": {
+            "x_min": 1405.0,
+            "y_min": 236.0,
+            "x_max": 1750.0,
+            "y_max": 939.0
+          },
+          "page": 1,
+          "confidence": 0.233
+        },
+        {
+          "text": "hoc Weoc",
+          "bbox": {
+            "x_min": 2352.0,
+            "y_min": 246.0,
+            "x_max": 2539.0,
+            "y_max": 969.0
+          },
+          "page": 1,
+          "confidence": 0.542
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 2641.0,
+            "y_min": 285.0,
+            "x_max": 2689.0,
+            "y_max": 323.0
+          },
+          "page": 1,
+          "confidence": 0.48
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 2643.0,
+            "y_min": 316.0,
+            "x_max": 2692.0,
+            "y_max": 354.0
+          },
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 2018.0,
+            "y_min": 317.0,
+            "x_max": 2115.0,
+            "y_max": 444.0
+          },
+          "page": 1,
+          "confidence": 0.112
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3154.0,
+            "y_min": 367.0,
+            "x_max": 3174.0,
+            "y_max": 380.0
+          },
+          "page": 1,
+          "confidence": 0.083
+        },
+        {
+          "text": "+",
+          "bbox": {
+            "x_min": 3447.0,
+            "y_min": 368.0,
+            "x_max": 3636.0,
+            "y_max": 596.0
+          },
+          "page": 1,
+          "confidence": 0.399
+        },
+        {
+          "text": "ictso",
+          "bbox": {
+            "x_min": 2539.0,
+            "y_min": 390.0,
+            "x_max": 2670.0,
+            "y_max": 696.0
+          },
+          "page": 1,
+          "confidence": 0.602
+        },
+        {
+          "text": "hua",
+          "bbox": {
+            "x_min": 2697.0,
+            "y_min": 419.0,
+            "x_max": 2811.0,
+            "y_max": 665.0
+          },
+          "page": 1,
+          "confidence": 0.209
+        },
+        {
+          "text": "hleneenrir",
+          "bbox": {
+            "x_min": 2039.0,
+            "y_min": 497.0,
+            "x_max": 2291.0,
+            "y_max": 1304.0
+          },
+          "page": 1,
+          "confidence": 0.558
+        },
+        {
+          "text": "lofey",
+          "bbox": {
+            "x_min": 2901.0,
+            "y_min": 489.0,
+            "x_max": 3137.0,
+            "y_max": 957.0
+          },
+          "page": 1,
+          "confidence": 0.806
+        },
+        {
+          "text": "0+0+C",
+          "bbox": {
+            "x_min": 3132.0,
+            "y_min": 525.0,
+            "x_max": 3304.0,
+            "y_max": 989.0
+          },
+          "page": 1,
+          "confidence": 0.617
+        },
+        {
+          "text": "os e+Pyoy",
+          "bbox": {
+            "x_min": 3459.0,
+            "y_min": 612.0,
+            "x_max": 3663.0,
+            "y_max": 1642.0
+          },
+          "page": 1,
+          "confidence": 0.517
+        },
+        {
+          "text": "+c+c",
+          "bbox": {
+            "x_min": 2619.0,
+            "y_min": 655.0,
+            "x_max": 2752.0,
+            "y_max": 1090.0
+          },
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "C+o+c",
+          "bbox": {
+            "x_min": 1871.0,
+            "y_min": 661.0,
+            "x_max": 2015.0,
+            "y_max": 1113.0
+          },
+          "page": 1,
+          "confidence": 0.728
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 0.0,
+            "y_min": 877.0,
+            "x_max": 247.0,
+            "y_max": 2445.0
+          },
+          "page": 1,
+          "confidence": 0.402
+        },
+        {
+          "text": "of",
+          "bbox": {
+            "x_min": 1512.0,
+            "y_min": 1053.0,
+            "x_max": 1811.0,
+            "y_max": 1375.0
+          },
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 2973.0,
+            "y_min": 1071.0,
+            "x_max": 3179.0,
+            "y_max": 1327.0
+          },
+          "page": 1,
+          "confidence": 0.083
+        },
+        {
+          "text": "qbL",
+          "bbox": {
+            "x_min": 2406.0,
+            "y_min": 1093.0,
+            "x_max": 2551.0,
+            "y_max": 1390.0
+          },
+          "page": 1,
+          "confidence": 0.384
+        },
+        {
+          "text": "Lepton",
+          "bbox": {
+            "x_min": 4066.0,
+            "y_min": 1129.0,
+            "x_max": 4199.0,
+            "y_max": 1643.0
+          },
+          "page": 1,
+          "confidence": 0.611
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 193.0,
+            "y_min": 1269.0,
+            "x_max": 380.0,
+            "y_max": 1821.0
+          },
+          "page": 1,
+          "confidence": 0.372
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 3849.0,
+            "y_min": 1330.0,
+            "x_max": 3861.0,
+            "y_max": 1348.0
+          },
+          "page": 1,
+          "confidence": 0.163
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1173.0,
+            "y_min": 1343.0,
+            "x_max": 1181.0,
+            "y_max": 1356.0
+          },
+          "page": 1,
+          "confidence": 0.148
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 3893.0,
+            "y_min": 1457.0,
+            "x_max": 4033.0,
+            "y_max": 1622.0
+          },
+          "page": 1,
+          "confidence": 0.146
+        },
+        {
+          "text": "erfes",
+          "bbox": {
+            "x_min": 3282.0,
+            "y_min": 1897.0,
+            "x_max": 3543.0,
+            "y_max": 2779.0
+          },
+          "page": 1,
+          "confidence": 0.488
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 397.0,
+            "y_min": 1910.0,
+            "x_max": 405.0,
+            "y_max": 1938.0
+          },
+          "page": 1,
+          "confidence": 0.138
+        },
+        {
+          "text": "16",
+          "bbox": {
+            "x_min": 633.0,
+            "y_min": 2052.0,
+            "x_max": 808.0,
+            "y_max": 2337.0
+          },
+          "page": 1,
+          "confidence": 0.377
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 714.0,
+            "y_min": 2097.0,
+            "x_max": 720.0,
+            "y_max": 2104.0
+          },
+          "page": 1,
+          "confidence": 0.199
+        },
+        {
+          "text": "Ang",
+          "bbox": {
+            "x_min": 1184.0,
+            "y_min": 2112.0,
+            "x_max": 1459.0,
+            "y_max": 2570.0
+          },
+          "page": 1,
+          "confidence": 0.615
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 520.0,
+            "y_min": 2188.0,
+            "x_max": 657.0,
+            "y_max": 2570.0
+          },
+          "page": 1,
+          "confidence": 0.589
+        },
+        {
+          "text": "HSt",
+          "bbox": {
+            "x_min": 3738.0,
+            "y_min": 2252.0,
+            "x_max": 3846.0,
+            "y_max": 2476.0
+          },
+          "page": 1,
+          "confidence": 0.372
+        },
+        {
+          "text": "NPU",
+          "bbox": {
+            "x_min": 3144.0,
+            "y_min": 2476.0,
+            "x_max": 3254.0,
+            "y_max": 2725.0
+          },
+          "page": 1,
+          "confidence": 0.406
+        },
+        {
+          "text": "U",
+          "bbox": {
+            "x_min": 1048.0,
+            "y_min": 2573.0,
+            "x_max": 1090.0,
+            "y_max": 2633.0
+          },
+          "page": 1,
+          "confidence": 0.238
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3559.0,
+            "y_min": 2686.0,
+            "x_max": 3566.0,
+            "y_max": 2692.0
+          },
+          "page": 1,
+          "confidence": 0.1
+        },
+        {
+          "text": "of",
+          "bbox": {
+            "x_min": 106.0,
+            "y_min": 2772.0,
+            "x_max": 389.0,
+            "y_max": 3096.0
+          },
+          "page": 1,
+          "confidence": 0.359
+        },
+        {
+          "text": "-90b0",
+          "bbox": {
+            "x_min": 936.0,
+            "y_min": 2964.0,
+            "x_max": 1273.0,
+            "y_max": 3468.0
+          },
+          "page": 1,
+          "confidence": 0.777
+        },
+        {
+          "text": "Agla",
+          "bbox": {
+            "x_min": 612.0,
+            "y_min": 3056.0,
+            "x_max": 732.0,
+            "y_max": 3267.0
+          },
+          "page": 1,
+          "confidence": 0.527
+        }
+      ],
+      "medications": [
+        {
+          "name": "Solo",
+          "matched_term": "Solo",
+          "drug_id": "b25c82fc-0616-4964-a037-c085e0ea30df",
+          "brand_id": "2c346d3e-a5a0-4470-91a6-eaf7fb59adb9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.485
+        },
+        {
+          "name": "Adhocof",
+          "matched_term": "Adhocof",
+          "drug_id": "23d6efcc-6c77-4b09-9f8f-eac3518528c7",
+          "brand_id": "c703fb9f-7f62-487e-8504-d3104366dfd1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.528
+        },
+        {
+          "name": "Ictso",
+          "matched_term": "Ictso",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Olium Morrhuae",
+          "matched_term": "Olium Morrhuae",
+          "drug_id": "4eab836e-7d72-4d55-b4fb-894275ee98ad",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.474
+        },
+        {
+          "name": "Lofey",
+          "matched_term": "Lofey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.363
+        },
+        {
+          "name": "Hleneenrir",
+          "matched_term": "Hleneenrir",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.264
+        },
+        {
+          "name": "Os Pyoy Of",
+          "matched_term": "Os Pyoy Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.206
+        },
+        {
+          "name": "Qbl",
+          "matched_term": "Qbl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.173
+        },
+        {
+          "name": "Lepton",
+          "matched_term": "Lepton",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.13
+        },
+        {
+          "name": "Erfes",
+          "matched_term": "Erfes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.135
+        },
+        {
+          "name": "Ang",
+          "matched_term": "Ang",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Hst",
+          "matched_term": "Hst",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.167
+        },
+        {
+          "name": "Npu Of",
+          "matched_term": "Npu Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.169
+        },
+        {
+          "name": "Agla",
+          "matched_term": "Agla",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.237
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "W/O\n42\nकिकिश्मक कड़क ब्बानीव बादइन4\n40 ye\nजांगीड नाय MEt Siddidee Mego (x) सक्षम\n420377\nहिकिश्माकब बारशमना\nस्वादगव नाग\nशिर\nSIM\n09-06-16\nce -\nDPVY\nAdv\n0\n0\nपति:\n-5, 15Ft.\nQUAVIRRA BO 3MUY\n· Cap,\nsecto\n204\n?tot?\n20\n· Tab. Domin (Joy]\neszyro\n20\n· Cap. Feofol\ntoto\nRend to SPL of\nhe Gynae & obs.\nof DCMH for needful\naction.\nविथ",
+      "lines": [
+        {
+          "text": "W/O",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "42",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "किकिश्मक कड़क ब्बानीव बादइन4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "40 ye",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "जांगीड नाय MEt Siddidee Mego (x) सक्षम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "420377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "हिकिश्माकब बारशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "स्वादगव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "शिर",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "SIM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "09-06-16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "ce -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "DPVY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Adv",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "पति:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "-5, 15Ft.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "QUAVIRRA BO 3MUY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· Cap,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "secto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "204",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "?tot?",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· Tab. Domin (Joy]",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "eszyro",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "· Cap. Feofol",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "toto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "Rend to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "he Gynae & obs.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "of DCMH for needful",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "action.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        },
+        {
+          "text": "विथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.534
+        }
+      ],
+      "medications": [
+        {
+          "name": "Met",
+          "matched_term": "Met",
+          "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+          "brand_id": "674e7136-7a18-466e-a2cb-ba704f96a6ff",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Sim 10",
+          "matched_term": "Sim 10",
+          "drug_id": "7f207bd8-b9f9-454b-b2b9-1e82a32c96fb",
+          "brand_id": "2aa74c48-2b81-4119-8c4c-2b6cbca3b16f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.454
+        },
+        {
+          "name": "Dpvy",
+          "matched_term": "Dpvy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Adv Ft",
+          "matched_term": "Adv Ft",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Quavirra Bo Muy",
+          "matched_term": "Quavirra Bo Muy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Secto",
+          "matched_term": "Secto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Toti",
+          "matched_term": "Toti",
+          "drug_id": "ce9bb01f-7c41-4462-a295-b236bf931543",
+          "brand_id": "8fca6ded-cf77-4ecc-8993-c7b75090dfed",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Domin",
+          "matched_term": "Domin",
+          "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+          "brand_id": "a1d867fd-bc4e-4b26-856b-eee54917bd35",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Eszyro",
+          "matched_term": "Eszyro",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Feofol",
+          "matched_term": "Feofol",
+          "drug_id": "55191a5c-94e5-4798-af83-d1e3d88626fd",
+          "brand_id": "631f4972-8b86-4bf9-a1bb-c7433b7fe969",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        },
+        {
+          "name": "Toto",
+          "matched_term": "Toto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Rend To Spl",
+          "matched_term": "Rend To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "He Gynae Obs",
+          "matched_term": "He Gynae Obs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Of Dcmh For",
+          "matched_term": "Of Dcmh For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.24
+        },
+        {
+          "name": "Actinion",
+          "matched_term": "Actinion",
+          "drug_id": "ace63150-2259-4658-88ea-7f61efbd9b37",
+          "brand_id": "5bedc0af-07cb-41e8-9bcd-1bb8c9f769ef",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.62
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.698
+        },
+        {
+          "name": "Secto Tot",
+          "matched_term": "Secto Tot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.369
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.698
+        },
+        {
+          "name": "Domingoy",
+          "matched_term": "Domingoy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "Essyro",
+          "matched_term": "Essyro",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "2+2+3",
+          "quantity": null,
+          "confidence": 0.367
+        },
+        {
+          "name": "Ferofol",
+          "matched_term": "Ferofol",
+          "drug_id": "ceb7a0f2-e215-41d0-83b3-2d0ce4d681cb",
+          "brand_id": "41327e8e-8b54-4c35-9cde-cd565e531de1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.698
+        },
+        {
+          "name": "Toto",
+          "matched_term": "Toto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "Rend To Spl",
+          "matched_term": "Rend To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "Gynae Obs",
+          "matched_term": "Gynae Obs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "Of Dcmh For",
+          "matched_term": "Of Dcmh For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.318
+        },
+        {
+          "name": "Actinion",
+          "matched_term": "Actinion",
+          "drug_id": "ace63150-2259-4658-88ea-7f61efbd9b37",
+          "brand_id": "5bedc0af-07cb-41e8-9bcd-1bb8c9f769ef",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.698
+        }
+      ],
+      "raw_text": ". Cap.\nsecto (20g)\n2tot?\n20\n. Tab.\nDomingoy\nessyro\n2+2+3.\n20\n· Cap. Ferfol\n>toto\nRend to SPL of\nGynae & obs.\nof DCMH for needful\naction.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 12623,
+        "detected_regions": 1,
+        "ocr_line_count": 15,
+        "yolo_avg_confidence": 0.8621,
+        "yolo_min_confidence": 0.8621,
+        "yolo_max_confidence": 0.8621,
+        "ocr_avg_confidence": 0.706,
+        "ocr_min_confidence": 0.706,
+        "ocr_max_confidence": 0.706,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1719.0395668029785,
+              "y_min": 1015.6696769714355,
+              "x_max": 3342.6587738037106,
+              "y_max": 4406.763600158691
+            },
+            "score": 0.8621
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": ". Cap.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "secto (20g)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "2tot?",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": ". Tab.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "Domingoy",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "essyro",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "2+2+3.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "20",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "· Cap. Ferfol",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": ">toto",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "Rend to SPL of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "Gynae & obs.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "of DCMH for needful",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          },
+          {
+            "text": "action.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.706
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

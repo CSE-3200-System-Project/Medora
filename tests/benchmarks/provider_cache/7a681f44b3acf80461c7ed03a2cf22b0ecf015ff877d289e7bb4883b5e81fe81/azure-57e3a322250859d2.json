@@ -1,0 +1,365 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0039",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:40:47.728119+00:00",
+  "runtime_ms": 15990.864899998996,
+  "output": {
+    "raw_text": "ग्राऊ (शरमन (सजीव)\nDr. Md. Sakhawat Hossain (Sajib)\nM.B.B.S.(D.U), C.C.D (Birdem)\nM.D (Pediatric)- 1CMH\nरहा इनिशि क, मांडूस्विंग, प्रायः।\nनवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका\nDate : 4.2.2024.\nAge 28, 4%:\nSalib.\nR\n. Tis. Tridenil\n(500 mg)\n0+0+2\n(200mg)\n# Ris. Doncomma\n2+012\n* Gis. Anokast (10mg)\n. Sap. Ambosist.\n960\n2 × Car\n. Tins. Perofast (120mo)\n02075\n. Flunispray Nasal Spray.\n2. กด * 2. สท 25 - 2 บาท\nGait\nD.\ndr.\n1\nDeslor",
+    "lines": [
+      {
+        "text": "ग्राऊ (शरमन (सजीव)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Dr. Md. Sakhawat Hossain (Sajib)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "M.B.B.S.(D.U), C.C.D (Birdem)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "M.D (Pediatric)- 1CMH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "रहा इनिशि क, मांडूस्विंग, प्रायः।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "नवशाइक, मि०, विश्वास निर्णयज, एलकिजिन के कामाइकलरोस (वाटण विका",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Date : 4.2.2024.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Age 28, 4%:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Salib.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Tis. Tridenil",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "(500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "0+0+2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "(200mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "# Ris. Doncomma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2+012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "* Gis. Anokast (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Sap. Ambosist.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "960",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2 × Car",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Tins. Perofast (120mo)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "02075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": ". Flunispray Nasal Spray.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "2. กด * 2. สท 25 - 2 บาท",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Gait",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "D.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "dr.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Deslor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Md Sakhawat",
+        "matched_term": "Dr Md Sakhawat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Birdem",
+        "matched_term": "Birdem",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Pediatric Cmh",
+        "matched_term": "Pediatric Cmh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Saliben",
+        "matched_term": "Saliben",
+        "drug_id": "cd25e33a-7964-430b-9df3-e3e0adec026e",
+        "brand_id": "377ff0c3-2d24-4fbb-a27f-f308a3366e74",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Tis Tridenil",
+        "matched_term": "Tis Tridenil",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.336
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.287
+      },
+      {
+        "name": "Rise",
+        "matched_term": "Rise",
+        "drug_id": "be9ee231-41e9-4016-8f3b-1c6b50d72218",
+        "brand_id": "fa0ff396-8264-4bf6-8a26-e1e3d59bf294",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Gist",
+        "matched_term": "Gist",
+        "drug_id": "2292a75c-161a-4c0d-acea-15fffb739b73",
+        "brand_id": "62dd549a-fcb2-4d56-be91-56d4261ab053",
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.667
+      },
+      {
+        "name": "Sap Ambosist",
+        "matched_term": "Sap Ambosist",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "AP-Car",
+        "matched_term": "AP-Car",
+        "drug_id": "1c2decca-1a58-4d7c-8158-83ebae930ca0",
+        "brand_id": "3af72850-670e-4285-a050-45928c5d6272",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Tins Perofast Mo",
+        "matched_term": "Tins Perofast Mo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Fluair Nasal Spray",
+        "matched_term": "Fluair Nasal Spray",
+        "drug_id": "08773e14-f1be-4594-9774-cd684d0b1a48",
+        "brand_id": "1d1462f9-c4d4-42f5-82d6-57c4a7586e7a",
+        "dosage": null,
+        "frequency": "2+2+2",
+        "quantity": null,
+        "confidence": 0.665
+      },
+      {
+        "name": "Gait Dr",
+        "matched_term": "Gait Dr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Deslor",
+        "matched_term": "Deslor",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      }
+    ]
+  }
+}

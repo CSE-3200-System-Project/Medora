@@ -1,0 +1,2022 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0076",
+  "source_sha256": "f984b0862482568943b8daeec1876767956b5e47bafdf2e1f0bdee7995bd6618",
+  "raw_transcription": "Angulock\n(\n0+07\n1\n12.\nCinnamon (13-\n1\n1+011\n50\n1\nComet 1\n€\n-6m\nअमूल एक\n(मालिमिन) डि. कार्ड (कार्डियनछि)\nने विनयष्ट\nPantano\n١\n100\n1",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Angilock",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cinnamon Oil",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Comet",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pantac",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "590b26ad403dd8c8b78b44ea7d2c526d957bea2fc8443d811d6a2bec67a64b9a"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "1df6f2ef43ef1a6c41492ead8c76466ab8e8fd65432853332890345ae753ab74"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "5f8d828a7fd20cef9c067f72e09b915b041cfe2a7b5d9d40b65ff9701cf2da66"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "te\nPhrrrrrrrray\nareeeeases\n217\nM\n8106-60-0\nC\nmu\n5\nW\nS1\nT\nnas)y2b\nwn\nCaareooe\n1T\nMmnnnor\nt\n3\nvwour\nSATTS\nL0+0\nC\nDaaabneebhhmneehneg\n+\nR\nRrrrrnnnrrarran nnn ennnarnnnn\nhareanes\n1\nDenrnnnng\nNIH.\nbo\nSISCAY\nBonnaonnp\n2\nysseee\nAgeesex\nEAACTIEES\nn\nTne\neae\nPE\nC\nPaahooey\nEanrerraaenrrry\n4\nBN SNT\nC\nO\nPOOOISHZ\n00\nS\nUnrrrrrrrrrren\n-\nP\n311307\nPP\n6d\n81.b0c0x5hpS1\nFV\n-\neheaaisst\nW\nXray\n3\n1\nON O/d\nName\nRany\nunt",
+      "lines": [
+        {
+          "text": "te",
+          "bbox": {
+            "x_min": 2994.0,
+            "y_min": 321.0,
+            "x_max": 3067.0,
+            "y_max": 489.0
+          },
+          "page": 1,
+          "confidence": 0.245
+        },
+        {
+          "text": "Phrrrrrrrray",
+          "bbox": {
+            "x_min": 4025.0,
+            "y_min": 349.0,
+            "x_max": 4088.0,
+            "y_max": 667.0
+          },
+          "page": 1,
+          "confidence": 0.412
+        },
+        {
+          "text": "areeeeases",
+          "bbox": {
+            "x_min": 4093.0,
+            "y_min": 346.0,
+            "x_max": 4158.0,
+            "y_max": 654.0
+          },
+          "page": 1,
+          "confidence": 0.395
+        },
+        {
+          "text": "217",
+          "bbox": {
+            "x_min": 2553.0,
+            "y_min": 399.0,
+            "x_max": 2607.0,
+            "y_max": 543.0
+          },
+          "page": 1,
+          "confidence": 0.623
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 3645.0,
+            "y_min": 528.0,
+            "x_max": 3716.0,
+            "y_max": 653.0
+          },
+          "page": 1,
+          "confidence": 0.215
+        },
+        {
+          "text": "8106-60-0",
+          "bbox": {
+            "x_min": 1551.0,
+            "y_min": 643.0,
+            "x_max": 1658.0,
+            "y_max": 1251.0
+          },
+          "page": 1,
+          "confidence": 0.739
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1337.0,
+            "y_min": 657.0,
+            "x_max": 1377.0,
+            "y_max": 706.0
+          },
+          "page": 1,
+          "confidence": 0.401
+        },
+        {
+          "text": "mu",
+          "bbox": {
+            "x_min": 3168.0,
+            "y_min": 672.0,
+            "x_max": 3316.0,
+            "y_max": 1105.0
+          },
+          "page": 1,
+          "confidence": 0.426
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 3782.0,
+            "y_min": 679.0,
+            "x_max": 3880.0,
+            "y_max": 878.0
+          },
+          "page": 1,
+          "confidence": 0.823
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 1332.0,
+            "y_min": 698.0,
+            "x_max": 1390.0,
+            "y_max": 799.0
+          },
+          "page": 1,
+          "confidence": 0.712
+        },
+        {
+          "text": "S1",
+          "bbox": {
+            "x_min": 2804.0,
+            "y_min": 734.0,
+            "x_max": 2878.0,
+            "y_max": 875.0
+          },
+          "page": 1,
+          "confidence": 0.43
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 3402.0,
+            "y_min": 739.0,
+            "x_max": 3439.0,
+            "y_max": 791.0
+          },
+          "page": 1,
+          "confidence": 0.347
+        },
+        {
+          "text": "nas)y2b",
+          "bbox": {
+            "x_min": 2366.0,
+            "y_min": 756.0,
+            "x_max": 2482.0,
+            "y_max": 1323.0
+          },
+          "page": 1,
+          "confidence": 0.482
+        },
+        {
+          "text": "wn",
+          "bbox": {
+            "x_min": 3623.0,
+            "y_min": 776.0,
+            "x_max": 3712.0,
+            "y_max": 1032.0
+          },
+          "page": 1,
+          "confidence": 0.314
+        },
+        {
+          "text": "Caareooe",
+          "bbox": {
+            "x_min": 4045.0,
+            "y_min": 779.0,
+            "x_max": 4115.0,
+            "y_max": 1010.0
+          },
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "1T",
+          "bbox": {
+            "x_min": 3383.0,
+            "y_min": 797.0,
+            "x_max": 3439.0,
+            "y_max": 983.0
+          },
+          "page": 1,
+          "confidence": 0.268
+        },
+        {
+          "text": "Mmnnnor",
+          "bbox": {
+            "x_min": 4111.0,
+            "y_min": 795.0,
+            "x_max": 4190.0,
+            "y_max": 1005.0
+          },
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "t",
+          "bbox": {
+            "x_min": 2983.0,
+            "y_min": 826.0,
+            "x_max": 3047.0,
+            "y_max": 1053.0
+          },
+          "page": 1,
+          "confidence": 0.401
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 3663.0,
+            "y_min": 840.0,
+            "x_max": 3671.0,
+            "y_max": 857.0
+          },
+          "page": 1,
+          "confidence": 0.158
+        },
+        {
+          "text": "vwour",
+          "bbox": {
+            "x_min": 2778.0,
+            "y_min": 876.0,
+            "x_max": 2898.0,
+            "y_max": 1169.0
+          },
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "SATTS",
+          "bbox": {
+            "x_min": 1326.0,
+            "y_min": 897.0,
+            "x_max": 1416.0,
+            "y_max": 1237.0
+          },
+          "page": 1,
+          "confidence": 0.653
+        },
+        {
+          "text": "L0+0",
+          "bbox": {
+            "x_min": 2544.0,
+            "y_min": 923.0,
+            "x_max": 2608.0,
+            "y_max": 1188.0
+          },
+          "page": 1,
+          "confidence": 0.488
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3390.0,
+            "y_min": 963.0,
+            "x_max": 3426.0,
+            "y_max": 1027.0
+          },
+          "page": 1,
+          "confidence": 0.371
+        },
+        {
+          "text": "Daaabneebhhmneehneg",
+          "bbox": {
+            "x_min": 843.0,
+            "y_min": 1067.0,
+            "x_max": 954.0,
+            "y_max": 2188.0
+          },
+          "page": 1,
+          "confidence": 0.309
+        },
+        {
+          "text": "+",
+          "bbox": {
+            "x_min": 1469.0,
+            "y_min": 1063.0,
+            "x_max": 1547.0,
+            "y_max": 1292.0
+          },
+          "page": 1,
+          "confidence": 0.728
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 2839.0,
+            "y_min": 1123.0,
+            "x_max": 2845.0,
+            "y_max": 1131.0
+          },
+          "page": 1,
+          "confidence": 0.087
+        },
+        {
+          "text": "Rrrrrnnnrrarran nnn ennnarnnnn",
+          "bbox": {
+            "x_min": 1206.0,
+            "y_min": 1135.0,
+            "x_max": 1306.0,
+            "y_max": 2373.0
+          },
+          "page": 1,
+          "confidence": 0.388
+        },
+        {
+          "text": "hareanes",
+          "bbox": {
+            "x_min": 4152.0,
+            "y_min": 1144.0,
+            "x_max": 4260.0,
+            "y_max": 1451.0
+          },
+          "page": 1,
+          "confidence": 0.463
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 3673.0,
+            "y_min": 1203.0,
+            "x_max": 3707.0,
+            "y_max": 1243.0
+          },
+          "page": 1,
+          "confidence": 0.236
+        },
+        {
+          "text": "Denrnnnng",
+          "bbox": {
+            "x_min": 4089.0,
+            "y_min": 1204.0,
+            "x_max": 4180.0,
+            "y_max": 1455.0
+          },
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "NIH.",
+          "bbox": {
+            "x_min": 2089.0,
+            "y_min": 1302.0,
+            "x_max": 2170.0,
+            "y_max": 1470.0
+          },
+          "page": 1,
+          "confidence": 0.771
+        },
+        {
+          "text": "bo",
+          "bbox": {
+            "x_min": 2166.0,
+            "y_min": 1300.0,
+            "x_max": 2236.0,
+            "y_max": 1404.0
+          },
+          "page": 1,
+          "confidence": 0.243
+        },
+        {
+          "text": "SISCAY",
+          "bbox": {
+            "x_min": 660.0,
+            "y_min": 1323.0,
+            "x_max": 804.0,
+            "y_max": 1972.0
+          },
+          "page": 1,
+          "confidence": 0.509
+        },
+        {
+          "text": "Bonnaonnp",
+          "bbox": {
+            "x_min": 1497.0,
+            "y_min": 1320.0,
+            "x_max": 1561.0,
+            "y_max": 1618.0
+          },
+          "page": 1,
+          "confidence": 0.458
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2801.0,
+            "y_min": 1339.0,
+            "x_max": 2876.0,
+            "y_max": 1425.0
+          },
+          "page": 1,
+          "confidence": 0.151
+        },
+        {
+          "text": "ysseee",
+          "bbox": {
+            "x_min": 1615.0,
+            "y_min": 1389.0,
+            "x_max": 1678.0,
+            "y_max": 1611.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "Ageesex",
+          "bbox": {
+            "x_min": 1377.0,
+            "y_min": 1422.0,
+            "x_max": 1448.0,
+            "y_max": 1625.0
+          },
+          "page": 1,
+          "confidence": 0.591
+        },
+        {
+          "text": "EAACTIEES",
+          "bbox": {
+            "x_min": 4037.0,
+            "y_min": 1434.0,
+            "x_max": 4134.0,
+            "y_max": 1701.0
+          },
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "n",
+          "bbox": {
+            "x_min": 2402.0,
+            "y_min": 1462.0,
+            "x_max": 2485.0,
+            "y_max": 1528.0
+          },
+          "page": 1,
+          "confidence": 0.117
+        },
+        {
+          "text": "Tne",
+          "bbox": {
+            "x_min": 1734.0,
+            "y_min": 1486.0,
+            "x_max": 1794.0,
+            "y_max": 1612.0
+          },
+          "page": 1,
+          "confidence": 0.819
+        },
+        {
+          "text": "eae",
+          "bbox": {
+            "x_min": 3772.0,
+            "y_min": 1511.0,
+            "x_max": 3882.0,
+            "y_max": 1652.0
+          },
+          "page": 1,
+          "confidence": 0.352
+        },
+        {
+          "text": "PE",
+          "bbox": {
+            "x_min": 3869.0,
+            "y_min": 1572.0,
+            "x_max": 3932.0,
+            "y_max": 1644.0
+          },
+          "page": 1,
+          "confidence": 0.252
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3751.0,
+            "y_min": 1591.0,
+            "x_max": 3798.0,
+            "y_max": 1651.0
+          },
+          "page": 1,
+          "confidence": 0.443
+        },
+        {
+          "text": "Paahooey",
+          "bbox": {
+            "x_min": 4176.0,
+            "y_min": 1641.0,
+            "x_max": 4257.0,
+            "y_max": 1867.0
+          },
+          "page": 1,
+          "confidence": 0.513
+        },
+        {
+          "text": "Eanrerraaenrrry",
+          "bbox": {
+            "x_min": 4264.0,
+            "y_min": 1708.0,
+            "x_max": 4411.0,
+            "y_max": 2240.0
+          },
+          "page": 1,
+          "confidence": 0.349
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 629.0,
+            "y_min": 1774.0,
+            "x_max": 650.0,
+            "y_max": 1807.0
+          },
+          "page": 1,
+          "confidence": 0.552
+        },
+        {
+          "text": "BN SNT",
+          "bbox": {
+            "x_min": 601.0,
+            "y_min": 1787.0,
+            "x_max": 684.0,
+            "y_max": 2253.0
+          },
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3875.0,
+            "y_min": 1805.0,
+            "x_max": 3904.0,
+            "y_max": 1848.0
+          },
+          "page": 1,
+          "confidence": 0.206
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3925.0,
+            "y_min": 1877.0,
+            "x_max": 3943.0,
+            "y_max": 1910.0
+          },
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "POOOISHZ",
+          "bbox": {
+            "x_min": 1616.0,
+            "y_min": 1993.0,
+            "x_max": 1723.0,
+            "y_max": 2800.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "00",
+          "bbox": {
+            "x_min": 3979.0,
+            "y_min": 2012.0,
+            "x_max": 4026.0,
+            "y_max": 2062.0
+          },
+          "page": 1,
+          "confidence": 0.781
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 4010.0,
+            "y_min": 2058.0,
+            "x_max": 4050.0,
+            "y_max": 2122.0
+          },
+          "page": 1,
+          "confidence": 0.38
+        },
+        {
+          "text": "Unrrrrrrrrrren",
+          "bbox": {
+            "x_min": 4246.0,
+            "y_min": 2087.0,
+            "x_max": 4358.0,
+            "y_max": 2483.0
+          },
+          "page": 1,
+          "confidence": 0.345
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3244.0,
+            "y_min": 2223.0,
+            "x_max": 3254.0,
+            "y_max": 2233.0
+          },
+          "page": 1,
+          "confidence": 0.614
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 1741.0,
+            "y_min": 2318.0,
+            "x_max": 1854.0,
+            "y_max": 2886.0
+          },
+          "page": 1,
+          "confidence": 0.296
+        },
+        {
+          "text": "311307",
+          "bbox": {
+            "x_min": 1373.0,
+            "y_min": 2359.0,
+            "x_max": 1469.0,
+            "y_max": 2844.0
+          },
+          "page": 1,
+          "confidence": 0.337
+        },
+        {
+          "text": "PP",
+          "bbox": {
+            "x_min": 1494.0,
+            "y_min": 2349.0,
+            "x_max": 1597.0,
+            "y_max": 2881.0
+          },
+          "page": 1,
+          "confidence": 0.216
+        },
+        {
+          "text": "6d",
+          "bbox": {
+            "x_min": 2687.0,
+            "y_min": 2386.0,
+            "x_max": 2815.0,
+            "y_max": 2874.0
+          },
+          "page": 1,
+          "confidence": 0.749
+        },
+        {
+          "text": "81.b0c0x5hpS1",
+          "bbox": {
+            "x_min": 1971.0,
+            "y_min": 2429.0,
+            "x_max": 2106.0,
+            "y_max": 3155.0
+          },
+          "page": 1,
+          "confidence": 0.682
+        },
+        {
+          "text": "FV",
+          "bbox": {
+            "x_min": 3248.0,
+            "y_min": 2453.0,
+            "x_max": 3325.0,
+            "y_max": 2600.0
+          },
+          "page": 1,
+          "confidence": 0.353
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3148.0,
+            "y_min": 2535.0,
+            "x_max": 3155.0,
+            "y_max": 2541.0
+          },
+          "page": 1,
+          "confidence": 0.202
+        },
+        {
+          "text": "eheaaisst",
+          "bbox": {
+            "x_min": 4389.0,
+            "y_min": 2526.0,
+            "x_max": 4512.0,
+            "y_max": 2923.0
+          },
+          "page": 1,
+          "confidence": 0.391
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 1651.0,
+            "y_min": 2768.0,
+            "x_max": 1731.0,
+            "y_max": 2917.0
+          },
+          "page": 1,
+          "confidence": 0.853
+        },
+        {
+          "text": "Xray",
+          "bbox": {
+            "x_min": 4356.0,
+            "y_min": 2782.0,
+            "x_max": 4416.0,
+            "y_max": 2918.0
+          },
+          "page": 1,
+          "confidence": 0.351
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 821.0,
+            "y_min": 2890.0,
+            "x_max": 913.0,
+            "y_max": 3012.0
+          },
+          "page": 1,
+          "confidence": 0.29
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 665.0,
+            "y_min": 2919.0,
+            "x_max": 707.0,
+            "y_max": 2975.0
+          },
+          "page": 1,
+          "confidence": 0.248
+        },
+        {
+          "text": "ON O/d",
+          "bbox": {
+            "x_min": 1415.0,
+            "y_min": 2911.0,
+            "x_max": 1483.0,
+            "y_max": 3167.0
+          },
+          "page": 1,
+          "confidence": 0.723
+        },
+        {
+          "text": "Name",
+          "bbox": {
+            "x_min": 1674.0,
+            "y_min": 2955.0,
+            "x_max": 1735.0,
+            "y_max": 3134.0
+          },
+          "page": 1,
+          "confidence": 0.818
+        },
+        {
+          "text": "Rany",
+          "bbox": {
+            "x_min": 1543.0,
+            "y_min": 2991.0,
+            "x_max": 1612.0,
+            "y_max": 3149.0
+          },
+          "page": 1,
+          "confidence": 0.704
+        },
+        {
+          "text": "unt",
+          "bbox": {
+            "x_min": 1792.0,
+            "y_min": 2995.0,
+            "x_max": 1861.0,
+            "y_max": 3124.0
+          },
+          "page": 1,
+          "confidence": 0.598
+        }
+      ],
+      "medications": [
+        {
+          "name": "Areeeeases",
+          "matched_term": "Areeeeases",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.178
+        },
+        {
+          "name": "Phrrrrrrrray Mu",
+          "matched_term": "Phrrrrrrrray Mu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Nas Wn",
+          "matched_term": "Nas Wn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Caareooe",
+          "matched_term": "Caareooe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        },
+        {
+          "name": "Mmnnnor",
+          "matched_term": "Mmnnnor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.155
+        },
+        {
+          "name": "Vwour",
+          "matched_term": "Vwour",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.273
+        },
+        {
+          "name": "Satts",
+          "matched_term": "Satts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.252
+        },
+        {
+          "name": "Daaabneebhhmneehneg",
+          "matched_term": "Daaabneebhhmneehneg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.089
+        },
+        {
+          "name": "Rrrrrnnnrrarran Nnn Ennnarnnnn",
+          "matched_term": "Rrrrrnnnrrarran Nnn Ennnarnnnn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.175
+        },
+        {
+          "name": "Hareanes",
+          "matched_term": "Hareanes",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.157
+        },
+        {
+          "name": "Denrnnnng Bo",
+          "matched_term": "Denrnnnng Bo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.141
+        },
+        {
+          "name": "Nih",
+          "matched_term": "Nih",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.347
+        },
+        {
+          "name": "Bonnaonnp",
+          "matched_term": "Bonnaonnp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.206
+        },
+        {
+          "name": "Siscay",
+          "matched_term": "Siscay",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.149
+        },
+        {
+          "name": "Ysseee",
+          "matched_term": "Ysseee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Ageesex",
+          "matched_term": "Ageesex",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Eaactiees",
+          "matched_term": "Eaactiees",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.144
+        },
+        {
+          "name": "Softner",
+          "matched_term": "Softner",
+          "drug_id": "ab7323bc-fcef-4d81-9c9c-82bab47546a5",
+          "brand_id": "c50a6c2a-1499-42a0-be11-f77e9f8f8483",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.749
+        },
+        {
+          "name": "Eae Pe",
+          "matched_term": "Eae Pe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.157
+        },
+        {
+          "name": "Paahooey",
+          "matched_term": "Paahooey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Eanrerraaenrrry",
+          "matched_term": "Eanrerraaenrrry",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        },
+        {
+          "name": "Bn",
+          "matched_term": "Bn",
+          "drug_id": "61238074-a930-42ab-9166-7ef8fa778826",
+          "brand_id": "2eed15ba-c52a-4c3a-be35-c66c7d3697e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.572
+        },
+        {
+          "name": "Poooishz",
+          "matched_term": "Poooishz",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.252
+        },
+        {
+          "name": "Unrrrrrrrrrren Pp Cofvin",
+          "matched_term": "Unrrrrrrrrrren Pp Cofvin",
+          "drug_id": "57963b2d-9e5a-4faf-b5e7-d34da77e09f9",
+          "brand_id": "d6a36b6b-799e-4471-ab33-962dec616ba4",
+          "dosage": null,
+          "frequency": "0+0+5+1",
+          "quantity": null,
+          "confidence": 0.252
+        },
+        {
+          "name": "Eheaaisst",
+          "matched_term": "Eheaaisst",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.217
+        },
+        {
+          "name": "Xray C On",
+          "matched_term": "Xray C On",
+          "drug_id": "ca790686-9b07-4462-9f81-40b6cd91ec1d",
+          "brand_id": "def73a68-4b16-42ee-8588-9314a79cac3e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.181
+        },
+        {
+          "name": "Name",
+          "matched_term": "Name",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.368
+        },
+        {
+          "name": "Rany",
+          "matched_term": "Rany",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.317
+        },
+        {
+          "name": "Sunton",
+          "matched_term": "Sunton",
+          "drug_id": "eed924df-812d-40f2-821a-0cb402f8e421",
+          "brand_id": "e5ee6d78-3ba1-4675-88be-61025f272188",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "या टनो खा रखी पश्मीन\nBNS HAJI MOTOWN\nSICK BAY\nDhaka Cantonment, Dhaka - 1206\nEmergency Contact: MI Room- 01769-702685, W/M- 01769-702679\nReferred Form For Admission/Examination\nP/O No :\n820377\nAge/Sex\n:\n54 yrs Male.\nRank :\nMCPO (X)\nBlood Group :\nA +\nName: M Z H SIDDIQUI\nVisit Date\n:\n03-09-2018\nUnit\n: H/M (PR)\nTime\n:\n15 days × 03.09.18\nA HIN\nDM\nAngelock (som\n0+0+1\nBP. 170196\nF- 7.5\n2-1 -11.4\n1\nTax.\nComnet ( 5-\n0+11c\nPantano (m)\n11011\n1\nडा: त्या नाडामूल एक\nप्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)\nयाफिरमिन 3 रूमसबाग निर्ण बढ़\nकि वन जम शाखी यश्जीन\nFACILITIES\nPathology\nDental Wing\nHaemodialysis\nCardiology\nMinor OT\nPhysiotherapy\nEye Specialist\nUltrasonography\nEmergency & Casualty\nX-ray\nChild Specialist\nCinamon C13-\n1+011\n-",
+      "lines": [
+        {
+          "text": "या टनो खा रखी पश्मीन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "BNS HAJI MOTOWN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "SICK BAY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Dhaka Cantonment, Dhaka - 1206",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Emergency Contact: MI Room- 01769-702685, W/M- 01769-702679",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Referred Form For Admission/Examination",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "P/O No :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Age/Sex",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": ":",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "54 yrs Male.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Rank :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "MCPO (X)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Blood Group :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "A +",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Name: M Z H SIDDIQUI",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Visit Date",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": ":",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "03-09-2018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Unit",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": ": H/M (PR)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Time",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": ":",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "15 days × 03.09.18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "A HIN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "DM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Angelock (som",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "0+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "BP. 170196",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "F- 7.5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "2-1 -11.4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Tax.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Comnet ( 5-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "0+11c",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Pantano (m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "11011",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "डा: त्या नाडामूल एक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "प्य. वि. वि., वन (गया), वय, मि. मि घम (एमलिमिन) कि, कार्ड (दालिएनि.)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "याफिरमिन 3 रूमसबाग निर्ण बढ़",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "कि वन जम शाखी यश्जीन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "FACILITIES",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Pathology",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Dental Wing",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Haemodialysis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Cardiology",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Minor OT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Physiotherapy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Eye Specialist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Ultrasonography",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Emergency & Casualty",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "X-ray",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Child Specialist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "Cinamon C13-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "1+011",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.729
+        }
+      ],
+      "medications": [
+        {
+          "name": "Bns Haji Motown",
+          "matched_term": "Bns Haji Motown",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Sick Bay",
+          "matched_term": "Sick Bay",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Gandhakadi Malahar / Gandhak Malam",
+          "matched_term": "Gandhakadi Malahar / Gandhak Malam",
+          "drug_id": "f88f1aca-87b5-469d-9fd7-3c338892b21b",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Emergency Contact Mi",
+          "matched_term": "Emergency Contact Mi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Referred Form For No",
+          "matched_term": "Referred Form For No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Yrs Male",
+          "matched_term": "Yrs Male",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Rank",
+          "matched_term": "Rank",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Mcpo",
+          "matched_term": "Mcpo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Name Siddiqui",
+          "matched_term": "Name Siddiqui",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Visin",
+          "matched_term": "Visin",
+          "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+          "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Unit Pr",
+          "matched_term": "Unit Pr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.758
+        },
+        {
+          "name": "Hin Dm",
+          "matched_term": "Hin Dm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Angilock",
+          "matched_term": "Angilock",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+          "dosage": null,
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.758
+        },
+        {
+          "name": "Tax-B",
+          "matched_term": "Tax-B",
+          "drug_id": "a88a26f7-1385-40df-9677-36fd1452d10e",
+          "brand_id": "f577afba-0d3c-407e-b539-a2deec278e54",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Comnet",
+          "matched_term": "Comnet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Pantac",
+          "matched_term": "Pantac",
+          "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+          "brand_id": "088b7903-da26-4424-8e59-7a9928944830",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Facilities",
+          "matched_term": "Facilities",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Pathology",
+          "matched_term": "Pathology",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "G Haemodialysis",
+          "matched_term": "G Haemodialysis",
+          "drug_id": "59347684-7431-4c4b-b2f7-3c1b174b6c20",
+          "brand_id": "6c7dfd70-e4c3-4c85-89f6-cb9948b1f24b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Cardiolex",
+          "matched_term": "Cardiolex",
+          "drug_id": "9051e37a-120a-49d8-ada8-a55918be2240",
+          "brand_id": "f0303a6a-7d39-4954-8f06-1b5625b8e4e7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Minor Ot",
+          "matched_term": "Minor Ot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Physiotherapy",
+          "matched_term": "Physiotherapy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Eye-Q",
+          "matched_term": "Eye-Q",
+          "drug_id": "7cdc7c0a-3a36-45a9-8801-b6e7f2c25aa3",
+          "brand_id": "9e5f6d54-d69e-4ee4-af4b-d786928701e8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Ultrasonography",
+          "matched_term": "Ultrasonography",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Emergency Casualty",
+          "matched_term": "Emergency Casualty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Raj X",
+          "matched_term": "Raj X",
+          "drug_id": "55605964-60fc-4b7d-b8a5-5b1a29c1958e",
+          "brand_id": "4fec4283-9b86-4a99-9aee-c98bce96b537",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        },
+        {
+          "name": "Child Specialist",
+          "matched_term": "Child Specialist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.328
+        },
+        {
+          "name": "Cinamom",
+          "matched_term": "Cinamom",
+          "drug_id": "81870563-c397-44a9-a2b9-efd4bca36617",
+          "brand_id": "a2597fe5-928b-4f54-ab6d-b8c69e6863ea",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.708
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Angilock",
+          "matched_term": "Angilock",
+          "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+          "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Cinnamon Oil",
+          "matched_term": "Cinnamon Oil",
+          "drug_id": "f4bf2adb-b018-4248-9f25-83a51683c588",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Comet",
+          "matched_term": "Comet",
+          "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+          "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        },
+        {
+          "name": "Pantac",
+          "matched_term": "Pantac",
+          "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+          "brand_id": "088b7903-da26-4424-8e59-7a9928944830",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.616
+        }
+      ],
+      "raw_text": "Angulock\n(\n0+07\n1\n12.\nCinnamon (13-\n1\n1+011\n50\n1\nComet 1\n€\n-6m\nअमूल एक\n(मालिमिन) डि. कार्ड (कार्डियनछि)\nने विनयष्ट\nPantano\n١\n100\n1",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 11335,
+        "detected_regions": 1,
+        "ocr_line_count": 20,
+        "yolo_avg_confidence": 0.8976,
+        "yolo_min_confidence": 0.8976,
+        "yolo_max_confidence": 0.8976,
+        "ocr_avg_confidence": 0.525,
+        "ocr_min_confidence": 0.525,
+        "ocr_max_confidence": 0.525,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1685.587781524658,
+              "y_min": 2262.792034912109,
+              "x_max": 3284.4217636108397,
+              "y_max": 3960.1334503173825
+            },
+            "score": 0.8976
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Angulock",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "(",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "0+07",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "12.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "Cinnamon (13-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "1+011",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "50",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "Comet 1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "€",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "-6m",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "अमूल एक",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "(मालिमिन) डि. कार्ड (कार्डियनछि)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "ने विनयष्ट",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "Pantano",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "١",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "100",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.525
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

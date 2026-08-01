@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0032",
+  "source_sha256": "53250e1708bf1a746f08678b9a3d105f30e7eb6256d4ccfbb389d0682a856721",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:27:05.291049+00:00",
+  "runtime_ms": 5765.544800000498,
+  "output": {
+    "medications": [
+      {
+        "name": "Tobi",
+        "matched_term": "Tobi",
+        "drug_id": "8a86cdee-2fcf-4e7c-9ff1-7b9f5cbe963c",
+        "brand_id": "f12d01f6-fb0a-4262-aeb9-35cacd831746",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.684
+      },
+      {
+        "name": "Stata",
+        "matched_term": "Stata",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.304
+      },
+      {
+        "name": "Owcp",
+        "matched_term": "Owcp",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.304
+      },
+      {
+        "name": "Tots",
+        "matched_term": "Tots",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.304
+      },
+      {
+        "name": "Fexo",
+        "matched_term": "Fexo",
+        "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+        "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.684
+      },
+      {
+        "name": "Otots",
+        "matched_term": "Otots",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.304
+      },
+      {
+        "name": "Metro",
+        "matched_term": "Metro",
+        "drug_id": "c62162f1-784b-441d-9aab-df99dabf341b",
+        "brand_id": "035d7507-736c-41f9-b376-40a283f4b563",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.684
+      }
+    ],
+    "raw_text": "Tob. PIC\n50\nstata\n1\nCap. Owcp\n20\n> tots\n28\n.\nTab. Fexo 120\notots\n20\n1 Tob. Metro 400\n19.05.",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5730,
+      "detected_regions": 1,
+      "ocr_line_count": 14,
+      "yolo_avg_confidence": 0.8955,
+      "yolo_min_confidence": 0.8955,
+      "yolo_max_confidence": 0.8955,
+      "ocr_avg_confidence": 0.675,
+      "ocr_min_confidence": 0.675,
+      "ocr_max_confidence": 0.675,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 208.8722381591797,
+            "y_min": 241.5296173095703,
+            "x_max": 549.06591796875,
+            "y_max": 560.0744018554688
+          },
+          "score": 0.8955
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tob. PIC",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "stata",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "Cap. Owcp",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "> tots",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "28",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "Tab. Fexo 120",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "otots",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "1 Tob. Metro 400",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "19.05.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.675
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -1,0 +1,1627 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0036",
+  "source_sha256": "7864061a13856420108e03fd1218774404f4f1e48c501376920b28feb2d84440",
+  "raw_transcription": "Treatment on Discharge\nTab Cefaclaw (500mg) 2-0-12-913-\nCap, flex (500mg) 2+3+2+2-7914-5\n, Tab Rokel (10mg) 24072 , 6luni of\nTab. Pomimo (20mg) 2010-201\nTab PhoLm 210 sisto + year\n, Tab Pearlcal 24te2 - 2005\n, Tak Laxy 1 (3mg) 01013-2014\nvoltalin suppository\n1 stick P/R. 585 (D) er tourt 2025)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Treatment On Discharge",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cefaclav",
+      "strength": "500mg",
+      "dose": "",
+      "frequency": "2+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "E-Flex",
+      "strength": "500mg",
+      "dose": "",
+      "frequency": "2+3+2+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Roket",
+      "strength": "10mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pomimo",
+      "strength": "20mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pholm Sisto Year",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pearlcal",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tak Laxy",
+      "strength": "3mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Voltalin",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Stick Er Tourt",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "c24e03bf318fae5c619602c8704f0810144ee487f7c3b412eb549ea5d13a216d"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "124e3ab1cb0d36a95ccabb3898cae301c4c8d0db1afdc4b9dca5c2d41ecf961c"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "2c5a2dbcfff15a66319df26bad58c16fa706a5751ee3852beddaf50ecae2deeb"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "R Ca\nCHoEE\nOpperation Note:\nBaby Note\nDate:\n31Y\nTime:\n5ex-\nfemele\nAnaesthesia:\nSA\nCIA\nHbsAg (so)\nAnaesthetist..\nSaby Slood Group\nAsst Surgeon ()\nAssistant (2)\nBepp\nTreatment on Discharge\nIndication:\nAS\n06\nIncision\nPfanoste!\nTalo Roke.oung\nName of Opperation\nLUCS\nTamm2\nnp\n2\nProcedure&Findings\naeaam\nprceautm\nLwao\na\nsics\nGAVISOL Suspension",
+      "lines": [
+        {
+          "text": "R Ca",
+          "bbox": {
+            "x_min": 277.0,
+            "y_min": 52.0,
+            "x_max": 393.0,
+            "y_max": 73.0
+          },
+          "page": 1,
+          "confidence": 0.418
+        },
+        {
+          "text": "CHoEE",
+          "bbox": {
+            "x_min": 286.0,
+            "y_min": 70.0,
+            "x_max": 389.0,
+            "y_max": 91.0
+          },
+          "page": 1,
+          "confidence": 0.478
+        },
+        {
+          "text": "Opperation Note:",
+          "bbox": {
+            "x_min": 115.0,
+            "y_min": 96.0,
+            "x_max": 241.0,
+            "y_max": 124.0
+          },
+          "page": 1,
+          "confidence": 0.966
+        },
+        {
+          "text": "Baby Note",
+          "bbox": {
+            "x_min": 399.0,
+            "y_min": 86.0,
+            "x_max": 480.0,
+            "y_max": 115.0
+          },
+          "page": 1,
+          "confidence": 0.957
+        },
+        {
+          "text": "Date:",
+          "bbox": {
+            "x_min": 63.0,
+            "y_min": 124.0,
+            "x_max": 91.0,
+            "y_max": 137.0
+          },
+          "page": 1,
+          "confidence": 0.942
+        },
+        {
+          "text": "31Y",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 123.0,
+            "x_max": 176.0,
+            "y_max": 142.0
+          },
+          "page": 1,
+          "confidence": 0.644
+        },
+        {
+          "text": "Time:",
+          "bbox": {
+            "x_min": 196.0,
+            "y_min": 132.0,
+            "x_max": 227.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.799
+        },
+        {
+          "text": "5ex-",
+          "bbox": {
+            "x_min": 336.0,
+            "y_min": 136.0,
+            "x_max": 354.0,
+            "y_max": 147.0
+          },
+          "page": 1,
+          "confidence": 0.752
+        },
+        {
+          "text": "femele",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 116.0,
+            "x_max": 423.0,
+            "y_max": 142.0
+          },
+          "page": 1,
+          "confidence": 0.818
+        },
+        {
+          "text": "Anaesthesia:",
+          "bbox": {
+            "x_min": 62.0,
+            "y_min": 141.0,
+            "x_max": 115.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.959
+        },
+        {
+          "text": "SA",
+          "bbox": {
+            "x_min": 154.0,
+            "y_min": 144.0,
+            "x_max": 187.0,
+            "y_max": 158.0
+          },
+          "page": 1,
+          "confidence": 0.845
+        },
+        {
+          "text": "CIA",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 166.0,
+            "x_max": 353.0,
+            "y_max": 174.0
+          },
+          "page": 1,
+          "confidence": 0.83
+        },
+        {
+          "text": "HbsAg (so)",
+          "bbox": {
+            "x_min": 459.0,
+            "y_min": 156.0,
+            "x_max": 507.0,
+            "y_max": 173.0
+          },
+          "page": 1,
+          "confidence": 0.916
+        },
+        {
+          "text": "Anaesthetist..",
+          "bbox": {
+            "x_min": 59.0,
+            "y_min": 174.0,
+            "x_max": 119.0,
+            "y_max": 190.0
+          },
+          "page": 1,
+          "confidence": 0.89
+        },
+        {
+          "text": "Saby Slood Group",
+          "bbox": {
+            "x_min": 335.0,
+            "y_min": 170.0,
+            "x_max": 404.0,
+            "y_max": 193.0
+          },
+          "page": 1,
+          "confidence": 0.885
+        },
+        {
+          "text": "Asst Surgeon ()",
+          "bbox": {
+            "x_min": 58.0,
+            "y_min": 193.0,
+            "x_max": 132.0,
+            "y_max": 210.0
+          },
+          "page": 1,
+          "confidence": 0.864
+        },
+        {
+          "text": "Assistant (2)",
+          "bbox": {
+            "x_min": 56.0,
+            "y_min": 211.0,
+            "x_max": 115.0,
+            "y_max": 227.0
+          },
+          "page": 1,
+          "confidence": 0.956
+        },
+        {
+          "text": "Bepp",
+          "bbox": {
+            "x_min": 145.0,
+            "y_min": 207.0,
+            "x_max": 236.0,
+            "y_max": 239.0
+          },
+          "page": 1,
+          "confidence": 0.619
+        },
+        {
+          "text": "Treatment on Discharge",
+          "bbox": {
+            "x_min": 336.0,
+            "y_min": 200.0,
+            "x_max": 446.0,
+            "y_max": 230.0
+          },
+          "page": 1,
+          "confidence": 0.843
+        },
+        {
+          "text": "Indication:",
+          "bbox": {
+            "x_min": 55.0,
+            "y_min": 229.0,
+            "x_max": 105.0,
+            "y_max": 245.0
+          },
+          "page": 1,
+          "confidence": 0.965
+        },
+        {
+          "text": "AS",
+          "bbox": {
+            "x_min": 152.0,
+            "y_min": 230.0,
+            "x_max": 248.0,
+            "y_max": 252.0
+          },
+          "page": 1,
+          "confidence": 0.612
+        },
+        {
+          "text": "06",
+          "bbox": {
+            "x_min": 461.0,
+            "y_min": 235.0,
+            "x_max": 585.0,
+            "y_max": 269.0
+          },
+          "page": 1,
+          "confidence": 0.642
+        },
+        {
+          "text": "Incision",
+          "bbox": {
+            "x_min": 55.0,
+            "y_min": 268.0,
+            "x_max": 90.0,
+            "y_max": 282.0
+          },
+          "page": 1,
+          "confidence": 0.986
+        },
+        {
+          "text": "Pfanoste!",
+          "bbox": {
+            "x_min": 156.0,
+            "y_min": 265.0,
+            "x_max": 241.0,
+            "y_max": 286.0
+          },
+          "page": 1,
+          "confidence": 0.677
+        },
+        {
+          "text": "Talo Roke.oung",
+          "bbox": {
+            "x_min": 336.0,
+            "y_min": 251.0,
+            "x_max": 465.0,
+            "y_max": 283.0
+          },
+          "page": 1,
+          "confidence": 0.693
+        },
+        {
+          "text": "Name of Opperation",
+          "bbox": {
+            "x_min": 53.0,
+            "y_min": 286.0,
+            "x_max": 143.0,
+            "y_max": 303.0
+          },
+          "page": 1,
+          "confidence": 0.949
+        },
+        {
+          "text": "LUCS",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 289.0,
+            "x_max": 243.0,
+            "y_max": 303.0
+          },
+          "page": 1,
+          "confidence": 0.789
+        },
+        {
+          "text": "Tamm2",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 257.0,
+            "x_max": 582.0,
+            "y_max": 302.0
+          },
+          "page": 1,
+          "confidence": 0.54
+        },
+        {
+          "text": "np",
+          "bbox": {
+            "x_min": 163.0,
+            "y_min": 309.0,
+            "x_max": 296.0,
+            "y_max": 328.0
+          },
+          "page": 1,
+          "confidence": 0.684
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 340.0,
+            "y_min": 278.0,
+            "x_max": 588.0,
+            "y_max": 318.0
+          },
+          "page": 1,
+          "confidence": 0.435
+        },
+        {
+          "text": "Procedure&Findings",
+          "bbox": {
+            "x_min": 52.0,
+            "y_min": 312.0,
+            "x_max": 147.0,
+            "y_max": 326.0
+          },
+          "page": 1,
+          "confidence": 0.991
+        },
+        {
+          "text": "aeaam",
+          "bbox": {
+            "x_min": 341.0,
+            "y_min": 297.0,
+            "x_max": 583.0,
+            "y_max": 335.0
+          },
+          "page": 1,
+          "confidence": 0.508
+        },
+        {
+          "text": "prceautm",
+          "bbox": {
+            "x_min": 52.0,
+            "y_min": 332.0,
+            "x_max": 152.0,
+            "y_max": 352.0
+          },
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Lwao",
+          "bbox": {
+            "x_min": 165.0,
+            "y_min": 334.0,
+            "x_max": 281.0,
+            "y_max": 352.0
+          },
+          "page": 1,
+          "confidence": 0.55
+        },
+        {
+          "text": "a",
+          "bbox": {
+            "x_min": 340.0,
+            "y_min": 315.0,
+            "x_max": 587.0,
+            "y_max": 357.0
+          },
+          "page": 1,
+          "confidence": 0.461
+        },
+        {
+          "text": "sics",
+          "bbox": {
+            "x_min": 351.0,
+            "y_min": 375.0,
+            "x_max": 581.0,
+            "y_max": 411.0
+          },
+          "page": 1,
+          "confidence": 0.545
+        },
+        {
+          "text": "GAVISOL Suspension",
+          "bbox": {
+            "x_min": 360.0,
+            "y_min": 420.0,
+            "x_max": 462.0,
+            "y_max": 441.0
+          },
+          "page": 1,
+          "confidence": 0.965
+        }
+      ],
+      "medications": [
+        {
+          "name": "Choee",
+          "matched_term": "Choee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.215
+        },
+        {
+          "name": "Baby-N",
+          "matched_term": "Baby-N",
+          "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+          "brand_id": "e6f43988-435c-489e-8b89-15e5b8d3df2d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.811
+        },
+        {
+          "name": "Opperation Note",
+          "matched_term": "Opperation Note",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.435
+        },
+        {
+          "name": "Femela",
+          "matched_term": "Femela",
+          "drug_id": "a802bb27-215b-41ae-baa2-0d41f8540ae8",
+          "brand_id": "584ba773-13c3-45d7-b5a4-83cf234fdb2d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.709
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.424
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.729
+        },
+        {
+          "name": "Anaesthesia Sa",
+          "matched_term": "Anaesthesia Sa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.406
+        },
+        {
+          "name": "Hbsag So",
+          "matched_term": "Hbsag So",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.412
+        },
+        {
+          "name": "Ciav",
+          "matched_term": "Ciav",
+          "drug_id": "9051e37a-120a-49d8-ada8-a55918be2240",
+          "brand_id": "5da18ed7-c5d3-4596-997f-35eedf824ab0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.754
+        },
+        {
+          "name": "Saby Slood Group",
+          "matched_term": "Saby Slood Group",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.398
+        },
+        {
+          "name": "Anaesthetist",
+          "matched_term": "Anaesthetist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.401
+        },
+        {
+          "name": "Asst Surgeon",
+          "matched_term": "Asst Surgeon",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.389
+        },
+        {
+          "name": "Treatment On Discharge",
+          "matched_term": "Treatment On Discharge",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.379
+        },
+        {
+          "name": "Bepp",
+          "matched_term": "Bepp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.279
+        },
+        {
+          "name": "Assistant",
+          "matched_term": "Assistant",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.43
+        },
+        {
+          "name": "Indication As",
+          "matched_term": "Indication As",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.333
+        },
+        {
+          "name": "Talo Roke Oung Tamm",
+          "matched_term": "Talo Roke Oung Tamm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Pfanoste",
+          "matched_term": "Pfanoste",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.305
+        },
+        {
+          "name": "Incision",
+          "matched_term": "Incision",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.32
+        },
+        {
+          "name": "Name Of Opperation",
+          "matched_term": "Name Of Opperation",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.427
+        },
+        {
+          "name": "Lucs",
+          "matched_term": "Lucs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.355
+        },
+        {
+          "name": "Aeaam Np",
+          "matched_term": "Aeaam Np",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.268
+        },
+        {
+          "name": "Procedure Findings",
+          "matched_term": "Procedure Findings",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.327
+        },
+        {
+          "name": "Prceautm",
+          "matched_term": "Prceautm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.295
+        },
+        {
+          "name": "Lwao",
+          "matched_term": "Lwao",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.248
+        },
+        {
+          "name": "Sics",
+          "matched_term": "Sics",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "Gavisol",
+          "matched_term": "Gavisol",
+          "drug_id": "9afb406b-4838-461f-bed5-8c0441c0aa85",
+          "brand_id": "1aeb6093-8c00-450b-9d63-b20d6a3dfbe8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.814
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "21131217675435\nOpperation Note :\nDate :__\n3/2/24\nTinve\nAnaesthesia ...\nSAB\nSurgeon\nAndesthatist ...\nAsst Surgeon (1) :..\nAssistant (2) :\ner Boppy\nIndication :\n110 2 4/5\nIncision ...\nPfannenstiel\nName of Opperation\nLuis\nProcedure & Findings :\nUnder all aseptic\nprecaution LUCS was fire\n(Baby Note\n81.0\nfemale Wt 25kg A/S\n3/1/24\n7:50 PM DOB ---\nHbsAg (scr)\nBaby Blood Group\nTreatment on Discharge:\n, Tab Cefaclan (500mg) 2-0-2-915\ncap, flux (500mg) 2+3+2+2-79145\n, Tab Rokel (10mg) 2010 , Gina COM\nTab. Pomimo (20mg) 2010-2014\nTro PhoLm 210 SISTO + 20OR\n, Tak Pearlcal 24002 - 3Ans\n, Tab 1 him STAx 2 - Jappo\n, Tak Laxy 1 (3mg) 01015- 20für\nvoltalin suppository\n1 stick P/R. 505 (1) Bor tourt 2025)\nGAVISOL Suspension",
+      "lines": [
+        {
+          "text": "21131217675435",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Opperation Note :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Date :__",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "3/2/24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Tinve",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Anaesthesia ...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "SAB",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Surgeon",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Andesthatist ...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Asst Surgeon (1) :..",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Assistant (2) :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "er Boppy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Indication :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "110 2 4/5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Incision ...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Pfannenstiel",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Name of Opperation",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Luis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Procedure & Findings :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Under all aseptic",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "precaution LUCS was fire",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "(Baby Note",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "81.0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "female Wt 25kg A/S",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "3/1/24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "7:50 PM DOB ---",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "HbsAg (scr)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Baby Blood Group",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Treatment on Discharge:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": ", Tab Cefaclan (500mg) 2-0-2-915",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "cap, flux (500mg) 2+3+2+2-79145",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": ", Tab Rokel (10mg) 2010 , Gina COM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Tab. Pomimo (20mg) 2010-2014",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "Tro PhoLm 210 SISTO + 20OR",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": ", Tak Pearlcal 24002 - 3Ans",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": ", Tab 1 him STAx 2 - Jappo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": ", Tak Laxy 1 (3mg) 01015- 20für",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "voltalin suppository",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "1 stick P/R. 505 (1) Bor tourt 2025)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "GAVISOL Suspension",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.528
+        }
+      ],
+      "medications": [
+        {
+          "name": "Opperation Note",
+          "matched_term": "Opperation Note",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Tinve",
+          "matched_term": "Tinve",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Anaesthesia",
+          "matched_term": "Anaesthesia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Sab",
+          "matched_term": "Sab",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Surge",
+          "matched_term": "Surge",
+          "drug_id": "7f61a6fe-ea6b-44ec-af29-4c14b73fd60a",
+          "brand_id": "b01b1959-6b69-4d82-ae4a-842da098663d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Andesthatist",
+          "matched_term": "Andesthatist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Asst Surgeon",
+          "matched_term": "Asst Surgeon",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Assistant",
+          "matched_term": "Assistant",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Er Boppy",
+          "matched_term": "Er Boppy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Indication",
+          "matched_term": "Indication",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Incision",
+          "matched_term": "Incision",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Pfannenstiel",
+          "matched_term": "Pfannenstiel",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Name Of Opperation",
+          "matched_term": "Name Of Opperation",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Luis",
+          "matched_term": "Luis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Procedure Findings",
+          "matched_term": "Procedure Findings",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Under All Aseptic",
+          "matched_term": "Under All Aseptic",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Precaution Lucs Was",
+          "matched_term": "Precaution Lucs Was",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Baby-N",
+          "matched_term": "Baby-N",
+          "drug_id": "a0ba02de-af44-451d-94d0-daf6ea7740e8",
+          "brand_id": "e6f43988-435c-489e-8b89-15e5b8d3df2d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Femala",
+          "matched_term": "Femala",
+          "drug_id": "eb28bd21-be45-4684-b054-044124668980",
+          "brand_id": "5d2e55eb-121a-42d5-b657-c3bc1f1b4d0d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Pm",
+          "matched_term": "Pm",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "d0b0ae89-2410-4cb2-8d47-177b89add88e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Hbsag Scr",
+          "matched_term": "Hbsag Scr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Baby-2",
+          "matched_term": "Baby-2",
+          "drug_id": "0f6b6134-40f4-440a-8052-dcc68191a96f",
+          "brand_id": "b114a20d-5add-4f67-8ac8-6b18b3cff194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Treatment On Discharge",
+          "matched_term": "Treatment On Discharge",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Cefaclav",
+          "matched_term": "Cefaclav",
+          "drug_id": "9be41165-0f5d-434d-b9f3-b4ce69afb996",
+          "brand_id": "634f9731-a7ee-4bfc-94d3-9982a5c9d7a1",
+          "dosage": "500mg",
+          "frequency": "2+0+2+9",
+          "quantity": null,
+          "confidence": 0.718
+        },
+        {
+          "name": "Flux",
+          "matched_term": "Flux",
+          "drug_id": "1701e537-9eb5-4e41-8286-db15e8ce82c2",
+          "brand_id": "0f375e2a-72f2-4f88-8965-e6189257a6d3",
+          "dosage": "500mg",
+          "frequency": "2+3+2+2",
+          "quantity": null,
+          "confidence": 0.718
+        },
+        {
+          "name": "Roket",
+          "matched_term": "Roket",
+          "drug_id": "d8d01b63-13b7-4e74-8389-07b90984f5dc",
+          "brand_id": "48d68b81-f145-42b3-bbe2-3ce6f3986646",
+          "dosage": "10mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.669
+        },
+        {
+          "name": "Pomimo",
+          "matched_term": "Pomimo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.289
+        },
+        {
+          "name": "Trox",
+          "matched_term": "Trox",
+          "drug_id": "e4b5fead-734b-449a-8a4a-0aac80ea04be",
+          "brand_id": "d31e26b9-c235-453b-99ac-1e3258d9451b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Pearlcal",
+          "matched_term": "Pearlcal",
+          "drug_id": "e3edb598-5e69-401b-b1c5-98f13cdb15d2",
+          "brand_id": "42613a74-e5a3-43cc-a40f-d3ddf8e638be",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Him-Up",
+          "matched_term": "Him-Up",
+          "drug_id": "5efc711c-0b6f-4d9c-91d5-26ebf115ccc5",
+          "brand_id": "852bbc79-c711-4019-ba42-5a010051ba3b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Tak Laxy",
+          "matched_term": "Tak Laxy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "3mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.289
+        },
+        {
+          "name": "Voltalin",
+          "matched_term": "Voltalin",
+          "drug_id": "25fde844-6bc1-477e-bef1-2c1b5adf8702",
+          "brand_id": "da4e332a-112a-46ae-b6d8-e0f9303c6f20",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        },
+        {
+          "name": "Stick Bor Tourt",
+          "matched_term": "Stick Bor Tourt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.238
+        },
+        {
+          "name": "Gavisol",
+          "matched_term": "Gavisol",
+          "drug_id": "9afb406b-4838-461f-bed5-8c0441c0aa85",
+          "brand_id": "1aeb6093-8c00-450b-9d63-b20d6a3dfbe8",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.618
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Treatment On Discharge",
+          "matched_term": "Treatment On Discharge",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.212
+        },
+        {
+          "name": "Cefaclav",
+          "matched_term": "Cefaclav",
+          "drug_id": "9be41165-0f5d-434d-b9f3-b4ce69afb996",
+          "brand_id": "634f9731-a7ee-4bfc-94d3-9982a5c9d7a1",
+          "dosage": "500mg",
+          "frequency": "2+0+1",
+          "quantity": null,
+          "confidence": 0.693
+        },
+        {
+          "name": "E-Flex",
+          "matched_term": "E-Flex",
+          "drug_id": "97e00103-0f1b-4523-80e6-e713b4e40bbe",
+          "brand_id": "a4ab98ff-d4df-4a82-8091-5641dc6b80b6",
+          "dosage": "500mg",
+          "frequency": "2+3+2+2",
+          "quantity": null,
+          "confidence": 0.693
+        },
+        {
+          "name": "Roket",
+          "matched_term": "Roket",
+          "drug_id": "d8d01b63-13b7-4e74-8389-07b90984f5dc",
+          "brand_id": "48d68b81-f145-42b3-bbe2-3ce6f3986646",
+          "dosage": "10mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.643
+        },
+        {
+          "name": "Pomimo",
+          "matched_term": "Pomimo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Pholm Sisto Year",
+          "matched_term": "Pholm Sisto Year",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.212
+        },
+        {
+          "name": "Pearlcal",
+          "matched_term": "Pearlcal",
+          "drug_id": "e3edb598-5e69-401b-b1c5-98f13cdb15d2",
+          "brand_id": "42613a74-e5a3-43cc-a40f-d3ddf8e638be",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.592
+        },
+        {
+          "name": "Tak Laxy",
+          "matched_term": "Tak Laxy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "3mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Voltalin",
+          "matched_term": "Voltalin",
+          "drug_id": "25fde844-6bc1-477e-bef1-2c1b5adf8702",
+          "brand_id": "da4e332a-112a-46ae-b6d8-e0f9303c6f20",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.592
+        },
+        {
+          "name": "Stick Er Tourt",
+          "matched_term": "Stick Er Tourt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.212
+        }
+      ],
+      "raw_text": "Treatment on Discharge\nTab Cefaclaw (500mg) 2-0-12-913-\nCap, flex (500mg) 2+3+2+2-7914-5\n, Tab Rokel (10mg) 24072 , 6luni of\nTab. Pomimo (20mg) 2010-201\nTab PhoLm 210 sisto + year\n, Tab Pearlcal 24te2 - 2005\n, Tak Laxy 1 (3mg) 01013-2014\nvoltalin suppository\n1 stick P/R. 585 (D) er tourt 2025)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 10777,
+        "detected_regions": 1,
+        "ocr_line_count": 10,
+        "yolo_avg_confidence": 0.9515,
+        "yolo_min_confidence": 0.9515,
+        "yolo_max_confidence": 0.9515,
+        "ocr_avg_confidence": 0.472,
+        "ocr_min_confidence": 0.472,
+        "ocr_max_confidence": 0.472,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 330.5263366699219,
+              "y_min": 195.486572265625,
+              "x_max": 607.7421875,
+              "y_max": 410.1886901855469
+            },
+            "score": 0.9515
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Treatment on Discharge",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "Tab Cefaclaw (500mg) 2-0-12-913-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "Cap, flex (500mg) 2+3+2+2-7914-5",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": ", Tab Rokel (10mg) 24072 , 6luni of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "Tab. Pomimo (20mg) 2010-201",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "Tab PhoLm 210 sisto + year",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": ", Tab Pearlcal 24te2 - 2005",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": ", Tak Laxy 1 (3mg) 01013-2014",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "voltalin suppository",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          },
+          {
+            "text": "1 stick P/R. 585 (D) er tourt 2025)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.472
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

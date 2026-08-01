@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "a53a5a38c877f6986307ce908c13cf2afbf910e218b74590e57d0a9b4a3f6556",
+  "record_id": "RX-0027",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 42181.79089999467,
+  "failure": null,
+  "response_sha256": "abe03274bee53ade79eb94b47540d67293be703d7e29fad7cf31f1bfea5dc0b6",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / 48I'M\nMedical Center\nF240\nPilgrim 20 1521227\nPassport No\nA05213033\nNama\nZIHAN CHOWDHURY HELEN\nMakinb No\n34\nGender\nFEMALE\nDistrict CHATTOGRAM\nThana\nHEALTH PROFILE\nA+\n140180\n1. Blood Group\nNO\n2. Blood Pressure\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\nNO\n5. Kidney Disease: NO\n6. Dianotes:\n10\n7. Mental Disease, 71\n8. Blood Sugar (RBS)\ng. Weight:\n10. Liver Disease:\nNO\n11, Drug History:\n12 Any other abnormalities:\nChief Complaints:\nVisit No:\n24 May 2024\nDale:\nOF\nPulse\nBP\nTemp-\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nRx\n1 Tab. Levox (500%)\n=> Tab. Fixel (120%)\n0-TOT ?-\nTab. P/C (500g)\nCap Omep (20)\nstoer-\n68)\n-\nFRBS-\nisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "TREATMENT CARD / 48I'M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "F240",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Pilgrim 20 1521227",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "A05213033",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Nama",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "ZIHAN CHOWDHURY HELEN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Makinb No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "34",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "District CHATTOGRAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "A+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "140180",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "1. Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "2. Blood Pressure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "6. Dianotes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "7. Mental Disease, 71",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "g. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "11, Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "12 Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Dale:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "OF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "1 Tab. Levox (500%)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "=> Tab. Fixel (120%)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "0-TOT ?-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Tab. P/C (500g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "Cap Omep (20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "stoer-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "68)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "FRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      },
+      {
+        "text": "isional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.765
+      }
+    ]
+  }
+}

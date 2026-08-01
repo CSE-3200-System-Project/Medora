@@ -43,6 +43,31 @@ def test_pipeline_includes_debug_payload_when_requested(monkeypatch) -> None:
     assert response.debug.ocr_lines
 
 
+def test_local_mode_never_calls_cloud_pipeline(monkeypatch) -> None:
+    pipeline = OCRPipeline()
+    local_result = (
+        _fake_pipeline_result()[0],
+        _fake_pipeline_result()[1],
+        "paddleocr_pp-ocrv4",
+        0,
+        1,
+        [],
+        0,
+    )
+    monkeypatch.setattr(OCRPipeline, "_run_local_pipeline", lambda self, image_bytes: local_result)
+
+    def fail_cloud(*_args, **_kwargs):
+        raise AssertionError("local mode escalated to Azure")
+
+    monkeypatch.setattr(OCRPipeline, "_run_read_pipeline", fail_cloud)
+    response = pipeline.run(b"fake-image", processing_mode="local")
+
+    assert response.meta.processing_mode == "local"
+    assert response.meta.provider == "paddleocr_local"
+    assert response.meta.review_required is True
+    assert response.meta.authoritative_writeback is False
+
+
 @pytest.mark.parametrize(
     ("mode", "expected_model"),
     [

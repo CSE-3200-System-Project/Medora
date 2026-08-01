@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
+  "record_id": "RX-0077",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 20757.529499998782,
+  "failure": null,
+  "response_sha256": "ad56fa9c85af44712e8185cb2c7df7baa1eb2ddaf88391d7e6f3aafbe2896737",
+  "response": {
+    "raw_text": "वर्क (बमडि) - 44\nछिकिश्मक कड़क बाणीव बारश शेख\n8 7128\n10.09.16\nR-Og ...\nD-OF\nजजाणीव नाम 820377\nMEH\nS/O\nवयाम\n14 year\n0\nSiddique Mepo\nडिकिस्मटकर बारशनना\nRt . knee a che\nfollowing sporting inguy\nADT =1\nVarus/valsus.for\n€)\nRt Km\nXmy\nNAD\nRx\nTas Naproxen 250ml\n1+0+0\n10\nTap One (200g)\n1foto\n10\nsono\nScheid\nRAHMAN\nMajo\nCISpl : Pohopaedics\nCMH Dháng\nIssue\n12.9.16\nAmimul\nMA-I\nसिर",
+    "lines": [
+      {
+        "text": "वर्क (बमडि) - 44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "छिकिश्मक कड़क बाणीव बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "8 7128",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10.09.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "R-Og ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "D-OF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "जजाणीव नाम 820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "MEH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "S/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "वयाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "14 year",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Siddique Mepo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "डिकिस्मटकर बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rt . knee a che",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "following sporting inguy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "ADT =1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Varus/valsus.for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "€)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rt Km",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Xmy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "NAD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Tas Naproxen 250ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "1+0+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Tap One (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "1foto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "sono",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Scheid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "RAHMAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Majo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "CISpl : Pohopaedics",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "CMH Dháng",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Issue",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "12.9.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "Amimul",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "MA-I",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "सिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.584
+      }
+    ]
+  }
+}

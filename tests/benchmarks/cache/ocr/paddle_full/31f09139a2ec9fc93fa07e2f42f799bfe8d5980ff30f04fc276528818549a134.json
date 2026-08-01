@@ -1,0 +1,585 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "31f09139a2ec9fc93fa07e2f42f799bfe8d5980ff30f04fc276528818549a134",
+  "record_id": "RX-0021",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 25851.216800001566,
+  "failure": null,
+  "response_sha256": "55cd3f9ab4518c94188aaa6ee6e1bdc9e08b739024bd639a4836f88a6e13666f",
+  "response": {
+    "raw_text": "MINISTRY OF RELGEOUS AFFAIRS\n17\nMoktalMadinalunodan\nMarticol Carer\nTREATMENI CARDR\nPranna\nW\nFasopwtNe\nAOE\nS035\nGendar_\nWE\nMatn.\nDNEASNC\n6\nC+\nHEALTH PROFILE\n1\n1\nVES\nS.I\nDanncoae\nBno\n8\ng\nB\nmatel\n9\nChior Carplaintg\nVi.CPy\nDa44\nDL\nCap\nCtrxirm\nPuss\n+0+-s\nTemp-\nBF-\nSyorr.\nfreem-\nS+p\nDahydration-\nHeagiatOr\nOters\nOxC\n28102128\nAeanas\nE0G\nFvisr agonosis\nCt\nmyuy oun",
+    "lines": [
+      {
+        "text": "MINISTRY OF RELGEOUS AFFAIRS",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 72.0,
+          "x_max": 402.0,
+          "y_max": 96.0
+        },
+        "page": 1,
+        "confidence": 0.898
+      },
+      {
+        "text": "17",
+        "bbox": {
+          "x_min": 157.0,
+          "y_min": 90.0,
+          "x_max": 167.0,
+          "y_max": 99.0
+        },
+        "page": 1,
+        "confidence": 0.407
+      },
+      {
+        "text": "MoktalMadinalunodan",
+        "bbox": {
+          "x_min": 280.0,
+          "y_min": 92.0,
+          "x_max": 379.0,
+          "y_max": 112.0
+        },
+        "page": 1,
+        "confidence": 0.774
+      },
+      {
+        "text": "Marticol Carer",
+        "bbox": {
+          "x_min": 155.0,
+          "y_min": 110.0,
+          "x_max": 212.0,
+          "y_max": 125.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "TREATMENI CARDR",
+        "bbox": {
+          "x_min": 270.0,
+          "y_min": 108.0,
+          "x_max": 394.0,
+          "y_max": 130.0
+        },
+        "page": 1,
+        "confidence": 0.755
+      },
+      {
+        "text": "Pranna",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 121.0,
+          "x_max": 215.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 152.0,
+          "y_min": 132.0,
+          "x_max": 189.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.137
+      },
+      {
+        "text": "FasopwtNe",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 133.0,
+          "x_max": 322.0,
+          "y_max": 143.0
+        },
+        "page": 1,
+        "confidence": 0.697
+      },
+      {
+        "text": "AOE",
+        "bbox": {
+          "x_min": 341.0,
+          "y_min": 132.0,
+          "x_max": 377.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "S035",
+        "bbox": {
+          "x_min": 407.0,
+          "y_min": 124.0,
+          "x_max": 469.0,
+          "y_max": 141.0
+        },
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Gendar_",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 145.0,
+          "x_max": 187.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.717
+      },
+      {
+        "text": "WE",
+        "bbox": {
+          "x_min": 183.0,
+          "y_min": 145.0,
+          "x_max": 210.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.563
+      },
+      {
+        "text": "Matn.",
+        "bbox": {
+          "x_min": 408.0,
+          "y_min": 138.0,
+          "x_max": 460.0,
+          "y_max": 152.0
+        },
+        "page": 1,
+        "confidence": 0.343
+      },
+      {
+        "text": "DNEASNC",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 157.0,
+          "x_max": 451.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "6",
+        "bbox": {
+          "x_min": 429.0,
+          "y_min": 149.0,
+          "x_max": 456.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.182
+      },
+      {
+        "text": "C+",
+        "bbox": {
+          "x_min": 285.0,
+          "y_min": 174.0,
+          "x_max": 295.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.864
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 298.0,
+          "y_min": 166.0,
+          "x_max": 366.0,
+          "y_max": 179.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 226.0,
+          "y_min": 176.0,
+          "x_max": 275.0,
+          "y_max": 187.0
+        },
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 280.0,
+          "y_min": 180.0,
+          "x_max": 297.0,
+          "y_max": 200.0
+        },
+        "page": 1,
+        "confidence": 0.17
+      },
+      {
+        "text": "VES",
+        "bbox": {
+          "x_min": 444.0,
+          "y_min": 178.0,
+          "x_max": 467.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.614
+      },
+      {
+        "text": "S.I",
+        "bbox": {
+          "x_min": 370.0,
+          "y_min": 198.0,
+          "x_max": 381.0,
+          "y_max": 205.0
+        },
+        "page": 1,
+        "confidence": 0.484
+      },
+      {
+        "text": "Danncoae",
+        "bbox": {
+          "x_min": 377.0,
+          "y_min": 192.0,
+          "x_max": 422.0,
+          "y_max": 207.0
+        },
+        "page": 1,
+        "confidence": 0.507
+      },
+      {
+        "text": "Bno",
+        "bbox": {
+          "x_min": 378.0,
+          "y_min": 205.0,
+          "x_max": 398.0,
+          "y_max": 216.0
+        },
+        "page": 1,
+        "confidence": 0.452
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 446.0,
+          "y_min": 196.0,
+          "x_max": 462.0,
+          "y_max": 217.0
+        },
+        "page": 1,
+        "confidence": 0.143
+      },
+      {
+        "text": "g",
+        "bbox": {
+          "x_min": 219.0,
+          "y_min": 208.0,
+          "x_max": 273.0,
+          "y_max": 226.0
+        },
+        "page": 1,
+        "confidence": 0.459
+      },
+      {
+        "text": "B",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 204.0,
+          "x_max": 444.0,
+          "y_max": 224.0
+        },
+        "page": 1,
+        "confidence": 0.416
+      },
+      {
+        "text": "matel",
+        "bbox": {
+          "x_min": 428.0,
+          "y_min": 221.0,
+          "x_max": 460.0,
+          "y_max": 232.0
+        },
+        "page": 1,
+        "confidence": 0.426
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 450.0,
+          "y_min": 215.0,
+          "x_max": 459.0,
+          "y_max": 221.0
+        },
+        "page": 1,
+        "confidence": 0.076
+      },
+      {
+        "text": "Chior Carplaintg",
+        "bbox": {
+          "x_min": 144.0,
+          "y_min": 225.0,
+          "x_max": 221.0,
+          "y_max": 242.0
+        },
+        "page": 1,
+        "confidence": 0.723
+      },
+      {
+        "text": "Vi.CPy",
+        "bbox": {
+          "x_min": 250.0,
+          "y_min": 229.0,
+          "x_max": 313.0,
+          "y_max": 245.0
+        },
+        "page": 1,
+        "confidence": 0.525
+      },
+      {
+        "text": "Da44",
+        "bbox": {
+          "x_min": 391.0,
+          "y_min": 236.0,
+          "x_max": 440.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "DL",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 266.0,
+          "x_max": 158.0,
+          "y_max": 279.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "Cap",
+        "bbox": {
+          "x_min": 287.0,
+          "y_min": 258.0,
+          "x_max": 331.0,
+          "y_max": 276.0
+        },
+        "page": 1,
+        "confidence": 0.682
+      },
+      {
+        "text": "Ctrxirm",
+        "bbox": {
+          "x_min": 325.0,
+          "y_min": 260.0,
+          "x_max": 386.0,
+          "y_max": 279.0
+        },
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "Puss",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 280.0,
+          "x_max": 160.0,
+          "y_max": 292.0
+        },
+        "page": 1,
+        "confidence": 0.762
+      },
+      {
+        "text": "+0+-s",
+        "bbox": {
+          "x_min": 302.0,
+          "y_min": 275.0,
+          "x_max": 416.0,
+          "y_max": 298.0
+        },
+        "page": 1,
+        "confidence": 0.589
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 136.0,
+          "y_min": 302.0,
+          "x_max": 161.0,
+          "y_max": 319.0
+        },
+        "page": 1,
+        "confidence": 0.888
+      },
+      {
+        "text": "BF-",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 294.0,
+          "x_max": 151.0,
+          "y_max": 303.0
+        },
+        "page": 1,
+        "confidence": 0.662
+      },
+      {
+        "text": "Syorr.",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 304.0,
+          "x_max": 309.0,
+          "y_max": 317.0
+        },
+        "page": 1,
+        "confidence": 0.57
+      },
+      {
+        "text": "freem-",
+        "bbox": {
+          "x_min": 136.0,
+          "y_min": 318.0,
+          "x_max": 170.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.402
+      },
+      {
+        "text": "S+p",
+        "bbox": {
+          "x_min": 313.0,
+          "y_min": 318.0,
+          "x_max": 446.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.43
+      },
+      {
+        "text": "Dahydration-",
+        "bbox": {
+          "x_min": 132.0,
+          "y_min": 329.0,
+          "x_max": 184.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.803
+      },
+      {
+        "text": "HeagiatOr",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 343.0,
+          "x_max": 178.0,
+          "y_max": 356.0
+        },
+        "page": 1,
+        "confidence": 0.456
+      },
+      {
+        "text": "Oters",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 355.0,
+          "x_max": 159.0,
+          "y_max": 369.0
+        },
+        "page": 1,
+        "confidence": 0.69
+      },
+      {
+        "text": "OxC",
+        "bbox": {
+          "x_min": 367.0,
+          "y_min": 366.0,
+          "x_max": 406.0,
+          "y_max": 390.0
+        },
+        "page": 1,
+        "confidence": 0.37
+      },
+      {
+        "text": "28102128",
+        "bbox": {
+          "x_min": 374.0,
+          "y_min": 386.0,
+          "x_max": 435.0,
+          "y_max": 407.0
+        },
+        "page": 1,
+        "confidence": 0.708
+      },
+      {
+        "text": "Aeanas",
+        "bbox": {
+          "x_min": 123.0,
+          "y_min": 454.0,
+          "x_max": 164.0,
+          "y_max": 471.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": "E0G",
+        "bbox": {
+          "x_min": 124.0,
+          "y_min": 471.0,
+          "x_max": 144.0,
+          "y_max": 483.0
+        },
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Fvisr agonosis",
+        "bbox": {
+          "x_min": 123.0,
+          "y_min": 497.0,
+          "x_max": 219.0,
+          "y_max": 518.0
+        },
+        "page": 1,
+        "confidence": 0.661
+      },
+      {
+        "text": "Ct",
+        "bbox": {
+          "x_min": 124.0,
+          "y_min": 518.0,
+          "x_max": 163.0,
+          "y_max": 536.0
+        },
+        "page": 1,
+        "confidence": 0.454
+      },
+      {
+        "text": "myuy oun",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 520.0,
+          "x_max": 242.0,
+          "y_max": 544.0
+        },
+        "page": 1,
+        "confidence": 0.606
+      }
+    ]
+  }
+}

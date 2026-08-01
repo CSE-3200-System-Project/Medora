@@ -1,0 +1,447 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0007",
+  "source_sha256": "ba2527762360c4748df0a4e30445f81ad33a56e2e434f82306c15574e8f88bfa",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:23:58.186921+00:00",
+  "runtime_ms": 23255.29169999936,
+  "output": {
+    "raw_text": "m\nMAAAAAAAAAANAR\nG\ntaeinaaane\n1\n+1\nMmanr\nO\nK&D\n2k\nf\nmn4y\n8222\n10.0-HS\nttsz\n2\nTS544\nO\nAtb\nO\nRO\nW\nyMe\n48a4\nO\nTE\nV\nW\n.3\n6d\nIBIGE\nA",
+    "lines": [
+      {
+        "text": "m",
+        "bbox": {
+          "x_min": 19.0,
+          "y_min": 272.0,
+          "x_max": 150.0,
+          "y_max": 817.0
+        },
+        "page": 1,
+        "confidence": 0.301
+      },
+      {
+        "text": "MAAAAAAAAAANAR",
+        "bbox": {
+          "x_min": 2409.0,
+          "y_min": 285.0,
+          "x_max": 2534.0,
+          "y_max": 1119.0
+        },
+        "page": 1,
+        "confidence": 0.299
+      },
+      {
+        "text": "G",
+        "bbox": {
+          "x_min": 1757.0,
+          "y_min": 295.0,
+          "x_max": 2062.0,
+          "y_max": 764.0
+        },
+        "page": 1,
+        "confidence": 0.287
+      },
+      {
+        "text": "taeinaaane",
+        "bbox": {
+          "x_min": 2540.0,
+          "y_min": 369.0,
+          "x_max": 2674.0,
+          "y_max": 1120.0
+        },
+        "page": 1,
+        "confidence": 0.287
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 1875.0,
+          "y_min": 741.0,
+          "x_max": 1980.0,
+          "y_max": 887.0
+        },
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "+1",
+        "bbox": {
+          "x_min": 1753.0,
+          "y_min": 933.0,
+          "x_max": 1889.0,
+          "y_max": 1321.0
+        },
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "Mmanr",
+        "bbox": {
+          "x_min": 2483.0,
+          "y_min": 946.0,
+          "x_max": 2573.0,
+          "y_max": 1120.0
+        },
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2695.0,
+          "y_min": 1030.0,
+          "x_max": 2704.0,
+          "y_max": 1040.0
+        },
+        "page": 1,
+        "confidence": 0.097
+      },
+      {
+        "text": "K&D",
+        "bbox": {
+          "x_min": 325.0,
+          "y_min": 1091.0,
+          "x_max": 423.0,
+          "y_max": 1266.0
+        },
+        "page": 1,
+        "confidence": 0.302
+      },
+      {
+        "text": "2k",
+        "bbox": {
+          "x_min": 90.0,
+          "y_min": 1127.0,
+          "x_max": 281.0,
+          "y_max": 2624.0
+        },
+        "page": 1,
+        "confidence": 0.519
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 1303.0,
+          "y_min": 1452.0,
+          "x_max": 1425.0,
+          "y_max": 1567.0
+        },
+        "page": 1,
+        "confidence": 0.775
+      },
+      {
+        "text": "mn4y",
+        "bbox": {
+          "x_min": 2623.0,
+          "y_min": 2082.0,
+          "x_max": 2821.0,
+          "y_max": 3068.0
+        },
+        "page": 1,
+        "confidence": 0.458
+      },
+      {
+        "text": "8222",
+        "bbox": {
+          "x_min": 830.0,
+          "y_min": 2248.0,
+          "x_max": 985.0,
+          "y_max": 3136.0
+        },
+        "page": 1,
+        "confidence": 0.586
+      },
+      {
+        "text": "10.0-HS",
+        "bbox": {
+          "x_min": 1622.0,
+          "y_min": 2229.0,
+          "x_max": 1831.0,
+          "y_max": 3041.0
+        },
+        "page": 1,
+        "confidence": 0.766
+      },
+      {
+        "text": "ttsz",
+        "bbox": {
+          "x_min": 1872.0,
+          "y_min": 2247.0,
+          "x_max": 2018.0,
+          "y_max": 2781.0
+        },
+        "page": 1,
+        "confidence": 0.775
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 575.0,
+          "y_min": 2383.0,
+          "x_max": 666.0,
+          "y_max": 2739.0
+        },
+        "page": 1,
+        "confidence": 0.601
+      },
+      {
+        "text": "TS544",
+        "bbox": {
+          "x_min": 4134.0,
+          "y_min": 2441.0,
+          "x_max": 4290.0,
+          "y_max": 2957.0
+        },
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1116.0,
+          "y_min": 2456.0,
+          "x_max": 1226.0,
+          "y_max": 2693.0
+        },
+        "page": 1,
+        "confidence": 0.156
+      },
+      {
+        "text": "Atb",
+        "bbox": {
+          "x_min": 2213.0,
+          "y_min": 2452.0,
+          "x_max": 2404.0,
+          "y_max": 3117.0
+        },
+        "page": 1,
+        "confidence": 0.711
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1155.0,
+          "y_min": 2488.0,
+          "x_max": 1162.0,
+          "y_max": 2494.0
+        },
+        "page": 1,
+        "confidence": 0.083
+      },
+      {
+        "text": "RO",
+        "bbox": {
+          "x_min": 3415.0,
+          "y_min": 2614.0,
+          "x_max": 3544.0,
+          "y_max": 2812.0
+        },
+        "page": 1,
+        "confidence": 0.374
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 2487.0,
+          "y_min": 2668.0,
+          "x_max": 2512.0,
+          "y_max": 2725.0
+        },
+        "page": 1,
+        "confidence": 0.762
+      },
+      {
+        "text": "yMe",
+        "bbox": {
+          "x_min": 2920.0,
+          "y_min": 2648.0,
+          "x_max": 3081.0,
+          "y_max": 3084.0
+        },
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "48a4",
+        "bbox": {
+          "x_min": 3961.0,
+          "y_min": 2690.0,
+          "x_max": 4116.0,
+          "y_max": 2988.0
+        },
+        "page": 1,
+        "confidence": 0.469
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1961.0,
+          "y_min": 2764.0,
+          "x_max": 1966.0,
+          "y_max": 2770.0
+        },
+        "page": 1,
+        "confidence": 0.153
+      },
+      {
+        "text": "TE",
+        "bbox": {
+          "x_min": 931.0,
+          "y_min": 2858.0,
+          "x_max": 1023.0,
+          "y_max": 3034.0
+        },
+        "page": 1,
+        "confidence": 0.309
+      },
+      {
+        "text": "V",
+        "bbox": {
+          "x_min": 1090.0,
+          "y_min": 2912.0,
+          "x_max": 1096.0,
+          "y_max": 2919.0
+        },
+        "page": 1,
+        "confidence": 0.133
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 1921.0,
+          "y_min": 2918.0,
+          "x_max": 2037.0,
+          "y_max": 3071.0
+        },
+        "page": 1,
+        "confidence": 0.156
+      },
+      {
+        "text": ".3",
+        "bbox": {
+          "x_min": 4156.0,
+          "y_min": 2933.0,
+          "x_max": 4298.0,
+          "y_max": 3168.0
+        },
+        "page": 1,
+        "confidence": 0.289
+      },
+      {
+        "text": "6d",
+        "bbox": {
+          "x_min": 1015.0,
+          "y_min": 3000.0,
+          "x_max": 1174.0,
+          "y_max": 3156.0
+        },
+        "page": 1,
+        "confidence": 0.258
+      },
+      {
+        "text": "IBIGE",
+        "bbox": {
+          "x_min": 354.0,
+          "y_min": 3066.0,
+          "x_max": 461.0,
+          "y_max": 3392.0
+        },
+        "page": 1,
+        "confidence": 0.245
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 543.0,
+          "y_min": 3244.0,
+          "x_max": 683.0,
+          "y_max": 3400.0
+        },
+        "page": 1,
+        "confidence": 0.145
+      }
+    ],
+    "medications": [
+      {
+        "name": "Maaaaaaaaaanar",
+        "matched_term": "Maaaaaaaaaanar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.132
+      },
+      {
+        "name": "Taeinaaane",
+        "matched_term": "Taeinaaane",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.226
+      },
+      {
+        "name": "Mmanr Mn",
+        "matched_term": "Mmanr Mn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "HS",
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Ttsz Ts",
+        "matched_term": "Ttsz Ts",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.273
+      },
+      {
+        "name": "Atb Ro",
+        "matched_term": "Atb Ro",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.149
+      },
+      {
+        "name": "M-Zyme",
+        "matched_term": "M-Zyme",
+        "drug_id": "a5179602-a21f-4dcb-8256-2bf11f6cb5e9",
+        "brand_id": "b1564fde-45cf-4af2-98ce-f164f31acf49",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.533
+      },
+      {
+        "name": "Ibige",
+        "matched_term": "Ibige",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.088
+      }
+    ]
+  }
+}

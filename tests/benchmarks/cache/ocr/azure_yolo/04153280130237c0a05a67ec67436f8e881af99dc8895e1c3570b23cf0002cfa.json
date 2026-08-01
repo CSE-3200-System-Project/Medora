@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "04153280130237c0a05a67ec67436f8e881af99dc8895e1c3570b23cf0002cfa",
+  "record_id": "RX-0022",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11007.192699995358,
+  "failure": null,
+  "response_sha256": "464e2c93ed35399fc50cd04848b4dedf39e83ec82de037e9137a101d1620dc2e",
+  "response": {
+    "raw_text": "* carabao คุม ทัพมายภาค เล10 1\nParcnatural\n/\n1\nMeni Petroleum Jelly\n, Economie Cream\n1\n24:00-24.\n•หมางศ์ชัน ชหลาง ตยาเฮ !",
+    "lines": [
+      {
+        "text": "* carabao คุม ทัพมายภาค เล10 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "Parcnatural",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "/",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "Meni Petroleum Jelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": ", Economie Cream",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "24:00-24.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "•หมางศ์ชัน ชหลาง ตยาเฮ !",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      }
+    ]
+  }
+}

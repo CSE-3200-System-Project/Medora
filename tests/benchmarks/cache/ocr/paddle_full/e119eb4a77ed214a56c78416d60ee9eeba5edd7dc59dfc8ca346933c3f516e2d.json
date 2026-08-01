@@ -1,0 +1,574 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "e119eb4a77ed214a56c78416d60ee9eeba5edd7dc59dfc8ca346933c3f516e2d",
+  "record_id": "RX-0051",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 138308.77210000472,
+  "failure": null,
+  "response_sha256": "379ed1cfbf04e9cca741a983e68b6ece3e74b4ec83fe5d386b141fcafb1b0bb6",
+  "response": {
+    "raw_text": "CBEN\nOC\nBrig.General\nProf.Dr.Mohammad Shafiqul Alam SPP\nMBBS Dhaka)MSOrthoDU\nAO Trauma Course\n.\nSHouen\nFellow In Arthroscopy &Arthroplosty Turkey)\n9-1ena\nSAARC Arthroplasty Course (India)\nAdvance Traning in Arhroscopy&Sports injury France &Germany)\nFellowship Traning in Arthroscopy (Seoul, Korea\nMember ofAAOS&ISACOS\nProfessor of OrhopaedicArmed Forces Medicl College\nHead of Department Orthopaedics\nRBOsdGdod9\nChief Surgeon General, CMH Dhaka\n2304202\n.\ncAKhder\ns4p\nHhognblcoctor\nFMJoInf\n-\n40-\ntnuro\n196\nReo\nKep01cAQ0f\nW\n1p0n\nOO\np\nPANtOHXOS\nfeollin\ncm\nChamber:\n-\nHitech Multicare Hospital Ltd\npoes\nC\nPhone:9835550,9833039,9833661,8711010\nCell:01712-873235\nAppointment-01678129126,01672241413\nReception-01611262712,E-mailhmcarehospital@gmoil.com\nVisiting Hour6.30 pm-9.30pm\nHitech Knee Care Center-2nd Floor.Room No309\nAppointment:01678129126\n01672241413",
+    "lines": [
+      {
+        "text": "CBEN",
+        "bbox": {
+          "x_min": 4.0,
+          "y_min": 87.0,
+          "x_max": 47.0,
+          "y_max": 111.0
+        },
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "OC",
+        "bbox": {
+          "x_min": 3.0,
+          "y_min": 107.0,
+          "x_max": 46.0,
+          "y_max": 130.0
+        },
+        "page": 1,
+        "confidence": 0.276
+      },
+      {
+        "text": "Brig.General",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 100.0,
+          "x_max": 178.0,
+          "y_max": 120.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "Prof.Dr.Mohammad Shafiqul Alam SPP",
+        "bbox": {
+          "x_min": 88.0,
+          "y_min": 119.0,
+          "x_max": 409.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.956
+      },
+      {
+        "text": "MBBS Dhaka)MSOrthoDU",
+        "bbox": {
+          "x_min": 88.0,
+          "y_min": 143.0,
+          "x_max": 257.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.894
+      },
+      {
+        "text": "AO Trauma Course",
+        "bbox": {
+          "x_min": 88.0,
+          "y_min": 162.0,
+          "x_max": 194.0,
+          "y_max": 183.0
+        },
+        "page": 1,
+        "confidence": 0.932
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 680.0,
+          "y_min": 150.0,
+          "x_max": 851.0,
+          "y_max": 170.0
+        },
+        "page": 1,
+        "confidence": 0.495
+      },
+      {
+        "text": "SHouen",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 163.0,
+          "x_max": 53.0,
+          "y_max": 187.0
+        },
+        "page": 1,
+        "confidence": 0.352
+      },
+      {
+        "text": "Fellow In Arthroscopy &Arthroplosty Turkey)",
+        "bbox": {
+          "x_min": 86.0,
+          "y_min": 178.0,
+          "x_max": 313.0,
+          "y_max": 203.0
+        },
+        "page": 1,
+        "confidence": 0.917
+      },
+      {
+        "text": "9-1ena",
+        "bbox": {
+          "x_min": 5.0,
+          "y_min": 186.0,
+          "x_max": 53.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.427
+      },
+      {
+        "text": "SAARC Arthroplasty Course (India)",
+        "bbox": {
+          "x_min": 86.0,
+          "y_min": 197.0,
+          "x_max": 263.0,
+          "y_max": 218.0
+        },
+        "page": 1,
+        "confidence": 0.929
+      },
+      {
+        "text": "Advance Traning in Arhroscopy&Sports injury France &Germany)",
+        "bbox": {
+          "x_min": 85.0,
+          "y_min": 213.0,
+          "x_max": 411.0,
+          "y_max": 239.0
+        },
+        "page": 1,
+        "confidence": 0.894
+      },
+      {
+        "text": "Fellowship Traning in Arthroscopy (Seoul, Korea",
+        "bbox": {
+          "x_min": 86.0,
+          "y_min": 232.0,
+          "x_max": 333.0,
+          "y_max": 255.0
+        },
+        "page": 1,
+        "confidence": 0.938
+      },
+      {
+        "text": "Member ofAAOS&ISACOS",
+        "bbox": {
+          "x_min": 85.0,
+          "y_min": 250.0,
+          "x_max": 235.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.965
+      },
+      {
+        "text": "Professor of OrhopaedicArmed Forces Medicl College",
+        "bbox": {
+          "x_min": 81.0,
+          "y_min": 264.0,
+          "x_max": 382.0,
+          "y_max": 291.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "Head of Department Orthopaedics",
+        "bbox": {
+          "x_min": 83.0,
+          "y_min": 283.0,
+          "x_max": 287.0,
+          "y_max": 305.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "RBOsdGdod9",
+        "bbox": {
+          "x_min": 404.0,
+          "y_min": 283.0,
+          "x_max": 568.0,
+          "y_max": 325.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "Chief Surgeon General, CMH Dhaka",
+        "bbox": {
+          "x_min": 83.0,
+          "y_min": 301.0,
+          "x_max": 301.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.936
+      },
+      {
+        "text": "2304202",
+        "bbox": {
+          "x_min": 706.0,
+          "y_min": 314.0,
+          "x_max": 905.0,
+          "y_max": 361.0
+        },
+        "page": 1,
+        "confidence": 0.714
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 185.0,
+          "y_min": 346.0,
+          "x_max": 194.0,
+          "y_max": 354.0
+        },
+        "page": 1,
+        "confidence": 0.114
+      },
+      {
+        "text": "cAKhder",
+        "bbox": {
+          "x_min": 262.0,
+          "y_min": 348.0,
+          "x_max": 378.0,
+          "y_max": 376.0
+        },
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "s4p",
+        "bbox": {
+          "x_min": 475.0,
+          "y_min": 340.0,
+          "x_max": 581.0,
+          "y_max": 387.0
+        },
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Hhognblcoctor",
+        "bbox": {
+          "x_min": 507.0,
+          "y_min": 470.0,
+          "x_max": 791.0,
+          "y_max": 529.0
+        },
+        "page": 1,
+        "confidence": 0.531
+      },
+      {
+        "text": "FMJoInf",
+        "bbox": {
+          "x_min": 314.0,
+          "y_min": 485.0,
+          "x_max": 498.0,
+          "y_max": 542.0
+        },
+        "page": 1,
+        "confidence": 0.643
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 483.0,
+          "y_min": 496.0,
+          "x_max": 518.0,
+          "y_max": 515.0
+        },
+        "page": 1,
+        "confidence": 0.155
+      },
+      {
+        "text": "40-",
+        "bbox": {
+          "x_min": 561.0,
+          "y_min": 566.0,
+          "x_max": 791.0,
+          "y_max": 615.0
+        },
+        "page": 1,
+        "confidence": 0.509
+      },
+      {
+        "text": "tnuro",
+        "bbox": {
+          "x_min": 189.0,
+          "y_min": 635.0,
+          "x_max": 375.0,
+          "y_max": 703.0
+        },
+        "page": 1,
+        "confidence": 0.356
+      },
+      {
+        "text": "196",
+        "bbox": {
+          "x_min": 608.0,
+          "y_min": 607.0,
+          "x_max": 839.0,
+          "y_max": 668.0
+        },
+        "page": 1,
+        "confidence": 0.458
+      },
+      {
+        "text": "Reo",
+        "bbox": {
+          "x_min": 346.0,
+          "y_min": 631.0,
+          "x_max": 590.0,
+          "y_max": 685.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Kep01cAQ0f",
+        "bbox": {
+          "x_min": 204.0,
+          "y_min": 811.0,
+          "x_max": 617.0,
+          "y_max": 876.0
+        },
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 168.0,
+          "y_min": 854.0,
+          "x_max": 212.0,
+          "y_max": 880.0
+        },
+        "page": 1,
+        "confidence": 0.56
+      },
+      {
+        "text": "1p0n",
+        "bbox": {
+          "x_min": 356.0,
+          "y_min": 875.0,
+          "x_max": 627.0,
+          "y_max": 921.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "OO",
+        "bbox": {
+          "x_min": 657.0,
+          "y_min": 879.0,
+          "x_max": 713.0,
+          "y_max": 900.0
+        },
+        "page": 1,
+        "confidence": 0.415
+      },
+      {
+        "text": "p",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 944.0,
+          "x_max": 359.0,
+          "y_max": 975.0
+        },
+        "page": 1,
+        "confidence": 0.386
+      },
+      {
+        "text": "PANtOHXOS",
+        "bbox": {
+          "x_min": 340.0,
+          "y_min": 933.0,
+          "x_max": 706.0,
+          "y_max": 979.0
+        },
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "feollin",
+        "bbox": {
+          "x_min": 444.0,
+          "y_min": 987.0,
+          "x_max": 689.0,
+          "y_max": 1028.0
+        },
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "cm",
+        "bbox": {
+          "x_min": 776.0,
+          "y_min": 985.0,
+          "x_max": 907.0,
+          "y_max": 1020.0
+        },
+        "page": 1,
+        "confidence": 0.348
+      },
+      {
+        "text": "Chamber:",
+        "bbox": {
+          "x_min": 175.0,
+          "y_min": 1083.0,
+          "x_max": 245.0,
+          "y_max": 1108.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 802.0,
+          "y_min": 1078.0,
+          "x_max": 813.0,
+          "y_max": 1088.0
+        },
+        "page": 1,
+        "confidence": 0.155
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd",
+        "bbox": {
+          "x_min": 175.0,
+          "y_min": 1104.0,
+          "x_max": 453.0,
+          "y_max": 1155.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "poes",
+        "bbox": {
+          "x_min": 582.0,
+          "y_min": 1097.0,
+          "x_max": 684.0,
+          "y_max": 1132.0
+        },
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 779.0,
+          "y_min": 1133.0,
+          "x_max": 784.0,
+          "y_max": 1138.0
+        },
+        "page": 1,
+        "confidence": 0.29
+      },
+      {
+        "text": "Phone:9835550,9833039,9833661,8711010",
+        "bbox": {
+          "x_min": 175.0,
+          "y_min": 1149.0,
+          "x_max": 457.0,
+          "y_max": 1190.0
+        },
+        "page": 1,
+        "confidence": 0.94
+      },
+      {
+        "text": "Cell:01712-873235",
+        "bbox": {
+          "x_min": 583.0,
+          "y_min": 1154.0,
+          "x_max": 749.0,
+          "y_max": 1183.0
+        },
+        "page": 1,
+        "confidence": 0.957
+      },
+      {
+        "text": "Appointment-01678129126,01672241413",
+        "bbox": {
+          "x_min": 175.0,
+          "y_min": 1164.0,
+          "x_max": 457.0,
+          "y_max": 1204.0
+        },
+        "page": 1,
+        "confidence": 0.982
+      },
+      {
+        "text": "Reception-01611262712,E-mailhmcarehospital@gmoil.com",
+        "bbox": {
+          "x_min": 176.0,
+          "y_min": 1177.0,
+          "x_max": 457.0,
+          "y_max": 1218.0
+        },
+        "page": 1,
+        "confidence": 0.908
+      },
+      {
+        "text": "Visiting Hour6.30 pm-9.30pm",
+        "bbox": {
+          "x_min": 581.0,
+          "y_min": 1173.0,
+          "x_max": 842.0,
+          "y_max": 1213.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Hitech Knee Care Center-2nd Floor.Room No309",
+        "bbox": {
+          "x_min": 173.0,
+          "y_min": 1189.0,
+          "x_max": 475.0,
+          "y_max": 1238.0
+        },
+        "page": 1,
+        "confidence": 0.886
+      },
+      {
+        "text": "Appointment:01678129126",
+        "bbox": {
+          "x_min": 582.0,
+          "y_min": 1201.0,
+          "x_max": 821.0,
+          "y_max": 1236.0
+        },
+        "page": 1,
+        "confidence": 0.976
+      },
+      {
+        "text": "01672241413",
+        "bbox": {
+          "x_min": 697.0,
+          "y_min": 1229.0,
+          "x_max": 822.0,
+          "y_max": 1258.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      }
+    ]
+  }
+}

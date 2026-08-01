@@ -123,7 +123,7 @@ function reasonLabel(reason?: string | null) {
   const { consultationType, appointmentType } = parseCompositeReason(reason);
   const ct = humanizeConsultationType(consultationType);
   const at = humanizeAppointmentType(appointmentType);
-  return `${ct || reason}${at ? ` â€“ ${at}` : ""}`;
+  return `${ct || reason}${at ? ` – ${at}` : ""}`;
 }
 
 function roleBadge(role: string) {

@@ -1,0 +1,529 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0052",
+  "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:52:12.428074+00:00",
+  "runtime_ms": 33939.12199999613,
+  "output": {
+    "raw_text": "गाउन बारवियान\nवैधम, पयमिनियम (माजीबी)\n((श्नारणदिनियावि जाखड़ी)\nमेथम (आठमनिका)\nना, नानाव्रकनिक, निषाद, निखनानी ७ जगनविश्राम मार्जन\nही अशाएक, भाटणेविलियाचि ७ शानकियाम जाआणि विधान\nलाखदाउद्यानों (अष्टकम करना, जका।\nDr. Shaon Shahriar\nMBBS, FCPS (Surgery)\nMS (Hepatobiliary Surgery), FACS (USA)\nGeneral, Laparoscopic, Liver, Biliary and Pancreas Surgeon\nAssistant Professor, Department of Hepatobiliary & Pancreatic Surgery\nShaheed Suhrawardy Medical College, Dhaka\nWeb: www.shaonshahriar.com\n: Ms Samina Aktes\nAge : 56 yy Date :\n21 NOV 2020\nsional hernia\nHTN\nPlan\nHernioplasty + SAB (mesh repair)\n65/90 2/19\n21.11.23\nJal Diskfan (0.5mg)\n0+0+2- yarar 2(ar\n21.11.23\nBP-160/90mmHg\nRefer to PAKM Fazlul Haque si\nfor control QHTN & DM & short\nactive insulin\nnon Specific S Telange\n21.11.23\nDBC\nRB6, S. Creatinine\nCXR, ECG, Echo-2D\nTSH, &. Electrolyte\nHB-Ag\nFBS92HABF\n+\n7.04/11.51\n25% Discount\nHeA,C -7-1\n1514",
+    "lines": [
+      {
+        "text": "गाउन बारवियान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "वैधम, पयमिनियम (माजीबी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "((श्नारणदिनियावि जाखड़ी)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "मेथम (आठमनिका)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "ना, नानाव्रकनिक, निषाद, निखनानी ७ जगनविश्राम मार्जन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "ही अशाएक, भाटणेविलियाचि ७ शानकियाम जाआणि विधान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "लाखदाउद्यानों (अष्टकम करना, जका।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Dr. Shaon Shahriar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "MBBS, FCPS (Surgery)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "MS (Hepatobiliary Surgery), FACS (USA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "General, Laparoscopic, Liver, Biliary and Pancreas Surgeon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Assistant Professor, Department of Hepatobiliary & Pancreatic Surgery",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Shaheed Suhrawardy Medical College, Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Web: www.shaonshahriar.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": ": Ms Samina Aktes",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Age : 56 yy Date :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21 NOV 2020",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "sional hernia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HTN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Plan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Hernioplasty + SAB (mesh repair)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "65/90 2/19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Jal Diskfan (0.5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "0+0+2- yarar 2(ar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "BP-160/90mmHg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "Refer to PAKM Fazlul Haque si",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "for control QHTN & DM & short",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "active insulin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "non Specific S Telange",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "21.11.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "DBC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "RB6, S. Creatinine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "CXR, ECG, Echo-2D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "TSH, &. Electrolyte",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HB-Ag",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "FBS92HABF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "7.04/11.51",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "25% Discount",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "HeA,C -7-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      },
+      {
+        "text": "1514",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.651
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Shaon Shahriar",
+        "matched_term": "Dr Shaon Shahriar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Mbbs Fcps Surgery",
+        "matched_term": "Mbbs Fcps Surgery",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Ms Hepatobiliary Surgery",
+        "matched_term": "Ms Hepatobiliary Surgery",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "General Laparoscopic Liver",
+        "matched_term": "General Laparoscopic Liver",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Assistant Professor Department",
+        "matched_term": "Assistant Professor Department",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Shaheed Suhrawardy Medical",
+        "matched_term": "Shaheed Suhrawardy Medical",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Web Www Shaonshahriar",
+        "matched_term": "Web Www Shaonshahriar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Ms Samina Aktes",
+        "matched_term": "Ms Samina Aktes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Nova",
+        "matched_term": "Nova",
+        "drug_id": "4a7cd0b3-0092-47de-9160-8010dc2b00cc",
+        "brand_id": "b43d090c-8b70-4e17-ac59-e923725db7b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.496
+      },
+      {
+        "name": "Sional Hernia",
+        "matched_term": "Sional Hernia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Htn",
+        "matched_term": "Htn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Plan A",
+        "matched_term": "Plan A",
+        "drug_id": "ee083766-b963-450e-ae26-a76f683b5abb",
+        "brand_id": "f1bf957e-55c4-444c-b1c8-54e0c3dfd225",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Hernioplasty Sab Mesh",
+        "matched_term": "Hernioplasty Sab Mesh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Jal Diskfan Bp- Mmhg",
+        "matched_term": "Jal Diskfan Bp- Mmhg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "0.5mg",
+        "frequency": "0+0+2",
+        "quantity": null,
+        "confidence": 0.393
+      },
+      {
+        "name": "Refer To Pakm",
+        "matched_term": "Refer To Pakm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Di-Control",
+        "matched_term": "Di-Control",
+        "drug_id": "8d338b82-c2e8-4998-8343-f63bf310eb97",
+        "brand_id": "e6e91bf5-81b1-48ad-8d06-4de85f528274",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Active Otc",
+        "matched_term": "Active Otc",
+        "drug_id": "cd3f0cd3-7faf-4216-bc18-c7ecabb297cf",
+        "brand_id": "c835af29-578d-4a67-bd44-163fc92d8067",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Non-D",
+        "matched_term": "Non-D",
+        "drug_id": "fd198cfc-4bd3-43ad-95de-5b25e827ec08",
+        "brand_id": "c04ed16d-92f8-4d0f-b0e7-ca9e330ebea7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.673
+      },
+      {
+        "name": "Dbc",
+        "matched_term": "Dbc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Rb Creatinine",
+        "matched_term": "Rb Creatinine",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Cxr Ecg Echo-",
+        "matched_term": "Cxr Ecg Echo-",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Tsh Electrolyte Hb-Ag Fbs Habf",
+        "matched_term": "Tsh Electrolyte Hb-Ag Fbs Habf",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Discount",
+        "matched_term": "Discount",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Hea",
+        "matched_term": "Hea",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      }
+    ]
+  }
+}

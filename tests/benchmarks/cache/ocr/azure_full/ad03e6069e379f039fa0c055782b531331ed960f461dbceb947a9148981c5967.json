@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ad03e6069e379f039fa0c055782b531331ed960f461dbceb947a9148981c5967",
+  "record_id": "RX-0017",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 60049.16489998868,
+  "failure": null,
+  "response_sha256": "c155c6ddfd0f5c4ea30da4801054da9b0343577766cc26a2598574bd8ddf00ee",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / गावदाभाजप\nMedical Center:\nPilgrim ID ____ 8500032\nPassport No\nED0122354\nMastab No\nName\nSHIHAR UDOIN\nGender\nMALE\nDistrict DHAKA\nThane.\nHEALTH PROFILE\nA+\n1. Blood Group:\nNO\n3. Heart Disease\nNC\n4, Lung Disease:\n5. Kidney Disease:\nNO\n6. Diabotas:\n5.5\n7. Mental Disease:\n8. Blood Sugar (RBS)\nNC\n9, Weight:\n10. Liver Disease:\nNO\n11. Drug History:\n12. Any other abnormalifes:\nChief Complaints;\nSneezing, khimorton\nVisil No:\nDate:\n2\n1 . Tab\nPexofenadin\n120 mg\n- 28\nPubo-\nBP\nTemp-\nAngemis-\nDehydration-\nRespiration-\n3. Tab\nAzithromyun 500 mg\nOthers- Mec-coated\notHO -BIT\nFBSIRES-\nECG\nProvisional Dlagonosis\nRx1\nD+0+1\n2. Tab Montelukant\n10 mg\n- 2 Night\n1\nएक टनसिटिक एलफोसिस ठिकिदवा दवा बंददपत्र बना । याबस नशी बखिया अवमाई मात्र धानाफ माय।\nफगढ़कन न ::\nG039\nDEMRA\n120/00\n2. Blood Pressure:\n27 May 2024",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "TREATMENT CARD / गावदाभाजप",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Pilgrim ID ____ 8500032",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "ED0122354",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Mastab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "SHIHAR UDOIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "District DHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Thane.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "A+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "3. Heart Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "4, Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "6. Diabotas:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "5.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "9, Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "12. Any other abnormalifes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Chief Complaints;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Sneezing, khimorton",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Visil No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "1 . Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Pexofenadin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "120 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "- 28",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Pubo-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Angemis-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "3. Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Azithromyun 500 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Others- Mec-coated",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "otHO -BIT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "FBSIRES-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Provisional Dlagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "Rx1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "D+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "2. Tab Montelukant",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "- 2 Night",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "एक टनसिटिक एलफोसिस ठिकिदवा दवा बंददपत्र बना । याबस नशी बखिया अवमाई मात्र धानाफ माय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "फगढ़कन न ::",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "G039",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "DEMRA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "120/00",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.704
+      }
+    ]
+  }
+}

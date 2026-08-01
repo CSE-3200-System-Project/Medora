@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import re
+from dataclasses import dataclass
 from typing import Iterable
 
 from app.core.config import settings
@@ -12,6 +13,30 @@ UUID_PATTERN = re.compile(
     flags=re.IGNORECASE,
 )
 LONG_ID_PATTERN = re.compile(r"\b\d{7,}\b")
+EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
+PHONE_PATTERN = re.compile(r"(?<!\w)(?:\+?৮৮০|\+?880|0)?[\s().-]*(?:[০-৯0-9][\s().-]*){10,11}(?!\w)")
+PASSPORT_PATTERN = re.compile(r"(?i)\b(?:passport|পাসপোর্ট)\s*(?:no|number|নং)?\s*[:#=-]?\s*[A-Z]{1,2}[0-9]{6,9}\b")
+NATIONAL_ID_PATTERN = re.compile(
+    r"(?i)(?:\b(?:nid|national\s+id|জাতীয়\s+পরিচয়পত্র|জাতীয়\s+পরিচয়পত্র)\b\s*(?:no|number|নং)?\s*[:#=-]?\s*)[০-৯0-9 -]{7,20}"
+)
+ACCOUNT_ID_PATTERN = re.compile(
+    r"(?i)(?:\b(?:patient|doctor|account|record|registration|bmdc)\s*(?:id|no|number)\b|(?:রোগী|ডাক্তার)\s*(?:আইডি|নং))\s*[:#=-]?\s*[A-Z0-9০-৯/_-]{5,40}"
+)
+DATE_PATTERN = re.compile(
+    r"(?<!\d)(?:\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|[০-৯]{1,2}[-/.][০-৯]{1,2}[-/.][০-৯]{2,4})(?!\d)"
+)
+LABELED_NAME_PATTERN = re.compile(
+    r"(?i)(?P<label>\b(?:patient\s+name|doctor\s+name|name|নাম|রোগীর\s+নাম|ডাক্তারের\s+নাম)\b\s*[:=])\s*[^\n,;]{2,80}"
+)
+LABELED_ADDRESS_PATTERN = re.compile(
+    r"(?i)(?P<label>\b(?:address|ঠিকানা)\b\s*[:=])\s*[^\n;]{4,160}"
+)
+
+
+@dataclass(frozen=True, slots=True)
+class RedactionResult:
+    text: str
+    replacements: dict[str, int]
 
 
 def _resolve_hash_secret() -> str:
@@ -66,6 +91,50 @@ def anonymize_identifier_text(text: str, *, token_namespace: str = "id") -> str:
     masked = UUID_PATTERN.sub(replace_uuid, str(text))
     masked = LONG_ID_PATTERN.sub(replace_long_id, masked)
     return masked
+
+
+def redact_pii_text(
+    text: str,
+    *,
+    known_identifiers: Iterable[str] | None = None,
+    redact_dates: bool = True,
+) -> RedactionResult:
+    """Remove common English/Bengali identifiers without claiming anonymization.
+
+    Known values are replaced first, then conservative category patterns are
+    applied. The function deliberately reports replacement counts so callers
+    can test coverage and disclose residual risk for identifiers it cannot know.
+    """
+    redacted = str(text or "")
+    counts: dict[str, int] = {}
+
+    def replace_pattern(pattern: re.Pattern[str], replacement: str, category: str) -> None:
+        nonlocal redacted
+        redacted, count = pattern.subn(replacement, redacted)
+        if count:
+            counts[category] = counts.get(category, 0) + count
+
+    for raw_value in sorted(
+        {str(value).strip() for value in (known_identifiers or []) if str(value).strip()},
+        key=len,
+        reverse=True,
+    ):
+        pattern = re.compile(re.escape(raw_value), flags=re.IGNORECASE)
+        replace_pattern(pattern, "[redacted-known-identifier]", "known_identifier")
+
+    replace_pattern(EMAIL_PATTERN, "[redacted-email]", "email")
+    replace_pattern(PHONE_PATTERN, "[redacted-phone]", "phone")
+    replace_pattern(PASSPORT_PATTERN, "[redacted-passport]", "passport")
+    replace_pattern(NATIONAL_ID_PATTERN, "[redacted-national-id]", "national_id")
+    replace_pattern(ACCOUNT_ID_PATTERN, "[redacted-account-id]", "account_id")
+    replace_pattern(UUID_PATTERN, "[redacted-identifier]", "uuid")
+    replace_pattern(LONG_ID_PATTERN, "[redacted-numeric-id]", "long_numeric_id")
+    replace_pattern(LABELED_NAME_PATTERN, r"\g<label> [redacted-name]", "labeled_name")
+    replace_pattern(LABELED_ADDRESS_PATTERN, r"\g<label> [redacted-address]", "labeled_address")
+    if redact_dates:
+        replace_pattern(DATE_PATTERN, "[redacted-date]", "date")
+
+    return RedactionResult(text=redacted, replacements=counts)
 
 
 def pick_subject_token(payload: dict[str, object] | None, fallback_parts: Iterable[str | None]) -> str:

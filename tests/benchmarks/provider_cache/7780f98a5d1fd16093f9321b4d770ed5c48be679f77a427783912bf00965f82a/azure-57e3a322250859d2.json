@@ -1,0 +1,361 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0067",
+  "source_sha256": "7780f98a5d1fd16093f9321b4d770ed5c48be679f77a427783912bf00965f82a",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:58:43.822010+00:00",
+  "runtime_ms": 17233.31289998896,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nPargiacoan Hall Of'>\nMakkatt/Madneniceddot\nTREATMENT CARD! - 18 10\nF195\nMagicod Center\n02-5573\nFEMALE\nHEALTH PROFILE\nKC\nChief Complaints:\n1-85-120/80\nTab Montreuiland\nremp-\nDalidration\nRespiration-\nTab Doxy phy live 200 mg\n/ Menit Petroleum Jelly\nTak, Pancetamel 500 mg.\nLABSRBS- 6.8 mmol/L\nECG\nProvisional Diagonosis\n1\n24.07 24.",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Pargiacoan Hall Of'>",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Makkatt/Madneniceddot",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "TREATMENT CARD! - 18 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "F195",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Magicod Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "02-5573",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "KC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "1-85-120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Tab Montreuiland",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "remp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Dalidration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Tab Doxy phy live 200 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "/ Menit Petroleum Jelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Tak, Pancetamel 500 mg.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "LABSRBS- 6.8 mmol/L",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "24.07 24.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.609
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Pargiacoan Hall Of",
+        "matched_term": "Pargiacoan Hall Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Makkatt Madneniceddot",
+        "matched_term": "Makkatt Madneniceddot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Magicod Center",
+        "matched_term": "Magicod Center",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Femala",
+        "matched_term": "Femala",
+        "drug_id": "eb28bd21-be45-4684-b054-044124668980",
+        "brand_id": "5d2e55eb-121a-42d5-b657-c3bc1f1b4d0d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Montreuiland",
+        "matched_term": "Montreuiland",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Rem",
+        "matched_term": "Rem",
+        "drug_id": "c1540954-cef7-49f8-8cde-89964fbd308e",
+        "brand_id": "ecb2a7f0-b29b-4353-b7f7-3d8808459620",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Dalidration",
+        "matched_term": "Dalidration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Doxy-A",
+        "matched_term": "Doxy-A",
+        "drug_id": "055f1de3-8a63-48b9-adc0-0d049137f996",
+        "brand_id": "93e7c899-23f8-4ebf-96b5-7f9691c9b827",
+        "dosage": "200 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.705
+      },
+      {
+        "name": "Petroleum",
+        "matched_term": "Petroleum",
+        "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Tak Pancetamel",
+        "matched_term": "Tak Pancetamel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.325
+      },
+      {
+        "name": "Labsrbs- Mmol",
+        "matched_term": "Labsrbs- Mmol",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.274
+      }
+    ]
+  }
+}

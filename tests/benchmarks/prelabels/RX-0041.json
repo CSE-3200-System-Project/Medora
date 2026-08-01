@@ -1,0 +1,1116 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0041",
+  "source_sha256": "ed25dcc636af130ddc9ca3cf77468907acc64e04935ff8dff45f4b29d6b357c2",
+  "raw_transcription": "06\n3/5/16\nRco\ndone\n4/\nWPF- upto-50\nx\nauf.\nFlocos\n(500mg)\n18\nsport after\n91/50/60/hr-\nLabas\n1×3\nMapa\n-\n.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Orcon",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Dp-Done",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Wpf- Upto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Auf",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Flocos",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "",
+      "strength": "500mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Spora",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Labas",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Mapa",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "0fc3621954bf4ae68e994f17c0443c4c9b479072a382a5d8753b6dcd8d934125"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "bd56109df903cabf1b21b0e25b13d1214154f9a7519253742008908dbb7863aa"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "1ab79bf71f22d49b60d0db14b0f32fd066e75e49de5118d44305530797a9ddb1"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "2\nD\ny\nLlie\nD\nO0\nWRSE\nrop\n4\n2\nPO\nO\nf\n-\n#\n91/50\nRy\nR1P\nbh\nP\n2\nye\nP\n-\nE\nM3O\nEF\nRRE\nAga\nR\n2\nO\nC\n29",
+      "lines": [
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2504.0,
+            "y_min": 567.0,
+            "x_max": 2652.0,
+            "y_max": 748.0
+          },
+          "page": 1,
+          "confidence": 0.237
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 1939.0,
+            "y_min": 759.0,
+            "x_max": 2262.0,
+            "y_max": 1217.0
+          },
+          "page": 1,
+          "confidence": 0.084
+        },
+        {
+          "text": "y",
+          "bbox": {
+            "x_min": 1485.0,
+            "y_min": 933.0,
+            "x_max": 1651.0,
+            "y_max": 1023.0
+          },
+          "page": 1,
+          "confidence": 0.31
+        },
+        {
+          "text": "Llie",
+          "bbox": {
+            "x_min": 415.0,
+            "y_min": 966.0,
+            "x_max": 506.0,
+            "y_max": 1136.0
+          },
+          "page": 1,
+          "confidence": 0.406
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 1013.0,
+            "x_max": 390.0,
+            "y_max": 2457.0
+          },
+          "page": 1,
+          "confidence": 0.388
+        },
+        {
+          "text": "O0",
+          "bbox": {
+            "x_min": 1709.0,
+            "y_min": 1129.0,
+            "x_max": 1820.0,
+            "y_max": 1324.0
+          },
+          "page": 1,
+          "confidence": 0.558
+        },
+        {
+          "text": "WRSE",
+          "bbox": {
+            "x_min": 2023.0,
+            "y_min": 1188.0,
+            "x_max": 2981.0,
+            "y_max": 1764.0
+          },
+          "page": 1,
+          "confidence": 0.246
+        },
+        {
+          "text": "rop",
+          "bbox": {
+            "x_min": 1363.0,
+            "y_min": 1259.0,
+            "x_max": 1531.0,
+            "y_max": 1621.0
+          },
+          "page": 1,
+          "confidence": 0.7
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 1714.0,
+            "y_min": 1274.0,
+            "x_max": 1801.0,
+            "y_max": 1473.0
+          },
+          "page": 1,
+          "confidence": 0.241
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 2561.0,
+            "y_min": 1365.0,
+            "x_max": 2572.0,
+            "y_max": 1377.0
+          },
+          "page": 1,
+          "confidence": 0.245
+        },
+        {
+          "text": "PO",
+          "bbox": {
+            "x_min": 2304.0,
+            "y_min": 1396.0,
+            "x_max": 2324.0,
+            "y_max": 1404.0
+          },
+          "page": 1,
+          "confidence": 0.142
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2310.0,
+            "y_min": 1401.0,
+            "x_max": 2324.0,
+            "y_max": 1409.0
+          },
+          "page": 1,
+          "confidence": 0.16
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 1559.0,
+            "y_min": 1430.0,
+            "x_max": 1855.0,
+            "y_max": 1701.0
+          },
+          "page": 1,
+          "confidence": 0.162
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2433.0,
+            "y_min": 1553.0,
+            "x_max": 2447.0,
+            "y_max": 1561.0
+          },
+          "page": 1,
+          "confidence": 0.165
+        },
+        {
+          "text": "#",
+          "bbox": {
+            "x_min": 1697.0,
+            "y_min": 1675.0,
+            "x_max": 1889.0,
+            "y_max": 1974.0
+          },
+          "page": 1,
+          "confidence": 0.424
+        },
+        {
+          "text": "91/50",
+          "bbox": {
+            "x_min": 2676.0,
+            "y_min": 1748.0,
+            "x_max": 3139.0,
+            "y_max": 2202.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "Ry",
+          "bbox": {
+            "x_min": 1348.0,
+            "y_min": 1771.0,
+            "x_max": 1620.0,
+            "y_max": 2280.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "R1P",
+          "bbox": {
+            "x_min": 2141.0,
+            "y_min": 1772.0,
+            "x_max": 2645.0,
+            "y_max": 2062.0
+          },
+          "page": 1,
+          "confidence": 0.292
+        },
+        {
+          "text": "bh",
+          "bbox": {
+            "x_min": 1668.0,
+            "y_min": 2036.0,
+            "x_max": 1943.0,
+            "y_max": 2429.0
+          },
+          "page": 1,
+          "confidence": 0.178
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 1987.0,
+            "y_min": 2176.0,
+            "x_max": 2258.0,
+            "y_max": 2381.0
+          },
+          "page": 1,
+          "confidence": 0.287
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 681.0,
+            "y_min": 2200.0,
+            "x_max": 779.0,
+            "y_max": 2556.0
+          },
+          "page": 1,
+          "confidence": 0.62
+        },
+        {
+          "text": "ye",
+          "bbox": {
+            "x_min": 398.0,
+            "y_min": 2325.0,
+            "x_max": 646.0,
+            "y_max": 2694.0
+          },
+          "page": 1,
+          "confidence": 0.25
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 3023.0,
+            "y_min": 2355.0,
+            "x_max": 3045.0,
+            "y_max": 2363.0
+          },
+          "page": 1,
+          "confidence": 0.177
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3149.0,
+            "y_min": 2360.0,
+            "x_max": 3164.0,
+            "y_max": 2377.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 488.0,
+            "y_min": 2885.0,
+            "x_max": 606.0,
+            "y_max": 3249.0
+          },
+          "page": 1,
+          "confidence": 0.184
+        },
+        {
+          "text": "M3O",
+          "bbox": {
+            "x_min": 1285.0,
+            "y_min": 2897.0,
+            "x_max": 1350.0,
+            "y_max": 3057.0
+          },
+          "page": 1,
+          "confidence": 0.318
+        },
+        {
+          "text": "EF",
+          "bbox": {
+            "x_min": 1235.0,
+            "y_min": 2965.0,
+            "x_max": 1257.0,
+            "y_max": 2998.0
+          },
+          "page": 1,
+          "confidence": 0.303
+        },
+        {
+          "text": "RRE",
+          "bbox": {
+            "x_min": 1237.0,
+            "y_min": 2989.0,
+            "x_max": 1269.0,
+            "y_max": 3067.0
+          },
+          "page": 1,
+          "confidence": 0.207
+        },
+        {
+          "text": "Aga",
+          "bbox": {
+            "x_min": 707.0,
+            "y_min": 3078.0,
+            "x_max": 796.0,
+            "y_max": 3273.0
+          },
+          "page": 1,
+          "confidence": 0.198
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1205.0,
+            "y_min": 3114.0,
+            "x_max": 1218.0,
+            "y_max": 3123.0
+          },
+          "page": 1,
+          "confidence": 0.078
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1201.0,
+            "y_min": 3137.0,
+            "x_max": 1222.0,
+            "y_max": 3152.0
+          },
+          "page": 1,
+          "confidence": 0.227
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1203.0,
+            "y_min": 3146.0,
+            "x_max": 1217.0,
+            "y_max": 3156.0
+          },
+          "page": 1,
+          "confidence": 0.162
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1185.0,
+            "y_min": 3156.0,
+            "x_max": 1203.0,
+            "y_max": 3165.0
+          },
+          "page": 1,
+          "confidence": 0.111
+        },
+        {
+          "text": "29",
+          "bbox": {
+            "x_min": 4182.0,
+            "y_min": 3336.0,
+            "x_max": 4357.0,
+            "y_max": 3468.0
+          },
+          "page": 1,
+          "confidence": 0.161
+        }
+      ],
+      "medications": [
+        {
+          "name": "emollient",
+          "matched_term": "emollient",
+          "drug_id": "c76a5516-565b-4da4-8fc4-dc162050cc55",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.583
+        },
+        {
+          "name": "Wrse",
+          "matched_term": "Wrse",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.111
+        },
+        {
+          "name": "Rop Po Ry Bh Obye",
+          "matched_term": "Rop Po Ry Bh Obye",
+          "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+          "brand_id": "606a4dd7-6d96-4052-9863-a66da08c3b42",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.141
+        },
+        {
+          "name": "Terrell",
+          "matched_term": "Terrell",
+          "drug_id": "7a462720-a8fd-4bd1-bc5a-744fe4d73d23",
+          "brand_id": "c9e1d202-4f36-4323-bd78-864ec1a5fca4",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.473
+        },
+        {
+          "name": "Aga",
+          "matched_term": "Aga",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.07
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "छिकिश्मक कड़क ब्बाभीन वारश शेख\nबाभीन नाम\nw/O\nवयम\nडिकिस्मटकर वायाशनना\nशनिश\nस्वादगेन नाग\nDENTAL WING\n06\nSL NO ......\nTAO\nDATE\n3/5/16\nTIME OF ARRIVAL .....\nRio\ndone\n9/\nwPF- up to- 50\nFlocox (500m)\nLibre (500mg) -(18)\n1×3\nMapa\n1x3\n1\ntafter.\n01 wky (09/05/16)\nR\nAM\nOMS)",
+      "lines": [
+        {
+          "text": "छिकिश्मक कड़क ब्बाभीन वारश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "बाभीन नाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "w/O",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "वयम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "डिकिस्मटकर वायाशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "शनिश",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "स्वादगेन नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "DENTAL WING",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "06",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "SL NO ......",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "TAO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "DATE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "3/5/16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "TIME OF ARRIVAL .....",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "Rio",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "done",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "9/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "wPF- up to- 50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "Flocox (500m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "Libre (500mg) -(18)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "1×3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "Mapa",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "1x3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "tafter.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "01 wky (09/05/16)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "AM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "OMS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.603
+        }
+      ],
+      "medications": [
+        {
+          "name": "Aid-Dental",
+          "matched_term": "Aid-Dental",
+          "drug_id": "7380ce0e-e43f-426d-a383-a059ff2f1b31",
+          "brand_id": "0e6e3fa8-8305-4495-a766-d95dbd5a7194",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        },
+        {
+          "name": "Tao",
+          "matched_term": "Tao",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        },
+        {
+          "name": "Riox",
+          "matched_term": "Riox",
+          "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+          "brand_id": "9f41c6f1-36a7-423a-961b-3888705dd0eb",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        },
+        {
+          "name": "Dp-Done",
+          "matched_term": "Dp-Done",
+          "drug_id": "e8625404-8469-4452-904d-357bc4f52647",
+          "brand_id": "7f44f154-6be3-42b0-9544-9c28b94336cd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.651
+        },
+        {
+          "name": "Wpf- Up To",
+          "matched_term": "Wpf- Up To",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Flocox",
+          "matched_term": "Flocox",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Libret",
+          "matched_term": "Libret",
+          "drug_id": "2d26d929-4601-4b3c-a529-3a3192815893",
+          "brand_id": "b34c0afd-85fb-481c-a7c0-fdb10eb642bd",
+          "dosage": "500mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.702
+        },
+        {
+          "name": "Mapa",
+          "matched_term": "Mapa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Tafter",
+          "matched_term": "Tafter",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Wky Am",
+          "matched_term": "Wky Am",
+          "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+          "brand_id": "f6135d7e-618c-463b-a19c-2ddcc870838d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        },
+        {
+          "name": "Oms",
+          "matched_term": "Oms",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.271
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Orcon",
+          "matched_term": "Orcon",
+          "drug_id": "ac1535e7-4f65-4ff7-8b1a-2e22010856eb",
+          "brand_id": "99d758e9-6dd8-49ca-938d-e28beea2f283",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.643
+        },
+        {
+          "name": "Dp-Done",
+          "matched_term": "Dp-Done",
+          "drug_id": "e8625404-8469-4452-904d-357bc4f52647",
+          "brand_id": "7f44f154-6be3-42b0-9544-9c28b94336cd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.643
+        },
+        {
+          "name": "Wpf- Upto",
+          "matched_term": "Wpf- Upto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Auf",
+          "matched_term": "Auf",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Flocos",
+          "matched_term": "Flocos",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": null,
+          "matched_term": null,
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.314
+        },
+        {
+          "name": "Spora",
+          "matched_term": "Spora",
+          "drug_id": "1e7c1a38-003f-4386-bd55-285993360934",
+          "brand_id": "0f213449-0b5f-42fd-9c0d-82511a3af5da",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.643
+        },
+        {
+          "name": "Labas",
+          "matched_term": "Labas",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        },
+        {
+          "name": "Mapa",
+          "matched_term": "Mapa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.263
+        }
+      ],
+      "raw_text": "06\n3/5/16\nRco\ndone\n4/\nWPF- upto-50\nx\nauf.\nFlocos\n(500mg)\n18\nsport after\n91/50/60/hr-\nLabas\n1×3\nMapa\n-\n.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 15505,
+        "detected_regions": 1,
+        "ocr_line_count": 18,
+        "yolo_avg_confidence": 0.8026,
+        "yolo_min_confidence": 0.8026,
+        "yolo_max_confidence": 0.8026,
+        "ocr_avg_confidence": 0.584,
+        "ocr_min_confidence": 0.584,
+        "ocr_max_confidence": 0.584,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 631.2074241638184,
+              "y_min": 996.4611827850341,
+              "x_max": 3206.6930404663085,
+              "y_max": 3487.2436622619625
+            },
+            "score": 0.8026
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "06",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "3/5/16",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "Rco",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "done",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "4/",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "WPF- upto-50",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "x",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "auf.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "Flocos",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "(500mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "18",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "sport after",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "91/50/60/hr-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "Labas",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "1×3",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "Mapa",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": "-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          },
+          {
+            "text": ".",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.584
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

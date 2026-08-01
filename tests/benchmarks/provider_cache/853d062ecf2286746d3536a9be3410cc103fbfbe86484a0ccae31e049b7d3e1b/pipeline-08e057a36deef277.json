@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0097",
+  "source_sha256": "853d062ecf2286746d3536a9be3410cc103fbfbe86484a0ccae31e049b7d3e1b",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:07.589462+00:00",
+  "runtime_ms": 12033.127899994724,
+  "output": {
+    "medications": [
+      {
+        "name": "Common Cold",
+        "matched_term": "Common Cold",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      },
+      {
+        "name": "Tu Serin Iz",
+        "matched_term": "Tu Serin Iz",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      },
+      {
+        "name": "Galvus",
+        "matched_term": "Galvus",
+        "drug_id": "e85f7170-ee4b-4e8d-a2ec-875918a38327",
+        "brand_id": "b25fa84c-a834-4c4d-a920-b554ee0d6b32",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.577
+      },
+      {
+        "name": "The Month Lunkent",
+        "matched_term": "The Month Lunkent",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      },
+      {
+        "name": "Tw Binacodyl No",
+        "matched_term": "Tw Binacodyl No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.197
+      }
+    ],
+    "raw_text": "common cold\n· Tu. Serin iz\n22070 ---\nGalvus\n0 7370\n(20)\nThe Month Lunkent\n0707 -\nV. Tw. Binacodyl 5\nno 30/6.\n07073\ny",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 11998,
+      "detected_regions": 1,
+      "ocr_line_count": 12,
+      "yolo_avg_confidence": 0.9291,
+      "yolo_min_confidence": 0.9291,
+      "yolo_max_confidence": 0.9291,
+      "ocr_avg_confidence": 0.438,
+      "ocr_min_confidence": 0.438,
+      "ocr_max_confidence": 0.438,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 234.44296264648438,
+            "y_min": 271.17657470703125,
+            "x_max": 536.1465454101562,
+            "y_max": 609.8175048828125
+          },
+          "score": 0.9291
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "common cold",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "· Tu. Serin iz",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "22070 ---",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "Galvus",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "0 7370",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "(20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "The Month Lunkent",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "0707 -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "V. Tw. Binacodyl 5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "no 30/6.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "07073",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        },
+        {
+          "text": "y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.438
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

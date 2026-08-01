@@ -1,0 +1,485 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0024",
+  "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:33:19.178037+00:00",
+  "runtime_ms": 35680.663299994194,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah Madinah Jeddah\nTREATMENT CARD / 1890\nMedical Center:\n8007502\nPOSSO01 No\nName\nDenal\nHEALTH PROFILE\n3. Heart Chowy !!!\n1. brug History:\n8 Blod Bugo: (RE-3)\n10 Liver Dedoss\n12. Any other abnormalitmi. NR\nListe 25 Us/ 2024\nChief Complaints:\nCall erre But,\nTil Inflor (importe) trong\nTomo\nDehydration\nRespiration\n10+1\n0+0+1 -\nFOSIRES\nECG\nlevo flox\nProvisional Diagoncels\nNormal drop.\n1+1+1\n-\nका एक अयो विलियम द्वारा दृष्टपा इन 2 रावत जी अण्डियन दयचार पुत्र वान := था।\n******* F209",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Makkah Madinah Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "TREATMENT CARD / 1890",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "8007502",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "POSSO01 No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Denal",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "3. Heart Chowy !!!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1. brug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "8 Blod Bugo: (RE-3)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "10 Liver Dedoss",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "12. Any other abnormalitmi. NR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Liste 25 Us/ 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Call erre But,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Til Inflor (importe) trong",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Tomo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Dehydration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "10+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "0+0+1 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "FOSIRES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "levo flox",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Provisional Diagoncels",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Normal drop.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1+1+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "का एक अयो विलियम द्वारा दृष्टपा इन 2 रावत जी अण्डियन दयचार पुत्र वान := था।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "******* F209",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Denaliv",
+        "matched_term": "Denaliv",
+        "drug_id": "a95cce13-0074-4a7f-b5a4-956572633acb",
+        "brand_id": "e3b2ef94-7de9-4136-a9aa-bffd6bbf441c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Heart Raj",
+        "matched_term": "Heart Raj",
+        "drug_id": "a7fd22e6-a136-4acb-988e-6b7adc2a00ab",
+        "brand_id": "b88ceb73-a6ee-4a85-89a7-be23f8aa3b62",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Brug History",
+        "matched_term": "Brug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Blod Bugo Re",
+        "matched_term": "Blod Bugo Re",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Any Other Abnormalitmi",
+        "matched_term": "Any Other Abnormalitmi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Liste Us",
+        "matched_term": "Liste Us",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Cally",
+        "matched_term": "Cally",
+        "drug_id": "c6cb0a57-132c-43d3-9f05-18ff04231878",
+        "brand_id": "be347722-98f1-43fe-8e50-f864d85316b8",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Til",
+        "matched_term": "Til",
+        "drug_id": "654b7cd1-5571-4387-a406-40c7ded996d9",
+        "brand_id": "6c230c98-5f37-4310-95d5-6c44f42ead40",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Tomo",
+        "matched_term": "Tomo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.691
+      },
+      {
+        "name": "Fosires",
+        "matched_term": "Fosires",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Levo",
+        "matched_term": "Levo",
+        "drug_id": "3aff74b6-d60a-4e4a-8eae-aaffe2800b9c",
+        "brand_id": "f3d0abf7-510a-4e3b-8b04-bf33a77000b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.641
+      },
+      {
+        "name": "Provisional Diagoncels",
+        "matched_term": "Provisional Diagoncels",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.261
+      },
+      {
+        "name": "Normanal",
+        "matched_term": "Normanal",
+        "drug_id": "e9a3fa2e-1c44-4546-b11c-4ec7b9571aa6",
+        "brand_id": "002ce020-df20-41f8-ac4d-1ef427eabafd",
+        "dosage": null,
+        "frequency": "1+1+1",
+        "quantity": null,
+        "confidence": 0.691
+      }
+    ]
+  }
+}

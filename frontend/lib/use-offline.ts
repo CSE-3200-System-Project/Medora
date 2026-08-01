@@ -37,16 +37,15 @@ export function useNetworkStatus() {
   return status;
 }
 
-// Trigger background sync manually
-export async function requestBackgroundSync(tag: string = "medora-sync") {
-  if ("serviceWorker" in navigator && "SyncManager" in window) {
-    const registration = await navigator.serviceWorker.ready;
-    await registration.sync.register(tag);
-  }
+// Sensitive writes are never queued. Callers must show an explicit offline
+// error and ask the user to retry after reconnecting.
+export async function requestBackgroundSync() {
+  throw new Error("Offline synchronization is disabled for health data.");
 }
 
-// Cache API data for offline use
-export function useOfflineCache<T>(key: string, fetcher: () => Promise<T>) {
+// The legacy hook name is retained for compatibility, but values live only in
+// component memory and are never persisted in browser storage.
+export function useOfflineCache<T>(_key: string, fetcher: () => Promise<T>) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -57,32 +56,12 @@ export function useOfflineCache<T>(key: string, fetcher: () => Promise<T>) {
     try {
       const result = await fetcher();
       setData(result);
-      // Cache the result in localStorage for offline access
-      try {
-        localStorage.setItem(
-          `medora_cache_${key}`,
-          JSON.stringify({ data: result, timestamp: Date.now() }),
-        );
-      } catch {
-        // localStorage might be full
-      }
     } catch (err) {
-      // Try loading from cache
-      try {
-        const cached = localStorage.getItem(`medora_cache_${key}`);
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          setData(parsed.data);
-        } else {
-          setError(err instanceof Error ? err : new Error("Fetch failed"));
-        }
-      } catch {
-        setError(err instanceof Error ? err : new Error("Fetch failed"));
-      }
+      setError(err instanceof Error ? err : new Error("Fetch failed"));
     } finally {
       setIsLoading(false);
     }
-  }, [key, fetcher]);
+  }, [fetcher]);
 
   useEffect(() => {
     refresh();

@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "109a0b3b6dd129aeecf8759e6104f11c963cbcdd5820409342d0ef71c5fd5691",
+  "record_id": "RX-0062",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 25767.673199996352,
+  "failure": null,
+  "response_sha256": "e657f9f6c011f204bb16f4b1e872fded8aaf7aadb811d2e7fd4a9e28648fa533",
+  "response": {
+    "raw_text": "Rx\nTab .\nMexifloxacin (400 mg)\n. Tab\nDoxophyline (200mg)\na toto- ena-\n10\n. Tab .\nMontilukast (10mg)\ncap\n07013-2014-\nomeprazole (20mg)\na tofa - 84\n10",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Tab .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Mexifloxacin (400 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": ". Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Doxophyline (200mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "a toto- ena-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": ". Tab .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Montilukast (10mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "07013-2014-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "omeprazole (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "a tofa - 84",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.624
+      }
+    ]
+  }
+}

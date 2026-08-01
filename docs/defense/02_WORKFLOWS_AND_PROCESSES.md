@@ -8,25 +8,34 @@
 
 ### A.1 Why this is hard (it isn't just a CRUD form)
 
-The booking flow is **the** showcase of "engineering correctness under concurrency" (Table 6.2 P1). Without care, two patients clicking the same slot a second apart both succeed. The platform deliberately avoids that with a **soft-hold + transactional commit + Realtime broadcast** triple-pattern.
+The booking flow is a useful example of correctness under concurrency. Without
+database enforcement, two patients requesting the same slot can both pass an
+application-level availability check. Medora uses a transaction-scoped advisory
+lock, an active-slot unique index, a mandatory idempotency key, and a transactional
+outbox.
 
 If asked *"why couldn't you just do a SQL UNIQUE constraint?"*:
-> Because a UNIQUE constraint catches the conflict only at INSERT, after both clients have committed UI state. We instead place a **soft hold row** *before* the patient confirms, broadcast a Realtime slot update, and only then run the transactional commit. This means the second patient *never sees* the slot as free, instead of seeing it free and getting a 409.
+> The unique constraint is the final database invariant. The advisory lock
+> serializes contenders for a slot so the losing request receives a controlled
+> conflict, while idempotency makes replay safe. Realtime delivery is published
+> from the outbox only after commit and does not determine consistency.
 
 ### A.2 Booking data flow (Fig. 3.7, DFD level 2)
 
-`Search doctors → Fetch live slots → Create soft hold → Commit booking → Notify patient/doctor`. Five nodes, four data stores: doctor+specialty data, availability+realtime, appointments+audit, notifications.
+`Search doctors → Fetch slots → Submit with idempotency key → Lock and commit →
+write outbox event → notify patient/doctor after commit`. The database remains
+authoritative when a client reconnects or misses an event.
 
 ### A.3 Booking sequence (Fig. 3.8, full text-traced)
 
 ```
 Patient → Frontend     : request slot
 Frontend → Backend     : book appointment
-Backend → DB           : validate + soft hold
+Backend → DB           : lock slot + validate + insert appointment and outbox
 Backend → Admin queue  : send for approval (where required)
 Admin → Backend        : approve/reject
-Backend → DB           : commit booking, persist confirmed
-Backend → Frontend     : emit slot update (Realtime broadcast to all subscribers)
+Backend → DB           : commit booking
+Outbox → Frontend      : emit post-commit slot update
 Backend → Notifications: send alerts (email + push + in-app)
 Frontend → Patient     : confirm booking
 [Reschedule]

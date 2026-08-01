@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
+  "record_id": "RX-0031",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5740.5467000062345,
+  "failure": null,
+  "response_sha256": "9ccc2bdb998fa26ecf69e8c99bf94791aaa2f4c1b38da4bfcc85ca8647d6fe75",
+  "response": {
+    "raw_text": "Rx\n+ Tab Ferofenadine (1205)\notper\nCy One prazete\nTae Marcolet\nislastig",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "+ Tab Ferofenadine (1205)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "otper",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "Cy One prazete",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "Tae Marcolet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "islastig",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.485
+      }
+    ]
+  }
+}

@@ -1,0 +1,639 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0047",
+  "source_sha256": "7cf98892926c83c26d1f8cbf890972e12ddbb9111c514b07c2219f46152cac32",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:46:25.756528+00:00",
+  "runtime_ms": 38041.95759999857,
+  "output": {
+    "raw_text": "SE)NaSP\nm-\n1\noTo\nM\nR95\nMLO\nraanaa aaa a\nTeeenranene\n4\nJLY\nAnd\nCohnkRAe\nR\n0\n2\n-\nKEe\n2\nCaaaan\nP\n-\n1\nm\nO\netO\nT\n57\nRnpEoe\nMain\nC\n21\nQE-\n7+8028\non\nR\n170167\n506\nSE\nm3\nE\nm\n4\nAl",
+    "lines": [
+      {
+        "text": "SE)NaSP",
+        "bbox": {
+          "x_min": 3204.0,
+          "y_min": 142.0,
+          "x_max": 3496.0,
+          "y_max": 1325.0
+        },
+        "page": 1,
+        "confidence": 0.374
+      },
+      {
+        "text": "m-",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 298.0,
+          "x_max": 140.0,
+          "y_max": 830.0
+        },
+        "page": 1,
+        "confidence": 0.527
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 3080.0,
+          "y_min": 295.0,
+          "x_max": 3194.0,
+          "y_max": 496.0
+        },
+        "page": 1,
+        "confidence": 0.775
+      },
+      {
+        "text": "oTo",
+        "bbox": {
+          "x_min": 2309.0,
+          "y_min": 384.0,
+          "x_max": 2503.0,
+          "y_max": 1498.0
+        },
+        "page": 1,
+        "confidence": 0.402
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 2586.0,
+          "y_min": 438.0,
+          "x_max": 2685.0,
+          "y_max": 514.0
+        },
+        "page": 1,
+        "confidence": 0.247
+      },
+      {
+        "text": "R95",
+        "bbox": {
+          "x_min": 230.0,
+          "y_min": 539.0,
+          "x_max": 473.0,
+          "y_max": 946.0
+        },
+        "page": 1,
+        "confidence": 0.896
+      },
+      {
+        "text": "MLO",
+        "bbox": {
+          "x_min": 3015.0,
+          "y_min": 541.0,
+          "x_max": 3184.0,
+          "y_max": 887.0
+        },
+        "page": 1,
+        "confidence": 0.292
+      },
+      {
+        "text": "raanaa aaa a",
+        "bbox": {
+          "x_min": 4177.0,
+          "y_min": 667.0,
+          "x_max": 4346.0,
+          "y_max": 1426.0
+        },
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "Teeenranene",
+        "bbox": {
+          "x_min": 4314.0,
+          "y_min": 707.0,
+          "x_max": 4479.0,
+          "y_max": 1410.0
+        },
+        "page": 1,
+        "confidence": 0.334
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 2526.0,
+          "y_min": 732.0,
+          "x_max": 2670.0,
+          "y_max": 1014.0
+        },
+        "page": 1,
+        "confidence": 0.565
+      },
+      {
+        "text": "JLY",
+        "bbox": {
+          "x_min": 1467.0,
+          "y_min": 913.0,
+          "x_max": 1610.0,
+          "y_max": 1145.0
+        },
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "And",
+        "bbox": {
+          "x_min": 1299.0,
+          "y_min": 931.0,
+          "x_max": 1445.0,
+          "y_max": 1373.0
+        },
+        "page": 1,
+        "confidence": 0.68
+      },
+      {
+        "text": "CohnkRAe",
+        "bbox": {
+          "x_min": 4410.0,
+          "y_min": 935.0,
+          "x_max": 4538.0,
+          "y_max": 1391.0
+        },
+        "page": 1,
+        "confidence": 0.411
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 4045.0,
+          "y_min": 1012.0,
+          "x_max": 4053.0,
+          "y_max": 1042.0
+        },
+        "page": 1,
+        "confidence": 0.103
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 4105.0,
+          "y_min": 1008.0,
+          "x_max": 4112.0,
+          "y_max": 1013.0
+        },
+        "page": 1,
+        "confidence": 0.107
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 4053.0,
+          "y_min": 1030.0,
+          "x_max": 4062.0,
+          "y_max": 1043.0
+        },
+        "page": 1,
+        "confidence": 0.076
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 4059.0,
+          "y_min": 1053.0,
+          "x_max": 4067.0,
+          "y_max": 1065.0
+        },
+        "page": 1,
+        "confidence": 0.073
+      },
+      {
+        "text": "KEe",
+        "bbox": {
+          "x_min": 335.0,
+          "y_min": 1070.0,
+          "x_max": 443.0,
+          "y_max": 1262.0
+        },
+        "page": 1,
+        "confidence": 0.319
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 106.0,
+          "y_min": 1123.0,
+          "x_max": 377.0,
+          "y_max": 2588.0
+        },
+        "page": 1,
+        "confidence": 0.443
+      },
+      {
+        "text": "Caaaan",
+        "bbox": {
+          "x_min": 4317.0,
+          "y_min": 1126.0,
+          "x_max": 4409.0,
+          "y_max": 1409.0
+        },
+        "page": 1,
+        "confidence": 0.446
+      },
+      {
+        "text": "P",
+        "bbox": {
+          "x_min": 4009.0,
+          "y_min": 1164.0,
+          "x_max": 4015.0,
+          "y_max": 1171.0
+        },
+        "page": 1,
+        "confidence": 0.338
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 4009.0,
+          "y_min": 1169.0,
+          "x_max": 4015.0,
+          "y_max": 1177.0
+        },
+        "page": 1,
+        "confidence": 0.169
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 2080.0,
+          "y_min": 1358.0,
+          "x_max": 2202.0,
+          "y_max": 1473.0
+        },
+        "page": 1,
+        "confidence": 0.26
+      },
+      {
+        "text": "m",
+        "bbox": {
+          "x_min": 555.0,
+          "y_min": 1460.0,
+          "x_max": 704.0,
+          "y_max": 1731.0
+        },
+        "page": 1,
+        "confidence": 0.204
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3290.0,
+          "y_min": 1772.0,
+          "x_max": 3299.0,
+          "y_max": 1788.0
+        },
+        "page": 1,
+        "confidence": 0.084
+      },
+      {
+        "text": "etO",
+        "bbox": {
+          "x_min": 2891.0,
+          "y_min": 1952.0,
+          "x_max": 3009.0,
+          "y_max": 2402.0
+        },
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "T",
+        "bbox": {
+          "x_min": 3368.0,
+          "y_min": 1923.0,
+          "x_max": 3552.0,
+          "y_max": 2177.0
+        },
+        "page": 1,
+        "confidence": 0.161
+      },
+      {
+        "text": "57",
+        "bbox": {
+          "x_min": 2296.0,
+          "y_min": 1972.0,
+          "x_max": 2451.0,
+          "y_max": 2911.0
+        },
+        "page": 1,
+        "confidence": 0.463
+      },
+      {
+        "text": "RnpEoe",
+        "bbox": {
+          "x_min": 2447.0,
+          "y_min": 2027.0,
+          "x_max": 2668.0,
+          "y_max": 2598.0
+        },
+        "page": 1,
+        "confidence": 0.469
+      },
+      {
+        "text": "Main",
+        "bbox": {
+          "x_min": 4106.0,
+          "y_min": 2080.0,
+          "x_max": 4238.0,
+          "y_max": 2337.0
+        },
+        "page": 1,
+        "confidence": 0.442
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3475.0,
+          "y_min": 2110.0,
+          "x_max": 3490.0,
+          "y_max": 2119.0
+        },
+        "page": 1,
+        "confidence": 0.162
+      },
+      {
+        "text": "21",
+        "bbox": {
+          "x_min": 650.0,
+          "y_min": 2324.0,
+          "x_max": 757.0,
+          "y_max": 2677.0
+        },
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "QE-",
+        "bbox": {
+          "x_min": 1519.0,
+          "y_min": 2353.0,
+          "x_max": 1690.0,
+          "y_max": 2777.0
+        },
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "7+8028",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 2333.0,
+          "x_max": 273.0,
+          "y_max": 2992.0
+        },
+        "page": 1,
+        "confidence": 0.563
+      },
+      {
+        "text": "on",
+        "bbox": {
+          "x_min": 3900.0,
+          "y_min": 2389.0,
+          "x_max": 4028.0,
+          "y_max": 2815.0
+        },
+        "page": 1,
+        "confidence": 0.321
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 4113.0,
+          "y_min": 2390.0,
+          "x_max": 4122.0,
+          "y_max": 2408.0
+        },
+        "page": 1,
+        "confidence": 0.079
+      },
+      {
+        "text": "170167",
+        "bbox": {
+          "x_min": 1315.0,
+          "y_min": 2402.0,
+          "x_max": 1487.0,
+          "y_max": 2928.0
+        },
+        "page": 1,
+        "confidence": 0.59
+      },
+      {
+        "text": "506",
+        "bbox": {
+          "x_min": 1061.0,
+          "y_min": 2416.0,
+          "x_max": 1371.0,
+          "y_max": 2793.0
+        },
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "SE",
+        "bbox": {
+          "x_min": 3975.0,
+          "y_min": 2455.0,
+          "x_max": 3984.0,
+          "y_max": 2483.0
+        },
+        "page": 1,
+        "confidence": 0.279
+      },
+      {
+        "text": "m3",
+        "bbox": {
+          "x_min": 3551.0,
+          "y_min": 2574.0,
+          "x_max": 3700.0,
+          "y_max": 2848.0
+        },
+        "page": 1,
+        "confidence": 0.518
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 3408.0,
+          "y_min": 2724.0,
+          "x_max": 3565.0,
+          "y_max": 2915.0
+        },
+        "page": 1,
+        "confidence": 0.139
+      },
+      {
+        "text": "m",
+        "bbox": {
+          "x_min": 2019.0,
+          "y_min": 2734.0,
+          "x_max": 2197.0,
+          "y_max": 2982.0
+        },
+        "page": 1,
+        "confidence": 0.504
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 3607.0,
+          "y_min": 2778.0,
+          "x_max": 3730.0,
+          "y_max": 2935.0
+        },
+        "page": 1,
+        "confidence": 0.185
+      },
+      {
+        "text": "Al",
+        "bbox": {
+          "x_min": 646.0,
+          "y_min": 3166.0,
+          "x_max": 812.0,
+          "y_max": 3468.0
+        },
+        "page": 1,
+        "confidence": 0.23
+      }
+    ],
+    "medications": [
+      {
+        "name": "Se-Z",
+        "matched_term": "Se-Z",
+        "drug_id": "e1f98be2-2485-4530-9d8a-55b0ade013bc",
+        "brand_id": "7f6af8c7-15d3-414a-b61d-51347b4d0ddf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.631
+      },
+      {
+        "name": "Oto",
+        "matched_term": "Oto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.232
+      },
+      {
+        "name": "L-Amlo",
+        "matched_term": "L-Amlo",
+        "drug_id": "37e8a331-806a-4dcc-80df-10a20d9b17bb",
+        "brand_id": "d25767e5-aeab-4cbf-bca4-455ae0103f74",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.511
+      },
+      {
+        "name": "Raanaa Aaa",
+        "matched_term": "Raanaa Aaa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.19
+      },
+      {
+        "name": "Teeenranene",
+        "matched_term": "Teeenranene",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.202
+      },
+      {
+        "name": "Jly",
+        "matched_term": "Jly",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      },
+      {
+        "name": "And",
+        "matched_term": "And",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.306
+      },
+      {
+        "name": "Cohnkrae",
+        "matched_term": "Cohnkrae",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.069
+      },
+      {
+        "name": "Kee",
+        "matched_term": "Kee",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.171
+      },
+      {
+        "name": "Caaaan",
+        "matched_term": "Caaaan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.107
+      },
+      {
+        "name": "Eto",
+        "matched_term": "Eto",
+        "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+        "brand_id": "291bbda2-d1fb-4e65-9ba6-7c052737f7f6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.6
+      },
+      {
+        "name": "Rnpeoe",
+        "matched_term": "Rnpeoe",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.211
+      },
+      {
+        "name": "Kushta Aqeeq",
+        "matched_term": "Kushta Aqeeq",
+        "drug_id": "e0f4d2cc-b077-4265-8d5c-ecc03663a26f",
+        "brand_id": "d25b6755-a783-4a33-9415-9f8e663b9449",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.449
+      }
+    ]
+  }
+}

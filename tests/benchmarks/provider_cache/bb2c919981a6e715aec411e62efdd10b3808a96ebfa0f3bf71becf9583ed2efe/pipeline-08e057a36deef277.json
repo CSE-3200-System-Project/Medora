@@ -1,0 +1,445 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0005",
+  "source_sha256": "bb2c919981a6e715aec411e62efdd10b3808a96ebfa0f3bf71becf9583ed2efe",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:21:57.304331+00:00",
+  "runtime_ms": 16922.15430000215,
+  "output": {
+    "medications": [
+      {
+        "name": "Vertig",
+        "matched_term": "Vertig",
+        "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+        "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Nasea",
+        "matched_term": "Nasea",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Check Bp Times",
+        "matched_term": "Check Bp Times",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "2 days",
+        "confidence": 0.367
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Cimmaron",
+        "matched_term": "Cimmaron",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "2+0+2",
+        "quantity": null,
+        "confidence": 0.367
+      },
+      {
+        "name": "Vergon",
+        "matched_term": "Vergon",
+        "drug_id": "f78d51a0-442f-462d-9ea0-7e347f94f22c",
+        "brand_id": "4a7e37c7-1d9e-47c1-ade1-fe699195f15e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Letab 500",
+        "matched_term": "Letab 500",
+        "drug_id": "3aff74b6-d60a-4e4a-8eae-aaffe2800b9c",
+        "brand_id": "e1bf3976-f873-4f38-b8ba-308bd5ac2e79",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.546
+      },
+      {
+        "name": "Domin",
+        "matched_term": "Domin",
+        "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+        "brand_id": "a1d867fd-bc4e-4b26-856b-eee54917bd35",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Eszuso",
+        "matched_term": "Eszuso",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Tots",
+        "matched_term": "Tots",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Ref To Spl",
+        "matched_term": "Ref To Spl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Ranitid",
+        "matched_term": "Ranitid",
+        "drug_id": "e848c92a-5ecd-419b-a727-7806cbba7b52",
+        "brand_id": "5e6ec9c7-596b-4789-b5e6-e7ae96a439f5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.698
+      },
+      {
+        "name": "Cmh Dhk",
+        "matched_term": "Cmh Dhk",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "For Needful",
+        "matched_term": "For Needful",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Advice Please",
+        "matched_term": "Advice Please",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Pase",
+        "matched_term": "Pase",
+        "drug_id": "5de9dc9e-9eff-4c91-97dc-a6f29bd47c89",
+        "brand_id": "534c831e-2949-49de-87be-6194234d2269",
+        "dosage": "10.5g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.749
+      },
+      {
+        "name": "Otoyol Fc",
+        "matched_term": "Otoyol Fc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      }
+    ],
+    "raw_text": "*\n1.09.16.\nye -\nVertigo é\n. Nasea.\ncheck BP 2 times\nfor 2 days.\n500\n11-8.81\nR\nTab.\ncimmaron\n2+0+2-\n20\n. Tab Vergon\n-20\nLeTab\nDomin (10)\neszuso\n20\n>tots\nRef to SPL of\nV\nTab\nRanitid 150y\n250to\n20\nMedicine of\nCMH, DHK\nfor needful\nadvice please.\nTab\nPase 10.5g\nOtoyol-\nfc",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 16886,
+      "detected_regions": 1,
+      "ocr_line_count": 35,
+      "yolo_avg_confidence": 0.865,
+      "yolo_min_confidence": 0.865,
+      "yolo_max_confidence": 0.865,
+      "ocr_avg_confidence": 0.706,
+      "ocr_min_confidence": 0.706,
+      "ocr_max_confidence": 0.706,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 251.09917755126952,
+            "y_min": 1048.7033039093017,
+            "x_max": 3183.0309890747067,
+            "y_max": 4112.511981201172
+          },
+          "score": 0.865
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "*",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "1.09.16.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "ye -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Vertigo é",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": ". Nasea.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "check BP 2 times",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "for 2 days.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "11-8.81",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "cimmaron",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "2+0+2-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": ". Tab Vergon",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "-20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "LeTab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Domin (10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "eszuso",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": ">tots",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Ref to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "V",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Ranitid 150y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "250to",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Medicine of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "CMH, DHK",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "for needful",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "advice please.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Pase 10.5g",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "Otoyol-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "fc",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.706
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

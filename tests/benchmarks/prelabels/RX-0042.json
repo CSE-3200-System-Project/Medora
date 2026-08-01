@@ -1,0 +1,707 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0042",
+  "source_sha256": "1a3318b98f6a1456b7c1ce6fa24c98ed7acd783c791a2670d5cdcde60a302228",
+  "raw_transcription": "14 lub. Alatrol\nYet. Allergy\nPUD\n(+0+)-\nCap. Suelo 20 mg\n2 +0 +>-\n16\nmoura 2/2 31 cmpor",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Alatrol",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Yet Allergy",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pud",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Suelo",
+      "strength": "20 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Moury",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "799fe3893a108365d3e4e8fd5df1d86bed59b57e9520223a4bbacfffd1a10716"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "85bf8c9dba256aa1b07b04c8f02cac8a4bc33d533a6da864aad3a523499351ad"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "3af46213759f1638b4aaa89ef795ecf452a93b76604c821e7258d0d0a7dd726e"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "-\nsooRoh\n12\n0\n7\nleam\nA\n+R\nYS\nenE\nt8078\n-\nA\nC\n2\n-\n26\nOnd\n91118\no\nAla",
+      "lines": [
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 381.0,
+            "y_min": 78.0,
+            "x_max": 502.0,
+            "y_max": 594.0
+          },
+          "page": 1,
+          "confidence": 0.642
+        },
+        {
+          "text": "sooRoh",
+          "bbox": {
+            "x_min": 572.0,
+            "y_min": 170.0,
+            "x_max": 861.0,
+            "y_max": 787.0
+          },
+          "page": 1,
+          "confidence": 0.647
+        },
+        {
+          "text": "12",
+          "bbox": {
+            "x_min": 864.0,
+            "y_min": 371.0,
+            "x_max": 981.0,
+            "y_max": 1118.0
+          },
+          "page": 1,
+          "confidence": 0.447
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 1383.0,
+            "y_min": 363.0,
+            "x_max": 1604.0,
+            "y_max": 614.0
+          },
+          "page": 1,
+          "confidence": 0.322
+        },
+        {
+          "text": "7",
+          "bbox": {
+            "x_min": 1684.0,
+            "y_min": 418.0,
+            "x_max": 1881.0,
+            "y_max": 602.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "leam",
+          "bbox": {
+            "x_min": 1147.0,
+            "y_min": 564.0,
+            "x_max": 1356.0,
+            "y_max": 1508.0
+          },
+          "page": 1,
+          "confidence": 0.439
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 1657.0,
+            "y_min": 574.0,
+            "x_max": 1788.0,
+            "y_max": 783.0
+          },
+          "page": 1,
+          "confidence": 0.541
+        },
+        {
+          "text": "+R",
+          "bbox": {
+            "x_min": 1859.0,
+            "y_min": 948.0,
+            "x_max": 1987.0,
+            "y_max": 1532.0
+          },
+          "page": 1,
+          "confidence": 0.595
+        },
+        {
+          "text": "YS",
+          "bbox": {
+            "x_min": 1670.0,
+            "y_min": 1066.0,
+            "x_max": 1751.0,
+            "y_max": 1261.0
+          },
+          "page": 1,
+          "confidence": 0.439
+        },
+        {
+          "text": "enE",
+          "bbox": {
+            "x_min": 2052.0,
+            "y_min": 1079.0,
+            "x_max": 2147.0,
+            "y_max": 1368.0
+          },
+          "page": 1,
+          "confidence": 0.45
+        },
+        {
+          "text": "t8078",
+          "bbox": {
+            "x_min": 777.0,
+            "y_min": 1187.0,
+            "x_max": 1001.0,
+            "y_max": 2017.0
+          },
+          "page": 1,
+          "confidence": 0.539
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1743.0,
+            "y_min": 1369.0,
+            "x_max": 1755.0,
+            "y_max": 1380.0
+          },
+          "page": 1,
+          "confidence": 0.243
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 1042.0,
+            "y_min": 1442.0,
+            "x_max": 1295.0,
+            "y_max": 1716.0
+          },
+          "page": 1,
+          "confidence": 0.499
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1883.0,
+            "y_min": 1502.0,
+            "x_max": 1948.0,
+            "y_max": 1567.0
+          },
+          "page": 1,
+          "confidence": 0.432
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 881.0,
+            "y_min": 2137.0,
+            "x_max": 967.0,
+            "y_max": 2494.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1409.0,
+            "y_min": 2316.0,
+            "x_max": 1417.0,
+            "y_max": 2335.0
+          },
+          "page": 1,
+          "confidence": 0.756
+        },
+        {
+          "text": "26",
+          "bbox": {
+            "x_min": 1420.0,
+            "y_min": 2320.0,
+            "x_max": 1437.0,
+            "y_max": 2351.0
+          },
+          "page": 1,
+          "confidence": 0.102
+        },
+        {
+          "text": "Ond",
+          "bbox": {
+            "x_min": 1451.0,
+            "y_min": 2534.0,
+            "x_max": 1624.0,
+            "y_max": 2849.0
+          },
+          "page": 1,
+          "confidence": 0.744
+        },
+        {
+          "text": "91118",
+          "bbox": {
+            "x_min": 859.0,
+            "y_min": 2613.0,
+            "x_max": 1011.0,
+            "y_max": 2967.0
+          },
+          "page": 1,
+          "confidence": 0.727
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 452.0,
+            "y_min": 2755.0,
+            "x_max": 705.0,
+            "y_max": 3097.0
+          },
+          "page": 1,
+          "confidence": 0.255
+        },
+        {
+          "text": "Ala",
+          "bbox": {
+            "x_min": 867.0,
+            "y_min": 3031.0,
+            "x_max": 961.0,
+            "y_max": 3243.0
+          },
+          "page": 1,
+          "confidence": 0.449
+        }
+      ],
+      "medications": [
+        {
+          "name": "Sooroh",
+          "matched_term": "Sooroh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.233
+        },
+        {
+          "name": "G.Dys",
+          "matched_term": "G.Dys",
+          "drug_id": "9cf99462-b92b-4baa-b528-917e56f5cf9d",
+          "brand_id": "38c92864-2a38-49ae-9778-356dd0b4c6e0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.431
+        },
+        {
+          "name": "Ene",
+          "matched_term": "Ene",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.207
+        },
+        {
+          "name": "Ond",
+          "matched_term": "Ond",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.259
+        },
+        {
+          "name": "ALA",
+          "matched_term": "ALA",
+          "drug_id": "314554e5-c818-4f96-841c-7421502aa9a4",
+          "brand_id": "ee100fc5-9256-4f0e-a1c2-7d5a2946bd5f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.582
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "W/O\nत्यागीव नाग\nशर (ब्याडि) - एक\nडिकिश्यक कड़क ब्बाभीन वारशु श्रज\nMEH Siddque. MCDO (X) 3IST\n40 years\n3.11.16.\nप्लाटगव नाग\n820377\nडिकिस्मटकर बारशनना\nMel. Allergy\n· PUD\nLub. Alatrol\n000+0->(18\nCap. Suelo 20 mg\n2 +0 +> -5/16\n- 20Bur 2/2 31 cmpor\nR",
+      "lines": [
+        {
+          "text": "W/O",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "त्यागीव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "शर (ब्याडि) - एक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "डिकिश्यक कड़क ब्बाभीन वारशु श्रज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "MEH Siddque. MCDO (X) 3IST",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "40 years",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "3.11.16.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "प्लाटगव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "डिकिस्मटकर बारशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "Mel. Allergy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "· PUD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "Lub. Alatrol",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "000+0->(18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "Cap. Suelo 20 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "2 +0 +> -5/16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "- 20Bur 2/2 31 cmpor",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "R",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.453
+        }
+      ],
+      "medications": [
+        {
+          "name": "Meh Siddque Mcdo",
+          "matched_term": "Meh Siddque Mcdo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        },
+        {
+          "name": "Years",
+          "matched_term": "Years",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        },
+        {
+          "name": "Melo",
+          "matched_term": "Melo",
+          "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+          "brand_id": "bcb65418-dbd2-4a66-af20-4260fdaae5d3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.584
+        },
+        {
+          "name": "Pud",
+          "matched_term": "Pud",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        },
+        {
+          "name": "Alatrol",
+          "matched_term": "Alatrol",
+          "drug_id": "362c03e6-8499-4a2d-aa2d-8da0b3e01939",
+          "brand_id": "393faff2-75ae-4cfe-a895-a7fcde21ff27",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.584
+        },
+        {
+          "name": "Suelo",
+          "matched_term": "Suelo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20 mg",
+          "frequency": "2+0+5",
+          "quantity": null,
+          "confidence": 0.304
+        },
+        {
+          "name": "Bur Cmpor",
+          "matched_term": "Bur Cmpor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.204
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Alatrol",
+          "matched_term": "Alatrol",
+          "drug_id": "362c03e6-8499-4a2d-aa2d-8da0b3e01939",
+          "brand_id": "393faff2-75ae-4cfe-a895-a7fcde21ff27",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        },
+        {
+          "name": "Yet Allergy",
+          "matched_term": "Yet Allergy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Pud",
+          "matched_term": "Pud",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Suelo",
+          "matched_term": "Suelo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "20 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.278
+        },
+        {
+          "name": "Moury",
+          "matched_term": "Moury",
+          "drug_id": "889000a8-e8c7-48d3-b9c1-a72b478886bd",
+          "brand_id": "ca36790d-0cab-415b-bf31-d8162801e7fe",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.607
+        }
+      ],
+      "raw_text": "14 lub. Alatrol\nYet. Allergy\nPUD\n(+0+)-\nCap. Suelo 20 mg\n2 +0 +>-\n16\nmoura 2/2 31 cmpor",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 10445,
+        "detected_regions": 1,
+        "ocr_line_count": 8,
+        "yolo_avg_confidence": 0.841,
+        "yolo_min_confidence": 0.841,
+        "yolo_max_confidence": 0.841,
+        "ocr_avg_confidence": 0.505,
+        "ocr_min_confidence": 0.505,
+        "ocr_max_confidence": 0.505,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 356.1338718414306,
+              "y_min": 978.5420009613036,
+              "x_max": 3244.50478515625,
+              "y_max": 2933.6569213867183
+            },
+            "score": 0.841
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "14 lub. Alatrol",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "Yet. Allergy",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "PUD",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "(+0+)-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "Cap. Suelo 20 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "2 +0 +>-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "16",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          },
+          {
+            "text": "moura 2/2 31 cmpor",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.505
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

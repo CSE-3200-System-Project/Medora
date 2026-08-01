@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ae82c911dbc2006e32d39adc5dad0e402e6d9db5c11531f27618b3b35b02a014",
+  "record_id": "RX-0045",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 120409.9375000078,
+  "failure": null,
+  "response_sha256": "47a5209508390f390af03792b996f6b7fe0a97d42426a4b59ec2d655ff30c6a3",
+  "response": {
+    "raw_text": "820377\nछिकिश्मक कड़क स्वाभीव वारश श्व\nअभीव नाय oMPH Sio q सक्षम ५७५\nशनि\nबादशव नाग\nEndrocrinology-OPD\nDate :-\n11 +1:0 -2\nSer No :-\nRoom No :-\nC-67\n· A Sub- Acute thyroidiler\n(Hypoth grand phase)\nFF\nTSH= 89.85 uschal.\nPT=5-1 Duralh.\nIssoal 15 day\n11/10/17\n2\nFTA, TSY\nThyrox (50 equ)\n2-to-to (5wTO)\nMD ABDULLAH-AL-MAMI\nMajor\nClassified Spl in Medicine\n(Endocrinologist)\n24 H Dhaka\nR\n55\nरेना\nगतियह\nS/m\nडिकिश्मद्ब बादशाम\nजबानीड\n23-8-",
+    "lines": [
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "छिकिश्मक कड़क स्वाभीव वारश श्व",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "अभीव नाय oMPH Sio q सक्षम ५७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "शनि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Endrocrinology-OPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Date :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "11 +1:0 -2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Ser No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Room No :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "C-67",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "· A Sub- Acute thyroidiler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "(Hypoth grand phase)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "FF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "TSH= 89.85 uschal.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "PT=5-1 Duralh.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Issoal 15 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "11/10/17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "FTA, TSY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Thyrox (50 equ)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "2-to-to (5wTO)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "MD ABDULLAH-AL-MAMI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Major",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "Classified Spl in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "(Endocrinologist)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "24 H Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "रेना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "गतियह",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "डिकिश्मद्ब बादशाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "जबानीड",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      },
+      {
+        "text": "23-8-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.537
+      }
+    ]
+  }
+}

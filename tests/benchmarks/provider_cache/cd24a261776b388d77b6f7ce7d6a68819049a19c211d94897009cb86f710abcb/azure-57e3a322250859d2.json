@@ -1,0 +1,259 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0025",
+  "source_sha256": "cd24a261776b388d77b6f7ce7d6a68819049a19c211d94897009cb86f710abcb",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:33:41.406074+00:00",
+  "runtime_ms": 22217.751899996074,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkah MednahJeodalı\nTREATMENT CARD! < PITIYA\n:20 -- > G580\n1115:5369\nHEALTH PROFILE\nHành Chesak\n19 x\n.44\nChiof Complaints\nTab Fax0 10\n... 12\nDehydration-\nNosolution\nFOSTOS-\nECG\nProvisional Diagonasis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Makkah MednahJeodalı",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "TREATMENT CARD! < PITIYA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": ":20 -- > G580",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1115:5369",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Hành Chesak",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "19 x",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": ".44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Chiof Complaints",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Tab Fax0 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "... 12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Nosolution",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "FOSTOS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Provisional Diagonasis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Makkah Mednahjeodal",
+        "matched_term": "Makkah Mednahjeodal",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Treatment Card Pitiya",
+        "matched_term": "Treatment Card Pitiya",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Inh",
+        "matched_term": "Inh",
+        "drug_id": "37daafdf-3dd9-44d5-8d08-f55af99052cb",
+        "brand_id": "a5ebf143-e8b7-469a-a9b8-7c663ec70b08",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Chiof Complaints",
+        "matched_term": "Chiof Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Fax",
+        "matched_term": "Fax",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Nosolution",
+        "matched_term": "Nosolution",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Fostos",
+        "matched_term": "Fostos",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Provisional Diagonasis",
+        "matched_term": "Provisional Diagonasis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      }
+    ]
+  }
+}

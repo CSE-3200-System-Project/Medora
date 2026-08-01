@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
+  "record_id": "RX-0031",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 15055.661299993517,
+  "failure": null,
+  "response_sha256": "56a1f62885bc5b26663317b44f4b13b68e6561bfeb249814c7dbda02d1ec4695",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Heti Office\nMaskan dudinahJeddah\nTREATMENT CARDI 3ITEMS\nCom S018\nHEALTH PROFILE\n2991\nChiết Complaints:\nRx\n( 1205 )\n+ Tab Fexofenadine\notper-\nOme prajete\nJisposting\nFrohnanaf Diegopires",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Bangladesh Heti Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Maskan dudinahJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "TREATMENT CARDI 3ITEMS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Com S018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "2991",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Chiết Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "( 1205 )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "+ Tab Fexofenadine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "otper-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Ome prajete",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Jisposting",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "Frohnanaf Diegopires",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.667
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{"id": "SUM-001", "focus": "allergy", "records": [{"id": "allergy-1", "type": "allergy", "value": "penicillin", "timestamp": "2026-01-02T00:00:00Z"}]}
+{"id": "SUM-002", "focus": "dose", "records": [{"id": "rx-1", "type": "prescription", "value": "metformin 500 mg", "timestamp": "2026-01-03T00:00:00Z"}]}
+{"id": "SUM-003", "focus": "negation", "records": [{"id": "note-1", "type": "consultation", "value": "no fever", "timestamp": "2026-01-04T00:00:00Z"}]}
+{"id": "SUM-004", "focus": "time", "records": [{"id": "test-1", "type": "test", "value": "HbA1c 7.1", "timestamp": "2024-01-01T00:00:00Z"}]}
+{"id": "SUM-005", "focus": "duplicate", "records": [{"id": "a", "type": "condition", "value": "asthma", "timestamp": "2026-01-01T00:00:00Z"}, {"id": "b", "type": "condition", "value": "asthma", "timestamp": "2026-01-01T00:00:00Z"}]}
+{"id": "SUM-006", "focus": "conflict", "records": [{"id": "a", "type": "allergy", "value": "penicillin allergy", "timestamp": "2026-01-01T00:00:00Z"}, {"id": "b", "type": "consultation", "value": "no known allergy", "timestamp": "2026-01-02T00:00:00Z"}]}
+{"id": "SUM-007", "focus": "missing_evidence", "records": []}
+{"id": "SUM-008", "focus": "malformed_provider_output", "provider_output": "not-json"}
+{"id": "SUM-009", "focus": "provider_failure", "provider_error": "timeout"}
+{"id": "SUM-010", "focus": "source_link", "records": [{"id": "appt-1", "type": "appointment", "value": "completed", "timestamp": "2026-01-10T00:00:00Z"}]}

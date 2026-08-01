@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e6269be695acbc13c707dae27ab0e497bfce267e892763e0840e2af49de0dbfb",
+  "record_id": "RX-0102",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 31696.767200002796,
+  "failure": null,
+  "response_sha256": "60bee23de463f34259548200c66f061ca4f5666f102fa89d92e351c30d098265",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / बादभूनजा\nF032\nMedical Center;\nPilgrim ID.\n0513073\nPassport No\nMaktab No __.... 58 ----\nMST HABIBA KHATUN\nGender\nFEMALE\nDistrict\nHARIGAND\nThene\nHEALTH PROFILE\n120/20\n1. Blood Group;\nCN\n2. Blood Pressure:\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\n5. Kidney Disease:\nNO\n8. Diabeles:\nNO\n7. Mental Disease;\n8. Blood Sugar (RBS):\nNO\n9. Weight\n11. Orug History:\n10. Liver Disease:\n12. Any other abnormalhlas:\nChief Complaints:\nVist No:\nDele!\nTab. calcium\nDE :-\nPulsa-\nBP-\nTemp-\nAnacmia-\nDehydration-\nRespiration-\nOthers-\nFBS/RES\nECG\nProvisional Diagonosis\nCap. esotid-20\nDeots y rovhis Goods\n12\n26/5/24\nएवं व्यकितकम टमानधन दिनिसिमा (मया दृष्टपंत बन्द 4 बारगुण परिवाद कयावे भाव वाबाड बाय।\nA13003990\nकंटकन नए:\n34\nNO\n62\n27 Muy 2024",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "TREATMENT CARD / बादभूनजा",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "F032",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Pilgrim ID.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "0513073",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Maktab No __.... 58 ----",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "MST HABIBA KHATUN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "HARIGAND",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Thene",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "120/20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "1. Blood Group;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "CN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "8. Diabeles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "7. Mental Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "9. Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "11. Orug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "12. Any other abnormalhlas:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Vist No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Dele!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Tab. calcium",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "DE :-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Pulsa-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "BP-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Anacmia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "FBS/RES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Cap. esotid-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "Deots y rovhis Goods",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "26/5/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "एवं व्यकितकम टमानधन दिनिसिमा (मया दृष्टपंत बन्द 4 बारगुण परिवाद कयावे भाव वाबाड बाय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "A13003990",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "कंटकन नए:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "34",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "62",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "27 Muy 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.684
+      }
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "1c5d10e253145679b97fd28ee7e710dc442e7fc60b69e3f6b655a54c6d5bbcdf",
+  "record_id": "RX-0053",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 13218.407299995306,
+  "failure": null,
+  "response_sha256": "b3a4f678d702e50a95028dfdad863bf350e5f97de6ad20ac7d8cee445e335908",
+  "response": {
+    "raw_text": "sty\n. Jab Cafaclaw (500 mg)\n· Tab U-tremal Retard (100mg)\n0+ 0+2 8935\n· of Surgel (200g)\n2+0+2 (a1323 cam-)-993-\n. Tab Ancos A\n0+0+2 -6475\n-\nJal Regos (20 mg)\n2+0+0-04/25\n· Cp Lubilan (24Mg)\n6+0+2 - Apesar 220 22\n85.12.23\nY. Si Novo Rapid\nGlysup (2.3gm)\n$3.2.23\nSi novo-Rafia\n22+20+2012\nCof Polycel (500mg)\n0+2+2-6955",
+    "lines": [
+      {
+        "text": "sty",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": ". Jab Cafaclaw (500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "· Tab U-tremal Retard (100mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "0+ 0+2 8935",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "· of Surgel (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "2+0+2 (a1323 cam-)-993-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": ". Tab Ancos A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "0+0+2 -6475",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Jal Regos (20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "2+0+0-04/25",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "· Cp Lubilan (24Mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "6+0+2 - Apesar 220 22",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "85.12.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Y. Si Novo Rapid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Glysup (2.3gm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "$3.2.23",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Si novo-Rafia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "22+20+2012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Cof Polycel (500mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "0+2+2-6955",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      }
+    ]
+  }
+}

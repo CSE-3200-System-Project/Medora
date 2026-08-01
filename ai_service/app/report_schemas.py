@@ -8,7 +8,6 @@ from pydantic import BaseModel, Field
 class ReportOCRRequest(BaseModel):
     image_url: str | None = None
     image_file: str | None = None
-    subject_token: str | None = None
 
 
 class ReportTestResult(BaseModel):
@@ -29,9 +28,14 @@ class ReportOCRMeta(BaseModel):
     ocr_engine: str  # "azure" or "paddleocr"
     line_count: int
     tests_extracted: int
+    processing_mode: str = "cloud"
+    provider: str = "azure_document_intelligence"
+    review_required: bool = True
+    authoritative_writeback: bool = False
 
 
 class ReportOCRResponse(BaseModel):
     tests: list[ReportTestResult]
     raw_text: str
     meta: ReportOCRMeta
+    warning: str = "Unconfirmed OCR draft. Verify every field against the source image before use."

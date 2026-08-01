@@ -156,11 +156,17 @@ export async function extractPrescriptionFromImage(
   file: File,
   options?: {
     saveFile?: boolean;
+    processingMode?: "local" | "cloud";
+    dataSubjectId?: string;
   }
 ) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("save_file", String(options?.saveFile ?? false));
+  formData.append("processing_mode", options?.processingMode ?? "local");
+  if (options?.dataSubjectId) {
+    formData.append("data_subject_id", options.dataSubjectId);
+  }
 
   const response = await fetch(`${BACKEND_URL}/upload/prescription/extract`, {
     method: "POST",

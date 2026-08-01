@@ -1,0 +1,11 @@
+pytest==9.0.2
+pytest-asyncio==1.4.0
+httpx==0.28.1
+testcontainers[postgres]==4.15.0
+factory-boy==3.3.3
+Faker==40.36.0
+SQLAlchemy==2.0.45
+asyncpg==0.31.0
+locust==2.46.3
+playwright==1.62.0
+PyYAML==6.0.2

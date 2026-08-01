@@ -35,6 +35,7 @@ interface SlotResponse {
 }
 
 export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps) {
+  const bookingAttemptRef = React.useRef({ fingerprint: "", key: "" });
   const [bookingState, setBookingState] = React.useState<BookingState>({
     locationId: null,
     consultationType: null,
@@ -150,14 +151,20 @@ export function AppointmentBookingPanel({ doctor }: AppointmentBookingPanelProps
 
     setIsSubmitting(true);
     try {
-      await createAppointment({
+      const bookingPayload = {
         doctor_id: doctor.profile_id,
         doctor_location_id: resolveSelectedLocation()?.id,
         appointment_date: toUtcIsoFromDateAndSlot(bookingState.selectedDate!, bookingState.selectedSlot!),
         reason: `${bookingState.consultationType} - ${bookingState.appointmentType}`,
         location_name: resolveSelectedLocation()?.name,
         notes: `Slot: ${bookingState.selectedSlot} | Location: ${resolveSelectedLocation()?.name}`
-      });
+      };
+      const fingerprint = JSON.stringify(bookingPayload);
+      if (bookingAttemptRef.current.fingerprint !== fingerprint) {
+        bookingAttemptRef.current = { fingerprint, key: crypto.randomUUID() };
+      }
+      await createAppointment({ ...bookingPayload, idempotency_key: bookingAttemptRef.current.key });
+      bookingAttemptRef.current = { fingerprint: "", key: "" };
       
       // Get appointment details for success page
       const location = resolveSelectedLocation();

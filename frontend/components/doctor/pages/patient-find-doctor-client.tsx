@@ -86,7 +86,6 @@ type AIAnalysisTag = {
 type AIAnalysisData = {
   symptoms?: AIAnalysisTag[];
   specialties?: AIAnalysisTag[];
-  severity?: string;
   language_detected?: string;
   error?: string | null;
 };
@@ -131,6 +130,10 @@ type DoctorSearchResponse = {
   medical_intent?: AIAnalysisData;
   patient_context_factors?: PatientContextFactor[];
   ambiguity?: string;
+  requires_immediate_care?: boolean;
+  safety_message?: string | null;
+  uncertain?: boolean;
+  manual_browse_available?: boolean;
 };
 
 function isUserLocation(value: unknown): value is UserLocation {
@@ -154,11 +157,7 @@ function AIAnalysisSummary({
 
   const symptoms = analysis.symptoms || [];
   const specialties = analysis.specialties || [];
-  const severity = analysis.severity || "medium";
   const language = analysis.language_detected || "en";
-
-  const severityVariant: "destructive" | "warning" | "success" =
-    severity === "high" ? "destructive" : severity === "medium" ? "warning" : "success";
 
   return (
     <Card className="border-primary/10 bg-linear-to-r from-primary-more-light/50 to-accent/50 dark:from-primary/10 dark:to-accent/10">
@@ -175,7 +174,7 @@ function AIAnalysisSummary({
           </Badge>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           {/* Detected Symptoms */}
           {symptoms.length > 0 && (
             <div className="space-y-1.5">
@@ -210,21 +209,10 @@ function AIAnalysisSummary({
             </div>
           )}
 
-          {/* Severity */}
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <Clock className="w-3.5 h-3.5" />
-              <span className="font-medium">{tCommon("findDoctor.aiAnalysis.urgencyLevel")}</span>
-            </div>
-            <Badge variant={severityVariant} className="text-xs">
-              {severity === "high"
-                ? tCommon("findDoctor.aiAnalysis.urgencyHigh")
-                : severity === "medium"
-                  ? tCommon("findDoctor.aiAnalysis.urgencyMedium")
-                  : tCommon("findDoctor.aiAnalysis.urgencyLow")}
-            </Badge>
-          </div>
         </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          These are navigation suggestions, not a diagnosis or urgency assessment. You can always browse specialties manually.
+        </p>
       </CardContent>
     </Card>
   );
@@ -361,6 +349,7 @@ export default function FindDoctorPage() {
   const [aiAnalysis, setAiAnalysis] = useState<AIAnalysisData | null>(null);
   const [patientContextFactors, setPatientContextFactors] = useState<PatientContextFactor[]>([]);
   const [showAmbiguityPrompt, setShowAmbiguityPrompt] = useState(false);
+  const [safetyMessage, setSafetyMessage] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [showMap, setShowMap] = useState(false); // Mobile map toggle
   const [previouslyVisited, setPreviouslyVisited] = useState<PreviouslyVisitedDoctor[]>([]);
@@ -389,6 +378,7 @@ export default function FindDoctorPage() {
     setLoading(true);
     setAiAnalysis(null);
     setShowAmbiguityPrompt(false);
+    setSafetyMessage(null);
     
     try {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
@@ -437,6 +427,10 @@ export default function FindDoctorPage() {
         const data = (await res.json()) as DoctorSearchResponse;
         
         if (searchFilters.mode === 'ai') {
+          if (data.requires_immediate_care) {
+            setSafetyMessage(data.safety_message || "Seek immediate in-person emergency care.");
+            setShowAmbiguityPrompt(false);
+          }
           if (data.medical_intent) {
             setAiAnalysis(data.medical_intent);
           }
@@ -460,9 +454,13 @@ export default function FindDoctorPage() {
         setDoctors(data.doctors);
         setTotalResults(data.total || data.doctors.length);
       } else {
-        console.error('API Error:', res.status, res.statusText);
-        const errorData = await res.text();
-        console.error('Error details:', errorData);
+        const errorData = await res.json().catch(() => null) as { detail?: unknown } | null;
+        const detail = errorData?.detail;
+        if (detail && typeof detail === "object" && "message" in detail) {
+          setSafetyMessage(String((detail as { message: unknown }).message));
+        } else {
+          setSafetyMessage("Navigation search is unavailable. Browse specialties manually or try again.");
+        }
       }
     } catch (error) {
       console.error("Failed to fetch doctors:", error);
@@ -498,6 +496,7 @@ export default function FindDoctorPage() {
     setAiAnalysis(null);
     setPatientContextFactors([]);
     setShowAmbiguityPrompt(false);
+    setSafetyMessage(null);
     fetchDoctors({});
   };
 
@@ -527,6 +526,20 @@ export default function FindDoctorPage() {
           )}
           
           <SearchFilters onSearch={handleSearch} />
+
+          {safetyMessage && (
+            <Card className="mt-4 border-destructive/40 bg-destructive/10">
+              <CardContent className="p-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
+                  <div>
+                    <p className="font-semibold text-destructive">Safety notice</p>
+                    <p className="mt-1 text-sm text-foreground">{safetyMessage}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
           
           {/* AI Analysis Summary */}
           {aiAnalysis && !aiAnalysis.error && (

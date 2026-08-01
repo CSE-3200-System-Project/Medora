@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "1b9ba17a505fff964d5d5ebbcf7c9444f08369ea249c21a72a299c6ac230e55b",
+  "record_id": "RX-0038",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 12124.6695999871,
+  "failure": null,
+  "response_sha256": "555a85e2c0db479a096de014ea8e1610f5c821d81d2160e35b4448f1081a71ba",
+  "response": {
+    "raw_text": "im Sheikh\n5. BC5 (Healtm)\nDCH (Dhaka)\nofessar (Child)\ndical College F\natunnesa Math\nsical, Sirai\n80\nTab. monas a\nototi-80\nwerostan\ncontan\nSp. Azinox ( 200)\náp.\nBabix.\n20 021228\n-\nTab Axadin orby\nstato- sonia\nMucosol\n2+2+2-Mhp\nTab and 200 EM1 90",
+    "lines": [
+      {
+        "text": "im Sheikh",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "5. BC5 (Healtm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "DCH (Dhaka)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "ofessar (Child)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "dical College F",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "atunnesa Math",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "sical, Sirai",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Tab. monas a",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "ototi-80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "werostan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "contan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Sp. Azinox ( 200)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "áp.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Babix.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "20 021228",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Tab Axadin orby",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "stato- sonia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Mucosol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "2+2+2-Mhp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Tab and 200 EM1 90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      }
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "d699559c852248ec795cbae1d17f580cd6b7bc5ef9af7e877ca306eaa597fa08",
+  "record_id": "RX-0099",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5052.323500000057,
+  "failure": null,
+  "response_sha256": "cd84a40df0f5d768b438b82e89db598b1c1aa40201db383425a431d9379bdca2",
+  "response": {
+    "raw_text": ", Tais Levofloxacina (or)\ncar monas\natomf.\n(10)\nalab - Napa\n1-10-11\n+ Pas- Doxophyllin 200\n1 ło +]\n10\n24.0 mg m",
+    "lines": [
+      {
+        "text": ", Tais Levofloxacina (or)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "car monas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "atomf.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "(10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "alab - Napa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "1-10-11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "+ Pas- Doxophyllin 200",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "1 ło +]",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "24.0 mg m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.363
+      }
+    ]
+  }
+}

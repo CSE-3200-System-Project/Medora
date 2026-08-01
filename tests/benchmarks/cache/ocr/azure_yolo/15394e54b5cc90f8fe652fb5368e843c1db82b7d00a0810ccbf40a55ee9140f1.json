@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "15394e54b5cc90f8fe652fb5368e843c1db82b7d00a0810ccbf40a55ee9140f1",
+  "record_id": "RX-0100",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 13548.423800006276,
+  "failure": null,
+  "response_sha256": "ab667dc9b5615c063c1456b0609fbafa754b6f1d16fb25bbaa4766480472b56e",
+  "response": {
+    "raw_text": "Px\nSkap anarid\n10\nTe Calcium D3\n27000",
+    "lines": [
+      {
+        "text": "Px",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "Skap anarid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "Te Calcium D3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.433
+      },
+      {
+        "text": "27000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.433
+      }
+    ]
+  }
+}

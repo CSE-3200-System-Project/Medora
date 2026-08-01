@@ -1,0 +1,1536 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0080",
+  "source_sha256": "a7885cf63e2c0cbab3d95bb7e1f98ff5e827f1771fb15a94e9e4ead4fa3ce87d",
+  "raw_transcription": "Rx\nMallofer'S\n1. Tab. Gemer 1/50g\n2. Ta5. Tems 40mg ottimo\n3. Th. Bristol 5mg +0 0g 0\n2. Ta. ROSU 5W STHLMO\n. 5. To. Pantowy LOV I+vel ho\nNUTOON\n6. Tw. Folison 5% OfHis MUSCOLO\n7. 15. Nitoxin Sur 1+41 6/w",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Maltofer",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Gemer",
+      "strength": "50g",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tems",
+      "strength": "40mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Bristol Tufin",
+      "strength": "5mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rosu",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Panto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Nutoon",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Folison",
+      "strength": "",
+      "dose": "",
+      "frequency": "7+1+6",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "1f38022f4163d8d84f198bb464580270a775c8336521ac9b5300f712a29a0f08"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "cb83d6f26539d2235b0232f19a4101ad3481b9b492c9fe37e34495f32353871f"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "f555f0ea01acba3d8ae1bd79c443f5cbcdb6e809c0915b8534030b98b5093a4c"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Dr.Arifur Rahman Sumon\nMBBS (DMC).FCPS (Medicine)\nMD (Cardiology).BCS (Health\n.\n30 AUS\nMedicine & Heart Specialist\nq\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\n.\nSher-e-Bangla Nagar,Dhaka.\nWOLK\nShawmaAkt56t\n--\n-\nBp1200w\nAA\nDMh+H ntOM+ORnaly\nLT.mr5\n1+0rg\nls.\nTems 90my\nottLm0\n3.T.5\n1++0 00\nOC\n2\n9.TuRos5+LoO\n7M\nJ.T.pantwpo\nl+uth\nME\nT.Folionotc\n)\n+.N+xnsy 1+4\nMo\nChamber:\nHitech Multicare Hospital Ltd\n164ost KofrlDhak CanonmentDhoka-1206\nA19699590971708574403\n9\n0407093834F0167312071101407093887\n019170429460682912304-164@gl.co\n-.",
+      "lines": [
+        {
+          "text": "Dr.Arifur Rahman Sumon",
+          "bbox": {
+            "x_min": 115.0,
+            "y_min": 58.0,
+            "x_max": 435.0,
+            "y_max": 92.0
+          },
+          "page": 1,
+          "confidence": 0.971
+        },
+        {
+          "text": "MBBS (DMC).FCPS (Medicine)",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 82.0,
+            "x_max": 319.0,
+            "y_max": 107.0
+          },
+          "page": 1,
+          "confidence": 0.924
+        },
+        {
+          "text": "MD (Cardiology).BCS (Health",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 102.0,
+            "x_max": 312.0,
+            "y_max": 125.0
+          },
+          "page": 1,
+          "confidence": 0.939
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 646.0,
+            "y_min": 88.0,
+            "x_max": 892.0,
+            "y_max": 119.0
+          },
+          "page": 1,
+          "confidence": 0.471
+        },
+        {
+          "text": "30 AUS",
+          "bbox": {
+            "x_min": 449.0,
+            "y_min": 108.0,
+            "x_max": 508.0,
+            "y_max": 133.0
+          },
+          "page": 1,
+          "confidence": 0.837
+        },
+        {
+          "text": "Medicine & Heart Specialist",
+          "bbox": {
+            "x_min": 116.0,
+            "y_min": 121.0,
+            "x_max": 304.0,
+            "y_max": 143.0
+          },
+          "page": 1,
+          "confidence": 0.956
+        },
+        {
+          "text": "q",
+          "bbox": {
+            "x_min": 681.0,
+            "y_min": 109.0,
+            "x_max": 893.0,
+            "y_max": 135.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "Clinical and Interventional Cardiologist",
+          "bbox": {
+            "x_min": 118.0,
+            "y_min": 140.0,
+            "x_max": 379.0,
+            "y_max": 164.0
+          },
+          "page": 1,
+          "confidence": 0.972
+        },
+        {
+          "text": "National Institute of Cardiovascular Diseases",
+          "bbox": {
+            "x_min": 119.0,
+            "y_min": 157.0,
+            "x_max": 398.0,
+            "y_max": 181.0
+          },
+          "page": 1,
+          "confidence": 0.964
+        },
+        {
+          "text": ".",
+          "bbox": {
+            "x_min": 653.0,
+            "y_min": 146.0,
+            "x_max": 894.0,
+            "y_max": 175.0
+          },
+          "page": 1,
+          "confidence": 0.644
+        },
+        {
+          "text": "Sher-e-Bangla Nagar,Dhaka.",
+          "bbox": {
+            "x_min": 120.0,
+            "y_min": 176.0,
+            "x_max": 305.0,
+            "y_max": 197.0
+          },
+          "page": 1,
+          "confidence": 0.958
+        },
+        {
+          "text": "WOLK",
+          "bbox": {
+            "x_min": 456.0,
+            "y_min": 168.0,
+            "x_max": 536.0,
+            "y_max": 199.0
+          },
+          "page": 1,
+          "confidence": 0.737
+        },
+        {
+          "text": "ShawmaAkt56t",
+          "bbox": {
+            "x_min": 119.0,
+            "y_min": 213.0,
+            "x_max": 343.0,
+            "y_max": 257.0
+          },
+          "page": 1,
+          "confidence": 0.62
+        },
+        {
+          "text": "--",
+          "bbox": {
+            "x_min": 745.0,
+            "y_min": 203.0,
+            "x_max": 898.0,
+            "y_max": 225.0
+          },
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 739.0,
+            "y_min": 222.0,
+            "x_max": 896.0,
+            "y_max": 243.0
+          },
+          "page": 1,
+          "confidence": 0.461
+        },
+        {
+          "text": "Bp1200w",
+          "bbox": {
+            "x_min": 331.0,
+            "y_min": 273.0,
+            "x_max": 443.0,
+            "y_max": 317.0
+          },
+          "page": 1,
+          "confidence": 0.634
+        },
+        {
+          "text": "AA",
+          "bbox": {
+            "x_min": 753.0,
+            "y_min": 318.0,
+            "x_max": 869.0,
+            "y_max": 350.0
+          },
+          "page": 1,
+          "confidence": 0.329
+        },
+        {
+          "text": "DMh+H ntOM+ORnaly",
+          "bbox": {
+            "x_min": 125.0,
+            "y_min": 348.0,
+            "x_max": 508.0,
+            "y_max": 396.0
+          },
+          "page": 1,
+          "confidence": 0.565
+        },
+        {
+          "text": "LT.mr5",
+          "bbox": {
+            "x_min": 161.0,
+            "y_min": 491.0,
+            "x_max": 422.0,
+            "y_max": 533.0
+          },
+          "page": 1,
+          "confidence": 0.561
+        },
+        {
+          "text": "1+0rg",
+          "bbox": {
+            "x_min": 441.0,
+            "y_min": 480.0,
+            "x_max": 678.0,
+            "y_max": 528.0
+          },
+          "page": 1,
+          "confidence": 0.703
+        },
+        {
+          "text": "ls.",
+          "bbox": {
+            "x_min": 209.0,
+            "y_min": 556.0,
+            "x_max": 271.0,
+            "y_max": 589.0
+          },
+          "page": 1,
+          "confidence": 0.442
+        },
+        {
+          "text": "Tems 90my",
+          "bbox": {
+            "x_min": 260.0,
+            "y_min": 558.0,
+            "x_max": 406.0,
+            "y_max": 592.0
+          },
+          "page": 1,
+          "confidence": 0.774
+        },
+        {
+          "text": "ottLm0",
+          "bbox": {
+            "x_min": 420.0,
+            "y_min": 550.0,
+            "x_max": 527.0,
+            "y_max": 582.0
+          },
+          "page": 1,
+          "confidence": 0.461
+        },
+        {
+          "text": "3.T.5",
+          "bbox": {
+            "x_min": 169.0,
+            "y_min": 614.0,
+            "x_max": 430.0,
+            "y_max": 654.0
+          },
+          "page": 1,
+          "confidence": 0.746
+        },
+        {
+          "text": "1++0 00",
+          "bbox": {
+            "x_min": 419.0,
+            "y_min": 619.0,
+            "x_max": 526.0,
+            "y_max": 643.0
+          },
+          "page": 1,
+          "confidence": 0.748
+        },
+        {
+          "text": "OC",
+          "bbox": {
+            "x_min": 773.0,
+            "y_min": 627.0,
+            "x_max": 799.0,
+            "y_max": 643.0
+          },
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 787.0,
+            "y_min": 649.0,
+            "x_max": 912.0,
+            "y_max": 690.0
+          },
+          "page": 1,
+          "confidence": 0.425
+        },
+        {
+          "text": "9.TuRos5+LoO",
+          "bbox": {
+            "x_min": 171.0,
+            "y_min": 677.0,
+            "x_max": 542.0,
+            "y_max": 719.0
+          },
+          "page": 1,
+          "confidence": 0.556
+        },
+        {
+          "text": "7M",
+          "bbox": {
+            "x_min": 859.0,
+            "y_min": 694.0,
+            "x_max": 912.0,
+            "y_max": 722.0
+          },
+          "page": 1,
+          "confidence": 0.424
+        },
+        {
+          "text": "J.T.pantwpo",
+          "bbox": {
+            "x_min": 164.0,
+            "y_min": 746.0,
+            "x_max": 421.0,
+            "y_max": 783.0
+          },
+          "page": 1,
+          "confidence": 0.676
+        },
+        {
+          "text": "l+uth",
+          "bbox": {
+            "x_min": 454.0,
+            "y_min": 742.0,
+            "x_max": 566.0,
+            "y_max": 776.0
+          },
+          "page": 1,
+          "confidence": 0.552
+        },
+        {
+          "text": "ME",
+          "bbox": {
+            "x_min": 496.0,
+            "y_min": 783.0,
+            "x_max": 577.0,
+            "y_max": 808.0
+          },
+          "page": 1,
+          "confidence": 0.457
+        },
+        {
+          "text": "T.Folionotc",
+          "bbox": {
+            "x_min": 191.0,
+            "y_min": 837.0,
+            "x_max": 590.0,
+            "y_max": 879.0
+          },
+          "page": 1,
+          "confidence": 0.654
+        },
+        {
+          "text": ")",
+          "bbox": {
+            "x_min": 540.0,
+            "y_min": 888.0,
+            "x_max": 582.0,
+            "y_max": 910.0
+          },
+          "page": 1,
+          "confidence": 0.646
+        },
+        {
+          "text": "+.N+xnsy 1+4",
+          "bbox": {
+            "x_min": 214.0,
+            "y_min": 935.0,
+            "x_max": 652.0,
+            "y_max": 982.0
+          },
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "Mo",
+          "bbox": {
+            "x_min": 569.0,
+            "y_min": 988.0,
+            "x_max": 671.0,
+            "y_max": 1020.0
+          },
+          "page": 1,
+          "confidence": 0.346
+        },
+        {
+          "text": "Chamber:",
+          "bbox": {
+            "x_min": 250.0,
+            "y_min": 1056.0,
+            "x_max": 317.0,
+            "y_max": 1076.0
+          },
+          "page": 1,
+          "confidence": 0.991
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd",
+          "bbox": {
+            "x_min": 249.0,
+            "y_min": 1077.0,
+            "x_max": 523.0,
+            "y_max": 1120.0
+          },
+          "page": 1,
+          "confidence": 0.967
+        },
+        {
+          "text": "164ost KofrlDhak CanonmentDhoka-1206",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 1109.0,
+            "x_max": 510.0,
+            "y_max": 1144.0
+          },
+          "page": 1,
+          "confidence": 0.83
+        },
+        {
+          "text": "A19699590971708574403",
+          "bbox": {
+            "x_min": 248.0,
+            "y_min": 1124.0,
+            "x_max": 529.0,
+            "y_max": 1157.0
+          },
+          "page": 1,
+          "confidence": 0.754
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 576.0,
+            "y_min": 1117.0,
+            "x_max": 877.0,
+            "y_max": 1158.0
+          },
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "0407093834F0167312071101407093887",
+          "bbox": {
+            "x_min": 247.0,
+            "y_min": 1138.0,
+            "x_max": 527.0,
+            "y_max": 1171.0
+          },
+          "page": 1,
+          "confidence": 0.79
+        },
+        {
+          "text": "019170429460682912304-164@gl.co",
+          "bbox": {
+            "x_min": 245.0,
+            "y_min": 1150.0,
+            "x_max": 529.0,
+            "y_max": 1187.0
+          },
+          "page": 1,
+          "confidence": 0.816
+        },
+        {
+          "text": "-.",
+          "bbox": {
+            "x_min": 577.0,
+            "y_min": 1143.0,
+            "x_max": 880.0,
+            "y_max": 1182.0
+          },
+          "page": 1,
+          "confidence": 0.562
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Arifur Rahman",
+          "matched_term": "Dr Arifur Rahman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.437
+        },
+        {
+          "name": "Mbbs Dmc Fcps",
+          "matched_term": "Mbbs Dmc Fcps",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.314
+        },
+        {
+          "name": "Md Cardiology Bcs",
+          "matched_term": "Md Cardiology Bcs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.423
+        },
+        {
+          "name": "John's 3oo mg",
+          "matched_term": "John's 3oo mg",
+          "drug_id": "691b0f3a-02fb-4035-8183-d91b2fe5ccb4",
+          "brand_id": "b3c99a59-405b-4f17-b401-7c90b973c650",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.678
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.81
+        },
+        {
+          "name": "Clinical And Interventional",
+          "matched_term": "Clinical And Interventional",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.364
+        },
+        {
+          "name": "National Institute Of",
+          "matched_term": "National Institute Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.434
+        },
+        {
+          "name": "Wolk",
+          "matched_term": "Wolk",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.332
+        },
+        {
+          "name": "Sher-E-Bangla Nagar Dhaka Shawmaakt Bp Azinaaf",
+          "matched_term": "Sher-E-Bangla Nagar Dhaka Shawmaakt Bp Azinaaf",
+          "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+          "brand_id": "8edb9d56-a3f4-44b8-96b2-3e6c791547f1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.27
+        },
+        {
+          "name": "Dmh Ntom Ornaly Rg Lt Mr Ottlm Ls",
+          "matched_term": "Dmh Ntom Ornaly Rg Lt Mr Ottlm Ls",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.246
+        },
+        {
+          "name": "Tems",
+          "matched_term": "Tems",
+          "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+          "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Turos Loo",
+          "matched_term": "Turos Loo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.221
+        },
+        {
+          "name": "Uth",
+          "matched_term": "Uth",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.248
+        },
+        {
+          "name": "Pantwpo Me",
+          "matched_term": "Pantwpo Me",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.255
+        },
+        {
+          "name": "Folionotc",
+          "matched_term": "Folionotc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.293
+        },
+        {
+          "name": "Xnsy Mo",
+          "matched_term": "Xnsy Mo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.446
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.435
+        },
+        {
+          "name": "Ost",
+          "matched_term": "Ost",
+          "drug_id": "61aa81db-3963-47bf-83cf-c0114a4bc374",
+          "brand_id": "d7ac26bc-ed9f-430a-9674-bd0dbba6f562",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.702
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "छ: घाबियून व्यान भूयन\nप्यविविधम (गया), परमिनियम ((मडिमिन)\nअथि (कार्डिशनजि), विनियम (नाश)\nनिर्णयळ हिकिएगढ़\n(मडिमिन, कमरदान, वाउबुद, डैकद्रकान,\nवाउ/जाधीशज्म, ब्रिजिटमटननि ९ छायाटवजिमि\nडाडीस रुमटवान रेनडिजिडेंट स रामनाठान\nगड़-के-वाश्ना नगर, जका।\nविध्यणिमि वखि: न१-७७२२०\n30 AUG\nwf-61K/\nDr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\nShawna Aktor, 56%\nBP120/80 €\nदेवनामकाइनाम\nभूत लर्था कबद्दन।\nDMIPHIM Instructor+ Open cheles\nRx\n1. Tab. Gemer 1/500g/ 1+00 ante 2018 75\n2. las. Tems 40mg ottimo\n3. Th. Bristol 5mg 1+0 0g )\n2. Ta. ROSU 5W OTHELLO\nJ. T6. Pantowy LOV I+vel ho\nNUTOON\nMaltofer 508/2\nwith supplied normal\n60\nเราสามาร ใน\n6. Tw. Folison 52 OTH+ MUSCOLO\n220\n1. 5. Nitoxin Sur 1+0+1 6/w\nChamber :\nHitech Multicare Hospital Ltd.\nhome of care\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403\nEmergency Medical Oficer : 01407093684, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nमिनिर्यातन्द्र कना एनाइन : ०३७७७४२४०४१\nवाणी ऊनचाव गमत्र : गधा 8.00गो - ब्रांड ४.००में (कमबाद वह)\n8.",
+      "lines": [
+        {
+          "text": "छ: घाबियून व्यान भूयन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "प्यविविधम (गया), परमिनियम ((मडिमिन)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "अथि (कार्डिशनजि), विनियम (नाश)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "निर्णयळ हिकिएगढ़",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "(मडिमिन, कमरदान, वाउबुद, डैकद्रकान,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "वाउ/जाधीशज्म, ब्रिजिटमटननि ९ छायाटवजिमि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "डाडीस रुमटवान रेनडिजिडेंट स रामनाठान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "गड़-के-वाश्ना नगर, जका।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "विध्यणिमि वखि: न१-७७२२०",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "30 AUG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "wf-61K/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Dr. Arifur Rahman Sumon",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "MBBS (DMC), FCPS (Medicine)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "MD (Cardiology), BCS (Health)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Medicine & Heart Specialist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Clinical and Interventional Cardiologist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "National Institute of Cardiovascular Diseases",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Sher-e-Bangla Nagar, Dhaka.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Shawna Aktor, 56%",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "BP120/80 €",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "देवनामकाइनाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "भूत लर्था कबद्दन।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "DMIPHIM Instructor+ Open cheles",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "1. Tab. Gemer 1/500g/ 1+00 ante 2018 75",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "2. las. Tems 40mg ottimo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "3. Th. Bristol 5mg 1+0 0g )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "2. Ta. ROSU 5W OTHELLO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "J. T6. Pantowy LOV I+vel ho",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "NUTOON",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Maltofer 508/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "with supplied normal",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "60",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "เราสามาร ใน",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "6. Tw. Folison 52 OTH+ MUSCOLO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "220",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "1. 5. Nitoxin Sur 1+0+1 6/w",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Chamber :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "home of care",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Emergency Medical Oficer : 01407093684, Floor Manager : 01673120711, 01407093887",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "मिनिर्यातन्द्र कना एनाइन : ०३७७७४२४०४१",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "वाणी ऊनचाव गमत्र : गधा 8.00गो - ब्रांड ४.००में (कमबाद वह)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        },
+        {
+          "text": "8.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.581
+        }
+      ],
+      "medications": [
+        {
+          "name": "Aug Wf-",
+          "matched_term": "Aug Wf-",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Dr Arifur Rahman",
+          "matched_term": "Dr Arifur Rahman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Mbbs Dmc Fcps",
+          "matched_term": "Mbbs Dmc Fcps",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Md Cardiology Bcs",
+          "matched_term": "Md Cardiology Bcs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Clinical And Interventional",
+          "matched_term": "Clinical And Interventional",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "National Institute Of",
+          "matched_term": "National Institute Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Sher-E-Bangla Nagar Dhaka",
+          "matched_term": "Sher-E-Bangla Nagar Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Shawna Aktor Bp",
+          "matched_term": "Shawna Aktor Bp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Dmiphim Instructor Open Rx",
+          "matched_term": "Dmiphim Instructor Open Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Gemer",
+          "matched_term": "Gemer",
+          "drug_id": "fc00df5c-8466-4ef0-9f46-adc59dbfe708",
+          "brand_id": "abb3f024-5bf8-4f18-b9b3-16e9699fe84d",
+          "dosage": "500g",
+          "frequency": "1+1+1",
+          "quantity": null,
+          "confidence": 0.742
+        },
+        {
+          "name": "Tems",
+          "matched_term": "Tems",
+          "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+          "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+          "dosage": "40mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.692
+        },
+        {
+          "name": "Bristol Tufin",
+          "matched_term": "Bristol Tufin",
+          "drug_id": "69220993-14a8-412f-bba1-b2375f10b342",
+          "brand_id": "312f5f29-557e-446f-87f7-94356b386d99",
+          "dosage": "5mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.692
+        },
+        {
+          "name": "Rosu",
+          "matched_term": "Rosu",
+          "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+          "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Panto",
+          "matched_term": "Panto",
+          "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+          "brand_id": "022a45a2-65e1-4570-b8b8-e31c99f2ec47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.481
+        },
+        {
+          "name": "Nutoon",
+          "matched_term": "Nutoon",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Maltofer",
+          "matched_term": "Maltofer",
+          "drug_id": "fb020184-5d09-4325-b309-bd9fa30a8989",
+          "brand_id": "f66211cd-adde-40d6-ad1b-289a21511653",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "multivitamin with l-lysine",
+          "matched_term": "multivitamin with l-lysine",
+          "drug_id": "25f6a611-aeea-4c12-a16b-d146c0da1732",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.641
+        },
+        {
+          "name": "Folison",
+          "matched_term": "Folison",
+          "drug_id": "4f39b4dc-f7a2-4d8a-b4b9-7e376b953cf9",
+          "brand_id": "e3be5a0e-5acd-47d5-a5c3-f5c79032396e",
+          "dosage": null,
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.691
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Home Of Care",
+          "matched_term": "Home Of Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "East Kafrul Dhaka",
+          "matched_term": "East Kafrul Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Appointment Center Hot",
+          "matched_term": "Appointment Center Hot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Emergency Medical Oficer",
+          "matched_term": "Emergency Medical Oficer",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        },
+        {
+          "name": "Ambulance Service E-Mail",
+          "matched_term": "Ambulance Service E-Mail",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.261
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Maltofer",
+          "matched_term": "Maltofer",
+          "drug_id": "fb020184-5d09-4325-b309-bd9fa30a8989",
+          "brand_id": "f66211cd-adde-40d6-ad1b-289a21511653",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.597
+        },
+        {
+          "name": "Gemer",
+          "matched_term": "Gemer",
+          "drug_id": "fc00df5c-8466-4ef0-9f46-adc59dbfe708",
+          "brand_id": "abb3f024-5bf8-4f18-b9b3-16e9699fe84d",
+          "dosage": "50g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.648
+        },
+        {
+          "name": "Tems",
+          "matched_term": "Tems",
+          "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+          "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+          "dosage": "40mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.648
+        },
+        {
+          "name": "Bristol Tufin",
+          "matched_term": "Bristol Tufin",
+          "drug_id": "69220993-14a8-412f-bba1-b2375f10b342",
+          "brand_id": "312f5f29-557e-446f-87f7-94356b386d99",
+          "dosage": "5mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.648
+        },
+        {
+          "name": "Rosu",
+          "matched_term": "Rosu",
+          "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+          "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.597
+        },
+        {
+          "name": "Panto",
+          "matched_term": "Panto",
+          "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+          "brand_id": "022a45a2-65e1-4570-b8b8-e31c99f2ec47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.597
+        },
+        {
+          "name": "Nutoon",
+          "matched_term": "Nutoon",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.217
+        },
+        {
+          "name": "Folison",
+          "matched_term": "Folison",
+          "drug_id": "4f39b4dc-f7a2-4d8a-b4b9-7e376b953cf9",
+          "brand_id": "e3be5a0e-5acd-47d5-a5c3-f5c79032396e",
+          "dosage": null,
+          "frequency": "7+1+6",
+          "quantity": null,
+          "confidence": 0.647
+        }
+      ],
+      "raw_text": "Rx\nMallofer'S\n1. Tab. Gemer 1/50g\n2. Ta5. Tems 40mg ottimo\n3. Th. Bristol 5mg +0 0g 0\n2. Ta. ROSU 5W STHLMO\n. 5. To. Pantowy LOV I+vel ho\nNUTOON\n6. Tw. Folison 5% OfHis MUSCOLO\n7. 15. Nitoxin Sur 1+41 6/w",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 11286,
+        "detected_regions": 1,
+        "ocr_line_count": 10,
+        "yolo_avg_confidence": 0.8279,
+        "yolo_min_confidence": 0.8279,
+        "yolo_max_confidence": 0.8279,
+        "ocr_avg_confidence": 0.483,
+        "ocr_min_confidence": 0.483,
+        "ocr_max_confidence": 0.483,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 131.385986328125,
+              "y_min": 455.14752197265625,
+              "x_max": 754.5302124023438,
+              "y_max": 1044.76123046875
+            },
+            "score": 0.8279
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "Mallofer'S",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "1. Tab. Gemer 1/50g",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "2. Ta5. Tems 40mg ottimo",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "3. Th. Bristol 5mg +0 0g 0",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "2. Ta. ROSU 5W STHLMO",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": ". 5. To. Pantowy LOV I+vel ho",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "NUTOON",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "6. Tw. Folison 5% OfHis MUSCOLO",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          },
+          {
+            "text": "7. 15. Nitoxin Sur 1+41 6/w",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.483
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

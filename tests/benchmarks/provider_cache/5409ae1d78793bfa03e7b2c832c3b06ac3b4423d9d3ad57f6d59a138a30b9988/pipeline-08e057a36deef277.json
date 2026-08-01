@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0101",
+  "source_sha256": "5409ae1d78793bfa03e7b2c832c3b06ac3b4423d9d3ad57f6d59a138a30b9988",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:41.676811+00:00",
+  "runtime_ms": 8444.522800011327,
+  "output": {
+    "medications": [
+      {
+        "name": "Two Altre Kg",
+        "matched_term": "Two Altre Kg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.201
+      },
+      {
+        "name": "Pero-G",
+        "matched_term": "Pero-G",
+        "drug_id": "0a4cb4a5-856a-4091-b9f3-a76b429bdded",
+        "brand_id": "a5362067-269b-456e-a9fc-b43fdfaf17a7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.581
+      },
+      {
+        "name": "Toro",
+        "matched_term": "Toro",
+        "drug_id": "7bd081c9-0f2c-43e9-a13b-bda66a48cf11",
+        "brand_id": "696ca334-6ff5-4ed7-9c6f-b4feae6242ae",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.581
+      },
+      {
+        "name": "Tag",
+        "matched_term": "Tag",
+        "drug_id": "e6093a79-b09e-43e6-b6a4-fe72644f0e84",
+        "brand_id": "07ae37bd-72f5-4aaa-9d49-9a0a7907e791",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.581
+      }
+    ],
+    "raw_text": "Two. Altre\n25Kg.\nTu. Pero 120\n1000\nTor. Nap (10)\nTag: Vastin",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 8409,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.8779,
+      "yolo_min_confidence": 0.8779,
+      "yolo_max_confidence": 0.8779,
+      "ocr_avg_confidence": 0.446,
+      "ocr_min_confidence": 0.446,
+      "ocr_max_confidence": 0.446,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 259.0141906738281,
+            "y_min": 254.41604614257812,
+            "x_max": 506.8209228515625,
+            "y_max": 450.1539001464844
+          },
+          "score": 0.8779
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Two. Altre",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "25Kg.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "Tu. Pero 120",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "1000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "Tor. Nap (10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "Tag: Vastin",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

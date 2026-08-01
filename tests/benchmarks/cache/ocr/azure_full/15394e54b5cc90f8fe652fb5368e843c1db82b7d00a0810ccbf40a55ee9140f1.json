@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "15394e54b5cc90f8fe652fb5368e843c1db82b7d00a0810ccbf40a55ee9140f1",
+  "record_id": "RX-0100",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 25643.995500009623,
+  "failure": null,
+  "response_sha256": "321c3dbbdb0747d0460562e829e4648d2b1276bf0993457c863f29201d394eaa",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinahv.Jeddah\nTREATMENT CARD ( 199192\n₾F -G223\nMedical Center\nPassport No.\nE03456212\nPlicran ID: 1:54141\nAge 39\nNamu\nAKM HARUN OR RASHID\nThaRIPCHALANI\nDiain NARAYANGAN\nGende:\nHEALTH PROFILE\n120.50\nNO\nBlood Group\nNO\n6 Cistetos\n& Blood Sugar (RBE)\n10 LIVET DISOLAR\n12. duty cthur atinormalties\n11. Dnig History\n24 May 2024\nChief Complaints:\n1.736 Nuphar (som) @\nPulse\nSkG onatid\n10\nDehydration-\nRespiration-\nOthers-\nTo Calcium D3\nFBSIRBS-\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Makkah/Madinahv.Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "TREATMENT CARD ( 199192",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "₾F -G223",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Passport No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "E03456212",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Plicran ID: 1:54141",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Age 39",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Namu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "AKM HARUN OR RASHID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "ThaRIPCHALANI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Diain NARAYANGAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Gende:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "120.50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "6 Cistetos",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "& Blood Sugar (RBE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "10 LIVET DISOLAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "12. duty cthur atinormalties",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "11. Dnig History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "1.736 Nuphar (som) @",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "SkG onatid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "To Calcium D3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      }
+    ]
+  }
+}

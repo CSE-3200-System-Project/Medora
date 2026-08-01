@@ -11,7 +11,6 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from storage3.exceptions import StorageApiError
 
-from app.core.ai_privacy import stable_hash_token
 from app.core.config import settings
 from app.core.dependencies import get_db
 from app.db.supabase import storage_key_role, storage_supabase
@@ -21,7 +20,10 @@ from app.db.models.media_file import MediaFile
 from app.db.models.patient import PatientProfile
 from app.db.models.profile import Profile
 from app.routes.auth import get_current_user_token
+from app.routes.patient_access import check_doctor_patient_access
 from app.schemas.upload import MediaFileResponse, MediaUploadResponse, PrescriptionExtractionResponse
+from app.schemas.processing_consent import ProcessingPurpose
+from app.services.processing_consent import require_processing_consent
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -217,30 +219,30 @@ async def _sync_profile_media_field(db: AsyncSession, user_id: str, category: st
         )
 
 
-async def _require_user_ai_consent_for_ocr(db: AsyncSession, user_id: str) -> None:
+async def _require_user_ocr_permission(
+    db: AsyncSession,
+    user_id: str,
+    processing_mode: str,
+    data_subject_id: str | None = None,
+) -> str:
     role_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
     role = role_result.scalar_one_or_none()
     if role is None:
         raise HTTPException(status_code=404, detail="Profile not found")
 
     if role == UserRole.PATIENT:
-        consent_result = await db.execute(
-            select(
-                PatientProfile.consent_ai,
-                PatientProfile.ai_personal_context_enabled,
-            ).where(PatientProfile.profile_id == user_id)
-        )
-        consent_row = consent_result.first()
-        if consent_row is None:
-            raise HTTPException(status_code=404, detail="Patient medical profile not found")
-        legacy_consent = bool(consent_row[0]) if consent_row[0] is not None else False
-        personal_context_enabled = legacy_consent if consent_row[1] is None else bool(consent_row[1])
-        if not personal_context_enabled:
-            raise HTTPException(
-                status_code=403,
-                detail="Document analysis requires patient AI personal-context sharing.",
+        if processing_mode == "cloud":
+            await require_processing_consent(
+                db,
+                subject_id=user_id,
+                purpose=ProcessingPurpose.CLOUD_DOCUMENT_OCR,
+                provider="azure_document_intelligence",
+                local_option_available=True,
+                required_scopes={ProcessingPurpose.CLOUD_DOCUMENT_OCR.value},
             )
-        return
+        if data_subject_id and data_subject_id != user_id:
+            raise HTTPException(status_code=403, detail="Patients may only process their own prescription images")
+        return user_id
 
     if role == UserRole.DOCTOR:
         ai_result = await db.execute(
@@ -254,7 +256,30 @@ async def _require_user_ai_consent_for_ocr(db: AsyncSession, user_id: str) -> No
                 status_code=403,
                 detail="Doctor has disabled Chorui AI assistance.",
             )
-        return
+        if processing_mode == "local":
+            return data_subject_id or user_id
+        if not data_subject_id:
+            raise HTTPException(
+                status_code=422,
+                detail={
+                    "code": "data_subject_required",
+                    "message": "Cloud OCR initiated by a clinician requires the patient's identifier.",
+                    "local_option_available": True,
+                },
+            )
+        access = await check_doctor_patient_access(db, user_id, data_subject_id)
+        if not access.get("allowed"):
+            raise HTTPException(status_code=403, detail=access.get("reason", "Patient access denied"))
+        resolved_subject_id = str(access["patient_id"])
+        await require_processing_consent(
+            db,
+            subject_id=resolved_subject_id,
+            purpose=ProcessingPurpose.CLOUD_DOCUMENT_OCR,
+            provider="azure_document_intelligence",
+            local_option_available=True,
+            required_scopes={ProcessingPurpose.CLOUD_DOCUMENT_OCR.value},
+        )
+        return resolved_subject_id
 
     raise HTTPException(status_code=403, detail="Chorui AI extraction is not available for this account role")
 
@@ -264,7 +289,7 @@ async def _extract_prescription_with_ai_service(
     file_name: str,
     content: bytes,
     content_type: str,
-    subject_token: str | None = None,
+    processing_mode: str,
 ) -> dict:
     endpoint = settings.AI_OCR_SERVICE_URL.rstrip("/") + "/ocr/prescription"
     timeout = httpx.Timeout(
@@ -284,12 +309,11 @@ async def _extract_prescription_with_ai_service(
         async with httpx.AsyncClient(timeout=timeout) as client:
             response = await client.post(
                 endpoint,
-                files={"file": (file_name, content, content_type)},
-                headers=(
-                    {"X-Medora-Subject-Token": str(subject_token).strip()[:80]}
-                    if subject_token
-                    else None
-                ),
+                files={
+                    "file": (file_name, content, content_type),
+                    "processing_mode": (None, processing_mode),
+                },
+                headers={"X-Request-ID": f"ocr_{uuid.uuid4().hex}"},
             )
     except httpx.TimeoutException as exc:
         logger.exception(
@@ -550,6 +574,8 @@ async def delete_media_file(
 async def extract_prescription_text(
     file: UploadFile = File(...),
     save_file: bool = Form(True),
+    processing_mode: str = Form("local"),
+    data_subject_id: str | None = Form(None),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -562,10 +588,14 @@ async def extract_prescription_text(
     if not file.filename:
         raise HTTPException(status_code=400, detail="Invalid file name")
 
+    processing_mode = processing_mode.lower().strip()
+    if processing_mode not in {"local", "cloud"}:
+        raise HTTPException(status_code=422, detail="processing_mode must be 'local' or 'cloud'")
+
     file_content = await _read_file_with_limit(file)
     normalized_type = _resolve_prescription_content_type(file, file_content)
     file_record: MediaFile | None = None
-    await _require_user_ai_consent_for_ocr(db, user.id)
+    await _require_user_ocr_permission(db, user.id, processing_mode, data_subject_id)
 
     try:
         if save_file:
@@ -593,7 +623,7 @@ async def extract_prescription_text(
             file_name=file.filename,
             content=file_content,
             content_type=normalized_type,
-            subject_token=stable_hash_token(str(user.id), namespace="ocr", length=22),
+            processing_mode=processing_mode,
         )
         medications = ai_result.get("medications") if isinstance(ai_result.get("medications"), list) else []
         raw_text = str(ai_result.get("raw_text") or "").strip()

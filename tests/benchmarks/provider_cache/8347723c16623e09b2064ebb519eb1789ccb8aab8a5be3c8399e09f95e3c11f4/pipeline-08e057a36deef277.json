@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0089",
+  "source_sha256": "8347723c16623e09b2064ebb519eb1789ccb8aab8a5be3c8399e09f95e3c11f4",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:37:51.903189+00:00",
+  "runtime_ms": 7640.069700006279,
+  "output": {
+    "medications": [
+      {
+        "name": "levofloxacin",
+        "matched_term": "levofloxacin",
+        "drug_id": "c9c174fc-688b-4fe7-aced-800db53994f2",
+        "brand_id": null,
+        "dosage": "500 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.676
+      },
+      {
+        "name": "Otofa- Ebun",
+        "matched_term": "Otofa- Ebun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Doxophiphone",
+        "matched_term": "Doxophiphone",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Mentiquhart Rm",
+        "matched_term": "Mentiquhart Rm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Off-H",
+        "matched_term": "Off-H",
+        "drug_id": "6216895a-943d-475f-9bd0-673f0d074e9f",
+        "brand_id": "97aa647a-b2bd-40f8-9859-6dd9d97385c4",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.625
+      },
+      {
+        "name": "Toto Count",
+        "matched_term": "Toto Count",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      }
+    ],
+    "raw_text": "Tab levofloxacin ( 500 mg)\notofa- ebun\nDoxophiphone (200 mg)\nTab\n10\nMentiquhart (rm)\n0+off- roluri (10\nomeprazole (20m)\ncap\na toto - count (16)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 7602,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.9101,
+      "yolo_min_confidence": 0.9101,
+      "yolo_max_confidence": 0.9101,
+      "ocr_avg_confidence": 0.544,
+      "ocr_min_confidence": 0.544,
+      "ocr_max_confidence": 0.544,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 245.41879272460938,
+            "y_min": 257.06964111328125,
+            "x_max": 520.630615234375,
+            "y_max": 459.89788818359375
+          },
+          "score": 0.9101
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tab levofloxacin ( 500 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "otofa- ebun",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Doxophiphone (200 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "Mentiquhart (rm)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "0+off- roluri (10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "omeprazole (20m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "a toto - count (16)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.544
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

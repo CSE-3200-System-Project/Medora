@@ -1,0 +1,243 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0011",
+  "source_sha256": "b9e7a55326614dcb11e1dae959c7930c8fbd391baa6b4773297fca14778f84a3",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:23:35.915650+00:00",
+  "runtime_ms": 9135.956200014334,
+  "output": {
+    "medications": [
+      {
+        "name": "Acos",
+        "matched_term": "Acos",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "7eb33414-339a-4101-a31e-198d378ca938",
+        "dosage": null,
+        "frequency": "0+0+2+8",
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Dexilend",
+        "matched_term": "Dexilend",
+        "drug_id": "0a5b6087-8ab2-4445-a3c6-5608feac56f7",
+        "brand_id": "de68dc7e-3680-47c0-9bcc-84b311c44556",
+        "dosage": null,
+        "frequency": "2+3+2",
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Arokast",
+        "matched_term": "Arokast",
+        "drug_id": "0f412746-c47f-4559-956b-6fcf9077655b",
+        "brand_id": "b3532267-d543-4c44-97ee-24c04f84401a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.619
+      },
+      {
+        "name": "Blue Me Drea",
+        "matched_term": "Blue Me Drea",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.239
+      },
+      {
+        "name": "Fossical-D",
+        "matched_term": "Fossical-D",
+        "drug_id": "61e0ca13-0ef4-43c3-9fe2-59206d406cd4",
+        "brand_id": "b69149d5-560f-4e27-a24c-1c5e6134b4ed",
+        "dosage": null,
+        "frequency": "2+0+2+4",
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Flexi",
+        "matched_term": "Flexi",
+        "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+        "brand_id": "383e42ce-b82e-4c44-bbcf-4dc225550ece",
+        "dosage": null,
+        "frequency": "2+0+2+2",
+        "quantity": null,
+        "confidence": 0.668
+      },
+      {
+        "name": "Shop Djecuex Plus-",
+        "matched_term": "Shop Djecuex Plus-",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.239
+      },
+      {
+        "name": "Coughlin",
+        "matched_term": "Coughlin",
+        "drug_id": "3b19aef5-25c7-475c-bf1a-276d7e0f31c2",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.619
+      }
+    ],
+    "raw_text": "1.\nTy- Acos - 500 kg\n2.\n0+0+2- 8RR RRGM\nap - Dexilend - (30mq)\n3\n2+3+2- RAW OM SNAT\n@ - Anokast - gowy\nO+6+2- Blue ME Drea!\nFossical -D\n4.\n5.\n2+0+2- 4 2\nFlexi - Jockey\n6\n2+0+2- 2014 MA al\nShop - Djecuex plus-1ph\nStep - Coughlin - 3ph",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9096,
+      "detected_regions": 1,
+      "ocr_line_count": 18,
+      "yolo_avg_confidence": 0.9084,
+      "yolo_min_confidence": 0.9084,
+      "yolo_max_confidence": 0.9084,
+      "ocr_avg_confidence": 0.53,
+      "ocr_min_confidence": 0.53,
+      "ocr_max_confidence": 0.53,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 234.20021057128906,
+            "y_min": 209.03836059570312,
+            "x_max": 500.4403076171875,
+            "y_max": 511.172119140625
+          },
+          "score": 0.9084
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "1.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Ty- Acos - 500 kg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "2.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "0+0+2- 8RR RRGM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "ap - Dexilend - (30mq)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "2+3+2- RAW OM SNAT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "@ - Anokast - gowy",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "O+6+2- Blue ME Drea!",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Fossical -D",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "4.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "5.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "2+0+2- 4 2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Flexi - Jockey",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "6",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "2+0+2- 2014 MA al",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Shop - Djecuex plus-1ph",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "Step - Coughlin - 3ph",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.53
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

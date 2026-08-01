@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "5319a1b2916f695850b5682bfb0cd7ea1ae27ee9bf8417c3278c083984abd89e",
+  "record_id": "RX-0019",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 31121.606399989105,
+  "failure": null,
+  "response_sha256": "be3e15e8ec02c433dd6f24980ee3397ae2d3c5c9febfdf7888e5da30309f749d",
+  "response": {
+    "raw_text": "Tab. A-calm (50 mg)\n( 20 )\nTab. Napa (500mg)\n(20)\nho. Generalin M30/70 (2) 2 sy52 82-12)",
+    "lines": [
+      {
+        "text": "Tab. A-calm (50 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "( 20 )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Tab. Napa (500mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "ho. Generalin M30/70 (2) 2 sy52 82-12)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.666
+      }
+    ]
+  }
+}

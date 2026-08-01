@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "a7885cf63e2c0cbab3d95bb7e1f98ff5e827f1771fb15a94e9e4ead4fa3ce87d",
+  "record_id": "RX-0080",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11321.51320000412,
+  "failure": null,
+  "response_sha256": "815d95b1184a4c8fa8217f04fa09d728db87e090ecef17b11a08d3a6b59ca93b",
+  "response": {
+    "raw_text": "Rx\nMallofer'S\n1. Tab. Gemer 1/50g\n2. Ta5. Tems 40mg ottimo\n3. Th. Bristol 5mg +0 0g 0\n2. Ta. ROSU 5W STHLMO\n. 5. To. Pantowy LOV I+vel ho\nNUTOON\n6. Tw. Folison 5% OfHis MUSCOLO\n7. 15. Nitoxin Sur 1+41 6/w",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "Mallofer'S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "1. Tab. Gemer 1/50g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "2. Ta5. Tems 40mg ottimo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "3. Th. Bristol 5mg +0 0g 0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "2. Ta. ROSU 5W STHLMO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": ". 5. To. Pantowy LOV I+vel ho",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "NUTOON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "6. Tw. Folison 5% OfHis MUSCOLO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "7. 15. Nitoxin Sur 1+41 6/w",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.483
+      }
+    ]
+  }
+}

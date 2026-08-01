@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "b75d2de53cee1fba01f0e09ff0f1f131ff96901ad25fe468518a09d90c407a98",
+  "record_id": "RX-0054",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 12468.7270999857,
+  "failure": null,
+  "response_sha256": "594a0f59f06f8337262e2c40bd4dc440d233f563928fd4f2e419255a6b5c308e",
+  "response": {
+    "raw_text": "ES (NICVD)\nLADESH\nIFICATE\nAGE.G. S. SEX (MTF)\nVa\nOF DISCHARGE 4.8.1.\nIFSCM(USA)\nARING\n(Name & Signature)\nTREATMENTION DISCHARGE\nTahle 2.5\nROSuva to\npayer No\nEdecide 40,50\ncoport\n8\nName and Signature af Ductor",
+    "lines": [
+      {
+        "text": "ES (NICVD)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "LADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "IFICATE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "AGE.G. S. SEX (MTF)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Va",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "OF DISCHARGE 4.8.1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "IFSCM(USA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "ARING",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "(Name & Signature)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "TREATMENTION DISCHARGE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Tahle 2.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "ROSuva to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "payer No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Edecide 40,50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "coport",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Name and Signature af Ductor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.588
+      }
+    ]
+  }
+}

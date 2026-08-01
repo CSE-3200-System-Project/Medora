@@ -1,0 +1,199 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0042",
+  "source_sha256": "1a3318b98f6a1456b7c1ce6fa24c98ed7acd783c791a2670d5cdcde60a302228",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:41:31.208561+00:00",
+  "runtime_ms": 12389.186100001098,
+  "output": {
+    "raw_text": "W/O\nत्यागीव नाग\nशर (ब्याडि) - एक\nडिकिश्यक कड़क ब्बाभीन वारशु श्रज\nMEH Siddque. MCDO (X) 3IST\n40 years\n3.11.16.\nप्लाटगव नाग\n820377\nडिकिस्मटकर बारशनना\nMel. Allergy\n· PUD\nLub. Alatrol\n000+0->(18\nCap. Suelo 20 mg\n2 +0 +> -5/16\n- 20Bur 2/2 31 cmpor\nR",
+    "lines": [
+      {
+        "text": "W/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "त्यागीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "शर (ब्याडि) - एक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "डिकिश्यक कड़क ब्बाभीन वारशु श्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "MEH Siddque. MCDO (X) 3IST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "40 years",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "3.11.16.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "प्लाटगव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "डिकिस्मटकर बारशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Mel. Allergy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "· PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Lub. Alatrol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "000+0->(18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "Cap. Suelo 20 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "2 +0 +> -5/16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "- 20Bur 2/2 31 cmpor",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.453
+      }
+    ],
+    "medications": [
+      {
+        "name": "Meh Siddque Mcdo",
+        "matched_term": "Meh Siddque Mcdo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.204
+      },
+      {
+        "name": "Years",
+        "matched_term": "Years",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.204
+      },
+      {
+        "name": "Melo",
+        "matched_term": "Melo",
+        "drug_id": "3f5a7b45-6e3b-44b7-9c7d-4297491c7543",
+        "brand_id": "bcb65418-dbd2-4a66-af20-4260fdaae5d3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.584
+      },
+      {
+        "name": "Pud",
+        "matched_term": "Pud",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.204
+      },
+      {
+        "name": "Alatrol",
+        "matched_term": "Alatrol",
+        "drug_id": "362c03e6-8499-4a2d-aa2d-8da0b3e01939",
+        "brand_id": "393faff2-75ae-4cfe-a895-a7fcde21ff27",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.584
+      },
+      {
+        "name": "Suelo",
+        "matched_term": "Suelo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20 mg",
+        "frequency": "2+0+5",
+        "quantity": null,
+        "confidence": 0.304
+      },
+      {
+        "name": "Bur Cmpor",
+        "matched_term": "Bur Cmpor",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.204
+      }
+    ]
+  }
+}

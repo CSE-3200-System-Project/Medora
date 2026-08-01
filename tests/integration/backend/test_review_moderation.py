@@ -64,6 +64,7 @@ async def test_review_requires_completed_appointment(db_session, backend_client,
 async def test_review_moderation_flow(db_session, backend_client, auth_token_map):
     patient_profile = _profile(role=UserRole.PATIENT, first_name="Nila", last_name="Akter")
     doctor_profile = _profile(role=UserRole.DOCTOR, first_name="Farhan", last_name="Siddique")
+    admin_profile = _profile(role=UserRole.ADMIN, first_name="Release", last_name="Admin")
     patient = PatientProfile(profile_id=patient_profile.id, profile_photo_url="https://example.com/patient.png")
     doctor = DoctorProfile(
         profile_id=doctor_profile.id,
@@ -82,10 +83,11 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
         reason="Completed consultation",
     )
 
-    db_session.add_all([patient_profile, doctor_profile, patient, doctor, appointment])
+    db_session.add_all([patient_profile, doctor_profile, admin_profile, patient, doctor, appointment])
     await db_session.commit()
 
     auth_token_map["patient-token"] = {"sub": patient_profile.id, "email": patient_profile.email}
+    auth_token_map["admin-token"] = {"sub": admin_profile.id, "email": admin_profile.email}
 
     create_response = await backend_client.post(
         "/reviews",
@@ -138,7 +140,7 @@ async def test_review_moderation_flow(db_session, backend_client, auth_token_map
 
     reject_response = await backend_client.post(
         f"/admin/reviews/{created_review['id']}/reject",
-        headers={"X-Admin-Password": "test-admin-password-123"},
+        headers={"Authorization": "Bearer admin-token"},
         json={"admin_feedback": "Please avoid personal attacks."},
     )
     assert reject_response.status_code == 200, reject_response.text

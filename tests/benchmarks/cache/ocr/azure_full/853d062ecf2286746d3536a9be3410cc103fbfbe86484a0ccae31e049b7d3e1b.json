@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "853d062ecf2286746d3536a9be3410cc103fbfbe86484a0ccae31e049b7d3e1b",
+  "record_id": "RX-0097",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 35021.418799995445,
+  "failure": null,
+  "response_sha256": "8139cbd1cacf00a3fe4d92f9afd0c51f71e51662311a4baeb7cc41ba873157b7",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ 318194\nMedical Center:\n0529090\nPassport No\nAC4638209\nMaktab No_\nATIA SHARIFA\nAge\nDistrict\nTANGAIL\nThana BhuAPLA\nHEALTH PROFILE\nD+\n1. Blood Group:\nNO\nNO\n3 Heart Disease\nNO\n4. Lung Disease:\nNO\n5. Kidney Disease:\nNO\n8. Diabolos:\n7. Montal Disease:\n8. Blood Sugar (RBS):\n9.5\nNO\n9 Weight\n10 Liver Disease:\n11. Drug History:\n12. Any other ebnormaltins:\"0\nChief Complaints:\nVisit No\n1\nOgly 25 May 2024\n. A:\ncomment\nPulse- 75/m\nBP- 130/80mm/H\nTomp\nJa, Sierin ig\n370 70\nAnaemia-\nDehydration-\nRespiration-\nOthers-\n- 170 PM,\n07370\n( won any\nSOB\nHIN.\nFBS/RBS-\nECG\nProvisional Diagonosis\n- RBS+7.5 mm\nLe elvis\nTu. Montelukast 10\n0:075 -\n1. 7w. Binacodyl 5\n07075\ny\nशासकन ना: F010\nGender\nFEMALE\n2. Blood Pressure;\n130/90",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "TREATMENT CARD/ 318194",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "0529090",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "AC4638209",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Maktab No_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "ATIA SHARIFA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "TANGAIL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Thana BhuAPLA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "D+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "3 Heart Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "8. Diabolos:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "7. Montal Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "9.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "9 Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "12. Any other ebnormaltins:\"0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Visit No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Ogly 25 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": ". A:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "comment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Pulse- 75/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "BP- 130/80mm/H",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Tomp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Ja, Sierin ig",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "370 70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "- 170 PM,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "07370",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "( won any",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "SOB",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "HIN.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "- RBS+7.5 mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Le elvis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Tu. Montelukast 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "0:075 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "1. 7w. Binacodyl 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "07075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "शासकन ना: F010",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "2. Blood Pressure;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "130/90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.724
+      }
+    ]
+  }
+}

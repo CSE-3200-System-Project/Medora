@@ -1,0 +1,425 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0002",
+  "source_sha256": "8a608a218b0750284efd06dae52d6a19054e05c7efa29fb1f021bb4660753a64",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:21:27.302113+00:00",
+  "runtime_ms": 19324.313899996923,
+  "output": {
+    "raw_text": "छिकिश्मक कड़क बाभीन बारश शेख\nWIO\nवस्तु (बर्माफ)-७७\nबागीस नाग\nMZ HSiddique\nवराम\n40y\nबादशव नाग\nNHQ\nछिकिश्माअब नाशमना\nENT OPD\nS. NO-\n36\nROOM NO\n02\n1\n4 ch. Pharynning\nDATE\n14.01.16\nKilbar In\n+0+1\n7 dias\nJab- Fexo\n120\n0-10+1\n3\nTab-moram 10 mg\n0+0+1 (250m)\nSa\nAJELJUDIACOM A0\nMajor\nCMH\nficar\nMOBOBUR JAT/SO\nVÍZHOM LAH ENS\n-\nIssued 15 day\n14-1-16\n18-2-16",
+    "lines": [
+      {
+        "text": "छिकिश्मक कड़क बाभीन बारश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "WIO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "वस्तु (बर्माफ)-७७",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "बागीस नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "MZ HSiddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "40y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "NHQ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "छिकिश्माअब नाशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ENT OPD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "S. NO-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "36",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ROOM NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "02",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "4 ch. Pharynning",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "DATE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "14.01.16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Kilbar In",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "7 dias",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Jab- Fexo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "0-10+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Tab-moram 10 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "0+0+1 (250m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Sa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "AJELJUDIACOM A0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Major",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "CMH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "ficar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "MOBOBUR JAT/SO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "VÍZHOM LAH ENS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "Issued 15 day",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "14-1-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      },
+      {
+        "text": "18-2-16",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.598
+      }
+    ],
+    "medications": [
+      {
+        "name": "Wio",
+        "matched_term": "Wio",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Amzith",
+        "matched_term": "Amzith",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "5c66c10f-6d99-4108-8efc-d3475e610d3c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Nhq",
+        "matched_term": "Nhq",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Ent Opd No-Spa",
+        "matched_term": "Ent Opd No-Spa",
+        "drug_id": "c115c340-f9a8-4fd4-a758-6de6e2d7532c",
+        "brand_id": "4f660548-82a7-4bf4-9b7c-93ef96c13f9e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "C-Rich",
+        "matched_term": "C-Rich",
+        "drug_id": "30b8fd7b-f9bb-4bf5-84cb-9112108f6019",
+        "brand_id": "cae4927f-e4ac-481b-82d2-6c774b453b5a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Kilbac",
+        "matched_term": "Kilbac",
+        "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+        "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Diasy",
+        "matched_term": "Diasy",
+        "drug_id": "64a8c181-d38d-426b-8d5d-63d3c5d28e97",
+        "brand_id": "25eae96a-e9d4-4806-9a6c-d67fbd4ee428",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Fexo",
+        "matched_term": "Fexo",
+        "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+        "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Moram Sa",
+        "matched_term": "Moram Sa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10 mg",
+        "frequency": "0+0+1",
+        "quantity": null,
+        "confidence": 0.37
+      },
+      {
+        "name": "Ajeljudiacom",
+        "matched_term": "Ajeljudiacom",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Major",
+        "matched_term": "Major",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Cmh",
+        "matched_term": "Cmh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Ficard",
+        "matched_term": "Ficard",
+        "drug_id": "3516bbdc-9119-451c-9d31-dda03633a360",
+        "brand_id": "3a80688d-60bc-4963-96c2-c1289c8fe06b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.649
+      },
+      {
+        "name": "Mobobur Jat So",
+        "matched_term": "Mobobur Jat So",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Zhom Lah Ens",
+        "matched_term": "Zhom Lah Ens",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "4+1+1",
+        "quantity": "15 days",
+        "confidence": 0.368
+      }
+    ]
+  }
+}

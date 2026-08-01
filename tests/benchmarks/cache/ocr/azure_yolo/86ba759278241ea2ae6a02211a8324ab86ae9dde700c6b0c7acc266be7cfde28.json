@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "86ba759278241ea2ae6a02211a8324ab86ae9dde700c6b0c7acc266be7cfde28",
+  "record_id": "RX-0065",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 11346.518000005744,
+  "failure": null,
+  "response_sha256": "f2fe902c95f8c448361dd8bb66093a47f87eef4b234084890981a32044fb7a14",
+  "response": {
+    "raw_text": "15 mixture 30/70\n10+0+8 HB)- Glam0 36 amine\nth\nmoltomas 500\n20\n20+3-",
+    "lines": [
+      {
+        "text": "15 mixture 30/70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "10+0+8 HB)- Glam0 36 amine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "th",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "moltomas 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "20+3-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.496
+      }
+    ]
+  }
+}

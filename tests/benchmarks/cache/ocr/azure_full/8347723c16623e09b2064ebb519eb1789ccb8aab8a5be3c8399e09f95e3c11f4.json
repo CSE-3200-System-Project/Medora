@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "8347723c16623e09b2064ebb519eb1789ccb8aab8a5be3c8399e09f95e3c11f4",
+  "record_id": "RX-0089",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 24615.137899992988,
+  "failure": null,
+  "response_sha256": "9b14744805f913fb8105100ba639e33338b1a1f52f710ef30daed804be1703cc",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakxen Madetah .eddah\nTREATMENT CARD : 419 HT\n0:0190F073\nPasspor: Nn\n2.1215024\nVANEENNAAM VAN\nFEMALE\nTha-H=>/MARKET\nHEALTH PROFILE\n1, Blood Group:\nHurt Discose:\n7. Mento DEuser: 46\no weight\n11 Ding Halay\nChiel Complaints:\nfever, cough\nRx\nTemp\nAnnamin\nDehydration-\nRespiration-\nOffers-\nTab levofloxacin (500mg)\notofa- ebun\n5\nDoxophigiene (200 mg)\nTab\nKenhputant (pom )\ncap\n0+off- rotur\namaprazole (20m)\na toto - chan (10)\nFBSIRBS-\nEGG\nProvisional Diagonosis\nएक पंडितन ◌ंगीखव फिरिफिल जवा अश्युक्त बन्द में रायड़ा नबंद अण्वित अनभावे मात्र बैनरव वन।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Makxen Madetah .eddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "TREATMENT CARD : 419 HT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "0:0190F073",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Passpor: Nn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "2.1215024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "VANEENNAAM VAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Tha-H=>/MARKET",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "1, Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Hurt Discose:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "7. Mento DEuser: 46",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "o weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "11 Ding Halay",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "fever, cough",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Temp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Annamin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Offers-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Tab levofloxacin (500mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "otofa- ebun",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Doxophigiene (200 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Kenhputant (pom )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "0+off- rotur",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "amaprazole (20m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "a toto - chan (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "EGG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      },
+      {
+        "text": "एक पंडितन ◌ंगीखव फिरिफिल जवा अश्युक्त बन्द में रायड़ा नबंद अण्वित अनभावे मात्र बैनरव वन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.541
+      }
+    ]
+  }
+}

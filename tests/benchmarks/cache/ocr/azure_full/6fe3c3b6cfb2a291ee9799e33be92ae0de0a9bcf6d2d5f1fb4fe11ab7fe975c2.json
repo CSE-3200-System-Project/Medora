@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
+  "record_id": "RX-0079",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 28134.193799996865,
+  "failure": null,
+  "response_sha256": "8a33b6030fdb27bc591c19c9e58748e362c6a8240b6767a12924229140479a8a",
+  "response": {
+    "raw_text": "Dr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\n15 FEB 2024\n७: शाविकून वश्यान मूयन\nव्यविविधम (जिका), एमिनियम (वयडिमिन)\nयदि (कार्डिशनजि), विनियम (भाषा)\nविष्णसुख हिकिष्मक\nडिमिन, रुमटबाग, वाउजुन, ऐंकवर्णन,\nवाल /वाधीरेज्जि, ब्रिकेट्यदर्जनखि ९ ७यादवज्जि\nऑफिस रूमदवान रेनडिण्डिक 3 रामभाऊान\nwHOLk Bs Btw?\nसब-के-वाश्ना नगद, नका।\nविषयणिमि (बखि: न१-७७२३४\nShamiuna Aktor, 570\nBPILO/80m\nDMTIP HIS Hysternectar Incisional HuMIC.\nOpende\n1 Th, Lintaba 4515000 1+1 lo\nMuscas\n2 Th, Bristol 5mg 1+0+0 ml\nlas, Abecas S/Low Ottimo\n1\nजिन/सलाद/याम\nभद्र जनर्थ /कार्बन\n4Th. Rozavel 5V ottimo NUTowe\nCUTE, Disuper 05w Other m\n0 5 MAR 202%\nBp1 20182 Ptu\n5\nभव तथा कमबावन\nChamber :\nHitech Multicare Hospital Ltd.\nhome of core\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403\nEmergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nजितियारणड़ ऊना रैनारेन : ०.४७००८४००१\nवाणी ललचाव समय : मका ७.७००ें - ब्रांड 8. ००फे (उज्वान वक)",
+    "lines": [
+      {
+        "text": "Dr. Arifur Rahman Sumon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "MBBS (DMC), FCPS (Medicine)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "MD (Cardiology), BCS (Health)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Sher-e-Bangla Nagar, Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "15 FEB 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "७: शाविकून वश्यान मूयन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "व्यविविधम (जिका), एमिनियम (वयडिमिन)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "यदि (कार्डिशनजि), विनियम (भाषा)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "विष्णसुख हिकिष्मक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "डिमिन, रुमटबाग, वाउजुन, ऐंकवर्णन,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "वाल /वाधीरेज्जि, ब्रिकेट्यदर्जनखि ९ ७यादवज्जि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "ऑफिस रूमदवान रेनडिण्डिक 3 रामभाऊान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "wHOLk Bs Btw?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "सब-के-वाश्ना नगद, नका।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "विषयणिमि (बखि: न१-७७२३४",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Shamiuna Aktor, 570",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "BPILO/80m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "DMTIP HIS Hysternectar Incisional HuMIC.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Opende",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "1 Th, Lintaba 4515000 1+1 lo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Muscas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "2 Th, Bristol 5mg 1+0+0 ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "las, Abecas S/Low Ottimo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "जिन/सलाद/याम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "भद्र जनर्थ /कार्बन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "4Th. Rozavel 5V ottimo NUTowe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "CUTE, Disuper 05w Other m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "0 5 MAR 202%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Bp1 20182 Ptu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "भव तथा कमबावन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "home of core",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Emergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "जितियारणड़ ऊना रैनारेन : ०.४७००८४००१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "वाणी ललचाव समय : मका ७.७००ें - ब्रांड 8. ००फे (उज्वान वक)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      }
+    ]
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
+  "record_id": "RX-0009",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 20184.4090000086,
+  "failure": null,
+  "response_sha256": "a5809983836a64bf0b0f4d4005c4697f52b2aef8b989233bf2ce11b4ef88b421",
+  "response": {
+    "raw_text": "बसु (बर्मा)- ॐ\n820377\nछिकिश्मक कड़क स्वाधीन वादश शेख\n46 y\nG7 /2 1 /0 M ZH Siddiqui (MCPOST)\nS/m\nडिकिस्मढकल वावशमना\nP. Hypothyroidism\nC/C+\nVertigo\nM OP D (FEMALE)\nS. No ......\n74\n..\nRoom No.\n0.4\nTime ...\nDate\n24.10.17\nC-73\n1. Tab Cinaron 15mg\n1+0+1 - 2019.\n2 Cap\nFloral\n0+1+0\nKhilines\nDR. KANIZ FATIMIA\nFCPS Part i T: Free\nDermatalogy & Venereology\nCMM Dhaka\n-\n121\nissued 15 days Ly, 10,17\n05/4/12\nLe 19/11/12\nIm 13 - 05.12.17\n?\n46 y\nकव् वावशनना\nबादशव नाग\nbn3\nCMH/C\nजिक",
+    "lines": [
+      {
+        "text": "बसु (बर्मा)- ॐ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "छिकिश्मक कड़क स्वाधीन वादश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "46 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "G7 /2 1 /0 M ZH Siddiqui (MCPOST)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "डिकिस्मढकल वावशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "P. Hypothyroidism",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "C/C+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Vertigo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "M OP D (FEMALE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "S. No ......",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "74",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Room No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "0.4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Time ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "24.10.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "C-73",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1. Tab Cinaron 15mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1+0+1 - 2019.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2 Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Floral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "0+1+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Khilines",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "DR. KANIZ FATIMIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "FCPS Part i T: Free",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Dermatalogy & Venereology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "CMM Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "121",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "issued 15 days Ly, 10,17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "05/4/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Le 19/11/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Im 13 - 05.12.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "46 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "कव् वावशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "bn3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "CMH/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "जिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      }
+    ]
+  }
+}

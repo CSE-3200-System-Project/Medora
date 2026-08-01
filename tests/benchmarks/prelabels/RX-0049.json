@@ -1,0 +1,943 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0049",
+  "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
+  "raw_transcription": "2\n2\nel malevaro\n3. Il Fenolhi\nroel-8pm\nHET\n4.4\nel Montaino\n1",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "El Malevaro",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Il Fenolhi",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Roel- Pm",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Het",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "El Montaino",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "94b78044081e9cba4fceccfd6f3231f2c86226e4b8f642561b1b3979bc714d87"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "5a2f08f0335f8fcd295f960b0339481781372e903dbcb6575cf61ffc39de10d0"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "d0bc6989cdd968ad9acd011f4022cfdb7ea8660b7058666285fec83ef362b729"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "SG\n4\nge\na\nSosenrsy\nmoroyr\nonywr\n900\nnoa\nC\n2\nC\nhntn\n5\n51291\n2\nJmnt-Wy\nR\nmcot\nBtortt\nma\n87\n3\n-\nO\nplpol\nAgla",
+      "lines": [
+        {
+          "text": "SG",
+          "bbox": {
+            "x_min": 931.0,
+            "y_min": 46.0,
+            "x_max": 1031.0,
+            "y_max": 195.0
+          },
+          "page": 1,
+          "confidence": 0.41
+        },
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 3710.0,
+            "y_min": 97.0,
+            "x_max": 3854.0,
+            "y_max": 223.0
+          },
+          "page": 1,
+          "confidence": 0.329
+        },
+        {
+          "text": "ge",
+          "bbox": {
+            "x_min": 269.0,
+            "y_min": 113.0,
+            "x_max": 427.0,
+            "y_max": 295.0
+          },
+          "page": 1,
+          "confidence": 0.184
+        },
+        {
+          "text": "a",
+          "bbox": {
+            "x_min": 4229.0,
+            "y_min": 97.0,
+            "x_max": 4624.0,
+            "y_max": 467.0
+          },
+          "page": 1,
+          "confidence": 0.222
+        },
+        {
+          "text": "Sosenrsy",
+          "bbox": {
+            "x_min": 1625.0,
+            "y_min": 350.0,
+            "x_max": 1824.0,
+            "y_max": 1466.0
+          },
+          "page": 1,
+          "confidence": 0.411
+        },
+        {
+          "text": "moroyr",
+          "bbox": {
+            "x_min": 2478.0,
+            "y_min": 368.0,
+            "x_max": 2647.0,
+            "y_max": 1387.0
+          },
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "onywr",
+          "bbox": {
+            "x_min": 2952.0,
+            "y_min": 407.0,
+            "x_max": 3127.0,
+            "y_max": 1440.0
+          },
+          "page": 1,
+          "confidence": 0.578
+        },
+        {
+          "text": "900",
+          "bbox": {
+            "x_min": 2299.0,
+            "y_min": 569.0,
+            "x_max": 2389.0,
+            "y_max": 962.0
+          },
+          "page": 1,
+          "confidence": 0.17
+        },
+        {
+          "text": "noa",
+          "bbox": {
+            "x_min": 1840.0,
+            "y_min": 584.0,
+            "x_max": 1991.0,
+            "y_max": 970.0
+          },
+          "page": 1,
+          "confidence": 0.236
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 3549.0,
+            "y_min": 687.0,
+            "x_max": 3777.0,
+            "y_max": 949.0
+          },
+          "page": 1,
+          "confidence": 0.302
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1830.0,
+            "y_min": 898.0,
+            "x_max": 2028.0,
+            "y_max": 1104.0
+          },
+          "page": 1,
+          "confidence": 0.448
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1917.0,
+            "y_min": 1152.0,
+            "x_max": 2010.0,
+            "y_max": 1267.0
+          },
+          "page": 1,
+          "confidence": 0.418
+        },
+        {
+          "text": "hntn",
+          "bbox": {
+            "x_min": 968.0,
+            "y_min": 1285.0,
+            "x_max": 1156.0,
+            "y_max": 1867.0
+          },
+          "page": 1,
+          "confidence": 0.335
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 1962.0,
+            "y_min": 1740.0,
+            "x_max": 2062.0,
+            "y_max": 1855.0
+          },
+          "page": 1,
+          "confidence": 0.259
+        },
+        {
+          "text": "51291",
+          "bbox": {
+            "x_min": 1253.0,
+            "y_min": 1960.0,
+            "x_max": 1404.0,
+            "y_max": 2404.0
+          },
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 605.0,
+            "y_min": 2061.0,
+            "x_max": 726.0,
+            "y_max": 2494.0
+          },
+          "page": 1,
+          "confidence": 0.599
+        },
+        {
+          "text": "Jmnt-Wy",
+          "bbox": {
+            "x_min": 1459.0,
+            "y_min": 2172.0,
+            "x_max": 1597.0,
+            "y_max": 2893.0
+          },
+          "page": 1,
+          "confidence": 0.582
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1519.0,
+            "y_min": 2210.0,
+            "x_max": 1533.0,
+            "y_max": 2218.0
+          },
+          "page": 1,
+          "confidence": 0.105
+        },
+        {
+          "text": "mcot",
+          "bbox": {
+            "x_min": 2712.0,
+            "y_min": 2282.0,
+            "x_max": 2887.0,
+            "y_max": 2884.0
+          },
+          "page": 1,
+          "confidence": 0.661
+        },
+        {
+          "text": "Btortt",
+          "bbox": {
+            "x_min": 3912.0,
+            "y_min": 2355.0,
+            "x_max": 4391.0,
+            "y_max": 2792.0
+          },
+          "page": 1,
+          "confidence": 0.6
+        },
+        {
+          "text": "ma",
+          "bbox": {
+            "x_min": 853.0,
+            "y_min": 2407.0,
+            "x_max": 1119.0,
+            "y_max": 2963.0
+          },
+          "page": 1,
+          "confidence": 0.393
+        },
+        {
+          "text": "87",
+          "bbox": {
+            "x_min": 3439.0,
+            "y_min": 2626.0,
+            "x_max": 3572.0,
+            "y_max": 2789.0
+          },
+          "page": 1,
+          "confidence": 0.365
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 3508.0,
+            "y_min": 2751.0,
+            "x_max": 3562.0,
+            "y_max": 2810.0
+          },
+          "page": 1,
+          "confidence": 0.367
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3593.0,
+            "y_min": 2824.0,
+            "x_max": 3599.0,
+            "y_max": 2830.0
+          },
+          "page": 1,
+          "confidence": 0.277
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 3597.0,
+            "y_min": 2824.0,
+            "x_max": 3603.0,
+            "y_max": 2830.0
+          },
+          "page": 1,
+          "confidence": 0.075
+        },
+        {
+          "text": "plpol",
+          "bbox": {
+            "x_min": 3552.0,
+            "y_min": 2956.0,
+            "x_max": 3735.0,
+            "y_max": 3292.0
+          },
+          "page": 1,
+          "confidence": 0.341
+        },
+        {
+          "text": "Agla",
+          "bbox": {
+            "x_min": 633.0,
+            "y_min": 3106.0,
+            "x_max": 742.0,
+            "y_max": 3325.0
+          },
+          "page": 1,
+          "confidence": 0.451
+        }
+      ],
+      "medications": [
+        {
+          "name": "Sosenrsy",
+          "matched_term": "Sosenrsy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.185
+        },
+        {
+          "name": "Moroyr",
+          "matched_term": "Moroyr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Onywr",
+          "matched_term": "Onywr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.168
+        },
+        {
+          "name": "Noak",
+          "matched_term": "Noak",
+          "drug_id": "8254bbfb-9bb9-4746-b780-f095d1908327",
+          "brand_id": "16f1d7ca-3389-4f4c-820d-d8e68f145c64",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.538
+        },
+        {
+          "name": "Hntn",
+          "matched_term": "Hntn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.197
+        },
+        {
+          "name": "Jmnt-Wy",
+          "matched_term": "Jmnt-Wy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.155
+        },
+        {
+          "name": "Mcot",
+          "matched_term": "Mcot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.297
+        },
+        {
+          "name": "Btortt Ma",
+          "matched_term": "Btortt Ma",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.156
+        },
+        {
+          "name": "Plpol",
+          "matched_term": "Plpol",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.153
+        },
+        {
+          "name": "Agla",
+          "matched_term": "Agla",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "O.N0820377\nहिकिश्मक कड़ वाभीव वादशंभरज\n2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr\nडिकिस्मतकन वालशक\nwolks\nME-Treams\nLeves\nTo\n2. El Indevario\nloves\n3. Il Fenolhi\n0-001-8pm\n4. El montaino\nSW\nNosticine and\nHudfurmologist\nAA\n/11\nFuTa TSH\nath 03m.\n18day 20/9/18\n104.10118\n10 dayof\n18.00-18\n02.12:18\n04-11-18\n77.12.18",
+      "lines": [
+        {
+          "text": "O.N0820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "हिकिश्मक कड़ वाभीव वादशंभरज",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "डिकिस्मतकन वालशक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "wolks",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "ME-Treams",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "Leves",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "To",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "2. El Indevario",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "loves",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "3. Il Fenolhi",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "0-001-8pm",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "4. El montaino",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "SW",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "Nosticine and",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "Hudfurmologist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "AA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "/11",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "FuTa TSH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "ath 03m.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "18day 20/9/18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "104.10118",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "10 dayof",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "18.00-18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "02.12:18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "04-11-18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        },
+        {
+          "text": "77.12.18",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.506
+        }
+      ],
+      "medications": [
+        {
+          "name": "Zh Siddiqui Mcpodem",
+          "matched_term": "Zh Siddiqui Mcpodem",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Wolks",
+          "matched_term": "Wolks",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Me-Treams",
+          "matched_term": "Me-Treams",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Levex",
+          "matched_term": "Levex",
+          "drug_id": "da91cc9d-9932-48a0-9ce7-d71c7d6bac9e",
+          "brand_id": "07f6decf-f333-435c-b3e4-8b6ac3d3a3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.608
+        },
+        {
+          "name": "El Indevario",
+          "matched_term": "El Indevario",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Loves",
+          "matched_term": "Loves",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Il Fenolhi Pm",
+          "matched_term": "Il Fenolhi Pm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Montair 4",
+          "matched_term": "Montair 4",
+          "drug_id": "0ef15661-e61d-4e25-b2ca-b9f8bd01993d",
+          "brand_id": "64d4b303-181f-48de-8776-f69ce357ffba",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.608
+        },
+        {
+          "name": "Nosticine And",
+          "matched_term": "Nosticine And",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Hudfurmologist Azinaaf",
+          "matched_term": "Hudfurmologist Azinaaf",
+          "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+          "brand_id": "8edb9d56-a3f4-44b8-96b2-3e6c791547f1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Futa Tsh",
+          "matched_term": "Futa Tsh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.228
+        },
+        {
+          "name": "Ath",
+          "matched_term": "Ath",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "18 days",
+          "confidence": 0.277
+        },
+        {
+          "name": "A-Lo",
+          "matched_term": "A-Lo",
+          "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+          "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.608
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "El Malevaro",
+          "matched_term": "El Malevaro",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "Il Fenolhi",
+          "matched_term": "Il Fenolhi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "Roel- Pm",
+          "matched_term": "Roel- Pm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "Het",
+          "matched_term": "Het",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        },
+        {
+          "name": "El Montaino",
+          "matched_term": "El Montaino",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.244
+        }
+      ],
+      "raw_text": "2\n2\nel malevaro\n3. Il Fenolhi\nroel-8pm\nHET\n4.4\nel Montaino\n1",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 8635,
+        "detected_regions": 1,
+        "ocr_line_count": 9,
+        "yolo_avg_confidence": 0.794,
+        "yolo_min_confidence": 0.794,
+        "yolo_max_confidence": 0.794,
+        "ocr_avg_confidence": 0.542,
+        "ocr_min_confidence": 0.542,
+        "ocr_max_confidence": 0.542,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1781.2504592895507,
+              "y_min": 1505.68775100708,
+              "x_max": 3236.5543746948238,
+              "y_max": 3430.560662078857
+            },
+            "score": 0.794
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "el malevaro",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "3. Il Fenolhi",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "roel-8pm",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "HET",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "4.4",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "el Montaino",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.542
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

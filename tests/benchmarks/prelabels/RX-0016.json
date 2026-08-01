@@ -1,0 +1,569 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0016",
+  "source_sha256": "ac9ea3c93b1bf0070cbf259351391891c4a96bb51c7ea3a572f2517aa3f8320c",
+  "raw_transcription": "Se\nTab. Faxo 1800\n01012\ntb. PIC\n54000",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Faxo",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tb Pic",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "db4da2c64daedd965cc01e90750081a2968f58387d37ba67609b9ce77a821a00"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "dc764e42cda33bd1d8957dc81eb465b891c196c7038494d3125f07e943cacb71"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "81cdb255c13d76e2f9034258a5a63d015955db4398012799e6008b0d39e5bff4"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVENMENT OF THE PEOPLES REPUSLC OF BANGLADES\nMENESTRY OFRELIGZOUSARFAIRS\nSO\nUaslohMaorocieddo\nTREATMENT CARDTNPETXR\nX0erKG705\nuN\nHEALTH PROFILE\nTab.\nFRtO\n1E0\nCb..\nPI\n0+)\nE00",
+      "lines": [
+        {
+          "text": "GOVENMENT OF THE PEOPLES REPUSLC OF BANGLADES",
+          "bbox": {
+            "x_min": 203.0,
+            "y_min": 93.0,
+            "x_max": 435.0,
+            "y_max": 110.0
+          },
+          "page": 1,
+          "confidence": 0.836
+        },
+        {
+          "text": "MENESTRY OFRELIGZOUSARFAIRS",
+          "bbox": {
+            "x_min": 256.0,
+            "y_min": 103.0,
+            "x_max": 387.0,
+            "y_max": 120.0
+          },
+          "page": 1,
+          "confidence": 0.848
+        },
+        {
+          "text": "SO",
+          "bbox": {
+            "x_min": 310.0,
+            "y_min": 114.0,
+            "x_max": 363.0,
+            "y_max": 128.0
+          },
+          "page": 1,
+          "confidence": 0.228
+        },
+        {
+          "text": "UaslohMaorocieddo",
+          "bbox": {
+            "x_min": 281.0,
+            "y_min": 126.0,
+            "x_max": 361.0,
+            "y_max": 136.0
+          },
+          "page": 1,
+          "confidence": 0.494
+        },
+        {
+          "text": "TREATMENT CARDTNPETXR",
+          "bbox": {
+            "x_min": 272.0,
+            "y_min": 144.0,
+            "x_max": 379.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.75
+        },
+        {
+          "text": "X0erKG705",
+          "bbox": {
+            "x_min": 395.0,
+            "y_min": 148.0,
+            "x_max": 445.0,
+            "y_max": 159.0
+          },
+          "page": 1,
+          "confidence": 0.46
+        },
+        {
+          "text": "uN",
+          "bbox": {
+            "x_min": 331.0,
+            "y_min": 158.0,
+            "x_max": 363.0,
+            "y_max": 171.0
+          },
+          "page": 1,
+          "confidence": 0.191
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": {
+            "x_min": 298.0,
+            "y_min": 197.0,
+            "x_max": 356.0,
+            "y_max": 207.0
+          },
+          "page": 1,
+          "confidence": 0.951
+        },
+        {
+          "text": "Tab.",
+          "bbox": {
+            "x_min": 297.0,
+            "y_min": 273.0,
+            "x_max": 349.0,
+            "y_max": 294.0
+          },
+          "page": 1,
+          "confidence": 0.874
+        },
+        {
+          "text": "FRtO",
+          "bbox": {
+            "x_min": 344.0,
+            "y_min": 272.0,
+            "x_max": 389.0,
+            "y_max": 288.0
+          },
+          "page": 1,
+          "confidence": 0.585
+        },
+        {
+          "text": "1E0",
+          "bbox": {
+            "x_min": 406.0,
+            "y_min": 272.0,
+            "x_max": 431.0,
+            "y_max": 284.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "Cb..",
+          "bbox": {
+            "x_min": 311.0,
+            "y_min": 307.0,
+            "x_max": 362.0,
+            "y_max": 330.0
+          },
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "PI",
+          "bbox": {
+            "x_min": 361.0,
+            "y_min": 306.0,
+            "x_max": 399.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.524
+        },
+        {
+          "text": "0+)",
+          "bbox": {
+            "x_min": 351.0,
+            "y_min": 323.0,
+            "x_max": 420.0,
+            "y_max": 348.0
+          },
+          "page": 1,
+          "confidence": 0.768
+        },
+        {
+          "text": "E00",
+          "bbox": {
+            "x_min": 168.0,
+            "y_min": 464.0,
+            "x_max": 183.0,
+            "y_max": 474.0
+          },
+          "page": 1,
+          "confidence": 0.523
+        }
+      ],
+      "medications": [
+        {
+          "name": "Govenment Of The",
+          "matched_term": "Govenment Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.376
+        },
+        {
+          "name": "Menstry",
+          "matched_term": "Menstry",
+          "drug_id": "37b6c6c8-f334-41f4-a822-06dbfb43e49d",
+          "brand_id": "18c48da2-b2b0-454b-840a-e7729319dd2c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.622
+        },
+        {
+          "name": "Uaslohmaorocieddo",
+          "matched_term": "Uaslohmaorocieddo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.222
+        },
+        {
+          "name": "Treatment Cardtnpetxr Erkg Un",
+          "matched_term": "Treatment Cardtnpetxr Erkg Un",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.21
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.808
+        },
+        {
+          "name": "Frto",
+          "matched_term": "Frto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.212
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.671
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nTREATMENT CARD / HDCHIMIE\nHEALTH PROFILE\n-\n-\nFever\n-\nTab. Fexo 180\n01012\nED. PIC\n54000\n26/5\nProvinicoll Diagonoss",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "TREATMENT CARD / HDCHIMIE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "Fever",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "Tab. Fexo 180",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "01012",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "ED. PIC",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "54000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "26/5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        },
+        {
+          "text": "Provinicoll Diagonoss",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.616
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.657
+        },
+        {
+          "name": "Treatment Card Hdchimie",
+          "matched_term": "Treatment Card Hdchimie",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.657
+        },
+        {
+          "name": "C-Fever",
+          "matched_term": "C-Fever",
+          "drug_id": "b78611de-ddab-4f49-b68b-79a72591eb6d",
+          "brand_id": "da15bf35-00ac-4b7e-bd8e-852eadf7249f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.657
+        },
+        {
+          "name": "Fexo",
+          "matched_term": "Fexo",
+          "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+          "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.657
+        },
+        {
+          "name": "Ed Pic",
+          "matched_term": "Ed Pic",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        },
+        {
+          "name": "Provinicoll Diagonoss",
+          "matched_term": "Provinicoll Diagonoss",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.277
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Faxo",
+          "matched_term": "Faxo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.286
+        },
+        {
+          "name": "Tb Pic",
+          "matched_term": "Tb Pic",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.286
+        }
+      ],
+      "raw_text": "Se\nTab. Faxo 1800\n01012\ntb. PIC\n54000",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 8907,
+        "detected_regions": 1,
+        "ocr_line_count": 5,
+        "yolo_avg_confidence": 0.8839,
+        "yolo_min_confidence": 0.8839,
+        "yolo_max_confidence": 0.8839,
+        "ocr_avg_confidence": 0.636,
+        "ocr_min_confidence": 0.636,
+        "ocr_max_confidence": 0.636,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 284.5245056152344,
+              "y_min": 265.177490234375,
+              "x_max": 494.97796630859375,
+              "y_max": 352.4847106933594
+            },
+            "score": 0.8839
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Se",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "Tab. Faxo 1800",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "01012",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "tb. PIC",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "54000",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

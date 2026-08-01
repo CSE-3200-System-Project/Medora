@@ -161,7 +161,7 @@ POST /medical-reports/upload
   │
   ├─ Uploads file to Supabase Storage
   ├─ Calls ai_service POST /ocr/prescription
-  │   Headers: X-Medora-Subject-Token: <anonymized token>
+  │   Headers: X-Request-ID: <random correlation ID>
   │   Body: { image_url: <storage url> }
   │   │
   │   └─ ai_service OCR Pipeline:

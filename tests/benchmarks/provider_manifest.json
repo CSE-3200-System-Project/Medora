@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0.0",
+  "release": "v1.0.0",
+  "execution_date": null,
+  "providers": [
+    {
+      "id": "mock-text-v1",
+      "kind": "text",
+      "provider": "medora",
+      "model": "deterministic-mock-v1",
+      "api_version": "internal-1",
+      "region": "local",
+      "temperature": 0.0,
+      "context_limit": 8192,
+      "timeout_seconds": 5,
+      "retries": 0,
+      "fallback_policy": "none",
+      "retention_assumption": "No external disclosure; process-memory only",
+      "paid_service_required": false,
+      "result_class": "deterministic_mock"
+    },
+    {
+      "id": "paddle-full-v1",
+      "kind": "document_ocr",
+      "provider": "PaddleOCR",
+      "model": "PP-OCRv4_mobile_det + en_PP-OCRv4_mobile_rec",
+      "api_version": "paddleocr 3.5.0 / paddlepaddle 3.3.1",
+      "region": "local",
+      "temperature": null,
+      "context_limit": null,
+      "timeout_seconds": null,
+      "retries": 0,
+      "fallback_policy": "none; never cloud",
+      "retention_assumption": "No external disclosure",
+      "paid_service_required": false,
+      "result_class": "live_local"
+    },
+    {
+      "id": "azure-document-full-v1",
+      "kind": "document_ocr",
+      "provider": "Azure Document Intelligence",
+      "model": "prebuilt-read",
+      "api_version": "2024-11-30",
+      "region": "RELEASE_PENDING",
+      "temperature": null,
+      "context_limit": null,
+      "timeout_seconds": 45,
+      "retries": 1,
+      "fallback_policy": "none during benchmark; immutable response cache",
+      "retention_assumption": "Microsoft states input and analysis results are encrypted and stored temporarily in the resource region for 24 hours; Delete Analyze Result can purge results earlier",
+      "documentation": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/document-intelligence/data-privacy-security",
+      "paid_service_required": true,
+      "result_class": "live_external"
+    },
+    {
+      "id": "hosted-text-release-v1",
+      "kind": "text",
+      "provider": "GroqCloud",
+      "model": "openai/gpt-oss-120b",
+      "api_version": "OpenAI-compatible /openai/v1/chat/completions",
+      "region": "United States for retained customer data (Groq-documented GCP buckets)",
+      "temperature": 0.0,
+      "context_limit": 131072,
+      "timeout_seconds": 20,
+      "retries": 2,
+      "fallback_policy": "Live results reported per provider; never pooled",
+      "retention_assumption": "Synchronous inference is not retained by default, but inputs/outputs may be logged up to 30 days for reliability or abuse unless organization Zero Data Retention is enabled; ZDR status must be recorded at release execution",
+      "documentation": [
+        "https://console.groq.com/docs/your-data",
+        "https://console.groq.com/docs/model/openai/gpt-oss-120b"
+      ],
+      "paid_service_required": true,
+      "result_class": "live_external"
+    },
+    {
+      "id": "vapi-audio-release-v1",
+      "kind": "live_audio",
+      "provider": "Vapi with OpenAI, Deepgram, and Vapi voice components",
+      "model": "gpt-4.1-mini / flux-general-en / Elliot",
+      "api_version": "Vapi REST API configuration observed 2026-08-01",
+      "region": "United States transfer disclosed by Vapi; downstream component regions are provider-managed",
+      "temperature": null,
+      "context_limit": null,
+      "timeout_seconds": 30,
+      "retries": 0,
+      "fallback_policy": "none; local audio mode is a separate workflow",
+      "retention_assumption": "The configured assistant response contains no artifact/compliance override. Vapi documents pay-as-you-go retention up to 14 days for calls and 30 days for chats; organization Zero Data Retention was not established by the API response",
+      "documentation": [
+        "https://docs.vapi.ai/assistants/call-recording",
+        "https://docs.vapi.ai/security-and-privacy/data-flow"
+      ],
+      "paid_service_required": true,
+      "result_class": "live_external"
+    }
+  ]
+}

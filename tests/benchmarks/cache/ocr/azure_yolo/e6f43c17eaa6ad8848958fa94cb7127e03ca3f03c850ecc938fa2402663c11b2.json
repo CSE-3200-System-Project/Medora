@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e6f43c17eaa6ad8848958fa94cb7127e03ca3f03c850ecc938fa2402663c11b2",
+  "record_id": "RX-0012",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 4446.521400008351,
+  "failure": null,
+  "response_sha256": "c1b9c4b6ea6fdb7a02841c4b25fe75bd3491ace77ce7b10fe54f237f6d8b1619",
+  "response": {
+    "raw_text": ". Tab. DON-A (10Mg)\nCap.\nESOTID ( 20 mg)\nSINALAX SACHET\n278- 2017\n- 29",
+    "lines": [
+      {
+        "text": ". Tab. DON-A (10Mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "Cap.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "ESOTID ( 20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "SINALAX SACHET",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "278- 2017",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "- 29",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.685
+      }
+    ]
+  }
+}

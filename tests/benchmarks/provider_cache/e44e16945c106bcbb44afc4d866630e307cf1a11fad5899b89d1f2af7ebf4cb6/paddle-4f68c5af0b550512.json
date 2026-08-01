@@ -1,0 +1,572 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0003",
+  "source_sha256": "e44e16945c106bcbb44afc4d866630e307cf1a11fad5899b89d1f2af7ebf4cb6",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:22:05.236529+00:00",
+  "runtime_ms": 27362.57399999886,
+  "output": {
+    "raw_text": "Solo\nhoc Weoc\ne\nC\no\nO\n+\nictso\nhua\nhleneenrir\nlofey\n0+0+C\nos e+Pyoy\n+c+c\nC+o+c\nD\nof\nf\nqbL\nLepton\no\nA\nO\nf\nerfes\nS\n16\nO\nAng\n2\nHSt\nNPU\nU\nO\nof\n-90b0\nAgla",
+    "lines": [
+      {
+        "text": "Solo",
+        "bbox": {
+          "x_min": 1405.0,
+          "y_min": 236.0,
+          "x_max": 1750.0,
+          "y_max": 939.0
+        },
+        "page": 1,
+        "confidence": 0.233
+      },
+      {
+        "text": "hoc Weoc",
+        "bbox": {
+          "x_min": 2352.0,
+          "y_min": 246.0,
+          "x_max": 2539.0,
+          "y_max": 969.0
+        },
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "e",
+        "bbox": {
+          "x_min": 2641.0,
+          "y_min": 285.0,
+          "x_max": 2689.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.48
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 2643.0,
+          "y_min": 316.0,
+          "x_max": 2692.0,
+          "y_max": 354.0
+        },
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "o",
+        "bbox": {
+          "x_min": 2018.0,
+          "y_min": 317.0,
+          "x_max": 2115.0,
+          "y_max": 444.0
+        },
+        "page": 1,
+        "confidence": 0.112
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3154.0,
+          "y_min": 367.0,
+          "x_max": 3174.0,
+          "y_max": 380.0
+        },
+        "page": 1,
+        "confidence": 0.083
+      },
+      {
+        "text": "+",
+        "bbox": {
+          "x_min": 3447.0,
+          "y_min": 368.0,
+          "x_max": 3636.0,
+          "y_max": 596.0
+        },
+        "page": 1,
+        "confidence": 0.399
+      },
+      {
+        "text": "ictso",
+        "bbox": {
+          "x_min": 2539.0,
+          "y_min": 390.0,
+          "x_max": 2670.0,
+          "y_max": 696.0
+        },
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "hua",
+        "bbox": {
+          "x_min": 2697.0,
+          "y_min": 419.0,
+          "x_max": 2811.0,
+          "y_max": 665.0
+        },
+        "page": 1,
+        "confidence": 0.209
+      },
+      {
+        "text": "hleneenrir",
+        "bbox": {
+          "x_min": 2039.0,
+          "y_min": 497.0,
+          "x_max": 2291.0,
+          "y_max": 1304.0
+        },
+        "page": 1,
+        "confidence": 0.558
+      },
+      {
+        "text": "lofey",
+        "bbox": {
+          "x_min": 2901.0,
+          "y_min": 489.0,
+          "x_max": 3137.0,
+          "y_max": 957.0
+        },
+        "page": 1,
+        "confidence": 0.806
+      },
+      {
+        "text": "0+0+C",
+        "bbox": {
+          "x_min": 3132.0,
+          "y_min": 525.0,
+          "x_max": 3304.0,
+          "y_max": 989.0
+        },
+        "page": 1,
+        "confidence": 0.617
+      },
+      {
+        "text": "os e+Pyoy",
+        "bbox": {
+          "x_min": 3459.0,
+          "y_min": 612.0,
+          "x_max": 3663.0,
+          "y_max": 1642.0
+        },
+        "page": 1,
+        "confidence": 0.517
+      },
+      {
+        "text": "+c+c",
+        "bbox": {
+          "x_min": 2619.0,
+          "y_min": 655.0,
+          "x_max": 2752.0,
+          "y_max": 1090.0
+        },
+        "page": 1,
+        "confidence": 0.568
+      },
+      {
+        "text": "C+o+c",
+        "bbox": {
+          "x_min": 1871.0,
+          "y_min": 661.0,
+          "x_max": 2015.0,
+          "y_max": 1113.0
+        },
+        "page": 1,
+        "confidence": 0.728
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 877.0,
+          "x_max": 247.0,
+          "y_max": 2445.0
+        },
+        "page": 1,
+        "confidence": 0.402
+      },
+      {
+        "text": "of",
+        "bbox": {
+          "x_min": 1512.0,
+          "y_min": 1053.0,
+          "x_max": 1811.0,
+          "y_max": 1375.0
+        },
+        "page": 1,
+        "confidence": 0.444
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 2973.0,
+          "y_min": 1071.0,
+          "x_max": 3179.0,
+          "y_max": 1327.0
+        },
+        "page": 1,
+        "confidence": 0.083
+      },
+      {
+        "text": "qbL",
+        "bbox": {
+          "x_min": 2406.0,
+          "y_min": 1093.0,
+          "x_max": 2551.0,
+          "y_max": 1390.0
+        },
+        "page": 1,
+        "confidence": 0.384
+      },
+      {
+        "text": "Lepton",
+        "bbox": {
+          "x_min": 4066.0,
+          "y_min": 1129.0,
+          "x_max": 4199.0,
+          "y_max": 1643.0
+        },
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "o",
+        "bbox": {
+          "x_min": 193.0,
+          "y_min": 1269.0,
+          "x_max": 380.0,
+          "y_max": 1821.0
+        },
+        "page": 1,
+        "confidence": 0.372
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 3849.0,
+          "y_min": 1330.0,
+          "x_max": 3861.0,
+          "y_max": 1348.0
+        },
+        "page": 1,
+        "confidence": 0.163
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1173.0,
+          "y_min": 1343.0,
+          "x_max": 1181.0,
+          "y_max": 1356.0
+        },
+        "page": 1,
+        "confidence": 0.148
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 3893.0,
+          "y_min": 1457.0,
+          "x_max": 4033.0,
+          "y_max": 1622.0
+        },
+        "page": 1,
+        "confidence": 0.146
+      },
+      {
+        "text": "erfes",
+        "bbox": {
+          "x_min": 3282.0,
+          "y_min": 1897.0,
+          "x_max": 3543.0,
+          "y_max": 2779.0
+        },
+        "page": 1,
+        "confidence": 0.488
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 397.0,
+          "y_min": 1910.0,
+          "x_max": 405.0,
+          "y_max": 1938.0
+        },
+        "page": 1,
+        "confidence": 0.138
+      },
+      {
+        "text": "16",
+        "bbox": {
+          "x_min": 633.0,
+          "y_min": 2052.0,
+          "x_max": 808.0,
+          "y_max": 2337.0
+        },
+        "page": 1,
+        "confidence": 0.377
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 714.0,
+          "y_min": 2097.0,
+          "x_max": 720.0,
+          "y_max": 2104.0
+        },
+        "page": 1,
+        "confidence": 0.199
+      },
+      {
+        "text": "Ang",
+        "bbox": {
+          "x_min": 1184.0,
+          "y_min": 2112.0,
+          "x_max": 1459.0,
+          "y_max": 2570.0
+        },
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 520.0,
+          "y_min": 2188.0,
+          "x_max": 657.0,
+          "y_max": 2570.0
+        },
+        "page": 1,
+        "confidence": 0.589
+      },
+      {
+        "text": "HSt",
+        "bbox": {
+          "x_min": 3738.0,
+          "y_min": 2252.0,
+          "x_max": 3846.0,
+          "y_max": 2476.0
+        },
+        "page": 1,
+        "confidence": 0.372
+      },
+      {
+        "text": "NPU",
+        "bbox": {
+          "x_min": 3144.0,
+          "y_min": 2476.0,
+          "x_max": 3254.0,
+          "y_max": 2725.0
+        },
+        "page": 1,
+        "confidence": 0.406
+      },
+      {
+        "text": "U",
+        "bbox": {
+          "x_min": 1048.0,
+          "y_min": 2573.0,
+          "x_max": 1090.0,
+          "y_max": 2633.0
+        },
+        "page": 1,
+        "confidence": 0.238
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 3559.0,
+          "y_min": 2686.0,
+          "x_max": 3566.0,
+          "y_max": 2692.0
+        },
+        "page": 1,
+        "confidence": 0.1
+      },
+      {
+        "text": "of",
+        "bbox": {
+          "x_min": 106.0,
+          "y_min": 2772.0,
+          "x_max": 389.0,
+          "y_max": 3096.0
+        },
+        "page": 1,
+        "confidence": 0.359
+      },
+      {
+        "text": "-90b0",
+        "bbox": {
+          "x_min": 936.0,
+          "y_min": 2964.0,
+          "x_max": 1273.0,
+          "y_max": 3468.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "Agla",
+        "bbox": {
+          "x_min": 612.0,
+          "y_min": 3056.0,
+          "x_max": 732.0,
+          "y_max": 3267.0
+        },
+        "page": 1,
+        "confidence": 0.527
+      }
+    ],
+    "medications": [
+      {
+        "name": "Solo",
+        "matched_term": "Solo",
+        "drug_id": "b25c82fc-0616-4964-a037-c085e0ea30df",
+        "brand_id": "2c346d3e-a5a0-4470-91a6-eaf7fb59adb9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.485
+      },
+      {
+        "name": "Adhocof",
+        "matched_term": "Adhocof",
+        "drug_id": "23d6efcc-6c77-4b09-9f8f-eac3518528c7",
+        "brand_id": "c703fb9f-7f62-487e-8504-d3104366dfd1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.528
+      },
+      {
+        "name": "Ictso",
+        "matched_term": "Ictso",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.271
+      },
+      {
+        "name": "Olium Morrhuae",
+        "matched_term": "Olium Morrhuae",
+        "drug_id": "4eab836e-7d72-4d55-b4fb-894275ee98ad",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.474
+      },
+      {
+        "name": "Lofey",
+        "matched_term": "Lofey",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.363
+      },
+      {
+        "name": "Hleneenrir",
+        "matched_term": "Hleneenrir",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Os Pyoy Of",
+        "matched_term": "Os Pyoy Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.206
+      },
+      {
+        "name": "Qbl",
+        "matched_term": "Qbl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.173
+      },
+      {
+        "name": "Lepton",
+        "matched_term": "Lepton",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.13
+      },
+      {
+        "name": "Erfes",
+        "matched_term": "Erfes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.135
+      },
+      {
+        "name": "Ang",
+        "matched_term": "Ang",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.271
+      },
+      {
+        "name": "Hst",
+        "matched_term": "Hst",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.167
+      },
+      {
+        "name": "Npu Of",
+        "matched_term": "Npu Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.169
+      },
+      {
+        "name": "Agla",
+        "matched_term": "Agla",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.237
+      }
+    ]
+  }
+}

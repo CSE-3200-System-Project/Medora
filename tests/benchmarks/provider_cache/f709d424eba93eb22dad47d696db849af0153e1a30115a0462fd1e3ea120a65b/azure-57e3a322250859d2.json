@@ -1,0 +1,313 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0049",
+  "source_sha256": "f709d424eba93eb22dad47d696db849af0153e1a30115a0462fd1e3ea120a65b",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:48:12.469881+00:00",
+  "runtime_ms": 50429.66089998663,
+  "output": {
+    "raw_text": "O.N0820377\nहिकिश्मक कड़ वाभीव वादशंभरज\n2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr\nडिकिस्मतकन वालशक\nwolks\nME-Treams\nLeves\nTo\n2. El Indevario\nloves\n3. Il Fenolhi\n0-001-8pm\n4. El montaino\nSW\nNosticine and\nHudfurmologist\nAA\n/11\nFuTa TSH\nath 03m.\n18day 20/9/18\n104.10118\n10 dayof\n18.00-18\n02.12:18\n04-11-18\n77.12.18",
+    "lines": [
+      {
+        "text": "O.N0820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "हिकिश्मक कड़ वाभीव वादशंभरज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "2 W/O1 M ZH SIDDIQUI MCPODEM 47Yr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "डिकिस्मतकन वालशक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "wolks",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "ME-Treams",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Leves",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "To",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "2. El Indevario",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "loves",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "3. Il Fenolhi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "0-001-8pm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "4. El montaino",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "SW",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Nosticine and",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "Hudfurmologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "AA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "/11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "FuTa TSH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "ath 03m.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "18day 20/9/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "104.10118",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "10 dayof",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "18.00-18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "02.12:18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "04-11-18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "77.12.18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.506
+      }
+    ],
+    "medications": [
+      {
+        "name": "Zh Siddiqui Mcpodem",
+        "matched_term": "Zh Siddiqui Mcpodem",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Wolks",
+        "matched_term": "Wolks",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Me-Treams",
+        "matched_term": "Me-Treams",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Levex",
+        "matched_term": "Levex",
+        "drug_id": "da91cc9d-9932-48a0-9ce7-d71c7d6bac9e",
+        "brand_id": "07f6decf-f333-435c-b3e4-8b6ac3d3a3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.608
+      },
+      {
+        "name": "El Indevario",
+        "matched_term": "El Indevario",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Loves",
+        "matched_term": "Loves",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Il Fenolhi Pm",
+        "matched_term": "Il Fenolhi Pm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Montair 4",
+        "matched_term": "Montair 4",
+        "drug_id": "0ef15661-e61d-4e25-b2ca-b9f8bd01993d",
+        "brand_id": "64d4b303-181f-48de-8776-f69ce357ffba",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.608
+      },
+      {
+        "name": "Nosticine And",
+        "matched_term": "Nosticine And",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Hudfurmologist Azinaaf",
+        "matched_term": "Hudfurmologist Azinaaf",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "8edb9d56-a3f4-44b8-96b2-3e6c791547f1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Futa Tsh",
+        "matched_term": "Futa Tsh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.228
+      },
+      {
+        "name": "Ath",
+        "matched_term": "Ath",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "18 days",
+        "confidence": 0.277
+      },
+      {
+        "name": "A-Lo",
+        "matched_term": "A-Lo",
+        "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+        "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.608
+      }
+    ]
+  }
+}

@@ -28,7 +28,14 @@ export async function loginIfCredentials(page: Page): Promise<void> {
 export async function requireCredentialsOrSkip(testSkip: (condition: boolean, description: string) => void) {
   const email = process.env.E2E_EMAIL;
   const password = process.env.E2E_PASSWORD;
-  testSkip(!email || !password, "Set E2E_EMAIL and E2E_PASSWORD for authenticated flow validation.");
+  if (!email || !password) {
+    const message = "Set E2E_EMAIL and E2E_PASSWORD for authenticated flow validation.";
+    if (process.env.E2E_ALLOW_SKIPS === "1") {
+      testSkip(true, message);
+      return;
+    }
+    throw new Error(`${message} Release verification does not permit skipped authenticated tests.`);
+  }
 }
 
 export async function expectAnyVisible(page: Page, patterns: RegExp[]) {

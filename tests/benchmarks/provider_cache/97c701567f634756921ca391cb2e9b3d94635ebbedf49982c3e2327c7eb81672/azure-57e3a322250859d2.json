@@ -1,0 +1,683 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0058",
+  "source_sha256": "97c701567f634756921ca391cb2e9b3d94635ebbedf49982c3e2327c7eb81672",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:54:34.453838+00:00",
+  "runtime_ms": 25898.531099999673,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / RITET18\nMedical Center,\n1122215\nNamn_\nABDUL HAMID\n007278101\nG27:\nGurder\nDistrict\nThata\nADAMCKZHI\nHEALTH PROFILE\n1. Blood Group\nNO\nHout Dannse\n5 Kidney Disease\n7. Mente DMirage\n65\na Dinbelet\n54\n## Drug History,\n10. Livor DIG085C.\n12. Any other abnormalties\nChiet Complaints:\nVisit Na\n3d COPY\n24 May 2024\nOVE\n8 Fixe\n110\nClounte Gucan\nTemp-\nAnemia-\nDehydration-\nRespiration-\nOthers-\nVastina\n24.5.24\nFBS/RBS.\nECG\nrovisional Diagonosis\nPasapon No\n8 Blood Sugar (RBST:",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "TREATMENT CARD / RITET18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Medical Center,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "1122215",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Namn_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ABDUL HAMID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "007278101",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "G27:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Gurder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Thata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ADAMCKZHI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "1. Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Hout Dannse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "5 Kidney Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "7. Mente DMirage",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "65",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "a Dinbelet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "54",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "## Drug History,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "10. Livor DIG085C.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "12. Any other abnormalties",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Chiet Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Visit Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "3d COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "OVE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "8 Fixe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "110",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Clounte Gucan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Anemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Vastina",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "24.5.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "FBS/RBS.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "rovisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "Pasapon No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "8 Blood Sugar (RBST:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.642
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Bangladesh Hall Office",
+        "matched_term": "Bangladesh Hall Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Treatment Card Ritet",
+        "matched_term": "Treatment Card Ritet",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Abdul Hamid",
+        "matched_term": "Abdul Hamid",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Gurder",
+        "matched_term": "Gurder",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "District",
+        "matched_term": "District",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Thata",
+        "matched_term": "Thata",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Adamckzhi",
+        "matched_term": "Adamckzhi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Hout Dannse",
+        "matched_term": "Hout Dannse",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Kidney Disease",
+        "matched_term": "Kidney Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Mente Dmirage",
+        "matched_term": "Mente Dmirage",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Dinbelet",
+        "matched_term": "Dinbelet",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Drug History",
+        "matched_term": "Drug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "A-Lo",
+        "matched_term": "A-Lo",
+        "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+        "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Any Other Abnormalties",
+        "matched_term": "Any Other Abnormalties",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Chiet Complaints",
+        "matched_term": "Chiet Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "3D",
+        "matched_term": "3D",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "65644f34-3230-47bd-a939-438d636273e4",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Ovel",
+        "matched_term": "Ovel",
+        "drug_id": "d16852e1-9447-4f20-978a-a00f4685fa30",
+        "brand_id": "dcda2b7c-df0a-4393-9a4c-9332890b8bf7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Fixen",
+        "matched_term": "Fixen",
+        "drug_id": "d613ceb8-7d4d-4a4e-8a96-0b455b6f7ac7",
+        "brand_id": "6f57f1c4-31e1-45d5-bb51-5015c6b1ca86",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Clounte Gucan",
+        "matched_term": "Clounte Gucan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Anemia",
+        "matched_term": "Anemia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Vastin",
+        "matched_term": "Vastin",
+        "drug_id": "86fdb62c-f8ac-41c3-b7a0-0e695a222c68",
+        "brand_id": "084b2be9-57de-4853-88b8-8469c30bf3cb",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      },
+      {
+        "name": "Fbs Rbs",
+        "matched_term": "Fbs Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Rovisional Diagonosis",
+        "matched_term": "Rovisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Pasapon No",
+        "matched_term": "Pasapon No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.669
+      }
+    ]
+  }
+}

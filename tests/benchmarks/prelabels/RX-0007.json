@@ -1,0 +1,942 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0007",
+  "source_sha256": "ba2527762360c4748df0a4e30445f81ad33a56e2e434f82306c15574e8f88bfa",
+  "raw_transcription": "V\nTS 4 - 50.01\n/\nT4- 25.77\n1\nTas Indever (10mg)\n1+0+1\n-",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Indever",
+      "strength": "10mg",
+      "dose": "",
+      "frequency": "1+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "88d9a06fb3ca610870343be5a6d4ccfb88d4847e9abe1713a3e718cbfb3a10d9"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "206d45f1fe8b96e44be453ceef141642b8932601e4839090082750c31fd96fc4"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "dafd12f83d3fcb500fd090b9eb1a3b35fa22a7ca5ec49d07b277954aef492473"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "m\nMAAAAAAAAAANAR\nG\ntaeinaaane\n1\n+1\nMmanr\nO\nK&D\n2k\nf\nmn4y\n8222\n10.0-HS\nttsz\n2\nTS544\nO\nAtb\nO\nRO\nW\nyMe\n48a4\nO\nTE\nV\nW\n.3\n6d\nIBIGE\nA",
+      "lines": [
+        {
+          "text": "m",
+          "bbox": {
+            "x_min": 19.0,
+            "y_min": 272.0,
+            "x_max": 150.0,
+            "y_max": 817.0
+          },
+          "page": 1,
+          "confidence": 0.301
+        },
+        {
+          "text": "MAAAAAAAAAANAR",
+          "bbox": {
+            "x_min": 2409.0,
+            "y_min": 285.0,
+            "x_max": 2534.0,
+            "y_max": 1119.0
+          },
+          "page": 1,
+          "confidence": 0.299
+        },
+        {
+          "text": "G",
+          "bbox": {
+            "x_min": 1757.0,
+            "y_min": 295.0,
+            "x_max": 2062.0,
+            "y_max": 764.0
+          },
+          "page": 1,
+          "confidence": 0.287
+        },
+        {
+          "text": "taeinaaane",
+          "bbox": {
+            "x_min": 2540.0,
+            "y_min": 369.0,
+            "x_max": 2674.0,
+            "y_max": 1120.0
+          },
+          "page": 1,
+          "confidence": 0.287
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 1875.0,
+            "y_min": 741.0,
+            "x_max": 1980.0,
+            "y_max": 887.0
+          },
+          "page": 1,
+          "confidence": 0.651
+        },
+        {
+          "text": "+1",
+          "bbox": {
+            "x_min": 1753.0,
+            "y_min": 933.0,
+            "x_max": 1889.0,
+            "y_max": 1321.0
+          },
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Mmanr",
+          "bbox": {
+            "x_min": 2483.0,
+            "y_min": 946.0,
+            "x_max": 2573.0,
+            "y_max": 1120.0
+          },
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2695.0,
+            "y_min": 1030.0,
+            "x_max": 2704.0,
+            "y_max": 1040.0
+          },
+          "page": 1,
+          "confidence": 0.097
+        },
+        {
+          "text": "K&D",
+          "bbox": {
+            "x_min": 325.0,
+            "y_min": 1091.0,
+            "x_max": 423.0,
+            "y_max": 1266.0
+          },
+          "page": 1,
+          "confidence": 0.302
+        },
+        {
+          "text": "2k",
+          "bbox": {
+            "x_min": 90.0,
+            "y_min": 1127.0,
+            "x_max": 281.0,
+            "y_max": 2624.0
+          },
+          "page": 1,
+          "confidence": 0.519
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 1303.0,
+            "y_min": 1452.0,
+            "x_max": 1425.0,
+            "y_max": 1567.0
+          },
+          "page": 1,
+          "confidence": 0.775
+        },
+        {
+          "text": "mn4y",
+          "bbox": {
+            "x_min": 2623.0,
+            "y_min": 2082.0,
+            "x_max": 2821.0,
+            "y_max": 3068.0
+          },
+          "page": 1,
+          "confidence": 0.458
+        },
+        {
+          "text": "8222",
+          "bbox": {
+            "x_min": 830.0,
+            "y_min": 2248.0,
+            "x_max": 985.0,
+            "y_max": 3136.0
+          },
+          "page": 1,
+          "confidence": 0.586
+        },
+        {
+          "text": "10.0-HS",
+          "bbox": {
+            "x_min": 1622.0,
+            "y_min": 2229.0,
+            "x_max": 1831.0,
+            "y_max": 3041.0
+          },
+          "page": 1,
+          "confidence": 0.766
+        },
+        {
+          "text": "ttsz",
+          "bbox": {
+            "x_min": 1872.0,
+            "y_min": 2247.0,
+            "x_max": 2018.0,
+            "y_max": 2781.0
+          },
+          "page": 1,
+          "confidence": 0.775
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 575.0,
+            "y_min": 2383.0,
+            "x_max": 666.0,
+            "y_max": 2739.0
+          },
+          "page": 1,
+          "confidence": 0.601
+        },
+        {
+          "text": "TS544",
+          "bbox": {
+            "x_min": 4134.0,
+            "y_min": 2441.0,
+            "x_max": 4290.0,
+            "y_max": 2957.0
+          },
+          "page": 1,
+          "confidence": 0.461
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1116.0,
+            "y_min": 2456.0,
+            "x_max": 1226.0,
+            "y_max": 2693.0
+          },
+          "page": 1,
+          "confidence": 0.156
+        },
+        {
+          "text": "Atb",
+          "bbox": {
+            "x_min": 2213.0,
+            "y_min": 2452.0,
+            "x_max": 2404.0,
+            "y_max": 3117.0
+          },
+          "page": 1,
+          "confidence": 0.711
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1155.0,
+            "y_min": 2488.0,
+            "x_max": 1162.0,
+            "y_max": 2494.0
+          },
+          "page": 1,
+          "confidence": 0.083
+        },
+        {
+          "text": "RO",
+          "bbox": {
+            "x_min": 3415.0,
+            "y_min": 2614.0,
+            "x_max": 3544.0,
+            "y_max": 2812.0
+          },
+          "page": 1,
+          "confidence": 0.374
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 2487.0,
+            "y_min": 2668.0,
+            "x_max": 2512.0,
+            "y_max": 2725.0
+          },
+          "page": 1,
+          "confidence": 0.762
+        },
+        {
+          "text": "yMe",
+          "bbox": {
+            "x_min": 2920.0,
+            "y_min": 2648.0,
+            "x_max": 3081.0,
+            "y_max": 3084.0
+          },
+          "page": 1,
+          "confidence": 0.541
+        },
+        {
+          "text": "48a4",
+          "bbox": {
+            "x_min": 3961.0,
+            "y_min": 2690.0,
+            "x_max": 4116.0,
+            "y_max": 2988.0
+          },
+          "page": 1,
+          "confidence": 0.469
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1961.0,
+            "y_min": 2764.0,
+            "x_max": 1966.0,
+            "y_max": 2770.0
+          },
+          "page": 1,
+          "confidence": 0.153
+        },
+        {
+          "text": "TE",
+          "bbox": {
+            "x_min": 931.0,
+            "y_min": 2858.0,
+            "x_max": 1023.0,
+            "y_max": 3034.0
+          },
+          "page": 1,
+          "confidence": 0.309
+        },
+        {
+          "text": "V",
+          "bbox": {
+            "x_min": 1090.0,
+            "y_min": 2912.0,
+            "x_max": 1096.0,
+            "y_max": 2919.0
+          },
+          "page": 1,
+          "confidence": 0.133
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 1921.0,
+            "y_min": 2918.0,
+            "x_max": 2037.0,
+            "y_max": 3071.0
+          },
+          "page": 1,
+          "confidence": 0.156
+        },
+        {
+          "text": ".3",
+          "bbox": {
+            "x_min": 4156.0,
+            "y_min": 2933.0,
+            "x_max": 4298.0,
+            "y_max": 3168.0
+          },
+          "page": 1,
+          "confidence": 0.289
+        },
+        {
+          "text": "6d",
+          "bbox": {
+            "x_min": 1015.0,
+            "y_min": 3000.0,
+            "x_max": 1174.0,
+            "y_max": 3156.0
+          },
+          "page": 1,
+          "confidence": 0.258
+        },
+        {
+          "text": "IBIGE",
+          "bbox": {
+            "x_min": 354.0,
+            "y_min": 3066.0,
+            "x_max": 461.0,
+            "y_max": 3392.0
+          },
+          "page": 1,
+          "confidence": 0.245
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 543.0,
+            "y_min": 3244.0,
+            "x_max": 683.0,
+            "y_max": 3400.0
+          },
+          "page": 1,
+          "confidence": 0.145
+        }
+      ],
+      "medications": [
+        {
+          "name": "Maaaaaaaaaanar",
+          "matched_term": "Maaaaaaaaaanar",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.132
+        },
+        {
+          "name": "Taeinaaane",
+          "matched_term": "Taeinaaane",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Mmanr Mn",
+          "matched_term": "Mmanr Mn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "HS",
+          "quantity": null,
+          "confidence": 0.272
+        },
+        {
+          "name": "Ttsz Ts",
+          "matched_term": "Ttsz Ts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.273
+        },
+        {
+          "name": "Atb Ro",
+          "matched_term": "Atb Ro",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.149
+        },
+        {
+          "name": "M-Zyme",
+          "matched_term": "M-Zyme",
+          "drug_id": "a5179602-a21f-4dcb-8256-2bf11f6cb5e9",
+          "brand_id": "b1564fde-45cf-4af2-98ce-f164f31acf49",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.533
+        },
+        {
+          "name": "Ibige",
+          "matched_term": "Ibige",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.088
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "5)\nछिकिश्मक कड़क स्वाभीन यावश शेख\nवाशीन नाम\nतथाम\nस्वादजन नांग\nडिकरिश्माकर बाबश मना\nट्वीट निक बद्ध विकास\nखार\n20-08-17\nलिए नए\nR-2\nTS 4 - 50.01\nT4 - 25.77\n10:92 Um\nAmenmunchen\nHeat in toleral\n/\n, Diawhura\nFlora\nHET N\n1. use of Thyroid gland\n2. Radio iodine uptake\ntest\ncanpac\n3. TSA, FT4\n1Tas Indever (10mg)\n1+0+1\nMD ABDULLAH-AL-MAMUN\nMajor\nClassified Spl in Medicine\n(Endocrinologist)\n& N H Dheka",
+      "lines": [
+        {
+          "text": "5)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "छिकिश्मक कड़क स्वाभीन यावश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "वाशीन नाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "तथाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "स्वादजन नांग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "डिकरिश्माकर बाबश मना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "ट्वीट निक बद्ध विकास",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "खार",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "20-08-17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "लिए नए",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "R-2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "TS 4 - 50.01",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "T4 - 25.77",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "10:92 Um",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Amenmunchen",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Heat in toleral",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": ", Diawhura",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Flora",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "HET N",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "1. use of Thyroid gland",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "2. Radio iodine uptake",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "test",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "canpac",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "3. TSA, FT4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "1Tas Indever (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "MD ABDULLAH-AL-MAMUN",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Major",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "Classified Spl in Medicine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "(Endocrinologist)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "& N H Dheka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.568
+        }
+      ],
+      "medications": [
+        {
+          "name": "Amenmunchen",
+          "matched_term": "Amenmunchen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Heat In Toleral",
+          "matched_term": "Heat In Toleral",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Diawhura",
+          "matched_term": "Diawhura",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Flora",
+          "matched_term": "Flora",
+          "drug_id": "4cc5da28-6631-4f45-a8e9-c01f0eed3549",
+          "brand_id": "0d7f45bb-656b-437a-ae39-3be33fab361b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.636
+        },
+        {
+          "name": "Het",
+          "matched_term": "Het",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Use Of Thyroid",
+          "matched_term": "Use Of Thyroid",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Radix",
+          "matched_term": "Radix",
+          "drug_id": "91593e04-811c-479f-826f-345e0c27d9c1",
+          "brand_id": "c4a8bec3-1d1a-4b5c-aba2-db94b912fcc5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.636
+        },
+        {
+          "name": "Test Oil",
+          "matched_term": "Test Oil",
+          "drug_id": "97b85295-7201-44a0-a8bf-ee89f912c107",
+          "brand_id": "a03dd39a-5915-4ccc-ad9d-221da4115555",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.636
+        },
+        {
+          "name": "Canpac",
+          "matched_term": "Canpac",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Vitsa",
+          "matched_term": "Vitsa",
+          "drug_id": "727ddced-3acf-488b-b0c3-76c2633a8a9e",
+          "brand_id": "5f32ea5d-41b4-42d7-b420-babcfce20ca3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.636
+        },
+        {
+          "name": "Indever",
+          "matched_term": "Indever",
+          "drug_id": "d75365ab-298a-41b5-b8bf-4c1e286c239e",
+          "brand_id": "1e712ba9-2e6a-44e5-b585-56556f9a9bce",
+          "dosage": "10mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.736
+        },
+        {
+          "name": "Md Abdullah-Al-Mamun",
+          "matched_term": "Md Abdullah-Al-Mamun",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Major",
+          "matched_term": "Major",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Classified Spl In",
+          "matched_term": "Classified Spl In",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Endocrinologist",
+          "matched_term": "Endocrinologist",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        },
+        {
+          "name": "Dheka",
+          "matched_term": "Dheka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.256
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Indever",
+          "matched_term": "Indever",
+          "drug_id": "d75365ab-298a-41b5-b8bf-4c1e286c239e",
+          "brand_id": "1e712ba9-2e6a-44e5-b585-56556f9a9bce",
+          "dosage": "10mg",
+          "frequency": "1+0+1",
+          "quantity": null,
+          "confidence": 0.74
+        }
+      ],
+      "raw_text": "V\nTS 4 - 50.01\n/\nT4- 25.77\n1\nTas Indever (10mg)\n1+0+1\n-",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 6087,
+        "detected_regions": 1,
+        "ocr_line_count": 8,
+        "yolo_avg_confidence": 0.8541,
+        "yolo_min_confidence": 0.8541,
+        "yolo_max_confidence": 0.8541,
+        "ocr_avg_confidence": 0.577,
+        "ocr_min_confidence": 0.577,
+        "ocr_max_confidence": 0.577,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 305.7492094039917,
+              "y_min": 1173.1582725524902,
+              "x_max": 3351.1639358520506,
+              "y_max": 2178.5313102722166
+            },
+            "score": 0.8541
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "V",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "TS 4 - 50.01",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "/",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "T4- 25.77",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "Tas Indever (10mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "1+0+1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          },
+          {
+            "text": "-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.577
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

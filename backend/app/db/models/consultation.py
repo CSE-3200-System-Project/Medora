@@ -104,22 +104,21 @@ class Prescription(Base):
         nullable=False
     )
     
-    # Status for patient acceptance
+    # Receipt/discrepancy state. This never represents clinical approval.
     status: Mapped[PrescriptionStatus] = mapped_column(
         Enum(PrescriptionStatus, values_callable=lambda x: [e.value for e in x]),
-        default=PrescriptionStatus.PENDING
+        default=PrescriptionStatus.PENDING_ACKNOWLEDGMENT
     )
     
-    # Rejection reason (if rejected)
-    rejection_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    discrepancy_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     
     # General notes for the prescription
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
     
     # Timestamps
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
-    rejected_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    acknowledged_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    discrepancy_reported_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     
     # Added to medical history flag
     added_to_history: Mapped[bool] = mapped_column(Boolean, default=False)

@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "39e7c5fda64db4b12951fb6ca8820b0d8863378bf9882839ad907feed09aa2a2",
+  "record_id": "RX-0069",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 26705.99330001278,
+  "failure": null,
+  "response_sha256": "14aac678ced7b9c448ce7c3db7a1534335167d4a5f9adb2bffb7b57541a917e5",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkahvMadinahJeddah\nTREATMENT CARD / *******\n-TANG027\nMadcal Griffer\nPuespod tia\nPlight Ata\nMO ASI AM USOIN\nfaunder\nMALI\nGisimet HATORE\nHEALTH PROFILE\n6. Diabetes !!\n5 Kidney Disease\n6. Blood Sugar (RSS),\n10 Liver Disease:\n12. Any other abnfirmattive NO\nChief Complaints:\nVISI No:\nPUD\n1ch ompregole\n120\nAtútima\nDehydration\nKooperation:\nOthers-\nBinacodyl 5\n5\n1016.\n0:075\n1. Nye Extral\n60\n22075\n2015.\nY\nProvisional Diagononis\n- ABS, > 6.7 mg\n2\nFBS/RBS-\nEDE\n11. Doug History\nDate:25 May 2504\n57077\n10 b.",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MakkahvMadinahJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "TREATMENT CARD / *******",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "-TANG027",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Madcal Griffer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Puespod tia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Plight Ata",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MO ASI AM USOIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "faunder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "MALI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Gisimet HATORE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "6. Diabetes !!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "5 Kidney Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "6. Blood Sugar (RSS),",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "12. Any other abnfirmattive NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "VISI No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1ch ompregole",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Atútima",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Dehydration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Kooperation:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Binacodyl 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1016.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "0:075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "1. Nye Extral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "60",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "22075",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "2015.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Provisional Diagononis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "- ABS, > 6.7 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "EDE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "11. Doug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "Date:25 May 2504",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "57077",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      },
+      {
+        "text": "10 b.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.632
+      }
+    ]
+  }
+}

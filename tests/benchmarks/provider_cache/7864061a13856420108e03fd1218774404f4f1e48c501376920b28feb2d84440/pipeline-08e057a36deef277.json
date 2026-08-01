@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0036",
+  "source_sha256": "7864061a13856420108e03fd1218774404f4f1e48c501376920b28feb2d84440",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:27:51.535559+00:00",
+  "runtime_ms": 10810.881299999892,
+  "output": {
+    "medications": [
+      {
+        "name": "Treatment On Discharge",
+        "matched_term": "Treatment On Discharge",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.212
+      },
+      {
+        "name": "Cefaclav",
+        "matched_term": "Cefaclav",
+        "drug_id": "9be41165-0f5d-434d-b9f3-b4ce69afb996",
+        "brand_id": "634f9731-a7ee-4bfc-94d3-9982a5c9d7a1",
+        "dosage": "500mg",
+        "frequency": "2+0+1",
+        "quantity": null,
+        "confidence": 0.693
+      },
+      {
+        "name": "E-Flex",
+        "matched_term": "E-Flex",
+        "drug_id": "97e00103-0f1b-4523-80e6-e713b4e40bbe",
+        "brand_id": "a4ab98ff-d4df-4a82-8091-5641dc6b80b6",
+        "dosage": "500mg",
+        "frequency": "2+3+2+2",
+        "quantity": null,
+        "confidence": 0.693
+      },
+      {
+        "name": "Roket",
+        "matched_term": "Roket",
+        "drug_id": "d8d01b63-13b7-4e74-8389-07b90984f5dc",
+        "brand_id": "48d68b81-f145-42b3-bbe2-3ce6f3986646",
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.643
+      },
+      {
+        "name": "Pomimo",
+        "matched_term": "Pomimo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Pholm Sisto Year",
+        "matched_term": "Pholm Sisto Year",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.212
+      },
+      {
+        "name": "Pearlcal",
+        "matched_term": "Pearlcal",
+        "drug_id": "e3edb598-5e69-401b-b1c5-98f13cdb15d2",
+        "brand_id": "42613a74-e5a3-43cc-a40f-d3ddf8e638be",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.592
+      },
+      {
+        "name": "Tak Laxy",
+        "matched_term": "Tak Laxy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "3mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Voltalin",
+        "matched_term": "Voltalin",
+        "drug_id": "25fde844-6bc1-477e-bef1-2c1b5adf8702",
+        "brand_id": "da4e332a-112a-46ae-b6d8-e0f9303c6f20",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.592
+      },
+      {
+        "name": "Stick Er Tourt",
+        "matched_term": "Stick Er Tourt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.212
+      }
+    ],
+    "raw_text": "Treatment on Discharge\nTab Cefaclaw (500mg) 2-0-12-913-\nCap, flex (500mg) 2+3+2+2-7914-5\n, Tab Rokel (10mg) 24072 , 6luni of\nTab. Pomimo (20mg) 2010-201\nTab PhoLm 210 sisto + year\n, Tab Pearlcal 24te2 - 2005\n, Tak Laxy 1 (3mg) 01013-2014\nvoltalin suppository\n1 stick P/R. 585 (D) er tourt 2025)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 10777,
+      "detected_regions": 1,
+      "ocr_line_count": 10,
+      "yolo_avg_confidence": 0.9515,
+      "yolo_min_confidence": 0.9515,
+      "yolo_max_confidence": 0.9515,
+      "ocr_avg_confidence": 0.472,
+      "ocr_min_confidence": 0.472,
+      "ocr_max_confidence": 0.472,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 330.5263366699219,
+            "y_min": 195.486572265625,
+            "x_max": 607.7421875,
+            "y_max": 410.1886901855469
+          },
+          "score": 0.9515
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Treatment on Discharge",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "Tab Cefaclaw (500mg) 2-0-12-913-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "Cap, flex (500mg) 2+3+2+2-7914-5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": ", Tab Rokel (10mg) 24072 , 6luni of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "Tab. Pomimo (20mg) 2010-201",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "Tab PhoLm 210 sisto + year",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": ", Tab Pearlcal 24te2 - 2005",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": ", Tak Laxy 1 (3mg) 01013-2014",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "voltalin suppository",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "1 stick P/R. 585 (D) er tourt 2025)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.472
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

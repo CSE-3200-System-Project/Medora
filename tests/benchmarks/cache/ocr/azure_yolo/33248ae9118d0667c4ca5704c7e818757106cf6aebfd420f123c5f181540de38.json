@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "33248ae9118d0667c4ca5704c7e818757106cf6aebfd420f123c5f181540de38",
+  "record_id": "RX-0072",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 17167.122400001972,
+  "failure": null,
+  "response_sha256": "b9a170e7eb080c4d300603ba44b065b43617486f7acf9281f8fbf87cd480002b",
+  "response": {
+    "raw_text": "Bp:\n130/80\n62mm\nrx\nDue:\n5.754, F14,\nTy, Comer XR\nTh: 330 mg\nFRS : 6.8\n2m ABA 8.2\nFenocap 2000\n- 3 month\n(0) for\nCol (Dr) Muhammad Ariful Islam M\nR\nAAN\nLipid (F)\nasser 01 month.\nCI Med Spl\nCMH Dhaka\n500 mg\n0+0+ 01/2\nTy.\nar: 1.\n2\nN\n1\n.\nECG\n.\nF13",
+    "lines": [
+      {
+        "text": "Bp:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "130/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "62mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Due:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "5.754, F14,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Ty, Comer XR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Th: 330 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "FRS : 6.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "2m ABA 8.2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Fenocap 2000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "- 3 month",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "(0) for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Col (Dr) Muhammad Ariful Islam M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "R",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "AAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Lipid (F)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "asser 01 month.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "CI Med Spl",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "CMH Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "500 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "0+0+ 01/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "Ty.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "ar: 1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "F13",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.722
+      }
+    ]
+  }
+}

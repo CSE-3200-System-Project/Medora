@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
+  "record_id": "RX-0093",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 5629.662699997425,
+  "failure": null,
+  "response_sha256": "4531dfc0494b279f89ac72ccf6a8995b8da93126a0204d5160966f17a9094c40",
+  "response": {
+    "raw_text": "-19)\n0+++21103-1)\n. Inb. Tofor long)\n0+0+8 - gina\n. Tab. Drie (home)",
+    "lines": [
+      {
+        "text": "-19)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": "0+++21103-1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": ". Inb. Tofor long)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": "0+0+8 - gina",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": ". Tab. Drie (home)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.282
+      }
+    ]
+  }
+}

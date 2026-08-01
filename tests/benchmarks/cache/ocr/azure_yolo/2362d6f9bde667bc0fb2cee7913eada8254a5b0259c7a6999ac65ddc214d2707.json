@@ -1,0 +1,146 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
+  "record_id": "RX-0073",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 17710.454700005357,
+  "failure": null,
+  "response_sha256": "567b5d4d0f2256d6070f37a66fe79c0e8a12d2ea9c778c0304630c1c82aa110a",
+  "response": {
+    "raw_text": "DENTAL WING\nSE MI,\n9\n22-8-21\nPF ARRIVAL ___!!!!!!!!\n1cup. Caf 3\n400mg\n1+0+1\nInvi-\nX-Nay -\nOPG\nCap. Seeto\n(20m\n)\n1+0+1\n3\nViodove M/W.\nKAMAN\nB.D.S. (OU G (OMS)\nDENTAL SURGEON\nBNS HAJI MOHLIN",
+    "lines": [
+      {
+        "text": "DENTAL WING",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "SE MI,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "9",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "22-8-21",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "PF ARRIVAL ___!!!!!!!!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1cup. Caf 3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "400mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Invi-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "X-Nay -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "OPG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Cap. Seeto",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "(20m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": ")",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "Viodove M/W.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "KAMAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "B.D.S. (OU G (OMS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "DENTAL SURGEON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "BNS HAJI MOHLIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.626
+      }
+    ]
+  }
+}

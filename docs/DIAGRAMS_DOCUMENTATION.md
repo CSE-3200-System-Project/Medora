@@ -403,7 +403,7 @@ AI OCR → [Return Structured Data] → Backend Stores → Patient Views
 **Process 5: AI Chat (Chorui)**
 ```
 User → [Send Message] → Backend Receives
-Backend → [PII Anonymization] → AI Orchestrator → LLM Provider
+Backend → [Consent + known-identifier redaction] → AI Orchestrator → named LLM Provider
 LLM → [Generate Response] → Backend Validates → Stores Conversation
 Backend → [Return Response] → User Sees Reply
 ```
@@ -600,7 +600,8 @@ Backend receives request with role context
   ↓
 Backend enforces privacy/consent checks
   ↓
-Backend applies PII anonymization (if privacy mode enabled)
+Backend requires purpose-specific consent and applies known-identifier redaction;
+unknown or indirect identifiers remain a documented residual risk.
   ↓
 Backend assembles context (user profile, relevant data)
   ↓

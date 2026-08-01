@@ -3,22 +3,17 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AppBackground } from "@/components/ui/app-background";
 import { ButtonLoader, MedoraLoader } from "@/components/ui/medora-loader";
 import { CardSkeleton } from "@/components/ui/skeleton-loaders";
-
-type ScheduleReviewDoctor = {
-  profile_id: string;
-  name: string;
-  email: string;
-  time_slots?: string;
-  normalized_time_slots?: string;
-};
+import {
+  applyAdminScheduleFix,
+  getAdminScheduleReview,
+  type ScheduleReviewDoctor,
+} from "@/lib/admin-actions";
 
 export function AdminScheduleReviewClient() {
-  const [password, setPassword] = useState("");
   const [doctors, setDoctors] = useState<ScheduleReviewDoctor[]>([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<ScheduleReviewDoctor | null>(null);
@@ -27,14 +22,9 @@ export function AdminScheduleReviewClient() {
   const fetchList = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/admin/schedule-review`, {
-        headers: { "x-admin-password": password },
-      });
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data = await res.json();
-      setDoctors(data.doctors || []);
+      setDoctors(await getAdminScheduleReview());
     } catch (e) {
-      alert("Failed to fetch. Check admin password and try again.");
+      alert("Failed to fetch. Sign in with an administrator account and try again.");
       console.error(e);
     } finally {
       setLoading(false);
@@ -45,12 +35,10 @@ export function AdminScheduleReviewClient() {
     if (!selected) return;
     setSaving(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/admin/schedule-review/fix`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-password": password },
-        body: JSON.stringify({ profile_id: selected.profile_id, normalized_time_slots: selected.normalized_time_slots }),
+      await applyAdminScheduleFix({
+        profile_id: selected.profile_id,
+        normalized_time_slots: selected.normalized_time_slots,
       });
-      if (!res.ok) throw new Error("Failed to apply");
       alert("Applied successfully");
       await fetchList();
       setSelected(null);
@@ -72,8 +60,7 @@ export function AdminScheduleReviewClient() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-2">
-                <Input placeholder="Admin password" value={password} onChange={(e) => setPassword(e.target.value)} className="h-11" />
-                <Button onClick={fetchList} disabled={!password || loading} className="w-full sm:w-auto min-h-11">
+                <Button onClick={fetchList} disabled={loading} className="w-full sm:w-auto min-h-11">
                   {loading ? (
                     <>
                       <ButtonLoader className="h-4 w-4 mr-2" />

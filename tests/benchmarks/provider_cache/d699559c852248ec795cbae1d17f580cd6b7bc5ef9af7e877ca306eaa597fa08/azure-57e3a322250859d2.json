@@ -1,0 +1,743 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0099",
+  "source_sha256": "d699559c852248ec795cbae1d17f580cd6b7bc5ef9af7e877ca306eaa597fa08",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:10:37.098782+00:00",
+  "runtime_ms": 30063.930000003893,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / TITE14\nMedical Center;\nPikrm D\n1600150\nPassport No\nA1299:271\nMakitab No 4\nND ATIDUS SALAM MONDOL\nName\nThanBADARGANI\nHEALTH PROFILE\nC+\n1 Blood Group\nNO\nNG\n4. Lung Disease\nNO\n5, Kidney DiBase NO\n8 DiabeteN:\n7. Montal Diceuse 55\nH. Blood Sagor (RSS)\n9 Weight\n10 Eber Dipesce\n11 Drag History\n12 Any other abunimanes:\n24 May 2024\nChiel Complaints:\ndry cough\nPulse-\nTomn\nAnaemis-\n10\nDehydratort-\n4 Tab - Napa\nRespiration-\nOthers-\n1-10-1\n+ Tab- Poxophyllis 200g\n1+0+ 1\n24.0 mg 2\nFBSIRBS-\nECG\nProvisional Diagonosis\nVit: Na:\na dans Monias to\n122090\n2. Blood Pressure\n@ *** S048",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "TREATMENT CARD / TITE14",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Pikrm D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1600150",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "A1299:271",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Makitab No 4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ND ATIDUS SALAM MONDOL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ThanBADARGANI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "C+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1 Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "5, Kidney DiBase NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "8 DiabeteN:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "7. Montal Diceuse 55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "H. Blood Sagor (RSS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "9 Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "10 Eber Dipesce",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "11 Drag History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "12 Any other abunimanes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "dry cough",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Tomn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Anaemis-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Dehydratort-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "4 Tab - Napa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1-10-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "+ Tab- Poxophyllis 200g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1+0+ 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "24.0 mg 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Vit: Na:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "a dans Monias to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "122090",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "2. Blood Pressure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "@ *** S048",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Bangladesh Hall Office",
+        "matched_term": "Bangladesh Hall Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Treatment Card Tite",
+        "matched_term": "Treatment Card Tite",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Pikrm",
+        "matched_term": "Pikrm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Makitab No",
+        "matched_term": "Makitab No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Nd Atidus Salam",
+        "matched_term": "Nd Atidus Salam",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Thanbadargani",
+        "matched_term": "Thanbadargani",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Lung Disease No",
+        "matched_term": "Lung Disease No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Kidney Dibase No",
+        "matched_term": "Kidney Dibase No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Diabetex",
+        "matched_term": "Diabetex",
+        "drug_id": "ac05c239-f317-474c-ab2c-6bf81c84a925",
+        "brand_id": "25a6e199-b4b5-498e-a853-b9cfc2410186",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Montair",
+        "matched_term": "Montair",
+        "drug_id": "0f412746-c47f-4559-956b-6fcf9077655b",
+        "brand_id": "b0420163-6d60-437e-9365-d0666c115244",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Weight",
+        "matched_term": "Weight",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "A-Lo",
+        "matched_term": "A-Lo",
+        "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+        "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Drag History",
+        "matched_term": "Drag History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Any Other Abunimanes",
+        "matched_term": "Any Other Abunimanes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Chiel Complaints",
+        "matched_term": "Chiel Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "D-Cough",
+        "matched_term": "D-Cough",
+        "drug_id": "41fb5024-8d5a-4f7a-b0bd-6f520a4e1f59",
+        "brand_id": "f242b009-f763-4e20-b71b-92c2e03a0bbc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Pulse",
+        "matched_term": "Pulse",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Tomn",
+        "matched_term": "Tomn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Anaemis",
+        "matched_term": "Anaemis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Dehydratort",
+        "matched_term": "Dehydratort",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Napa",
+        "matched_term": "Napa",
+        "drug_id": "497b3eaf-9214-4707-827e-b592072b4abf",
+        "brand_id": "32d2ccff-8c00-4a39-ba5a-61d2e971c751",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Poxophyllis",
+        "matched_term": "Poxophyllis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "200g",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.384
+      },
+      {
+        "name": null,
+        "matched_term": null,
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "24.0 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.334
+      },
+      {
+        "name": "Fbsirbs",
+        "matched_term": "Fbsirbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "N-Vit",
+        "matched_term": "N-Vit",
+        "drug_id": "9a588110-bb63-4b9c-9e87-c29eaae94e7a",
+        "brand_id": "3670a8e6-e32d-449a-b40e-c0102719b1f1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Dansy",
+        "matched_term": "Dansy",
+        "drug_id": "7a9f2c37-670b-4ea3-bb61-d911f772c83d",
+        "brand_id": "00060c8d-8bfe-4fec-853e-641f8edc8820",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      }
+    ]
+  }
+}

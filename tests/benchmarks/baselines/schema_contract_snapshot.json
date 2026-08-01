@@ -1,10 +1,4 @@
 {
-  "AIDoctorSearchResponse": [
-    "ambiguity",
-    "doctors",
-    "medical_intent",
-    "patient_context_factors"
-  ],
   "AIClinicalInfoResponse": [
     "ai_generated",
     "answer",
@@ -14,12 +8,23 @@
     "suggested_medications",
     "suggested_tests"
   ],
+  "AIDoctorSearchResponse": [
+    "ambiguity",
+    "doctors",
+    "manual_browse_available",
+    "medical_intent",
+    "patient_context_factors",
+    "requires_immediate_care",
+    "safety_message",
+    "uncertain"
+  ],
   "PrescriptionExtractionResponse": [
     "confidence",
     "extracted_text",
     "file",
     "medications",
     "meta",
-    "raw_text"
+    "raw_text",
+    "warning"
   ]
 }

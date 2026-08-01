@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "7fc223d824cf5473fd52ece290adf71bf0da4322c55e93b1757e80fcd71d9ecf",
+  "record_id": "RX-0103",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 32509.745799994562,
+  "failure": null,
+  "response_sha256": "8cf0e084c8dc1cd77824d71da6247d84efede84e9d27f06a361f052a0269a67b",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / गावशुभम\nG073\nMedical Center:\nटस्कन न ::\nPilgrim ID ...\n1511115\nPassport Na\nMaklab No _....\nName.\nMD SHAFIUKUZZAMAN\nGender\nMALE\nDistrict\nRANGPUR\nThana\nHEALTH PROFILE\n120/BO\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\n4. Lung Disease\nNC\n5. Kkiney Disease:\nNO\n6. Diabeles:\n7. Mental Disease;\n02\n8. Blood Sugar (RBS)\nNO\n9. Weight:\n1D. Liver Disease:\n11. Drug History\nAntihypertensiva\n12. Any other abnormaltes:\nChief Complaints:\nVisi: Noc\nDale:\nHTTE\nEdward\nPulse-\nVEP 110 60 maly.\nTemp-\nANAAmiA-\nDehydration-\nRespiration-\nOthers-\n2+0+)\nFBSRES- GOMMA/C\nECG\nProvisional Diagonosis\nएवं व्यकिशियन एग्जाम निकियम लवा बदल्या समा जा सायहनबे बुनियाद जन हर नाम वानाळ काव।\n6.10\nNO\n27 May 2024\nBX ANTE\nA12905522",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "TREATMENT CARD / गावशुभम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "G073",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "टस्कन न ::",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Pilgrim ID ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "1511115",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Passport Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Maklab No _....",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Name.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "MD SHAFIUKUZZAMAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "RANGPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "120/BO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "5. Kkiney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "6. Diabeles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "7. Mental Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "02",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "1D. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "11. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Antihypertensiva",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "12. Any other abnormaltes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Visi: Noc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Dale:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "HTTE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Edward",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "VEP 110 60 maly.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "ANAAmiA-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "2+0+)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "FBSRES- GOMMA/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "एवं व्यकिशियन एग्जाम निकियम लवा बदल्या समा जा सायहनबे बुनियाद जन हर नाम वानाळ काव।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "6.10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "BX ANTE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "A12905522",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.701
+      }
+    ]
+  }
+}

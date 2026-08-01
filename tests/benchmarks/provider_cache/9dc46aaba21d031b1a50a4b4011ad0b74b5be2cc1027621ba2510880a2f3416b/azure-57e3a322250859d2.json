@@ -1,0 +1,667 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0057",
+  "source_sha256": "9dc46aaba21d031b1a50a4b4011ad0b74b5be2cc1027621ba2510880a2f3416b",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:54:08.538851+00:00",
+  "runtime_ms": 30684.459700001753,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / WISHI*ET\nG221\nMedical Center:\nPassport No\n3.1.785122\nMaktab No\nPilgrim 10 ---- POMOZIBAR HAHNAN\nGender\nNATORE\nGURUDASPUR\nHEALTH PROFILE\n120.80\n1. Blood Group:\n4. Lung Disease\n6. Dlabeles\n40\n5. Kidney Disease: NO\n7. Mental Disease 61\n8. Blood Sugar (RBST\nNO\n9, Wie ght\nIT. Drug History\n10. Liver Disease:\n12. Any other Sungmalities.\n2: COPY\n24 May 2024\nChief Complaints:\nVigil No:\nDate:\nTre lock 17\nInflam- 4w (14)\nTemp-\nDehydration-\nRespiration-\nOthers-\n-10-2\nZimax /500\n0-+ > 10\n24.524\nIS/RBS-\nG\nvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "TREATMENT CARD / WISHI*ET",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "G221",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "3.1.785122",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Maktab No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Pilgrim 10 ---- POMOZIBAR HAHNAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "NATORE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "GURUDASPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "120.80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "6. Dlabeles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "40",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "7. Mental Disease 61",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "8. Blood Sugar (RBST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "9, Wie ght",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "IT. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "12. Any other Sungmalities.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "2: COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Vigil No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Tre lock 17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Inflam- 4w (14)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "-10-2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "Zimax /500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "0-+ > 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "24.524",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "IS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "G",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      },
+      {
+        "text": "visional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.654
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Treatment Card Wishi",
+        "matched_term": "Treatment Card Wishi",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Maktab No",
+        "matched_term": "Maktab No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Pilgrim ---- Pomozibar",
+        "matched_term": "Pilgrim ---- Pomozibar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Natore",
+        "matched_term": "Natore",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Gurudaspur",
+        "matched_term": "Gurudaspur",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Lung Disease",
+        "matched_term": "Lung Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Dlabeles",
+        "matched_term": "Dlabeles",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Kidney Disease No",
+        "matched_term": "Kidney Disease No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Mental Disease",
+        "matched_term": "Mental Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Wie Ght",
+        "matched_term": "Wie Ght",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "It Drug History",
+        "matched_term": "It Drug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Any Other Sungmalities",
+        "matched_term": "Any Other Sungmalities",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Copy",
+        "matched_term": "Copy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Vigil",
+        "matched_term": "Vigil",
+        "drug_id": "a0629eaf-b97d-468d-9e2f-872ce28c06d4",
+        "brand_id": "6295adbb-55de-4512-bff2-c6d7ae11e381",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Trec",
+        "matched_term": "Trec",
+        "drug_id": "f9473c4a-4e01-4ea9-97ca-b52afacd33e8",
+        "brand_id": "3725a869-43d5-4f26-9572-d0028eff80d3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Inflam",
+        "matched_term": "Inflam",
+        "drug_id": "aa57305d-8cbe-4c42-a2a9-5bb84830af81",
+        "brand_id": "54a49a6f-fa9b-47d7-a06b-4ecd395bd10e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Zimax",
+        "matched_term": "Zimax",
+        "drug_id": "da405f80-ee1a-471d-a477-8b682e2f69af",
+        "brand_id": "51d17973-30b4-477e-9cf8-d9f0412df6ba",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.674
+      },
+      {
+        "name": "Is Rbs",
+        "matched_term": "Is Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      },
+      {
+        "name": "Visional Diagonosis",
+        "matched_term": "Visional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.294
+      }
+    ]
+  }
+}

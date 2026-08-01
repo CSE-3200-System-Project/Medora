@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0018",
+  "source_sha256": "a49ab2b2edde136f6589726362e07baef19a8d11f9e1598e007079770c28fbdd",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:24:54.274597+00:00",
+  "runtime_ms": 7396.200000002864,
+  "output": {
+    "medications": [
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Calm",
+        "matched_term": "Calm",
+        "drug_id": "d0dde64d-5efc-4619-9006-ecafa9157130",
+        "brand_id": "7db97e34-c090-477d-9688-c0843e38ef3c",
+        "dosage": null,
+        "frequency": "2+3+7",
+        "quantity": null,
+        "confidence": 0.708
+      },
+      {
+        "name": "Vereine Meril",
+        "matched_term": "Vereine Meril",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Te Esotit",
+        "matched_term": "Te Esotit",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.329
+      },
+      {
+        "name": "Am",
+        "matched_term": "Am",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "f6135d7e-618c-463b-a19c-2ddcc870838d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.658
+      },
+      {
+        "name": "aceclofenac",
+        "matched_term": "aceclofenac",
+        "drug_id": "f4ab9b86-cffb-4b58-9b19-e7c1d99ae734",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.483
+      },
+      {
+        "name": "Afes",
+        "matched_term": "Afes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.278
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.658
+      }
+    ],
+    "raw_text": "Date:\n1 Td A .- Calm 50\n2-+3+7\n20\n2 Vereine Meril\n3 Te Esotit (20mg)\n290+3 am, Gmis\n20\n4Te. Accclofenac 100\nH00\nAfEs 25/05/2\n8 ORS\nTo\nHg",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 7362,
+      "detected_regions": 1,
+      "ocr_line_count": 14,
+      "yolo_avg_confidence": 0.9161,
+      "yolo_min_confidence": 0.9161,
+      "yolo_max_confidence": 0.9161,
+      "ocr_avg_confidence": 0.618,
+      "ocr_min_confidence": 0.618,
+      "ocr_max_confidence": 0.618,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 189.96978759765625,
+            "y_min": 201.732177734375,
+            "x_max": 557.8641357421875,
+            "y_max": 628.2361450195312
+          },
+          "score": 0.9161
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Date:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "1 Td A .- Calm 50",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "2-+3+7",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "2 Vereine Meril",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "3 Te Esotit (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "290+3 am, Gmis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "4Te. Accclofenac 100",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "H00",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "AfEs 25/05/2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "8 ORS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "To",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "Hg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.618
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

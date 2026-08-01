@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0085",
+  "source_sha256": "d2cf2adbbcb76bd8895cf56e439a9106db5ee53d66380bba43f763bda78ec9bc",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:37:15.309401+00:00",
+  "runtime_ms": 4753.029800005606,
+  "output": {
+    "medications": [
+      {
+        "name": "Ocup Fromiprost",
+        "matched_term": "Ocup Fromiprost",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.211
+      },
+      {
+        "name": "Domperidon",
+        "matched_term": "Domperidon",
+        "drug_id": "a93ef9f9-0a7e-4298-b5a9-d2db5160887b",
+        "brand_id": "6b8417b2-1eeb-4ab0-ab5b-8c91a8c42758",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.591
+      },
+      {
+        "name": "Mesil Gelly",
+        "matched_term": "Mesil Gelly",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.211
+      }
+    ],
+    "raw_text": "Ocup Fromiprost 200\n20\n@ Tab Domperidon\n20\n27040\n· Mesil gelly",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 4713,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.881,
+      "yolo_min_confidence": 0.881,
+      "yolo_max_confidence": 0.881,
+      "ocr_avg_confidence": 0.468,
+      "ocr_min_confidence": 0.468,
+      "ocr_max_confidence": 0.468,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 263.3983459472656,
+            "y_min": 243.72650146484375,
+            "x_max": 539.193359375,
+            "y_max": 415.0821228027344
+          },
+          "score": 0.881
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Ocup Fromiprost 200",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "@ Tab Domperidon",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "27040",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        },
+        {
+          "text": "· Mesil gelly",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.468
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

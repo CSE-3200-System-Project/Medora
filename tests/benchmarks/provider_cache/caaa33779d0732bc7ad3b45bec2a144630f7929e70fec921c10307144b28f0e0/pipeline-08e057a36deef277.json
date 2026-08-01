@@ -1,0 +1,197 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0075",
+  "source_sha256": "caaa33779d0732bc7ad3b45bec2a144630f7929e70fec921c10307144b28f0e0",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:35:30.534006+00:00",
+  "runtime_ms": 8689.248199996655,
+  "output": {
+    "medications": [
+      {
+        "name": "Angilock",
+        "matched_term": "Angilock",
+        "drug_id": "9dff0641-71c5-420c-96b2-1eb99b9f1c6c",
+        "brand_id": "7f029a4c-3c7f-4e52-a3e4-dc88434564c3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Comet",
+        "matched_term": "Comet",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "37de78cc-ac31-4284-9057-77743b7e844f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Trec",
+        "matched_term": "Trec",
+        "drug_id": "f9473c4a-4e01-4ea9-97ca-b52afacd33e8",
+        "brand_id": "3725a869-43d5-4f26-9572-d0028eff80d3",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Apara La",
+        "matched_term": "Apara La",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Cepa",
+        "matched_term": "Cepa",
+        "drug_id": "d49857e8-f04c-4948-854d-4855470c8b9d",
+        "brand_id": "17943008-a10a-47a7-b86d-36f3484a05b0",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      },
+      {
+        "name": "Hay",
+        "matched_term": "Hay",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.223
+      },
+      {
+        "name": "Jam",
+        "matched_term": "Jam",
+        "drug_id": "5005c5fd-7a94-4a45-98fc-805fdc2020c1",
+        "brand_id": "6b07510e-de05-4271-953c-478919921a74",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.603
+      }
+    ],
+    "raw_text": "6\n& Angilock Su\nor\nDe 2\nTab Comet 500\n1 x oc 1 A\nTre\nApara la\nCep Sucho\n245/310/35/148 Hay\n5\n- JAMS",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 8645,
+      "detected_regions": 1,
+      "ocr_line_count": 12,
+      "yolo_avg_confidence": 0.8632,
+      "yolo_min_confidence": 0.8632,
+      "yolo_max_confidence": 0.8632,
+      "ocr_avg_confidence": 0.495,
+      "ocr_min_confidence": 0.495,
+      "ocr_max_confidence": 0.495,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1671.9591049194335,
+            "y_min": 1405.3832180023192,
+            "x_max": 3154.4952377319332,
+            "y_max": 3977.0824783325193
+          },
+          "score": 0.8632
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "6",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "& Angilock Su",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "or",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "De 2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tab Comet 500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "1 x oc 1 A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Tre",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Apara la",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "Cep Sucho",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "245/310/35/148 Hay",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "5",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        },
+        {
+          "text": "- JAMS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.495
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

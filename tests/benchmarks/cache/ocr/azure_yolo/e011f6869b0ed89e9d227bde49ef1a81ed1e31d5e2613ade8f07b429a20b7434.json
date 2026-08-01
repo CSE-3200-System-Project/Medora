@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
+  "record_id": "RX-0098",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 6847.2317999985535,
+  "failure": null,
+  "response_sha256": "60db483c0429a23e8df279a39b8efad411f68ed34f9bbdeb83ad1b21265fa666",
+  "response": {
+    "raw_text": "Rx\n=> Tex. Plc (sin)",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "=> Tex. Plc (sin)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.414
+      }
+    ]
+  }
+}

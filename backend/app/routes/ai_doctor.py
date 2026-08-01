@@ -3,6 +3,7 @@ import math
 import asyncio
 import time
 import logging
+import re
 from fastapi import APIRouter, Depends, HTTPException, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, desc
@@ -10,7 +11,7 @@ from typing import List, Optional, Tuple
 from datetime import date
 from types import SimpleNamespace
 
-from app.core.ai_privacy import anonymize_identifier_text, stable_hash_token
+from app.core.ai_privacy import redact_pii_text
 from app.core.config import settings
 from app.core.security import verify_jwt
 from app.core.dependencies import get_db
@@ -28,8 +29,6 @@ from app.schemas.ai_search import (
     UserLocation,
 )
 
-from groq import Groq
-
 from app.services.specialty_matching import (
     match_specialties_from_llm_response,
     get_fallback_specialties,
@@ -38,10 +37,11 @@ from app.services.specialty_matching import (
 from app.services.medical_knowledge import (
     get_related_specialties,
     get_fallback_chain,
-    should_always_include_gp,
-    should_include_internal_medicine,
     UNIVERSAL_FALLBACKS
 )
+from app.schemas.processing_consent import ProcessingPurpose
+from app.services.processing_consent import require_processing_consent
+from app.services.ai_orchestrator import AIOrchestratorError, ai_orchestrator
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -54,24 +54,25 @@ VAPI_DOCTOR_SEARCH_TOOL_NAMES = {"search_doctors_ai", "find_doctor", "ai_doctor_
 # tool-call deadline with headroom.
 VAPI_DOCTOR_SEARCH_TIMEOUT_SECONDS = 12.0
 
+EMERGENCY_PATTERNS = (
+    re.compile(r"\b(?:cannot|can't|unable to)\s+breathe\b", re.IGNORECASE),
+    re.compile(r"\b(?:severe\s+)?chest\s+pain\b", re.IGNORECASE),
+    re.compile(r"\b(?:unconscious|not\s+breathing|(?:severe|heavy)\s+bleeding|seizure|stroke|fainting)\b", re.IGNORECASE),
+    re.compile(r"\b(?:suicid(?:e|al)|kill\s+myself|(?:hurt|harm)\s+myself)\b", re.IGNORECASE),
+    re.compile(r"(?:শ্বাস\s*নিতে\s*পারছি\s*না|বুকে\s*তীব্র\s*ব্যথা|অজ্ঞান|খিঁচুনি|প্রচুর\s*রক্তপাত|আত্মহত্যা|নিজেকে\s*আঘাত)"),
+)
+
+
+def detect_emergency_red_flags(text: str) -> bool:
+    normalized = str(text or "").strip()
+    return any(pattern.search(normalized) for pattern in EMERGENCY_PATTERNS)
+
 
 def _normalize_secret(value: str | None) -> str | None:
     if value is None:
         return None
     normalized = value.strip().strip("\"'")
     return normalized or None
-
-
-def _get_groq_client() -> Groq:
-    api_key = _normalize_secret(settings.GROQ_API_KEY)
-    if not api_key:
-        raise RuntimeError("GROQ_API_KEY is not configured.")
-    return Groq(api_key=api_key)
-
-
-def _get_groq_model() -> str:
-    model = _normalize_secret(settings.GROQ_MODEL)
-    return model or "llama-3.1-8b-instant"
 
 
 def _safe_vapi_text(value: object, *, max_length: int = 5000) -> str:
@@ -198,7 +199,7 @@ def _build_vapi_doctor_search_summary(response: AIDoctorSearchResponse) -> str:
         if (response.ambiguity or "").lower() == "high":
             return (
                 "I need a bit more detail to find the right doctor. "
-                "Please describe your main symptom, how long it has been happening, and urgency."
+                "Please describe your main concern, how long it has been happening, and any accompanying symptoms."
             )
         return "I could not find matching doctors right now. Please try a different symptom description or location."
 
@@ -211,11 +212,6 @@ def _build_vapi_doctor_search_summary(response: AIDoctorSearchResponse) -> str:
         reason = _safe_vapi_text(doctor.reason, max_length=180)
         distance_text = f", {doctor.distance_km:.1f} kilometer away" if doctor.distance_km is not None else ""
         lines.append(f"{index}. {name}, {specialty}{distance_text}. {reason}")
-
-    medical_intent = response.medical_intent or {}
-    severity = _safe_vapi_text(medical_intent.get("severity"), max_length=20).lower()
-    if severity == "high":
-        lines.append("Your symptoms were marked high urgency. Seek immediate in-person medical care if symptoms are worsening.")
 
     lines.append("You can now open doctor profiles and book the best fit.")
     return " ".join(lines)
@@ -468,6 +464,38 @@ async def ai_doctor_search(
             actor_id = str(user.id)
             patient_context_text, patient_context_factors = await get_patient_history_context(db, user.id)
 
+    if detect_emergency_red_flags(request.user_text):
+        return AIDoctorSearchResponse(
+            doctors=[],
+            ambiguity="high",
+            medical_intent={"navigation_bypassed": "emergency_red_flag"},
+            patient_context_factors=None,
+            requires_immediate_care=True,
+            safety_message=(
+                "This navigation search cannot assess an emergency. Call Bangladesh emergency service 999 "
+                "or go to the nearest emergency department now."
+            ),
+            uncertain=True,
+            manual_browse_available=True,
+        )
+
+    if actor_id is None:
+        raise HTTPException(
+            status_code=401,
+            detail={
+                "code": "authentication_required_for_external_processing",
+                "message": "Sign in and choose external text processing, or browse specialties manually.",
+                "manual_browse_available": True,
+            },
+        )
+    await require_processing_consent(
+        db,
+        subject_id=actor_id,
+        purpose=ProcessingPurpose.EXTERNAL_TEXT_AI,
+        provider=ai_orchestrator.provider,
+        required_scopes={ProcessingPurpose.EXTERNAL_TEXT_AI.value},
+    )
+
     # 1. Get available specialties for LLM context
     available_specialties = await get_all_specialties(db)
     specialties_str = ", ".join(available_specialties)
@@ -495,7 +523,6 @@ OUTPUT SCHEMA (JSON only, no explanation):
   "language_detected": "bn" | "en" | "mixed",
   "symptoms": [{{"name": "symptom in English", "confidence": 0.0-1.0}}],
   "duration_days": number or null,
-  "severity": "low" | "medium" | "high",
   "specialties": [{{"name": "specialty name or common variation", "confidence": 0.0-1.0}}],
   "ambiguity": "low" | "medium" | "high"
 }}
@@ -504,65 +531,39 @@ RULES:
 - Output ONLY valid JSON, no explanations
 - Use English medical terms for symptoms
 - For specialties, you can use the exact names from the list OR common variations (e.g., "heart doctor" for "Cardiologist")
-- severity: high = urgent/emergency symptoms, medium = needs attention, low = routine
 - ambiguity: high = unclear input, needs clarification
 - If you cannot extract intent, return {{"error": "unable_to_extract", "ambiguity": "high"}}
 """
 
-    subject_token = stable_hash_token(
-        actor_id or "anonymous",
-        request.consultation_mode or "",
-        request.location or "",
-        namespace="doctorsearch",
-        length=22,
-    )
-    sanitized_user_text = anonymize_identifier_text(request.user_text or "", token_namespace="subject")
-    user_prompt = (
-        f"Anonymous subject token: {subject_token}\n"
-        f"Patient description: {sanitized_user_text}"
-    )
+    sanitized_user_text = redact_pii_text(request.user_text or "").text
+    user_prompt = f"Patient description: {sanitized_user_text}"
 
     llm_response = {}
 
-    # 3. Call Groq LLM (PRD Section 4.3)
+    # Use the same configured provider and validation boundary as every other
+    # hosted text operation. Provider fallback is deliberately disabled.
     try:
-        groq_client = _get_groq_client()
-        completion = await asyncio.wait_for(
-            asyncio.to_thread(
-                groq_client.chat.completions.create,
-                model=_get_groq_model(),
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.1,
-                max_tokens=300,
-            ),
-            timeout=8,
+        llm_response = await ai_orchestrator.extract_navigation_intent(
+            user_text=request.user_text,
+            available_specialties=available_specialties,
+            patient_context=patient_context_text,
         )
-        content = completion.choices[0].message.content
-        if content:
-            llm_response = json.loads(content)
-        else:
-            raise ValueError("Empty response from LLM")
-            
-    except Exception as e:
-        # PRD Section 10: LLM Failure - fallback to manual search
+    except AIOrchestratorError as e:
         logger.warning("LLM error in AI search: %s", e)
         public_error = "llm_unavailable"
         return AIDoctorSearchResponse(
             doctors=[], 
             ambiguity="high", 
             medical_intent={"error": public_error, "fallback": "manual_search"},
-            patient_context_factors=patient_context_factors if patient_context_factors else None
+            patient_context_factors=patient_context_factors if patient_context_factors else None,
+            uncertain=True,
+            manual_browse_available=True,
         )
 
     # 4. Get specialties that have actual doctors available
     available_specialties_with_doctors = await get_available_specialties_with_doctors(db)
     
     # 5. Multi-Tier Specialty Matching (Enhanced Medical Knowledge)
-    severity = llm_response.get("severity", "medium")
     symptoms = [s.get('name', '') for s in llm_response.get("symptoms", [])]
     
     # Tier 1: LLM-extracted specialties
@@ -575,14 +576,13 @@ RULES:
     
     # Tier 2: Symptom-based related specialties
     if not primary_specialties:
-        related = get_related_specialties(symptoms, severity, max_results=3)
+        related = get_related_specialties(symptoms, max_results=3)
         primary_specialties = [s for s in related if s in available_specialties_with_doctors]
     
     # Tier 3: Build fallback chain with GP/Internal Medicine
     final_specialties, secondary_specialties = get_fallback_chain(
         primary_specialties=primary_specialties,
         available_specialties=available_specialties_with_doctors,
-        severity=severity,
         min_count=2  # Always return at least 2 specialties
     )
     
@@ -637,12 +637,9 @@ RULES:
     result = await db.execute(stmt)
     rows = result.all()
 
-    # 6. Rank Doctors (PRD Section 7.4 - Authoritative v1 Formula)
-    # final_score = 0.30 * specialty_match + 0.20 * experience_score + 
-    #               0.15 * severity_alignment + 0.20 * location_proximity + 0.15 * availability_score
+    # Rank for navigation only. No urgency or severity value affects ranking.
     
     scored_doctors = []
-    severity = llm_response.get("severity", "medium")
     is_online = request.consultation_mode and "online" in request.consultation_mode.lower()
     
     # Get user coordinates for distance calculation
@@ -656,15 +653,6 @@ RULES:
         # === EXPERIENCE SCORE (20%) ===
         exp = doc.years_of_experience or 0
         experience_score = min(exp, 20) / 20  # Normalize to 0-1, cap at 20 years
-        
-        # === SEVERITY ALIGNMENT (15%) ===
-        if severity == "high":
-            # For urgent cases, prefer senior doctors
-            severity_score = 1.0 if exp >= 10 else 0.6 if exp >= 5 else 0.3
-        elif severity == "medium":
-            severity_score = 0.7
-        else:
-            severity_score = 0.5
         
         # === LOCATION PROXIMITY (20%) ===
         distance_km = None
@@ -681,10 +669,9 @@ RULES:
         
         # === FINAL SCORE (PRD Formula) ===
         final_score = (
-            0.30 * specialty_score +
-            0.20 * experience_score +
-            0.15 * severity_score +
-            0.20 * location_score +
+            0.35 * specialty_score +
+            0.25 * experience_score +
+            0.25 * location_score +
             0.15 * availability_score
         )
         
@@ -696,9 +683,6 @@ RULES:
             reasons.append(f"{exp}+ years of experience")
         elif exp >= 5:
             reasons.append(f"{exp} years of experience")
-            
-        if severity == "high" and exp >= 10:
-            reasons.append("suitable for urgent cases")
             
         if distance_km is not None:
             if distance_km < 2:
@@ -738,11 +722,16 @@ RULES:
     # Sort by score (highest first)
     scored_doctors.sort(key=lambda x: x.score, reverse=True)
 
+    public_intent = {
+        key: value
+        for key, value in llm_response.items()
+        if key not in {"severity", "urgency", "triage", "triage_priority"}
+    }
     return AIDoctorSearchResponse(
         doctors=scored_doctors[:10],  # Top 10 results
         ambiguity=llm_response.get("ambiguity", "low"),
         medical_intent={
-            **llm_response,
+            **public_intent,
             "matched_specialties": matched_specialties,
             "primary_specialties": final_specialties,
             "secondary_specialties": secondary_specialties,
@@ -750,7 +739,9 @@ RULES:
             "total_specialties_matched": len(extracted_specialties),
             "fallback_reason": fallback_reason
         },
-        patient_context_factors=patient_context_factors if patient_context_factors else None
+        patient_context_factors=patient_context_factors if patient_context_factors else None,
+        uncertain=llm_response.get("ambiguity", "low") != "low",
+        manual_browse_available=True,
     )
 
 
@@ -806,6 +797,33 @@ async def vapi_doctor_search_tool(
 
         session_token = _extract_vapi_token(arguments, metadata, authorization_header)
         auth_header = f"Bearer {session_token}" if session_token else None
+
+        vapi_user = await get_optional_user(auth_header)
+        if vapi_user is None:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Voice session authentication failed. Sign in and restart the session.",
+                }
+            )
+            continue
+        try:
+            await require_processing_consent(
+                db,
+                subject_id=str(vapi_user.id),
+                purpose=ProcessingPurpose.EXTERNAL_LIVE_AUDIO,
+                provider="vapi",
+                local_option_available=True,
+                required_scopes={ProcessingPurpose.EXTERNAL_LIVE_AUDIO.value},
+            )
+        except HTTPException:
+            results.append(
+                {
+                    "toolCallId": tool_call_id,
+                    "result": "Vapi audio consent is missing or expired. Use local voice processing instead.",
+                }
+            )
+            continue
 
         location = _safe_vapi_text(arguments.get("location") or metadata.get("location"), max_length=120) or None
         consultation_mode = _safe_vapi_text(

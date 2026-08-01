@@ -1,0 +1,684 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0082",
+  "source_sha256": "6a0ed023147fba6b6f155fa1e8086090dd6c7f2e3deced52ab2cfad3da93b24d",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:07:53.090259+00:00",
+  "runtime_ms": 29859.95380001259,
+  "output": {
+    "raw_text": "Dr.Arifur Rahman Sumon\nf\nMBBS (DMC).FCPS (Medicine)\nRcR\nMD(Cardiology).BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nZ2JUL 2023\n/\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar.Dhaka.\nW\n6ol\n-\n4-0\nSquhAt56\nM Opn csle\nHht\nXa L+TMnt\nu ltTMt sa\nBaosopo\nM\n.wmsu\nomn\nOfOn0\nTB5y\nItH0m\nTh.HenonF\ntOPIMZNLW\nTRouttau\nMEy\nTaMtm\n1tih\nChamber:\nHitech Multicare Hospital Ltd\nMC\nhomeef core\n9\n.-.",
+    "lines": [
+      {
+        "text": "Dr.Arifur Rahman Sumon",
+        "bbox": {
+          "x_min": 113.0,
+          "y_min": 161.0,
+          "x_max": 383.0,
+          "y_max": 195.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 614.0,
+          "y_min": 170.0,
+          "x_max": 819.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "MBBS (DMC).FCPS (Medicine)",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 186.0,
+          "x_max": 281.0,
+          "y_max": 210.0
+        },
+        "page": 1,
+        "confidence": 0.917
+      },
+      {
+        "text": "RcR",
+        "bbox": {
+          "x_min": 700.0,
+          "y_min": 188.0,
+          "x_max": 819.0,
+          "y_max": 212.0
+        },
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "MD(Cardiology).BCS (Health)",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 202.0,
+          "x_max": 276.0,
+          "y_max": 227.0
+        },
+        "page": 1,
+        "confidence": 0.92
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": {
+          "x_min": 108.0,
+          "y_min": 218.0,
+          "x_max": 268.0,
+          "y_max": 243.0
+        },
+        "page": 1,
+        "confidence": 0.963
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 230.0,
+          "x_max": 333.0,
+          "y_max": 257.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "Z2JUL 2023",
+        "bbox": {
+          "x_min": 378.0,
+          "y_min": 227.0,
+          "x_max": 463.0,
+          "y_max": 256.0
+        },
+        "page": 1,
+        "confidence": 0.802
+      },
+      {
+        "text": "/",
+        "bbox": {
+          "x_min": 570.0,
+          "y_min": 219.0,
+          "x_max": 824.0,
+          "y_max": 255.0
+        },
+        "page": 1,
+        "confidence": 0.489
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 244.0,
+          "x_max": 349.0,
+          "y_max": 270.0
+        },
+        "page": 1,
+        "confidence": 0.973
+      },
+      {
+        "text": "Sher-e-Bangla Nagar.Dhaka.",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 262.0,
+          "x_max": 268.0,
+          "y_max": 288.0
+        },
+        "page": 1,
+        "confidence": 0.93
+      },
+      {
+        "text": "W",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 270.0,
+          "x_max": 446.0,
+          "y_max": 300.0
+        },
+        "page": 1,
+        "confidence": 0.39
+      },
+      {
+        "text": "6ol",
+        "bbox": {
+          "x_min": 433.0,
+          "y_min": 269.0,
+          "x_max": 478.0,
+          "y_max": 296.0
+        },
+        "page": 1,
+        "confidence": 0.374
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 675.0,
+          "y_min": 253.0,
+          "x_max": 827.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.566
+      },
+      {
+        "text": "4-0",
+        "bbox": {
+          "x_min": 669.0,
+          "y_min": 272.0,
+          "x_max": 826.0,
+          "y_max": 297.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "SquhAt56",
+        "bbox": {
+          "x_min": 120.0,
+          "y_min": 295.0,
+          "x_max": 296.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "M Opn csle",
+        "bbox": {
+          "x_min": 117.0,
+          "y_min": 380.0,
+          "x_max": 369.0,
+          "y_max": 424.0
+        },
+        "page": 1,
+        "confidence": 0.576
+      },
+      {
+        "text": "Hht",
+        "bbox": {
+          "x_min": 387.0,
+          "y_min": 373.0,
+          "x_max": 496.0,
+          "y_max": 410.0
+        },
+        "page": 1,
+        "confidence": 0.532
+      },
+      {
+        "text": "Xa L+TMnt",
+        "bbox": {
+          "x_min": 603.0,
+          "y_min": 445.0,
+          "x_max": 869.0,
+          "y_max": 500.0
+        },
+        "page": 1,
+        "confidence": 0.682
+      },
+      {
+        "text": "u ltTMt sa",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 485.0,
+          "x_max": 324.0,
+          "y_max": 521.0
+        },
+        "page": 1,
+        "confidence": 0.599
+      },
+      {
+        "text": "Baosopo",
+        "bbox": {
+          "x_min": 384.0,
+          "y_min": 505.0,
+          "x_max": 490.0,
+          "y_max": 564.0
+        },
+        "page": 1,
+        "confidence": 0.382
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 460.0,
+          "y_min": 548.0,
+          "x_max": 479.0,
+          "y_max": 566.0
+        },
+        "page": 1,
+        "confidence": 0.922
+      },
+      {
+        "text": ".wmsu",
+        "bbox": {
+          "x_min": 149.0,
+          "y_min": 634.0,
+          "x_max": 445.0,
+          "y_max": 683.0
+        },
+        "page": 1,
+        "confidence": 0.583
+      },
+      {
+        "text": "omn",
+        "bbox": {
+          "x_min": 492.0,
+          "y_min": 630.0,
+          "x_max": 820.0,
+          "y_max": 686.0
+        },
+        "page": 1,
+        "confidence": 0.42
+      },
+      {
+        "text": "OfOn0",
+        "bbox": {
+          "x_min": 774.0,
+          "y_min": 770.0,
+          "x_max": 915.0,
+          "y_max": 817.0
+        },
+        "page": 1,
+        "confidence": 0.298
+      },
+      {
+        "text": "TB5y",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 810.0,
+          "x_max": 417.0,
+          "y_max": 866.0
+        },
+        "page": 1,
+        "confidence": 0.457
+      },
+      {
+        "text": "ItH0m",
+        "bbox": {
+          "x_min": 433.0,
+          "y_min": 819.0,
+          "x_max": 610.0,
+          "y_max": 864.0
+        },
+        "page": 1,
+        "confidence": 0.395
+      },
+      {
+        "text": "Th.HenonF",
+        "bbox": {
+          "x_min": 199.0,
+          "y_min": 918.0,
+          "x_max": 442.0,
+          "y_max": 966.0
+        },
+        "page": 1,
+        "confidence": 0.609
+      },
+      {
+        "text": "tOPIMZNLW",
+        "bbox": {
+          "x_min": 500.0,
+          "y_min": 917.0,
+          "x_max": 794.0,
+          "y_max": 964.0
+        },
+        "page": 1,
+        "confidence": 0.478
+      },
+      {
+        "text": "TRouttau",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 988.0,
+          "x_max": 635.0,
+          "y_max": 1063.0
+        },
+        "page": 1,
+        "confidence": 0.555
+      },
+      {
+        "text": "MEy",
+        "bbox": {
+          "x_min": 674.0,
+          "y_min": 1021.0,
+          "x_max": 809.0,
+          "y_max": 1062.0
+        },
+        "page": 1,
+        "confidence": 0.5
+      },
+      {
+        "text": "TaMtm",
+        "bbox": {
+          "x_min": 246.0,
+          "y_min": 1068.0,
+          "x_max": 466.0,
+          "y_max": 1127.0
+        },
+        "page": 1,
+        "confidence": 0.39
+      },
+      {
+        "text": "1tih",
+        "bbox": {
+          "x_min": 497.0,
+          "y_min": 1069.0,
+          "x_max": 637.0,
+          "y_max": 1116.0
+        },
+        "page": 1,
+        "confidence": 0.449
+      },
+      {
+        "text": "Chamber:",
+        "bbox": {
+          "x_min": 190.0,
+          "y_min": 1099.0,
+          "x_max": 254.0,
+          "y_max": 1119.0
+        },
+        "page": 1,
+        "confidence": 0.939
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd",
+        "bbox": {
+          "x_min": 187.0,
+          "y_min": 1116.0,
+          "x_max": 460.0,
+          "y_max": 1173.0
+        },
+        "page": 1,
+        "confidence": 0.954
+      },
+      {
+        "text": "MC",
+        "bbox": {
+          "x_min": 499.0,
+          "y_min": 1119.0,
+          "x_max": 612.0,
+          "y_max": 1158.0
+        },
+        "page": 1,
+        "confidence": 0.286
+      },
+      {
+        "text": "homeef core",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 1157.0,
+          "x_max": 174.0,
+          "y_max": 1180.0
+        },
+        "page": 1,
+        "confidence": 0.736
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 513.0,
+          "y_min": 1164.0,
+          "x_max": 810.0,
+          "y_max": 1203.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": ".-.",
+        "bbox": {
+          "x_min": 513.0,
+          "y_min": 1190.0,
+          "x_max": 813.0,
+          "y_max": 1227.0
+        },
+        "page": 1,
+        "confidence": 0.532
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Arifur Rahman",
+        "matched_term": "Dr Arifur Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.332
+      },
+      {
+        "name": "Mbbs Dmc Fcps",
+        "matched_term": "Mbbs Dmc Fcps",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.413
+      },
+      {
+        "name": "Rcr",
+        "matched_term": "Rcr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.186
+      },
+      {
+        "name": "Md Cardiology Bcs",
+        "matched_term": "Md Cardiology Bcs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.414
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Clinical And Interventional",
+        "matched_term": "Clinical And Interventional",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.437
+      },
+      {
+        "name": "National Institute Of",
+        "matched_term": "National Institute Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.346
+      },
+      {
+        "name": "Sher-E-Bangla Nagar Dhaka Ol Squhat",
+        "matched_term": "Sher-E-Bangla Nagar Dhaka Ol Squhat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Hht",
+        "matched_term": "Hht",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.239
+      },
+      {
+        "name": "Opn Csle",
+        "matched_term": "Opn Csle",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.259
+      },
+      {
+        "name": "Xa Tmnt",
+        "matched_term": "Xa Tmnt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.307
+      },
+      {
+        "name": "Lttmt Sa",
+        "matched_term": "Lttmt Sa",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.27
+      },
+      {
+        "name": "Baosopo",
+        "matched_term": "Baosopo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Omn",
+        "matched_term": "Omn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.189
+      },
+      {
+        "name": "Wmsu Ofon Tb Ith",
+        "matched_term": "Wmsu Ofon Tb Ith",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.195
+      },
+      {
+        "name": "Topimznlw",
+        "matched_term": "Topimznlw",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.215
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.654
+      },
+      {
+        "name": "Trouttau",
+        "matched_term": "Trouttau",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.25
+      },
+      {
+        "name": "Mey",
+        "matched_term": "Mey",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.225
+      },
+      {
+        "name": "Tamtm Tih",
+        "matched_term": "Tamtm Tih",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.189
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.423
+      },
+      {
+        "name": "Hitech Multicare Hospital Mc",
+        "matched_term": "Hitech Multicare Hospital Mc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.279
+      },
+      {
+        "name": "Homeef Core",
+        "matched_term": "Homeef Core",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.279
+      }
+    ]
+  }
+}

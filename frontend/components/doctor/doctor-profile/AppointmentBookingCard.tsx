@@ -102,6 +102,7 @@ function buildDateOptions(
 }
 
 export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) {
+  const bookingAttemptRef = React.useRef({ fingerprint: "", key: "" });
   const router = useRouter();
   const pathname = usePathname();
   const { locale } = useAppI18n();
@@ -246,7 +247,7 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
 
     setSubmitting(true);
     try {
-      await createAppointment({
+      const bookingPayload = {
         doctor_id: doctor.profile_id,
         doctor_location_id: selectedLocation?.id,
         location_name: selectedLocation?.name,
@@ -256,7 +257,13 @@ export function AppointmentBookingCard({ doctor }: AppointmentBookingCardProps) 
           slot: selectedSlot,
           location: selectedLocation?.name || tCommon("doctorProfile.booking.locationNotSpecified"),
         }),
-      });
+      };
+      const fingerprint = JSON.stringify(bookingPayload);
+      if (bookingAttemptRef.current.fingerprint !== fingerprint) {
+        bookingAttemptRef.current = { fingerprint, key: crypto.randomUUID() };
+      }
+      await createAppointment({ ...bookingPayload, idempotency_key: bookingAttemptRef.current.key });
+      bookingAttemptRef.current = { fingerprint: "", key: "" };
 
       const params = new URLSearchParams({
         doctorName: `${doctor.title ? `${doctor.title} ` : ""}${doctor.first_name} ${doctor.last_name}`.trim(),

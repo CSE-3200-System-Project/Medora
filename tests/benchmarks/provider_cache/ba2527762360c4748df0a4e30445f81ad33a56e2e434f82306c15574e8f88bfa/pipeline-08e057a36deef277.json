@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0007",
+  "source_sha256": "ba2527762360c4748df0a4e30445f81ad33a56e2e434f82306c15574e8f88bfa",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:22:31.138439+00:00",
+  "runtime_ms": 6125.301800013403,
+  "output": {
+    "medications": [
+      {
+        "name": "Indever",
+        "matched_term": "Indever",
+        "drug_id": "d75365ab-298a-41b5-b8bf-4c1e286c239e",
+        "brand_id": "1e712ba9-2e6a-44e5-b585-56556f9a9bce",
+        "dosage": "10mg",
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.74
+      }
+    ],
+    "raw_text": "V\nTS 4 - 50.01\n/\nT4- 25.77\n1\nTas Indever (10mg)\n1+0+1\n-",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6087,
+      "detected_regions": 1,
+      "ocr_line_count": 8,
+      "yolo_avg_confidence": 0.8541,
+      "yolo_min_confidence": 0.8541,
+      "yolo_max_confidence": 0.8541,
+      "ocr_avg_confidence": 0.577,
+      "ocr_min_confidence": 0.577,
+      "ocr_max_confidence": 0.577,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 305.7492094039917,
+            "y_min": 1173.1582725524902,
+            "x_max": 3351.1639358520506,
+            "y_max": 2178.5313102722166
+          },
+          "score": 0.8541
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "V",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "TS 4 - 50.01",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "/",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "T4- 25.77",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "Tas Indever (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.577
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

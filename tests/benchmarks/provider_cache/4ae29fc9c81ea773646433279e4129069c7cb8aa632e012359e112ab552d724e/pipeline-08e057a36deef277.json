@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0077",
+  "source_sha256": "4ae29fc9c81ea773646433279e4129069c7cb8aa632e012359e112ab552d724e",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:35:58.475274+00:00",
+  "runtime_ms": 16409.62330000184,
+  "output": {
+    "medications": [
+      {
+        "name": "Rt Knee Che",
+        "matched_term": "Rt Knee Che",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Following Sporting Injury",
+        "matched_term": "Following Sporting Injury",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Adt",
+        "matched_term": "Adt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Varw Valsus For",
+        "matched_term": "Varw Valsus For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "naproxen",
+        "matched_term": "naproxen",
+        "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+        "brand_id": null,
+        "dosage": "250ml",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.749
+      },
+      {
+        "name": "Xmy Rt Km",
+        "matched_term": "Xmy Rt Km",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Nad",
+        "matched_term": "Nad",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Tap One Foto",
+        "matched_term": "Tap One Foto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.319
+      }
+    ],
+    "raw_text": "Rt. knee a che\nFollowing sporting Injury\nADT =1\nVarw/valsus.for\n€)\nTas Naproxen 250ml\n1+0+0\n10\nXmy Rt Km\nNAD\nTap One (20mg)\n1foto\n10",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 16362,
+      "detected_regions": 1,
+      "ocr_line_count": 13,
+      "yolo_avg_confidence": 0.857,
+      "yolo_min_confidence": 0.857,
+      "yolo_max_confidence": 0.857,
+      "ocr_avg_confidence": 0.596,
+      "ocr_min_confidence": 0.596,
+      "ocr_max_confidence": 0.596,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 343.3699550628662,
+            "y_min": 878.3360267639159,
+            "x_max": 3057.2236480712886,
+            "y_max": 2929.7538162231444
+          },
+          "score": 0.857
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rt. knee a che",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "Following sporting Injury",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "ADT =1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "Varw/valsus.for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "€)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "Tas Naproxen 250ml",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "1+0+0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "Xmy Rt Km",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "NAD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "Tap One (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "1foto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.596
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

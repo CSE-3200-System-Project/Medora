@@ -1,0 +1,773 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0063",
+  "source_sha256": "ba70fbe17ff9a2b2a3e763f0983cdf5a6d7a51ba58fdf84b2219b474332d56a6",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:57:02.354384+00:00",
+  "runtime_ms": 32533.78120000707,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वावशभज\nMedical Center:\n****** G189\nPilgrim ID 1421113\nPassaun No\nACB421277\nName\nMD NAZRUL ISLAM\nMakino No 15\nGender\nMALE\nDistrict MYMENSINGH\nFULBARIA\nThang\nHEALTH PROFILE\n1, Blood Group\n2. Brood Prusnum:\nNO\n3. Hoort DSonse: NO\n4. Lung Deease\n5 Kidney Disease: NO\nMental Disease: 66\n8 Blood Sugar (RBS)\nNO\n9. Weight:\n11. Drug History\n12. Any other abnormaliles\nChief Complaints:\nVisi No:\nDate:\nGay Metronidazole (40000)\n15\nPulse-\nBP\nTemip-\nGRS\n(3)\nAnaemia-\nDehydration-\nRespiration-\nOthers-\nCap. Esotid\nTab Metformin (500) 10\n20000\nVRBS-\nisional Diagonosis\n10 Liver Disease:\n17 May 2024",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "TREATMENT CARD / वावशभज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "****** G189",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pilgrim ID 1421113",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Passaun No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "ACB421277",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MD NAZRUL ISLAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Makino No 15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "District MYMENSINGH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "FULBARIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Thang",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "1, Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "2. Brood Prusnum:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "3. Hoort DSonse: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "4. Lung Deease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "5 Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Mental Disease: 66",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "8 Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "11. Drug History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "12. Any other abnormaliles",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Visi No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Gay Metronidazole (40000)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Temip-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "GRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "(3)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Cap. Esotid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "Tab Metformin (500) 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "20000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "VRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "isional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "10 Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      },
+      {
+        "text": "17 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.725
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Pilgrim Id",
+        "matched_term": "Pilgrim Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Passaun No Acb",
+        "matched_term": "Passaun No Acb",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Md Nazrul Islam",
+        "matched_term": "Md Nazrul Islam",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Makino No",
+        "matched_term": "Makino No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Malex",
+        "matched_term": "Malex",
+        "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+        "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "District Mymensingh",
+        "matched_term": "District Mymensingh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Fulbaria",
+        "matched_term": "Fulbaria",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Thang",
+        "matched_term": "Thang",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Brood Prusnum No",
+        "matched_term": "Brood Prusnum No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Hoort Dsonse No",
+        "matched_term": "Hoort Dsonse No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Lung Deease",
+        "matched_term": "Lung Deease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Kidney Disease No",
+        "matched_term": "Kidney Disease No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Mental Disease",
+        "matched_term": "Mental Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Weight",
+        "matched_term": "Weight",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Drug History",
+        "matched_term": "Drug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Any Other Abnormaliles",
+        "matched_term": "Any Other Abnormaliles",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "G-Metronidazole",
+        "matched_term": "G-Metronidazole",
+        "drug_id": "a0629eaf-b97d-468d-9e2f-872ce28c06d4",
+        "brand_id": "7b113a61-c4ed-494f-8798-b2e7279cdbba",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Pulse Bp-Z",
+        "matched_term": "Pulse Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Temip",
+        "matched_term": "Temip",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Grs",
+        "matched_term": "Grs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Re Anaemia",
+        "matched_term": "Re Anaemia",
+        "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+        "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Esotid",
+        "matched_term": "Esotid",
+        "drug_id": "d71d040a-cf0b-46ae-b67f-00e3787f0c6b",
+        "brand_id": "fe6e1172-e918-409a-a1e5-734c83e14d43",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "G-Metformin",
+        "matched_term": "G-Metformin",
+        "drug_id": "9b1187f0-7a83-469b-ba7e-9767f208c540",
+        "brand_id": "cadc78dd-3f65-4020-a404-212f9fd9765d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Vrbs",
+        "matched_term": "Vrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "Isional Diagonosis",
+        "matched_term": "Isional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.326
+      }
+    ]
+  }
+}

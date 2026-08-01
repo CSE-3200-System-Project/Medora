@@ -1,0 +1,461 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0060",
+  "source_sha256": "5f40323192ccb387104fdaa8c4047c23b40b1bd996143d75dceeea911de63289",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:55:23.473746+00:00",
+  "runtime_ms": 19640.42490000429,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBang adesh Ha| Utica\nMakkah Vacina IJeddah\nTREATMENT CARD 11890\nMedical Center\nÚ .*****: 5037\nSeklub Ny\nName\nGonder\nDistrict\nTASISHAL\nTha BOKL'IUTANI\nHEALTH PROFILE\n2 Biced Pressure:\n9. Han-t 11konec!\n5 Kidney DEGiau\n15.a\n. Crap Hìnhry:\nChief Complaints:\nVist.NO:\nAnnemla-\nDehydration-\nRespiration\nOthers-\n24:05-24\nFESIRES-\nECG\nProvisional Diagonosis\nदुख एकखटकन इम्लगाड़ लिंकोटमा भवा अद्रपत्र बनड़ वाबहनपति अधिवार अबभार मात्र जानाड़ शाद।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Bang adesh Ha| Utica",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Makkah Vacina IJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "TREATMENT CARD 11890",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Ú .*****: 5037",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Seklub Ny",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Gonder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "TASISHAL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Tha BOKL'IUTANI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "2 Biced Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "9. Han-t 11konec!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "5 Kidney DEGiau",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "15.a",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": ". Crap Hìnhry:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Vist.NO:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Annemla-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "24:05-24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "FESIRES-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      },
+      {
+        "text": "दुख एकखटकन इम्लगाड़ लिंकोटमा भवा अद्रपत्र बनड़ वाबहनपति अधिवार अबभार मात्र जानाड़ शाद।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.594
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Bang Adesh Ha",
+        "matched_term": "Bang Adesh Ha",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Makkah Vacina Ijeddah",
+        "matched_term": "Makkah Vacina Ijeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Seklub Ny",
+        "matched_term": "Seklub Ny",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Gonder",
+        "matched_term": "Gonder",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "District",
+        "matched_term": "District",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Tasishal",
+        "matched_term": "Tasishal",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Tha Bokl Iutani",
+        "matched_term": "Tha Bokl Iutani",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Han-T Konec",
+        "matched_term": "Han-T Konec",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Kidney Degiau",
+        "matched_term": "Kidney Degiau",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Crap Nhry",
+        "matched_term": "Crap Nhry",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Vista",
+        "matched_term": "Vista",
+        "drug_id": "541d171c-bdd6-4f9e-89e0-2799ba1abb56",
+        "brand_id": "5163ee10-83e2-423d-a358-5036f8b3c3ef",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Annemla",
+        "matched_term": "Annemla",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.647
+      },
+      {
+        "name": "Fesires",
+        "matched_term": "Fesires",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      }
+    ]
+  }
+}

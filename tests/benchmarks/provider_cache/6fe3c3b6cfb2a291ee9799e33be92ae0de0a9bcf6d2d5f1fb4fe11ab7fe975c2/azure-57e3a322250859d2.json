@@ -1,0 +1,555 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0079",
+  "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:02:25.225506+00:00",
+  "runtime_ms": 28134.193799996865,
+  "output": {
+    "raw_text": "Dr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\n15 FEB 2024\n७: शाविकून वश्यान मूयन\nव्यविविधम (जिका), एमिनियम (वयडिमिन)\nयदि (कार्डिशनजि), विनियम (भाषा)\nविष्णसुख हिकिष्मक\nडिमिन, रुमटबाग, वाउजुन, ऐंकवर्णन,\nवाल /वाधीरेज्जि, ब्रिकेट्यदर्जनखि ९ ७यादवज्जि\nऑफिस रूमदवान रेनडिण्डिक 3 रामभाऊान\nwHOLk Bs Btw?\nसब-के-वाश्ना नगद, नका।\nविषयणिमि (बखि: न१-७७२३४\nShamiuna Aktor, 570\nBPILO/80m\nDMTIP HIS Hysternectar Incisional HuMIC.\nOpende\n1 Th, Lintaba 4515000 1+1 lo\nMuscas\n2 Th, Bristol 5mg 1+0+0 ml\nlas, Abecas S/Low Ottimo\n1\nजिन/सलाद/याम\nभद्र जनर्थ /कार्बन\n4Th. Rozavel 5V ottimo NUTowe\nCUTE, Disuper 05w Other m\n0 5 MAR 202%\nBp1 20182 Ptu\n5\nभव तथा कमबावन\nChamber :\nHitech Multicare Hospital Ltd.\nhome of core\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403\nEmergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nजितियारणड़ ऊना रैनारेन : ०.४७००८४००१\nवाणी ललचाव समय : मका ७.७००ें - ब्रांड 8. ००फे (उज्वान वक)",
+    "lines": [
+      {
+        "text": "Dr. Arifur Rahman Sumon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "MBBS (DMC), FCPS (Medicine)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "MD (Cardiology), BCS (Health)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Sher-e-Bangla Nagar, Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "15 FEB 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "७: शाविकून वश्यान मूयन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "व्यविविधम (जिका), एमिनियम (वयडिमिन)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "यदि (कार्डिशनजि), विनियम (भाषा)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "विष्णसुख हिकिष्मक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "डिमिन, रुमटबाग, वाउजुन, ऐंकवर्णन,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "वाल /वाधीरेज्जि, ब्रिकेट्यदर्जनखि ९ ७यादवज्जि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "ऑफिस रूमदवान रेनडिण्डिक 3 रामभाऊान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "wHOLk Bs Btw?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "सब-के-वाश्ना नगद, नका।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "विषयणिमि (बखि: न१-७७२३४",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Shamiuna Aktor, 570",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "BPILO/80m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "DMTIP HIS Hysternectar Incisional HuMIC.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Opende",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "1 Th, Lintaba 4515000 1+1 lo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Muscas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "2 Th, Bristol 5mg 1+0+0 ml",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "las, Abecas S/Low Ottimo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "जिन/सलाद/याम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "भद्र जनर्थ /कार्बन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "4Th. Rozavel 5V ottimo NUTowe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "CUTE, Disuper 05w Other m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "0 5 MAR 202%",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Bp1 20182 Ptu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "भव तथा कमबावन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "home of core",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Emergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "जितियारणड़ ऊना रैनारेन : ०.४७००८४००१",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "वाणी ललचाव समय : मका ७.७००ें - ब्रांड 8. ००फे (उज्वान वक)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.577
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Arifur Rahman",
+        "matched_term": "Dr Arifur Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Mbbs Dmc Fcps",
+        "matched_term": "Mbbs Dmc Fcps",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Md Cardiology Bcs",
+        "matched_term": "Md Cardiology Bcs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.64
+      },
+      {
+        "name": "Clinical And Interventional",
+        "matched_term": "Clinical And Interventional",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "National Institute Of",
+        "matched_term": "National Institute Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Sher-E-Bangla Nagar Dhaka",
+        "matched_term": "Sher-E-Bangla Nagar Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Feb",
+        "matched_term": "Feb",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Wholk Bs Btw",
+        "matched_term": "Wholk Bs Btw",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Shamiuna Aktor",
+        "matched_term": "Shamiuna Aktor",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Bpilo",
+        "matched_term": "Bpilo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Dmtip His Hysternectar",
+        "matched_term": "Dmtip His Hysternectar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Opende",
+        "matched_term": "Opende",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+1+1",
+        "quantity": null,
+        "confidence": 0.309
+      },
+      {
+        "name": "Muscas",
+        "matched_term": "Muscas",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Bristol Tufin",
+        "matched_term": "Bristol Tufin",
+        "drug_id": "69220993-14a8-412f-bba1-b2375f10b342",
+        "brand_id": "312f5f29-557e-446f-87f7-94356b386d99",
+        "dosage": "5mg",
+        "frequency": "1+0+0",
+        "quantity": null,
+        "confidence": 0.74
+      },
+      {
+        "name": "Las Abecas Low",
+        "matched_term": "Las Abecas Low",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Rozavel",
+        "matched_term": "Rozavel",
+        "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+        "brand_id": "879f210a-4abd-4251-9038-e89b12817f49",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.64
+      },
+      {
+        "name": "Cute Disuper Other",
+        "matched_term": "Cute Disuper Other",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Mar",
+        "matched_term": "Mar",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Bp-Z",
+        "matched_term": "Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.482
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Hitech Multicare Hospital",
+        "matched_term": "Hitech Multicare Hospital",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Home Of Core",
+        "matched_term": "Home Of Core",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "East Kafrul Dhaka",
+        "matched_term": "East Kafrul Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Appointment Center Hot",
+        "matched_term": "Appointment Center Hot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Emergency Medical Oficer",
+        "matched_term": "Emergency Medical Oficer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      },
+      {
+        "name": "Ambulance Service E-Mail",
+        "matched_term": "Ambulance Service E-Mail",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.26
+      }
+    ]
+  }
+}

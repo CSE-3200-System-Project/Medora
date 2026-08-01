@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at_utc": "2026-08-01T18:42:09.002145+00:00",
+  "git_head": "c567c9baab2ec818063dd345f2b27c97c733d575",
+  "worktree_dirty": true,
+  "scope": "pre-Zenodo evidence; not a final release verification receipt",
+  "counts": {
+    "passed": 15,
+    "blocked": 5,
+    "not_passed": 0,
+    "deferred_by_request": 1
+  },
+  "gates": [
+    {
+      "gate": "Backend unit tests",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/backend_unit_final.out.log",
+      "evidence_sha256": "08d54520efc39d81e272d8dc10b7c1ac172fac12c1e178635eb5bf9f10384856",
+      "note": "Focused backend unit suite."
+    },
+    {
+      "gate": "Backend smoke tests",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/backend_smoke_final.out.log",
+      "evidence_sha256": "7c804f6f565c7c0186bd7295e6c6fc59a417a8ceb9456e717fb85c2d012b6ef6",
+      "note": "Backend application smoke suite."
+    },
+    {
+      "gate": "Integration and security tests",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/backend_integration_security_final.out.log",
+      "evidence_sha256": "d3c1390e20c58bf0438ac02db487938097805c25281a9b11d51aad4981ea024c",
+      "note": "Docker-backed integration, authorization, consent, and security checks."
+    },
+    {
+      "gate": "AI-service unit tests",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/ai_unit_final.out.log",
+      "evidence_sha256": "c36816df3046b5ffe519d28a41493c94a78bee269da03f9cd261da4d3a9a1188",
+      "note": "Local OCR, annotation blinding, parser, provider-separation, grouped corpus-freeze, and AI-service tests."
+    },
+    {
+      "gate": "Frontend lint",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/frontend_lint_final.out.log",
+      "evidence_sha256": "4ea3ec2f3cf484e95f592dc73738f88fdded44ea1c52075309cac29e7b32dfc7",
+      "note": "Next.js lint completed with zero errors; 198 non-blocking warnings remain recorded in the log."
+    },
+    {
+      "gate": "Frontend production build",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/frontend_build_final.log",
+      "evidence_sha256": "10d9e6239c0e2e71b81700b8971cadd56fbc2fc954ccb286b3bf6a7403844582",
+      "note": "Production Next.js build."
+    },
+    {
+      "gate": "Provisional browser checks",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/playwright_provisional_final.out.log",
+      "evidence_sha256": "3fcec5ee7d67b50ed0b6718567d609a2b1b52570d6e5399471a4b2d73f89b98a",
+      "note": "Six public/storage checks passed; six authenticated journeys were skipped because synthetic credentials were not supplied."
+    },
+    {
+      "gate": "Clean container validation",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/docker_validation_final.log",
+      "evidence_sha256": "aa46019f1692e27da55e96f11ab028df6696b88c34e572bcf9b8405cd457b0a9",
+      "note": "Pinned backend and AI images passed dependency checks and application imports."
+    },
+    {
+      "gate": "Manuscript compilation",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/latex_pass2_final.log",
+      "evidence_sha256": "3c065421eacbd40e35c315e6584cb33de3c9a4edb5734b7cfe4044ae78f7a23f",
+      "note": "Second LaTeX pass completed with zero overfull boxes and zero undefined references/citations."
+    },
+    {
+      "gate": "JavaScript production dependency audit",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/{frontend,e2e}_npm_audit_final.json",
+      "evidence_sha256": null,
+      "note": "Combined reported production vulnerabilities: 0."
+    },
+    {
+      "gate": "Generated archive-candidate secret audit",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/generated_secret_audit.json",
+      "evidence_sha256": "7ffe7df874e7f9eb1bcd440c8305be559f295302cc421cd5abdbc02784509e13",
+      "note": "Scanned 732 files against 27 local environment values; exact-value hits=0."
+    },
+    {
+      "gate": "OCR corpus inventory",
+      "status": "passed",
+      "evidence": "tests/benchmarks/datasets/ocr_corpus_manifest.json",
+      "evidence_sha256": "704363c7521e03fba78c5997f5aedef566b183e07fe102073f8242c0cb2d0bff",
+      "note": "105 archive files; 103 unique metric records. Metadata freeze remains separate."
+    },
+    {
+      "gate": "Assisted OCR prelabels",
+      "status": "passed",
+      "evidence": "tests/benchmarks/prelabels/",
+      "evidence_sha256": null,
+      "note": "103/103 composed prelabels; drafts are not ground truth."
+    },
+    {
+      "gate": "Booking contention benchmark",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/booking_results.json",
+      "evidence_sha256": "d79b62276fd67fe4d4cf2f76b6013162f8fd051bd8ac44687a02eb4db7a2e755",
+      "note": "Concurrency 2, 10, and 50 with 30 fresh-slot repetitions each."
+    },
+    {
+      "gate": "Deterministic safety fixtures",
+      "status": "passed",
+      "evidence": "tests/benchmarks/reports/current/safety_results.json",
+      "evidence_sha256": "56045164107781172d87d03c274feaffee9dafad7e17dae1ffc8f89b069cfca0",
+      "note": "Privacy, navigation behavior, and source-grounded summary fixtures; licensed navigation review is a separate gate."
+    },
+    {
+      "gate": "OCR gold standard and held-out A-H benchmark",
+      "status": "blocked",
+      "evidence": "tests/benchmarks/datasets/ocr_gold_standard.jsonl",
+      "evidence_sha256": null,
+      "note": "Manifest frozen=False; adjudicated records=0/103. Requires independent licensed review and adjudication."
+    },
+    {
+      "gate": "Licensed symptom-navigation review",
+      "status": "blocked",
+      "evidence": "tests/benchmarks/reports/current/safety_results.json",
+      "evidence_sha256": "56045164107781172d87d03c274feaffee9dafad7e17dae1ffc8f89b069cfca0",
+      "note": "required"
+    },
+    {
+      "gate": "Provider/account release metadata",
+      "status": "blocked",
+      "evidence": "tests/benchmarks/provider_manifest.json",
+      "evidence_sha256": "81627e396b4c387383949395cf089935a4f9ff58e5e0b07bbf4762dafdb8a3b1",
+      "note": "Azure region and organization retention/ZDR facts must be verified by the account owner; execution date is set only for the frozen final run."
+    },
+    {
+      "gate": "Approval citation and corpus freeze",
+      "status": "blocked",
+      "evidence": "samples/DATA_USE_NOTICE.md",
+      "evidence_sha256": "e5e3b060565015fde8ae8c544a7f110e5cc369d3f139d7dffaae84f8919e6876",
+      "note": "Enter verified approval authority, date, reference, scope, and review grouping/language/image-quality metadata before freezing."
+    },
+    {
+      "gate": "Authenticated production-browser journeys",
+      "status": "blocked",
+      "evidence": "tests/e2e/playwright.config.ts",
+      "evidence_sha256": "efe022679bf36455748a89f9d29a2229560b02ddccc70c77400bbe40cd773c08",
+      "note": "Requires a non-production synthetic patient/doctor/admin account set; no real account is created by this tool."
+    },
+    {
+      "gate": "Final commit verification and Zenodo metadata",
+      "status": "deferred_by_request",
+      "evidence": "docs/softwarex/release_metadata.json",
+      "evidence_sha256": null,
+      "note": "Intentionally stopped before tagging, archiving, DOI insertion, or deposit, as requested."
+    }
+  ]
+}

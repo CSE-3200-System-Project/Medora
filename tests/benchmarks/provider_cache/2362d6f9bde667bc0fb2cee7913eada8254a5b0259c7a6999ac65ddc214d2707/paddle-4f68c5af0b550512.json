@@ -1,0 +1,475 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0073",
+  "source_sha256": "2362d6f9bde667bc0fb2cee7913eada8254a5b0259c7a6999ac65ddc214d2707",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:02:25.607265+00:00",
+  "runtime_ms": 26164.916199995787,
+  "output": {
+    "raw_text": "hnont\n((nos)\nx4\nh\n9\nO\n0\n-\nmalps\nARO\n1+0+\n1+0+\nSIA\n120\nDEEENETNEE\nC\nOWNNAH SNO\nSdo\nA\nDIED\ns'a'e\n87\nDETING\nTMARRT\n5\n4\n8\nine\nC\n1",
+    "lines": [
+      {
+        "text": "hnont",
+        "bbox": {
+          "x_min": 1566.0,
+          "y_min": 368.0,
+          "x_max": 1790.0,
+          "y_max": 826.0
+        },
+        "page": 1,
+        "confidence": 0.396
+      },
+      {
+        "text": "((nos)",
+        "bbox": {
+          "x_min": 2203.0,
+          "y_min": 387.0,
+          "x_max": 2424.0,
+          "y_max": 797.0
+        },
+        "page": 1,
+        "confidence": 0.633
+      },
+      {
+        "text": "x4",
+        "bbox": {
+          "x_min": 648.0,
+          "y_min": 463.0,
+          "x_max": 917.0,
+          "y_max": 1529.0
+        },
+        "page": 1,
+        "confidence": 0.378
+      },
+      {
+        "text": "h",
+        "bbox": {
+          "x_min": 1978.0,
+          "y_min": 538.0,
+          "x_max": 2189.0,
+          "y_max": 770.0
+        },
+        "page": 1,
+        "confidence": 0.372
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 1806.0,
+          "y_min": 578.0,
+          "x_max": 2070.0,
+          "y_max": 747.0
+        },
+        "page": 1,
+        "confidence": 0.269
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2001.0,
+          "y_min": 633.0,
+          "x_max": 2009.0,
+          "y_max": 646.0
+        },
+        "page": 1,
+        "confidence": 0.173
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 2032.0,
+          "y_min": 633.0,
+          "x_max": 2041.0,
+          "y_max": 649.0
+        },
+        "page": 1,
+        "confidence": 0.134
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 2036.0,
+          "y_min": 639.0,
+          "x_max": 2047.0,
+          "y_max": 650.0
+        },
+        "page": 1,
+        "confidence": 0.159
+      },
+      {
+        "text": "malps",
+        "bbox": {
+          "x_min": 490.0,
+          "y_min": 659.0,
+          "x_max": 676.0,
+          "y_max": 1332.0
+        },
+        "page": 1,
+        "confidence": 0.297
+      },
+      {
+        "text": "ARO",
+        "bbox": {
+          "x_min": 1011.0,
+          "y_min": 883.0,
+          "x_max": 1128.0,
+          "y_max": 1060.0
+        },
+        "page": 1,
+        "confidence": 0.429
+      },
+      {
+        "text": "1+0+",
+        "bbox": {
+          "x_min": 2406.0,
+          "y_min": 920.0,
+          "x_max": 2500.0,
+          "y_max": 1299.0
+        },
+        "page": 1,
+        "confidence": 0.837
+      },
+      {
+        "text": "1+0+",
+        "bbox": {
+          "x_min": 1824.0,
+          "y_min": 963.0,
+          "x_max": 1928.0,
+          "y_max": 1407.0
+        },
+        "page": 1,
+        "confidence": 0.741
+      },
+      {
+        "text": "SIA",
+        "bbox": {
+          "x_min": 3571.0,
+          "y_min": 1189.0,
+          "x_max": 3633.0,
+          "y_max": 1300.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "120",
+        "bbox": {
+          "x_min": 2247.0,
+          "y_min": 1422.0,
+          "x_max": 2351.0,
+          "y_max": 1596.0
+        },
+        "page": 1,
+        "confidence": 0.727
+      },
+      {
+        "text": "DEEENETNEE",
+        "bbox": {
+          "x_min": 3632.0,
+          "y_min": 1447.0,
+          "x_max": 3709.0,
+          "y_max": 1974.0
+        },
+        "page": 1,
+        "confidence": 0.49
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 1639.0,
+          "y_min": 1481.0,
+          "x_max": 1651.0,
+          "y_max": 1497.0
+        },
+        "page": 1,
+        "confidence": 0.12
+      },
+      {
+        "text": "OWNNAH SNO",
+        "bbox": {
+          "x_min": 3694.0,
+          "y_min": 1510.0,
+          "x_max": 3792.0,
+          "y_max": 1982.0
+        },
+        "page": 1,
+        "confidence": 0.454
+      },
+      {
+        "text": "Sdo",
+        "bbox": {
+          "x_min": 2294.0,
+          "y_min": 1621.0,
+          "x_max": 2403.0,
+          "y_max": 1854.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 3482.0,
+          "y_min": 1671.0,
+          "x_max": 3562.0,
+          "y_max": 1782.0
+        },
+        "page": 1,
+        "confidence": 0.266
+      },
+      {
+        "text": "DIED",
+        "bbox": {
+          "x_min": 1057.0,
+          "y_min": 1722.0,
+          "x_max": 1152.0,
+          "y_max": 2053.0
+        },
+        "page": 1,
+        "confidence": 0.461
+      },
+      {
+        "text": "s'a'e",
+        "bbox": {
+          "x_min": 3544.0,
+          "y_min": 1795.0,
+          "x_max": 3625.0,
+          "y_max": 1971.0
+        },
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "87",
+        "bbox": {
+          "x_min": 1602.0,
+          "y_min": 2046.0,
+          "x_max": 1783.0,
+          "y_max": 2662.0
+        },
+        "page": 1,
+        "confidence": 0.349
+      },
+      {
+        "text": "DETING",
+        "bbox": {
+          "x_min": 1390.0,
+          "y_min": 2105.0,
+          "x_max": 1578.0,
+          "y_max": 2868.0
+        },
+        "page": 1,
+        "confidence": 0.545
+      },
+      {
+        "text": "TMARRT",
+        "bbox": {
+          "x_min": 1759.0,
+          "y_min": 2314.0,
+          "x_max": 1858.0,
+          "y_max": 2646.0
+        },
+        "page": 1,
+        "confidence": 0.55
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 1598.0,
+          "y_min": 2347.0,
+          "x_max": 1611.0,
+          "y_max": 2363.0
+        },
+        "page": 1,
+        "confidence": 0.428
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 1603.0,
+          "y_min": 2383.0,
+          "x_max": 1614.0,
+          "y_max": 2397.0
+        },
+        "page": 1,
+        "confidence": 0.316
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 962.0,
+          "y_min": 2446.0,
+          "x_max": 1044.0,
+          "y_max": 2942.0
+        },
+        "page": 1,
+        "confidence": 0.742
+      },
+      {
+        "text": "ine",
+        "bbox": {
+          "x_min": 2167.0,
+          "y_min": 2488.0,
+          "x_max": 2262.0,
+          "y_max": 2768.0
+        },
+        "page": 1,
+        "confidence": 0.729
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 2202.0,
+          "y_min": 2486.0,
+          "x_max": 2225.0,
+          "y_max": 2518.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 1546.0,
+          "y_min": 2546.0,
+          "x_max": 1596.0,
+          "y_max": 2601.0
+        },
+        "page": 1,
+        "confidence": 0.4
+      }
+    ],
+    "medications": [
+      {
+        "name": "Hnont",
+        "matched_term": "Hnont",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.178
+      },
+      {
+        "name": "Nos",
+        "matched_term": "Nos",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.136
+      },
+      {
+        "name": "Malps",
+        "matched_term": "Malps",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.134
+      },
+      {
+        "name": "Aro-D",
+        "matched_term": "Aro-D",
+        "drug_id": "d9e502f4-3f8c-4e98-b927-d0b2dbd8e547",
+        "brand_id": "3a2a6d82-3578-4da3-a0ca-8eb35f49f058",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.681
+      },
+      {
+        "name": "Sia",
+        "matched_term": "Sia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.366
+      },
+      {
+        "name": "Deeenetnee",
+        "matched_term": "Deeenetnee",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.137
+      },
+      {
+        "name": "Ownnah Sno",
+        "matched_term": "Ownnah Sno",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.204
+      },
+      {
+        "name": "Risdon",
+        "matched_term": "Risdon",
+        "drug_id": "a3104c8e-5cc1-4f81-b69e-c8b306dff1c8",
+        "brand_id": "4f458dd1-c4fc-4723-89ca-2b1d364c20ae",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.534
+      },
+      {
+        "name": "Died",
+        "matched_term": "Died",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.209
+      },
+      {
+        "name": "Deting",
+        "matched_term": "Deting",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.245
+      },
+      {
+        "name": "Tmarrt",
+        "matched_term": "Tmarrt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.23
+      },
+      {
+        "name": "Inem",
+        "matched_term": "Inem",
+        "drug_id": "14035a21-f16a-4230-9990-bcda496c0a40",
+        "brand_id": "d7d04e8a-41cf-4e91-8af7-367a099f1b72",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.634
+      }
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0064",
+  "source_sha256": "3946b7e3027deafe36b2e19d5dd5a7307ff50d0e00c59fa8cc4d8b4dc583cadd",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:33:27.062166+00:00",
+  "runtime_ms": 5674.23950000375,
+  "output": {
+    "medications": [
+      {
+        "name": "Tou Semidde",
+        "matched_term": "Tou Semidde",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.201
+      },
+      {
+        "name": "Zimax",
+        "matched_term": "Zimax",
+        "drug_id": "da405f80-ee1a-471d-a477-8b682e2f69af",
+        "brand_id": "51d17973-30b4-477e-9cf8-d9f0412df6ba",
+        "dosage": null,
+        "frequency": "4+0+3",
+        "quantity": null,
+        "confidence": 0.63
+      },
+      {
+        "name": "Ors",
+        "matched_term": "Ors",
+        "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+        "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.581
+      }
+    ],
+    "raw_text": "Tou. SemidDe 2\n2 124 58+\nTw. Zimax 500\nG4-0 x 3 days.\nORS 1",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 5638,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.7534,
+      "yolo_min_confidence": 0.7534,
+      "yolo_max_confidence": 0.7534,
+      "ocr_avg_confidence": 0.446,
+      "ocr_min_confidence": 0.446,
+      "ocr_max_confidence": 0.446,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 255.73202514648438,
+            "y_min": 258.1873779296875,
+            "x_max": 436.8150939941406,
+            "y_max": 420.02337646484375
+          },
+          "score": 0.7534
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tou. SemidDe 2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "2 124 58+",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "Tw. Zimax 500",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "G4-0 x 3 days.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        },
+        {
+          "text": "ORS 1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.446
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

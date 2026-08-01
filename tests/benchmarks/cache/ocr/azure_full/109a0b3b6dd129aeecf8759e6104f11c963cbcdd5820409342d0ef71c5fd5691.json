@@ -1,0 +1,428 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "109a0b3b6dd129aeecf8759e6104f11c963cbcdd5820409342d0ef71c5fd5691",
+  "record_id": "RX-0062",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 35297.541000007186,
+  "failure": null,
+  "response_sha256": "de7662939ac94fe55200857862bd66261574ac9f697fc9c686b692c58593dbce",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/ बाइडनज\nMedical Center:\nछिटकन F055\nPilgrim ID\n:0824049\nPassport No\nA07153459\nMaltab No.37\nName\nJASMIN MANIK\nAge 42\nGerder\nFEMALE\nDisine HAKA\nTheKAMRANCICHAR\nHEALTH PROFILE\n120-20\n1. Blood Group: NO\n2. Blood Pressure:\nNO\n3. Heart Disease: NO\n4. Lung Disease\nNO\n5. Kidney DiseaseKO\n7. Mental Di8888868\n8. Blood Sugar (RBS):\n59\nNO\n9. Weight:\n1C. Liver Disease\n11 Drug History:\n12 Any other abnormalit ?\nChief Complaints:\nsome that\ncough, sob\nOVE\nPulse- 98b/min.\nBF- 90/60 mm/Hg\nTemp-\nArdemie-\nDehydration-\n. Tab.\nMontilukast (0 mg)\n:2010 - 2014-\n10\ncap.\nomeprazole (20 mg)\n2 +++2- 31\n12\nFBS/RBS-\nECG\nProvisional Diagonosis\nVisit Na:\n1\n12 May 2024\nRx\nTab. Mexifloxacin (400mg)\nTab\nDoxophyline (200mg)\na toto- end-\n10\nRespiration-\nOthers-\nएक टमलिएकम इल्ॅटर विविष्मा गवा इब्रागत उन्ट के नामझालवरि शंकरराव करनावे माल अल्टर बटन।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "TREATMENT CARD/ बाइडनज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "छिटकन F055",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": ":0824049",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "A07153459",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Maltab No.37",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "JASMIN MANIK",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Age 42",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Gerder",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Disine HAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "TheKAMRANCICHAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "120-20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "1. Blood Group: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "3. Heart Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "5. Kidney DiseaseKO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "7. Mental Di8888868",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "59",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "1C. Liver Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "11 Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "12 Any other abnormalit ?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "some that",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "cough, sob",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "OVE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Pulse- 98b/min.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "BF- 90/60 mm/Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Ardemie-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": ". Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Montilukast (0 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": ":2010 - 2014-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "cap.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "omeprazole (20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "2 +++2- 31",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Visit Na:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "12 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Tab. Mexifloxacin (400mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Doxophyline (200mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "a toto- end-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "एक टमलिएकम इल्ॅटर विविष्मा गवा इब्रागत उन्ट के नामझालवरि शंकरराव करनावे माल अल्टर बटन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.649
+      }
+    ]
+  }
+}

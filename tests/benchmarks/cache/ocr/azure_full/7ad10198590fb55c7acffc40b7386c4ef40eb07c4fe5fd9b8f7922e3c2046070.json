@@ -1,0 +1,338 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "7ad10198590fb55c7acffc40b7386c4ef40eb07c4fe5fd9b8f7922e3c2046070",
+  "record_id": "RX-0046",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 85514.84189998882,
+  "failure": null,
+  "response_sha256": "fc700e53744e6d761efe9fe0a3f4bb33e55ea4c708c6f6d0a1d225927c77c67e",
+  "response": {
+    "raw_text": "820377\nSePO\nESSO\nबसु (बर्याडि)-७८\nडिकिस्मक कड़क बाभीन बारशुश्रज\nत्यांभीव नाग\nW/o MEH siddique\nवराम\n96 y\nबादभंवर नाथ\nM OF D (FEMALE)\nS. No. ..\n...\n66\n..........\nRoom No ...... ()\nTime.\n1819-17\nDate.\nC-62\nCCC\nCough- per\n20 days\nAny in nature\nIssued All\nL 18/9/17\nS/m\nडिकिस्मतकब बारशबना\nD ? RTI\n1. Tab.\nMoras (10 mg)\n(0-0-1)\n20\n2.\nTab. Aminomal &(350mg)\n12 - 0 - 0)\n3. Tab Nucomist DT (600m)\n1-0-1\n10\n4\nTab. Kofen\n1 me\n(0-1) (10)\nSOLEM\nMAXGADSIM\nMajer\nTrainee in Medicine\n-\nCh1\nगड-७५\n50 mg\n1\n1Ph",
+    "lines": [
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "SePO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "ESSO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "बसु (बर्याडि)-७८",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "डिकिस्मक कड़क बाभीन बारशुश्रज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "त्यांभीव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "W/o MEH siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "वराम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "96 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "बादभंवर नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "M OF D (FEMALE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "S. No. ..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "66",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "..........",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Room No ...... ()",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Time.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1819-17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Date.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "C-62",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "CCC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Cough- per",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "20 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Any in nature",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Issued All",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "L 18/9/17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "डिकिस्मतकब बारशबना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "D ? RTI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1. Tab.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Moras (10 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "(0-0-1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Tab. Aminomal &(350mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "12 - 0 - 0)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "3. Tab Nucomist DT (600m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1-0-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Tab. Kofen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1 me",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "(0-1) (10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "SOLEM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "MAXGADSIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Majer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Trainee in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "Ch1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "गड-७५",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "50 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "1Ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.65
+      }
+    ]
+  }
+}

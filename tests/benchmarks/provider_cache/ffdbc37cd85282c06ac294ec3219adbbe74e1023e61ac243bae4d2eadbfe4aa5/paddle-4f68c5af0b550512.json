@@ -1,0 +1,604 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0010",
+  "source_sha256": "ffdbc37cd85282c06ac294ec3219adbbe74e1023e61ac243bae4d2eadbfe4aa5",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:25:29.604920+00:00",
+  "runtime_ms": 33392.19809998758,
+  "output": {
+    "raw_text": "Masimboy\nX\nS\n9-x\nhey\nC\ntoLn\nfhfs\nBh\n04C+C\nsac\nCto+e\netoto\n9\nqh+\nKnopig\nKU\nDk\nqb\nq0y\nqhl\nqe\nq0\noyso\nonnnte\nHW\nPIoRAyHOdH\nedort\n-\ndt\nAyr\no\n8\nR\nAgla\nC\nC\nR\nF",
+    "lines": [
+      {
+        "text": "Masimboy",
+        "bbox": {
+          "x_min": 1678.0,
+          "y_min": 126.0,
+          "x_max": 1924.0,
+          "y_max": 939.0
+        },
+        "page": 1,
+        "confidence": 0.532
+      },
+      {
+        "text": "X",
+        "bbox": {
+          "x_min": 4043.0,
+          "y_min": 130.0,
+          "x_max": 4067.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.078
+      },
+      {
+        "text": "S",
+        "bbox": {
+          "x_min": 4529.0,
+          "y_min": 145.0,
+          "x_max": 4568.0,
+          "y_max": 183.0
+        },
+        "page": 1,
+        "confidence": 0.497
+      },
+      {
+        "text": "9-x",
+        "bbox": {
+          "x_min": 350.0,
+          "y_min": 187.0,
+          "x_max": 462.0,
+          "y_max": 675.0
+        },
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "hey",
+        "bbox": {
+          "x_min": 3041.0,
+          "y_min": 356.0,
+          "x_max": 3254.0,
+          "y_max": 657.0
+        },
+        "page": 1,
+        "confidence": 0.337
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 3366.0,
+          "y_min": 391.0,
+          "x_max": 3372.0,
+          "y_max": 398.0
+        },
+        "page": 1,
+        "confidence": 0.251
+      },
+      {
+        "text": "toLn",
+        "bbox": {
+          "x_min": 3916.0,
+          "y_min": 402.0,
+          "x_max": 4120.0,
+          "y_max": 764.0
+        },
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "fhfs",
+        "bbox": {
+          "x_min": 1922.0,
+          "y_min": 428.0,
+          "x_max": 2051.0,
+          "y_max": 733.0
+        },
+        "page": 1,
+        "confidence": 0.59
+      },
+      {
+        "text": "Bh",
+        "bbox": {
+          "x_min": 551.0,
+          "y_min": 464.0,
+          "x_max": 728.0,
+          "y_max": 809.0
+        },
+        "page": 1,
+        "confidence": 0.363
+      },
+      {
+        "text": "04C+C",
+        "bbox": {
+          "x_min": 2392.0,
+          "y_min": 736.0,
+          "x_max": 2504.0,
+          "y_max": 1066.0
+        },
+        "page": 1,
+        "confidence": 0.517
+      },
+      {
+        "text": "sac",
+        "bbox": {
+          "x_min": 3083.0,
+          "y_min": 743.0,
+          "x_max": 3195.0,
+          "y_max": 966.0
+        },
+        "page": 1,
+        "confidence": 0.784
+      },
+      {
+        "text": "Cto+e",
+        "bbox": {
+          "x_min": 2834.0,
+          "y_min": 768.0,
+          "x_max": 2956.0,
+          "y_max": 1128.0
+        },
+        "page": 1,
+        "confidence": 0.677
+      },
+      {
+        "text": "etoto",
+        "bbox": {
+          "x_min": 3254.0,
+          "y_min": 838.0,
+          "x_max": 3407.0,
+          "y_max": 1159.0
+        },
+        "page": 1,
+        "confidence": 0.679
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 4170.0,
+          "y_min": 831.0,
+          "x_max": 4374.0,
+          "y_max": 1064.0
+        },
+        "page": 1,
+        "confidence": 0.112
+      },
+      {
+        "text": "qh+",
+        "bbox": {
+          "x_min": 1920.0,
+          "y_min": 857.0,
+          "x_max": 2035.0,
+          "y_max": 1099.0
+        },
+        "page": 1,
+        "confidence": 0.58
+      },
+      {
+        "text": "Knopig",
+        "bbox": {
+          "x_min": 509.0,
+          "y_min": 873.0,
+          "x_max": 775.0,
+          "y_max": 1729.0
+        },
+        "page": 1,
+        "confidence": 0.25
+      },
+      {
+        "text": "KU",
+        "bbox": {
+          "x_min": 1431.0,
+          "y_min": 919.0,
+          "x_max": 1619.0,
+          "y_max": 1197.0
+        },
+        "page": 1,
+        "confidence": 0.4
+      },
+      {
+        "text": "Dk",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 952.0,
+          "x_max": 547.0,
+          "y_max": 2320.0
+        },
+        "page": 1,
+        "confidence": 0.394
+      },
+      {
+        "text": "qb",
+        "bbox": {
+          "x_min": 1747.0,
+          "y_min": 1177.0,
+          "x_max": 1873.0,
+          "y_max": 1422.0
+        },
+        "page": 1,
+        "confidence": 0.402
+      },
+      {
+        "text": "q0y",
+        "bbox": {
+          "x_min": 2190.0,
+          "y_min": 1169.0,
+          "x_max": 2314.0,
+          "y_max": 1392.0
+        },
+        "page": 1,
+        "confidence": 0.327
+      },
+      {
+        "text": "qhl",
+        "bbox": {
+          "x_min": 2621.0,
+          "y_min": 1169.0,
+          "x_max": 2753.0,
+          "y_max": 1411.0
+        },
+        "page": 1,
+        "confidence": 0.488
+      },
+      {
+        "text": "qe",
+        "bbox": {
+          "x_min": 3070.0,
+          "y_min": 1208.0,
+          "x_max": 3185.0,
+          "y_max": 1419.0
+        },
+        "page": 1,
+        "confidence": 0.592
+      },
+      {
+        "text": "q0",
+        "bbox": {
+          "x_min": 3567.0,
+          "y_min": 1252.0,
+          "x_max": 3680.0,
+          "y_max": 1480.0
+        },
+        "page": 1,
+        "confidence": 0.274
+      },
+      {
+        "text": "oyso",
+        "bbox": {
+          "x_min": 2097.0,
+          "y_min": 1818.0,
+          "x_max": 2223.0,
+          "y_max": 2340.0
+        },
+        "page": 1,
+        "confidence": 0.316
+      },
+      {
+        "text": "onnnte",
+        "bbox": {
+          "x_min": 1646.0,
+          "y_min": 1831.0,
+          "x_max": 1856.0,
+          "y_max": 2776.0
+        },
+        "page": 1,
+        "confidence": 0.184
+      },
+      {
+        "text": "HW",
+        "bbox": {
+          "x_min": 558.0,
+          "y_min": 1861.0,
+          "x_max": 705.0,
+          "y_max": 2178.0
+        },
+        "page": 1,
+        "confidence": 0.85
+      },
+      {
+        "text": "PIoRAyHOdH",
+        "bbox": {
+          "x_min": 1903.0,
+          "y_min": 2009.0,
+          "x_max": 2055.0,
+          "y_max": 2720.0
+        },
+        "page": 1,
+        "confidence": 0.484
+      },
+      {
+        "text": "edort",
+        "bbox": {
+          "x_min": 624.0,
+          "y_min": 2222.0,
+          "x_max": 763.0,
+          "y_max": 2710.0
+        },
+        "page": 1,
+        "confidence": 0.49
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 2169.0,
+          "y_min": 2438.0,
+          "x_max": 2174.0,
+          "y_max": 2445.0
+        },
+        "page": 1,
+        "confidence": 0.194
+      },
+      {
+        "text": "dt",
+        "bbox": {
+          "x_min": 1409.0,
+          "y_min": 2439.0,
+          "x_max": 1576.0,
+          "y_max": 2686.0
+        },
+        "page": 1,
+        "confidence": 0.244
+      },
+      {
+        "text": "Ayr",
+        "bbox": {
+          "x_min": 2112.0,
+          "y_min": 2476.0,
+          "x_max": 2213.0,
+          "y_max": 2713.0
+        },
+        "page": 1,
+        "confidence": 0.248
+      },
+      {
+        "text": "o",
+        "bbox": {
+          "x_min": 454.0,
+          "y_min": 2492.0,
+          "x_max": 626.0,
+          "y_max": 2686.0
+        },
+        "page": 1,
+        "confidence": 0.351
+      },
+      {
+        "text": "8",
+        "bbox": {
+          "x_min": 151.0,
+          "y_min": 2695.0,
+          "x_max": 351.0,
+          "y_max": 2869.0
+        },
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 598.0,
+          "y_min": 2733.0,
+          "x_max": 702.0,
+          "y_max": 3075.0
+        },
+        "page": 1,
+        "confidence": 0.202
+      },
+      {
+        "text": "Agla",
+        "bbox": {
+          "x_min": 793.0,
+          "y_min": 2922.0,
+          "x_max": 883.0,
+          "y_max": 3112.0
+        },
+        "page": 1,
+        "confidence": 0.393
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 2679.0,
+          "y_min": 3210.0,
+          "x_max": 2825.0,
+          "y_max": 3387.0
+        },
+        "page": 1,
+        "confidence": 0.122
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 2990.0,
+          "y_min": 3288.0,
+          "x_max": 3150.0,
+          "y_max": 3419.0
+        },
+        "page": 1,
+        "confidence": 0.304
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 2525.0,
+          "y_min": 3342.0,
+          "x_max": 2617.0,
+          "y_max": 3441.0
+        },
+        "page": 1,
+        "confidence": 0.213
+      },
+      {
+        "text": "F",
+        "bbox": {
+          "x_min": 2037.0,
+          "y_min": 3384.0,
+          "x_max": 2109.0,
+          "y_max": 3461.0
+        },
+        "page": 1,
+        "confidence": 0.211
+      }
+    ],
+    "medications": [
+      {
+        "name": "Masimboy",
+        "matched_term": "Masimboy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.182
+      },
+      {
+        "name": "Whey Protein Powder",
+        "matched_term": "Whey Protein Powder",
+        "drug_id": "ed562088-0a20-46f6-bff4-c5af25b5d236",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.512
+      },
+      {
+        "name": "Toln",
+        "matched_term": "Toln",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.249
+      },
+      {
+        "name": "Fhfs Bh",
+        "matched_term": "Fhfs Bh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.221
+      },
+      {
+        "name": "Sac",
+        "matched_term": "Sac",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.353
+      },
+      {
+        "name": "Cto",
+        "matched_term": "Cto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.178
+      },
+      {
+        "name": "Eto",
+        "matched_term": "Eto",
+        "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+        "brand_id": "291bbda2-d1fb-4e65-9ba6-7c052737f7f6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Knopig Ku Endkof",
+        "matched_term": "Knopig Ku Endkof",
+        "drug_id": "892697d4-9afc-43b3-afe8-d637689bcfc0",
+        "brand_id": "56f1ed5d-2150-4150-9932-86f99b8b12a2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.154
+      },
+      {
+        "name": "Kushta Aqeeq",
+        "matched_term": "Kushta Aqeeq",
+        "drug_id": "e0f4d2cc-b077-4265-8d5c-ecc03663a26f",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.455
+      },
+      {
+        "name": "Oyso",
+        "matched_term": "Oyso",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.142
+      },
+      {
+        "name": "Ashwagandha",
+        "matched_term": "Ashwagandha",
+        "drug_id": "f5b64ddc-1651-4e4e-97e6-0843e7a3454a",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.471
+      },
+      {
+        "name": "Piorayhodh",
+        "matched_term": "Piorayhodh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.218
+      },
+      {
+        "name": "Edort Dt",
+        "matched_term": "Edort Dt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.139
+      },
+      {
+        "name": "Ayr",
+        "matched_term": "Ayr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.172
+      },
+      {
+        "name": "Agla",
+        "matched_term": "Agla",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.112
+      }
+    ]
+  }
+}

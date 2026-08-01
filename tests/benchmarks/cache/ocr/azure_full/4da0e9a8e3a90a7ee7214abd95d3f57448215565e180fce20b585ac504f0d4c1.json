@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "4da0e9a8e3a90a7ee7214abd95d3f57448215565e180fce20b585ac504f0d4c1",
+  "record_id": "RX-0024",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 35680.663299994194,
+  "failure": null,
+  "response_sha256": "b2278cd5b5c561ebb4d554d2004777781dbac3375fea6e818bc08176abfae1bb",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah Madinah Jeddah\nTREATMENT CARD / 1890\nMedical Center:\n8007502\nPOSSO01 No\nName\nDenal\nHEALTH PROFILE\n3. Heart Chowy !!!\n1. brug History:\n8 Blod Bugo: (RE-3)\n10 Liver Dedoss\n12. Any other abnormalitmi. NR\nListe 25 Us/ 2024\nChief Complaints:\nCall erre But,\nTil Inflor (importe) trong\nTomo\nDehydration\nRespiration\n10+1\n0+0+1 -\nFOSIRES\nECG\nlevo flox\nProvisional Diagoncels\nNormal drop.\n1+1+1\n-\nका एक अयो विलियम द्वारा दृष्टपा इन 2 रावत जी अण्डियन दयचार पुत्र वान := था।\n******* F209",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Makkah Madinah Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "TREATMENT CARD / 1890",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "8007502",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "POSSO01 No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Denal",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "3. Heart Chowy !!!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1. brug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "8 Blod Bugo: (RE-3)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "10 Liver Dedoss",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "12. Any other abnormalitmi. NR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Liste 25 Us/ 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Call erre But,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Til Inflor (importe) trong",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Tomo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Dehydration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "10+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "0+0+1 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "FOSIRES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "levo flox",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Provisional Diagoncels",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "Normal drop.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "1+1+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "का एक अयो विलियम द्वारा दृष्टपा इन 2 रावत जी अण्डियन दयचार पुत्र वान := था।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      },
+      {
+        "text": "******* F209",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.581
+      }
+    ]
+  }
+}

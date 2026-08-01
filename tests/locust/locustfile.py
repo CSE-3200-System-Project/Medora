@@ -64,7 +64,7 @@ class MedoraHealthcareUser(HttpUser):
         with self.client.post(
             "/appointment/",
             json=payload,
-            headers=self.patient_headers,
+            headers={**self.patient_headers, "Idempotency-Key": f"locust-{uuid.uuid4()}"},
             name="peak_booking:create_appointment",
             catch_response=True,
         ) as response:

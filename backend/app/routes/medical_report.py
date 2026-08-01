@@ -9,7 +9,7 @@ import asyncio
 import hashlib
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 import httpx
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
@@ -18,10 +18,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from storage3.exceptions import StorageApiError
 
-from app.core.ai_privacy import stable_hash_token
 from app.core.config import settings
 from app.core.dependencies import get_db, require_doctor, resolve_profile
-from app.db.models.doctor import DoctorProfile
 from app.db.models.enums import UserRole
 from app.db.models.medical_report import (
     DoctorReportComment,
@@ -50,6 +48,8 @@ from app.schemas.medical_report import (
     ReportVisibilityResponse,
     ReportVisibilityUpdate,
 )
+from app.schemas.processing_consent import ProcessingPurpose
+from app.services.processing_consent import require_processing_consent
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -105,7 +105,7 @@ def _public_url(storage_path: str) -> str:
     return supabase.storage.from_(BUCKET_NAME).get_public_url(storage_path)
 
 
-async def _call_report_ocr(file_name: str, content: bytes, content_type: str, subject_token: str | None) -> dict:
+async def _call_report_ocr(file_name: str, content: bytes, content_type: str, processing_mode: str) -> dict:
     """Call AI OCR service for medical report extraction."""
     endpoint = settings.AI_OCR_SERVICE_URL.rstrip("/") + "/ocr/medical-report"
     timeout = httpx.Timeout(connect=5.0, read=settings.AI_OCR_TIMEOUT_SECONDS, write=30.0, pool=5.0)
@@ -119,11 +119,11 @@ async def _call_report_ocr(file_name: str, content: bytes, content_type: str, su
             async with httpx.AsyncClient(timeout=timeout) as client:
                 response = await client.post(
                     endpoint,
-                    files={"file": (file_name, content, content_type)},
-                    headers=(
-                        {"X-Medora-Subject-Token": str(subject_token).strip()[:80]}
-                        if subject_token else None
-                    ),
+                    files={
+                        "file": (file_name, content, content_type),
+                        "processing_mode": (None, processing_mode),
+                    },
+                    headers={"X-Request-ID": f"report_{uuid.uuid4().hex}"},
                 )
             break
         except httpx.TimeoutException as exc:
@@ -271,46 +271,26 @@ async def _filter_reports_for_doctor(
     return visible
 
 
-async def _require_user_ai_consent_for_report_ocr(db: AsyncSession, user_id: str) -> None:
+async def _require_user_report_ocr_permission(db: AsyncSession, user_id: str, processing_mode: str) -> None:
     role_result = await db.execute(select(Profile.role).where(Profile.id == user_id))
     role = role_result.scalar_one_or_none()
     if role is None:
         raise HTTPException(status_code=404, detail="Profile not found")
 
-    if role == UserRole.PATIENT:
-        consent_result = await db.execute(
-            select(
-                PatientProfile.consent_ai,
-                PatientProfile.ai_personal_context_enabled,
-            ).where(PatientProfile.profile_id == user_id)
+    if role != UserRole.PATIENT:
+        raise HTTPException(
+            status_code=403,
+            detail="Medical-report uploads must be created by the patient who owns the report.",
         )
-        consent_row = consent_result.first()
-        if consent_row is None:
-            raise HTTPException(status_code=404, detail="Patient medical profile not found")
-        legacy_consent = bool(consent_row[0]) if consent_row[0] is not None else False
-        personal_context_enabled = legacy_consent if consent_row[1] is None else bool(consent_row[1])
-        if not personal_context_enabled:
-            raise HTTPException(
-                status_code=403,
-                detail="Medical report OCR requires patient AI personal-context sharing.",
-            )
-        return
-
-    if role == UserRole.DOCTOR:
-        ai_result = await db.execute(
-            select(DoctorProfile.ai_assistance).where(DoctorProfile.profile_id == user_id)
+    if processing_mode == "cloud":
+        await require_processing_consent(
+            db,
+            subject_id=user_id,
+            purpose=ProcessingPurpose.CLOUD_DOCUMENT_OCR,
+            provider="azure_document_intelligence",
+            local_option_available=True,
+            required_scopes={ProcessingPurpose.CLOUD_DOCUMENT_OCR.value},
         )
-        ai_assistance = ai_result.scalar_one_or_none()
-        if ai_assistance is None:
-            raise HTTPException(status_code=404, detail="Doctor profile not found")
-        if not ai_assistance:
-            raise HTTPException(
-                status_code=403,
-                detail="Doctor has disabled Chorui AI assistance.",
-            )
-        return
-
-    raise HTTPException(status_code=403, detail="Chorui AI extraction is not available for this account role")
 
 
 # ── Upload ───────────────────────────────────────────────────────────────────
@@ -320,6 +300,7 @@ async def _require_user_ai_consent_for_report_ocr(db: AsyncSession, user_id: str
 async def upload_medical_report(
     file: UploadFile = File(...),
     report_date: str | None = Form(None),
+    processing_mode: str = Form("local"),
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
@@ -333,7 +314,10 @@ async def upload_medical_report(
     normalized_type = (file.content_type or "").lower()
     if normalized_type and normalized_type not in ALLOWED_REPORT_TYPES:
         raise HTTPException(status_code=400, detail=f"Unsupported file type: {file.content_type}")
-    await _require_user_ai_consent_for_report_ocr(db, user.id)
+    processing_mode = processing_mode.lower().strip()
+    if processing_mode not in {"local", "cloud"}:
+        raise HTTPException(status_code=422, detail="processing_mode must be 'local' or 'cloud'")
+    await _require_user_report_ocr_permission(db, user.id, processing_mode)
 
     file_content = await _read_file_with_limit(file)
     safe_name = _sanitize_filename(file.filename)
@@ -368,12 +352,11 @@ async def upload_medical_report(
         await db.flush()
 
         # 3. Call AI OCR service
-        subject_token = stable_hash_token(str(user.id), namespace="report_ocr", length=22)
         ocr_result = await _call_report_ocr(
             file_name=file.filename,
             content=file_content,
             content_type=normalized_type or "application/octet-stream",
-            subject_token=subject_token,
+            processing_mode=processing_mode,
         )
 
         tests = ocr_result.get("tests") or []
@@ -408,11 +391,13 @@ async def upload_medical_report(
             )
             db.add(result_record)
 
-        # 6. Update report as parsed
-        report.parsed = bool(tests)
+        # OCR output remains a draft until the patient explicitly verifies it.
+        report.parsed = False
         report.raw_ocr_text = raw_text[:50000] if raw_text else None
         report.ocr_engine = meta.get("ocr_engine", "unknown")
         report.processing_time_ms = meta.get("processing_time_ms")
+        report.processing_mode = processing_mode
+        report.review_status = "pending_review"
 
         await db.commit()
         await db.refresh(report)
@@ -441,6 +426,31 @@ async def upload_medical_report(
         await db.rollback()
         logger.exception("Medical report upload failed: %s", exc)
         raise HTTPException(status_code=500, detail=f"Upload failed: {str(exc)}")
+
+
+@router.post("/{report_id}/confirm-ocr", response_model=MedicalReportResponse)
+async def confirm_medical_report_ocr(
+    report_id: str,
+    user: any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    """Confirm that the draft was checked against the source document."""
+    report = (
+        await db.execute(
+            select(MedicalReport)
+            .options(selectinload(MedicalReport.results), selectinload(MedicalReport.comments))
+            .where(MedicalReport.id == report_id, MedicalReport.patient_id == user.id)
+        )
+    ).scalar_one_or_none()
+    if report is None:
+        raise HTTPException(status_code=404, detail="Medical report not found")
+    report.review_status = "human_verified"
+    report.reviewed_at = datetime.now(timezone.utc)
+    report.reviewed_by_id = user.id
+    report.parsed = bool(report.results)
+    await db.commit()
+    await db.refresh(report)
+    return MedicalReportResponse.model_validate(report)
 
 
 # ── List reports ─────────────────────────────────────────────────────────────
@@ -670,6 +680,10 @@ async def update_report_result(
     for field, value in updates.items():
         setattr(result_row, field, value)
     result_row.is_manually_edited = True
+    report.review_status = "pending_review"
+    report.reviewed_at = None
+    report.reviewed_by_id = None
+    report.parsed = False
 
     await db.commit()
     await db.refresh(result_row)
@@ -714,6 +728,10 @@ async def add_report_result(
         is_manually_edited=True,
     )
     db.add(new_result)
+    report.review_status = "pending_review"
+    report.reviewed_at = None
+    report.reviewed_by_id = None
+    report.parsed = False
     await db.commit()
     await db.refresh(new_result)
     return ReportTestResultResponse.model_validate(new_result)
@@ -749,6 +767,10 @@ async def delete_report_result(
         raise HTTPException(status_code=404, detail="Result not found")
 
     await db.delete(result_row)
+    report.review_status = "pending_review"
+    report.reviewed_at = None
+    report.reviewed_by_id = None
+    report.parsed = False
     await db.commit()
 
 

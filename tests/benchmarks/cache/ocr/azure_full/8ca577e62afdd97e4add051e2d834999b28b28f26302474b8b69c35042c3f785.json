@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "8ca577e62afdd97e4add051e2d834999b28b28f26302474b8b69c35042c3f785",
+  "record_id": "RX-0013",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 37552.41110001225,
+  "failure": null,
+  "response_sha256": "22fa62f87487cb901129cc127a0cb7413661732554f47ede3078aeb1c1361007",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / वायशभय\nMedical Center;\nPilgrim ID\n1029134\nPassport No\nA12431102\nMakinb No\nName\nMD ELIAS HOSSAIN\nAge\n58\nGender\nMALE\nDistrict\nBARISHAL\nThene\nWAZIRPUR\nHEALTH PROFILE\n120/80\n1. Blood Group:\nNO\n2. Blood Pressure:\nNC\n3. Heart Disease:\n5. Kidney Disease:\n4. Lung Disease:\nNO\n6. Diabetes:\n7. Mental Disease:\n5\n8. Blood Sugar (RBS);\nNO\n9. Weight\n10. Liver Disease:\nNO\n11. Drug History.\nAntihypertensive\n12. Any other abnormalities:\nChief Complaints:\n- Cracked tim .\n- PUD .\nOF-\nPulse-\nBP\nTemp-\nAnaemia-\nDehydration-\nRespiration\nOthers-\n- D. Antopin(oms)\nธนาดิ\n- Vaseline -1\n19.04.2018\nFBS/RBS-\nECG\nProvisional Diagonosis\nVisit No\n1\nSx- al final (120\n0+0+2.\n(como)\n- Cap. Esotid (20ms)\n2+0+2 =man\nइस एक्टियन एस्फोज पिनियन लगा अस्त्रका बना वे बारइनकी थकिशन बनवाई काम बालार आए।\n27 May 2024\nG014",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "TREATMENT CARD / वायशभय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Pilgrim ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "1029134",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "A12431102",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Makinb No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "MD ELIAS HOSSAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Age",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "58",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "BARISHAL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Thene",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "WAZIRPUR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "NC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "8. Blood Sugar (RBS);",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "9. Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "11. Drug History.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Antihypertensive",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "- Cracked tim .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "- PUD .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "OF-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Respiration",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "- D. Antopin(oms)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "ธนาดิ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "- Vaseline -1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "19.04.2018",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Visit No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "Sx- al final (120",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "0+0+2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "(como)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "- Cap. Esotid (20ms)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "2+0+2 =man",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "इस एक्टियन एस्फोज पिनियन लगा अस्त्रका बना वे बारइनकी थकिशन बनवाई काम बालार आए।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "27 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      },
+      {
+        "text": "G014",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.745
+      }
+    ]
+  }
+}

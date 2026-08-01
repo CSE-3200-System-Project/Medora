@@ -1,0 +1,219 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0062",
+  "source_sha256": "109a0b3b6dd129aeecf8759e6104f11c963cbcdd5820409342d0ef71c5fd5691",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:33:15.968146+00:00",
+  "runtime_ms": 25767.673199996352,
+  "output": {
+    "medications": [
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "moxifloxacin",
+        "matched_term": "moxifloxacin",
+        "drug_id": "2b18fd2b-3bd6-483e-ab26-d032a4573946",
+        "brand_id": null,
+        "dosage": "400 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.712
+      },
+      {
+        "name": "doxophylline",
+        "matched_term": "doxophylline",
+        "drug_id": "65360386-9c25-4232-a749-dbd8059c95ed",
+        "brand_id": null,
+        "dosage": "200mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.712
+      },
+      {
+        "name": "Toto- Ena",
+        "matched_term": "Toto- Ena",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.281
+      },
+      {
+        "name": "montelukast",
+        "matched_term": "montelukast",
+        "drug_id": "38cb7239-130a-4de5-83be-c81fb77ed462",
+        "brand_id": null,
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.712
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": "20mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.712
+      },
+      {
+        "name": "Tofa",
+        "matched_term": "Tofa",
+        "drug_id": "10d35bf0-13a2-46d3-9dcc-a15e48196ded",
+        "brand_id": "4fe4aa39-e260-43c8-b135-f86adbbf2b7d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.661
+      }
+    ],
+    "raw_text": "Rx\nTab .\nMexifloxacin (400 mg)\n. Tab\nDoxophyline (200mg)\na toto- ena-\n10\n. Tab .\nMontilukast (10mg)\ncap\n07013-2014-\nomeprazole (20mg)\na tofa - 84\n10",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 25732,
+      "detected_regions": 1,
+      "ocr_line_count": 14,
+      "yolo_avg_confidence": 0.8885,
+      "yolo_min_confidence": 0.8885,
+      "yolo_max_confidence": 0.8885,
+      "ocr_avg_confidence": 0.624,
+      "ocr_min_confidence": 0.624,
+      "ocr_max_confidence": 0.624,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 252.72373962402344,
+            "y_min": 267.17718505859375,
+            "x_max": 538.66357421875,
+            "y_max": 472.2371826171875
+          },
+          "score": 0.8885
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "Tab .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "Mexifloxacin (400 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": ". Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "Doxophyline (200mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "a toto- ena-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": ". Tab .",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "Montilukast (10mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "07013-2014-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "omeprazole (20mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "a tofa - 84",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        },
+        {
+          "text": "10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.624
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

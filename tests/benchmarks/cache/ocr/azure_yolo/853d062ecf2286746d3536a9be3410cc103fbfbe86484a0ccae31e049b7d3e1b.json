@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "853d062ecf2286746d3536a9be3410cc103fbfbe86484a0ccae31e049b7d3e1b",
+  "record_id": "RX-0097",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 12033.127899994724,
+  "failure": null,
+  "response_sha256": "41e7f25a1f0724768a006e173fb557856d6856f9fadfae78e97615674e664819",
+  "response": {
+    "raw_text": "common cold\n· Tu. Serin iz\n22070 ---\nGalvus\n0 7370\n(20)\nThe Month Lunkent\n0707 -\nV. Tw. Binacodyl 5\nno 30/6.\n07073\ny",
+    "lines": [
+      {
+        "text": "common cold",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "· Tu. Serin iz",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "22070 ---",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "Galvus",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "0 7370",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "(20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "The Month Lunkent",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "0707 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "V. Tw. Binacodyl 5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "no 30/6.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "07073",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      },
+      {
+        "text": "y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.438
+      }
+    ]
+  }
+}

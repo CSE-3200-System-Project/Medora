@@ -1,0 +1,1089 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0022",
+  "source_sha256": "04153280130237c0a05a67ec67436f8e881af99dc8895e1c3570b23cf0002cfa",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:32:36.039707+00:00",
+  "runtime_ms": 70024.9710999924,
+  "output": {
+    "raw_text": "ERNMENT OF THEPEOPLE'S REPUBLC OF SANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkah/Mecnah/Jedsah\nBangladesh Hajj Oltce\nTREATMENT CARD\nMedca Center\nG160\nPapoe\nAge\nFlymC_Cage\nMauche\nMOAT\nO\nFender\nMALE\nDACH\nHEALTH PROFILE\nE\n3\nBP\n12990\n1Bkce Gaa\nIC\n9\nNG\nD. ne iay\n2\n1O\nMncebac\nVsn\no2021\nChief Compaints\nFr\nLaie\nSE-\n3\nPLse-\nun\nPemacatrna\n1/80\nlemp\nAnsene\nCupMon 40my.\nam\nDehyaratior-\n+0+-\n?\nRespracun-\nPovynen\nOiners-\nCorp som\nMermil Petnounn\ny\nE\nEtono Cnoam\n1\nAAeen\nMs\n24163.24\n3RBS163m\nECG\n1\nProvisionai Diagonosis\nasn",
+    "lines": [
+      {
+        "text": "ERNMENT OF THEPEOPLE'S REPUBLC OF SANGLADESH",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 36.0,
+          "x_max": 455.0,
+          "y_max": 54.0
+        },
+        "page": 1,
+        "confidence": 0.902
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 248.0,
+          "y_min": 47.0,
+          "x_max": 399.0,
+          "y_max": 62.0
+        },
+        "page": 1,
+        "confidence": 0.957
+      },
+      {
+        "text": "Makkah/Mecnah/Jedsah",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 64.0,
+          "x_max": 372.0,
+          "y_max": 78.0
+        },
+        "page": 1,
+        "confidence": 0.835
+      },
+      {
+        "text": "Bangladesh Hajj Oltce",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 57.0,
+          "x_max": 367.0,
+          "y_max": 67.0
+        },
+        "page": 1,
+        "confidence": 0.796
+      },
+      {
+        "text": "TREATMENT CARD",
+        "bbox": {
+          "x_min": 261.0,
+          "y_min": 79.0,
+          "x_max": 389.0,
+          "y_max": 96.0
+        },
+        "page": 1,
+        "confidence": 0.922
+      },
+      {
+        "text": "Medca Center",
+        "bbox": {
+          "x_min": 146.0,
+          "y_min": 93.0,
+          "x_max": 206.0,
+          "y_max": 109.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "G160",
+        "bbox": {
+          "x_min": 403.0,
+          "y_min": 85.0,
+          "x_max": 471.0,
+          "y_max": 101.0
+        },
+        "page": 1,
+        "confidence": 0.854
+      },
+      {
+        "text": "Papoe",
+        "bbox": {
+          "x_min": 277.0,
+          "y_min": 104.0,
+          "x_max": 315.0,
+          "y_max": 114.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "Age",
+        "bbox": {
+          "x_min": 337.0,
+          "y_min": 97.0,
+          "x_max": 373.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.148
+      },
+      {
+        "text": "FlymC_Cage",
+        "bbox": {
+          "x_min": 144.0,
+          "y_min": 102.0,
+          "x_max": 208.0,
+          "y_max": 123.0
+        },
+        "page": 1,
+        "confidence": 0.696
+      },
+      {
+        "text": "Mauche",
+        "bbox": {
+          "x_min": 405.0,
+          "y_min": 97.0,
+          "x_max": 461.0,
+          "y_max": 114.0
+        },
+        "page": 1,
+        "confidence": 0.425
+      },
+      {
+        "text": "MOAT",
+        "bbox": {
+          "x_min": 179.0,
+          "y_min": 108.0,
+          "x_max": 245.0,
+          "y_max": 127.0
+        },
+        "page": 1,
+        "confidence": 0.589
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 445.0,
+          "y_min": 110.0,
+          "x_max": 456.0,
+          "y_max": 118.0
+        },
+        "page": 1,
+        "confidence": 0.237
+      },
+      {
+        "text": "Fender",
+        "bbox": {
+          "x_min": 147.0,
+          "y_min": 130.0,
+          "x_max": 169.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.907
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 125.0,
+          "x_max": 198.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.718
+      },
+      {
+        "text": "DACH",
+        "bbox": {
+          "x_min": 229.0,
+          "y_min": 118.0,
+          "x_max": 289.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.504
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 289.0,
+          "y_min": 137.0,
+          "x_max": 360.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 206.0,
+          "y_min": 152.0,
+          "x_max": 298.0,
+          "y_max": 196.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 276.0,
+          "y_min": 150.0,
+          "x_max": 291.0,
+          "y_max": 165.0
+        },
+        "page": 1,
+        "confidence": 0.125
+      },
+      {
+        "text": "BP",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 147.0,
+          "x_max": 418.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.511
+      },
+      {
+        "text": "12990",
+        "bbox": {
+          "x_min": 444.0,
+          "y_min": 137.0,
+          "x_max": 472.0,
+          "y_max": 160.0
+        },
+        "page": 1,
+        "confidence": 0.693
+      },
+      {
+        "text": "1Bkce Gaa",
+        "bbox": {
+          "x_min": 217.0,
+          "y_min": 153.0,
+          "x_max": 269.0,
+          "y_max": 164.0
+        },
+        "page": 1,
+        "confidence": 0.64
+      },
+      {
+        "text": "IC",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 162.0,
+          "x_max": 289.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.485
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 445.0,
+          "y_min": 154.0,
+          "x_max": 466.0,
+          "y_max": 178.0
+        },
+        "page": 1,
+        "confidence": 0.127
+      },
+      {
+        "text": "NG",
+        "bbox": {
+          "x_min": 276.0,
+          "y_min": 170.0,
+          "x_max": 288.0,
+          "y_max": 178.0
+        },
+        "page": 1,
+        "confidence": 0.49
+      },
+      {
+        "text": "D. ne iay",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 181.0,
+          "x_max": 270.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.342
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 358.0,
+          "y_min": 178.0,
+          "x_max": 465.0,
+          "y_max": 200.0
+        },
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "1O",
+        "bbox": {
+          "x_min": 450.0,
+          "y_min": 174.0,
+          "x_max": 462.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.553
+      },
+      {
+        "text": "Mncebac",
+        "bbox": {
+          "x_min": 276.0,
+          "y_min": 190.0,
+          "x_max": 313.0,
+          "y_max": 201.0
+        },
+        "page": 1,
+        "confidence": 0.423
+      },
+      {
+        "text": "Vsn",
+        "bbox": {
+          "x_min": 248.0,
+          "y_min": 208.0,
+          "x_max": 279.0,
+          "y_max": 222.0
+        },
+        "page": 1,
+        "confidence": 0.41
+      },
+      {
+        "text": "o2021",
+        "bbox": {
+          "x_min": 386.0,
+          "y_min": 194.0,
+          "x_max": 445.0,
+          "y_max": 219.0
+        },
+        "page": 1,
+        "confidence": 0.798
+      },
+      {
+        "text": "Chief Compaints",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 212.0,
+          "x_max": 212.0,
+          "y_max": 223.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "Fr",
+        "bbox": {
+          "x_min": 286.0,
+          "y_min": 224.0,
+          "x_max": 308.0,
+          "y_max": 240.0
+        },
+        "page": 1,
+        "confidence": 0.401
+      },
+      {
+        "text": "Laie",
+        "bbox": {
+          "x_min": 446.0,
+          "y_min": 237.0,
+          "x_max": 472.0,
+          "y_max": 248.0
+        },
+        "page": 1,
+        "confidence": 0.608
+      },
+      {
+        "text": "SE-",
+        "bbox": {
+          "x_min": 137.0,
+          "y_min": 254.0,
+          "x_max": 154.0,
+          "y_max": 262.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 447.0,
+          "y_min": 254.0,
+          "x_max": 468.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "PLse-",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 266.0,
+          "x_max": 156.0,
+          "y_max": 273.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "un",
+        "bbox": {
+          "x_min": 295.0,
+          "y_min": 267.0,
+          "x_max": 348.0,
+          "y_max": 286.0
+        },
+        "page": 1,
+        "confidence": 0.338
+      },
+      {
+        "text": "Pemacatrna",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 256.0,
+          "x_max": 422.0,
+          "y_max": 282.0
+        },
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "1/80",
+        "bbox": {
+          "x_min": 119.0,
+          "y_min": 273.0,
+          "x_max": 207.0,
+          "y_max": 288.0
+        },
+        "page": 1,
+        "confidence": 0.65
+      },
+      {
+        "text": "lemp",
+        "bbox": {
+          "x_min": 134.0,
+          "y_min": 289.0,
+          "x_max": 158.0,
+          "y_max": 301.0
+        },
+        "page": 1,
+        "confidence": 0.724
+      },
+      {
+        "text": "Ansene",
+        "bbox": {
+          "x_min": 133.0,
+          "y_min": 301.0,
+          "x_max": 166.0,
+          "y_max": 312.0
+        },
+        "page": 1,
+        "confidence": 0.797
+      },
+      {
+        "text": "CupMon 40my.",
+        "bbox": {
+          "x_min": 315.0,
+          "y_min": 274.0,
+          "x_max": 478.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.707
+      },
+      {
+        "text": "am",
+        "bbox": {
+          "x_min": 446.0,
+          "y_min": 296.0,
+          "x_max": 487.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.345
+      },
+      {
+        "text": "Dehyaratior-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 314.0,
+          "x_max": 179.0,
+          "y_max": 325.0
+        },
+        "page": 1,
+        "confidence": 0.841
+      },
+      {
+        "text": "+0+-",
+        "bbox": {
+          "x_min": 353.0,
+          "y_min": 302.0,
+          "x_max": 411.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.693
+      },
+      {
+        "text": "?",
+        "bbox": {
+          "x_min": 468.0,
+          "y_min": 310.0,
+          "x_max": 495.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.175
+      },
+      {
+        "text": "Respracun-",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 327.0,
+          "x_max": 176.0,
+          "y_max": 337.0
+        },
+        "page": 1,
+        "confidence": 0.891
+      },
+      {
+        "text": "Povynen",
+        "bbox": {
+          "x_min": 325.0,
+          "y_min": 316.0,
+          "x_max": 430.0,
+          "y_max": 344.0
+        },
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "Oiners-",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 340.0,
+          "x_max": 158.0,
+          "y_max": 351.0
+        },
+        "page": 1,
+        "confidence": 0.851
+      },
+      {
+        "text": "Corp som",
+        "bbox": {
+          "x_min": 158.0,
+          "y_min": 356.0,
+          "x_max": 237.0,
+          "y_max": 379.0
+        },
+        "page": 1,
+        "confidence": 0.669
+      },
+      {
+        "text": "Mermil Petnounn",
+        "bbox": {
+          "x_min": 333.0,
+          "y_min": 352.0,
+          "x_max": 448.0,
+          "y_max": 387.0
+        },
+        "page": 1,
+        "confidence": 0.762
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 462.0,
+          "y_min": 358.0,
+          "x_max": 486.0,
+          "y_max": 370.0
+        },
+        "page": 1,
+        "confidence": 0.407
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 316.0,
+          "y_min": 377.0,
+          "x_max": 331.0,
+          "y_max": 384.0
+        },
+        "page": 1,
+        "confidence": 0.071
+      },
+      {
+        "text": "Etono Cnoam",
+        "bbox": {
+          "x_min": 302.0,
+          "y_min": 375.0,
+          "x_max": 432.0,
+          "y_max": 408.0
+        },
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 473.0,
+          "y_min": 383.0,
+          "x_max": 491.0,
+          "y_max": 401.0
+        },
+        "page": 1,
+        "confidence": 0.146
+      },
+      {
+        "text": "AAeen",
+        "bbox": {
+          "x_min": 465.0,
+          "y_min": 400.0,
+          "x_max": 503.0,
+          "y_max": 415.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "Ms",
+        "bbox": {
+          "x_min": 342.0,
+          "y_min": 406.0,
+          "x_max": 405.0,
+          "y_max": 428.0
+        },
+        "page": 1,
+        "confidence": 0.346
+      },
+      {
+        "text": "24163.24",
+        "bbox": {
+          "x_min": 464.0,
+          "y_min": 409.0,
+          "x_max": 525.0,
+          "y_max": 431.0
+        },
+        "page": 1,
+        "confidence": 0.762
+      },
+      {
+        "text": "3RBS163m",
+        "bbox": {
+          "x_min": 107.0,
+          "y_min": 436.0,
+          "x_max": 226.0,
+          "y_max": 453.0
+        },
+        "page": 1,
+        "confidence": 0.709
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 121.0,
+          "y_min": 455.0,
+          "x_max": 140.0,
+          "y_max": 467.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 241.0,
+          "y_min": 464.0,
+          "x_max": 257.0,
+          "y_max": 472.0
+        },
+        "page": 1,
+        "confidence": 0.67
+      },
+      {
+        "text": "Provisionai Diagonosis",
+        "bbox": {
+          "x_min": 119.0,
+          "y_min": 484.0,
+          "x_max": 215.0,
+          "y_max": 498.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": "asn",
+        "bbox": {
+          "x_min": 260.0,
+          "y_min": 484.0,
+          "x_max": 414.0,
+          "y_max": 510.0
+        },
+        "page": 1,
+        "confidence": 0.419
+      }
+    ],
+    "medications": [
+      {
+        "name": "Ernment Of Thepeople",
+        "matched_term": "Ernment Of Thepeople",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.406
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.811
+      },
+      {
+        "name": "Bangladesh Hajj Oltce",
+        "matched_term": "Bangladesh Hajj Oltce",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.358
+      },
+      {
+        "name": "Makkah Mecnah Jedsah",
+        "matched_term": "Makkah Mecnah Jedsah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.376
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.4
+      },
+      {
+        "name": "Medca Center",
+        "matched_term": "Medca Center",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.368
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.447
+      },
+      {
+        "name": "Mauche Flymc Cage",
+        "matched_term": "Mauche Flymc Cage",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.252
+      },
+      {
+        "name": "Papoe",
+        "matched_term": "Papoe",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.252
+      },
+      {
+        "name": "Moat",
+        "matched_term": "Moat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.186
+      },
+      {
+        "name": "Dach",
+        "matched_term": "Dach",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.227
+      },
+      {
+        "name": "Malex",
+        "matched_term": "Malex",
+        "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+        "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.703
+      },
+      {
+        "name": "Fender",
+        "matched_term": "Fender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.408
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "Bkce Gaa Ic Ng",
+        "matched_term": "Bkce Gaa Ic Ng",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.229
+      },
+      {
+        "name": "Ne Iay",
+        "matched_term": "Ne Iay",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.154
+      },
+      {
+        "name": "Mncebac",
+        "matched_term": "Mncebac",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.275
+      },
+      {
+        "name": "Vsn",
+        "matched_term": "Vsn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.184
+      },
+      {
+        "name": "Chief Compaints Fravir",
+        "matched_term": "Chief Compaints Fravir",
+        "drug_id": "200b58ba-a9da-4007-bc6a-76c20a342a8d",
+        "brand_id": "6bbb9828-8aed-4978-a6ca-4443d81618ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.293
+      },
+      {
+        "name": "Laie Se-Z",
+        "matched_term": "Laie Se-Z",
+        "drug_id": "e1f98be2-2485-4530-9d8a-55b0ade013bc",
+        "brand_id": "7f6af8c7-15d3-414a-b61d-51347b4d0ddf",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Pemacatrna",
+        "matched_term": "Pemacatrna",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.244
+      },
+      {
+        "name": "Plse Un",
+        "matched_term": "Plse Un",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.246
+      },
+      {
+        "name": "Cupmon My",
+        "matched_term": "Cupmon My",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.318
+      },
+      {
+        "name": "Lemp Am",
+        "matched_term": "Lemp Am",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "f6135d7e-618c-463b-a19c-2ddcc870838d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      },
+      {
+        "name": "Ansene",
+        "matched_term": "Ansene",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.25
+      },
+      {
+        "name": "Dehyaratior",
+        "matched_term": "Dehyaratior",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.378
+      },
+      {
+        "name": "Povynen",
+        "matched_term": "Povynen",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.243
+      },
+      {
+        "name": "Respracun",
+        "matched_term": "Respracun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.401
+      },
+      {
+        "name": "Oiners",
+        "matched_term": "Oiners",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.383
+      },
+      {
+        "name": "Mermil Petnounn",
+        "matched_term": "Mermil Petnounn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.343
+      },
+      {
+        "name": "Corp Som",
+        "matched_term": "Corp Som",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Etonov",
+        "matched_term": "Etonov",
+        "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+        "brand_id": "34473d07-4280-45e1-b8dc-7dca439db1b9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.514
+      },
+      {
+        "name": "Aaeen Ms Rbs",
+        "matched_term": "Aaeen Ms Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.263
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.364
+      },
+      {
+        "name": "Provisionai Diagonosis",
+        "matched_term": "Provisionai Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.436
+      },
+      {
+        "name": "Asn",
+        "matched_term": "Asn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.189
+      }
+    ]
+  }
+}

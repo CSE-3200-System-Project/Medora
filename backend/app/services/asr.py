@@ -214,7 +214,7 @@ def transcribe_with_language(tmp_path: str, language: str, model: WhisperModel) 
         text = " ".join(seg.text.strip() for seg in segment_list).strip()
         confidence = calculate_confidence(segment_list)
         
-        logger.info(f"[{language}] Transcription: '{text[:50]}...' conf={confidence:.2f}")
+        logger.info("transcription_complete language=%s chars=%d confidence=%.2f", language, len(text), confidence)
         
         return TranscriptionResult(text=text, confidence=confidence, language=language)
         

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "ad17df15f7b833cde091c8571b0b170e9fe5186eabe958199cb1ecfbe157f032",
+  "record_id": "RX-0014",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 12147.41399999184,
+  "failure": null,
+  "response_sha256": "40e3fe52735796ce1cb5540d421e6eaab4c7866ee453f56bce6b450b4d13d57d",
+  "response": {
+    "raw_text": "Ad_ Excision + 4/A.\nRx\n- Cap. Flux (500 mg)\n-40\n- 26. Final (100 mg) -10\n0 +0+2.\nsome\n- Mardin-@",
+    "lines": [
+      {
+        "text": "Ad_ Excision + 4/A.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "- Cap. Flux (500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "-40",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "- 26. Final (100 mg) -10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "0 +0+2.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "some",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      },
+      {
+        "text": "- Mardin-@",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.554
+      }
+    ]
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "292db0daec300ea1c371b756e79357f3abf36bd7cdb7037dd39d5dba6a132aa9",
+  "record_id": "RX-0068",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 24573.14100000076,
+  "failure": null,
+  "response_sha256": "2a89e9d97907da20d84445cb036aac01315ad421cea8b3689c86f09e2bc6d8f8",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH!\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD : 45< 97Mm\nS112\nMedice: Conter:\n400701474\nFigem ID\n:020304\nPass:sox: No\nDiatilot\nHEALTH PROFILE\n1. Blood Ghari\n3. Heuit Diseases\nNO\n4 Lung Dehar\n7.Mental Discaso;\n& Rased Saga' IRUS):\n11 Diul; Halory,\nChief Complaints:\nViait No:\nOF\nRx\n724 Horas\n0-+07) -\nYernic-\nAnbem&\nDenydration-\nRespiration-\nOthers-\n92% Aceciofenac (15)\nLap ometric\nORS (2)\nFBS/RBS-\nECG\nProvisional Diagonosis\nŽTE COPY\nData:",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "TREATMENT CARD : 45< 97Mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "S112",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Medice: Conter:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "400701474",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Figem ID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": ":020304",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Pass:sox: No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Diatilot",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "1. Blood Ghari",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "3. Heuit Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "4 Lung Dehar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "7.Mental Discaso;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "& Rased Saga' IRUS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "11 Diul; Halory,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Viait No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "OF",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "724 Horas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "0-+07) -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Yernic-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Anbem&",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Denydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "92% Aceciofenac (15)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Lap ometric",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "ORS (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "ŽTE COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      },
+      {
+        "text": "Data:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.602
+      }
+    ]
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "6fe3c3b6cfb2a291ee9799e33be92ae0de0a9bcf6d2d5f1fb4fe11ab7fe975c2",
+  "record_id": "RX-0079",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 40762.59340000979,
+  "failure": null,
+  "response_sha256": "92e6883be1aeb38529da7da0b0e7cdc32bf25f0ba2a6cb553250787408bc3746",
+  "response": {
+    "raw_text": "Dr.Arifur Rahman Sumon\nMBBS DMC).FCPS (Medicine\nMD (Cardiology).BCS (Health)\nMedicine &Heart Specialist\n15 FE82024\nR\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar,Dhaka.\nbr\n--\n-0\nshamima Akfgit\nB0LL0/80M\nDMT+H Hhytnect Snonlun\nDud\n5nt5\n1+oiho\nMToas\nT52is051+0+0m0\n5\nMa\nT4b161+0+1\nMC\nDupna5\n05AR2024\np120/64Htu\nh/\nChamber:\nHitech Multicare Hospital Ltd.\n164East KafrulDhaka CantonmentDhoka-1206\nLO\nCOSE\npbm CH ne01969959097Dognsc InmionDsk01708574403\ngencNedclOce01407093884Floor Marger0167312071101407093887\n.-\nAbulonceSece01917042946.01682912304Emlhitehmch164@gmol.com",
+    "lines": [
+      {
+        "text": "Dr.Arifur Rahman Sumon",
+        "bbox": {
+          "x_min": 36.0,
+          "y_min": 81.0,
+          "x_max": 370.0,
+          "y_max": 106.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "MBBS DMC).FCPS (Medicine",
+        "bbox": {
+          "x_min": 40.0,
+          "y_min": 110.0,
+          "x_max": 246.0,
+          "y_max": 124.0
+        },
+        "page": 1,
+        "confidence": 0.937
+      },
+      {
+        "text": "MD (Cardiology).BCS (Health)",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 128.0,
+          "x_max": 242.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.912
+      },
+      {
+        "text": "Medicine &Heart Specialist",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 147.0,
+          "x_max": 234.0,
+          "y_max": 166.0
+        },
+        "page": 1,
+        "confidence": 0.974
+      },
+      {
+        "text": "15 FE82024",
+        "bbox": {
+          "x_min": 443.0,
+          "y_min": 135.0,
+          "x_max": 539.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.914
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 729.0,
+          "y_min": 137.0,
+          "x_max": 858.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.287
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": {
+          "x_min": 41.0,
+          "y_min": 166.0,
+          "x_max": 313.0,
+          "y_max": 186.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": {
+          "x_min": 43.0,
+          "y_min": 185.0,
+          "x_max": 333.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "Sher-e-Bangla Nagar,Dhaka.",
+        "bbox": {
+          "x_min": 45.0,
+          "y_min": 204.0,
+          "x_max": 236.0,
+          "y_max": 223.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "br",
+        "bbox": {
+          "x_min": 537.0,
+          "y_min": 216.0,
+          "x_max": 598.0,
+          "y_max": 245.0
+        },
+        "page": 1,
+        "confidence": 0.361
+      },
+      {
+        "text": "--",
+        "bbox": {
+          "x_min": 703.0,
+          "y_min": 218.0,
+          "x_max": 862.0,
+          "y_max": 241.0
+        },
+        "page": 1,
+        "confidence": 0.738
+      },
+      {
+        "text": "-0",
+        "bbox": {
+          "x_min": 695.0,
+          "y_min": 238.0,
+          "x_max": 861.0,
+          "y_max": 260.0
+        },
+        "page": 1,
+        "confidence": 0.472
+      },
+      {
+        "text": "shamima Akfgit",
+        "bbox": {
+          "x_min": 46.0,
+          "y_min": 255.0,
+          "x_max": 271.0,
+          "y_max": 290.0
+        },
+        "page": 1,
+        "confidence": 0.635
+      },
+      {
+        "text": "B0LL0/80M",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 360.0,
+          "x_max": 243.0,
+          "y_max": 408.0
+        },
+        "page": 1,
+        "confidence": 0.506
+      },
+      {
+        "text": "DMT+H Hhytnect Snonlun",
+        "bbox": {
+          "x_min": 335.0,
+          "y_min": 351.0,
+          "x_max": 753.0,
+          "y_max": 393.0
+        },
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "Dud",
+        "bbox": {
+          "x_min": 635.0,
+          "y_min": 382.0,
+          "x_max": 696.0,
+          "y_max": 409.0
+        },
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "5nt5",
+        "bbox": {
+          "x_min": 193.0,
+          "y_min": 491.0,
+          "x_max": 486.0,
+          "y_max": 540.0
+        },
+        "page": 1,
+        "confidence": 0.539
+      },
+      {
+        "text": "1+oiho",
+        "bbox": {
+          "x_min": 510.0,
+          "y_min": 508.0,
+          "x_max": 619.0,
+          "y_max": 537.0
+        },
+        "page": 1,
+        "confidence": 0.345
+      },
+      {
+        "text": "MToas",
+        "bbox": {
+          "x_min": 504.0,
+          "y_min": 556.0,
+          "x_max": 605.0,
+          "y_max": 579.0
+        },
+        "page": 1,
+        "confidence": 0.419
+      },
+      {
+        "text": "T52is051+0+0m0",
+        "bbox": {
+          "x_min": 196.0,
+          "y_min": 587.0,
+          "x_max": 521.0,
+          "y_max": 632.0
+        },
+        "page": 1,
+        "confidence": 0.603
+      },
+      {
+        "text": "5",
+        "bbox": {
+          "x_min": 159.0,
+          "y_min": 665.0,
+          "x_max": 183.0,
+          "y_max": 687.0
+        },
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "Ma",
+        "bbox": {
+          "x_min": 688.0,
+          "y_min": 656.0,
+          "x_max": 812.0,
+          "y_max": 682.0
+        },
+        "page": 1,
+        "confidence": 0.487
+      },
+      {
+        "text": "T4b161+0+1",
+        "bbox": {
+          "x_min": 219.0,
+          "y_min": 812.0,
+          "x_max": 410.0,
+          "y_max": 855.0
+        },
+        "page": 1,
+        "confidence": 0.658
+      },
+      {
+        "text": "MC",
+        "bbox": {
+          "x_min": 427.0,
+          "y_min": 826.0,
+          "x_max": 610.0,
+          "y_max": 858.0
+        },
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "Dupna5",
+        "bbox": {
+          "x_min": 176.0,
+          "y_min": 885.0,
+          "x_max": 508.0,
+          "y_max": 925.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "05AR2024",
+        "bbox": {
+          "x_min": 177.0,
+          "y_min": 964.0,
+          "x_max": 266.0,
+          "y_max": 991.0
+        },
+        "page": 1,
+        "confidence": 0.778
+      },
+      {
+        "text": "p120/64Htu",
+        "bbox": {
+          "x_min": 286.0,
+          "y_min": 969.0,
+          "x_max": 440.0,
+          "y_max": 1019.0
+        },
+        "page": 1,
+        "confidence": 0.496
+      },
+      {
+        "text": "h/",
+        "bbox": {
+          "x_min": 660.0,
+          "y_min": 992.0,
+          "x_max": 782.0,
+          "y_max": 1017.0
+        },
+        "page": 1,
+        "confidence": 0.483
+      },
+      {
+        "text": "Chamber:",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 1089.0,
+          "x_max": 275.0,
+          "y_max": 1108.0
+        },
+        "page": 1,
+        "confidence": 0.992
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 1112.0,
+          "x_max": 481.0,
+          "y_max": 1138.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "164East KafrulDhaka CantonmentDhoka-1206",
+        "bbox": {
+          "x_min": 229.0,
+          "y_min": 1139.0,
+          "x_max": 476.0,
+          "y_max": 1161.0
+        },
+        "page": 1,
+        "confidence": 0.906
+      },
+      {
+        "text": "LO",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 1163.0,
+          "x_max": 136.0,
+          "y_max": 1170.0
+        },
+        "page": 1,
+        "confidence": 0.266
+      },
+      {
+        "text": "COSE",
+        "bbox": {
+          "x_min": 162.0,
+          "y_min": 1164.0,
+          "x_max": 186.0,
+          "y_max": 1171.0
+        },
+        "page": 1,
+        "confidence": 0.583
+      },
+      {
+        "text": "pbm CH ne01969959097Dognsc InmionDsk01708574403",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 1156.0,
+          "x_max": 486.0,
+          "y_max": 1171.0
+        },
+        "page": 1,
+        "confidence": 0.831
+      },
+      {
+        "text": "gencNedclOce01407093884Floor Marger0167312071101407093887",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 1168.0,
+          "x_max": 486.0,
+          "y_max": 1185.0
+        },
+        "page": 1,
+        "confidence": 0.844
+      },
+      {
+        "text": ".-",
+        "bbox": {
+          "x_min": 535.0,
+          "y_min": 1160.0,
+          "x_max": 809.0,
+          "y_max": 1175.0
+        },
+        "page": 1,
+        "confidence": 0.567
+      },
+      {
+        "text": "AbulonceSece01917042946.01682912304Emlhitehmch164@gmol.com",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 1178.0,
+          "x_max": 489.0,
+          "y_max": 1201.0
+        },
+        "page": 1,
+        "confidence": 0.806
+      }
+    ]
+  }
+}

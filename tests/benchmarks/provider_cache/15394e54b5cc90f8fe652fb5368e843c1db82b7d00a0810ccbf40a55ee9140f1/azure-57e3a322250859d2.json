@@ -1,0 +1,585 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0100",
+  "source_sha256": "15394e54b5cc90f8fe652fb5368e843c1db82b7d00a0810ccbf40a55ee9140f1",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:11:02.764364+00:00",
+  "runtime_ms": 25643.995500009623,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinahv.Jeddah\nTREATMENT CARD ( 199192\n₾F -G223\nMedical Center\nPassport No.\nE03456212\nPlicran ID: 1:54141\nAge 39\nNamu\nAKM HARUN OR RASHID\nThaRIPCHALANI\nDiain NARAYANGAN\nGende:\nHEALTH PROFILE\n120.50\nNO\nBlood Group\nNO\n6 Cistetos\n& Blood Sugar (RBE)\n10 LIVET DISOLAR\n12. duty cthur atinormalties\n11. Dnig History\n24 May 2024\nChief Complaints:\n1.736 Nuphar (som) @\nPulse\nSkG onatid\n10\nDehydration-\nRespiration-\nOthers-\nTo Calcium D3\nFBSIRBS-\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Makkah/Madinahv.Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "TREATMENT CARD ( 199192",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "₾F -G223",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Medical Center",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Passport No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "E03456212",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Plicran ID: 1:54141",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Age 39",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Namu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "AKM HARUN OR RASHID",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "ThaRIPCHALANI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Diain NARAYANGAN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Gende:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "120.50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "6 Cistetos",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "& Blood Sugar (RBE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "10 LIVET DISOLAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "12. duty cthur atinormalties",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "11. Dnig History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "1.736 Nuphar (som) @",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "SkG onatid",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "To Calcium D3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.595
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Makkah Madinahv Jeddah",
+        "matched_term": "Makkah Madinahv Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Plicran Id",
+        "matched_term": "Plicran Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Age M",
+        "matched_term": "Age M",
+        "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+        "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Namu",
+        "matched_term": "Namu",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Rakmax",
+        "matched_term": "Rakmax",
+        "drug_id": "e5652fab-1a8f-4530-977e-eee9a94328c8",
+        "brand_id": "22f3cfe0-3adc-4d05-9bfd-e026f79c6026",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Tharipchalani",
+        "matched_term": "Tharipchalani",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Diain Narayangan",
+        "matched_term": "Diain Narayangan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Gende",
+        "matched_term": "Gende",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Cistetos",
+        "matched_term": "Cistetos",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Livet",
+        "matched_term": "Livet",
+        "drug_id": "67da7501-9117-42f8-ae17-ec232b4f8bca",
+        "brand_id": "dd0b88be-f71c-4e21-9d2b-9789a40c662d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Dpl20",
+        "matched_term": "Dpl20",
+        "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+        "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.484
+      },
+      {
+        "name": "Dnig History",
+        "matched_term": "Dnig History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "May",
+        "matched_term": "May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Nuphar Lutea",
+        "matched_term": "Nuphar Lutea",
+        "drug_id": "5dc818f4-d9bf-46b0-babf-2754fac7c988",
+        "brand_id": "24c5cff5-5bc4-4a55-a835-00be8bb52a3e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.471
+      },
+      {
+        "name": "Pulse",
+        "matched_term": "Pulse",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Skg Onatid",
+        "matched_term": "Skg Onatid",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Calcium-D",
+        "matched_term": "Calcium-D",
+        "drug_id": "3cc456e5-d170-4995-aa43-c598284ea0c8",
+        "brand_id": "54fbed0d-27eb-48ae-861e-11d0b68ca19b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.648
+      },
+      {
+        "name": "Fbsirbs",
+        "matched_term": "Fbsirbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.268
+      }
+    ]
+  }
+}

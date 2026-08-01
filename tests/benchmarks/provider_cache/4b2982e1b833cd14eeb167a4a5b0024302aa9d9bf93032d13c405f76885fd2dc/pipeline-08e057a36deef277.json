@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0084",
+  "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:37:10.497446+00:00",
+  "runtime_ms": 19881.701099991915,
+  "output": {
+    "medications": [
+      {
+        "name": "Taten",
+        "matched_term": "Taten",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "1 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.254
+      },
+      {
+        "name": "Clobetasome Aint ---",
+        "matched_term": "Clobetasome Aint ---",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.203
+      },
+      {
+        "name": "Napa Extend",
+        "matched_term": "Napa Extend",
+        "drug_id": "55b2f26d-d4f8-49ec-aaf8-01b4d6b55eda",
+        "brand_id": "3d6cf61a-b968-41e2-9dbd-b77b9e4551f0",
+        "dosage": "185mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.634
+      },
+      {
+        "name": "Stats West End",
+        "matched_term": "Stats West End",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.203
+      },
+      {
+        "name": "omeprazole",
+        "matched_term": "omeprazole",
+        "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.583
+      },
+      {
+        "name": "Euro",
+        "matched_term": "Euro",
+        "drug_id": "d7510e30-7ea3-48b1-936b-dd4fb3e56f98",
+        "brand_id": "99e9ec99-80ce-4f0f-b17d-64d135accb48",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.583
+      }
+    ],
+    "raw_text": "TAB. Taten (1 mg)\n- Clobetasome aint --- D\nDO Napa Extend (185mg)-@\nstats (west end) -Brev\nCap Onceprazole (20m)\n> + ats (euro camp)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 19846,
+      "detected_regions": 1,
+      "ocr_line_count": 6,
+      "yolo_avg_confidence": 0.9158,
+      "yolo_min_confidence": 0.9158,
+      "yolo_max_confidence": 0.9158,
+      "ocr_avg_confidence": 0.451,
+      "ocr_min_confidence": 0.451,
+      "ocr_max_confidence": 0.451,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 274.38616943359375,
+            "y_min": 285.414794921875,
+            "x_max": 515.415283203125,
+            "y_max": 482.8173828125
+          },
+          "score": 0.9158
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "TAB. Taten (1 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        },
+        {
+          "text": "- Clobetasome aint --- D",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        },
+        {
+          "text": "DO Napa Extend (185mg)-@",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        },
+        {
+          "text": "stats (west end) -Brev",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        },
+        {
+          "text": "Cap Onceprazole (20m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        },
+        {
+          "text": "> + ats (euro camp)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.451
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

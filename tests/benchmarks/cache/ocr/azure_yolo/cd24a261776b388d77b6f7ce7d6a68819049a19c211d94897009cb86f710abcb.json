@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "cd24a261776b388d77b6f7ce7d6a68819049a19c211d94897009cb86f710abcb",
+  "record_id": "RX-0025",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7039.278399999603,
+  "failure": null,
+  "response_sha256": "467b989c21d4bc03de9760884588084dfeb38c42ba7db57ee792af5f420fd4d5",
+  "response": {
+    "raw_text": "Econan ake(i)\nTab Fexo 10\nA",
+    "lines": [
+      {
+        "text": "Econan ake(i)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.61
+      },
+      {
+        "text": "Tab Fexo 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.61
+      },
+      {
+        "text": "A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.61
+      }
+    ]
+  }
+}

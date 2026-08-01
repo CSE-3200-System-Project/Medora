@@ -8,6 +8,7 @@ lab reports, health metrics, and prescriptions.
 
 import logging
 import uuid
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import func, select, distinct
@@ -22,6 +23,8 @@ from app.db.models.patient_data_sharing import (
     PatientDataSharingPreference,
 )
 from app.db.models.profile import Profile
+from app.db.models.processing_consent import ProcessingConsentGrant
+from app.schemas.processing_consent import ProcessingPurpose
 from app.routes.auth import get_current_user_token
 from app.schemas.patient_data_sharing import (
     DoctorSharingSummary,
@@ -49,6 +52,63 @@ async def _require_patient(user, db: AsyncSession) -> Profile:
             detail="Only patients can manage data sharing preferences",
         )
     return profile
+
+
+async def _sync_clinical_sharing_grant(
+    db: AsyncSession,
+    *,
+    patient_id: str,
+    doctor_id: str,
+    preference: PatientDataSharingPreference | None,
+) -> None:
+    """Version the purpose grant alongside the category-level authorization."""
+    now = datetime.now(timezone.utc)
+    active = (
+        await db.execute(
+            select(ProcessingConsentGrant)
+            .where(
+                ProcessingConsentGrant.subject_id == patient_id,
+                ProcessingConsentGrant.purpose == ProcessingPurpose.CLINICAL_SHARING.value,
+                ProcessingConsentGrant.recipient_id == doctor_id,
+                ProcessingConsentGrant.revoked_at.is_(None),
+            )
+            .with_for_update()
+        )
+    ).scalars().all()
+    for grant in active:
+        grant.revoked_at = now
+        grant.revoked_by_id = patient_id
+
+    scopes = [] if preference is None else [
+        field.removeprefix("can_view_")
+        for field in SHARING_CATEGORY_FIELDS
+        if field != "can_use_ai" and bool(getattr(preference, field, False))
+    ]
+    if not scopes:
+        return
+
+    latest_version = (
+        await db.execute(
+            select(func.max(ProcessingConsentGrant.version)).where(
+                ProcessingConsentGrant.subject_id == patient_id,
+                ProcessingConsentGrant.purpose == ProcessingPurpose.CLINICAL_SHARING.value,
+                ProcessingConsentGrant.recipient_id == doctor_id,
+            )
+        )
+    ).scalar() or 0
+    db.add(
+        ProcessingConsentGrant(
+            subject_id=patient_id,
+            purpose=ProcessingPurpose.CLINICAL_SHARING.value,
+            version=int(latest_version) + 1,
+            scopes=sorted(scopes),
+            provider="medora",
+            recipient_id=doctor_id,
+            policy_version="softwarex-v1",
+            valid_from=now,
+            granted_by_id=patient_id,
+        )
+    )
 
 
 def _build_doctor_name(profile: Profile) -> str:
@@ -298,6 +358,8 @@ async def update_sharing_for_doctor(
         if field in SHARING_CATEGORY_FIELDS:
             setattr(pref, field, value)
 
+    await db.flush()
+    await _sync_clinical_sharing_grant(db, patient_id=user.id, doctor_id=doctor_id, preference=pref)
     await db.commit()
     await db.refresh(pref)
     return SharingCategoryResponse.model_validate(pref)
@@ -349,6 +411,8 @@ async def bulk_update_sharing(
     for field in SHARING_CATEGORY_FIELDS:
         setattr(pref, field, body.share_all)
 
+    await db.flush()
+    await _sync_clinical_sharing_grant(db, patient_id=user.id, doctor_id=doctor_id, preference=pref)
     await db.commit()
     await db.refresh(pref)
     return SharingCategoryResponse.model_validate(pref)
@@ -376,6 +440,7 @@ async def delete_sharing_for_doctor(
     ).scalar_one_or_none()
 
     if pref:
+        await _sync_clinical_sharing_grant(db, patient_id=user.id, doctor_id=doctor_id, preference=None)
         await db.delete(pref)
         await db.commit()
 

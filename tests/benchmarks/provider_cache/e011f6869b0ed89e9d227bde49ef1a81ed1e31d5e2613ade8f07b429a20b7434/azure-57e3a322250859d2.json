@@ -1,0 +1,297 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0098",
+  "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:10:07.025739+00:00",
+  "runtime_ms": 14666.459799991571,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkahiMadnah(Jeddah\nTREATMENT CARD/ FTYITE\nMedica. Center:\nकश्चन नं. G048\nParim D\nPassport No\nA01842524\nMrktab Nu\nName_\nHEALTH PROFILE\nNO\nChef Compraista:\nRx\n* Tex. Plc (51%)\nCxham\nECH\nProviGonal Diagnosis\nइल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "MakkahiMadnah(Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "TREATMENT CARD/ FTYITE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Medica. Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "कश्चन नं. G048",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Parim D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "A01842524",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Mrktab Nu",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Name_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Chef Compraista:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "* Tex. Plc (51%)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "Cxham",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "ECH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "ProviGonal Diagnosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      },
+      {
+        "text": "इल टमिष्ठान (लकरा हिलिसिस (गय वंशमें) कन् क बाबहा ण्डी वडिवच उन्हें कम अन्दर शर।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.524
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Bangladesh Haj Office",
+        "matched_term": "Bangladesh Haj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Makkahimadnah Jeddah",
+        "matched_term": "Makkahimadnah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Treatment Card Ftyite",
+        "matched_term": "Treatment Card Ftyite",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "MediCare",
+        "matched_term": "MediCare",
+        "drug_id": "90028d82-e533-446c-b68c-889622fd6e09",
+        "brand_id": "2435f0a4-79fb-46fa-af39-38a44848fd7e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Parib",
+        "matched_term": "Parib",
+        "drug_id": "70d8e549-ab77-4256-bc2a-d415d053432e",
+        "brand_id": "483fa59e-f55f-4eaf-9e51-e3c71e04f967",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Mrktab Nu Name",
+        "matched_term": "Mrktab Nu Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Chef Compraista Rx",
+        "matched_term": "Chef Compraista Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "G-Tex",
+        "matched_term": "G-Tex",
+        "drug_id": "25d597c2-f62b-4be5-9b7a-dd3e94213ad4",
+        "brand_id": "73e086f7-bf33-43c8-81f2-a7d9a9d50b73",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.616
+      },
+      {
+        "name": "Cxham",
+        "matched_term": "Cxham",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Ech",
+        "matched_term": "Ech",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Provigonal Diagnosis",
+        "matched_term": "Provigonal Diagnosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      }
+    ]
+  }
+}

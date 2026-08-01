@@ -44,7 +44,13 @@ Supabase is Postgres plus Auth, Realtime, Storage and row-level security primiti
 
 ### B5. "What's the consistency model on the booking path?"
 
-Read-your-writes plus eventual consistency on the *broadcast*. The transactional commit is durable and immediate; the Realtime broadcast is best-effort with sub-second median (~500 ms). If a client misses a broadcast, the next slot fetch reconciles. The soft-hold + commit pattern is what makes the *first* writer always win deterministically; the second client sees a 409 only in the rare race where two clients both hit commit before either has propagated.
+Read-your-writes plus eventual consistency on the *broadcast*. The transactional
+commit is durable and immediate; the outbox/realtime propagation is measured
+separately and is not the source of booking consistency. If a client misses a
+broadcast, the next slot fetch reconciles with the database. The advisory lock
+and active-slot unique index permit exactly one commit; competing requests receive
+a conflict response. Measured latency belongs only in the generated booking
+evidence table, never as a hand-copied estimate.
 
 ### B6. "Soft holds — what TTL? What if the patient's network drops mid-confirmation?"
 

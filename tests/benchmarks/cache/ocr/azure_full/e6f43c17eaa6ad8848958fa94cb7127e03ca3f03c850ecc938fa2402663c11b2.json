@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e6f43c17eaa6ad8848958fa94cb7127e03ca3f03c850ecc938fa2402663c11b2",
+  "record_id": "RX-0012",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 41059.433100002934,
+  "failure": null,
+  "response_sha256": "299e23253742f5b6bfc1fd61c665260d00c2dfcad88fcd7074cedee382a3e5f7",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / नावहभज\nG034\nMedical Center:\nE00140385\nPilgrim ID.\n9500118\nPassport No\nMaklab No ...... 43-\nGender\nMALE\nDistrict\nDHAKA\nThana\nHEALTH PROFILE\n120/80\n1. Blood Group:\nNO\n2. Blood Pressure\nNO\n3. Howrt Disonsa:\nNO\n4. Lung Disease:\n5. Kidney Disease:\nNO\n6. Diabolos:\n7. Mental Dis88se\n69\n8. Blood Sugar (RBS)\n9. Waight\n10. Liver Disease\n11. Drug History:\nAmdabatic\n12. Any other abnormalities\nChief Complaints:\nVist No:\nDate\n. Tab. DON-A ( 10Mg )\nPulsa-\nBP-\nCap. ESOTID (200g)\nTemp-\nAnaemia-\nDehydration-\nSINALAX SACHET\nRespiration-\nOthers-\nस्वस्त - 30दिन\n1\n27/05/24\nFBS/RBS.\nECG\nProvisional Diagonosis\nएका एमक्टिकल सम्मेलन डिक्टिव लगना मण्डल बना ने नानझुणगी थाफिया चरनाये नाम चालाड कात्र।\nNO\nTrở COPY\n27 May 2004\nName\nA S M SHAFIUL ALAM TALUKDER\nYES",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "TREATMENT CARD / नावहभज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "G034",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "E00140385",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Pilgrim ID.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "9500118",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Maklab No ...... 43-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "DHAKA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "2. Blood Pressure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "3. Howrt Disonsa:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "5. Kidney Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "6. Diabolos:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "7. Mental Dis88se",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "69",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "8. Blood Sugar (RBS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "9. Waight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "10. Liver Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Amdabatic",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "12. Any other abnormalities",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Vist No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": ". Tab. DON-A ( 10Mg )",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Pulsa-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "BP-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Cap. ESOTID (200g)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "SINALAX SACHET",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "स्वस्त - 30दिन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "27/05/24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "FBS/RBS.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "एका एमक्टिकल सम्मेलन डिक्टिव लगना मण्डल बना ने नानझुणगी थाफिया चरनाये नाम चालाड कात्र।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Trở COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "27 May 2004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "A S M SHAFIUL ALAM TALUKDER",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "YES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.76
+      }
+    ]
+  }
+}

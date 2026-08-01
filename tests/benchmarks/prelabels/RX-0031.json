@@ -1,0 +1,1026 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0031",
+  "source_sha256": "20ddb5520391e7f4c0de317ce9bcf1385a172417dda9a6162d6a66b9d0a80738",
+  "raw_transcription": "Rx\n+ Tab Ferofenadine (1205)\notper\nCy One prazete\nTae Marcolet\nislastig",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Fexofenadine",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Otper",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "One",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tae Marcolet",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Islastig",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "e9e6580de388445f823ac8edf59976ddf9929742b5395465d6814ce5501e3080"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "8b435eb451f18611767bed8eaaf3b1b444ccdc513b9d63194bc358cfd177cdfa"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "867e4a01421cfa4f06373e0a04340fb1b431fb53319d582d3692f8274cd33aa1"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVERNMENT OF THE PEOPLES REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUSAFFAIRS\nMaloarteinahJectat\nTREATMENT CAR\nMegal Codie\n18\nFaucchs\n9079L\nJMEN\ne\nGOOSNANED\nGeor\nOE\nSacEa\nKEALTAPRORLE\n051\nMec\nW0\nChet Comrciansl\nTal Ferofenodi\n(205)\n0-0\n3\nCp\nOnepragrfe\nDY\nLOCT\nW\nT0R\nLO\nTae\nMtceirt\nROK.\n3",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLES REPUBLIC OF BANGLADESH",
+          "bbox": {
+            "x_min": 216.0,
+            "y_min": 75.0,
+            "x_max": 423.0,
+            "y_max": 100.0
+          },
+          "page": 1,
+          "confidence": 0.96
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUSAFFAIRS",
+          "bbox": {
+            "x_min": 262.0,
+            "y_min": 88.0,
+            "x_max": 379.0,
+            "y_max": 106.0
+          },
+          "page": 1,
+          "confidence": 0.937
+        },
+        {
+          "text": "MaloarteinahJectat",
+          "bbox": {
+            "x_min": 282.0,
+            "y_min": 106.0,
+            "x_max": 358.0,
+            "y_max": 122.0
+          },
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "TREATMENT CAR",
+          "bbox": {
+            "x_min": 274.0,
+            "y_min": 121.0,
+            "x_max": 376.0,
+            "y_max": 139.0
+          },
+          "page": 1,
+          "confidence": 0.869
+        },
+        {
+          "text": "Megal Codie",
+          "bbox": {
+            "x_min": 190.0,
+            "y_min": 135.0,
+            "x_max": 241.0,
+            "y_max": 157.0
+          },
+          "page": 1,
+          "confidence": 0.38
+        },
+        {
+          "text": "18",
+          "bbox": {
+            "x_min": 380.0,
+            "y_min": 124.0,
+            "x_max": 433.0,
+            "y_max": 140.0
+          },
+          "page": 1,
+          "confidence": 0.915
+        },
+        {
+          "text": "Faucchs",
+          "bbox": {
+            "x_min": 289.0,
+            "y_min": 143.0,
+            "x_max": 318.0,
+            "y_max": 153.0
+          },
+          "page": 1,
+          "confidence": 0.589
+        },
+        {
+          "text": "9079L",
+          "bbox": {
+            "x_min": 333.0,
+            "y_min": 141.0,
+            "x_max": 363.0,
+            "y_max": 152.0
+          },
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "JMEN",
+          "bbox": {
+            "x_min": 382.0,
+            "y_min": 139.0,
+            "x_max": 410.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.496
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 193.0,
+            "y_min": 147.0,
+            "x_max": 219.0,
+            "y_max": 161.0
+          },
+          "page": 1,
+          "confidence": 0.654
+        },
+        {
+          "text": "GOOSNANED",
+          "bbox": {
+            "x_min": 220.0,
+            "y_min": 152.0,
+            "x_max": 270.0,
+            "y_max": 162.0
+          },
+          "page": 1,
+          "confidence": 0.47
+        },
+        {
+          "text": "Geor",
+          "bbox": {
+            "x_min": 195.0,
+            "y_min": 165.0,
+            "x_max": 212.0,
+            "y_max": 176.0
+          },
+          "page": 1,
+          "confidence": 0.627
+        },
+        {
+          "text": "OE",
+          "bbox": {
+            "x_min": 222.0,
+            "y_min": 163.0,
+            "x_max": 236.0,
+            "y_max": 170.0
+          },
+          "page": 1,
+          "confidence": 0.456
+        },
+        {
+          "text": "SacEa",
+          "bbox": {
+            "x_min": 254.0,
+            "y_min": 157.0,
+            "x_max": 293.0,
+            "y_max": 176.0
+          },
+          "page": 1,
+          "confidence": 0.194
+        },
+        {
+          "text": "KEALTAPRORLE",
+          "bbox": {
+            "x_min": 292.0,
+            "y_min": 168.0,
+            "x_max": 353.0,
+            "y_max": 187.0
+          },
+          "page": 1,
+          "confidence": 0.694
+        },
+        {
+          "text": "051",
+          "bbox": {
+            "x_min": 262.0,
+            "y_min": 186.0,
+            "x_max": 285.0,
+            "y_max": 194.0
+          },
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Mec",
+          "bbox": {
+            "x_min": 273.0,
+            "y_min": 229.0,
+            "x_max": 298.0,
+            "y_max": 240.0
+          },
+          "page": 1,
+          "confidence": 0.477
+        },
+        {
+          "text": "W0",
+          "bbox": {
+            "x_min": 386.0,
+            "y_min": 222.0,
+            "x_max": 404.0,
+            "y_max": 229.0
+          },
+          "page": 1,
+          "confidence": 0.37
+        },
+        {
+          "text": "Chet Comrciansl",
+          "bbox": {
+            "x_min": 203.0,
+            "y_min": 232.0,
+            "x_max": 253.0,
+            "y_max": 241.0
+          },
+          "page": 1,
+          "confidence": 0.612
+        },
+        {
+          "text": "Tal Ferofenodi",
+          "bbox": {
+            "x_min": 284.0,
+            "y_min": 254.0,
+            "x_max": 414.0,
+            "y_max": 281.0
+          },
+          "page": 1,
+          "confidence": 0.732
+        },
+        {
+          "text": "(205)",
+          "bbox": {
+            "x_min": 417.0,
+            "y_min": 256.0,
+            "x_max": 446.0,
+            "y_max": 267.0
+          },
+          "page": 1,
+          "confidence": 0.712
+        },
+        {
+          "text": "0-0",
+          "bbox": {
+            "x_min": 337.0,
+            "y_min": 277.0,
+            "x_max": 383.0,
+            "y_max": 288.0
+          },
+          "page": 1,
+          "confidence": 0.36
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 394.0,
+            "y_min": 272.0,
+            "x_max": 415.0,
+            "y_max": 286.0
+          },
+          "page": 1,
+          "confidence": 0.257
+        },
+        {
+          "text": "Cp",
+          "bbox": {
+            "x_min": 309.0,
+            "y_min": 297.0,
+            "x_max": 328.0,
+            "y_max": 308.0
+          },
+          "page": 1,
+          "confidence": 0.26
+        },
+        {
+          "text": "Onepragrfe",
+          "bbox": {
+            "x_min": 337.0,
+            "y_min": 286.0,
+            "x_max": 418.0,
+            "y_max": 307.0
+          },
+          "page": 1,
+          "confidence": 0.796
+        },
+        {
+          "text": "DY",
+          "bbox": {
+            "x_min": 428.0,
+            "y_min": 292.0,
+            "x_max": 448.0,
+            "y_max": 300.0
+          },
+          "page": 1,
+          "confidence": 0.723
+        },
+        {
+          "text": "LOCT",
+          "bbox": {
+            "x_min": 338.0,
+            "y_min": 308.0,
+            "x_max": 376.0,
+            "y_max": 317.0
+          },
+          "page": 1,
+          "confidence": 0.571
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 381.0,
+            "y_min": 303.0,
+            "x_max": 426.0,
+            "y_max": 315.0
+          },
+          "page": 1,
+          "confidence": 0.464
+        },
+        {
+          "text": "T0R",
+          "bbox": {
+            "x_min": 384.0,
+            "y_min": 317.0,
+            "x_max": 435.0,
+            "y_max": 327.0
+          },
+          "page": 1,
+          "confidence": 0.288
+        },
+        {
+          "text": "LO",
+          "bbox": {
+            "x_min": 439.0,
+            "y_min": 318.0,
+            "x_max": 452.0,
+            "y_max": 327.0
+          },
+          "page": 1,
+          "confidence": 0.258
+        },
+        {
+          "text": "Tae",
+          "bbox": {
+            "x_min": 309.0,
+            "y_min": 337.0,
+            "x_max": 343.0,
+            "y_max": 348.0
+          },
+          "page": 1,
+          "confidence": 0.841
+        },
+        {
+          "text": "Mtceirt",
+          "bbox": {
+            "x_min": 345.0,
+            "y_min": 334.0,
+            "x_max": 410.0,
+            "y_max": 346.0
+          },
+          "page": 1,
+          "confidence": 0.544
+        },
+        {
+          "text": "ROK.",
+          "bbox": {
+            "x_min": 355.0,
+            "y_min": 349.0,
+            "x_max": 394.0,
+            "y_max": 356.0
+          },
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 407.0,
+            "y_min": 343.0,
+            "x_max": 428.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.188
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.432
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.802
+        },
+        {
+          "name": "Maloarteinahjectat",
+          "matched_term": "Maloarteinahjectat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Treatment Car",
+          "matched_term": "Treatment Car",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.401
+        },
+        {
+          "name": "Megalax",
+          "matched_term": "Megalax",
+          "drug_id": "1a9647b5-f7ac-4276-8caa-7731fee94330",
+          "brand_id": "8aa37497-8996-48d5-91ad-2033d6badc2a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.551
+        },
+        {
+          "name": "Jmen",
+          "matched_term": "Jmen",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.193
+        },
+        {
+          "name": "Faucchs",
+          "matched_term": "Faucchs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.28
+        },
+        {
+          "name": "Goosnaned",
+          "matched_term": "Goosnaned",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.211
+        },
+        {
+          "name": "Sacea Aloe",
+          "matched_term": "Sacea Aloe",
+          "drug_id": "497977fe-7383-418b-8239-c016268333ac",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.146
+        },
+        {
+          "name": "Geor",
+          "matched_term": "Geor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Kealtaprorle",
+          "matched_term": "Kealtaprorle",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.226
+        },
+        {
+          "name": "Mec-P",
+          "matched_term": "Mec-P",
+          "drug_id": "9948d6bc-3daf-412e-bf02-d63401e1db7f",
+          "brand_id": "84f8e613-da0c-438f-830e-4c8d67acdb3d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.595
+        },
+        {
+          "name": "Chet Comrciansl",
+          "matched_term": "Chet Comrciansl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.275
+        },
+        {
+          "name": "Tal Ferofenodi",
+          "matched_term": "Tal Ferofenodi",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.232
+        },
+        {
+          "name": "Onepragrfe Dy Cp",
+          "matched_term": "Onepragrfe Dy Cp",
+          "drug_id": "4f0c5564-7aa5-49d7-a24b-ac57c04134df",
+          "brand_id": "f4d2cbe7-e4f0-4ca6-b1f3-2a92ddecc524",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.252
+        },
+        {
+          "name": "A-Lo",
+          "matched_term": "A-Lo",
+          "drug_id": "761f0302-2354-4bea-887b-4ca42d349b39",
+          "brand_id": "ffe9280b-546a-4986-ac10-ea446fbbd51d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.396
+        },
+        {
+          "name": "Mtceirt",
+          "matched_term": "Mtceirt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.245
+        },
+        {
+          "name": "Tae",
+          "matched_term": "Tae",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.232
+        },
+        {
+          "name": "Rok",
+          "matched_term": "Rok",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.172
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Heti Office\nMaskan dudinahJeddah\nTREATMENT CARDI 3ITEMS\nCom S018\nHEALTH PROFILE\n2991\nChiết Complaints:\nRx\n( 1205 )\n+ Tab Fexofenadine\notper-\nOme prajete\nJisposting\nFrohnanaf Diegopires",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Bangladesh Heti Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Maskan dudinahJeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "TREATMENT CARDI 3ITEMS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Com S018",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "2991",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Chiết Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "( 1205 )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "+ Tab Fexofenadine",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "otper-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Ome prajete",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Jisposting",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        },
+        {
+          "text": "Frohnanaf Diegopires",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.667
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "Bangladesh Heti Office",
+          "matched_term": "Bangladesh Heti Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Maskan Dudinahjeddah",
+          "matched_term": "Maskan Dudinahjeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Treatment Cardi Items",
+          "matched_term": "Treatment Cardi Items",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Como",
+          "matched_term": "Como",
+          "drug_id": "df7e297a-58ba-422f-8f87-45d21e7eb094",
+          "brand_id": "96f96d55-113c-496b-bfc6-599baf96c709",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "Chi Complaints Rx",
+          "matched_term": "Chi Complaints Rx",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Fexofenadine",
+          "matched_term": "Fexofenadine",
+          "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+          "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "Otper",
+          "matched_term": "Otper",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Ome",
+          "matched_term": "Ome",
+          "drug_id": "7b1fa286-3a42-4d88-b689-49b453895844",
+          "brand_id": "8257b2ec-8dd7-4c06-adcd-f3036520fbd3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.68
+        },
+        {
+          "name": "Jisposting",
+          "matched_term": "Jisposting",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Frohnanaf Diegopires",
+          "matched_term": "Frohnanaf Diegopires",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Fexofenadine",
+          "matched_term": "Fexofenadine",
+          "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+          "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.598
+        },
+        {
+          "name": "Otper",
+          "matched_term": "Otper",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.218
+        },
+        {
+          "name": "One",
+          "matched_term": "One",
+          "drug_id": "7a0d5861-e33d-4c57-bcc0-0db12e2d3495",
+          "brand_id": "d5d56cde-21e6-448a-9d62-ae293b8b6642",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.598
+        },
+        {
+          "name": "Tae Marcolet",
+          "matched_term": "Tae Marcolet",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.218
+        },
+        {
+          "name": "Islastig",
+          "matched_term": "Islastig",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.218
+        }
+      ],
+      "raw_text": "Rx\n+ Tab Ferofenadine (1205)\notper\nCy One prazete\nTae Marcolet\nislastig",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 5704,
+        "detected_regions": 1,
+        "ocr_line_count": 6,
+        "yolo_avg_confidence": 0.8841,
+        "yolo_min_confidence": 0.8841,
+        "yolo_max_confidence": 0.8841,
+        "ocr_avg_confidence": 0.485,
+        "ocr_min_confidence": 0.485,
+        "ocr_max_confidence": 0.485,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 276.0977783203125,
+              "y_min": 240.5714874267578,
+              "x_max": 468.5104675292969,
+              "y_max": 408.57354736328125
+            },
+            "score": 0.8841
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Rx",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          },
+          {
+            "text": "+ Tab Ferofenadine (1205)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          },
+          {
+            "text": "otper",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          },
+          {
+            "text": "Cy One prazete",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          },
+          {
+            "text": "Tae Marcolet",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          },
+          {
+            "text": "islastig",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.485
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

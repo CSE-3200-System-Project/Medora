@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "69da85af6be56ce6c2dcc6e67ab8072ecd8a6ad29bf239f25fc50a603fb24841",
+  "record_id": "RX-0093",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 12912.393399994471,
+  "failure": null,
+  "response_sha256": "9b77b761e6a85e3e3d81f3ace983037bdc8ff61accfa8f642760887bdc62cfa2",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI\nMINISTRY OF RELIGIOUS AFFAIRES\nTREATMENT CARDS TESLIM\nMicina Confer\nHEALTH PROFILE\nCher Complaints:\nItching\nDehyura:on-\n0+0+2-4-1(1)\n. Inb. Totomi long)\n0+0+8 - 9/12\nFeSIRDS\nProvisional Diagonasia\nAllergy",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANT. SPESSI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "TREATMENT CARDS TESLIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Micina Confer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Cher Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Itching",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Dehyura:on-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "0+0+2-4-1(1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": ". Inb. Totomi long)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "0+0+8 - 9/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "FeSIRDS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Provisional Diagonasia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      },
+      {
+        "text": "Allergy",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.473
+      }
+    ]
+  }
+}

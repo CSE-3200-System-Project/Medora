@@ -35,8 +35,8 @@ import {
 } from "lucide-react";
 import {
   getPatientPrescriptions,
-  acceptPrescription,
-  rejectPrescription,
+  acknowledgePrescriptionReceipt,
+  reportPrescriptionDiscrepancy,
   Prescription,
   PrescriptionStatus,
 } from "@/lib/prescription-actions";
@@ -58,7 +58,6 @@ export default function MyPrescriptionsPage() {
   const [prescriptions, setPrescriptions] = React.useState<Prescription[]>([]);
   const [activeFilter, setActiveFilter] = React.useState<"all" | PrescriptionStatus>("all");
   
-  // Rejection dialog
   const [showRejectDialog, setShowRejectDialog] = React.useState(false);
   const [selectedPrescriptionId, setSelectedPrescriptionId] = React.useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = React.useState("");
@@ -88,7 +87,7 @@ export default function MyPrescriptionsPage() {
       setSubmitting(true);
       setError(null);
 
-      await acceptPrescription(prescriptionId);
+      await acknowledgePrescriptionReceipt(prescriptionId);
       setSuccess(tCommon("prescriptions.messages.accepted"));
       
       // Reload prescriptions
@@ -116,7 +115,7 @@ export default function MyPrescriptionsPage() {
       setSubmitting(true);
       setError(null);
 
-      await rejectPrescription(selectedPrescriptionId, rejectionReason);
+      await reportPrescriptionDiscrepancy(selectedPrescriptionId, rejectionReason);
       setShowRejectDialog(false);
       setSuccess(tCommon("prescriptions.messages.rejected"));
       
@@ -149,12 +148,12 @@ export default function MyPrescriptionsPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "pending":
-        return <Badge variant="outline" className="text-yellow-600 border-yellow-600">{tCommon("medicalHistory.status.pending")}</Badge>;
-      case "accepted":
-        return <Badge variant="secondary" className="bg-success/10 text-success border-success/20">{tCommon("prescriptions.status.accepted")}</Badge>;
-      case "rejected":
-        return <Badge variant="destructive">{tCommon("prescriptions.status.rejected")}</Badge>;
+      case "pending_acknowledgment":
+        return <Badge variant="outline" className="text-yellow-600 border-yellow-600">Awaiting acknowledgment</Badge>;
+      case "receipt_acknowledged":
+        return <Badge variant="secondary" className="bg-success/10 text-success border-success/20">Receipt acknowledged</Badge>;
+      case "discrepancy_reported":
+        return <Badge variant="destructive">Discrepancy reported</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -221,9 +220,9 @@ export default function MyPrescriptionsPage() {
         <Tabs value={activeFilter} onValueChange={(v) => setActiveFilter(v as any)} className="mb-6">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all">{tCommon("prescriptions.filters.all")}</TabsTrigger>
-            <TabsTrigger value="pending">{tCommon("prescriptions.filters.pending")}</TabsTrigger>
-            <TabsTrigger value="accepted">{tCommon("prescriptions.filters.accepted")}</TabsTrigger>
-            <TabsTrigger value="rejected">{tCommon("prescriptions.filters.rejected")}</TabsTrigger>
+            <TabsTrigger value="pending_acknowledgment">Awaiting</TabsTrigger>
+            <TabsTrigger value="receipt_acknowledged">Acknowledged</TabsTrigger>
+            <TabsTrigger value="discrepancy_reported">Discrepancy</TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -459,17 +458,16 @@ export default function MyPrescriptionsPage() {
                     </div>
                   )}
 
-                  {/* Rejection Reason */}
-                  {prescription.status === "rejected" && prescription.rejection_reason && (
+                  {prescription.status === "discrepancy_reported" && prescription.discrepancy_reason && (
                     <div className="bg-destructive/10 rounded-lg p-4 border border-destructive/20">
                       <p className="text-sm text-destructive">
-                        <strong>Rejection Reason:</strong> {prescription.rejection_reason}
+                        <strong>Reported discrepancy:</strong> {prescription.discrepancy_reason}
                       </p>
                     </div>
                   )}
 
                   {/* Actions */}
-                  {prescription.status === "pending" && (
+                  {prescription.status === "pending_acknowledgment" && (
                     <div className="flex gap-3 pt-4 border-t">
                       <Button
                         variant="medical"
@@ -482,7 +480,7 @@ export default function MyPrescriptionsPage() {
                         ) : (
                           <CheckCircle2 className="w-4 h-4 mr-2" />
                         )}
-                        {tCommon("prescriptions.actions.accept")}
+                        Acknowledge receipt
                       </Button>
                       <Button
                         variant="destructive"
@@ -491,7 +489,7 @@ export default function MyPrescriptionsPage() {
                         className="flex-1"
                       >
                         <XCircle className="w-4 h-4 mr-2" />
-                        {tCommon("prescriptions.actions.reject")}
+                        Report discrepancy
                       </Button>
                     </div>
                   )}
@@ -542,7 +540,7 @@ export default function MyPrescriptionsPage() {
               ) : (
                 <XCircle className="w-4 h-4 mr-2" />
               )}
-              {tCommon("prescriptions.actions.rejectPrescription")}
+              Report discrepancy
             </Button>
           </DialogFooter>
         </DialogContent>

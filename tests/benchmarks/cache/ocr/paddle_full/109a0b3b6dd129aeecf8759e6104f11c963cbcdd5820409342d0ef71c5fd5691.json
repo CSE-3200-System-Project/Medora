@@ -1,0 +1,673 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "109a0b3b6dd129aeecf8759e6104f11c963cbcdd5820409342d0ef71c5fd5691",
+  "record_id": "RX-0062",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 38416.66639999312,
+  "failure": null,
+  "response_sha256": "f6ef3b1131413e162d1a77963b0f9a56d7b14cfe0bb26e26f06a618823ee6dba",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nMedical Center\nTREATMENT CARD/\n055\nJASMINMANIK\nPassport No\nA07153459\nMatab No 37\nName\nAge42\nGender\nFEVALE\nDisHAKA\nThARANGICHAR\nHEALTH PROFILE\n1.Blood GpN\n2.Bood Prassure\n9988\n110/70\n5.Kidney Dses\nDiabetes\n4.Lung Disease\n12 Any her abnoma\nChief Complaints:\nVisitN\nDaiMay 2024\nV7\nsonetuat\ncougn.som\nRx\nPuse q0b/mn\nO/E-\nTab.\nMoxifbxacin (ucomg\nBP.90/60H\n++-q\nf\nTemp-\nTab\nDoxopheylene (zromg)\nAraemia-\nDehydration-\n++-en\nNO\nRespiration-\n16\nmoniKartomy\nOthers-\n+-4\nrnopnasole Clomy\n++-\n18\n2\nFBS/RBS-\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 177.0,
+          "y_min": 25.0,
+          "x_max": 487.0,
+          "y_max": 43.0
+        },
+        "page": 1,
+        "confidence": 0.949
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 249.0,
+          "y_min": 43.0,
+          "x_max": 419.0,
+          "y_max": 56.0
+        },
+        "page": 1,
+        "confidence": 0.969
+      },
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 55.0,
+          "x_max": 386.0,
+          "y_max": 68.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 275.0,
+          "y_min": 66.0,
+          "x_max": 390.0,
+          "y_max": 81.0
+        },
+        "page": 1,
+        "confidence": 0.977
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 134.0,
+          "y_min": 96.0,
+          "x_max": 199.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.979
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 88.0,
+          "x_max": 406.0,
+          "y_max": 102.0
+        },
+        "page": 1,
+        "confidence": 0.95
+      },
+      {
+        "text": "055",
+        "bbox": {
+          "x_min": 423.0,
+          "y_min": 94.0,
+          "x_max": 493.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.973
+      },
+      {
+        "text": "JASMINMANIK",
+        "bbox": {
+          "x_min": 167.0,
+          "y_min": 119.0,
+          "x_max": 223.0,
+          "y_max": 136.0
+        },
+        "page": 1,
+        "confidence": 0.914
+      },
+      {
+        "text": "Passport No",
+        "bbox": {
+          "x_min": 279.0,
+          "y_min": 114.0,
+          "x_max": 329.0,
+          "y_max": 129.0
+        },
+        "page": 1,
+        "confidence": 0.769
+      },
+      {
+        "text": "A07153459",
+        "bbox": {
+          "x_min": 343.0,
+          "y_min": 112.0,
+          "x_max": 384.0,
+          "y_max": 126.0
+        },
+        "page": 1,
+        "confidence": 0.84
+      },
+      {
+        "text": "Matab No 37",
+        "bbox": {
+          "x_min": 425.0,
+          "y_min": 112.0,
+          "x_max": 479.0,
+          "y_max": 129.0
+        },
+        "page": 1,
+        "confidence": 0.802
+      },
+      {
+        "text": "Name",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 128.0,
+          "x_max": 158.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      },
+      {
+        "text": "Age42",
+        "bbox": {
+          "x_min": 448.0,
+          "y_min": 124.0,
+          "x_max": 476.0,
+          "y_max": 140.0
+        },
+        "page": 1,
+        "confidence": 0.829
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 141.0,
+          "x_max": 163.0,
+          "y_max": 152.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      },
+      {
+        "text": "FEVALE",
+        "bbox": {
+          "x_min": 165.0,
+          "y_min": 136.0,
+          "x_max": 202.0,
+          "y_max": 147.0
+        },
+        "page": 1,
+        "confidence": 0.897
+      },
+      {
+        "text": "DisHAKA",
+        "bbox": {
+          "x_min": 226.0,
+          "y_min": 133.0,
+          "x_max": 282.0,
+          "y_max": 155.0
+        },
+        "page": 1,
+        "confidence": 0.83
+      },
+      {
+        "text": "ThARANGICHAR",
+        "bbox": {
+          "x_min": 400.0,
+          "y_min": 137.0,
+          "x_max": 475.0,
+          "y_max": 153.0
+        },
+        "page": 1,
+        "confidence": 0.849
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 299.0,
+          "y_min": 160.0,
+          "x_max": 374.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "1.Blood GpN",
+        "bbox": {
+          "x_min": 217.0,
+          "y_min": 173.0,
+          "x_max": 294.0,
+          "y_max": 188.0
+        },
+        "page": 1,
+        "confidence": 0.774
+      },
+      {
+        "text": "2.Bood Prassure",
+        "bbox": {
+          "x_min": 376.0,
+          "y_min": 176.0,
+          "x_max": 439.0,
+          "y_max": 187.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "9988",
+        "bbox": {
+          "x_min": 454.0,
+          "y_min": 173.0,
+          "x_max": 479.0,
+          "y_max": 220.0
+        },
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "110/70",
+        "bbox": {
+          "x_min": 463.0,
+          "y_min": 168.0,
+          "x_max": 486.0,
+          "y_max": 180.0
+        },
+        "page": 1,
+        "confidence": 0.883
+      },
+      {
+        "text": "5.Kidney Dses",
+        "bbox": {
+          "x_min": 218.0,
+          "y_min": 189.0,
+          "x_max": 293.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.763
+      },
+      {
+        "text": "Diabetes",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 190.0,
+          "x_max": 422.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.689
+      },
+      {
+        "text": "4.Lung Disease",
+        "bbox": {
+          "x_min": 378.0,
+          "y_min": 186.0,
+          "x_max": 436.0,
+          "y_max": 197.0
+        },
+        "page": 1,
+        "confidence": 0.894
+      },
+      {
+        "text": "12 Any her abnoma",
+        "bbox": {
+          "x_min": 373.0,
+          "y_min": 216.0,
+          "x_max": 474.0,
+          "y_max": 234.0
+        },
+        "page": 1,
+        "confidence": 0.8
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 240.0,
+          "x_max": 218.0,
+          "y_max": 254.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": "VisitN",
+        "bbox": {
+          "x_min": 255.0,
+          "y_min": 239.0,
+          "x_max": 287.0,
+          "y_max": 254.0
+        },
+        "page": 1,
+        "confidence": 0.688
+      },
+      {
+        "text": "DaiMay 2024",
+        "bbox": {
+          "x_min": 400.0,
+          "y_min": 234.0,
+          "x_max": 451.0,
+          "y_max": 255.0
+        },
+        "page": 1,
+        "confidence": 0.749
+      },
+      {
+        "text": "V7",
+        "bbox": {
+          "x_min": 84.0,
+          "y_min": 257.0,
+          "x_max": 101.0,
+          "y_max": 265.0
+        },
+        "page": 1,
+        "confidence": 0.491
+      },
+      {
+        "text": "sonetuat",
+        "bbox": {
+          "x_min": 136.0,
+          "y_min": 249.0,
+          "x_max": 218.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.796
+      },
+      {
+        "text": "cougn.som",
+        "bbox": {
+          "x_min": 142.0,
+          "y_min": 262.0,
+          "x_max": 222.0,
+          "y_max": 284.0
+        },
+        "page": 1,
+        "confidence": 0.877
+      },
+      {
+        "text": "Rx",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 274.0,
+          "x_max": 281.0,
+          "y_max": 295.0
+        },
+        "page": 1,
+        "confidence": 0.625
+      },
+      {
+        "text": "Puse q0b/mn",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 292.0,
+          "x_max": 222.0,
+          "y_max": 313.0
+        },
+        "page": 1,
+        "confidence": 0.781
+      },
+      {
+        "text": "O/E-",
+        "bbox": {
+          "x_min": 137.0,
+          "y_min": 287.0,
+          "x_max": 157.0,
+          "y_max": 299.0
+        },
+        "page": 1,
+        "confidence": 0.85
+      },
+      {
+        "text": "Tab.",
+        "bbox": {
+          "x_min": 263.0,
+          "y_min": 296.0,
+          "x_max": 302.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.816
+      },
+      {
+        "text": "Moxifbxacin (ucomg",
+        "bbox": {
+          "x_min": 316.0,
+          "y_min": 291.0,
+          "x_max": 467.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "BP.90/60H",
+        "bbox": {
+          "x_min": 134.0,
+          "y_min": 309.0,
+          "x_max": 238.0,
+          "y_max": 328.0
+        },
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "++-q",
+        "bbox": {
+          "x_min": 342.0,
+          "y_min": 309.0,
+          "x_max": 438.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 473.0,
+          "y_min": 316.0,
+          "x_max": 490.0,
+          "y_max": 330.0
+        },
+        "page": 1,
+        "confidence": 0.243
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 328.0,
+          "x_max": 162.0,
+          "y_max": 339.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "Tab",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 333.0,
+          "x_max": 302.0,
+          "y_max": 347.0
+        },
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "Doxopheylene (zromg)",
+        "bbox": {
+          "x_min": 319.0,
+          "y_min": 329.0,
+          "x_max": 463.0,
+          "y_max": 351.0
+        },
+        "page": 1,
+        "confidence": 0.688
+      },
+      {
+        "text": "Araemia-",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 341.0,
+          "x_max": 173.0,
+          "y_max": 351.0
+        },
+        "page": 1,
+        "confidence": 0.865
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 354.0,
+          "x_max": 188.0,
+          "y_max": 365.0
+        },
+        "page": 1,
+        "confidence": 0.981
+      },
+      {
+        "text": "++-en",
+        "bbox": {
+          "x_min": 329.0,
+          "y_min": 346.0,
+          "x_max": 460.0,
+          "y_max": 365.0
+        },
+        "page": 1,
+        "confidence": 0.679
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 481.0,
+          "y_min": 354.0,
+          "x_max": 497.0,
+          "y_max": 361.0
+        },
+        "page": 1,
+        "confidence": 0.344
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 367.0,
+          "x_max": 184.0,
+          "y_max": 378.0
+        },
+        "page": 1,
+        "confidence": 0.93
+      },
+      {
+        "text": "16",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 369.0,
+          "x_max": 315.0,
+          "y_max": 380.0
+        },
+        "page": 1,
+        "confidence": 0.292
+      },
+      {
+        "text": "moniKartomy",
+        "bbox": {
+          "x_min": 334.0,
+          "y_min": 363.0,
+          "x_max": 466.0,
+          "y_max": 382.0
+        },
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "Others-",
+        "bbox": {
+          "x_min": 138.0,
+          "y_min": 379.0,
+          "x_max": 168.0,
+          "y_max": 393.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "+-4",
+        "bbox": {
+          "x_min": 347.0,
+          "y_min": 378.0,
+          "x_max": 468.0,
+          "y_max": 395.0
+        },
+        "page": 1,
+        "confidence": 0.588
+      },
+      {
+        "text": "rnopnasole Clomy",
+        "bbox": {
+          "x_min": 348.0,
+          "y_min": 393.0,
+          "x_max": 464.0,
+          "y_max": 411.0
+        },
+        "page": 1,
+        "confidence": 0.773
+      },
+      {
+        "text": "++-",
+        "bbox": {
+          "x_min": 354.0,
+          "y_min": 405.0,
+          "x_max": 481.0,
+          "y_max": 428.0
+        },
+        "page": 1,
+        "confidence": 0.791
+      },
+      {
+        "text": "18",
+        "bbox": {
+          "x_min": 490.0,
+          "y_min": 413.0,
+          "x_max": 516.0,
+          "y_max": 425.0
+        },
+        "page": 1,
+        "confidence": 0.558
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 373.0,
+          "y_min": 421.0,
+          "x_max": 500.0,
+          "y_max": 442.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 476.0,
+          "x_max": 180.0,
+          "y_max": 490.0
+        },
+        "page": 1,
+        "confidence": 0.934
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 139.0,
+          "y_min": 491.0,
+          "x_max": 160.0,
+          "y_max": 503.0
+        },
+        "page": 1,
+        "confidence": 0.994
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 140.0,
+          "y_min": 517.0,
+          "x_max": 231.0,
+          "y_max": 530.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      }
+    ]
+  }
+}

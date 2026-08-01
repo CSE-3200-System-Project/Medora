@@ -1,0 +1,440 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "a49ab2b2edde136f6589726362e07baef19a8d11f9e1598e007079770c28fbdd",
+  "record_id": "RX-0018",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 41718.904499997734,
+  "failure": null,
+  "response_sha256": "3329a9908385947654e2c29c6601e465f9e36bd77f6000f9bde72e4413d06d08",
+  "response": {
+    "raw_text": "Makkah/Madinah/Jeddah\nTREATMENT CARD / 19 81913\nS002\nदणाटकम नए:\nAlg'Im ID _.\n0174065\nPassport No.\nA01274756\nMaktab No.\nName\nMD. MAHARUB ALAM\nChandler\nMALE\nDistrict\nCHATTOGRAM\nKHULSHI\nThana\nHEALTH PROFILE\nB\n130/70\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\nNO\n5. Kidney Disease;\n7. Mental Disease:\nNO\n6. Diabetes:\nNO\n9. Weight:\n11. Drug History:\n10. Liver Disease:\nNO\nAntihypertensive. Antiad naAny other abnormalities:\nChief Complaints:\nNeckarche\nVisit No:\n1\n25 May 2024\nDate:\n1\nTd A .- Calm 50\n2-+3+7\n20\nAnemia-\nDehydration-\nRespiration-\nOthers-\nBSRBS)-6.8\nCG\nProvisional Diagonosis\n3 Tl Esotit (20mg)\n290+3 am, Gmis\n20\n4 Tl. Accclofenac 10\nAfEs 25/05/2\n8 ORS\n10\n3. Heart Disease:\n4. Lung Disease:\n6.11\n70\n8. Blood Sugar (RBS).\nPulse\nSP 120/80 mmHg\nTemp-\n2 Vereine Meril\n1\nMedical Center;",
+    "lines": [
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "TREATMENT CARD / 19 81913",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "S002",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "दणाटकम नए:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Alg'Im ID _.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "0174065",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Passport No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "A01274756",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Maktab No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "MD. MAHARUB ALAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Chandler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "CHATTOGRAM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "KHULSHI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Thana",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "B",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "130/70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "5. Kidney Disease;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "7. Mental Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Antihypertensive. Antiad naAny other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Neckarche",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "25 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Td A .- Calm 50",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "2-+3+7",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Anemia-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "BSRBS)-6.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "CG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "3 Tl Esotit (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "290+3 am, Gmis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "4 Tl. Accclofenac 10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "AfEs 25/05/2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "8 ORS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "6.11",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "8. Blood Sugar (RBS).",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Pulse",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "SP 120/80 mmHg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "2 Vereine Meril",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.744
+      }
+    ]
+  }
+}

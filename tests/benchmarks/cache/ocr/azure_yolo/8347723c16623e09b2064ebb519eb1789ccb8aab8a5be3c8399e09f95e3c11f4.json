@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "8347723c16623e09b2064ebb519eb1789ccb8aab8a5be3c8399e09f95e3c11f4",
+  "record_id": "RX-0089",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7640.069700006279,
+  "failure": null,
+  "response_sha256": "a7a26f12ac63d73fd57ea363f03ce929740ade7f2c81dab4219eaa4fb86167c9",
+  "response": {
+    "raw_text": "Tab levofloxacin ( 500 mg)\notofa- ebun\nDoxophiphone (200 mg)\nTab\n10\nMentiquhart (rm)\n0+off- roluri (10\nomeprazole (20m)\ncap\na toto - count (16)",
+    "lines": [
+      {
+        "text": "Tab levofloxacin ( 500 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "otofa- ebun",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Doxophiphone (200 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Tab",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "Mentiquhart (rm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "0+off- roluri (10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "omeprazole (20m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      },
+      {
+        "text": "a toto - count (16)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.544
+      }
+    ]
+  }
+}

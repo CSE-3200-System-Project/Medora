@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "ed25dcc636af130ddc9ca3cf77468907acc64e04935ff8dff45f4b29d6b357c2",
+  "record_id": "RX-0041",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 26999.549700005446,
+  "failure": null,
+  "response_sha256": "0f17aa0e74bbdc2b76f8c6dff48f5e97630e5e4e54d9784388b3f213856d1fd4",
+  "response": {
+    "raw_text": "2\nD\ny\nLlie\nD\nO0\nWRSE\nrop\n4\n2\nPO\nO\nf\n-\n#\n91/50\nRy\nR1P\nbh\nP\n2\nye\nP\n-\nE\nM3O\nEF\nRRE\nAga\nR\n2\nO\nC\n29",
+    "lines": [
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 2504.0,
+          "y_min": 567.0,
+          "x_max": 2652.0,
+          "y_max": 748.0
+        },
+        "page": 1,
+        "confidence": 0.237
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 1939.0,
+          "y_min": 759.0,
+          "x_max": 2262.0,
+          "y_max": 1217.0
+        },
+        "page": 1,
+        "confidence": 0.084
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 1485.0,
+          "y_min": 933.0,
+          "x_max": 1651.0,
+          "y_max": 1023.0
+        },
+        "page": 1,
+        "confidence": 0.31
+      },
+      {
+        "text": "Llie",
+        "bbox": {
+          "x_min": 415.0,
+          "y_min": 966.0,
+          "x_max": 506.0,
+          "y_max": 1136.0
+        },
+        "page": 1,
+        "confidence": 0.406
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 1013.0,
+          "x_max": 390.0,
+          "y_max": 2457.0
+        },
+        "page": 1,
+        "confidence": 0.388
+      },
+      {
+        "text": "O0",
+        "bbox": {
+          "x_min": 1709.0,
+          "y_min": 1129.0,
+          "x_max": 1820.0,
+          "y_max": 1324.0
+        },
+        "page": 1,
+        "confidence": 0.558
+      },
+      {
+        "text": "WRSE",
+        "bbox": {
+          "x_min": 2023.0,
+          "y_min": 1188.0,
+          "x_max": 2981.0,
+          "y_max": 1764.0
+        },
+        "page": 1,
+        "confidence": 0.246
+      },
+      {
+        "text": "rop",
+        "bbox": {
+          "x_min": 1363.0,
+          "y_min": 1259.0,
+          "x_max": 1531.0,
+          "y_max": 1621.0
+        },
+        "page": 1,
+        "confidence": 0.7
+      },
+      {
+        "text": "4",
+        "bbox": {
+          "x_min": 1714.0,
+          "y_min": 1274.0,
+          "x_max": 1801.0,
+          "y_max": 1473.0
+        },
+        "page": 1,
+        "confidence": 0.241
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 2561.0,
+          "y_min": 1365.0,
+          "x_max": 2572.0,
+          "y_max": 1377.0
+        },
+        "page": 1,
+        "confidence": 0.245
+      },
+      {
+        "text": "PO",
+        "bbox": {
+          "x_min": 2304.0,
+          "y_min": 1396.0,
+          "x_max": 2324.0,
+          "y_max": 1404.0
+        },
+        "page": 1,
+        "confidence": 0.142
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 2310.0,
+          "y_min": 1401.0,
+          "x_max": 2324.0,
+          "y_max": 1409.0
+        },
+        "page": 1,
+        "confidence": 0.16
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 1559.0,
+          "y_min": 1430.0,
+          "x_max": 1855.0,
+          "y_max": 1701.0
+        },
+        "page": 1,
+        "confidence": 0.162
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 2433.0,
+          "y_min": 1553.0,
+          "x_max": 2447.0,
+          "y_max": 1561.0
+        },
+        "page": 1,
+        "confidence": 0.165
+      },
+      {
+        "text": "#",
+        "bbox": {
+          "x_min": 1697.0,
+          "y_min": 1675.0,
+          "x_max": 1889.0,
+          "y_max": 1974.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "91/50",
+        "bbox": {
+          "x_min": 2676.0,
+          "y_min": 1748.0,
+          "x_max": 3139.0,
+          "y_max": 2202.0
+        },
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "Ry",
+        "bbox": {
+          "x_min": 1348.0,
+          "y_min": 1771.0,
+          "x_max": 1620.0,
+          "y_max": 2280.0
+        },
+        "page": 1,
+        "confidence": 0.356
+      },
+      {
+        "text": "R1P",
+        "bbox": {
+          "x_min": 2141.0,
+          "y_min": 1772.0,
+          "x_max": 2645.0,
+          "y_max": 2062.0
+        },
+        "page": 1,
+        "confidence": 0.292
+      },
+      {
+        "text": "bh",
+        "bbox": {
+          "x_min": 1668.0,
+          "y_min": 2036.0,
+          "x_max": 1943.0,
+          "y_max": 2429.0
+        },
+        "page": 1,
+        "confidence": 0.178
+      },
+      {
+        "text": "P",
+        "bbox": {
+          "x_min": 1987.0,
+          "y_min": 2176.0,
+          "x_max": 2258.0,
+          "y_max": 2381.0
+        },
+        "page": 1,
+        "confidence": 0.287
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 681.0,
+          "y_min": 2200.0,
+          "x_max": 779.0,
+          "y_max": 2556.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "ye",
+        "bbox": {
+          "x_min": 398.0,
+          "y_min": 2325.0,
+          "x_max": 646.0,
+          "y_max": 2694.0
+        },
+        "page": 1,
+        "confidence": 0.25
+      },
+      {
+        "text": "P",
+        "bbox": {
+          "x_min": 3023.0,
+          "y_min": 2355.0,
+          "x_max": 3045.0,
+          "y_max": 2363.0
+        },
+        "page": 1,
+        "confidence": 0.177
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 3149.0,
+          "y_min": 2360.0,
+          "x_max": 3164.0,
+          "y_max": 2377.0
+        },
+        "page": 1,
+        "confidence": 0.417
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 488.0,
+          "y_min": 2885.0,
+          "x_max": 606.0,
+          "y_max": 3249.0
+        },
+        "page": 1,
+        "confidence": 0.184
+      },
+      {
+        "text": "M3O",
+        "bbox": {
+          "x_min": 1285.0,
+          "y_min": 2897.0,
+          "x_max": 1350.0,
+          "y_max": 3057.0
+        },
+        "page": 1,
+        "confidence": 0.318
+      },
+      {
+        "text": "EF",
+        "bbox": {
+          "x_min": 1235.0,
+          "y_min": 2965.0,
+          "x_max": 1257.0,
+          "y_max": 2998.0
+        },
+        "page": 1,
+        "confidence": 0.303
+      },
+      {
+        "text": "RRE",
+        "bbox": {
+          "x_min": 1237.0,
+          "y_min": 2989.0,
+          "x_max": 1269.0,
+          "y_max": 3067.0
+        },
+        "page": 1,
+        "confidence": 0.207
+      },
+      {
+        "text": "Aga",
+        "bbox": {
+          "x_min": 707.0,
+          "y_min": 3078.0,
+          "x_max": 796.0,
+          "y_max": 3273.0
+        },
+        "page": 1,
+        "confidence": 0.198
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 1205.0,
+          "y_min": 3114.0,
+          "x_max": 1218.0,
+          "y_max": 3123.0
+        },
+        "page": 1,
+        "confidence": 0.078
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 1201.0,
+          "y_min": 3137.0,
+          "x_max": 1222.0,
+          "y_max": 3152.0
+        },
+        "page": 1,
+        "confidence": 0.227
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 1203.0,
+          "y_min": 3146.0,
+          "x_max": 1217.0,
+          "y_max": 3156.0
+        },
+        "page": 1,
+        "confidence": 0.162
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 1185.0,
+          "y_min": 3156.0,
+          "x_max": 1203.0,
+          "y_max": 3165.0
+        },
+        "page": 1,
+        "confidence": 0.111
+      },
+      {
+        "text": "29",
+        "bbox": {
+          "x_min": 4182.0,
+          "y_min": 3336.0,
+          "x_max": 4357.0,
+          "y_max": 3468.0
+        },
+        "page": 1,
+        "confidence": 0.161
+      }
+    ]
+  }
+}

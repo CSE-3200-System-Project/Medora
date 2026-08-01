@@ -1,0 +1,783 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0035",
+  "source_sha256": "d766b885f37e91dfff932dcec45aca27b8dc5a3d9a9476021e7fded0730f91bf",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:39:11.262281+00:00",
+  "runtime_ms": 36041.45150000113,
+  "output": {
+    "raw_text": "Bangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / यावहनज\nपटकन ने: G053\nB00786627\nMaktab No __ 44\n55\nGender\nMALE\nDistrict NADGAON\nThan PHAMCIRHAT.\nHEALTH PROFILE\n120/80\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\nYES\n5. Kidney Disease: NO\n6. Dlabeles:\n5.8\n7. Mental Disease: 80\n8. Blood Sugar (RBS):\nNO\n9. Weight:\n10. Liver Disease:\n11. Drug History:\nAntidiabede\n12. Any other abnormalitiesNO\nChief Complaints:\nVisit No:\nDals10 May 2024\nRx\nOVED\nPURA-\nBP\nTemp-\nAnnemin-\nDehydration-\nRespiration-\nOthers-\nFBS/RBS- 14.2 33\nECG\nProvisional Diagonosis\n) Tale. Tiemonium MethylSulplate\n(508)\n19.05.24\nMedical Center:\nPilgrim ID_\n0061240\nPassport No\nName\nMD ANOWAR HOSBAIN\nA+",
+    "lines": [
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "TREATMENT CARD / यावहनज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "पटकन ने: G053",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "B00786627",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Maktab No __ 44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "District NADGAON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Than PHAMCIRHAT.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "YES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "6. Dlabeles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "5.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "7. Mental Disease: 80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Antidiabede",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "12. Any other abnormalitiesNO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Dals10 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "OVED",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "PURA-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Annemin-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "FBS/RBS- 14.2 33",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": ") Tale. Tiemonium MethylSulplate",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "(508)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "19.05.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Pilgrim ID_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "0061240",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "MD ANOWAR HOSBAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "A+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      }
+    ],
+    "medications": [
+      {
+        "name": "Bangladesh Hajj Office",
+        "matched_term": "Bangladesh Hajj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Maktab No",
+        "matched_term": "Maktab No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Malex",
+        "matched_term": "Malex",
+        "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+        "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "District Nadgaon",
+        "matched_term": "District Nadgaon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Than Phamcirhat",
+        "matched_term": "Than Phamcirhat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Heart Raj",
+        "matched_term": "Heart Raj",
+        "drug_id": "a7fd22e6-a136-4acb-988e-6b7adc2a00ab",
+        "brand_id": "b88ceb73-a6ee-4a85-89a7-be23f8aa3b62",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Lung Disease",
+        "matched_term": "Lung Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Eyesol",
+        "matched_term": "Eyesol",
+        "drug_id": "d50ecf9f-0c63-4004-8fd3-ff8601579252",
+        "brand_id": "419b02e0-2f90-455e-bbef-1050d6c16ccd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Kidney Disease No",
+        "matched_term": "Kidney Disease No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Dlabeles",
+        "matched_term": "Dlabeles",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Mental Disease",
+        "matched_term": "Mental Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Blood Vita",
+        "matched_term": "Blood Vita",
+        "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+        "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Weight",
+        "matched_term": "Weight",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "MU Liver",
+        "matched_term": "MU Liver",
+        "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+        "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Drug History",
+        "matched_term": "Drug History",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Antidiar",
+        "matched_term": "Antidiar",
+        "drug_id": "5112e776-d1d5-4c20-b494-b1500d3b21fa",
+        "brand_id": "076f2c08-bd61-40bb-aa42-fd76d084c65a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Any Other Abnormalitiesno",
+        "matched_term": "Any Other Abnormalitiesno",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Visin",
+        "matched_term": "Visin",
+        "drug_id": "595eff53-845f-4baf-addd-686ace28143f",
+        "brand_id": "e5261a11-e0bb-452d-a2c4-1d1cdafa05d2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Dals May Rx",
+        "matched_term": "Dals May Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Oved",
+        "matched_term": "Oved",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Pural",
+        "matched_term": "Pural",
+        "drug_id": "e5652fab-1a8f-4530-977e-eee9a94328c8",
+        "brand_id": "a482323d-7bce-4402-9399-77340a8a8c4a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Annemin",
+        "matched_term": "Annemin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "G Rehydration",
+        "matched_term": "G Rehydration",
+        "drug_id": "01cdd5b1-8bd0-41d2-bf20-7c1361a294b0",
+        "brand_id": "9643bdd7-6f8b-4c2c-bfb6-514698a2c589",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Fbs Rbs",
+        "matched_term": "Fbs Rbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "tiemonium methylsulphate",
+        "matched_term": "tiemonium methylsulphate",
+        "drug_id": "f9069012-4eca-4ab7-870d-8ca8ba93f135",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.718
+      },
+      {
+        "name": "Pilgrim Id",
+        "matched_term": "Pilgrim Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Passport No",
+        "matched_term": "Passport No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Name",
+        "matched_term": "Name",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Md Anowar Hosbain",
+        "matched_term": "Md Anowar Hosbain",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      }
+    ]
+  }
+}

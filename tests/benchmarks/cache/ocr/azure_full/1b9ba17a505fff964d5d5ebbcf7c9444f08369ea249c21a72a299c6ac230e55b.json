@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "1b9ba17a505fff964d5d5ebbcf7c9444f08369ea249c21a72a299c6ac230e55b",
+  "record_id": "RX-0038",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 30931.977600004757,
+  "failure": null,
+  "response_sha256": "8632f3383380e2916c8a75456a6720be9cfb20f3c3e7a4b97bcef113b36921a9",
+  "response": {
+    "raw_text": "Sical, Sirai\n4 -\nMBBS. BC5 :Hcaltm)\nzilatunnesa Maythe\nvil Medical College [\nctant Professor (Child)\nAminul Islam Sheikh\nDCH (Dhaka)\nTPOzu butzer Soutien\n052:24\nRA\nTab. monan a\nwerostan\n2 12+3-20Th\nSp.\ncontan\nGetकतd - आते\nSp. Azinox ( 20w)\náp.\nBabix\n- 200 021228\n317\nottiche of\nTab Axatin (2)\notato- roma\nSp\nMucosol\n2+2+2 - Mhp\nTab And 2000 EM1 90\nQto+2-9m",
+    "lines": [
+      {
+        "text": "Sical, Sirai",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "4 -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "MBBS. BC5 :Hcaltm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "zilatunnesa Maythe",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "vil Medical College [",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "ctant Professor (Child)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Aminul Islam Sheikh",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "DCH (Dhaka)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "TPOzu butzer Soutien",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "052:24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "RA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab. monan a",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "werostan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "2 12+3-20Th",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Sp.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "contan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Getकतd - आते",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Sp. Azinox ( 20w)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "áp.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Babix",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "- 200 021228",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "317",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "ottiche of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab Axatin (2)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "otato- roma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Sp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Mucosol",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "2+2+2 - Mhp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Tab And 2000 EM1 90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      },
+      {
+        "text": "Qto+2-9m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.542
+      }
+    ]
+  }
+}

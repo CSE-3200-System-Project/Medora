@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0019",
+  "source_sha256": "5319a1b2916f695850b5682bfb0cd7ea1ae27ee9bf8417c3278c083984abd89e",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:25:25.455641+00:00",
+  "runtime_ms": 31121.606399989105,
+  "output": {
+    "medications": [
+      {
+        "name": "A-Calm",
+        "matched_term": "A-Calm",
+        "drug_id": "072b7067-7ef7-4285-ad3c-3b2095fb8777",
+        "brand_id": "7401d1d4-2cf7-41d8-9069-8019e377b734",
+        "dosage": "50 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.731
+      },
+      {
+        "name": "Napa",
+        "matched_term": "Napa",
+        "drug_id": "497b3eaf-9214-4707-827e-b592072b4abf",
+        "brand_id": "32d2ccff-8c00-4a39-ba5a-61d2e971c751",
+        "dosage": "500mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.731
+      },
+      {
+        "name": "Ho Generalin Sy",
+        "matched_term": "Ho Generalin Sy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.3
+      }
+    ],
+    "raw_text": "Tab. A-calm (50 mg)\n( 20 )\nTab. Napa (500mg)\n(20)\nho. Generalin M30/70 (2) 2 sy52 82-12)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 31087,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.7291,
+      "yolo_min_confidence": 0.7291,
+      "yolo_max_confidence": 0.7291,
+      "ocr_avg_confidence": 0.666,
+      "ocr_min_confidence": 0.666,
+      "ocr_max_confidence": 0.666,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 224.03038024902344,
+            "y_min": 248.18043518066406,
+            "x_max": 509.3299560546875,
+            "y_max": 398.4328308105469
+          },
+          "score": 0.7291
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Tab. A-calm (50 mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.666
+        },
+        {
+          "text": "( 20 )",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.666
+        },
+        {
+          "text": "Tab. Napa (500mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.666
+        },
+        {
+          "text": "(20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.666
+        },
+        {
+          "text": "ho. Generalin M30/70 (2) 2 sy52 82-12)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.666
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

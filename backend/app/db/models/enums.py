@@ -48,9 +48,9 @@ class PrescriptionType(str, enum.Enum):
 
 
 class PrescriptionStatus(str, enum.Enum):
-    PENDING = "pending"
-    ACCEPTED = "accepted"
-    REJECTED = "rejected"
+    PENDING_ACKNOWLEDGMENT = "pending_acknowledgment"
+    RECEIPT_ACKNOWLEDGED = "receipt_acknowledged"
+    DISCREPANCY_REPORTED = "discrepancy_reported"
 
 
 class MealInstruction(str, enum.Enum):

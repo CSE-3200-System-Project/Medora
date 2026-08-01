@@ -1,0 +1,541 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "53250e1708bf1a746f08678b9a3d105f30e7eb6256d4ccfbb389d0682a856721",
+  "record_id": "RX-0032",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 30708.117599991965,
+  "failure": null,
+  "response_sha256": "32fdaecb76cee581f1c4b6bec40da680e88d8bb6001c225991c4d74d0d0a01ac",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBUIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkan/Madinah/Jeddah\nBangladesh Haj Office\nMedical Center\nTREATMENT CARD/M\nPagrim3\nG005\nName\nMORAHMALL\nMaktat.No7\nGender\n_MALE\nOsRUR\nTHARSRPUR SADAR\nHEALTH PROFILE\nBood Grou NO\n2.ood Pressu\n11070\n5.Kidney Dseas\nMeart Discase:ND\n16\n9.Weight\n10.\nBleod Sugar (RBS)\n11.Drug History\nLiver Disease\nNO\nChief Complaints\nVSIt NOnd COPy\nbP\nE\n+5+\nrp\nOwep\n20\nemia-\nydration-\nto+\noiration-\nO\nT.FQX\n0+0+\nFs.Metoo\n4C\n++\nIDiagonosis",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBUIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 30.0,
+          "x_max": 454.0,
+          "y_max": 63.0
+        },
+        "page": 1,
+        "confidence": 0.903
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 220.0,
+          "y_min": 44.0,
+          "x_max": 390.0,
+          "y_max": 67.0
+        },
+        "page": 1,
+        "confidence": 0.912
+      },
+      {
+        "text": "Makkan/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 248.0,
+          "y_min": 63.0,
+          "x_max": 363.0,
+          "y_max": 84.0
+        },
+        "page": 1,
+        "confidence": 0.943
+      },
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": {
+          "x_min": 252.0,
+          "y_min": 55.0,
+          "x_max": 351.0,
+          "y_max": 73.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 89.0,
+          "x_max": 167.0,
+          "y_max": 105.0
+        },
+        "page": 1,
+        "confidence": 0.974
+      },
+      {
+        "text": "TREATMENT CARD/M",
+        "bbox": {
+          "x_min": 235.0,
+          "y_min": 81.0,
+          "x_max": 380.0,
+          "y_max": 102.0
+        },
+        "page": 1,
+        "confidence": 0.934
+      },
+      {
+        "text": "Pagrim3",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 98.0,
+          "x_max": 165.0,
+          "y_max": 117.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "G005",
+        "bbox": {
+          "x_min": 397.0,
+          "y_min": 99.0,
+          "x_max": 462.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.769
+      },
+      {
+        "text": "Name",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 115.0,
+          "x_max": 122.0,
+          "y_max": 127.0
+        },
+        "page": 1,
+        "confidence": 0.98
+      },
+      {
+        "text": "MORAHMALL",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 112.0,
+          "x_max": 190.0,
+          "y_max": 123.0
+        },
+        "page": 1,
+        "confidence": 0.871
+      },
+      {
+        "text": "Maktat.No7",
+        "bbox": {
+          "x_min": 401.0,
+          "y_min": 113.0,
+          "x_max": 446.0,
+          "y_max": 124.0
+        },
+        "page": 1,
+        "confidence": 0.841
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 96.0,
+          "y_min": 125.0,
+          "x_max": 127.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.925
+      },
+      {
+        "text": "_MALE",
+        "bbox": {
+          "x_min": 122.0,
+          "y_min": 122.0,
+          "x_max": 151.0,
+          "y_max": 136.0
+        },
+        "page": 1,
+        "confidence": 0.825
+      },
+      {
+        "text": "OsRUR",
+        "bbox": {
+          "x_min": 192.0,
+          "y_min": 121.0,
+          "x_max": 254.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.636
+      },
+      {
+        "text": "THARSRPUR SADAR",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 132.0,
+          "x_max": 448.0,
+          "y_max": 143.0
+        },
+        "page": 1,
+        "confidence": 0.791
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 143.0,
+          "x_max": 348.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.972
+      },
+      {
+        "text": "Bood Grou NO",
+        "bbox": {
+          "x_min": 177.0,
+          "y_min": 156.0,
+          "x_max": 255.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.705
+      },
+      {
+        "text": "2.ood Pressu",
+        "bbox": {
+          "x_min": 348.0,
+          "y_min": 158.0,
+          "x_max": 415.0,
+          "y_max": 174.0
+        },
+        "page": 1,
+        "confidence": 0.808
+      },
+      {
+        "text": "11070",
+        "bbox": {
+          "x_min": 435.0,
+          "y_min": 155.0,
+          "x_max": 462.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.777
+      },
+      {
+        "text": "5.Kidney Dseas",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 175.0,
+          "x_max": 253.0,
+          "y_max": 188.0
+        },
+        "page": 1,
+        "confidence": 0.877
+      },
+      {
+        "text": "Meart Discase:ND",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 169.0,
+          "x_max": 253.0,
+          "y_max": 179.0
+        },
+        "page": 1,
+        "confidence": 0.827
+      },
+      {
+        "text": "16",
+        "bbox": {
+          "x_min": 435.0,
+          "y_min": 170.0,
+          "x_max": 451.0,
+          "y_max": 193.0
+        },
+        "page": 1,
+        "confidence": 0.188
+      },
+      {
+        "text": "9.Weight",
+        "bbox": {
+          "x_min": 177.0,
+          "y_min": 194.0,
+          "x_max": 215.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.954
+      },
+      {
+        "text": "10.",
+        "bbox": {
+          "x_min": 347.0,
+          "y_min": 193.0,
+          "x_max": 366.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.895
+      },
+      {
+        "text": "Bleod Sugar (RBS)",
+        "bbox": {
+          "x_min": 360.0,
+          "y_min": 185.0,
+          "x_max": 437.0,
+          "y_max": 201.0
+        },
+        "page": 1,
+        "confidence": 0.892
+      },
+      {
+        "text": "11.Drug History",
+        "bbox": {
+          "x_min": 170.0,
+          "y_min": 198.0,
+          "x_max": 235.0,
+          "y_max": 216.0
+        },
+        "page": 1,
+        "confidence": 0.894
+      },
+      {
+        "text": "Liver Disease",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 195.0,
+          "x_max": 416.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.913
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 435.0,
+          "y_min": 189.0,
+          "x_max": 451.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.859
+      },
+      {
+        "text": "Chief Complaints",
+        "bbox": {
+          "x_min": 81.0,
+          "y_min": 218.0,
+          "x_max": 171.0,
+          "y_max": 237.0
+        },
+        "page": 1,
+        "confidence": 0.976
+      },
+      {
+        "text": "VSIt NOnd COPy",
+        "bbox": {
+          "x_min": 212.0,
+          "y_min": 213.0,
+          "x_max": 280.0,
+          "y_max": 242.0
+        },
+        "page": 1,
+        "confidence": 0.642
+      },
+      {
+        "text": "bP",
+        "bbox": {
+          "x_min": 223.0,
+          "y_min": 242.0,
+          "x_max": 342.0,
+          "y_max": 271.0
+        },
+        "page": 1,
+        "confidence": 0.645
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 82.0,
+          "y_min": 270.0,
+          "x_max": 95.0,
+          "y_max": 279.0
+        },
+        "page": 1,
+        "confidence": 0.982
+      },
+      {
+        "text": "+5+",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 276.0,
+          "x_max": 337.0,
+          "y_max": 297.0
+        },
+        "page": 1,
+        "confidence": 0.618
+      },
+      {
+        "text": "rp",
+        "bbox": {
+          "x_min": 82.0,
+          "y_min": 314.0,
+          "x_max": 93.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.791
+      },
+      {
+        "text": "Owep",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 310.0,
+          "x_max": 406.0,
+          "y_max": 334.0
+        },
+        "page": 1,
+        "confidence": 0.68
+      },
+      {
+        "text": "20",
+        "bbox": {
+          "x_min": 425.0,
+          "y_min": 312.0,
+          "x_max": 452.0,
+          "y_max": 328.0
+        },
+        "page": 1,
+        "confidence": 0.983
+      },
+      {
+        "text": "emia-",
+        "bbox": {
+          "x_min": 80.0,
+          "y_min": 325.0,
+          "x_max": 106.0,
+          "y_max": 339.0
+        },
+        "page": 1,
+        "confidence": 0.951
+      },
+      {
+        "text": "ydration-",
+        "bbox": {
+          "x_min": 79.0,
+          "y_min": 340.0,
+          "x_max": 124.0,
+          "y_max": 356.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "to+",
+        "bbox": {
+          "x_min": 316.0,
+          "y_min": 342.0,
+          "x_max": 389.0,
+          "y_max": 363.0
+        },
+        "page": 1,
+        "confidence": 0.804
+      },
+      {
+        "text": "oiration-",
+        "bbox": {
+          "x_min": 80.0,
+          "y_min": 357.0,
+          "x_max": 116.0,
+          "y_max": 371.0
+        },
+        "page": 1,
+        "confidence": 0.907
+      },
+      {
+        "text": "O",
+        "bbox": {
+          "x_min": 83.0,
+          "y_min": 377.0,
+          "x_max": 88.0,
+          "y_max": 382.0
+        },
+        "page": 1,
+        "confidence": 0.263
+      },
+      {
+        "text": "T.FQX",
+        "bbox": {
+          "x_min": 262.0,
+          "y_min": 373.0,
+          "x_max": 436.0,
+          "y_max": 405.0
+        },
+        "page": 1,
+        "confidence": 0.572
+      },
+      {
+        "text": "0+0+",
+        "bbox": {
+          "x_min": 312.0,
+          "y_min": 408.0,
+          "x_max": 402.0,
+          "y_max": 432.0
+        },
+        "page": 1,
+        "confidence": 0.708
+      },
+      {
+        "text": "Fs.Metoo",
+        "bbox": {
+          "x_min": 270.0,
+          "y_min": 442.0,
+          "x_max": 420.0,
+          "y_max": 482.0
+        },
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "4C",
+        "bbox": {
+          "x_min": 437.0,
+          "y_min": 457.0,
+          "x_max": 468.0,
+          "y_max": 477.0
+        },
+        "page": 1,
+        "confidence": 0.333
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 324.0,
+          "y_min": 490.0,
+          "x_max": 421.0,
+          "y_max": 514.0
+        },
+        "page": 1,
+        "confidence": 0.726
+      },
+      {
+        "text": "IDiagonosis",
+        "bbox": {
+          "x_min": 80.0,
+          "y_min": 556.0,
+          "x_max": 151.0,
+          "y_max": 576.0
+        },
+        "page": 1,
+        "confidence": 0.931
+      }
+    ]
+  }
+}

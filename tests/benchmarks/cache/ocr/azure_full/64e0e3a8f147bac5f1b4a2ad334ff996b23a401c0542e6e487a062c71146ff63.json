@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "64e0e3a8f147bac5f1b4a2ad334ff996b23a401c0542e6e487a062c71146ff63",
+  "record_id": "RX-0078",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 14030.26040000259,
+  "failure": null,
+  "response_sha256": "0684fdc94ca0c51d003b150e8645b936c20fbfad93f373bd118f10a04255e799",
+  "response": {
+    "raw_text": "वक (वर्माड)-9\nW/O\n82037 7 डिकिस्मक कड़क बांगीव वादश श्व\nजांगीड़ नाथ M E H siddiquer (Mepo) रकम\n46 years\nडिकिस्मतकब बारशमना\nनिर\nबादशव नाम: STm\n55\nENT\nS. NO-\n3\n22-2-18\nalsoto Issue all\non, 22/2/18\nDas, Kilbac (sr)\n-96m\n0\n25, Napa\n200000\n3\n25. Esofia (20)\n2000)\n021: दूचालुल्यायान जान\n· : ऑरेंजलाजिस्टनानाडिय\n5\nन\nA CALL\nरेडि\nशातिर",
+    "lines": [
+      {
+        "text": "वक (वर्माड)-9",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "W/O",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "82037 7 डिकिस्मक कड़क बांगीव वादश श्व",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "जांगीड़ नाथ M E H siddiquer (Mepo) रकम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "46 years",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "डिकिस्मतकब बारशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "निर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "बादशव नाम: STm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "ENT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "S. NO-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "22-2-18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "alsoto Issue all",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "on, 22/2/18",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "Das, Kilbac (sr)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "-96m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "25, Napa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "200000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "25. Esofia (20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "2000)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "021: दूचालुल्यायान जान",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "· : ऑरेंजलाजिस्टनानाडिय",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "न",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "A CALL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "रेडि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "शातिर",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      }
+    ]
+  }
+}

@@ -1,0 +1,1168 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0004",
+  "source_sha256": "eb24a733d4e19d92cd08fced82df304f4a7d22ac2f91adad6d40023052aac000",
+  "raw_transcription": "Tamen (ro)\n. Tab\n2tata-\nSec/10/20)\nBeniticken\nCap\n2+0+)-\nDeslor(30mg)\nlab\n@\n.\nORS -\n2",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Tamen",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "G-Sec",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Beniticken",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "D-Cap",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Deslor",
+      "strength": "30mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Lab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ors",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "786f123f5c2038dd8b9c4b953d846f9c1b9ae1f786505cf393c78f579bb6da11"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "ed556e8f089bfbdf766d6e6228f0024fc5fd1175367b2325be653fe02ea17cea"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "957630a69a1edd553fc2743ef3f301a78568aaea5f576b373f556c40f1bf183c"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "A\ne\nAella\nwokoh\nQ\n(hei) oeey\nCoeooa\n52k\ny\nCAX\nO\nc+o+c\nc+c+c\n0\n&\nKEe\n2\nqo9\nSyo\ne\nqob\nt4308\nQt\nB\nJ/yowren\nDyoopo\n4s+p\n2\nshops\nAPy\n9\nDn\ntlla\n91-98",
+      "lines": [
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 172.0,
+            "y_min": 3.0,
+            "x_max": 375.0,
+            "y_max": 48.0
+          },
+          "page": 1,
+          "confidence": 0.247
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 459.0,
+            "y_min": 6.0,
+            "x_max": 604.0,
+            "y_max": 213.0
+          },
+          "page": 1,
+          "confidence": 0.246
+        },
+        {
+          "text": "Aella",
+          "bbox": {
+            "x_min": 687.0,
+            "y_min": 10.0,
+            "x_max": 802.0,
+            "y_max": 241.0
+          },
+          "page": 1,
+          "confidence": 0.362
+        },
+        {
+          "text": "wokoh",
+          "bbox": {
+            "x_min": 371.0,
+            "y_min": 299.0,
+            "x_max": 700.0,
+            "y_max": 815.0
+          },
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "Q",
+          "bbox": {
+            "x_min": 198.0,
+            "y_min": 341.0,
+            "x_max": 350.0,
+            "y_max": 660.0
+          },
+          "page": 1,
+          "confidence": 0.206
+        },
+        {
+          "text": "(hei) oeey",
+          "bbox": {
+            "x_min": 1710.0,
+            "y_min": 368.0,
+            "x_max": 2000.0,
+            "y_max": 1050.0
+          },
+          "page": 1,
+          "confidence": 0.408
+        },
+        {
+          "text": "Coeooa",
+          "bbox": {
+            "x_min": 2804.0,
+            "y_min": 390.0,
+            "x_max": 3072.0,
+            "y_max": 1012.0
+          },
+          "page": 1,
+          "confidence": 0.283
+        },
+        {
+          "text": "52k",
+          "bbox": {
+            "x_min": 676.0,
+            "y_min": 414.0,
+            "x_max": 814.0,
+            "y_max": 1164.0
+          },
+          "page": 1,
+          "confidence": 0.509
+        },
+        {
+          "text": "y",
+          "bbox": {
+            "x_min": 2097.0,
+            "y_min": 439.0,
+            "x_max": 2141.0,
+            "y_max": 492.0
+          },
+          "page": 1,
+          "confidence": 0.404
+        },
+        {
+          "text": "CAX",
+          "bbox": {
+            "x_min": 2334.0,
+            "y_min": 591.0,
+            "x_max": 2342.0,
+            "y_max": 611.0
+          },
+          "page": 1,
+          "confidence": 0.173
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2335.0,
+            "y_min": 635.0,
+            "x_max": 2341.0,
+            "y_max": 642.0
+          },
+          "page": 1,
+          "confidence": 0.118
+        },
+        {
+          "text": "c+o+c",
+          "bbox": {
+            "x_min": 2627.0,
+            "y_min": 683.0,
+            "x_max": 2741.0,
+            "y_max": 1059.0
+          },
+          "page": 1,
+          "confidence": 0.712
+        },
+        {
+          "text": "c+c+c",
+          "bbox": {
+            "x_min": 2071.0,
+            "y_min": 743.0,
+            "x_max": 2200.0,
+            "y_max": 1149.0
+          },
+          "page": 1,
+          "confidence": 0.735
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 3120.0,
+            "y_min": 744.0,
+            "x_max": 3251.0,
+            "y_max": 1165.0
+          },
+          "page": 1,
+          "confidence": 0.664
+        },
+        {
+          "text": "&",
+          "bbox": {
+            "x_min": 3429.0,
+            "y_min": 722.0,
+            "x_max": 3564.0,
+            "y_max": 872.0
+          },
+          "page": 1,
+          "confidence": 0.185
+        },
+        {
+          "text": "KEe",
+          "bbox": {
+            "x_min": 464.0,
+            "y_min": 890.0,
+            "x_max": 563.0,
+            "y_max": 1090.0
+          },
+          "page": 1,
+          "confidence": 0.322
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 236.0,
+            "y_min": 937.0,
+            "x_max": 503.0,
+            "y_max": 2460.0
+          },
+          "page": 1,
+          "confidence": 0.475
+        },
+        {
+          "text": "qo9",
+          "bbox": {
+            "x_min": 1766.0,
+            "y_min": 1162.0,
+            "x_max": 1958.0,
+            "y_max": 1464.0
+          },
+          "page": 1,
+          "confidence": 0.472
+        },
+        {
+          "text": "Syo",
+          "bbox": {
+            "x_min": 3431.0,
+            "y_min": 1156.0,
+            "x_max": 3568.0,
+            "y_max": 1426.0
+          },
+          "page": 1,
+          "confidence": 0.734
+        },
+        {
+          "text": "e",
+          "bbox": {
+            "x_min": 2381.0,
+            "y_min": 1183.0,
+            "x_max": 2618.0,
+            "y_max": 1492.0
+          },
+          "page": 1,
+          "confidence": 0.191
+        },
+        {
+          "text": "qob",
+          "bbox": {
+            "x_min": 2889.0,
+            "y_min": 1210.0,
+            "x_max": 3048.0,
+            "y_max": 1485.0
+          },
+          "page": 1,
+          "confidence": 0.391
+        },
+        {
+          "text": "t4308",
+          "bbox": {
+            "x_min": 669.0,
+            "y_min": 1384.0,
+            "x_max": 870.0,
+            "y_max": 2079.0
+          },
+          "page": 1,
+          "confidence": 0.358
+        },
+        {
+          "text": "Qt",
+          "bbox": {
+            "x_min": 1421.0,
+            "y_min": 1506.0,
+            "x_max": 1608.0,
+            "y_max": 1649.0
+          },
+          "page": 1,
+          "confidence": 0.539
+        },
+        {
+          "text": "B",
+          "bbox": {
+            "x_min": 4407.0,
+            "y_min": 1565.0,
+            "x_max": 4584.0,
+            "y_max": 1782.0
+          },
+          "page": 1,
+          "confidence": 0.205
+        },
+        {
+          "text": "J/yowren",
+          "bbox": {
+            "x_min": 3249.0,
+            "y_min": 1950.0,
+            "x_max": 3519.0,
+            "y_max": 2672.0
+          },
+          "page": 1,
+          "confidence": 0.478
+        },
+        {
+          "text": "Dyoopo",
+          "bbox": {
+            "x_min": 1792.0,
+            "y_min": 2035.0,
+            "x_max": 2034.0,
+            "y_max": 2657.0
+          },
+          "page": 1,
+          "confidence": 0.45
+        },
+        {
+          "text": "4s+p",
+          "bbox": {
+            "x_min": 3087.0,
+            "y_min": 2054.0,
+            "x_max": 3276.0,
+            "y_max": 2689.0
+          },
+          "page": 1,
+          "confidence": 0.504
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 766.0,
+            "y_min": 2217.0,
+            "x_max": 892.0,
+            "y_max": 2577.0
+          },
+          "page": 1,
+          "confidence": 0.711
+        },
+        {
+          "text": "shops",
+          "bbox": {
+            "x_min": 1600.0,
+            "y_min": 2461.0,
+            "x_max": 1869.0,
+            "y_max": 2856.0
+          },
+          "page": 1,
+          "confidence": 0.71
+        },
+        {
+          "text": "APy",
+          "bbox": {
+            "x_min": 2692.0,
+            "y_min": 2457.0,
+            "x_max": 2844.0,
+            "y_max": 2764.0
+          },
+          "page": 1,
+          "confidence": 0.554
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 2928.0,
+            "y_min": 2466.0,
+            "x_max": 3079.0,
+            "y_max": 2704.0
+          },
+          "page": 1,
+          "confidence": 0.639
+        },
+        {
+          "text": "Dn",
+          "bbox": {
+            "x_min": 1126.0,
+            "y_min": 2684.0,
+            "x_max": 1260.0,
+            "y_max": 2871.0
+          },
+          "page": 1,
+          "confidence": 0.165
+        },
+        {
+          "text": "tlla",
+          "bbox": {
+            "x_min": 839.0,
+            "y_min": 3054.0,
+            "x_max": 968.0,
+            "y_max": 3248.0
+          },
+          "page": 1,
+          "confidence": 0.363
+        },
+        {
+          "text": "91-98",
+          "bbox": {
+            "x_min": 994.0,
+            "y_min": 3077.0,
+            "x_max": 1180.0,
+            "y_max": 3462.0
+          },
+          "page": 1,
+          "confidence": 0.846
+        }
+      ],
+      "medications": [
+        {
+          "name": "Aella",
+          "matched_term": "Aella",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.163
+        },
+        {
+          "name": "Wokoh",
+          "matched_term": "Wokoh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.164
+        },
+        {
+          "name": "Hei Oeey",
+          "matched_term": "Hei Oeey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.184
+        },
+        {
+          "name": "Coeooa",
+          "matched_term": "Coeooa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Cax",
+          "matched_term": "Cax",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.194
+        },
+        {
+          "name": "Kee",
+          "matched_term": "Kee",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.179
+        },
+        {
+          "name": "Syo Qo",
+          "matched_term": "Syo Qo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.21
+        },
+        {
+          "name": "Qob Qt",
+          "matched_term": "Qob Qt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.168
+        },
+        {
+          "name": "Yowren",
+          "matched_term": "Yowren",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.215
+        },
+        {
+          "name": "Dyoopo",
+          "matched_term": "Dyoopo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.25
+        },
+        {
+          "name": "Apy",
+          "matched_term": "Apy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "Shops Dn",
+          "matched_term": "Shops Dn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.227
+        },
+        {
+          "name": "Tlla",
+          "matched_term": "Tlla",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.272
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "किकिश्मक कड़क ब्बाभीव यार शेख\nW/O MEH Siddique Mcpo (x).\nबाभीव नाथ\n40 years\n820377\nडिकिश्माकब बादशमना\nजानिए\n26-7-16\nqe-\nFever for\n5 days.\nRx -\n1 Headache\n. Tab. Pamen(mg)\n-(6).\nSec10/20)\n· Cap\nBenitickou\nTab\nDeslor (30g)\nP\nORS\n-\n2\nth\nAdv\n· CBC\n· Widal test\n· Urine R/E\nबानी\nणविथ",
+      "lines": [
+        {
+          "text": "किकिश्मक कड़क ब्बाभीव यार शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "W/O MEH Siddique Mcpo (x).",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "बाभीव नाथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "40 years",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "डिकिश्माकब बादशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "जानिए",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "26-7-16",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "qe-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Fever for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "5 days.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Rx -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "1 Headache",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": ". Tab. Pamen(mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "-(6).",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Sec10/20)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "· Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Benitickou",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Deslor (30g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "P",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "ORS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "th",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "Adv",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "· CBC",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "· Widal test",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "· Urine R/E",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "बानी",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        },
+        {
+          "text": "णविथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.626
+        }
+      ],
+      "medications": [
+        {
+          "name": "Meh Siddique Mcpo",
+          "matched_term": "Meh Siddique Mcpo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Kushta Aqeeq",
+          "matched_term": "Kushta Aqeeq",
+          "drug_id": "e0f4d2cc-b077-4265-8d5c-ecc03663a26f",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "6+7+1",
+          "quantity": null,
+          "confidence": 0.59
+        },
+        {
+          "name": "C-Fever",
+          "matched_term": "C-Fever",
+          "drug_id": "b78611de-ddab-4f49-b68b-79a72591eb6d",
+          "brand_id": "da15bf35-00ac-4b7e-bd8e-852eadf7249f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": "5 days",
+          "confidence": 0.711
+        },
+        {
+          "name": "Headache",
+          "matched_term": "Headache",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Pamel",
+          "matched_term": "Pamel",
+          "drug_id": "33050dbe-6840-4659-9f97-6934464c26d5",
+          "brand_id": "0871159b-65d5-45fd-8769-f8ab0a45dac0",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        },
+        {
+          "name": "Benitickou",
+          "matched_term": "Benitickou",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        },
+        {
+          "name": "Deslor",
+          "matched_term": "Deslor",
+          "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+          "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+          "dosage": "30g",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.713
+        },
+        {
+          "name": "Ors",
+          "matched_term": "Ors",
+          "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+          "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        },
+        {
+          "name": "Adv",
+          "matched_term": "Adv",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Cbc",
+          "matched_term": "Cbc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Widal Test",
+          "matched_term": "Widal Test",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.282
+        },
+        {
+          "name": "Urinex",
+          "matched_term": "Urinex",
+          "drug_id": "e980c126-ecb1-4e93-b906-3b0016bc7ba7",
+          "brand_id": "95131bae-f4e6-464f-a9ef-e9edd57979d7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.662
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Tamen",
+          "matched_term": "Tamen",
+          "drug_id": "2caa88c8-f042-4a8f-8fca-ac8bed3de633",
+          "brand_id": "7ebc059e-ac8d-467a-8ea3-66f6b5721ccc",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "G-Sec",
+          "matched_term": "G-Sec",
+          "drug_id": "20dce4ea-f470-41ea-9e67-b91f4c4217b6",
+          "brand_id": "9928cfa4-1478-4392-a56b-f11faa6cf02c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "Beniticken",
+          "matched_term": "Beniticken",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.286
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        },
+        {
+          "name": "Deslor",
+          "matched_term": "Deslor",
+          "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+          "brand_id": "721cd5b1-5ba3-4bae-a767-66c9f7bb548b",
+          "dosage": "30mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.717
+        },
+        {
+          "name": "Lab",
+          "matched_term": "Lab",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.286
+        },
+        {
+          "name": "Ors",
+          "matched_term": "Ors",
+          "drug_id": "12a43e5c-db8c-4d0d-b6db-b9420608d490",
+          "brand_id": "670d5587-de9a-4cbd-aac8-ca8827834e09",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.666
+        }
+      ],
+      "raw_text": "Tamen (ro)\n. Tab\n2tata-\nSec/10/20)\nBeniticken\nCap\n2+0+)-\nDeslor(30mg)\nlab\n@\n.\nORS -\n2",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 7452,
+        "detected_regions": 1,
+        "ocr_line_count": 13,
+        "yolo_avg_confidence": 0.8471,
+        "yolo_min_confidence": 0.8471,
+        "yolo_max_confidence": 0.8471,
+        "ocr_avg_confidence": 0.636,
+        "ocr_min_confidence": 0.636,
+        "ocr_max_confidence": 0.636,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 1740.53751373291,
+              "y_min": 1514.8510742187498,
+              "x_max": 3148.437950134277,
+              "y_max": 3853.6017425537107
+            },
+            "score": 0.8471
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "Tamen (ro)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": ". Tab",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "2tata-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "Sec/10/20)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "Beniticken",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "Cap",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "2+0+)-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "Deslor(30mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "lab",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "@",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": ".",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "ORS -",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          },
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.636
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

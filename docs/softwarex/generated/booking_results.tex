@@ -1,0 +1,16 @@
+\begin{table}[!h]
+\centering\small
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Concurrency & Passed / 30 & Transaction p95 (ms) & Outbox p95 (ms) & Unique commit \\
+\midrule
+2 & 30 / 30 & 81.1 & 124.5 & yes \\
+10 & 30 / 30 & 658.9 & 793.9 & yes \\
+50 & 30 / 30 & 1789.8 & 1739.3 & yes \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Booking contention. Transaction and post-commit outbox propagation latency are distinct measurements.}
+\label{tab:booking-results}
+\end{table}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "64e0e3a8f147bac5f1b4a2ad334ff996b23a401c0542e6e487a062c71146ff63",
+  "record_id": "RX-0078",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 7172.48350000591,
+  "failure": null,
+  "response_sha256": "41e75551796955524fd33b9cccdc9f6cb2696d53ef5de2af32df96e0714bd0c6",
+  "response": {
+    "raw_text": "1\nKilbac (5mg)\n2000)\n-96m\n25, Napa\n2000)\nEsofia (200)\n3\n2000",
+    "lines": [
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "Kilbac (5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "2000)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "-96m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "25, Napa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "2000)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "Esofia (200)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "2000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.505
+      }
+    ]
+  }
+}

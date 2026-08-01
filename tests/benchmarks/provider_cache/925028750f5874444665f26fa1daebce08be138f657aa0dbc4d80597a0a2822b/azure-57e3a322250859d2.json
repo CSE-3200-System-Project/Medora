@@ -1,0 +1,491 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0091",
+  "source_sha256": "925028750f5874444665f26fa1daebce08be138f657aa0dbc4d80597a0a2822b",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:07:30.726277+00:00",
+  "runtime_ms": 23242.525800000294,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hal Office\nTREATMENT CARD / APTIT\nMod cal Contar\n1100091\nPabocon Na\nWustab Na\nThe KOTWN\nHEALTH PROFILE\n1. But Limug\n19226\n1. Line Dierote\n8 Buud Suger (ABS):\nCiniel Complaints:\n24 Nu/ 7024\nTab. Naproxen (400 mg)\n# 145/ 20mmhg\nTemc\nnemprecin sintment\n. Mensi petro lium Jelly\n- Ega 200 -(5)\n\"Tab. Omop ( 20 mg)\nDESIRES 13.3 mmol/L.\nECG\n.\nplease add -24.05-mer\n20\nProvisional Diagonosis\nTab Homes (10mg)(10)\n19th packiwill (4776)\n2+0-10 ----\n- Tab Le Sultan\n0,0+0\nदहा वक्तलगा, अनोख्या ठिकिदिन (भवा अशापा बन्द न वार्ड अधिक ध्यान अबभाई भार वामदल दार।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Bangladesh Hal Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "TREATMENT CARD / APTIT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Mod cal Contar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1100091",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Pabocon Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Wustab Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "The KOTWN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1. But Limug",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "19226",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1. Line Dierote",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "8 Buud Suger (ABS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Ciniel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "24 Nu/ 7024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Tab. Naproxen (400 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "# 145/ 20mmhg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Temc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "nemprecin sintment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": ". Mensi petro lium Jelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "- Ega 200 -(5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "\"Tab. Omop ( 20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "DESIRES 13.3 mmol/L.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "please add -24.05-mer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Tab Homes (10mg)(10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "19th packiwill (4776)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "2+0-10 ----",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "- Tab Le Sultan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "0,0+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "दहा वक्तलगा, अनोख्या ठिकिदिन (भवा अशापा बन्द न वार्ड अधिक ध्यान अबभाई भार वामदल दार।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Bangladesh Hal Office",
+        "matched_term": "Bangladesh Hal Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Treatment Card Aptit",
+        "matched_term": "Treatment Card Aptit",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Cal-Me",
+        "matched_term": "Cal-Me",
+        "drug_id": "cb5e35c8-5c03-4416-b8f7-210e4a2e2331",
+        "brand_id": "fed39808-76b6-488c-b56e-bcc2a978ebb2",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Pabocon Na",
+        "matched_term": "Pabocon Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Wustab Na",
+        "matched_term": "Wustab Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "The Kotwn",
+        "matched_term": "The Kotwn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Buta",
+        "matched_term": "Buta",
+        "drug_id": "04b97289-ed60-4070-a7ca-0eb3c6b49d8a",
+        "brand_id": "28192534-282b-4a79-9483-a9530e77e9b4",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Linez",
+        "matched_term": "Linez",
+        "drug_id": "a5caa618-2161-4a4c-90d3-480e4f778bc1",
+        "brand_id": "9c01a8bd-f0f8-41b8-9bb4-63f6c77a5254",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Buud Suger Abs",
+        "matched_term": "Buud Suger Abs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Ciniel Complaints Nu",
+        "matched_term": "Ciniel Complaints Nu",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "naproxen",
+        "matched_term": "naproxen",
+        "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+        "brand_id": null,
+        "dosage": "400 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.695
+      },
+      {
+        "name": "Temc",
+        "matched_term": "Temc",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Nemprecin Sintment",
+        "matched_term": "Nemprecin Sintment",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Mensi Petro Lium",
+        "matched_term": "Mensi Petro Lium",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Ega",
+        "matched_term": "Ega",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Omop",
+        "matched_term": "Omop",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "20 mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.315
+      },
+      {
+        "name": "Desirox",
+        "matched_term": "Desirox",
+        "drug_id": "99507b49-eebc-4121-856d-2c52f9ae9d53",
+        "brand_id": "435620c6-30b7-48ce-bf4a-d9621f217d9a",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.644
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Please Add -Mer",
+        "matched_term": "Please Add -Mer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.264
+      },
+      {
+        "name": "Homes",
+        "matched_term": "Homes",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": "10mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.315
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": null,
+        "frequency": "2+0+1",
+        "quantity": null,
+        "confidence": 0.536
+      },
+      {
+        "name": "Le Sultan",
+        "matched_term": "Le Sultan",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+0+0",
+        "quantity": null,
+        "confidence": 0.314
+      }
+    ]
+  }
+}

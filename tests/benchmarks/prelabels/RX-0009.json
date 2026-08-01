@@ -1,0 +1,1830 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0009",
+  "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
+  "raw_transcription": "राशन\nरविश\nस्वादभंवर नाथ\nM OP D (FEMALE)\nS. No ......\n74\nRoom No.\n0.4\nTime.\n24.10.17\n...\nDate\nC-73\nLe 19/4/12\nP. Hypothyroidism\nVertigo\nC/C-7\n4\n1. Tab\nCinaro 15mg.\n1+0+1- 20192.\n2\nCap\nHotel\n0+1+0\nKoeling\nDR. KANIZ FATIMA\nFCPS Part II T.Face\nDermatalogy & Venereology\nCMM Dhaka\n24.10-17\nIssued15 days fuld\nm 13 - 05.12.17\n1\nSIM\n16145648 419211",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Op Female No",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Room No",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Timem",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Date Le",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hypothyroidism",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Vertig",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "C-Tab",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cinaron",
+      "strength": "15mg",
+      "dose": "",
+      "frequency": "1+0+1+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "D-Cap",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hotel",
+      "strength": "",
+      "dose": "",
+      "frequency": "0+1+0",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Koeling",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Dr Kaniz Fatima",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Fcps Part Ii",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Dermatas",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cmm Dhaka",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Issued Days Fuld",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Sim 10",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "6c517ed8860aff82c0e5032790f836a11f5a9ab3dc390e4f204a4557e5f12ba1"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "93138e0b2616334bfe2b6ee04c7a926db278d71756f1e0087c501257abf87460"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "b14e3edab7c5bccb62c4de6ff2c5be34f3f9e488934388e360e9f4221dafc823"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "P\nDeeeeeeeeereeey\nrhoe\nDANAAM\ntyor\nBmg1\n2\nR47\nC\n-\nyeo\nFPppParr\nCnnnrokea\nMnouny\nratoy\nQ+HO\nH0+1\nO\n2\nTy\nL\nwys\nQ-\n-\n-\nD\nE\nS\n-\nK\no\n704Z\n8\nEt-D\nL\ntEoZ8\nb+\nC\nS\n7\n2\noOOO\n73\nDaatl\nC\nmll\no\nO\nVS81\nAC\n-\nAglG\nO\nf\n9q\nO",
+      "lines": [
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 4496.0,
+            "y_min": 118.0,
+            "x_max": 4595.0,
+            "y_max": 213.0
+          },
+          "page": 1,
+          "confidence": 0.536
+        },
+        {
+          "text": "Deeeeeeeeereeey",
+          "bbox": {
+            "x_min": 2806.0,
+            "y_min": 226.0,
+            "x_max": 2917.0,
+            "y_max": 1040.0
+          },
+          "page": 1,
+          "confidence": 0.279
+        },
+        {
+          "text": "rhoe",
+          "bbox": {
+            "x_min": 1599.0,
+            "y_min": 256.0,
+            "x_max": 1856.0,
+            "y_max": 665.0
+          },
+          "page": 1,
+          "confidence": 0.72
+        },
+        {
+          "text": "DANAAM",
+          "bbox": {
+            "x_min": 2677.0,
+            "y_min": 288.0,
+            "x_max": 2760.0,
+            "y_max": 1030.0
+          },
+          "page": 1,
+          "confidence": 0.393
+        },
+        {
+          "text": "tyor",
+          "bbox": {
+            "x_min": 2039.0,
+            "y_min": 277.0,
+            "x_max": 2276.0,
+            "y_max": 688.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "Bmg1",
+          "bbox": {
+            "x_min": 1426.0,
+            "y_min": 324.0,
+            "x_max": 1673.0,
+            "y_max": 664.0
+          },
+          "page": 1,
+          "confidence": 0.7
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 601.0,
+            "y_min": 381.0,
+            "x_max": 726.0,
+            "y_max": 1145.0
+          },
+          "page": 1,
+          "confidence": 0.351
+        },
+        {
+          "text": "R47",
+          "bbox": {
+            "x_min": 321.0,
+            "y_min": 419.0,
+            "x_max": 585.0,
+            "y_max": 793.0
+          },
+          "page": 1,
+          "confidence": 0.481
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 2786.0,
+            "y_min": 428.0,
+            "x_max": 2806.0,
+            "y_max": 448.0
+          },
+          "page": 1,
+          "confidence": 0.513
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1557.0,
+            "y_min": 485.0,
+            "x_max": 1565.0,
+            "y_max": 511.0
+          },
+          "page": 1,
+          "confidence": 0.079
+        },
+        {
+          "text": "yeo",
+          "bbox": {
+            "x_min": 973.0,
+            "y_min": 643.0,
+            "x_max": 1298.0,
+            "y_max": 1099.0
+          },
+          "page": 1,
+          "confidence": 0.268
+        },
+        {
+          "text": "FPppParr",
+          "bbox": {
+            "x_min": 2740.0,
+            "y_min": 668.0,
+            "x_max": 2820.0,
+            "y_max": 1028.0
+          },
+          "page": 1,
+          "confidence": 0.321
+        },
+        {
+          "text": "Cnnnrokea",
+          "bbox": {
+            "x_min": 2872.0,
+            "y_min": 668.0,
+            "x_max": 2952.0,
+            "y_max": 1034.0
+          },
+          "page": 1,
+          "confidence": 0.356
+        },
+        {
+          "text": "Mnouny",
+          "bbox": {
+            "x_min": 1491.0,
+            "y_min": 706.0,
+            "x_max": 1626.0,
+            "y_max": 1173.0
+          },
+          "page": 1,
+          "confidence": 0.572
+        },
+        {
+          "text": "ratoy",
+          "bbox": {
+            "x_min": 1898.0,
+            "y_min": 774.0,
+            "x_max": 2144.0,
+            "y_max": 1194.0
+          },
+          "page": 1,
+          "confidence": 0.632
+        },
+        {
+          "text": "Q+HO",
+          "bbox": {
+            "x_min": 2128.0,
+            "y_min": 867.0,
+            "x_max": 2235.0,
+            "y_max": 1176.0
+          },
+          "page": 1,
+          "confidence": 0.749
+        },
+        {
+          "text": "H0+1",
+          "bbox": {
+            "x_min": 1685.0,
+            "y_min": 890.0,
+            "x_max": 1800.0,
+            "y_max": 1187.0
+          },
+          "page": 1,
+          "confidence": 0.797
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2047.0,
+            "y_min": 1095.0,
+            "x_max": 2054.0,
+            "y_max": 1101.0
+          },
+          "page": 1,
+          "confidence": 0.127
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 983.0,
+            "y_min": 1228.0,
+            "x_max": 992.0,
+            "y_max": 1243.0
+          },
+          "page": 1,
+          "confidence": 0.132
+        },
+        {
+          "text": "Ty",
+          "bbox": {
+            "x_min": 1492.0,
+            "y_min": 1303.0,
+            "x_max": 1618.0,
+            "y_max": 1550.0
+          },
+          "page": 1,
+          "confidence": 0.652
+        },
+        {
+          "text": "L",
+          "bbox": {
+            "x_min": 1937.0,
+            "y_min": 1299.0,
+            "x_max": 2170.0,
+            "y_max": 1573.0
+          },
+          "page": 1,
+          "confidence": 0.273
+        },
+        {
+          "text": "wys",
+          "bbox": {
+            "x_min": 660.0,
+            "y_min": 1457.0,
+            "x_max": 788.0,
+            "y_max": 1681.0
+          },
+          "page": 1,
+          "confidence": 0.447
+        },
+        {
+          "text": "Q-",
+          "bbox": {
+            "x_min": 1294.0,
+            "y_min": 1557.0,
+            "x_max": 1643.0,
+            "y_max": 1740.0
+          },
+          "page": 1,
+          "confidence": 0.57
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2312.0,
+            "y_min": 1802.0,
+            "x_max": 2322.0,
+            "y_max": 1809.0
+          },
+          "page": 1,
+          "confidence": 0.439
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2336.0,
+            "y_min": 1832.0,
+            "x_max": 2346.0,
+            "y_max": 1842.0
+          },
+          "page": 1,
+          "confidence": 0.455
+        },
+        {
+          "text": "D",
+          "bbox": {
+            "x_min": 2094.0,
+            "y_min": 2030.0,
+            "x_max": 2106.0,
+            "y_max": 2038.0
+          },
+          "page": 1,
+          "confidence": 0.335
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 2105.0,
+            "y_min": 2049.0,
+            "x_max": 2118.0,
+            "y_max": 2057.0
+          },
+          "page": 1,
+          "confidence": 0.182
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 2622.0,
+            "y_min": 2111.0,
+            "x_max": 2799.0,
+            "y_max": 2271.0
+          },
+          "page": 1,
+          "confidence": 0.686
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 2283.0,
+            "y_min": 2141.0,
+            "x_max": 2291.0,
+            "y_max": 2154.0
+          },
+          "page": 1,
+          "confidence": 0.2
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 2491.0,
+            "y_min": 2123.0,
+            "x_max": 2696.0,
+            "y_max": 2245.0
+          },
+          "page": 1,
+          "confidence": 0.279
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 1231.0,
+            "y_min": 2242.0,
+            "x_max": 1379.0,
+            "y_max": 2434.0
+          },
+          "page": 1,
+          "confidence": 0.176
+        },
+        {
+          "text": "704Z",
+          "bbox": {
+            "x_min": 1383.0,
+            "y_min": 2234.0,
+            "x_max": 1504.0,
+            "y_max": 2831.0
+          },
+          "page": 1,
+          "confidence": 0.355
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 1216.0,
+            "y_min": 2255.0,
+            "x_max": 1235.0,
+            "y_max": 2271.0
+          },
+          "page": 1,
+          "confidence": 0.085
+        },
+        {
+          "text": "Et-D",
+          "bbox": {
+            "x_min": 1581.0,
+            "y_min": 2252.0,
+            "x_max": 1747.0,
+            "y_max": 2742.0
+          },
+          "page": 1,
+          "confidence": 0.589
+        },
+        {
+          "text": "L",
+          "bbox": {
+            "x_min": 1380.0,
+            "y_min": 2300.0,
+            "x_max": 1394.0,
+            "y_max": 2321.0
+          },
+          "page": 1,
+          "confidence": 0.188
+        },
+        {
+          "text": "tEoZ8",
+          "bbox": {
+            "x_min": 84.0,
+            "y_min": 2283.0,
+            "x_max": 413.0,
+            "y_max": 2848.0
+          },
+          "page": 1,
+          "confidence": 0.441
+        },
+        {
+          "text": "b+",
+          "bbox": {
+            "x_min": 1160.0,
+            "y_min": 2363.0,
+            "x_max": 1311.0,
+            "y_max": 2641.0
+          },
+          "page": 1,
+          "confidence": 0.434
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1225.0,
+            "y_min": 2360.0,
+            "x_max": 1237.0,
+            "y_max": 2377.0
+          },
+          "page": 1,
+          "confidence": 0.144
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 2775.0,
+            "y_min": 2365.0,
+            "x_max": 2899.0,
+            "y_max": 2500.0
+          },
+          "page": 1,
+          "confidence": 0.456
+        },
+        {
+          "text": "7",
+          "bbox": {
+            "x_min": 1228.0,
+            "y_min": 2387.0,
+            "x_max": 1236.0,
+            "y_max": 2395.0
+          },
+          "page": 1,
+          "confidence": 0.283
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 1307.0,
+            "y_min": 2412.0,
+            "x_max": 1313.0,
+            "y_max": 2418.0
+          },
+          "page": 1,
+          "confidence": 0.115
+        },
+        {
+          "text": "oOOO",
+          "bbox": {
+            "x_min": 1228.0,
+            "y_min": 2616.0,
+            "x_max": 1364.0,
+            "y_max": 2973.0
+          },
+          "page": 1,
+          "confidence": 0.537
+        },
+        {
+          "text": "73",
+          "bbox": {
+            "x_min": 1221.0,
+            "y_min": 2732.0,
+            "x_max": 1227.0,
+            "y_max": 2741.0
+          },
+          "page": 1,
+          "confidence": 0.509
+        },
+        {
+          "text": "Daatl",
+          "bbox": {
+            "x_min": 1414.0,
+            "y_min": 2772.0,
+            "x_max": 1512.0,
+            "y_max": 2960.0
+          },
+          "page": 1,
+          "confidence": 0.457
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 1188.0,
+            "y_min": 2794.0,
+            "x_max": 1203.0,
+            "y_max": 2810.0
+          },
+          "page": 1,
+          "confidence": 0.084
+        },
+        {
+          "text": "mll",
+          "bbox": {
+            "x_min": 1359.0,
+            "y_min": 2834.0,
+            "x_max": 1427.0,
+            "y_max": 2951.0
+          },
+          "page": 1,
+          "confidence": 0.309
+        },
+        {
+          "text": "o",
+          "bbox": {
+            "x_min": 1184.0,
+            "y_min": 2871.0,
+            "x_max": 1190.0,
+            "y_max": 2878.0
+          },
+          "page": 1,
+          "confidence": 0.174
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1193.0,
+            "y_min": 2871.0,
+            "x_max": 1199.0,
+            "y_max": 2878.0
+          },
+          "page": 1,
+          "confidence": 0.13
+        },
+        {
+          "text": "VS81",
+          "bbox": {
+            "x_min": 2685.0,
+            "y_min": 2865.0,
+            "x_max": 2911.0,
+            "y_max": 3123.0
+          },
+          "page": 1,
+          "confidence": 0.618
+        },
+        {
+          "text": "AC",
+          "bbox": {
+            "x_min": 1171.0,
+            "y_min": 2880.0,
+            "x_max": 1181.0,
+            "y_max": 2887.0
+          },
+          "page": 1,
+          "confidence": 0.161
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 1173.0,
+            "y_min": 2885.0,
+            "x_max": 1180.0,
+            "y_max": 2890.0
+          },
+          "page": 1,
+          "confidence": 0.178
+        },
+        {
+          "text": "AglG",
+          "bbox": {
+            "x_min": 739.0,
+            "y_min": 2910.0,
+            "x_max": 838.0,
+            "y_max": 3096.0
+          },
+          "page": 1,
+          "confidence": 0.269
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 1199.0,
+            "y_min": 2930.0,
+            "x_max": 1207.0,
+            "y_max": 2945.0
+          },
+          "page": 1,
+          "confidence": 0.162
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 370.0,
+            "y_min": 3219.0,
+            "x_max": 548.0,
+            "y_max": 3419.0
+          },
+          "page": 1,
+          "confidence": 0.469
+        },
+        {
+          "text": "9q",
+          "bbox": {
+            "x_min": 232.0,
+            "y_min": 3134.0,
+            "x_max": 408.0,
+            "y_max": 3331.0
+          },
+          "page": 1,
+          "confidence": 0.528
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 475.0,
+            "y_min": 3279.0,
+            "x_max": 482.0,
+            "y_max": 3285.0
+          },
+          "page": 1,
+          "confidence": 0.197
+        }
+      ],
+      "medications": [
+        {
+          "name": "Deeeeeeeeereeey",
+          "matched_term": "Deeeeeeeeereeey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.126
+        },
+        {
+          "name": "Rhoe",
+          "matched_term": "Rhoe",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.324
+        },
+        {
+          "name": "Tyor",
+          "matched_term": "Tyor",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.188
+        },
+        {
+          "name": "Danaam Bmg",
+          "matched_term": "Danaam Bmg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Yeo",
+          "matched_term": "Yeo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.121
+        },
+        {
+          "name": "Fpppparr",
+          "matched_term": "Fpppparr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.144
+        },
+        {
+          "name": "Cnnnrokea",
+          "matched_term": "Cnnnrokea",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.16
+        },
+        {
+          "name": "Mnouny",
+          "matched_term": "Mnouny",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.257
+        },
+        {
+          "name": "Ratoy Ho Ty",
+          "matched_term": "Ratoy Ho Ty",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.216
+        },
+        {
+          "name": "Wys Et-D Teoz",
+          "matched_term": "Wys Et-D Teoz",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.154
+        },
+        {
+          "name": "Oooo",
+          "matched_term": "Oooo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.235
+        },
+        {
+          "name": "Daatl",
+          "matched_term": "Daatl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.122
+        },
+        {
+          "name": "Mll Vs Ac",
+          "matched_term": "Mll Vs Ac",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.118
+        },
+        {
+          "name": "Aglg",
+          "matched_term": "Aglg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.146
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "बसु (बर्मा)- ॐ\n820377\nछिकिश्मक कड़क स्वाधीन वादश शेख\n46 y\nG7 /2 1 /0 M ZH Siddiqui (MCPOST)\nS/m\nडिकिस्मढकल वावशमना\nP. Hypothyroidism\nC/C+\nVertigo\nM OP D (FEMALE)\nS. No ......\n74\n..\nRoom No.\n0.4\nTime ...\nDate\n24.10.17\nC-73\n1. Tab Cinaron 15mg\n1+0+1 - 2019.\n2 Cap\nFloral\n0+1+0\nKhilines\nDR. KANIZ FATIMIA\nFCPS Part i T: Free\nDermatalogy & Venereology\nCMM Dhaka\n-\n121\nissued 15 days Ly, 10,17\n05/4/12\nLe 19/11/12\nIm 13 - 05.12.17\n?\n46 y\nकव् वावशनना\nबादशव नाग\nbn3\nCMH/C\nजिक",
+      "lines": [
+        {
+          "text": "बसु (बर्मा)- ॐ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "820377",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "छिकिश्मक कड़क स्वाधीन वादश शेख",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "46 y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "G7 /2 1 /0 M ZH Siddiqui (MCPOST)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "S/m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "डिकिस्मढकल वावशमना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "P. Hypothyroidism",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "C/C+",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Vertigo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "M OP D (FEMALE)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "S. No ......",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "74",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "..",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Room No.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "0.4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Time ...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Date",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "24.10.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "C-73",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "1. Tab Cinaron 15mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "1+0+1 - 2019.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "2 Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Floral",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "0+1+0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Khilines",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "DR. KANIZ FATIMIA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "FCPS Part i T: Free",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Dermatalogy & Venereology",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "CMM Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "121",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "issued 15 days Ly, 10,17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "05/4/12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Le 19/11/12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "Im 13 - 05.12.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "?",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "46 y",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "कव् वावशनना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "बादशव नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "bn3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "CMH/C",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        },
+        {
+          "text": "जिक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.628
+        }
+      ],
+      "medications": [
+        {
+          "name": "Zh Siddiqui Mcpost",
+          "matched_term": "Zh Siddiqui Mcpost",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Hypothyroidism",
+          "matched_term": "Hypothyroidism",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Vertig",
+          "matched_term": "Vertig",
+          "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+          "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Op Female No",
+          "matched_term": "Op Female No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Room No",
+          "matched_term": "Room No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Date",
+          "matched_term": "Date",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Cinaron",
+          "matched_term": "Cinaron",
+          "drug_id": "028fb296-073b-4960-ac4c-6b97483580d8",
+          "brand_id": "de96d605-4c4e-44f9-8534-a6ffdbc8f9f0",
+          "dosage": "15mg",
+          "frequency": "1+0+1+2",
+          "quantity": null,
+          "confidence": 0.763
+        },
+        {
+          "name": "V Cap",
+          "matched_term": "V Cap",
+          "drug_id": "5f57da99-bf7d-4fdf-81f5-c1c3fddc6303",
+          "brand_id": "6dc1f63e-8202-4182-9edb-39f06aea0b65",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Flora",
+          "matched_term": "Flora",
+          "drug_id": "4cc5da28-6631-4f45-a8e9-c01f0eed3549",
+          "brand_id": "0d7f45bb-656b-437a-ae39-3be33fab361b",
+          "dosage": null,
+          "frequency": "0+1+0",
+          "quantity": null,
+          "confidence": 0.712
+        },
+        {
+          "name": "Khilines",
+          "matched_term": "Khilines",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Dr Kaniz Fatimia",
+          "matched_term": "Dr Kaniz Fatimia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Fcps Part Free",
+          "matched_term": "Fcps Part Free",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        },
+        {
+          "name": "Dermatas",
+          "matched_term": "Dermatas",
+          "drug_id": "01cc3cbc-128c-4298-8254-9ae1df555d8c",
+          "brand_id": "03029371-9ea4-4996-8940-841fee871961",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.663
+        },
+        {
+          "name": "Cmm Dhaka Le Im Bn",
+          "matched_term": "Cmm Dhaka Le Im Bn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": "15 days",
+          "confidence": 0.332
+        },
+        {
+          "name": "Cmh",
+          "matched_term": "Cmh",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.283
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Op Female No",
+          "matched_term": "Op Female No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Room No",
+          "matched_term": "Room No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Timem",
+          "matched_term": "Timem",
+          "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+          "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "Date Le",
+          "matched_term": "Date Le",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Hypothyroidism",
+          "matched_term": "Hypothyroidism",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Vertig",
+          "matched_term": "Vertig",
+          "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+          "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "C-Tab",
+          "matched_term": "C-Tab",
+          "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+          "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "Cinaron",
+          "matched_term": "Cinaron",
+          "drug_id": "028fb296-073b-4960-ac4c-6b97483580d8",
+          "brand_id": "de96d605-4c4e-44f9-8534-a6ffdbc8f9f0",
+          "dosage": "15mg",
+          "frequency": "1+0+1+2",
+          "quantity": null,
+          "confidence": 0.783
+        },
+        {
+          "name": "D-Cap",
+          "matched_term": "D-Cap",
+          "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+          "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "Hotel",
+          "matched_term": "Hotel",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+1+0",
+          "quantity": null,
+          "confidence": 0.352
+        },
+        {
+          "name": "Koeling",
+          "matched_term": "Koeling",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Dr Kaniz Fatima",
+          "matched_term": "Dr Kaniz Fatima",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Fcps Part Ii",
+          "matched_term": "Fcps Part Ii",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Dermatas",
+          "matched_term": "Dermatas",
+          "drug_id": "01cc3cbc-128c-4298-8254-9ae1df555d8c",
+          "brand_id": "03029371-9ea4-4996-8940-841fee871961",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "Cmm Dhaka",
+          "matched_term": "Cmm Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Issued Days Fuld",
+          "matched_term": "Issued Days Fuld",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Sim 10",
+          "matched_term": "Sim 10",
+          "drug_id": "7f207bd8-b9f9-454b-b2b9-1e82a32c96fb",
+          "brand_id": "2aa74c48-2b81-4119-8c4c-2b6cbca3b16f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.516
+        }
+      ],
+      "raw_text": "राशन\nरविश\nस्वादभंवर नाथ\nM OP D (FEMALE)\nS. No ......\n74\nRoom No.\n0.4\nTime.\n24.10.17\n...\nDate\nC-73\nLe 19/4/12\nP. Hypothyroidism\nVertigo\nC/C-7\n4\n1. Tab\nCinaro 15mg.\n1+0+1- 20192.\n2\nCap\nHotel\n0+1+0\nKoeling\nDR. KANIZ FATIMA\nFCPS Part II T.Face\nDermatalogy & Venereology\nCMM Dhaka\n24.10-17\nIssued15 days fuld\nm 13 - 05.12.17\n1\nSIM\n16145648 419211",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 17924,
+        "detected_regions": 1,
+        "ocr_line_count": 36,
+        "yolo_avg_confidence": 0.828,
+        "yolo_min_confidence": 0.828,
+        "yolo_max_confidence": 0.828,
+        "ocr_avg_confidence": 0.672,
+        "ocr_min_confidence": 0.672,
+        "ocr_max_confidence": 0.672,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 205.36789093017578,
+              "y_min": 666.6931148529052,
+              "x_max": 3335.116268920898,
+              "y_max": 3308.5424331665035
+            },
+            "score": 0.828
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "राशन",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "रविश",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "स्वादभंवर नाथ",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "M OP D (FEMALE)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "S. No ......",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "74",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Room No.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "0.4",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Time.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "24.10.17",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "...",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Date",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "C-73",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Le 19/4/12",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "P. Hypothyroidism",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Vertigo",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "C/C-7",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "4",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "1. Tab",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Cinaro 15mg.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "1+0+1- 20192.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Cap",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Hotel",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "0+1+0",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Koeling",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "DR. KANIZ FATIMA",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "FCPS Part II T.Face",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Dermatalogy & Venereology",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "CMM Dhaka",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "24.10-17",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "Issued15 days fuld",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "m 13 - 05.12.17",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "SIM",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          },
+          {
+            "text": "16145648 419211",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.672
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

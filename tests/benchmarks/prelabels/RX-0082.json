@@ -1,0 +1,1545 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0082",
+  "source_sha256": "6a0ed023147fba6b6f155fa1e8086090dd6c7f2e3deced52ab2cfad3da93b24d",
+  "raw_transcription": "· 1 Taj Gomes 2/ 50mg +To meglio\nEs 展开开展工业区 Tems A 2015\n3 Tas. 201 52 1+00 00\n(4) Ta. Hewolx 15L\nITOPIMAÇON 220\n8) Ts, ROSU 5W other we Mag\nItdel wo\nla.\nPantomx 29\nChamber :\nHitech Multicare Hospital Ltd.\nNome of care\n164, East Kafrul, Dhaka Cantonment DLI.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Taj Gomes To",
+      "strength": "50mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tems",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "V-Tas",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ta Hewolx Itopid",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rosu",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Itdel Wo La",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Pantomax",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Chamber",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hitech Multicare Hospital",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Nome Of Care",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "East Kafrul Dhaka",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "ebd557169e845e236d3071270e643d244dc50aa14632a003295e0c62ee6438dc"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "fc0d7e61eb9a1eb199bd0efc86d13dc02a5b77736eec8c3cab0c5780ebd57e04"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "6a911501448c4e48900fc9d113941de656b3507888204407fd6e3d89539b601e"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "Dr.Arifur Rahman Sumon\nf\nMBBS (DMC).FCPS (Medicine)\nRcR\nMD(Cardiology).BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nZ2JUL 2023\n/\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar.Dhaka.\nW\n6ol\n-\n4-0\nSquhAt56\nM Opn csle\nHht\nXa L+TMnt\nu ltTMt sa\nBaosopo\nM\n.wmsu\nomn\nOfOn0\nTB5y\nItH0m\nTh.HenonF\ntOPIMZNLW\nTRouttau\nMEy\nTaMtm\n1tih\nChamber:\nHitech Multicare Hospital Ltd\nMC\nhomeef core\n9\n.-.",
+      "lines": [
+        {
+          "text": "Dr.Arifur Rahman Sumon",
+          "bbox": {
+            "x_min": 113.0,
+            "y_min": 161.0,
+            "x_max": 383.0,
+            "y_max": 195.0
+          },
+          "page": 1,
+          "confidence": 0.971
+        },
+        {
+          "text": "f",
+          "bbox": {
+            "x_min": 614.0,
+            "y_min": 170.0,
+            "x_max": 819.0,
+            "y_max": 202.0
+          },
+          "page": 1,
+          "confidence": 0.505
+        },
+        {
+          "text": "MBBS (DMC).FCPS (Medicine)",
+          "bbox": {
+            "x_min": 112.0,
+            "y_min": 186.0,
+            "x_max": 281.0,
+            "y_max": 210.0
+          },
+          "page": 1,
+          "confidence": 0.917
+        },
+        {
+          "text": "RcR",
+          "bbox": {
+            "x_min": 700.0,
+            "y_min": 188.0,
+            "x_max": 819.0,
+            "y_max": 212.0
+          },
+          "page": 1,
+          "confidence": 0.414
+        },
+        {
+          "text": "MD(Cardiology).BCS (Health)",
+          "bbox": {
+            "x_min": 110.0,
+            "y_min": 202.0,
+            "x_max": 276.0,
+            "y_max": 227.0
+          },
+          "page": 1,
+          "confidence": 0.92
+        },
+        {
+          "text": "Medicine & Heart Specialist",
+          "bbox": {
+            "x_min": 108.0,
+            "y_min": 218.0,
+            "x_max": 268.0,
+            "y_max": 243.0
+          },
+          "page": 1,
+          "confidence": 0.963
+        },
+        {
+          "text": "Clinical and Interventional Cardiologist",
+          "bbox": {
+            "x_min": 109.0,
+            "y_min": 230.0,
+            "x_max": 333.0,
+            "y_max": 257.0
+          },
+          "page": 1,
+          "confidence": 0.971
+        },
+        {
+          "text": "Z2JUL 2023",
+          "bbox": {
+            "x_min": 378.0,
+            "y_min": 227.0,
+            "x_max": 463.0,
+            "y_max": 256.0
+          },
+          "page": 1,
+          "confidence": 0.802
+        },
+        {
+          "text": "/",
+          "bbox": {
+            "x_min": 570.0,
+            "y_min": 219.0,
+            "x_max": 824.0,
+            "y_max": 255.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "National Institute of Cardiovascular Diseases",
+          "bbox": {
+            "x_min": 109.0,
+            "y_min": 244.0,
+            "x_max": 349.0,
+            "y_max": 270.0
+          },
+          "page": 1,
+          "confidence": 0.973
+        },
+        {
+          "text": "Sher-e-Bangla Nagar.Dhaka.",
+          "bbox": {
+            "x_min": 109.0,
+            "y_min": 262.0,
+            "x_max": 268.0,
+            "y_max": 288.0
+          },
+          "page": 1,
+          "confidence": 0.93
+        },
+        {
+          "text": "W",
+          "bbox": {
+            "x_min": 393.0,
+            "y_min": 270.0,
+            "x_max": 446.0,
+            "y_max": 300.0
+          },
+          "page": 1,
+          "confidence": 0.39
+        },
+        {
+          "text": "6ol",
+          "bbox": {
+            "x_min": 433.0,
+            "y_min": 269.0,
+            "x_max": 478.0,
+            "y_max": 296.0
+          },
+          "page": 1,
+          "confidence": 0.374
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 675.0,
+            "y_min": 253.0,
+            "x_max": 827.0,
+            "y_max": 281.0
+          },
+          "page": 1,
+          "confidence": 0.566
+        },
+        {
+          "text": "4-0",
+          "bbox": {
+            "x_min": 669.0,
+            "y_min": 272.0,
+            "x_max": 826.0,
+            "y_max": 297.0
+          },
+          "page": 1,
+          "confidence": 0.417
+        },
+        {
+          "text": "SquhAt56",
+          "bbox": {
+            "x_min": 120.0,
+            "y_min": 295.0,
+            "x_max": 296.0,
+            "y_max": 331.0
+          },
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "M Opn csle",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 380.0,
+            "x_max": 369.0,
+            "y_max": 424.0
+          },
+          "page": 1,
+          "confidence": 0.576
+        },
+        {
+          "text": "Hht",
+          "bbox": {
+            "x_min": 387.0,
+            "y_min": 373.0,
+            "x_max": 496.0,
+            "y_max": 410.0
+          },
+          "page": 1,
+          "confidence": 0.532
+        },
+        {
+          "text": "Xa L+TMnt",
+          "bbox": {
+            "x_min": 603.0,
+            "y_min": 445.0,
+            "x_max": 869.0,
+            "y_max": 500.0
+          },
+          "page": 1,
+          "confidence": 0.682
+        },
+        {
+          "text": "u ltTMt sa",
+          "bbox": {
+            "x_min": 100.0,
+            "y_min": 485.0,
+            "x_max": 324.0,
+            "y_max": 521.0
+          },
+          "page": 1,
+          "confidence": 0.599
+        },
+        {
+          "text": "Baosopo",
+          "bbox": {
+            "x_min": 384.0,
+            "y_min": 505.0,
+            "x_max": 490.0,
+            "y_max": 564.0
+          },
+          "page": 1,
+          "confidence": 0.382
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 460.0,
+            "y_min": 548.0,
+            "x_max": 479.0,
+            "y_max": 566.0
+          },
+          "page": 1,
+          "confidence": 0.922
+        },
+        {
+          "text": ".wmsu",
+          "bbox": {
+            "x_min": 149.0,
+            "y_min": 634.0,
+            "x_max": 445.0,
+            "y_max": 683.0
+          },
+          "page": 1,
+          "confidence": 0.583
+        },
+        {
+          "text": "omn",
+          "bbox": {
+            "x_min": 492.0,
+            "y_min": 630.0,
+            "x_max": 820.0,
+            "y_max": 686.0
+          },
+          "page": 1,
+          "confidence": 0.42
+        },
+        {
+          "text": "OfOn0",
+          "bbox": {
+            "x_min": 774.0,
+            "y_min": 770.0,
+            "x_max": 915.0,
+            "y_max": 817.0
+          },
+          "page": 1,
+          "confidence": 0.298
+        },
+        {
+          "text": "TB5y",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 810.0,
+            "x_max": 417.0,
+            "y_max": 866.0
+          },
+          "page": 1,
+          "confidence": 0.457
+        },
+        {
+          "text": "ItH0m",
+          "bbox": {
+            "x_min": 433.0,
+            "y_min": 819.0,
+            "x_max": 610.0,
+            "y_max": 864.0
+          },
+          "page": 1,
+          "confidence": 0.395
+        },
+        {
+          "text": "Th.HenonF",
+          "bbox": {
+            "x_min": 199.0,
+            "y_min": 918.0,
+            "x_max": 442.0,
+            "y_max": 966.0
+          },
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "tOPIMZNLW",
+          "bbox": {
+            "x_min": 500.0,
+            "y_min": 917.0,
+            "x_max": 794.0,
+            "y_max": 964.0
+          },
+          "page": 1,
+          "confidence": 0.478
+        },
+        {
+          "text": "TRouttau",
+          "bbox": {
+            "x_min": 209.0,
+            "y_min": 988.0,
+            "x_max": 635.0,
+            "y_max": 1063.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "MEy",
+          "bbox": {
+            "x_min": 674.0,
+            "y_min": 1021.0,
+            "x_max": 809.0,
+            "y_max": 1062.0
+          },
+          "page": 1,
+          "confidence": 0.5
+        },
+        {
+          "text": "TaMtm",
+          "bbox": {
+            "x_min": 246.0,
+            "y_min": 1068.0,
+            "x_max": 466.0,
+            "y_max": 1127.0
+          },
+          "page": 1,
+          "confidence": 0.39
+        },
+        {
+          "text": "1tih",
+          "bbox": {
+            "x_min": 497.0,
+            "y_min": 1069.0,
+            "x_max": 637.0,
+            "y_max": 1116.0
+          },
+          "page": 1,
+          "confidence": 0.449
+        },
+        {
+          "text": "Chamber:",
+          "bbox": {
+            "x_min": 190.0,
+            "y_min": 1099.0,
+            "x_max": 254.0,
+            "y_max": 1119.0
+          },
+          "page": 1,
+          "confidence": 0.939
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd",
+          "bbox": {
+            "x_min": 187.0,
+            "y_min": 1116.0,
+            "x_max": 460.0,
+            "y_max": 1173.0
+          },
+          "page": 1,
+          "confidence": 0.954
+        },
+        {
+          "text": "MC",
+          "bbox": {
+            "x_min": 499.0,
+            "y_min": 1119.0,
+            "x_max": 612.0,
+            "y_max": 1158.0
+          },
+          "page": 1,
+          "confidence": 0.286
+        },
+        {
+          "text": "homeef core",
+          "bbox": {
+            "x_min": 102.0,
+            "y_min": 1157.0,
+            "x_max": 174.0,
+            "y_max": 1180.0
+          },
+          "page": 1,
+          "confidence": 0.736
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 513.0,
+            "y_min": 1164.0,
+            "x_max": 810.0,
+            "y_max": 1203.0
+          },
+          "page": 1,
+          "confidence": 0.593
+        },
+        {
+          "text": ".-.",
+          "bbox": {
+            "x_min": 513.0,
+            "y_min": 1190.0,
+            "x_max": 813.0,
+            "y_max": 1227.0
+          },
+          "page": 1,
+          "confidence": 0.532
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Arifur Rahman",
+          "matched_term": "Dr Arifur Rahman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.332
+        },
+        {
+          "name": "Mbbs Dmc Fcps",
+          "matched_term": "Mbbs Dmc Fcps",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.413
+        },
+        {
+          "name": "Rcr",
+          "matched_term": "Rcr",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.186
+        },
+        {
+          "name": "Md Cardiology Bcs",
+          "matched_term": "Md Cardiology Bcs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.414
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.718
+        },
+        {
+          "name": "Clinical And Interventional",
+          "matched_term": "Clinical And Interventional",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.437
+        },
+        {
+          "name": "National Institute Of",
+          "matched_term": "National Institute Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.346
+        },
+        {
+          "name": "Sher-E-Bangla Nagar Dhaka Ol Squhat",
+          "matched_term": "Sher-E-Bangla Nagar Dhaka Ol Squhat",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.242
+        },
+        {
+          "name": "Hht",
+          "matched_term": "Hht",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.239
+        },
+        {
+          "name": "Opn Csle",
+          "matched_term": "Opn Csle",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.259
+        },
+        {
+          "name": "Xa Tmnt",
+          "matched_term": "Xa Tmnt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.307
+        },
+        {
+          "name": "Lttmt Sa",
+          "matched_term": "Lttmt Sa",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.27
+        },
+        {
+          "name": "Baosopo",
+          "matched_term": "Baosopo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.293
+        },
+        {
+          "name": "Omn",
+          "matched_term": "Omn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Wmsu Ofon Tb Ith",
+          "matched_term": "Wmsu Ofon Tb Ith",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.195
+        },
+        {
+          "name": "Topimznlw",
+          "matched_term": "Topimznlw",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.215
+        },
+        {
+          "name": "A Th",
+          "matched_term": "A Th",
+          "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+          "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Trouttau",
+          "matched_term": "Trouttau",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.25
+        },
+        {
+          "name": "Mey",
+          "matched_term": "Mey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.225
+        },
+        {
+          "name": "Tamtm Tih",
+          "matched_term": "Tamtm Tih",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.189
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.423
+        },
+        {
+          "name": "Hitech Multicare Hospital Mc",
+          "matched_term": "Hitech Multicare Hospital Mc",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.279
+        },
+        {
+          "name": "Homeef Core",
+          "matched_term": "Homeef Core",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.279
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "मिविवादलड ऊना एनॉरेन :03860000009\nजानी न्यांवर गयत्र : अच्छा ७.७०णे - ब्राऊ 8.00णे (चक्रवात वर)\n७: जातिसूत्र वश्यान भूयन\nजगविविधम (जका), पयमिनियम ((अडिमिन)\nवर्भाऊ (कार्डिअलजि), विभियम (आशा)\nविश्वथा किकिष्मक\nभडिमिन, रामरयान, वाणिज्य, ऊँकब्रकुणान,\nवाउ/जाथारज्म, ब्रिकेट्याणखि ७ छायाटवज्जि\nआठीय रामबाण इनहिण्डिए B रामनाकान\nटशन-के-वास्ना नगव, जका ।\nविषयलिमि ८वखि: न१-७७२३४\nDr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\n22 JUL 2023\nSher-e-Bangla Nagar, Dhaka.\nWE GOW\nShahome Artu, 56,\nMITthe Open Chole Hustracts\nXICas Lt TM Joint DE\nUL Lt. TMint Sur,\nBp150/20\n· 1 Taj. Gemer 2/ 5um Hoto meglio\n2 区 领班安安 排进进 Tems A 1015W\n1 4) Ta. Hewolx SL\n8) Ts, ROSU 54 Other we Mag\n6 Ta, Pantomx WW\nIttel WO\nChamber :\nHitech Multicare Hospital Ltd.\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403\nEmergency Medical Officer : 01407093884, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nNome of care",
+      "lines": [
+        {
+          "text": "मिविवादलड ऊना एनॉरेन :03860000009",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "जानी न्यांवर गयत्र : अच्छा ७.७०णे - ब्राऊ 8.00णे (चक्रवात वर)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "७: जातिसूत्र वश्यान भूयन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "जगविविधम (जका), पयमिनियम ((अडिमिन)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "वर्भाऊ (कार्डिअलजि), विभियम (आशा)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "विश्वथा किकिष्मक",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "भडिमिन, रामरयान, वाणिज्य, ऊँकब्रकुणान,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "वाउ/जाथारज्म, ब्रिकेट्याणखि ७ छायाटवज्जि",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "आठीय रामबाण इनहिण्डिए B रामनाकान",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "टशन-के-वास्ना नगव, जका ।",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "विषयलिमि ८वखि: न१-७७२३४",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Dr. Arifur Rahman Sumon",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "MBBS (DMC), FCPS (Medicine)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "MD (Cardiology), BCS (Health)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Medicine & Heart Specialist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Clinical and Interventional Cardiologist",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "National Institute of Cardiovascular Diseases",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "22 JUL 2023",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Sher-e-Bangla Nagar, Dhaka.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "WE GOW",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Shahome Artu, 56,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "MITthe Open Chole Hustracts",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "XICas Lt TM Joint DE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "UL Lt. TMint Sur,",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Bp150/20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "· 1 Taj. Gemer 2/ 5um Hoto meglio",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "2 区 领班安安 排进进 Tems A 1015W",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "1 4) Ta. Hewolx SL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "8) Ts, ROSU 54 Other we Mag",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "6 Ta, Pantomx WW",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Ittel WO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Chamber :",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Hitech Multicare Hospital Ltd.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : 01708574403",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Emergency Medical Officer : 01407093884, Floor Manager : 01673120711, 01407093887",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        },
+        {
+          "text": "Nome of care",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.597
+        }
+      ],
+      "medications": [
+        {
+          "name": "Dr Arifur Rahman",
+          "matched_term": "Dr Arifur Rahman",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Mbbs Dmc Fcps",
+          "matched_term": "Mbbs Dmc Fcps",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Md Cardiology Bcs",
+          "matched_term": "Md Cardiology Bcs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Medicid",
+          "matched_term": "Medicid",
+          "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+          "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Clinical And Interventional",
+          "matched_term": "Clinical And Interventional",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "National Institute Of",
+          "matched_term": "National Institute Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Melonex",
+          "matched_term": "Melonex",
+          "drug_id": "6942be97-579b-4de5-bf51-a3b83aa7c616",
+          "brand_id": "8083bfa8-3e31-4ca3-89b8-e2b2ed6ac115",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Sher-E-Bangla Nagar Dhaka",
+          "matched_term": "Sher-E-Bangla Nagar Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Welgrow",
+          "matched_term": "Welgrow",
+          "drug_id": "0c0ba2b6-ea3f-4273-bbd0-eceacabc83a2",
+          "brand_id": "3a416f52-314b-4688-b785-1da858cd034d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Shahome Artu",
+          "matched_term": "Shahome Artu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Mitthe Open Chole",
+          "matched_term": "Mitthe Open Chole",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Xicas Lt Tm",
+          "matched_term": "Xicas Lt Tm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Ul Lt Tmint Bp",
+          "matched_term": "Ul Lt Tmint Bp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Gemer",
+          "matched_term": "Gemer",
+          "drug_id": "fc00df5c-8466-4ef0-9f46-adc59dbfe708",
+          "brand_id": "abb3f024-5bf8-4f18-b9b3-16e9699fe84d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Tems",
+          "matched_term": "Tems",
+          "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+          "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Ta Hewolx Sl",
+          "matched_term": "Ta Hewolx Sl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Rosu",
+          "matched_term": "Rosu",
+          "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+          "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.649
+        },
+        {
+          "name": "Ta Pantomx Ww",
+          "matched_term": "Ta Pantomx Ww",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Ittel Wo",
+          "matched_term": "Ittel Wo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "East Kafrul Dhaka",
+          "matched_term": "East Kafrul Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Appointment Center Hot",
+          "matched_term": "Appointment Center Hot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Emergency Medical Officer",
+          "matched_term": "Emergency Medical Officer",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Ambulance Service E-Mail",
+          "matched_term": "Ambulance Service E-Mail",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        },
+        {
+          "name": "Nome Of Care",
+          "matched_term": "Nome Of Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.269
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Taj Gomes To",
+          "matched_term": "Taj Gomes To",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "50mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.298
+        },
+        {
+          "name": "Tems",
+          "matched_term": "Tems",
+          "drug_id": "93b07e61-f161-4b5c-aacf-e0ec0b295426",
+          "brand_id": "c5f8c598-aa6c-4a76-91a5-00c7f059b290",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "V-Tas",
+          "matched_term": "V-Tas",
+          "drug_id": "085c7194-9766-436a-b4ca-6b32da00cd11",
+          "brand_id": "2fe406ba-7cc6-40e8-b326-71dd5b0ba3b9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "Ta Hewolx Itopid",
+          "matched_term": "Ta Hewolx Itopid",
+          "drug_id": "ad1b7386-cd43-4651-900f-4f33bd42065c",
+          "brand_id": "3a591435-34a1-46e2-a6fc-2a79061c4ecd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Rosu",
+          "matched_term": "Rosu",
+          "drug_id": "853d7984-f924-4f93-9691-25537eae946f",
+          "brand_id": "3dc9e193-1c4d-44e2-85d4-7a37fd402fc7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "Itdel Wo La",
+          "matched_term": "Itdel Wo La",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Pantomax",
+          "matched_term": "Pantomax",
+          "drug_id": "44118117-7ed9-45fd-88c1-3f784fc10710",
+          "brand_id": "10461437-f5d9-4b5b-af00-3b2192a38536",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.627
+        },
+        {
+          "name": "Chamber",
+          "matched_term": "Chamber",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Hitech Multicare Hospital",
+          "matched_term": "Hitech Multicare Hospital",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Nome Of Care",
+          "matched_term": "Nome Of Care",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "East Kafrul Dhaka",
+          "matched_term": "East Kafrul Dhaka",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        }
+      ],
+      "raw_text": "· 1 Taj Gomes 2/ 50mg +To meglio\nEs 展开开展工业区 Tems A 2015\n3 Tas. 201 52 1+00 00\n(4) Ta. Hewolx 15L\nITOPIMAÇON 220\n8) Ts, ROSU 5W other we Mag\nItdel wo\nla.\nPantomx 29\nChamber :\nHitech Multicare Hospital Ltd.\nNome of care\n164, East Kafrul, Dhaka Cantonment DLI.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 14467,
+        "detected_regions": 1,
+        "ocr_line_count": 13,
+        "yolo_avg_confidence": 0.8585,
+        "yolo_min_confidence": 0.8585,
+        "yolo_max_confidence": 0.8585,
+        "ocr_avg_confidence": 0.548,
+        "ocr_min_confidence": 0.548,
+        "ocr_max_confidence": 0.548,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 94.2470703125,
+              "y_min": 569.9505615234375,
+              "x_max": 919.23193359375,
+              "y_max": 1172.9017333984375
+            },
+            "score": 0.8585
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "· 1 Taj Gomes 2/ 50mg +To meglio",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Es 展开开展工业区 Tems A 2015",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "3 Tas. 201 52 1+00 00",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "(4) Ta. Hewolx 15L",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "ITOPIMAÇON 220",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "8) Ts, ROSU 5W other we Mag",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Itdel wo",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "la.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Pantomx 29",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Chamber :",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Hitech Multicare Hospital Ltd.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "Nome of care",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          },
+          {
+            "text": "164, East Kafrul, Dhaka Cantonment DLI.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.548
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

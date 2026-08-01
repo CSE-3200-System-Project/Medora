@@ -1,0 +1,497 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0008",
+  "source_sha256": "2eb266e5dd1fe9d18a00d06afa4ae76179f8e0ed30fa403bb8a61bcffbcca6a7",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:24:23.216219+00:00",
+  "runtime_ms": 25010.88039999013,
+  "output": {
+    "raw_text": "C\n-\nheripeoy\nR\nydr\n796\nE\nleebn)\n18\netoto\nsac\n01+0\nE\nwfindy\not\ny\nqob\nq0b\nqob\ns44ocid0\n2\n3\nf\n2\nISL5\n595\nAPV\no\n418-57\nAglG\nURb)\nHED",
+    "lines": [
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 2021.0,
+          "y_min": 165.0,
+          "x_max": 2187.0,
+          "y_max": 405.0
+        },
+        "page": 1,
+        "confidence": 0.142
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 166.0,
+          "y_min": 192.0,
+          "x_max": 314.0,
+          "y_max": 699.0
+        },
+        "page": 1,
+        "confidence": 0.773
+      },
+      {
+        "text": "heripeoy",
+        "bbox": {
+          "x_min": 2695.0,
+          "y_min": 197.0,
+          "x_max": 2943.0,
+          "y_max": 954.0
+        },
+        "page": 1,
+        "confidence": 0.486
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 2554.0,
+          "y_min": 226.0,
+          "x_max": 2651.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.742
+      },
+      {
+        "text": "ydr",
+        "bbox": {
+          "x_min": 3483.0,
+          "y_min": 228.0,
+          "x_max": 3600.0,
+          "y_max": 422.0
+        },
+        "page": 1,
+        "confidence": 0.673
+      },
+      {
+        "text": "796",
+        "bbox": {
+          "x_min": 432.0,
+          "y_min": 246.0,
+          "x_max": 593.0,
+          "y_max": 674.0
+        },
+        "page": 1,
+        "confidence": 0.557
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 1772.0,
+          "y_min": 299.0,
+          "x_max": 2042.0,
+          "y_max": 605.0
+        },
+        "page": 1,
+        "confidence": 0.39
+      },
+      {
+        "text": "leebn)",
+        "bbox": {
+          "x_min": 3298.0,
+          "y_min": 350.0,
+          "x_max": 3450.0,
+          "y_max": 759.0
+        },
+        "page": 1,
+        "confidence": 0.7
+      },
+      {
+        "text": "18",
+        "bbox": {
+          "x_min": 2280.0,
+          "y_min": 549.0,
+          "x_max": 2453.0,
+          "y_max": 840.0
+        },
+        "page": 1,
+        "confidence": 0.775
+      },
+      {
+        "text": "etoto",
+        "bbox": {
+          "x_min": 2059.0,
+          "y_min": 683.0,
+          "x_max": 2173.0,
+          "y_max": 1051.0
+        },
+        "page": 1,
+        "confidence": 0.682
+      },
+      {
+        "text": "sac",
+        "bbox": {
+          "x_min": 1850.0,
+          "y_min": 695.0,
+          "x_max": 1959.0,
+          "y_max": 905.0
+        },
+        "page": 1,
+        "confidence": 0.261
+      },
+      {
+        "text": "01+0",
+        "bbox": {
+          "x_min": 2493.0,
+          "y_min": 701.0,
+          "x_max": 2611.0,
+          "y_max": 1101.0
+        },
+        "page": 1,
+        "confidence": 0.514
+      },
+      {
+        "text": "E",
+        "bbox": {
+          "x_min": 3527.0,
+          "y_min": 786.0,
+          "x_max": 3534.0,
+          "y_max": 792.0
+        },
+        "page": 1,
+        "confidence": 0.181
+      },
+      {
+        "text": "wfindy",
+        "bbox": {
+          "x_min": 3240.0,
+          "y_min": 845.0,
+          "x_max": 3428.0,
+          "y_max": 1337.0
+        },
+        "page": 1,
+        "confidence": 0.582
+      },
+      {
+        "text": "ot",
+        "bbox": {
+          "x_min": 1510.0,
+          "y_min": 1025.0,
+          "x_max": 1674.0,
+          "y_max": 1150.0
+        },
+        "page": 1,
+        "confidence": 0.672
+      },
+      {
+        "text": "y",
+        "bbox": {
+          "x_min": 4022.0,
+          "y_min": 1088.0,
+          "x_max": 4304.0,
+          "y_max": 1390.0
+        },
+        "page": 1,
+        "confidence": 0.174
+      },
+      {
+        "text": "qob",
+        "bbox": {
+          "x_min": 1851.0,
+          "y_min": 1119.0,
+          "x_max": 1978.0,
+          "y_max": 1365.0
+        },
+        "page": 1,
+        "confidence": 0.468
+      },
+      {
+        "text": "q0b",
+        "bbox": {
+          "x_min": 2744.0,
+          "y_min": 1121.0,
+          "x_max": 2894.0,
+          "y_max": 1385.0
+        },
+        "page": 1,
+        "confidence": 0.342
+      },
+      {
+        "text": "qob",
+        "bbox": {
+          "x_min": 2309.0,
+          "y_min": 1158.0,
+          "x_max": 2452.0,
+          "y_max": 1414.0
+        },
+        "page": 1,
+        "confidence": 0.357
+      },
+      {
+        "text": "s44ocid0",
+        "bbox": {
+          "x_min": 1601.0,
+          "y_min": 1723.0,
+          "x_max": 1728.0,
+          "y_max": 2299.0
+        },
+        "page": 1,
+        "confidence": 0.521
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 757.0,
+          "y_min": 2089.0,
+          "x_max": 854.0,
+          "y_max": 2417.0
+        },
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 2328.0,
+          "x_max": 462.0,
+          "y_max": 2622.0
+        },
+        "page": 1,
+        "confidence": 0.109
+      },
+      {
+        "text": "f",
+        "bbox": {
+          "x_min": 1442.0,
+          "y_min": 2384.0,
+          "x_max": 1632.0,
+          "y_max": 2560.0
+        },
+        "page": 1,
+        "confidence": 0.408
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 387.0,
+          "y_min": 2399.0,
+          "x_max": 399.0,
+          "y_max": 2411.0
+        },
+        "page": 1,
+        "confidence": 0.468
+      },
+      {
+        "text": "ISL5",
+        "bbox": {
+          "x_min": 2948.0,
+          "y_min": 2393.0,
+          "x_max": 3056.0,
+          "y_max": 2760.0
+        },
+        "page": 1,
+        "confidence": 0.481
+      },
+      {
+        "text": "595",
+        "bbox": {
+          "x_min": 3155.0,
+          "y_min": 2485.0,
+          "x_max": 3259.0,
+          "y_max": 2753.0
+        },
+        "page": 1,
+        "confidence": 0.603
+      },
+      {
+        "text": "APV",
+        "bbox": {
+          "x_min": 2750.0,
+          "y_min": 2502.0,
+          "x_max": 2844.0,
+          "y_max": 2717.0
+        },
+        "page": 1,
+        "confidence": 0.658
+      },
+      {
+        "text": "o",
+        "bbox": {
+          "x_min": 462.0,
+          "y_min": 2596.0,
+          "x_max": 595.0,
+          "y_max": 2781.0
+        },
+        "page": 1,
+        "confidence": 0.55
+      },
+      {
+        "text": "418-57",
+        "bbox": {
+          "x_min": 1000.0,
+          "y_min": 2742.0,
+          "x_max": 1135.0,
+          "y_max": 3106.0
+        },
+        "page": 1,
+        "confidence": 0.584
+      },
+      {
+        "text": "AglG",
+        "bbox": {
+          "x_min": 796.0,
+          "y_min": 2886.0,
+          "x_max": 879.0,
+          "y_max": 3069.0
+        },
+        "page": 1,
+        "confidence": 0.293
+      },
+      {
+        "text": "URb)",
+        "bbox": {
+          "x_min": 244.0,
+          "y_min": 3143.0,
+          "x_max": 405.0,
+          "y_max": 3365.0
+        },
+        "page": 1,
+        "confidence": 0.477
+      },
+      {
+        "text": "HED",
+        "bbox": {
+          "x_min": 639.0,
+          "y_min": 3184.0,
+          "x_max": 785.0,
+          "y_max": 3449.0
+        },
+        "page": 1,
+        "confidence": 0.32
+      }
+    ],
+    "medications": [
+      {
+        "name": "Heripeoy",
+        "matched_term": "Heripeoy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.276
+      },
+      {
+        "name": "Dydron",
+        "matched_term": "Dydron",
+        "drug_id": "492ad4a5-54dc-4ad5-9e41-2ee850b0c98d",
+        "brand_id": "018ea434-4b92-4eeb-9176-62ce8c0f948c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.623
+      },
+      {
+        "name": "Leebn",
+        "matched_term": "Leebn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.332
+      },
+      {
+        "name": "Eto",
+        "matched_term": "Eto",
+        "drug_id": "389c3ff0-0eff-48ee-95b6-cf8853145229",
+        "brand_id": "291bbda2-d1fb-4e65-9ba6-7c052737f7f6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.687
+      },
+      {
+        "name": "Sac",
+        "matched_term": "Sac",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.143
+      },
+      {
+        "name": "Wfindy Ot",
+        "matched_term": "Wfindy Ot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.214
+      },
+      {
+        "name": "Qob",
+        "matched_term": "Qob",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.182
+      },
+      {
+        "name": "Qob Ocid Isl",
+        "matched_term": "Qob Ocid Isl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.201
+      },
+      {
+        "name": "Apv",
+        "matched_term": "Apv",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.269
+      },
+      {
+        "name": "Aglg",
+        "matched_term": "Aglg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.132
+      },
+      {
+        "name": "Urb",
+        "matched_term": "Urb",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.215
+      },
+      {
+        "name": "Hed",
+        "matched_term": "Hed",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.144
+      }
+    ]
+  }
+}

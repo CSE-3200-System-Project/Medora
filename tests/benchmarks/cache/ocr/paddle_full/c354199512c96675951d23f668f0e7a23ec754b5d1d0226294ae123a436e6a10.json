@@ -1,0 +1,574 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "c354199512c96675951d23f668f0e7a23ec754b5d1d0226294ae123a436e6a10",
+  "record_id": "RX-0052",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 56469.68360000756,
+  "failure": null,
+  "response_sha256": "87d392d012603c3215fe1014d40f76ccb05e1d3fd5c2bf02027d2b986c26bede",
+  "response": {
+    "raw_text": "Dr. Shaon Shahriar\nMBBS,FCPS (Surgery)\nMS (Hepatobiliary Surgery)FACS (USA)\nGeneral, Laparoscopic, Liver Biliary and Pancreas Surgeon\nAssistant Professor,Department of Hepatobiliary &Pancreatic Surgery\nShaheed Suhrawardy Medical College, Dhaka\nWeb:www.shaonshahriar.com\nUk Damima\nARlas\nAge:56gDate:\n:\n21 NOV ZU\nsionlsonig\n/\n4TN\n65/90\nV\n2111.23\nOX\n.C\n-\nA\nFarorpr\nDro+\nX\n21123\nFarlul taguesis\n-\nRafl tPQAKM\n-1600punt\nCosgHTN9DMhoR\nL\nactro\nineulin\n0\n2\n2\nV\n2\nCBC\nR86,\nS.Creatinine\nCXR,ECGEcho-\nTSH,SEleetrolyte\nHB5A9\n2\nF8S9QHA8F\n70415\nWAe\nSROREO",
+    "lines": [
+      {
+        "text": "Dr. Shaon Shahriar",
+        "bbox": {
+          "x_min": 487.0,
+          "y_min": 54.0,
+          "x_max": 714.0,
+          "y_max": 79.0
+        },
+        "page": 1,
+        "confidence": 0.964
+      },
+      {
+        "text": "MBBS,FCPS (Surgery)",
+        "bbox": {
+          "x_min": 489.0,
+          "y_min": 77.0,
+          "x_max": 633.0,
+          "y_max": 102.0
+        },
+        "page": 1,
+        "confidence": 0.956
+      },
+      {
+        "text": "MS (Hepatobiliary Surgery)FACS (USA)",
+        "bbox": {
+          "x_min": 488.0,
+          "y_min": 98.0,
+          "x_max": 739.0,
+          "y_max": 123.0
+        },
+        "page": 1,
+        "confidence": 0.933
+      },
+      {
+        "text": "General, Laparoscopic, Liver Biliary and Pancreas Surgeon",
+        "bbox": {
+          "x_min": 488.0,
+          "y_min": 117.0,
+          "x_max": 862.0,
+          "y_max": 140.0
+        },
+        "page": 1,
+        "confidence": 0.927
+      },
+      {
+        "text": "Assistant Professor,Department of Hepatobiliary &Pancreatic Surgery",
+        "bbox": {
+          "x_min": 489.0,
+          "y_min": 137.0,
+          "x_max": 889.0,
+          "y_max": 161.0
+        },
+        "page": 1,
+        "confidence": 0.956
+      },
+      {
+        "text": "Shaheed Suhrawardy Medical College, Dhaka",
+        "bbox": {
+          "x_min": 491.0,
+          "y_min": 158.0,
+          "x_max": 760.0,
+          "y_max": 179.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "Web:www.shaonshahriar.com",
+        "bbox": {
+          "x_min": 491.0,
+          "y_min": 176.0,
+          "x_max": 680.0,
+          "y_max": 198.0
+        },
+        "page": 1,
+        "confidence": 0.958
+      },
+      {
+        "text": "Uk Damima",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 218.0,
+          "x_max": 255.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.621
+      },
+      {
+        "text": "ARlas",
+        "bbox": {
+          "x_min": 239.0,
+          "y_min": 214.0,
+          "x_max": 333.0,
+          "y_max": 247.0
+        },
+        "page": 1,
+        "confidence": 0.738
+      },
+      {
+        "text": "Age:56gDate:",
+        "bbox": {
+          "x_min": 618.0,
+          "y_min": 214.0,
+          "x_max": 765.0,
+          "y_max": 251.0
+        },
+        "page": 1,
+        "confidence": 0.875
+      },
+      {
+        "text": ":",
+        "bbox": {
+          "x_min": 54.0,
+          "y_min": 233.0,
+          "x_max": 75.0,
+          "y_max": 249.0
+        },
+        "page": 1,
+        "confidence": 0.702
+      },
+      {
+        "text": "21 NOV ZU",
+        "bbox": {
+          "x_min": 784.0,
+          "y_min": 224.0,
+          "x_max": 880.0,
+          "y_max": 248.0
+        },
+        "page": 1,
+        "confidence": 0.788
+      },
+      {
+        "text": "sionlsonig",
+        "bbox": {
+          "x_min": 45.0,
+          "y_min": 249.0,
+          "x_max": 207.0,
+          "y_max": 311.0
+        },
+        "page": 1,
+        "confidence": 0.747
+      },
+      {
+        "text": "/",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 269.0,
+          "x_max": 273.0,
+          "y_max": 277.0
+        },
+        "page": 1,
+        "confidence": 0.239
+      },
+      {
+        "text": "4TN",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 315.0,
+          "x_max": 112.0,
+          "y_max": 372.0
+        },
+        "page": 1,
+        "confidence": 0.674
+      },
+      {
+        "text": "65/90",
+        "bbox": {
+          "x_min": 52.0,
+          "y_min": 380.0,
+          "x_max": 189.0,
+          "y_max": 423.0
+        },
+        "page": 1,
+        "confidence": 0.934
+      },
+      {
+        "text": "V",
+        "bbox": {
+          "x_min": 591.0,
+          "y_min": 382.0,
+          "x_max": 600.0,
+          "y_max": 388.0
+        },
+        "page": 1,
+        "confidence": 0.092
+      },
+      {
+        "text": "2111.23",
+        "bbox": {
+          "x_min": 576.0,
+          "y_min": 376.0,
+          "x_max": 680.0,
+          "y_max": 422.0
+        },
+        "page": 1,
+        "confidence": 0.879
+      },
+      {
+        "text": "OX",
+        "bbox": {
+          "x_min": 235.0,
+          "y_min": 461.0,
+          "x_max": 246.0,
+          "y_max": 482.0
+        },
+        "page": 1,
+        "confidence": 0.292
+      },
+      {
+        "text": ".C",
+        "bbox": {
+          "x_min": 324.0,
+          "y_min": 479.0,
+          "x_max": 338.0,
+          "y_max": 492.0
+        },
+        "page": 1,
+        "confidence": 0.4
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 334.0,
+          "y_min": 482.0,
+          "x_max": 339.0,
+          "y_max": 488.0
+        },
+        "page": 1,
+        "confidence": 0.29
+      },
+      {
+        "text": "A",
+        "bbox": {
+          "x_min": 336.0,
+          "y_min": 479.0,
+          "x_max": 349.0,
+          "y_max": 489.0
+        },
+        "page": 1,
+        "confidence": 0.099
+      },
+      {
+        "text": "Farorpr",
+        "bbox": {
+          "x_min": 452.0,
+          "y_min": 491.0,
+          "x_max": 608.0,
+          "y_max": 552.0
+        },
+        "page": 1,
+        "confidence": 0.376
+      },
+      {
+        "text": "Dro+",
+        "bbox": {
+          "x_min": 301.0,
+          "y_min": 520.0,
+          "x_max": 457.0,
+          "y_max": 553.0
+        },
+        "page": 1,
+        "confidence": 0.754
+      },
+      {
+        "text": "X",
+        "bbox": {
+          "x_min": 465.0,
+          "y_min": 537.0,
+          "x_max": 481.0,
+          "y_max": 550.0
+        },
+        "page": 1,
+        "confidence": 0.697
+      },
+      {
+        "text": "21123",
+        "bbox": {
+          "x_min": 556.0,
+          "y_min": 559.0,
+          "x_max": 646.0,
+          "y_max": 603.0
+        },
+        "page": 1,
+        "confidence": 0.898
+      },
+      {
+        "text": "Farlul taguesis",
+        "bbox": {
+          "x_min": 716.0,
+          "y_min": 626.0,
+          "x_max": 938.0,
+          "y_max": 680.0
+        },
+        "page": 1,
+        "confidence": 0.753
+      },
+      {
+        "text": "-",
+        "bbox": {
+          "x_min": 712.0,
+          "y_min": 653.0,
+          "x_max": 731.0,
+          "y_max": 671.0
+        },
+        "page": 1,
+        "confidence": 0.114
+      },
+      {
+        "text": "Rafl tPQAKM",
+        "bbox": {
+          "x_min": 451.0,
+          "y_min": 636.0,
+          "x_max": 721.0,
+          "y_max": 714.0
+        },
+        "page": 1,
+        "confidence": 0.615
+      },
+      {
+        "text": "-1600punt",
+        "bbox": {
+          "x_min": 77.0,
+          "y_min": 652.0,
+          "x_max": 277.0,
+          "y_max": 723.0
+        },
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "CosgHTN9DMhoR",
+        "bbox": {
+          "x_min": 471.0,
+          "y_min": 688.0,
+          "x_max": 898.0,
+          "y_max": 771.0
+        },
+        "page": 1,
+        "confidence": 0.653
+      },
+      {
+        "text": "L",
+        "bbox": {
+          "x_min": 534.0,
+          "y_min": 767.0,
+          "x_max": 570.0,
+          "y_max": 787.0
+        },
+        "page": 1,
+        "confidence": 0.295
+      },
+      {
+        "text": "actro",
+        "bbox": {
+          "x_min": 487.0,
+          "y_min": 777.0,
+          "x_max": 583.0,
+          "y_max": 813.0
+        },
+        "page": 1,
+        "confidence": 0.667
+      },
+      {
+        "text": "ineulin",
+        "bbox": {
+          "x_min": 570.0,
+          "y_min": 765.0,
+          "x_max": 727.0,
+          "y_max": 805.0
+        },
+        "page": 1,
+        "confidence": 0.739
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 43.0,
+          "y_min": 852.0,
+          "x_max": 51.0,
+          "y_max": 864.0
+        },
+        "page": 1,
+        "confidence": 0.29
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 806.0,
+          "y_min": 862.0,
+          "x_max": 828.0,
+          "y_max": 885.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 759.0,
+          "y_min": 871.0,
+          "x_max": 817.0,
+          "y_max": 914.0
+        },
+        "page": 1,
+        "confidence": 0.794
+      },
+      {
+        "text": "V",
+        "bbox": {
+          "x_min": 196.0,
+          "y_min": 913.0,
+          "x_max": 215.0,
+          "y_max": 924.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 746.0,
+          "y_min": 899.0,
+          "x_max": 768.0,
+          "y_max": 917.0
+        },
+        "page": 1,
+        "confidence": 0.369
+      },
+      {
+        "text": "CBC",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 920.0,
+          "x_max": 75.0,
+          "y_max": 938.0
+        },
+        "page": 1,
+        "confidence": 0.973
+      },
+      {
+        "text": "R86,",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 935.0,
+          "x_max": 92.0,
+          "y_max": 955.0
+        },
+        "page": 1,
+        "confidence": 0.781
+      },
+      {
+        "text": "S.Creatinine",
+        "bbox": {
+          "x_min": 82.0,
+          "y_min": 921.0,
+          "x_max": 209.0,
+          "y_max": 952.0
+        },
+        "page": 1,
+        "confidence": 0.986
+      },
+      {
+        "text": "CXR,ECGEcho-",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 941.0,
+          "x_max": 210.0,
+          "y_max": 974.0
+        },
+        "page": 1,
+        "confidence": 0.939
+      },
+      {
+        "text": "TSH,SEleetrolyte",
+        "bbox": {
+          "x_min": 39.0,
+          "y_min": 956.0,
+          "x_max": 211.0,
+          "y_max": 991.0
+        },
+        "page": 1,
+        "confidence": 0.821
+      },
+      {
+        "text": "HB5A9",
+        "bbox": {
+          "x_min": 45.0,
+          "y_min": 990.0,
+          "x_max": 120.0,
+          "y_max": 1024.0
+        },
+        "page": 1,
+        "confidence": 0.734
+      },
+      {
+        "text": "2",
+        "bbox": {
+          "x_min": 237.0,
+          "y_min": 993.0,
+          "x_max": 260.0,
+          "y_max": 1018.0
+        },
+        "page": 1,
+        "confidence": 0.652
+      },
+      {
+        "text": "F8S9QHA8F",
+        "bbox": {
+          "x_min": 44.0,
+          "y_min": 1011.0,
+          "x_max": 202.0,
+          "y_max": 1062.0
+        },
+        "page": 1,
+        "confidence": 0.797
+      },
+      {
+        "text": "70415",
+        "bbox": {
+          "x_min": 230.0,
+          "y_min": 1021.0,
+          "x_max": 342.0,
+          "y_max": 1057.0
+        },
+        "page": 1,
+        "confidence": 0.737
+      },
+      {
+        "text": "WAe",
+        "bbox": {
+          "x_min": 49.0,
+          "y_min": 1057.0,
+          "x_max": 196.0,
+          "y_max": 1094.0
+        },
+        "page": 1,
+        "confidence": 0.657
+      },
+      {
+        "text": "SROREO",
+        "bbox": {
+          "x_min": 438.0,
+          "y_min": 1270.0,
+          "x_max": 513.0,
+          "y_max": 1277.0
+        },
+        "page": 1,
+        "confidence": 0.248
+      }
+    ]
+  }
+}

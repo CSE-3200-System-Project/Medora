@@ -152,7 +152,10 @@ function normalizeAddPrescriptionInput(data: AddPrescriptionInput): AddPrescript
 
 export type ConsultationStatus = "open" | "completed";
 export type PrescriptionType = "medication" | "test" | "surgery";
-export type PrescriptionStatus = "pending" | "accepted" | "rejected";
+export type PrescriptionStatus =
+  | "pending_acknowledgment"
+  | "receipt_acknowledged"
+  | "discrepancy_reported";
 export type MedicineType = "tablet" | "capsule" | "syrup" | "injection" | "cream" | "ointment" | "drops" | "inhaler" | "powder" | "gel" | "suppository" | "other";
 export type TestUrgency = "normal" | "urgent";
 export type SurgeryUrgency = "immediate" | "scheduled";
@@ -225,11 +228,11 @@ export interface Prescription {
   patient_id: string;
   type: PrescriptionType;
   status: PrescriptionStatus;
-  rejection_reason?: string;
+  discrepancy_reason?: string;
   notes?: string;
   created_at: string;
-  accepted_at?: string;
-  rejected_at?: string;
+  acknowledged_at?: string;
+  discrepancy_reported_at?: string;
   added_to_history: boolean;
   rendered_prescription_html?: string;
   rendered_prescription_snapshot?: FullPrescriptionResponse;
@@ -855,34 +858,34 @@ export async function getPatientPrescriptionAttachments(
 }
 
 /**
- * Accept a prescription
+ * Acknowledge that a prescription was received. This is not clinical approval.
  */
-export async function acceptPrescription(prescriptionId: string): Promise<{ message: string; status: string }> {
+export async function acknowledgePrescriptionReceipt(prescriptionId: string): Promise<{ message: string; status: string; clinical_approval: false }> {
   const headers = await getAuthHeaders();
 
-  const response = await fetch(`${BACKEND_URL}/consultation/patient/prescription/${prescriptionId}/accept`, {
+  const response = await fetch(`${BACKEND_URL}/consultation/patient/prescription/${prescriptionId}/acknowledge`, {
     method: "POST",
     headers,
   });
 
   if (!response.ok) {
     const errorMessage = await parseErrorResponse(response);
-    throw new Error(errorMessage || "Failed to accept prescription");
+    throw new Error(errorMessage || "Failed to acknowledge prescription receipt");
   }
 
   return await response.json();
 }
 
 /**
- * Reject a prescription
+ * Report a possible mismatch in a prescription.
  */
-export async function rejectPrescription(
+export async function reportPrescriptionDiscrepancy(
   prescriptionId: string,
   reason?: string
 ): Promise<{ message: string; status: string }> {
   const headers = await getAuthHeaders();
 
-  const response = await fetch(`${BACKEND_URL}/consultation/patient/prescription/${prescriptionId}/reject`, {
+  const response = await fetch(`${BACKEND_URL}/consultation/patient/prescription/${prescriptionId}/report-discrepancy`, {
     method: "POST",
     headers,
     body: JSON.stringify({ reason }),
@@ -890,7 +893,7 @@ export async function rejectPrescription(
 
   if (!response.ok) {
     const errorMessage = await parseErrorResponse(response);
-    throw new Error(errorMessage || "Failed to reject prescription");
+    throw new Error(errorMessage || "Failed to report prescription discrepancy");
   }
 
   return await response.json();
@@ -899,7 +902,7 @@ export async function rejectPrescription(
 // ========== MEDICAL HISTORY INTEGRATION ==========
 
 /**
- * Get accepted prescriptions for medical history
+ * Get prescriptions whose receipt has been acknowledged.
  */
 export async function getMedicalHistoryPrescriptions(
   prescriptionType?: PrescriptionType,

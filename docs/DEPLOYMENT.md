@@ -77,8 +77,8 @@ Medora is deployed on **Microsoft Azure** using a cloud-native architecture desi
 - PWA manifest and icons served from `/public`
 
 **PWA Features in Production**:
-- Offline caching via service worker
-- Background sync queue for API mutations
+- Static/public-asset caching via service worker
+- No background synchronization of authenticated or health-data mutations
 - Push notifications via VAPID
 - Installable on mobile devices
 - Web vitals monitoring

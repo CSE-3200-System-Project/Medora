@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "e29b4376e6aad9521f8e236ffcbf417121c1d7b31c19b2be1ae81841959ca9c2",
+  "record_id": "RX-0094",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 13963.823999991291,
+  "failure": null,
+  "response_sha256": "bcd5dc61507035e9f66ebe5c786833372056f866bf0b6d8a2890952e409b1b4f",
+  "response": {
+    "raw_text": "S\nGOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nCandleoch Heij Office\nTREATMENT CARDIFFIST\nHEALTH PROFILE\n2. El :: al Press.m.\nChef Complains:\nThe Tolparis ( 10)\n/+0+1\nCehattrailkr\nRosalraticr-\nCalen DI (Tv)\n1+0+)\n-2.6.\nFES.RES\nECG\nProvis onel Diagonceis\nDiclefaune gel-2\n2",
+    "lines": [
+      {
+        "text": "S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Candleoch Heij Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "TREATMENT CARDIFFIST",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2. El :: al Press.m.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Chef Complains:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "The Tolparis ( 10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "/+0+1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Cehattrailkr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Rosalraticr-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Calen DI (Tv)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1+0+)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "-2.6.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "FES.RES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Provis onel Diagonceis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Diclefaune gel-2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      }
+    ]
+  }
+}

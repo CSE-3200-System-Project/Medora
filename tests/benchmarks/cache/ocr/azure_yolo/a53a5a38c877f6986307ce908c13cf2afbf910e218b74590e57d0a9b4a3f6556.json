@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "a53a5a38c877f6986307ce908c13cf2afbf910e218b74590e57d0a9b4a3f6556",
+  "record_id": "RX-0027",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10229.914499999722,
+  "failure": null,
+  "response_sha256": "fc0a16d0c6dcdee4dd6b97b4d5246d0a806b48fc84cfb80a48f31c949dbb62eb",
+  "response": {
+    "raw_text": "Rx\n·1 Tab. Levox (5001)\nDrops.\n=) Tab. Fixel\n0-TOT ?-\nTab. P/C (2008)\nCap Ones (20)\n-\nstoer-",
+    "lines": [
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "·1 Tab. Levox (5001)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "Drops.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "=) Tab. Fixel",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "0-TOT ?-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "Tab. P/C (2008)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "Cap Ones (20)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "stoer-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.512
+      }
+    ]
+  }
+}

@@ -1,0 +1,927 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0035",
+  "source_sha256": "d766b885f37e91dfff932dcec45aca27b8dc5a3d9a9476021e7fded0730f91bf",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:39:26.752155+00:00",
+  "runtime_ms": 30669.817899994086,
+  "output": {
+    "raw_text": "Bangladesh Haj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/\nMedical Center\nG053\nPigrim iD\n0061240\nPassport Na\nB00786627\nMaktabNo_44\nMDANOWAR HOSSAIN\nNarne_.\nGender\nMALE\nDistrict\nNAOGAON\nThanaPHAMOIRHAT\nHEALTH PROFILE\n9889\n12080\n1.BioodGroup\n86\n2.Blood Pressure\n3.Haart Disease\n4.Lung Dsease\nNO\n6.Dlabetes\n10.\ns\n9.Woigh\n1.Drug History.\nAntidiabetic\nChief Complaints:\nVialt No.\nDate9 May2024\nrx\nOE\nPuse-\nTa.Tiemonium Methy/supkage\n50r)\nBP.\nTemp-\n)1010-\nSe\nAnaemia-\nDahydration-\nRespiration-\n19.D5.24\nOthers\nFBSRBS-142\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "Bangladesh Haj Office",
+        "bbox": {
+          "x_min": 259.0,
+          "y_min": 0.0,
+          "x_max": 375.0,
+          "y_max": 20.0
+        },
+        "page": 1,
+        "confidence": 0.955
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 255.0,
+          "y_min": 15.0,
+          "x_max": 380.0,
+          "y_max": 32.0
+        },
+        "page": 1,
+        "confidence": 0.997
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 241.0,
+          "y_min": 40.0,
+          "x_max": 400.0,
+          "y_max": 58.0
+        },
+        "page": 1,
+        "confidence": 0.969
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 99.0,
+          "y_min": 57.0,
+          "x_max": 175.0,
+          "y_max": 72.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "G053",
+        "bbox": {
+          "x_min": 421.0,
+          "y_min": 52.0,
+          "x_max": 503.0,
+          "y_max": 66.0
+        },
+        "page": 1,
+        "confidence": 0.957
+      },
+      {
+        "text": "Pigrim iD",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 77.0,
+          "x_max": 139.0,
+          "y_max": 88.0
+        },
+        "page": 1,
+        "confidence": 0.839
+      },
+      {
+        "text": "0061240",
+        "bbox": {
+          "x_min": 142.0,
+          "y_min": 69.0,
+          "x_max": 177.0,
+          "y_max": 80.0
+        },
+        "page": 1,
+        "confidence": 0.918
+      },
+      {
+        "text": "Passport Na",
+        "bbox": {
+          "x_min": 261.0,
+          "y_min": 74.0,
+          "x_max": 309.0,
+          "y_max": 85.0
+        },
+        "page": 1,
+        "confidence": 0.915
+      },
+      {
+        "text": "B00786627",
+        "bbox": {
+          "x_min": 340.0,
+          "y_min": 70.0,
+          "x_max": 379.0,
+          "y_max": 81.0
+        },
+        "page": 1,
+        "confidence": 0.927
+      },
+      {
+        "text": "MaktabNo_44",
+        "bbox": {
+          "x_min": 420.0,
+          "y_min": 69.0,
+          "x_max": 487.0,
+          "y_max": 85.0
+        },
+        "page": 1,
+        "confidence": 0.829
+      },
+      {
+        "text": "MDANOWAR HOSSAIN",
+        "bbox": {
+          "x_min": 143.0,
+          "y_min": 80.0,
+          "x_max": 235.0,
+          "y_max": 95.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "Narne_.",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 90.0,
+          "x_max": 131.0,
+          "y_max": 104.0
+        },
+        "page": 1,
+        "confidence": 0.864
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 101.0,
+          "y_min": 105.0,
+          "x_max": 130.0,
+          "y_max": 116.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 146.0,
+          "y_min": 97.0,
+          "x_max": 170.0,
+          "y_max": 109.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "District",
+        "bbox": {
+          "x_min": 208.0,
+          "y_min": 104.0,
+          "x_max": 236.0,
+          "y_max": 114.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      },
+      {
+        "text": "NAOGAON",
+        "bbox": {
+          "x_min": 237.0,
+          "y_min": 98.0,
+          "x_max": 279.0,
+          "y_max": 109.0
+        },
+        "page": 1,
+        "confidence": 0.967
+      },
+      {
+        "text": "ThanaPHAMOIRHAT",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 97.0,
+          "x_max": 471.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.913
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 120.0,
+          "x_max": 365.0,
+          "y_max": 135.0
+        },
+        "page": 1,
+        "confidence": 0.966
+      },
+      {
+        "text": "9889",
+        "bbox": {
+          "x_min": 460.0,
+          "y_min": 135.0,
+          "x_max": 491.0,
+          "y_max": 191.0
+        },
+        "page": 1,
+        "confidence": 0.311
+      },
+      {
+        "text": "12080",
+        "bbox": {
+          "x_min": 466.0,
+          "y_min": 127.0,
+          "x_max": 496.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.898
+      },
+      {
+        "text": "1.BioodGroup",
+        "bbox": {
+          "x_min": 191.0,
+          "y_min": 138.0,
+          "x_max": 257.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.789
+      },
+      {
+        "text": "86",
+        "bbox": {
+          "x_min": 263.0,
+          "y_min": 139.0,
+          "x_max": 283.0,
+          "y_max": 166.0
+        },
+        "page": 1,
+        "confidence": 0.258
+      },
+      {
+        "text": "2.Blood Pressure",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 139.0,
+          "x_max": 435.0,
+          "y_max": 150.0
+        },
+        "page": 1,
+        "confidence": 0.911
+      },
+      {
+        "text": "3.Haart Disease",
+        "bbox": {
+          "x_min": 194.0,
+          "y_min": 153.0,
+          "x_max": 257.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.822
+      },
+      {
+        "text": "4.Lung Dsease",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 147.0,
+          "x_max": 431.0,
+          "y_max": 166.0
+        },
+        "page": 1,
+        "confidence": 0.828
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 263.0,
+          "y_min": 162.0,
+          "x_max": 280.0,
+          "y_max": 175.0
+        },
+        "page": 1,
+        "confidence": 0.986
+      },
+      {
+        "text": "6.Dlabetes",
+        "bbox": {
+          "x_min": 367.0,
+          "y_min": 161.0,
+          "x_max": 418.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.923
+      },
+      {
+        "text": "10.",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 171.0,
+          "x_max": 384.0,
+          "y_max": 192.0
+        },
+        "page": 1,
+        "confidence": 0.754
+      },
+      {
+        "text": "s",
+        "bbox": {
+          "x_min": 372.0,
+          "y_min": 165.0,
+          "x_max": 461.0,
+          "y_max": 197.0
+        },
+        "page": 1,
+        "confidence": 0.328
+      },
+      {
+        "text": "9.Woigh",
+        "bbox": {
+          "x_min": 194.0,
+          "y_min": 182.0,
+          "x_max": 235.0,
+          "y_max": 193.0
+        },
+        "page": 1,
+        "confidence": 0.86
+      },
+      {
+        "text": "1.Drug History.",
+        "bbox": {
+          "x_min": 193.0,
+          "y_min": 193.0,
+          "x_max": 254.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Antidiabetic",
+        "bbox": {
+          "x_min": 266.0,
+          "y_min": 191.0,
+          "x_max": 307.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.906
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 107.0,
+          "y_min": 216.0,
+          "x_max": 194.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.955
+      },
+      {
+        "text": "Vialt No.",
+        "bbox": {
+          "x_min": 235.0,
+          "y_min": 216.0,
+          "x_max": 268.0,
+          "y_max": 227.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "Date9 May2024",
+        "bbox": {
+          "x_min": 391.0,
+          "y_min": 203.0,
+          "x_max": 457.0,
+          "y_max": 227.0
+        },
+        "page": 1,
+        "confidence": 0.785
+      },
+      {
+        "text": "rx",
+        "bbox": {
+          "x_min": 233.0,
+          "y_min": 237.0,
+          "x_max": 274.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.722
+      },
+      {
+        "text": "OE",
+        "bbox": {
+          "x_min": 108.0,
+          "y_min": 264.0,
+          "x_max": 132.0,
+          "y_max": 280.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Puse-",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 281.0,
+          "x_max": 134.0,
+          "y_max": 293.0
+        },
+        "page": 1,
+        "confidence": 0.866
+      },
+      {
+        "text": "Ta.Tiemonium Methy/supkage",
+        "bbox": {
+          "x_min": 241.0,
+          "y_min": 263.0,
+          "x_max": 560.0,
+          "y_max": 295.0
+        },
+        "page": 1,
+        "confidence": 0.816
+      },
+      {
+        "text": "50r)",
+        "bbox": {
+          "x_min": 472.0,
+          "y_min": 285.0,
+          "x_max": 519.0,
+          "y_max": 302.0
+        },
+        "page": 1,
+        "confidence": 0.706
+      },
+      {
+        "text": "BP.",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 295.0,
+          "x_max": 125.0,
+          "y_max": 308.0
+        },
+        "page": 1,
+        "confidence": 0.798
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 308.0,
+          "x_max": 138.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": ")1010-",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 303.0,
+          "x_max": 410.0,
+          "y_max": 320.0
+        },
+        "page": 1,
+        "confidence": 0.327
+      },
+      {
+        "text": "Se",
+        "bbox": {
+          "x_min": 420.0,
+          "y_min": 304.0,
+          "x_max": 442.0,
+          "y_max": 315.0
+        },
+        "page": 1,
+        "confidence": 0.315
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 324.0,
+          "x_max": 148.0,
+          "y_max": 335.0
+        },
+        "page": 1,
+        "confidence": 0.936
+      },
+      {
+        "text": "Dahydration-",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 334.0,
+          "x_max": 165.0,
+          "y_max": 351.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 109.0,
+          "y_min": 349.0,
+          "x_max": 162.0,
+          "y_max": 365.0
+        },
+        "page": 1,
+        "confidence": 0.931
+      },
+      {
+        "text": "19.D5.24",
+        "bbox": {
+          "x_min": 452.0,
+          "y_min": 347.0,
+          "x_max": 528.0,
+          "y_max": 361.0
+        },
+        "page": 1,
+        "confidence": 0.664
+      },
+      {
+        "text": "Others",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 366.0,
+          "x_max": 140.0,
+          "y_max": 377.0
+        },
+        "page": 1,
+        "confidence": 0.986
+      },
+      {
+        "text": "FBSRBS-142",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 465.0,
+          "x_max": 222.0,
+          "y_max": 495.0
+        },
+        "page": 1,
+        "confidence": 0.686
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 105.0,
+          "y_min": 490.0,
+          "x_max": 128.0,
+          "y_max": 505.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 519.0,
+          "x_max": 206.0,
+          "y_max": 538.0
+        },
+        "page": 1,
+        "confidence": 0.949
+      }
+    ],
+    "medications": [
+      {
+        "name": "Bangladesh Haj Office",
+        "matched_term": "Bangladesh Haj Office",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.43
+      },
+      {
+        "name": "Makkah Madinah Jeddah",
+        "matched_term": "Makkah Madinah Jeddah",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.449
+      },
+      {
+        "name": "Treatment Card",
+        "matched_term": "Treatment Card",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.433
+      },
+      {
+        "name": "Medical Air",
+        "matched_term": "Medical Air",
+        "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+        "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.789
+      },
+      {
+        "name": "Passport Na",
+        "matched_term": "Passport Na",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.412
+      },
+      {
+        "name": "Pigrim Id",
+        "matched_term": "Pigrim Id",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.378
+      },
+      {
+        "name": "Mdanowar Hossain Narne",
+        "matched_term": "Mdanowar Hossain Narne",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.407
+      },
+      {
+        "name": "Malex",
+        "matched_term": "Malex",
+        "drug_id": "52a485c7-9647-4b03-a54b-b973edabfd97",
+        "brand_id": "72390449-1984-45bc-b50a-407a1a5eb799",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.828
+      },
+      {
+        "name": "Thanaphamoirhat",
+        "matched_term": "Thanaphamoirhat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.411
+      },
+      {
+        "name": "Naogaon",
+        "matched_term": "Naogaon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.435
+      },
+      {
+        "name": "District",
+        "matched_term": "District",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.446
+      },
+      {
+        "name": "Gender",
+        "matched_term": "Gender",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.448
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.706
+      },
+      {
+        "name": "Bioodgroup",
+        "matched_term": "Bioodgroup",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.236
+      },
+      {
+        "name": "Pressure Cure",
+        "matched_term": "Pressure Cure",
+        "drug_id": "a764afa0-ecc2-4062-a881-1aca8ba26331",
+        "brand_id": "cd0ad7a9-5819-436f-b622-5ffd0b5002ac",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.79
+      },
+      {
+        "name": "Lung Dsease",
+        "matched_term": "Lung Dsease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.373
+      },
+      {
+        "name": "Haart Disease",
+        "matched_term": "Haart Disease",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.37
+      },
+      {
+        "name": "Dlabetes No",
+        "matched_term": "Dlabetes No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.336
+      },
+      {
+        "name": "Woigh",
+        "matched_term": "Woigh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.387
+      },
+      {
+        "name": "Antidiabetic",
+        "matched_term": "Antidiabetic",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.408
+      },
+      {
+        "name": "Drug History Date May",
+        "matched_term": "Drug History Date May",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.39
+      },
+      {
+        "name": "Chief Complaints",
+        "matched_term": "Chief Complaints",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.43
+      },
+      {
+        "name": "Vialt No Rx",
+        "matched_term": "Vialt No Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.354
+      },
+      {
+        "name": "tiemonium methylsulphate",
+        "matched_term": "tiemonium methylsulphate",
+        "drug_id": "f9069012-4eca-4ab7-870d-8ca8ba93f135",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.777
+      },
+      {
+        "name": "Puse Bp-Z",
+        "matched_term": "Puse Bp-Z",
+        "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+        "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.271
+      },
+      {
+        "name": "Tempac",
+        "matched_term": "Tempac",
+        "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+        "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.816
+      },
+      {
+        "name": "Re Anaemia",
+        "matched_term": "Re Anaemia",
+        "drug_id": "a8b0d7b1-117c-446b-8324-e3a864949b32",
+        "brand_id": "1a4f32e7-c456-444e-aa19-1f65834ba51b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.801
+      },
+      {
+        "name": "Dahydration",
+        "matched_term": "Dahydration",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.364
+      },
+      {
+        "name": "Respira",
+        "matched_term": "Respira",
+        "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+        "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.799
+      },
+      {
+        "name": "Othera",
+        "matched_term": "Othera",
+        "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+        "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.824
+      },
+      {
+        "name": "Fbsrbs",
+        "matched_term": "Fbsrbs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.309
+      },
+      {
+        "name": "Ecg",
+        "matched_term": "Ecg",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.448
+      },
+      {
+        "name": "Provisional Diagonosis",
+        "matched_term": "Provisional Diagonosis",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.427
+      }
+    ]
+  }
+}

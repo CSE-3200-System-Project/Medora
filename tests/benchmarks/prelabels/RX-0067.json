@@ -1,0 +1,1472 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0067",
+  "source_sha256": "7780f98a5d1fd16093f9321b4d770ed5c48be679f77a427783912bf00965f82a",
+  "raw_transcription": "toto -\nTur ketotifen I may\n0+0+1 -- 26\nTab Doxyphylive 200mg.\n/ Menit Petroleum Jelly\nTak: Paracetamol 500 mg.",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Toto",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "ketotifen",
+      "strength": "",
+      "dose": "",
+      "frequency": "0+0+1",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Doxyphylive",
+      "strength": "200mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Petroleum",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "paracetamol",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "ff1340ae8062aafa4dc89e5b48c34f30a2eb2306d6e0e87ddc1172591de0d1ca"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "7d82ce401ba52b851f36d08670d3a72818421a1e17ec93b39906e975e1491cd9"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "77202d6ff0c9518df3187087f9e7ee9ee4b8502432e24009632dfd73bbf713d7"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nMakkan/Madneaiceddan\nPargacean Hsj Cro\nMaaisal Cenn\nTREATMENT GARD\n023\nE F199\n1a30\nSALEABEOM\nFaprtl\ncaas\nM\nHaLe\nCur_D\nT\n229\nS\n92329\nato\na.\n11.DHitey\nChief Conplaints:\n2\n3\nOE\nTlrny\n3500\n8\n280\nHoieu\n3\nTemp-\nSay\nAs\n(+OF\n-\naydration\nKeapretion-\nTun\nVertinImy\nOuers\n)0\nFy\noxyhy y\n++\n/Men Penm ely\nCay.\nPanactame somy\nLRBSC8m\n++9\nECG\nA\nHe\nProv/sional Diagonosis\n24.0T24",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF SANGLADESH",
+          "bbox": {
+            "x_min": 205.0,
+            "y_min": 79.0,
+            "x_max": 451.0,
+            "y_max": 97.0
+          },
+          "page": 1,
+          "confidence": 0.916
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 259.0,
+            "y_min": 91.0,
+            "x_max": 399.0,
+            "y_max": 104.0
+          },
+          "page": 1,
+          "confidence": 0.924
+        },
+        {
+          "text": "Makkan/Madneaiceddan",
+          "bbox": {
+            "x_min": 282.0,
+            "y_min": 108.0,
+            "x_max": 375.0,
+            "y_max": 122.0
+          },
+          "page": 1,
+          "confidence": 0.747
+        },
+        {
+          "text": "Pargacean Hsj Cro",
+          "bbox": {
+            "x_min": 288.0,
+            "y_min": 101.0,
+            "x_max": 372.0,
+            "y_max": 111.0
+          },
+          "page": 1,
+          "confidence": 0.66
+        },
+        {
+          "text": "Maaisal Cenn",
+          "bbox": {
+            "x_min": 164.0,
+            "y_min": 130.0,
+            "x_max": 209.0,
+            "y_max": 141.0
+          },
+          "page": 1,
+          "confidence": 0.625
+        },
+        {
+          "text": "TREATMENT GARD",
+          "bbox": {
+            "x_min": 271.0,
+            "y_min": 124.0,
+            "x_max": 391.0,
+            "y_max": 138.0
+          },
+          "page": 1,
+          "confidence": 0.79
+        },
+        {
+          "text": "023",
+          "bbox": {
+            "x_min": 199.0,
+            "y_min": 135.0,
+            "x_max": 229.0,
+            "y_max": 149.0
+          },
+          "page": 1,
+          "confidence": 0.36
+        },
+        {
+          "text": "E F199",
+          "bbox": {
+            "x_min": 405.0,
+            "y_min": 132.0,
+            "x_max": 473.0,
+            "y_max": 146.0
+          },
+          "page": 1,
+          "confidence": 0.725
+        },
+        {
+          "text": "1a30",
+          "bbox": {
+            "x_min": 164.0,
+            "y_min": 144.0,
+            "x_max": 180.0,
+            "y_max": 151.0
+          },
+          "page": 1,
+          "confidence": 0.292
+        },
+        {
+          "text": "SALEABEOM",
+          "bbox": {
+            "x_min": 200.0,
+            "y_min": 143.0,
+            "x_max": 251.0,
+            "y_max": 159.0
+          },
+          "page": 1,
+          "confidence": 0.541
+        },
+        {
+          "text": "Faprtl",
+          "bbox": {
+            "x_min": 280.0,
+            "y_min": 144.0,
+            "x_max": 322.0,
+            "y_max": 154.0
+          },
+          "page": 1,
+          "confidence": 0.433
+        },
+        {
+          "text": "caas",
+          "bbox": {
+            "x_min": 349.0,
+            "y_min": 143.0,
+            "x_max": 384.0,
+            "y_max": 153.0
+          },
+          "page": 1,
+          "confidence": 0.428
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 408.0,
+            "y_min": 142.0,
+            "x_max": 447.0,
+            "y_max": 156.0
+          },
+          "page": 1,
+          "confidence": 0.346
+        },
+        {
+          "text": "HaLe",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 157.0,
+            "x_max": 226.0,
+            "y_max": 169.0
+          },
+          "page": 1,
+          "confidence": 0.555
+        },
+        {
+          "text": "Cur_D",
+          "bbox": {
+            "x_min": 238.0,
+            "y_min": 158.0,
+            "x_max": 294.0,
+            "y_max": 170.0
+          },
+          "page": 1,
+          "confidence": 0.49
+        },
+        {
+          "text": "T",
+          "bbox": {
+            "x_min": 388.0,
+            "y_min": 159.0,
+            "x_max": 466.0,
+            "y_max": 174.0
+          },
+          "page": 1,
+          "confidence": 0.803
+        },
+        {
+          "text": "229",
+          "bbox": {
+            "x_min": 290.0,
+            "y_min": 188.0,
+            "x_max": 305.0,
+            "y_max": 212.0
+          },
+          "page": 1,
+          "confidence": 0.679
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 369.0,
+            "y_min": 189.0,
+            "x_max": 419.0,
+            "y_max": 199.0
+          },
+          "page": 1,
+          "confidence": 0.51
+        },
+        {
+          "text": "92329",
+          "bbox": {
+            "x_min": 449.0,
+            "y_min": 190.0,
+            "x_max": 471.0,
+            "y_max": 234.0
+          },
+          "page": 1,
+          "confidence": 0.697
+        },
+        {
+          "text": "ato",
+          "bbox": {
+            "x_min": 451.0,
+            "y_min": 183.0,
+            "x_max": 474.0,
+            "y_max": 198.0
+          },
+          "page": 1,
+          "confidence": 0.424
+        },
+        {
+          "text": "a.",
+          "bbox": {
+            "x_min": 290.0,
+            "y_min": 210.0,
+            "x_max": 303.0,
+            "y_max": 219.0
+          },
+          "page": 1,
+          "confidence": 0.612
+        },
+        {
+          "text": "11.DHitey",
+          "bbox": {
+            "x_min": 222.0,
+            "y_min": 221.0,
+            "x_max": 272.0,
+            "y_max": 232.0
+          },
+          "page": 1,
+          "confidence": 0.601
+        },
+        {
+          "text": "Chief Conplaints:",
+          "bbox": {
+            "x_min": 150.0,
+            "y_min": 236.0,
+            "x_max": 222.0,
+            "y_max": 250.0
+          },
+          "page": 1,
+          "confidence": 0.713
+        },
+        {
+          "text": "2",
+          "bbox": {
+            "x_min": 385.0,
+            "y_min": 236.0,
+            "x_max": 447.0,
+            "y_max": 254.0
+          },
+          "page": 1,
+          "confidence": 0.522
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 269.0,
+            "y_min": 251.0,
+            "x_max": 292.0,
+            "y_max": 273.0
+          },
+          "page": 1,
+          "confidence": 0.16
+        },
+        {
+          "text": "OE",
+          "bbox": {
+            "x_min": 145.0,
+            "y_min": 277.0,
+            "x_max": 162.0,
+            "y_max": 288.0
+          },
+          "page": 1,
+          "confidence": 0.378
+        },
+        {
+          "text": "Tlrny",
+          "bbox": {
+            "x_min": 293.0,
+            "y_min": 269.0,
+            "x_max": 451.0,
+            "y_max": 289.0
+          },
+          "page": 1,
+          "confidence": 0.652
+        },
+        {
+          "text": "3500",
+          "bbox": {
+            "x_min": 349.0,
+            "y_min": 288.0,
+            "x_max": 394.0,
+            "y_max": 301.0
+          },
+          "page": 1,
+          "confidence": 0.548
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 458.0,
+            "y_min": 281.0,
+            "x_max": 474.0,
+            "y_max": 294.0
+          },
+          "page": 1,
+          "confidence": 0.181
+        },
+        {
+          "text": "280",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 297.0,
+            "x_max": 202.0,
+            "y_max": 311.0
+          },
+          "page": 1,
+          "confidence": 0.699
+        },
+        {
+          "text": "Hoieu",
+          "bbox": {
+            "x_min": 339.0,
+            "y_min": 302.0,
+            "x_max": 421.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.452
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 441.0,
+            "y_min": 301.0,
+            "x_max": 463.0,
+            "y_max": 322.0
+          },
+          "page": 1,
+          "confidence": 0.159
+        },
+        {
+          "text": "Temp-",
+          "bbox": {
+            "x_min": 141.0,
+            "y_min": 313.0,
+            "x_max": 165.0,
+            "y_max": 324.0
+          },
+          "page": 1,
+          "confidence": 0.882
+        },
+        {
+          "text": "Say",
+          "bbox": {
+            "x_min": 315.0,
+            "y_min": 311.0,
+            "x_max": 342.0,
+            "y_max": 321.0
+          },
+          "page": 1,
+          "confidence": 0.334
+        },
+        {
+          "text": "As",
+          "bbox": {
+            "x_min": 138.0,
+            "y_min": 325.0,
+            "x_max": 172.0,
+            "y_max": 335.0
+          },
+          "page": 1,
+          "confidence": 0.562
+        },
+        {
+          "text": "(+OF",
+          "bbox": {
+            "x_min": 353.0,
+            "y_min": 323.0,
+            "x_max": 394.0,
+            "y_max": 336.0
+          },
+          "page": 1,
+          "confidence": 0.638
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 413.0,
+            "y_min": 319.0,
+            "x_max": 444.0,
+            "y_max": 331.0
+          },
+          "page": 1,
+          "confidence": 0.606
+        },
+        {
+          "text": "aydration",
+          "bbox": {
+            "x_min": 135.0,
+            "y_min": 333.0,
+            "x_max": 184.0,
+            "y_max": 349.0
+          },
+          "page": 1,
+          "confidence": 0.712
+        },
+        {
+          "text": "Keapretion-",
+          "bbox": {
+            "x_min": 136.0,
+            "y_min": 348.0,
+            "x_max": 183.0,
+            "y_max": 362.0
+          },
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Tun",
+          "bbox": {
+            "x_min": 330.0,
+            "y_min": 345.0,
+            "x_max": 348.0,
+            "y_max": 353.0
+          },
+          "page": 1,
+          "confidence": 0.521
+        },
+        {
+          "text": "VertinImy",
+          "bbox": {
+            "x_min": 365.0,
+            "y_min": 334.0,
+            "x_max": 449.0,
+            "y_max": 354.0
+          },
+          "page": 1,
+          "confidence": 0.595
+        },
+        {
+          "text": "Ouers",
+          "bbox": {
+            "x_min": 134.0,
+            "y_min": 360.0,
+            "x_max": 160.0,
+            "y_max": 373.0
+          },
+          "page": 1,
+          "confidence": 0.678
+        },
+        {
+          "text": ")0",
+          "bbox": {
+            "x_min": 371.0,
+            "y_min": 357.0,
+            "x_max": 402.0,
+            "y_max": 368.0
+          },
+          "page": 1,
+          "confidence": 0.453
+        },
+        {
+          "text": "Fy",
+          "bbox": {
+            "x_min": 341.0,
+            "y_min": 378.0,
+            "x_max": 363.0,
+            "y_max": 389.0
+          },
+          "page": 1,
+          "confidence": 0.368
+        },
+        {
+          "text": "oxyhy y",
+          "bbox": {
+            "x_min": 380.0,
+            "y_min": 368.0,
+            "x_max": 497.0,
+            "y_max": 391.0
+          },
+          "page": 1,
+          "confidence": 0.526
+        },
+        {
+          "text": "++",
+          "bbox": {
+            "x_min": 379.0,
+            "y_min": 388.0,
+            "x_max": 486.0,
+            "y_max": 409.0
+          },
+          "page": 1,
+          "confidence": 0.819
+        },
+        {
+          "text": "/Men Penm ely",
+          "bbox": {
+            "x_min": 319.0,
+            "y_min": 403.0,
+            "x_max": 471.0,
+            "y_max": 431.0
+          },
+          "page": 1,
+          "confidence": 0.694
+        },
+        {
+          "text": "Cay.",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 438.0,
+            "x_max": 388.0,
+            "y_max": 452.0
+          },
+          "page": 1,
+          "confidence": 0.681
+        },
+        {
+          "text": "Panactame somy",
+          "bbox": {
+            "x_min": 399.0,
+            "y_min": 425.0,
+            "x_max": 522.0,
+            "y_max": 450.0
+          },
+          "page": 1,
+          "confidence": 0.696
+        },
+        {
+          "text": "LRBSC8m",
+          "bbox": {
+            "x_min": 117.0,
+            "y_min": 458.0,
+            "x_max": 227.0,
+            "y_max": 475.0
+          },
+          "page": 1,
+          "confidence": 0.706
+        },
+        {
+          "text": "++9",
+          "bbox": {
+            "x_min": 389.0,
+            "y_min": 445.0,
+            "x_max": 533.0,
+            "y_max": 474.0
+          },
+          "page": 1,
+          "confidence": 0.709
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 122.0,
+            "y_min": 476.0,
+            "x_max": 143.0,
+            "y_max": 488.0
+          },
+          "page": 1,
+          "confidence": 0.98
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 494.0,
+            "y_min": 470.0,
+            "x_max": 503.0,
+            "y_max": 478.0
+          },
+          "page": 1,
+          "confidence": 0.087
+        },
+        {
+          "text": "He",
+          "bbox": {
+            "x_min": 482.0,
+            "y_min": 486.0,
+            "x_max": 517.0,
+            "y_max": 500.0
+          },
+          "page": 1,
+          "confidence": 0.235
+        },
+        {
+          "text": "Prov/sional Diagonosis",
+          "bbox": {
+            "x_min": 118.0,
+            "y_min": 503.0,
+            "x_max": 218.0,
+            "y_max": 522.0
+          },
+          "page": 1,
+          "confidence": 0.854
+        },
+        {
+          "text": "24.0T24",
+          "bbox": {
+            "x_min": 480.0,
+            "y_min": 499.0,
+            "x_max": 540.0,
+            "y_max": 516.0
+          },
+          "page": 1,
+          "confidence": 0.782
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.412
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.796
+        },
+        {
+          "name": "Pargacean Hsj Cro",
+          "matched_term": "Pargacean Hsj Cro",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.297
+        },
+        {
+          "name": "Makkan Madneaiceddan",
+          "matched_term": "Makkan Madneaiceddan",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.336
+        },
+        {
+          "name": "Treatment Gard",
+          "matched_term": "Treatment Gard",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.356
+        },
+        {
+          "name": "Maaisal Cenn",
+          "matched_term": "Maaisal Cenn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Saleabeom",
+          "matched_term": "Saleabeom",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.243
+        },
+        {
+          "name": "Caas",
+          "matched_term": "Caas",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.162
+        },
+        {
+          "name": "Faprtl",
+          "matched_term": "Faprtl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.195
+        },
+        {
+          "name": "Cur-Q",
+          "matched_term": "Cur-Q",
+          "drug_id": "3f2af644-bef9-4212-84e6-10d671ac5b6b",
+          "brand_id": "857d95c9-3b75-4f5c-a5a8-263ad39ce086",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.482
+        },
+        {
+          "name": "Atox",
+          "matched_term": "Atox",
+          "drug_id": "a7fd22e6-a136-4acb-988e-6b7adc2a00ab",
+          "brand_id": "cd31f4cf-9ab4-438a-8b14-7ea453cceb6a",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.643
+        },
+        {
+          "name": "Dhitey",
+          "matched_term": "Dhitey",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.27
+        },
+        {
+          "name": "Chief Conplaints",
+          "matched_term": "Chief Conplaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.209
+        },
+        {
+          "name": "Tlrny Aloe",
+          "matched_term": "Tlrny Aloe",
+          "drug_id": "497977fe-7383-418b-8239-c016268333ac",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.196
+        },
+        {
+          "name": "Hoieu",
+          "matched_term": "Hoieu",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        },
+        {
+          "name": "Sanjivani Rasayan",
+          "matched_term": "Sanjivani Rasayan",
+          "drug_id": "af629b2a-13ff-46e8-9877-395ed130d462",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.53
+        },
+        {
+          "name": "Tempac",
+          "matched_term": "Tempac",
+          "drug_id": "34d4169e-0795-45bb-b29d-4873102e5bdd",
+          "brand_id": "8bd39d38-7863-410d-9969-62dc02dbf31c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.682
+        },
+        {
+          "name": "Aydration",
+          "matched_term": "Aydration",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.32
+        },
+        {
+          "name": "Vertinil",
+          "matched_term": "Vertinil",
+          "drug_id": "e784053e-75b4-4640-bd8d-1f845fea6105",
+          "brand_id": "1b286938-2a01-408a-b39a-d68ab8350293",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.648
+        },
+        {
+          "name": "Rotun",
+          "matched_term": "Rotun",
+          "drug_id": "e980c126-ecb1-4e93-b906-3b0016bc7ba7",
+          "brand_id": "21781b74-924f-4f52-a9b9-a3a9fd50a1ef",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.614
+        },
+        {
+          "name": "Keapretion",
+          "matched_term": "Keapretion",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.253
+        },
+        {
+          "name": "Ouers",
+          "matched_term": "Ouers",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.305
+        },
+        {
+          "name": "Oxyhy Comfy",
+          "matched_term": "Oxyhy Comfy",
+          "drug_id": "5de9dc9e-9eff-4c91-97dc-a6f29bd47c89",
+          "brand_id": "dd8d8dda-5b46-49dc-8786-31c8ca7ed49c",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.257
+        },
+        {
+          "name": "B-Men",
+          "matched_term": "B-Men",
+          "drug_id": "923e3334-ab2d-4552-9023-38cdccb2bd12",
+          "brand_id": "d79d618a-557e-42eb-89e5-102d128e4707",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.692
+        },
+        {
+          "name": "Panactame Somy",
+          "matched_term": "Panactame Somy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.313
+        },
+        {
+          "name": "Cay-Cap",
+          "matched_term": "Cay-Cap",
+          "drug_id": "e02673e5-3d63-4701-ba79-ba3614b136e3",
+          "brand_id": "a9c2b320-2294-41ac-ac1d-18c6b14e8fce",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.626
+        },
+        {
+          "name": "Ecg He",
+          "matched_term": "Ecg He",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.3
+        },
+        {
+          "name": "Prov Sional Diagonosis",
+          "matched_term": "Prov Sional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.384
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nPargiacoan Hall Of'>\nMakkatt/Madneniceddot\nTREATMENT CARD! - 18 10\nF195\nMagicod Center\n02-5573\nFEMALE\nHEALTH PROFILE\nKC\nChief Complaints:\n1-85-120/80\nTab Montreuiland\nremp-\nDalidration\nRespiration-\nTab Doxy phy live 200 mg\n/ Menit Petroleum Jelly\nTak, Pancetamel 500 mg.\nLABSRBS- 6.8 mmol/L\nECG\nProvisional Diagonosis\n1\n24.07 24.",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Pargiacoan Hall Of'>",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Makkatt/Madneniceddot",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "TREATMENT CARD! - 18 10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "F195",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Magicod Center",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "02-5573",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "FEMALE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "KC",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Chief Complaints:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "1-85-120/80",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Tab Montreuiland",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "remp-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Dalidration",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Respiration-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Tab Doxy phy live 200 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "/ Menit Petroleum Jelly",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Tak, Pancetamel 500 mg.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "LABSRBS- 6.8 mmol/L",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "ECG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "Provisional Diagonosis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        },
+        {
+          "text": "24.07 24.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.609
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Pargiacoan Hall Of",
+          "matched_term": "Pargiacoan Hall Of",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Makkatt Madneniceddot",
+          "matched_term": "Makkatt Madneniceddot",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Magicod Center",
+          "matched_term": "Magicod Center",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Femala",
+          "matched_term": "Femala",
+          "drug_id": "eb28bd21-be45-4684-b054-044124668980",
+          "brand_id": "5d2e55eb-121a-42d5-b657-c3bc1f1b4d0d",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Chief Complaints",
+          "matched_term": "Chief Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Montreuiland",
+          "matched_term": "Montreuiland",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Rem",
+          "matched_term": "Rem",
+          "drug_id": "c1540954-cef7-49f8-8cde-89964fbd308e",
+          "brand_id": "ecb2a7f0-b29b-4353-b7f7-3d8808459620",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Dalidration",
+          "matched_term": "Dalidration",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Respira",
+          "matched_term": "Respira",
+          "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+          "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Doxy-A",
+          "matched_term": "Doxy-A",
+          "drug_id": "055f1de3-8a63-48b9-adc0-0d049137f996",
+          "brand_id": "93e7c899-23f8-4ebf-96b5-7f9691c9b827",
+          "dosage": "200 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.705
+        },
+        {
+          "name": "Petroleum",
+          "matched_term": "Petroleum",
+          "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Tak Pancetamel",
+          "matched_term": "Tak Pancetamel",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.325
+        },
+        {
+          "name": "Labsrbs- Mmol",
+          "matched_term": "Labsrbs- Mmol",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Provisional Diagonosis",
+          "matched_term": "Provisional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Toto",
+          "matched_term": "Toto",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "ketotifen",
+          "matched_term": "ketotifen",
+          "drug_id": "befc8831-545e-4a07-8852-154775c66fbe",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+1",
+          "quantity": null,
+          "confidence": 0.652
+        },
+        {
+          "name": "Doxyphylive",
+          "matched_term": "Doxyphylive",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "200mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.274
+        },
+        {
+          "name": "Petroleum",
+          "matched_term": "Petroleum",
+          "drug_id": "c444fb89-821e-4657-ba7d-fc3c5f1fc585",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "paracetamol",
+          "matched_term": "paracetamol",
+          "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        }
+      ],
+      "raw_text": "toto -\nTur ketotifen I may\n0+0+1 -- 26\nTab Doxyphylive 200mg.\n/ Menit Petroleum Jelly\nTak: Paracetamol 500 mg.",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 25531,
+        "detected_regions": 1,
+        "ocr_line_count": 6,
+        "yolo_avg_confidence": 0.8777,
+        "yolo_min_confidence": 0.8777,
+        "yolo_max_confidence": 0.8777,
+        "ocr_avg_confidence": 0.495,
+        "ocr_min_confidence": 0.495,
+        "ocr_max_confidence": 0.495,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 261.13525390625,
+              "y_min": 252.72140502929688,
+              "x_max": 541.0242309570312,
+              "y_max": 495.630126953125
+            },
+            "score": 0.8777
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "toto -",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tur ketotifen I may",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "0+0+1 -- 26",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tab Doxyphylive 200mg.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "/ Menit Petroleum Jelly",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tak: Paracetamol 500 mg.",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

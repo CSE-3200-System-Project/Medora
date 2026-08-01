@@ -1,0 +1,618 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "6e71488dc77c4d13580e11d1516ca3008a39d56cc1f2adcdbf4c5351df507208",
+  "record_id": "RX-0020",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 38302.741099993,
+  "failure": null,
+  "response_sha256": "0a57f0ca3f053c0d62fe28c62a8ee47844039a5de912ed6e54d652f4553768b5",
+  "response": {
+    "raw_text": "TREATMENT CARD/\nledical Center.\n020\nigrim D0297203\nport No\nA08561847\nMaktabNo43\nNILUFAR NARGIS\nAge56\nBe\nFEMALE\nThGAN SADAR\nHEALTH PROFILE\n12080\n1.Blood GroupNO\n0.\n2.Blood Pressur\n3\nNO\n3.Heart Disease NO\n5.Kidney Diseas\n5.6\n8.\nBlood Sugar (RBS)\n10\n7.Mental Disease4\nLiver Disease\n9.Weigh\n11.Drug History. Anthyper\n3rd COPY\nD My 2024\nChief Complaints:\nVisit No\nNUD\nAX\nO/E-\ncap.\nOrnopnsole Czomg\n9\nPulse\n++\nBP.\nTemp-\nTab.\nDeftuer Ciomg\nAnaemia\nDehydration-\nRespiration-\nOthers-\nHeNig\nINUD\nFBS/RBS-\nECG\nProvisional Diagonosis",
+    "lines": [
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 230.0,
+          "y_min": 17.0,
+          "x_max": 395.0,
+          "y_max": 36.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "ledical Center.",
+        "bbox": {
+          "x_min": 80.0,
+          "y_min": 29.0,
+          "x_max": 155.0,
+          "y_max": 48.0
+        },
+        "page": 1,
+        "confidence": 0.95
+      },
+      {
+        "text": "020",
+        "bbox": {
+          "x_min": 413.0,
+          "y_min": 16.0,
+          "x_max": 490.0,
+          "y_max": 46.0
+        },
+        "page": 1,
+        "confidence": 0.954
+      },
+      {
+        "text": "igrim D0297203",
+        "bbox": {
+          "x_min": 79.0,
+          "y_min": 43.0,
+          "x_max": 155.0,
+          "y_max": 69.0
+        },
+        "page": 1,
+        "confidence": 0.84
+      },
+      {
+        "text": "port No",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 55.0,
+          "x_max": 303.0,
+          "y_max": 65.0
+        },
+        "page": 1,
+        "confidence": 0.914
+      },
+      {
+        "text": "A08561847",
+        "bbox": {
+          "x_min": 322.0,
+          "y_min": 48.0,
+          "x_max": 367.0,
+          "y_max": 62.0
+        },
+        "page": 1,
+        "confidence": 0.933
+      },
+      {
+        "text": "MaktabNo43",
+        "bbox": {
+          "x_min": 415.0,
+          "y_min": 39.0,
+          "x_max": 476.0,
+          "y_max": 65.0
+        },
+        "page": 1,
+        "confidence": 0.77
+      },
+      {
+        "text": "NILUFAR NARGIS",
+        "bbox": {
+          "x_min": 117.0,
+          "y_min": 65.0,
+          "x_max": 189.0,
+          "y_max": 76.0
+        },
+        "page": 1,
+        "confidence": 0.963
+      },
+      {
+        "text": "Age56",
+        "bbox": {
+          "x_min": 439.0,
+          "y_min": 54.0,
+          "x_max": 476.0,
+          "y_max": 76.0
+        },
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "Be",
+        "bbox": {
+          "x_min": 84.0,
+          "y_min": 74.0,
+          "x_max": 104.0,
+          "y_max": 81.0
+        },
+        "page": 1,
+        "confidence": 0.301
+      },
+      {
+        "text": "FEMALE",
+        "bbox": {
+          "x_min": 117.0,
+          "y_min": 81.0,
+          "x_max": 156.0,
+          "y_max": 92.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "ThGAN SADAR",
+        "bbox": {
+          "x_min": 391.0,
+          "y_min": 67.0,
+          "x_max": 481.0,
+          "y_max": 93.0
+        },
+        "page": 1,
+        "confidence": 0.836
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 100.0,
+          "x_max": 361.0,
+          "y_max": 117.0
+        },
+        "page": 1,
+        "confidence": 0.974
+      },
+      {
+        "text": "12080",
+        "bbox": {
+          "x_min": 460.0,
+          "y_min": 104.0,
+          "x_max": 485.0,
+          "y_max": 119.0
+        },
+        "page": 1,
+        "confidence": 0.868
+      },
+      {
+        "text": "1.Blood GroupNO",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 120.0,
+          "x_max": 266.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.856
+      },
+      {
+        "text": "0.",
+        "bbox": {
+          "x_min": 250.0,
+          "y_min": 115.0,
+          "x_max": 263.0,
+          "y_max": 124.0
+        },
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "2.Blood Pressur",
+        "bbox": {
+          "x_min": 364.0,
+          "y_min": 114.0,
+          "x_max": 436.0,
+          "y_max": 132.0
+        },
+        "page": 1,
+        "confidence": 0.857
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 459.0,
+          "y_min": 124.0,
+          "x_max": 476.0,
+          "y_max": 142.0
+        },
+        "page": 1,
+        "confidence": 0.288
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 460.0,
+          "y_min": 117.0,
+          "x_max": 474.0,
+          "y_max": 129.0
+        },
+        "page": 1,
+        "confidence": 0.993
+      },
+      {
+        "text": "3.Heart Disease NO",
+        "bbox": {
+          "x_min": 182.0,
+          "y_min": 133.0,
+          "x_max": 266.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "5.Kidney Diseas",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 143.0,
+          "x_max": 266.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "5.6",
+        "bbox": {
+          "x_min": 461.0,
+          "y_min": 137.0,
+          "x_max": 475.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.851
+      },
+      {
+        "text": "8.",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 149.0,
+          "x_max": 382.0,
+          "y_max": 161.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "Blood Sugar (RBS)",
+        "bbox": {
+          "x_min": 375.0,
+          "y_min": 144.0,
+          "x_max": 460.0,
+          "y_max": 164.0
+        },
+        "page": 1,
+        "confidence": 0.887
+      },
+      {
+        "text": "10",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 142.0,
+          "x_max": 480.0,
+          "y_max": 167.0
+        },
+        "page": 1,
+        "confidence": 0.248
+      },
+      {
+        "text": "7.Mental Disease4",
+        "bbox": {
+          "x_min": 183.0,
+          "y_min": 154.0,
+          "x_max": 264.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.907
+      },
+      {
+        "text": "Liver Disease",
+        "bbox": {
+          "x_min": 377.0,
+          "y_min": 152.0,
+          "x_max": 440.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.819
+      },
+      {
+        "text": "9.Weigh",
+        "bbox": {
+          "x_min": 184.0,
+          "y_min": 166.0,
+          "x_max": 229.0,
+          "y_max": 177.0
+        },
+        "page": 1,
+        "confidence": 0.954
+      },
+      {
+        "text": "11.Drug History. Anthyper",
+        "bbox": {
+          "x_min": 181.0,
+          "y_min": 173.0,
+          "x_max": 289.0,
+          "y_max": 190.0
+        },
+        "page": 1,
+        "confidence": 0.93
+      },
+      {
+        "text": "3rd COPY",
+        "bbox": {
+          "x_min": 253.0,
+          "y_min": 193.0,
+          "x_max": 293.0,
+          "y_max": 204.0
+        },
+        "page": 1,
+        "confidence": 0.916
+      },
+      {
+        "text": "D My 2024",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 178.0,
+          "x_max": 455.0,
+          "y_max": 208.0
+        },
+        "page": 1,
+        "confidence": 0.665
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 90.0,
+          "y_min": 201.0,
+          "x_max": 184.0,
+          "y_max": 220.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "Visit No",
+        "bbox": {
+          "x_min": 230.0,
+          "y_min": 201.0,
+          "x_max": 263.0,
+          "y_max": 212.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "NUD",
+        "bbox": {
+          "x_min": 113.0,
+          "y_min": 225.0,
+          "x_max": 152.0,
+          "y_max": 240.0
+        },
+        "page": 1,
+        "confidence": 0.68
+      },
+      {
+        "text": "AX",
+        "bbox": {
+          "x_min": 240.0,
+          "y_min": 237.0,
+          "x_max": 266.0,
+          "y_max": 255.0
+        },
+        "page": 1,
+        "confidence": 0.44
+      },
+      {
+        "text": "O/E-",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 256.0,
+          "x_max": 117.0,
+          "y_max": 271.0
+        },
+        "page": 1,
+        "confidence": 0.906
+      },
+      {
+        "text": "cap.",
+        "bbox": {
+          "x_min": 265.0,
+          "y_min": 258.0,
+          "x_max": 301.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.828
+      },
+      {
+        "text": "Ornopnsole Czomg",
+        "bbox": {
+          "x_min": 314.0,
+          "y_min": 231.0,
+          "x_max": 460.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.732
+      },
+      {
+        "text": "9",
+        "bbox": {
+          "x_min": 406.0,
+          "y_min": 258.0,
+          "x_max": 443.0,
+          "y_max": 277.0
+        },
+        "page": 1,
+        "confidence": 0.726
+      },
+      {
+        "text": "Pulse",
+        "bbox": {
+          "x_min": 91.0,
+          "y_min": 270.0,
+          "x_max": 120.0,
+          "y_max": 288.0
+        },
+        "page": 1,
+        "confidence": 0.99
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 324.0,
+          "y_min": 268.0,
+          "x_max": 382.0,
+          "y_max": 286.0
+        },
+        "page": 1,
+        "confidence": 0.822
+      },
+      {
+        "text": "BP.",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 289.0,
+          "x_max": 110.0,
+          "y_max": 303.0
+        },
+        "page": 1,
+        "confidence": 0.772
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 305.0,
+          "x_max": 122.0,
+          "y_max": 318.0
+        },
+        "page": 1,
+        "confidence": 0.992
+      },
+      {
+        "text": "Tab.",
+        "bbox": {
+          "x_min": 272.0,
+          "y_min": 303.0,
+          "x_max": 328.0,
+          "y_max": 320.0
+        },
+        "page": 1,
+        "confidence": 0.873
+      },
+      {
+        "text": "Deftuer Ciomg",
+        "bbox": {
+          "x_min": 324.0,
+          "y_min": 285.0,
+          "x_max": 449.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.659
+      },
+      {
+        "text": "Anaemia",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 321.0,
+          "x_max": 133.0,
+          "y_max": 332.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 334.0,
+          "x_max": 152.0,
+          "y_max": 348.0
+        },
+        "page": 1,
+        "confidence": 0.985
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 350.0,
+          "x_max": 149.0,
+          "y_max": 364.0
+        },
+        "page": 1,
+        "confidence": 0.996
+      },
+      {
+        "text": "Others-",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 368.0,
+          "x_max": 127.0,
+          "y_max": 379.0
+        },
+        "page": 1,
+        "confidence": 0.925
+      },
+      {
+        "text": "HeNig",
+        "bbox": {
+          "x_min": 95.0,
+          "y_min": 395.0,
+          "x_max": 201.0,
+          "y_max": 428.0
+        },
+        "page": 1,
+        "confidence": 0.478
+      },
+      {
+        "text": "INUD",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 415.0,
+          "x_max": 200.0,
+          "y_max": 439.0
+        },
+        "page": 1,
+        "confidence": 0.851
+      },
+      {
+        "text": "FBS/RBS-",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 486.0,
+          "x_max": 143.0,
+          "y_max": 501.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 504.0,
+          "x_max": 119.0,
+          "y_max": 519.0
+        },
+        "page": 1,
+        "confidence": 0.997
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 532.0,
+          "x_max": 210.0,
+          "y_max": 555.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      }
+    ]
+  }
+}

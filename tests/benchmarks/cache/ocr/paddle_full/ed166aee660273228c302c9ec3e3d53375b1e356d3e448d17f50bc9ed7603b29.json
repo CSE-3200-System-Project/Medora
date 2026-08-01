@@ -1,0 +1,552 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "record_id": "RX-0090",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 21827.021800010698,
+  "failure": null,
+  "response_sha256": "6d59dc962358395918aaefb9c1cc18581434731fffddf017464f846430edcb0d",
+  "response": {
+    "raw_text": "hHajDffic\nR\nREATMENT CARD\nF078\nFC\nPasseoc Hg\n3210\nMacanto_\nm.\nSonce\nFOAE\nTHOnBSETALR\n1Bt\nHEALTH PROFILE\n1om\n1\nNC\nNC\nCng Hsr\nChier Compiainta\nVachc\nJpn\nLap  F\nTab.\nNpxn\n5m\nQE\nPaso\n++\nC\nL.5P\nTomp\nQop\nAcona\nC\nDatydatisr\nTas\nFxmn1\nHesprauo-\nOtrs\n++-\nTAD\npnacinmlsn\n++\nGTL\nFESRBS-\nECG\nProvisional Diagoncsis",
+    "lines": [
+      {
+        "text": "hHajDffic",
+        "bbox": {
+          "x_min": 308.0,
+          "y_min": 113.0,
+          "x_max": 350.0,
+          "y_max": 123.0
+        },
+        "page": 1,
+        "confidence": 0.47
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 130.0,
+          "x_max": 163.0,
+          "y_max": 138.0
+        },
+        "page": 1,
+        "confidence": 0.093
+      },
+      {
+        "text": "REATMENT CARD",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 135.0,
+          "x_max": 377.0,
+          "y_max": 151.0
+        },
+        "page": 1,
+        "confidence": 0.869
+      },
+      {
+        "text": "F078",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 139.0,
+          "x_max": 451.0,
+          "y_max": 156.0
+        },
+        "page": 1,
+        "confidence": 0.89
+      },
+      {
+        "text": "FC",
+        "bbox": {
+          "x_min": 145.0,
+          "y_min": 157.0,
+          "x_max": 182.0,
+          "y_max": 174.0
+        },
+        "page": 1,
+        "confidence": 0.612
+      },
+      {
+        "text": "Passeoc Hg",
+        "bbox": {
+          "x_min": 268.0,
+          "y_min": 157.0,
+          "x_max": 309.0,
+          "y_max": 168.0
+        },
+        "page": 1,
+        "confidence": 0.684
+      },
+      {
+        "text": "3210",
+        "bbox": {
+          "x_min": 327.0,
+          "y_min": 153.0,
+          "x_max": 361.0,
+          "y_max": 164.0
+        },
+        "page": 1,
+        "confidence": 0.534
+      },
+      {
+        "text": "Macanto_",
+        "bbox": {
+          "x_min": 392.0,
+          "y_min": 155.0,
+          "x_max": 441.0,
+          "y_max": 166.0
+        },
+        "page": 1,
+        "confidence": 0.505
+      },
+      {
+        "text": "m.",
+        "bbox": {
+          "x_min": 429.0,
+          "y_min": 163.0,
+          "x_max": 439.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.33
+      },
+      {
+        "text": "Sonce",
+        "bbox": {
+          "x_min": 147.0,
+          "y_min": 177.0,
+          "x_max": 170.0,
+          "y_max": 188.0
+        },
+        "page": 1,
+        "confidence": 0.855
+      },
+      {
+        "text": "FOAE",
+        "bbox": {
+          "x_min": 176.0,
+          "y_min": 174.0,
+          "x_max": 206.0,
+          "y_max": 188.0
+        },
+        "page": 1,
+        "confidence": 0.59
+      },
+      {
+        "text": "THOnBSETALR",
+        "bbox": {
+          "x_min": 373.0,
+          "y_min": 173.0,
+          "x_max": 422.0,
+          "y_max": 184.0
+        },
+        "page": 1,
+        "confidence": 0.487
+      },
+      {
+        "text": "1Bt",
+        "bbox": {
+          "x_min": 212.0,
+          "y_min": 198.0,
+          "x_max": 265.0,
+          "y_max": 214.0
+        },
+        "page": 1,
+        "confidence": 0.301
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 189.0,
+          "x_max": 350.0,
+          "y_max": 200.0
+        },
+        "page": 1,
+        "confidence": 0.968
+      },
+      {
+        "text": "1om",
+        "bbox": {
+          "x_min": 432.0,
+          "y_min": 192.0,
+          "x_max": 453.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.306
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 350.0,
+          "y_min": 206.0,
+          "x_max": 406.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.268
+      },
+      {
+        "text": "NC",
+        "bbox": {
+          "x_min": 268.0,
+          "y_min": 218.0,
+          "x_max": 283.0,
+          "y_max": 228.0
+        },
+        "page": 1,
+        "confidence": 0.679
+      },
+      {
+        "text": "NC",
+        "bbox": {
+          "x_min": 433.0,
+          "y_min": 222.0,
+          "x_max": 445.0,
+          "y_max": 230.0
+        },
+        "page": 1,
+        "confidence": 0.397
+      },
+      {
+        "text": "Cng Hsr",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 237.0,
+          "x_max": 260.0,
+          "y_max": 248.0
+        },
+        "page": 1,
+        "confidence": 0.669
+      },
+      {
+        "text": "Chier Compiainta",
+        "bbox": {
+          "x_min": 135.0,
+          "y_min": 252.0,
+          "x_max": 210.0,
+          "y_max": 268.0
+        },
+        "page": 1,
+        "confidence": 0.913
+      },
+      {
+        "text": "Vachc",
+        "bbox": {
+          "x_min": 236.0,
+          "y_min": 254.0,
+          "x_max": 270.0,
+          "y_max": 267.0
+        },
+        "page": 1,
+        "confidence": 0.263
+      },
+      {
+        "text": "Jpn",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 275.0,
+          "x_max": 266.0,
+          "y_max": 293.0
+        },
+        "page": 1,
+        "confidence": 0.562
+      },
+      {
+        "text": "Lap  F",
+        "bbox": {
+          "x_min": 132.0,
+          "y_min": 264.0,
+          "x_max": 227.0,
+          "y_max": 281.0
+        },
+        "page": 1,
+        "confidence": 0.637
+      },
+      {
+        "text": "Tab.",
+        "bbox": {
+          "x_min": 261.0,
+          "y_min": 289.0,
+          "x_max": 287.0,
+          "y_max": 301.0
+        },
+        "page": 1,
+        "confidence": 0.887
+      },
+      {
+        "text": "Npxn",
+        "bbox": {
+          "x_min": 305.0,
+          "y_min": 283.0,
+          "x_max": 387.0,
+          "y_max": 300.0
+        },
+        "page": 1,
+        "confidence": 0.707
+      },
+      {
+        "text": "5m",
+        "bbox": {
+          "x_min": 380.0,
+          "y_min": 281.0,
+          "x_max": 447.0,
+          "y_max": 298.0
+        },
+        "page": 1,
+        "confidence": 0.428
+      },
+      {
+        "text": "QE",
+        "bbox": {
+          "x_min": 132.0,
+          "y_min": 293.0,
+          "x_max": 150.0,
+          "y_max": 306.0
+        },
+        "page": 1,
+        "confidence": 0.759
+      },
+      {
+        "text": "Paso",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 306.0,
+          "x_max": 152.0,
+          "y_max": 318.0
+        },
+        "page": 1,
+        "confidence": 0.802
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 316.0,
+          "y_min": 304.0,
+          "x_max": 366.0,
+          "y_max": 314.0
+        },
+        "page": 1,
+        "confidence": 0.692
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 441.0,
+          "y_min": 293.0,
+          "x_max": 469.0,
+          "y_max": 314.0
+        },
+        "page": 1,
+        "confidence": 0.089
+      },
+      {
+        "text": "L.5P",
+        "bbox": {
+          "x_min": 120.0,
+          "y_min": 318.0,
+          "x_max": 142.0,
+          "y_max": 329.0
+        },
+        "page": 1,
+        "confidence": 0.595
+      },
+      {
+        "text": "Tomp",
+        "bbox": {
+          "x_min": 129.0,
+          "y_min": 330.0,
+          "x_max": 152.0,
+          "y_max": 341.0
+        },
+        "page": 1,
+        "confidence": 0.942
+      },
+      {
+        "text": "Qop",
+        "bbox": {
+          "x_min": 255.0,
+          "y_min": 323.0,
+          "x_max": 292.0,
+          "y_max": 337.0
+        },
+        "page": 1,
+        "confidence": 0.276
+      },
+      {
+        "text": "Acona",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 342.0,
+          "x_max": 160.0,
+          "y_max": 353.0
+        },
+        "page": 1,
+        "confidence": 0.838
+      },
+      {
+        "text": "C",
+        "bbox": {
+          "x_min": 401.0,
+          "y_min": 332.0,
+          "x_max": 461.0,
+          "y_max": 352.0
+        },
+        "page": 1,
+        "confidence": 0.424
+      },
+      {
+        "text": "Datydatisr",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 355.0,
+          "x_max": 172.0,
+          "y_max": 365.0
+        },
+        "page": 1,
+        "confidence": 0.772
+      },
+      {
+        "text": "Tas",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 352.0,
+          "x_max": 296.0,
+          "y_max": 366.0
+        },
+        "page": 1,
+        "confidence": 0.624
+      },
+      {
+        "text": "Fxmn1",
+        "bbox": {
+          "x_min": 321.0,
+          "y_min": 349.0,
+          "x_max": 460.0,
+          "y_max": 369.0
+        },
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Hesprauo-",
+        "bbox": {
+          "x_min": 125.0,
+          "y_min": 367.0,
+          "x_max": 169.0,
+          "y_max": 378.0
+        },
+        "page": 1,
+        "confidence": 0.731
+      },
+      {
+        "text": "Otrs",
+        "bbox": {
+          "x_min": 121.0,
+          "y_min": 378.0,
+          "x_max": 150.0,
+          "y_max": 392.0
+        },
+        "page": 1,
+        "confidence": 0.418
+      },
+      {
+        "text": "++-",
+        "bbox": {
+          "x_min": 337.0,
+          "y_min": 363.0,
+          "x_max": 448.0,
+          "y_max": 386.0
+        },
+        "page": 1,
+        "confidence": 0.875
+      },
+      {
+        "text": "TAD",
+        "bbox": {
+          "x_min": 274.0,
+          "y_min": 387.0,
+          "x_max": 305.0,
+          "y_max": 400.0
+        },
+        "page": 1,
+        "confidence": 0.731
+      },
+      {
+        "text": "pnacinmlsn",
+        "bbox": {
+          "x_min": 336.0,
+          "y_min": 382.0,
+          "x_max": 473.0,
+          "y_max": 402.0
+        },
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "++",
+        "bbox": {
+          "x_min": 354.0,
+          "y_min": 398.0,
+          "x_max": 413.0,
+          "y_max": 415.0
+        },
+        "page": 1,
+        "confidence": 0.885
+      },
+      {
+        "text": "GTL",
+        "bbox": {
+          "x_min": 430.0,
+          "y_min": 402.0,
+          "x_max": 456.0,
+          "y_max": 409.0
+        },
+        "page": 1,
+        "confidence": 0.409
+      },
+      {
+        "text": "FESRBS-",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 479.0,
+          "x_max": 152.0,
+          "y_max": 493.0
+        },
+        "page": 1,
+        "confidence": 0.844
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 495.0,
+          "x_max": 132.0,
+          "y_max": 507.0
+        },
+        "page": 1,
+        "confidence": 0.941
+      },
+      {
+        "text": "Provisional Diagoncsis",
+        "bbox": {
+          "x_min": 110.0,
+          "y_min": 525.0,
+          "x_max": 206.0,
+          "y_max": 538.0
+        },
+        "page": 1,
+        "confidence": 0.928
+      }
+    ]
+  }
+}

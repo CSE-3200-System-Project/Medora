@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0016",
+  "source_sha256": "ac9ea3c93b1bf0070cbf259351391891c4a96bb51c7ea3a572f2517aa3f8320c",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:28:02.196840+00:00",
+  "runtime_ms": 11240.11270000483,
+  "output": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nTREATMENT CARD / HDCHIMIE\nHEALTH PROFILE\n-\n-\nFever\n-\nTab. Fexo 180\n01012\nED. PIC\n54000\n26/5\nProvinicoll Diagonoss",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "TREATMENT CARD / HDCHIMIE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "Fever",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "Tab. Fexo 180",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "01012",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "ED. PIC",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "54000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "26/5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      },
+      {
+        "text": "Provinicoll Diagonoss",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.616
+      }
+    ],
+    "medications": [
+      {
+        "name": "Government Of The",
+        "matched_term": "Government Of The",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      },
+      {
+        "name": "Minista",
+        "matched_term": "Minista",
+        "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+        "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.657
+      },
+      {
+        "name": "Treatment Card Hdchimie",
+        "matched_term": "Treatment Card Hdchimie",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      },
+      {
+        "name": "4-Health",
+        "matched_term": "4-Health",
+        "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+        "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.657
+      },
+      {
+        "name": "C-Fever",
+        "matched_term": "C-Fever",
+        "drug_id": "b78611de-ddab-4f49-b68b-79a72591eb6d",
+        "brand_id": "da15bf35-00ac-4b7e-bd8e-852eadf7249f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.657
+      },
+      {
+        "name": "Fexo",
+        "matched_term": "Fexo",
+        "drug_id": "65aea84f-80a6-4e35-bad0-af864d7c279b",
+        "brand_id": "09312576-01a3-40b7-8d64-5a602e67f407",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.657
+      },
+      {
+        "name": "Ed Pic",
+        "matched_term": "Ed Pic",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      },
+      {
+        "name": "Provinicoll Diagonoss",
+        "matched_term": "Provinicoll Diagonoss",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.277
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "2d6f4e5e454817e0d763dd04bda6a04397076747b3a6af19ddeecfca71cfefc6",
+  "record_id": "RX-0087",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10378.153700003168,
+  "failure": null,
+  "response_sha256": "8b422f910674ab246b7d59b85465754b2d6299ec60b4d88d7644bc30668ecb00",
+  "response": {
+    "raw_text": "Tab. comment (500)\n0\nCap. Esolid- 20\nOR-S.\n(10),80\n· eye drop comprial.\n. Tab. Fixo card.\n2) or\n230V2\n30 ch\nTab. Gliclazide\natot> >Govereal\n· Tab. P/e-20) For .200x\nBelabis -30-3\nvestin. 2\nज् मिककितना अव घडणार बना व कपए नवी दफिदाव करनावे कुछ अमूल पाव।",
+    "lines": [
+      {
+        "text": "Tab. comment (500)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "Cap. Esolid- 20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "OR-S.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "(10),80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "· eye drop comprial.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": ". Tab. Fixo card.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "2) or",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "230V2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "30 ch",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "Tab. Gliclazide",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "atot> >Govereal",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "· Tab. P/e-20) For .200x",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "Belabis -30-3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "vestin. 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      },
+      {
+        "text": "ज् मिककितना अव घडणार बना व कपए नवी दफिदाव करनावे कुछ अमूल पाव।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.447
+      }
+    ]
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0039",
+  "source_sha256": "7a681f44b3acf80461c7ed03a2cf22b0ecf015ff877d289e7bb4883b5e81fe81",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:40:30.040693+00:00",
+  "runtime_ms": 18074.708300002385,
+  "output": {
+    "raw_text": "CIOT\nR\nDr.Md.Sakhawat Hossain (Sajib\nM.B.B.S (D.U).C.C.O (Birem\nM.D (Peatric-ICMH\n..\nDe220\nsalib\nAge28\nR\nGir.Ginidonil\nSrommy\na\n0+01)\n.Dororm\nE0rEr\nTaDT\nC+0+3\nAntkart\n10m\n0\nGs.\ngHrr\nDr0ts\nAmlooho\n.Fenn+(ront\n01070\n21u\nm5A\nLor",
+    "lines": [
+      {
+        "text": "CIOT",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 14.0,
+          "x_max": 219.0,
+          "y_max": 57.0
+        },
+        "page": 1,
+        "confidence": 0.401
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 79.0,
+          "y_min": 131.0,
+          "x_max": 187.0,
+          "y_max": 152.0
+        },
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "Dr.Md.Sakhawat Hossain (Sajib",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 120.0,
+          "x_max": 450.0,
+          "y_max": 146.0
+        },
+        "page": 1,
+        "confidence": 0.94
+      },
+      {
+        "text": "M.B.B.S (D.U).C.C.O (Birem",
+        "bbox": {
+          "x_min": 309.0,
+          "y_min": 135.0,
+          "x_max": 451.0,
+          "y_max": 158.0
+        },
+        "page": 1,
+        "confidence": 0.792
+      },
+      {
+        "text": "M.D (Peatric-ICMH",
+        "bbox": {
+          "x_min": 349.0,
+          "y_min": 148.0,
+          "x_max": 453.0,
+          "y_max": 169.0
+        },
+        "page": 1,
+        "confidence": 0.748
+      },
+      {
+        "text": "..",
+        "bbox": {
+          "x_min": 80.0,
+          "y_min": 163.0,
+          "x_max": 185.0,
+          "y_max": 180.0
+        },
+        "page": 1,
+        "confidence": 0.659
+      },
+      {
+        "text": "De220",
+        "bbox": {
+          "x_min": 371.0,
+          "y_min": 190.0,
+          "x_max": 469.0,
+          "y_max": 214.0
+        },
+        "page": 1,
+        "confidence": 0.63
+      },
+      {
+        "text": "salib",
+        "bbox": {
+          "x_min": 100.0,
+          "y_min": 210.0,
+          "x_max": 141.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.608
+      },
+      {
+        "text": "Age28",
+        "bbox": {
+          "x_min": 265.0,
+          "y_min": 202.0,
+          "x_max": 331.0,
+          "y_max": 222.0
+        },
+        "page": 1,
+        "confidence": 0.895
+      },
+      {
+        "text": "R",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 240.0,
+          "x_max": 151.0,
+          "y_max": 257.0
+        },
+        "page": 1,
+        "confidence": 0.982
+      },
+      {
+        "text": "Gir.Ginidonil",
+        "bbox": {
+          "x_min": 162.0,
+          "y_min": 252.0,
+          "x_max": 275.0,
+          "y_max": 280.0
+        },
+        "page": 1,
+        "confidence": 0.839
+      },
+      {
+        "text": "Srommy",
+        "bbox": {
+          "x_min": 283.0,
+          "y_min": 253.0,
+          "x_max": 330.0,
+          "y_max": 269.0
+        },
+        "page": 1,
+        "confidence": 0.512
+      },
+      {
+        "text": "a",
+        "bbox": {
+          "x_min": 370.0,
+          "y_min": 268.0,
+          "x_max": 429.0,
+          "y_max": 287.0
+        },
+        "page": 1,
+        "confidence": 0.233
+      },
+      {
+        "text": "0+01)",
+        "bbox": {
+          "x_min": 220.0,
+          "y_min": 281.0,
+          "x_max": 271.0,
+          "y_max": 301.0
+        },
+        "page": 1,
+        "confidence": 0.757
+      },
+      {
+        "text": ".Dororm",
+        "bbox": {
+          "x_min": 155.0,
+          "y_min": 301.0,
+          "x_max": 282.0,
+          "y_max": 335.0
+        },
+        "page": 1,
+        "confidence": 0.692
+      },
+      {
+        "text": "E0rEr",
+        "bbox": {
+          "x_min": 302.0,
+          "y_min": 305.0,
+          "x_max": 330.0,
+          "y_max": 315.0
+        },
+        "page": 1,
+        "confidence": 0.414
+      },
+      {
+        "text": "TaDT",
+        "bbox": {
+          "x_min": 388.0,
+          "y_min": 310.0,
+          "x_max": 439.0,
+          "y_max": 327.0
+        },
+        "page": 1,
+        "confidence": 0.362
+      },
+      {
+        "text": "C+0+3",
+        "bbox": {
+          "x_min": 232.0,
+          "y_min": 327.0,
+          "x_max": 284.0,
+          "y_max": 348.0
+        },
+        "page": 1,
+        "confidence": 0.557
+      },
+      {
+        "text": "Antkart",
+        "bbox": {
+          "x_min": 228.0,
+          "y_min": 343.0,
+          "x_max": 308.0,
+          "y_max": 375.0
+        },
+        "page": 1,
+        "confidence": 0.733
+      },
+      {
+        "text": "10m",
+        "bbox": {
+          "x_min": 316.0,
+          "y_min": 347.0,
+          "x_max": 353.0,
+          "y_max": 364.0
+        },
+        "page": 1,
+        "confidence": 0.409
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 317.0,
+          "y_min": 341.0,
+          "x_max": 329.0,
+          "y_max": 352.0
+        },
+        "page": 1,
+        "confidence": 0.132
+      },
+      {
+        "text": "Gs.",
+        "bbox": {
+          "x_min": 178.0,
+          "y_min": 357.0,
+          "x_max": 223.0,
+          "y_max": 379.0
+        },
+        "page": 1,
+        "confidence": 0.47
+      },
+      {
+        "text": "gHrr",
+        "bbox": {
+          "x_min": 388.0,
+          "y_min": 358.0,
+          "x_max": 436.0,
+          "y_max": 380.0
+        },
+        "page": 1,
+        "confidence": 0.334
+      },
+      {
+        "text": "Dr0ts",
+        "bbox": {
+          "x_min": 243.0,
+          "y_min": 373.0,
+          "x_max": 297.0,
+          "y_max": 395.0
+        },
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": "Amlooho",
+        "bbox": {
+          "x_min": 238.0,
+          "y_min": 394.0,
+          "x_max": 340.0,
+          "y_max": 420.0
+        },
+        "page": 1,
+        "confidence": 0.643
+      },
+      {
+        "text": ".Fenn+(ront",
+        "bbox": {
+          "x_min": 185.0,
+          "y_min": 439.0,
+          "x_max": 377.0,
+          "y_max": 484.0
+        },
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "01070",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 477.0,
+          "x_max": 320.0,
+          "y_max": 499.0
+        },
+        "page": 1,
+        "confidence": 0.6
+      },
+      {
+        "text": "21u",
+        "bbox": {
+          "x_min": 224.0,
+          "y_min": 541.0,
+          "x_max": 307.0,
+          "y_max": 559.0
+        },
+        "page": 1,
+        "confidence": 0.458
+      },
+      {
+        "text": "m5A",
+        "bbox": {
+          "x_min": 380.0,
+          "y_min": 559.0,
+          "x_max": 421.0,
+          "y_max": 573.0
+        },
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": "Lor",
+        "bbox": {
+          "x_min": 437.0,
+          "y_min": 557.0,
+          "x_max": 467.0,
+          "y_max": 575.0
+        },
+        "page": 1,
+        "confidence": 0.503
+      }
+    ],
+    "medications": [
+      {
+        "name": "Ciot",
+        "matched_term": "Ciot",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.18
+      },
+      {
+        "name": "Dr Md Sakhawat",
+        "matched_term": "Dr Md Sakhawat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.342
+      },
+      {
+        "name": "Birem",
+        "matched_term": "Birem",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.356
+      },
+      {
+        "name": "Peatric-Icmh De Age",
+        "matched_term": "Peatric-Icmh De Age",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.33
+      },
+      {
+        "name": "Saliben",
+        "matched_term": "Saliben",
+        "drug_id": "cd25e33a-7964-430b-9df3-e3e0adec026e",
+        "brand_id": "377ff0c3-2d24-4fbb-a27f-f308a3366e74",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.738
+      },
+      {
+        "name": "Gir Ginidonil",
+        "matched_term": "Gir Ginidonil",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.378
+      },
+      {
+        "name": "Srommy",
+        "matched_term": "Srommy",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.225
+      },
+      {
+        "name": "Dororm Rer",
+        "matched_term": "Dororm Rer",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.249
+      },
+      {
+        "name": "Tadt",
+        "matched_term": "Tadt",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.158
+      },
+      {
+        "name": "Antkart Gs",
+        "matched_term": "Antkart Gs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.242
+      },
+      {
+        "name": "Drota",
+        "matched_term": "Drota",
+        "drug_id": "c115c340-f9a8-4fd4-a758-6de6e2d7532c",
+        "brand_id": "ae626fc2-ac73-47f0-93b8-e6228e511a33",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.343
+      },
+      {
+        "name": "Amlooho",
+        "matched_term": "Amlooho",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.289
+      },
+      {
+        "name": "Fennel",
+        "matched_term": "Fennel",
+        "drug_id": "5953ddc0-20eb-4d42-b167-af7464630b78",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.627
+      },
+      {
+        "name": "Lora",
+        "matched_term": "Lora",
+        "drug_id": "08bd14ab-f0e3-4c63-9411-0864aa1a0e10",
+        "brand_id": "820f2c2f-9ba4-49a1-b5e8-c9866ee54721",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.557
+      }
+    ]
+  }
+}

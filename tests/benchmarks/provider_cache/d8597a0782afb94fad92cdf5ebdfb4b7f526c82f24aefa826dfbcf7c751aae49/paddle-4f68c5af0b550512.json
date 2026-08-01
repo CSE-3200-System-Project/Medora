@@ -1,0 +1,844 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0081",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "provider": "paddle",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T18:07:23.216581+00:00",
+  "runtime_ms": 43045.54730000382,
+  "output": {
+    "raw_text": "88M\n1GM\nDr.Arifur Rahman Sumon\nMBBS (DMC),FCPS (Medicine)\noilsn\nMD (Cardiology),BCs (Health)\n.\ndune\nMedicine & Heart Specialist\nRR\nClinical and Interventional Cardiologist\n14NOV 2CZ3\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar,Dhaka.\nWFogK\n--\nShgmhA5b\n4-00\nWhonlean\nCOG\nM+HAH ORnceder\nHytnct nionl Howe+\n1\n5mr15\n1+ohoMo\n17 NOV 2023\nAnon A\no+t+0\nJn\nIncisionHoni\nEn+x20+b Mg\nee\nT5RosU5tVenO\nDn.pnet.Anjun\nT.Afbenos OM\nNF\ngM\nKenn in\nMOX\nMApOTEAP\n1\nChamber:\nHitech Multicare Hospital Ltd\n164East KatrulDhaka CantonmentDhoka1206\nhome ofcare\nAppneCrin01969959097DigicinftinDk01708574403\nEergeMedcOfice01407093884Fonger0167312071101407093887\n.-\nAmnceSece0191704294601682912304Emhtchmch164@gmol.com",
+    "lines": [
+      {
+        "text": "88M",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 26.0,
+          "x_max": 39.0,
+          "y_max": 50.0
+        },
+        "page": 1,
+        "confidence": 0.8
+      },
+      {
+        "text": "1GM",
+        "bbox": {
+          "x_min": 0.0,
+          "y_min": 46.0,
+          "x_max": 39.0,
+          "y_max": 68.0
+        },
+        "page": 1,
+        "confidence": 0.586
+      },
+      {
+        "text": "Dr.Arifur Rahman Sumon",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 57.0,
+          "x_max": 383.0,
+          "y_max": 79.0
+        },
+        "page": 1,
+        "confidence": 0.965
+      },
+      {
+        "text": "MBBS (DMC),FCPS (Medicine)",
+        "bbox": {
+          "x_min": 70.0,
+          "y_min": 78.0,
+          "x_max": 269.0,
+          "y_max": 97.0
+        },
+        "page": 1,
+        "confidence": 0.945
+      },
+      {
+        "text": "oilsn",
+        "bbox": {
+          "x_min": 1.0,
+          "y_min": 103.0,
+          "x_max": 41.0,
+          "y_max": 121.0
+        },
+        "page": 1,
+        "confidence": 0.727
+      },
+      {
+        "text": "MD (Cardiology),BCs (Health)",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 99.0,
+          "x_max": 260.0,
+          "y_max": 113.0
+        },
+        "page": 1,
+        "confidence": 0.908
+      },
+      {
+        "text": ".",
+        "bbox": {
+          "x_min": 631.0,
+          "y_min": 94.0,
+          "x_max": 848.0,
+          "y_max": 119.0
+        },
+        "page": 1,
+        "confidence": 0.703
+      },
+      {
+        "text": "dune",
+        "bbox": {
+          "x_min": 2.0,
+          "y_min": 125.0,
+          "x_max": 41.0,
+          "y_max": 139.0
+        },
+        "page": 1,
+        "confidence": 0.497
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": {
+          "x_min": 70.0,
+          "y_min": 116.0,
+          "x_max": 251.0,
+          "y_max": 130.0
+        },
+        "page": 1,
+        "confidence": 0.961
+      },
+      {
+        "text": "RR",
+        "bbox": {
+          "x_min": 724.0,
+          "y_min": 116.0,
+          "x_max": 847.0,
+          "y_max": 133.0
+        },
+        "page": 1,
+        "confidence": 0.531
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 133.0,
+          "x_max": 327.0,
+          "y_max": 147.0
+        },
+        "page": 1,
+        "confidence": 0.971
+      },
+      {
+        "text": "14NOV 2CZ3",
+        "bbox": {
+          "x_min": 412.0,
+          "y_min": 128.0,
+          "x_max": 503.0,
+          "y_max": 159.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": {
+          "x_min": 71.0,
+          "y_min": 148.0,
+          "x_max": 345.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.97
+      },
+      {
+        "text": "Sher-e-Bangla Nagar,Dhaka.",
+        "bbox": {
+          "x_min": 72.0,
+          "y_min": 167.0,
+          "x_max": 251.0,
+          "y_max": 181.0
+        },
+        "page": 1,
+        "confidence": 0.941
+      },
+      {
+        "text": "WFogK",
+        "bbox": {
+          "x_min": 408.0,
+          "y_min": 190.0,
+          "x_max": 484.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.492
+      },
+      {
+        "text": "--",
+        "bbox": {
+          "x_min": 700.0,
+          "y_min": 186.0,
+          "x_max": 854.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.56
+      },
+      {
+        "text": "ShgmhA5b",
+        "bbox": {
+          "x_min": 74.0,
+          "y_min": 213.0,
+          "x_max": 264.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.71
+      },
+      {
+        "text": "4-00",
+        "bbox": {
+          "x_min": 696.0,
+          "y_min": 207.0,
+          "x_max": 852.0,
+          "y_max": 221.0
+        },
+        "page": 1,
+        "confidence": 0.476
+      },
+      {
+        "text": "Whonlean",
+        "bbox": {
+          "x_min": 589.0,
+          "y_min": 283.0,
+          "x_max": 755.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.557
+      },
+      {
+        "text": "COG",
+        "bbox": {
+          "x_min": 586.0,
+          "y_min": 316.0,
+          "x_max": 626.0,
+          "y_max": 346.0
+        },
+        "page": 1,
+        "confidence": 0.409
+      },
+      {
+        "text": "M+HAH ORnceder",
+        "bbox": {
+          "x_min": 168.0,
+          "y_min": 322.0,
+          "x_max": 377.0,
+          "y_max": 362.0
+        },
+        "page": 1,
+        "confidence": 0.593
+      },
+      {
+        "text": "Hytnct nionl Howe+",
+        "bbox": {
+          "x_min": 159.0,
+          "y_min": 373.0,
+          "x_max": 455.0,
+          "y_max": 416.0
+        },
+        "page": 1,
+        "confidence": 0.559
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 60.0,
+          "y_min": 508.0,
+          "x_max": 72.0,
+          "y_max": 517.0
+        },
+        "page": 1,
+        "confidence": 0.11
+      },
+      {
+        "text": "5mr15",
+        "bbox": {
+          "x_min": 64.0,
+          "y_min": 564.0,
+          "x_max": 317.0,
+          "y_max": 602.0
+        },
+        "page": 1,
+        "confidence": 0.626
+      },
+      {
+        "text": "1+ohoMo",
+        "bbox": {
+          "x_min": 357.0,
+          "y_min": 551.0,
+          "x_max": 594.0,
+          "y_max": 585.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "17 NOV 2023",
+        "bbox": {
+          "x_min": 705.0,
+          "y_min": 583.0,
+          "x_max": 802.0,
+          "y_max": 616.0
+        },
+        "page": 1,
+        "confidence": 0.866
+      },
+      {
+        "text": "Anon A",
+        "bbox": {
+          "x_min": 188.0,
+          "y_min": 608.0,
+          "x_max": 275.0,
+          "y_max": 643.0
+        },
+        "page": 1,
+        "confidence": 0.901
+      },
+      {
+        "text": "o+t+0",
+        "bbox": {
+          "x_min": 421.0,
+          "y_min": 623.0,
+          "x_max": 542.0,
+          "y_max": 661.0
+        },
+        "page": 1,
+        "confidence": 0.556
+      },
+      {
+        "text": "Jn",
+        "bbox": {
+          "x_min": 339.0,
+          "y_min": 644.0,
+          "x_max": 370.0,
+          "y_max": 663.0
+        },
+        "page": 1,
+        "confidence": 0.62
+      },
+      {
+        "text": "IncisionHoni",
+        "bbox": {
+          "x_min": 691.0,
+          "y_min": 657.0,
+          "x_max": 882.0,
+          "y_max": 695.0
+        },
+        "page": 1,
+        "confidence": 0.621
+      },
+      {
+        "text": "En+x20+b Mg",
+        "bbox": {
+          "x_min": 114.0,
+          "y_min": 695.0,
+          "x_max": 606.0,
+          "y_max": 744.0
+        },
+        "page": 1,
+        "confidence": 0.627
+      },
+      {
+        "text": "ee",
+        "bbox": {
+          "x_min": 703.0,
+          "y_min": 738.0,
+          "x_max": 790.0,
+          "y_max": 795.0
+        },
+        "page": 1,
+        "confidence": 0.368
+      },
+      {
+        "text": "T5RosU5tVenO",
+        "bbox": {
+          "x_min": 118.0,
+          "y_min": 770.0,
+          "x_max": 424.0,
+          "y_max": 810.0
+        },
+        "page": 1,
+        "confidence": 0.599
+      },
+      {
+        "text": "Dn.pnet.Anjun",
+        "bbox": {
+          "x_min": 714.0,
+          "y_min": 823.0,
+          "x_max": 915.0,
+          "y_max": 874.0
+        },
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "T.Afbenos OM",
+        "bbox": {
+          "x_min": 92.0,
+          "y_min": 845.0,
+          "x_max": 401.0,
+          "y_max": 885.0
+        },
+        "page": 1,
+        "confidence": 0.692
+      },
+      {
+        "text": "NF",
+        "bbox": {
+          "x_min": 455.0,
+          "y_min": 853.0,
+          "x_max": 497.0,
+          "y_max": 876.0
+        },
+        "page": 1,
+        "confidence": 0.462
+      },
+      {
+        "text": "gM",
+        "bbox": {
+          "x_min": 542.0,
+          "y_min": 863.0,
+          "x_max": 604.0,
+          "y_max": 898.0
+        },
+        "page": 1,
+        "confidence": 0.456
+      },
+      {
+        "text": "Kenn in",
+        "bbox": {
+          "x_min": 780.0,
+          "y_min": 872.0,
+          "x_max": 957.0,
+          "y_max": 919.0
+        },
+        "page": 1,
+        "confidence": 0.556
+      },
+      {
+        "text": "MOX",
+        "bbox": {
+          "x_min": 532.0,
+          "y_min": 904.0,
+          "x_max": 619.0,
+          "y_max": 935.0
+        },
+        "page": 1,
+        "confidence": 0.47
+      },
+      {
+        "text": "MApOTEAP",
+        "bbox": {
+          "x_min": 326.0,
+          "y_min": 991.0,
+          "x_max": 448.0,
+          "y_max": 1020.0
+        },
+        "page": 1,
+        "confidence": 0.413
+      },
+      {
+        "text": "1",
+        "bbox": {
+          "x_min": 332.0,
+          "y_min": 987.0,
+          "x_max": 345.0,
+          "y_max": 1000.0
+        },
+        "page": 1,
+        "confidence": 0.207
+      },
+      {
+        "text": "Chamber:",
+        "bbox": {
+          "x_min": 185.0,
+          "y_min": 1064.0,
+          "x_max": 256.0,
+          "y_max": 1083.0
+        },
+        "page": 1,
+        "confidence": 0.988
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd",
+        "bbox": {
+          "x_min": 182.0,
+          "y_min": 1085.0,
+          "x_max": 475.0,
+          "y_max": 1124.0
+        },
+        "page": 1,
+        "confidence": 0.959
+      },
+      {
+        "text": "164East KatrulDhaka CantonmentDhoka1206",
+        "bbox": {
+          "x_min": 204.0,
+          "y_min": 1119.0,
+          "x_max": 461.0,
+          "y_max": 1148.0
+        },
+        "page": 1,
+        "confidence": 0.881
+      },
+      {
+        "text": "home ofcare",
+        "bbox": {
+          "x_min": 78.0,
+          "y_min": 1140.0,
+          "x_max": 159.0,
+          "y_max": 1154.0
+        },
+        "page": 1,
+        "confidence": 0.818
+      },
+      {
+        "text": "AppneCrin01969959097DigicinftinDk01708574403",
+        "bbox": {
+          "x_min": 183.0,
+          "y_min": 1137.0,
+          "x_max": 481.0,
+          "y_max": 1161.0
+        },
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "EergeMedcOfice01407093884Fonger0167312071101407093887",
+        "bbox": {
+          "x_min": 182.0,
+          "y_min": 1149.0,
+          "x_max": 480.0,
+          "y_max": 1177.0
+        },
+        "page": 1,
+        "confidence": 0.847
+      },
+      {
+        "text": ".-",
+        "bbox": {
+          "x_min": 532.0,
+          "y_min": 1146.0,
+          "x_max": 838.0,
+          "y_max": 1177.0
+        },
+        "page": 1,
+        "confidence": 0.579
+      },
+      {
+        "text": "AmnceSece0191704294601682912304Emhtchmch164@gmol.com",
+        "bbox": {
+          "x_min": 180.0,
+          "y_min": 1162.0,
+          "x_max": 482.0,
+          "y_max": 1193.0
+        },
+        "page": 1,
+        "confidence": 0.819
+      }
+    ],
+    "medications": [
+      {
+        "name": "Dr Arifur Rahman",
+        "matched_term": "Dr Arifur Rahman",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.434
+      },
+      {
+        "name": "Mbbs Dmc Fcps",
+        "matched_term": "Mbbs Dmc Fcps",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.371
+      },
+      {
+        "name": "Md Cardiology Bcs",
+        "matched_term": "Md Cardiology Bcs",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.409
+      },
+      {
+        "name": "Oilsn",
+        "matched_term": "Oilsn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.327
+      },
+      {
+        "name": "Medicid",
+        "matched_term": "Medicid",
+        "drug_id": "7b953eeb-d68e-4cd8-962f-408132ea606a",
+        "brand_id": "42712950-3a7b-46f5-a307-7d12f109ed2f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.716
+      },
+      {
+        "name": "Dune Nov Cz",
+        "matched_term": "Dune Nov Cz",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.296
+      },
+      {
+        "name": "Clinical And Interventional",
+        "matched_term": "Clinical And Interventional",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.437
+      },
+      {
+        "name": "National Institute Of",
+        "matched_term": "National Institute Of",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.436
+      },
+      {
+        "name": "Sher-E-Bangla Nagar Dhaka",
+        "matched_term": "Sher-E-Bangla Nagar Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.338
+      },
+      {
+        "name": "Wfogk Shgmha",
+        "matched_term": "Wfogk Shgmha",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.252
+      },
+      {
+        "name": "Whonlean",
+        "matched_term": "Whonlean",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.251
+      },
+      {
+        "name": "Cog",
+        "matched_term": "Cog",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.184
+      },
+      {
+        "name": "Hah Ornceder",
+        "matched_term": "Hah Ornceder",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.267
+      },
+      {
+        "name": "Hytnct Nionl Howe",
+        "matched_term": "Hytnct Nionl Howe",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.151
+      },
+      {
+        "name": "Ohomo Mr",
+        "matched_term": "Ohomo Mr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.28
+      },
+      {
+        "name": "Nova",
+        "matched_term": "Nova",
+        "drug_id": "4a7cd0b3-0092-47de-9160-8010dc2b00cc",
+        "brand_id": "b43d090c-8b70-4e17-ac59-e923725db7b1",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.593
+      },
+      {
+        "name": "Anon",
+        "matched_term": "Anon",
+        "drug_id": "3f7faff3-f6c8-425b-a95f-184e075ce685",
+        "brand_id": "bb8f52ea-e268-4256-82c4-c033320eb37b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.692
+      },
+      {
+        "name": "Incisionhoni En Mg Cee",
+        "matched_term": "Incisionhoni En Mg Cee",
+        "drug_id": "1a78fde7-c95a-47cb-9e2a-c81e76d638c2",
+        "brand_id": "6758da5b-9d2d-48e1-8424-1d9748c356e4",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.249
+      },
+      {
+        "name": "Dn Pnet Anjun",
+        "matched_term": "Dn Pnet Anjun",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.315
+      },
+      {
+        "name": "Afbenos Om Nf Gm",
+        "matched_term": "Afbenos Om Nf Gm",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.241
+      },
+      {
+        "name": "Kenn In",
+        "matched_term": "Kenn In",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.25
+      },
+      {
+        "name": "Mox",
+        "matched_term": "Mox",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "bcee04da-3d1f-4fec-b4eb-d46bd9fc3e5c",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.532
+      },
+      {
+        "name": "Mapoteap",
+        "matched_term": "Mapoteap",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.186
+      },
+      {
+        "name": "Chamber",
+        "matched_term": "Chamber",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.445
+      },
+      {
+        "name": "Hitech Multicare Hospital",
+        "matched_term": "Hitech Multicare Hospital",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.432
+      },
+      {
+        "name": "East Katruldhaka Cantonmentdhoka Appnecrin Digicinftindk",
+        "matched_term": "East Katruldhaka Cantonmentdhoka Appnecrin Digicinftindk",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.389
+      },
+      {
+        "name": "Home Ofcare Eergemedcofice Fonger",
+        "matched_term": "Home Ofcare Eergemedcofice Fonger",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.337
+      },
+      {
+        "name": "Amncesece Emhtchmch Gmol",
+        "matched_term": "Amncesece Emhtchmch Gmol",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.369
+      }
+    ]
+  }
+}

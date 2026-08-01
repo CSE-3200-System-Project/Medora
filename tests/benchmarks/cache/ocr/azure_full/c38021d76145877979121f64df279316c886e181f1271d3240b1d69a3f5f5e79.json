@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "c38021d76145877979121f64df279316c886e181f1271d3240b1d69a3f5f5e79",
+  "record_id": "RX-0059",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 29359.078200010117,
+  "failure": null,
+  "response_sha256": "184356678a1e66bc3215c98f8def60da956f2842b3b447d7cf9d1b24a70c19d1",
+  "response": {
+    "raw_text": "Makkah/Madinah/Jeddah\nTREATMENT CARD / गावहभव\nenter:\n0051247\nPassport No\nA08334465\nMaktab No _ 44\nMST FARIDA PARVIN\nAge :52\nFEMALE\nJOYPURHAT\nThanaJOYPURHAT SADAR\nHEALTH PROFILE\nO-\n120/90\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\nNO\n5. Kidney Disease: NO\n6. Diabetes:\n5.3\n7. Mental Disease: 70\n10. Liver Disease:\nNO\n11. Drug History:\n12. Any other abnormalities:\n2nd COPY\n19 May 2024\nDate:\nComplaints:\nVisit No:\nlg swelly\nelly of frot\nRx\nTab. Furosemid + stinonolachine\n2+++0-6KJ (2015mm)\n14cm\n0/80 mm f Hg\npetroleum culte -6\n. Cap. magnaside (20mg)\n2 tota - @PuÃ\nation-\nElon-\nS-\nnal Diagonosis\n8. Blood Sugar (RBS):\nNO\n9. Weight:\nकटकम ना: F024\nDistrict",
+    "lines": [
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "TREATMENT CARD / गावहभव",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "enter:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "0051247",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "A08334465",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Maktab No _ 44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "MST FARIDA PARVIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Age :52",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "FEMALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "JOYPURHAT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "ThanaJOYPURHAT SADAR",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "O-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "120/90",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "6. Diabetes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "5.3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "7. Mental Disease: 70",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "12. Any other abnormalities:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "2nd COPY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "19 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Date:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "lg swelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "elly of frot",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Tab. Furosemid + stinonolachine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "2+++0-6KJ (2015mm)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "14cm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "0/80 mm f Hg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "petroleum culte -6",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": ". Cap. magnaside (20mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "2 tota - @PuÃ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "ation-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "Elon-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "S-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "nal Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "कटकम ना: F024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      },
+      {
+        "text": "District",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.809
+      }
+    ]
+  }
+}

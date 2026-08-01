@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0090",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:06.195810+00:00",
+  "runtime_ms": 14235.66999999457,
+  "output": {
+    "medications": [
+      {
+        "name": "naproxen",
+        "matched_term": "naproxen",
+        "drug_id": "daa2f35b-44db-456e-9f07-5beb817cf44c",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.599
+      },
+      {
+        "name": "Amopragile Crant Many To Cr",
+        "matched_term": "Amopragile Crant Many To Cr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.219
+      },
+      {
+        "name": "Fexofenadine",
+        "matched_term": "Fexofenadine",
+        "drug_id": "9273a76a-e410-4de4-9598-ed58aede0ead",
+        "brand_id": "ebc09f59-c30a-4a3c-a3d3-fb85b4bf58e7",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.599
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.599
+      },
+      {
+        "name": "paracetamol",
+        "matched_term": "paracetamol",
+        "drug_id": "506f3ed5-2dc3-434c-9383-7ee8fdc53209",
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.599
+      }
+    ],
+    "raw_text": "Rx\nTab_\nNaproxen ( 5mmg)\namopragile crant many\n2.to12- cr2\nFexofenadin (120m)\nTab.\nparacetamol (sr)\n0-+++3-674-",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 14201,
+      "detected_regions": 1,
+      "ocr_line_count": 9,
+      "yolo_avg_confidence": 0.8957,
+      "yolo_min_confidence": 0.8957,
+      "yolo_max_confidence": 0.8957,
+      "ocr_avg_confidence": 0.486,
+      "ocr_min_confidence": 0.486,
+      "ocr_max_confidence": 0.486,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 240.5670166015625,
+            "y_min": 271.3439636230469,
+            "x_max": 518.917724609375,
+            "y_max": 445.5531921386719
+          },
+          "score": 0.8957
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "Tab_",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "Naproxen ( 5mmg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "amopragile crant many",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "2.to12- cr2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "Fexofenadin (120m)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "paracetamol (sr)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        },
+        {
+          "text": "0-+++3-674-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.486
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

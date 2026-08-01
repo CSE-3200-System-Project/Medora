@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use Medora, please cite the archived v1.0.0 release and the SoftwareX article."
+title: "Medora: An open-source bilingual platform for consent-aware health-record management and appointment coordination"
+type: software
+version: 1.0.0
+authors:
+  - family-names: Siddiqui
+    given-names: Sarwad Hasan
+  - family-names: Tahsin
+    given-names: Adiba
+  - family-names: Alam
+    given-names: Kazi Saeed
+    email: saeed.alam@cse.kuet.ac.bd
+repository-code: "https://github.com/CSE-3200-System-Project/Medora"
+license: MIT
+keywords:
+  - digital health
+  - bilingual software
+  - prescription OCR
+  - consent
+  - appointment coordination
+abstract: >-
+  Medora is open-source research software for bilingual health-record
+  management, human-reviewed prescription digitization, specialty navigation,
+  and transactionally safe appointment coordination. It is not a clinically
+  validated medical device.

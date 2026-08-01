@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "283b3246cc6512d0c97359a9d0feb8a71876e98afa4f9f1ae5216f715ed304a1",
+  "record_id": "RX-0044",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 19403.98339999956,
+  "failure": null,
+  "response_sha256": "16e4cbea9dfebcd77f1379462ce3ee77e5c314aa4d7e164e9fb7e3e50aa300c2",
+  "response": {
+    "raw_text": "SIM\nस्वादभव नाथ\nI hab. L'max 500 mg\n5\n26. Cough for 15 days. hur Manas\nBreathing difficulty\n07072-3(5)\nF/H10 Br. asthma\nun. Koti\n0 foto(5\nSyp. Ambrux\n> 1Ph\nRx to SPL of\nMedicine Dept of\nDAK for\nneedful advice\nxplean\nX-ray chert P/A\nview\n* Nepaligator I '5 ml N/s+ Comet\n1 ml 4/1 +3 ml M/S\n-stat\n09-17",
+    "lines": [
+      {
+        "text": "SIM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "स्वादभव नाथ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "I hab. L'max 500 mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "26. Cough for 15 days. hur Manas",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "Breathing difficulty",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "07072-3(5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "F/H10 Br. asthma",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "un. Koti",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "0 foto(5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "Syp. Ambrux",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "> 1Ph",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "Rx to SPL of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "Medicine Dept of",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "DAK for",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "needful advice",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "xplean",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "X-ray chert P/A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "view",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "* Nepaligator I '5 ml N/s+ Comet",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "1 ml 4/1 +3 ml M/S",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "-stat",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      },
+      {
+        "text": "09-17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.54
+      }
+    ]
+  }
+}

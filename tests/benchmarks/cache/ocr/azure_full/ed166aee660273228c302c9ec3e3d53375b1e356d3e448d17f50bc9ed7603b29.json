@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "ed166aee660273228c302c9ec3e3d53375b1e356d3e448d17f50bc9ed7603b29",
+  "record_id": "RX-0090",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 18858.18300000392,
+  "failure": null,
+  "response_sha256": "8a1e03ca93c8c673018c58301c955045a6c250a75280283b0e8c42c5f793b83f",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nExvictodesh Hall Office\nMakka:vadinateJeddah\nTREATMENT CARD / 480\n*:** * F078\n~: 2210.30\nMAKRON5 500\nSonovi\nHEALTH PROFILE\n11: Drug Hoxy:\nChief Complainta:\nVNENC.\nLAP\nBisat Five\nPUNTO\nTomp\nDat yraallar-\nHospraut-\nOthers-\nparacetamol (sr)\nA+++3-6742\nFBSRBS-\nProvisional Diagoncsis\nRx\nNaproxen ( 5mg)\nomeprazole crant me\n2.1012 - CR2\nFexofenadin (120m)\nMusical Certen\nBY\nN",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Exvictodesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Makka:vadinateJeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "TREATMENT CARD / 480",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "*:** * F078",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "~: 2210.30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "MAKRON5 500",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Sonovi",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "11: Drug Hoxy:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Chief Complainta:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "VNENC.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "LAP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Bisat Five",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "PUNTO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Tomp",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Dat yraallar-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Hospraut-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "paracetamol (sr)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "A+++3-6742",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "FBSRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Provisional Diagoncsis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Naproxen ( 5mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "omeprazole crant me",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "2.1012 - CR2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Fexofenadin (120m)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "Musical Certen",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "BY",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      },
+      {
+        "text": "N",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.574
+      }
+    ]
+  }
+}

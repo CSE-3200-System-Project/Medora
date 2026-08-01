@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "7fc223d824cf5473fd52ece290adf71bf0da4322c55e93b1757e80fcd71d9ecf",
+  "record_id": "RX-0103",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 10032.012600000598,
+  "failure": null,
+  "response_sha256": "e7bf21252bdd4be184e6a23664ffb3f06c470f12327bc28bb03548054c860452",
+  "response": {
+    "raw_text": "1.\n2 Tmde\nTh Provaxk\n4000\neizo",
+    "lines": [
+      {
+        "text": "1.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.347
+      },
+      {
+        "text": "2 Tmde",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.347
+      },
+      {
+        "text": "Th Provaxk",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.347
+      },
+      {
+        "text": "4000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.347
+      },
+      {
+        "text": "eizo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.347
+      }
+    ]
+  }
+}

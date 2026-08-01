@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "53753e97a4cc1233497059cefca392a7d003c20c1bafc028076a07962f5f0d10",
+  "record_id": "RX-0088",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 19984.32160000084,
+  "failure": null,
+  "response_sha256": "03440f381174f5272bb66d08560440991129c8b77bbe86930c5d332a5bb4e7f9",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hell Offire\nMakkah annat: Jeddah\nTREATMENT CARD : KRIZIOM\nMedical Carter\nSTUNT: G140\nWasich n _!!\nB\nHEALTH PROFILE\nК. 11 я:18+.\n6.5\n24 Muy 2004\nChiel Complaints:\nR:\nTab Tolan (ing)\n0+++3-20 Mm\nAndsova\nDehyuralita -\nTab. Moren ( wong)\n. Tab. E somconnou | 20 ~5\n20\nFSSRBS-\nProvisional Diagonosis\nCommon Cita\né coretigation.\nरूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।\nTE\n7 V",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Bangladesh Hell Offire",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Makkah annat: Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TREATMENT CARD : KRIZIOM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Medical Carter",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "STUNT: G140",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Wasich n _!!",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "B",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "К. 11 я:18+.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "6.5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "24 Muy 2004",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "R:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab Tolan (ing)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "0+++3-20 Mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Andsova",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Dehyuralita -",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Tab. Moren ( wong)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": ". Tab. E somconnou | 20 ~5",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "FSSRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "Common Cita",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "é coretigation.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "रूस (मण्टिकन गराज किविध्या दवा शोदानत उत्ना व या बद्धानंदणि अधिवाद पनमारे राय वालाक हृदय।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "TE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      },
+      {
+        "text": "7 V",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.475
+      }
+    ]
+  }
+}

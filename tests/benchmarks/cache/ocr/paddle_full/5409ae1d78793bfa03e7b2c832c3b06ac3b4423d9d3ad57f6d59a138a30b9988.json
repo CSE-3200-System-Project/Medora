@@ -1,0 +1,695 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "5409ae1d78793bfa03e7b2c832c3b06ac3b4423d9d3ad57f6d59a138a30b9988",
+  "record_id": "RX-0101",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 38789.592100001755,
+  "failure": null,
+  "response_sha256": "9f02e013ba17db8cb4071478a63b67d614e36b2f1d4441e61cf98a36fa0ef38d",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Oflice\nMakkah/Madinah/Joddah\nTREATMENT CARD/\nG043\nMedical Center:\n1502015\nA13653895\nMaktab No\n37\nPllgrim ID\nMO NAZRUL ISLAM\nPassport Na\nName\nMALE\nDHAKA\nNORMEN\nDistrict\nEALTH PROFILE\n1.Blood Group\n889\n2.Bld Pressr\n5.Kidney isease\n3.Heort Cisease:\nNO\n6.D\n4.Lurg Dis\n7.Mtl Dis\n91\n9.Weight\n11.Drug History\n12.Any lher abnormeltios:\nChief Complaints:\n-May2024\nVisit No\nDale\nD\nSir\nM\nAl\nOE-\nPuse-\n.ro12\n2u.\nBP-\nTemp-\n3\nAnaemia-\nDehydration\nT.Nap\n(o\nRespiration-\n-x3\nhers\ni\nFBS/RBS.\nECG\nProvisional Diagonosis\nRT1\nCnk",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": {
+          "x_min": 172.0,
+          "y_min": 26.0,
+          "x_max": 472.0,
+          "y_max": 40.0
+        },
+        "page": 1,
+        "confidence": 0.954
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 239.0,
+          "y_min": 40.0,
+          "x_max": 407.0,
+          "y_max": 53.0
+        },
+        "page": 1,
+        "confidence": 0.964
+      },
+      {
+        "text": "Bangladesh Hajj Oflice",
+        "bbox": {
+          "x_min": 273.0,
+          "y_min": 51.0,
+          "x_max": 375.0,
+          "y_max": 65.0
+        },
+        "page": 1,
+        "confidence": 0.853
+      },
+      {
+        "text": "Makkah/Madinah/Joddah",
+        "bbox": {
+          "x_min": 269.0,
+          "y_min": 64.0,
+          "x_max": 379.0,
+          "y_max": 77.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 255.0,
+          "y_min": 85.0,
+          "x_max": 397.0,
+          "y_max": 100.0
+        },
+        "page": 1,
+        "confidence": 0.948
+      },
+      {
+        "text": "G043",
+        "bbox": {
+          "x_min": 466.0,
+          "y_min": 84.0,
+          "x_max": 499.0,
+          "y_max": 99.0
+        },
+        "page": 1,
+        "confidence": 0.915
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": {
+          "x_min": 126.0,
+          "y_min": 96.0,
+          "x_max": 194.0,
+          "y_max": 110.0
+        },
+        "page": 1,
+        "confidence": 0.912
+      },
+      {
+        "text": "1502015",
+        "bbox": {
+          "x_min": 179.0,
+          "y_min": 109.0,
+          "x_max": 207.0,
+          "y_max": 120.0
+        },
+        "page": 1,
+        "confidence": 0.975
+      },
+      {
+        "text": "A13653895",
+        "bbox": {
+          "x_min": 352.0,
+          "y_min": 105.0,
+          "x_max": 389.0,
+          "y_max": 116.0
+        },
+        "page": 1,
+        "confidence": 0.946
+      },
+      {
+        "text": "Maktab No",
+        "bbox": {
+          "x_min": 414.0,
+          "y_min": 111.0,
+          "x_max": 455.0,
+          "y_max": 125.0
+        },
+        "page": 1,
+        "confidence": 0.837
+      },
+      {
+        "text": "37",
+        "bbox": {
+          "x_min": 470.0,
+          "y_min": 102.0,
+          "x_max": 481.0,
+          "y_max": 112.0
+        },
+        "page": 1,
+        "confidence": 0.998
+      },
+      {
+        "text": "Pllgrim ID",
+        "bbox": {
+          "x_min": 127.0,
+          "y_min": 112.0,
+          "x_max": 163.0,
+          "y_max": 126.0
+        },
+        "page": 1,
+        "confidence": 0.849
+      },
+      {
+        "text": "MO NAZRUL ISLAM",
+        "bbox": {
+          "x_min": 178.0,
+          "y_min": 121.0,
+          "x_max": 242.0,
+          "y_max": 131.0
+        },
+        "page": 1,
+        "confidence": 0.896
+      },
+      {
+        "text": "Passport Na",
+        "bbox": {
+          "x_min": 269.0,
+          "y_min": 113.0,
+          "x_max": 315.0,
+          "y_max": 124.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "Name",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 125.0,
+          "x_max": 150.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.992
+      },
+      {
+        "text": "MALE",
+        "bbox": {
+          "x_min": 179.0,
+          "y_min": 134.0,
+          "x_max": 198.0,
+          "y_max": 145.0
+        },
+        "page": 1,
+        "confidence": 0.998
+      },
+      {
+        "text": "DHAKA",
+        "bbox": {
+          "x_min": 257.0,
+          "y_min": 131.0,
+          "x_max": 289.0,
+          "y_max": 142.0
+        },
+        "page": 1,
+        "confidence": 0.868
+      },
+      {
+        "text": "NORMEN",
+        "bbox": {
+          "x_min": 426.0,
+          "y_min": 127.0,
+          "x_max": 470.0,
+          "y_max": 137.0
+        },
+        "page": 1,
+        "confidence": 0.685
+      },
+      {
+        "text": "District",
+        "bbox": {
+          "x_min": 221.0,
+          "y_min": 138.0,
+          "x_max": 251.0,
+          "y_max": 148.0
+        },
+        "page": 1,
+        "confidence": 0.844
+      },
+      {
+        "text": "EALTH PROFILE",
+        "bbox": {
+          "x_min": 287.0,
+          "y_min": 151.0,
+          "x_max": 365.0,
+          "y_max": 171.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      },
+      {
+        "text": "1.Blood Group",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 171.0,
+          "x_max": 264.0,
+          "y_max": 182.0
+        },
+        "page": 1,
+        "confidence": 0.873
+      },
+      {
+        "text": "889",
+        "bbox": {
+          "x_min": 286.0,
+          "y_min": 169.0,
+          "x_max": 302.0,
+          "y_max": 194.0
+        },
+        "page": 1,
+        "confidence": 0.492
+      },
+      {
+        "text": "2.Bld Pressr",
+        "bbox": {
+          "x_min": 365.0,
+          "y_min": 168.0,
+          "x_max": 429.0,
+          "y_max": 185.0
+        },
+        "page": 1,
+        "confidence": 0.756
+      },
+      {
+        "text": "5.Kidney isease",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 189.0,
+          "x_max": 272.0,
+          "y_max": 200.0
+        },
+        "page": 1,
+        "confidence": 0.816
+      },
+      {
+        "text": "3.Heort Cisease:",
+        "bbox": {
+          "x_min": 210.0,
+          "y_min": 181.0,
+          "x_max": 267.0,
+          "y_max": 191.0
+        },
+        "page": 1,
+        "confidence": 0.816
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 287.0,
+          "y_min": 189.0,
+          "x_max": 301.0,
+          "y_max": 201.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "6.D",
+        "bbox": {
+          "x_min": 366.0,
+          "y_min": 186.0,
+          "x_max": 411.0,
+          "y_max": 202.0
+        },
+        "page": 1,
+        "confidence": 0.888
+      },
+      {
+        "text": "4.Lurg Dis",
+        "bbox": {
+          "x_min": 368.0,
+          "y_min": 180.0,
+          "x_max": 425.0,
+          "y_max": 193.0
+        },
+        "page": 1,
+        "confidence": 0.821
+      },
+      {
+        "text": "7.Mtl Dis",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 194.0,
+          "x_max": 273.0,
+          "y_max": 210.0
+        },
+        "page": 1,
+        "confidence": 0.627
+      },
+      {
+        "text": "91",
+        "bbox": {
+          "x_min": 288.0,
+          "y_min": 198.0,
+          "x_max": 299.0,
+          "y_max": 206.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "9.Weight",
+        "bbox": {
+          "x_min": 209.0,
+          "y_min": 207.0,
+          "x_max": 246.0,
+          "y_max": 217.0
+        },
+        "page": 1,
+        "confidence": 0.91
+      },
+      {
+        "text": "11.Drug History",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 217.0,
+          "x_max": 262.0,
+          "y_max": 227.0
+        },
+        "page": 1,
+        "confidence": 0.885
+      },
+      {
+        "text": "12.Any lher abnormeltios:",
+        "bbox": {
+          "x_min": 363.0,
+          "y_min": 216.0,
+          "x_max": 461.0,
+          "y_max": 229.0
+        },
+        "page": 1,
+        "confidence": 0.821
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 236.0,
+          "x_max": 208.0,
+          "y_max": 250.0
+        },
+        "page": 1,
+        "confidence": 0.953
+      },
+      {
+        "text": "-May2024",
+        "bbox": {
+          "x_min": 417.0,
+          "y_min": 227.0,
+          "x_max": 460.0,
+          "y_max": 238.0
+        },
+        "page": 1,
+        "confidence": 0.701
+      },
+      {
+        "text": "Visit No",
+        "bbox": {
+          "x_min": 244.0,
+          "y_min": 237.0,
+          "x_max": 277.0,
+          "y_max": 251.0
+        },
+        "page": 1,
+        "confidence": 0.828
+      },
+      {
+        "text": "Dale",
+        "bbox": {
+          "x_min": 389.0,
+          "y_min": 238.0,
+          "x_max": 410.0,
+          "y_max": 253.0
+        },
+        "page": 1,
+        "confidence": 0.747
+      },
+      {
+        "text": "D",
+        "bbox": {
+          "x_min": 132.0,
+          "y_min": 250.0,
+          "x_max": 143.0,
+          "y_max": 260.0
+        },
+        "page": 1,
+        "confidence": 0.125
+      },
+      {
+        "text": "Sir",
+        "bbox": {
+          "x_min": 137.0,
+          "y_min": 269.0,
+          "x_max": 161.0,
+          "y_max": 280.0
+        },
+        "page": 1,
+        "confidence": 0.456
+      },
+      {
+        "text": "M",
+        "bbox": {
+          "x_min": 177.0,
+          "y_min": 261.0,
+          "x_max": 205.0,
+          "y_max": 272.0
+        },
+        "page": 1,
+        "confidence": 0.325
+      },
+      {
+        "text": "Al",
+        "bbox": {
+          "x_min": 320.0,
+          "y_min": 268.0,
+          "x_max": 364.0,
+          "y_max": 284.0
+        },
+        "page": 1,
+        "confidence": 0.639
+      },
+      {
+        "text": "OE-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 282.0,
+          "x_max": 150.0,
+          "y_max": 294.0
+        },
+        "page": 1,
+        "confidence": 0.666
+      },
+      {
+        "text": "Puse-",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 295.0,
+          "x_max": 152.0,
+          "y_max": 307.0
+        },
+        "page": 1,
+        "confidence": 0.881
+      },
+      {
+        "text": ".ro12",
+        "bbox": {
+          "x_min": 295.0,
+          "y_min": 299.0,
+          "x_max": 374.0,
+          "y_max": 322.0
+        },
+        "page": 1,
+        "confidence": 0.643
+      },
+      {
+        "text": "2u.",
+        "bbox": {
+          "x_min": 396.0,
+          "y_min": 295.0,
+          "x_max": 428.0,
+          "y_max": 309.0
+        },
+        "page": 1,
+        "confidence": 0.737
+      },
+      {
+        "text": "BP-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 310.0,
+          "x_max": 146.0,
+          "y_max": 320.0
+        },
+        "page": 1,
+        "confidence": 0.978
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 322.0,
+          "x_max": 154.0,
+          "y_max": 334.0
+        },
+        "page": 1,
+        "confidence": 0.994
+      },
+      {
+        "text": "3",
+        "bbox": {
+          "x_min": 348.0,
+          "y_min": 324.0,
+          "x_max": 365.0,
+          "y_max": 332.0
+        },
+        "page": 1,
+        "confidence": 0.548
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 336.0,
+          "x_max": 163.0,
+          "y_max": 347.0
+        },
+        "page": 1,
+        "confidence": 0.892
+      },
+      {
+        "text": "Dehydration",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 349.0,
+          "x_max": 178.0,
+          "y_max": 360.0
+        },
+        "page": 1,
+        "confidence": 0.983
+      },
+      {
+        "text": "T.Nap",
+        "bbox": {
+          "x_min": 300.0,
+          "y_min": 341.0,
+          "x_max": 362.0,
+          "y_max": 366.0
+        },
+        "page": 1,
+        "confidence": 0.695
+      },
+      {
+        "text": "(o",
+        "bbox": {
+          "x_min": 364.0,
+          "y_min": 349.0,
+          "x_max": 381.0,
+          "y_max": 361.0
+        },
+        "page": 1,
+        "confidence": 0.808
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 362.0,
+          "x_max": 175.0,
+          "y_max": 373.0
+        },
+        "page": 1,
+        "confidence": 0.938
+      },
+      {
+        "text": "-x3",
+        "bbox": {
+          "x_min": 329.0,
+          "y_min": 364.0,
+          "x_max": 380.0,
+          "y_max": 380.0
+        },
+        "page": 1,
+        "confidence": 0.596
+      },
+      {
+        "text": "hers",
+        "bbox": {
+          "x_min": 133.0,
+          "y_min": 377.0,
+          "x_max": 155.0,
+          "y_max": 384.0
+        },
+        "page": 1,
+        "confidence": 0.556
+      },
+      {
+        "text": "i",
+        "bbox": {
+          "x_min": 279.0,
+          "y_min": 404.0,
+          "x_max": 365.0,
+          "y_max": 429.0
+        },
+        "page": 1,
+        "confidence": 0.567
+      },
+      {
+        "text": "FBS/RBS.",
+        "bbox": {
+          "x_min": 130.0,
+          "y_min": 472.0,
+          "x_max": 170.0,
+          "y_max": 487.0
+        },
+        "page": 1,
+        "confidence": 0.9
+      },
+      {
+        "text": "ECG",
+        "bbox": {
+          "x_min": 131.0,
+          "y_min": 487.0,
+          "x_max": 149.0,
+          "y_max": 500.0
+        },
+        "page": 1,
+        "confidence": 0.998
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": {
+          "x_min": 128.0,
+          "y_min": 513.0,
+          "x_max": 222.0,
+          "y_max": 531.0
+        },
+        "page": 1,
+        "confidence": 0.94
+      },
+      {
+        "text": "RT1",
+        "bbox": {
+          "x_min": 154.0,
+          "y_min": 533.0,
+          "x_max": 179.0,
+          "y_max": 549.0
+        },
+        "page": 1,
+        "confidence": 0.759
+      },
+      {
+        "text": "Cnk",
+        "bbox": {
+          "x_min": 153.0,
+          "y_min": 553.0,
+          "x_max": 226.0,
+          "y_max": 575.0
+        },
+        "page": 1,
+        "confidence": 0.625
+      }
+    ]
+  }
+}

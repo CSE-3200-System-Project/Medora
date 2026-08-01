@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "51913af0c9a6cdfc105061e89a7c665de25d986ec8db7a0f8eefb7936dc029c8",
+  "record_id": "RX-0033",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 21076.929100003326,
+  "failure": null,
+  "response_sha256": "f31f7a4928a4e098c0f1181ce568da13eeefdbfa23db2fc27402e4e24d0f88ef",
+  "response": {
+    "raw_text": "0\nTab .\nParacetamol Extend. 665.\n1 Tb. Myolax 50mg\n2+0+2\n20mm\n1 Tab. Esotid 20mg\n2+042 - 2015000",
+    "lines": [
+      {
+        "text": "0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "Tab .",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "Paracetamol Extend. 665.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "1 Tb. Myolax 50mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "2+0+2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "20mm",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "1 Tab. Esotid 20mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      },
+      {
+        "text": "2+042 - 2015000",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.646
+      }
+    ]
+  }
+}

@@ -1,0 +1,188 @@
+..............                                                           [100%]
+============================== warnings summary ===============================
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:365
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:365: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:494
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:494: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:498
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:498: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:502
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:502: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:506
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:506: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:538
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:538: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:542
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:542: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:546
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:546: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:550
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\pyiceberg\table\metadata.py:550: PydanticDeprecatedSince212: Using `@model_validator` with mode='after' on a classmethod is deprecated. Instead, use an instance method. See the documentation at https://docs.pydantic.dev/2.12/concepts/validators/#model-after-validator. Deprecated in Pydantic V2.12 to be removed in V3.0.
+    @model_validator(mode="after")
+
+backend\venv\Lib\site-packages\requests\__init__.py:113
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\requests\__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.2) or chardet (7.4.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version!
+    warnings.warn(
+
+backend\app\schemas\notification.py:77
+  C:\Code\System\Medora\backend\app\schemas\notification.py:77: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class NotificationResponse(BaseModel):
+
+backend\app\schemas\upload.py:7
+  C:\Code\System\Medora\backend\app\schemas\upload.py:7: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MediaFileResponse(BaseModel):
+
+backend\app\schemas\review.py:27
+  C:\Code\System\Medora\backend\app\schemas\review.py:27: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ReviewResponse(BaseModel):
+
+backend\app\schemas\doctor.py:5
+  C:\Code\System\Medora\backend\app\schemas\doctor.py:5: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class DoctorCardSchema(BaseModel):
+
+backend\app\schemas\doctor.py:70
+  C:\Code\System\Medora\backend\app\schemas\doctor.py:70: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class DoctorProfileResponse(BaseModel):
+
+backend\app\schemas\speciality.py:3
+  C:\Code\System\Medora\backend\app\schemas\speciality.py:3: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SpecialitySchema(BaseModel):
+
+backend\app\schemas\appointment.py:93
+  C:\Code\System\Medora\backend\app\schemas\appointment.py:93: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class AppointmentResponse(AppointmentBase):
+
+backend\app\schemas\appointment.py:130
+  C:\Code\System\Medora\backend\app\schemas\appointment.py:130: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class AppointmentRequestResponse(BaseModel):
+
+backend\app\schemas\medicine.py:12
+  C:\Code\System\Medora\backend\app\schemas\medicine.py:12: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class BrandInfo(BaseModel):
+
+backend\app\schemas\medicine.py:23
+  C:\Code\System\Medora\backend\app\schemas\medicine.py:23: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicineSearchResult(BaseModel):
+
+backend\app\schemas\medicine.py:56
+  C:\Code\System\Medora\backend\app\schemas\medicine.py:56: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicineDetailResponse(BaseModel):
+
+backend\app\schemas\medical_test.py:9
+  C:\Code\System\Medora\backend\app\schemas\medical_test.py:9: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicalTestResult(BaseModel):
+
+backend\app\schemas\medical_test.py:52
+  C:\Code\System\Medora\backend\app\schemas\medical_test.py:52: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicalTestDetailResponse(BaseModel):
+
+backend\app\schemas\reminder.py:47
+  C:\Code\System\Medora\backend\app\schemas\reminder.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ReminderResponse(BaseModel):
+
+backend\app\schemas\consultation.py:88
+  C:\Code\System\Medora\backend\app\schemas\consultation.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ConsultationResponse(BaseModel):
+
+backend\app\schemas\consultation.py:184
+  C:\Code\System\Medora\backend\app\schemas\consultation.py:184: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicationPrescriptionResponse(BaseModel):
+
+backend\app\schemas\consultation.py:263
+  C:\Code\System\Medora\backend\app\schemas\consultation.py:263: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class TestPrescriptionResponse(BaseModel):
+
+backend\app\schemas\consultation.py:327
+  C:\Code\System\Medora\backend\app\schemas\consultation.py:327: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SurgeryRecommendationResponse(BaseModel):
+
+backend\app\schemas\consultation.py:361
+  C:\Code\System\Medora\backend\app\schemas\consultation.py:361: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class PrescriptionResponse(BaseModel):
+
+backend\app\schemas\availability.py:15
+  C:\Code\System\Medora\backend\app\schemas\availability.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class TimeBlockResponse(BaseModel):
+
+backend\app\schemas\availability.py:34
+  C:\Code\System\Medora\backend\app\schemas\availability.py:34: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class DayAvailabilityResponse(BaseModel):
+
+backend\app\schemas\availability.py:69
+  C:\Code\System\Medora\backend\app\schemas\availability.py:69: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ExceptionResponse(BaseModel):
+
+backend\app\schemas\availability.py:92
+  C:\Code\System\Medora\backend\app\schemas\availability.py:92: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ScheduleOverrideResponse(BaseModel):
+
+backend\app\schemas\availability.py:138
+  C:\Code\System\Medora\backend\app\schemas\availability.py:138: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class RescheduleRequestResponse(BaseModel):
+
+backend\app\schemas\availability.py:159
+  C:\Code\System\Medora\backend\app\schemas\availability.py:159: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class AuditLogResponse(BaseModel):
+
+backend\app\schemas\health_metric.py:26
+  C:\Code\System\Medora\backend\app\schemas\health_metric.py:26: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class HealthMetricResponse(BaseModel):
+
+backend\app\schemas\doctor_action.py:33
+  C:\Code\System\Medora\backend\app\schemas\doctor_action.py:33: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class DoctorActionResponse(BaseModel):
+
+backend\app\schemas\health_data_consent.py:16
+  C:\Code\System\Medora\backend\app\schemas\health_data_consent.py:16: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class HealthDataConsentResponse(BaseModel):
+
+backend\app\schemas\medical_report.py:9
+  C:\Code\System\Medora\backend\app\schemas\medical_report.py:9: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ReportTestResultResponse(BaseModel):
+
+backend\app\schemas\medical_report.py:30
+  C:\Code\System\Medora\backend\app\schemas\medical_report.py:30: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class DoctorCommentResponse(BaseModel):
+
+backend\app\schemas\medical_report.py:43
+  C:\Code\System\Medora\backend\app\schemas\medical_report.py:43: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicalReportResponse(BaseModel):
+
+backend\app\schemas\medical_report.py:67
+  C:\Code\System\Medora\backend\app\schemas\medical_report.py:67: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MedicalReportListItem(BaseModel):
+
+backend\app\schemas\patient_data_sharing.py:34
+  C:\Code\System\Medora\backend\app\schemas\patient_data_sharing.py:34: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SharingCategoryResponse(BaseModel):
+
+integration/backend/test_ai_and_ocr_integration.py: 7 warnings
+integration/backend/test_clinical_lifecycle.py: 7 warnings
+integration/backend/test_consultation_draft_preview.py: 5 warnings
+integration/backend/test_review_moderation.py: 15 warnings
+security/test_rbac_and_jwt.py: 25 warnings
+  C:\Code\System\Medora\backend\venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+security/test_rbac_and_jwt.py::test_ai_query_access_is_audit_logged
+  C:\Code\System\Medora\backend\app\routes\patient_access.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    accessed_at=datetime.utcnow(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+14 passed, 103 warnings in 53.52s

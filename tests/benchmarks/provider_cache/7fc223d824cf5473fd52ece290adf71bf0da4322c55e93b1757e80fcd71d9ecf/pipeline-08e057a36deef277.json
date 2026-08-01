@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0103",
+  "source_sha256": "7fc223d824cf5473fd52ece290adf71bf0da4322c55e93b1757e80fcd71d9ecf",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:58.447883+00:00",
+  "runtime_ms": 10032.012600000598,
+  "output": {
+    "medications": [
+      {
+        "name": "Tmde",
+        "matched_term": "Tmde",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.156
+      },
+      {
+        "name": "A Th",
+        "matched_term": "A Th",
+        "drug_id": "0496fb01-5fc6-44d6-942d-297b36fff49b",
+        "brand_id": "f882c379-3d91-43a2-86c2-06a66c2e3ab5",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.536
+      },
+      {
+        "name": "Eizo",
+        "matched_term": "Eizo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.156
+      }
+    ],
+    "raw_text": "1.\n2 Tmde\nTh Provaxk\n4000\neizo",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9993,
+      "detected_regions": 1,
+      "ocr_line_count": 5,
+      "yolo_avg_confidence": 0.8404,
+      "yolo_min_confidence": 0.8404,
+      "yolo_max_confidence": 0.8404,
+      "ocr_avg_confidence": 0.347,
+      "ocr_min_confidence": 0.347,
+      "ocr_max_confidence": 0.347,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 248.49813842773438,
+            "y_min": 255.38372802734375,
+            "x_max": 504.3805236816406,
+            "y_max": 434.1138916015625
+          },
+          "score": 0.8404
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "1.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.347
+        },
+        {
+          "text": "2 Tmde",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.347
+        },
+        {
+          "text": "Th Provaxk",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.347
+        },
+        {
+          "text": "4000",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.347
+        },
+        {
+          "text": "eizo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.347
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

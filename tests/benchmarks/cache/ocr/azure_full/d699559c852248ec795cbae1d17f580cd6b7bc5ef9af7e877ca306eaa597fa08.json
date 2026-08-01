@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "d699559c852248ec795cbae1d17f580cd6b7bc5ef9af7e877ca306eaa597fa08",
+  "record_id": "RX-0099",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 30063.930000003893,
+  "failure": null,
+  "response_sha256": "1be7e0957e8a8256fced5355f7862ba31789b9ad60b58ee07adaf6589d997907",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hall Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / TITE14\nMedical Center;\nPikrm D\n1600150\nPassport No\nA1299:271\nMakitab No 4\nND ATIDUS SALAM MONDOL\nName\nThanBADARGANI\nHEALTH PROFILE\nC+\n1 Blood Group\nNO\nNG\n4. Lung Disease\nNO\n5, Kidney DiBase NO\n8 DiabeteN:\n7. Montal Diceuse 55\nH. Blood Sagor (RSS)\n9 Weight\n10 Eber Dipesce\n11 Drag History\n12 Any other abunimanes:\n24 May 2024\nChiel Complaints:\ndry cough\nPulse-\nTomn\nAnaemis-\n10\nDehydratort-\n4 Tab - Napa\nRespiration-\nOthers-\n1-10-1\n+ Tab- Poxophyllis 200g\n1+0+ 1\n24.0 mg 2\nFBSIRBS-\nECG\nProvisional Diagonosis\nVit: Na:\na dans Monias to\n122090\n2. Blood Pressure\n@ *** S048",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Bangladesh Hall Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "TREATMENT CARD / TITE14",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Medical Center;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Pikrm D",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1600150",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "A1299:271",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Makitab No 4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ND ATIDUS SALAM MONDOL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ThanBADARGANI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "C+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1 Blood Group",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "4. Lung Disease",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "5, Kidney DiBase NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "8 DiabeteN:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "7. Montal Diceuse 55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "H. Blood Sagor (RSS)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "9 Weight",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "10 Eber Dipesce",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "11 Drag History",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "12 Any other abunimanes:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "24 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Chiel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "dry cough",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Pulse-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Tomn",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Anaemis-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Dehydratort-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "4 Tab - Napa",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1-10-1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "+ Tab- Poxophyllis 200g",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "1+0+ 1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "24.0 mg 2",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "FBSIRBS-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "Vit: Na:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "a dans Monias to",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "122090",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "2. Blood Pressure",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      },
+      {
+        "text": "@ *** S048",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.629
+      }
+    ]
+  }
+}

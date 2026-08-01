@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0095",
+  "source_sha256": "c1ea6cfac64393d35830a4683d053a3ca89816357b5e552c6908fc744fd9a29c",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:50.552784+00:00",
+  "runtime_ms": 9752.313399993,
+  "output": {
+    "medications": [
+      {
+        "name": "Fucksacin",
+        "matched_term": "Fucksacin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.196
+      },
+      {
+        "name": "Amoxyelite Tele Maaco",
+        "matched_term": "Amoxyelite Tele Maaco",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.196
+      },
+      {
+        "name": "Neomicina Sont",
+        "matched_term": "Neomicina Sont",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.196
+      },
+      {
+        "name": "De Clarzepam Am",
+        "matched_term": "De Clarzepam Am",
+        "drug_id": "95ed09d1-d0fa-4bd6-bce6-0baff4c63ed4",
+        "brand_id": "f6135d7e-618c-463b-a19c-2ddcc870838d",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.196
+      },
+      {
+        "name": "Ponses Aintrat Cotone",
+        "matched_term": "Ponses Aintrat Cotone",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.196
+      }
+    ],
+    "raw_text": "Cap Fucksacin (20)30)\nCap Amoxyelite tele Maaco\n---\nNeomicina sont (2)\n-7de clarzepam's\nam\nponses aintrat e cotone",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 9717,
+      "detected_regions": 1,
+      "ocr_line_count": 7,
+      "yolo_avg_confidence": 0.9198,
+      "yolo_min_confidence": 0.9198,
+      "yolo_max_confidence": 0.9198,
+      "ocr_avg_confidence": 0.436,
+      "ocr_min_confidence": 0.436,
+      "ocr_max_confidence": 0.436,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 243.6186981201172,
+            "y_min": 216.60552978515625,
+            "x_max": 501.8697814941406,
+            "y_max": 485.37664794921875
+          },
+          "score": 0.9198
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Cap Fucksacin (20)30)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "Cap Amoxyelite tele Maaco",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "---",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "Neomicina sont (2)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "-7de clarzepam's",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "am",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        },
+        {
+          "text": "ponses aintrat e cotone",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.436
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

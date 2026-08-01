@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0098",
+  "source_sha256": "e011f6869b0ed89e9d227bde49ef1a81ed1e31d5e2613ade8f07b429a20b7434",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:39:14.491735+00:00",
+  "runtime_ms": 6847.2317999985535,
+  "output": {
+    "medications": [
+      {
+        "name": "G-Tex",
+        "matched_term": "G-Tex",
+        "drug_id": "25d597c2-f62b-4be5-9b7a-dd3e94213ad4",
+        "brand_id": "73e086f7-bf33-43c8-81f2-a7d9a9d50b73",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.566
+      }
+    ],
+    "raw_text": "Rx\n=> Tex. Plc (sin)",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 6812,
+      "detected_regions": 1,
+      "ocr_line_count": 2,
+      "yolo_avg_confidence": 0.7371,
+      "yolo_min_confidence": 0.7371,
+      "yolo_max_confidence": 0.7371,
+      "ocr_avg_confidence": 0.414,
+      "ocr_min_confidence": 0.414,
+      "ocr_max_confidence": 0.414,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 273.1240234375,
+            "y_min": 256.12542724609375,
+            "x_max": 464.1768798828125,
+            "y_max": 343.9831237792969
+          },
+          "score": 0.7371
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "Rx",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.414
+        },
+        {
+          "text": "=> Tex. Plc (sin)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.414
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     AZURE_OCR_ENDPOINT: str | None = None
     AZURE_OCR_KEY: str | None = None
     AZURE_OCR_MODEL_ID: str = "prebuilt-read"
+    AZURE_OCR_API_VERSION: str = "2024-11-30"
     AZURE_OCR_TIMEOUT_SECONDS: float = 45.0
 
     YOLO_PADDING_PX: int = 12
@@ -36,9 +37,9 @@ class Settings(BaseSettings):
     GROUP_BY_YOLO_FOR_PARSING: bool = True
     DISABLE_MEDICINE_MATCHING: bool = True
     LOG_LEVEL: str = "INFO"
-    OCR_LOG_FULL_TEXT: bool = True
-    OCR_LOG_MAX_CHARS: int = 8000
-    OCR_LOG_YOLO_FINDINGS: bool = True
+    OCR_LOG_FULL_TEXT: bool = False
+    OCR_LOG_MAX_CHARS: int = 0
+    OCR_LOG_YOLO_FINDINGS: bool = False
     OCR_USE_FULL_IMAGE_FALLBACK: bool = False
     OCR_MAX_UPLOAD_BYTES: int = 15 * 1024 * 1024
     OCR_MAX_IMAGE_BYTES: int = 4 * 1024 * 1024

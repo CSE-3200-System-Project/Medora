@@ -1,0 +1,537 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0047",
+  "source_sha256": "7cf98892926c83c26d1f8cbf890972e12ddbb9111c514b07c2219f46152cac32",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:46:30.941309+00:00",
+  "runtime_ms": 41749.08760000835,
+  "output": {
+    "raw_text": "8203+t\nवय (बर्माफ)- ७७\nछिकिश्मक कड़क बागीज वादश शेख\n◌ाधीन नाम\nW/o MEH siddique\nयम\n46y\nमना गनिश\nबादशव नाग\nS/m लिकिष्माकन बादशमना\n19\n03\n19.10.17\nC-30\n1. Epigastric plain.\nfor 03 days\n2. Do wish For\n02 Doigts\nInL\n1. ECH\n2. CHR(P/D) ve\n3. UBL\n4. X-Raychest P/A\nview\nA PUD\nRTI\n1.51. 20621\nRx\n1\n4. Lap SECho(som)\nHon-\n30\n2. 702 & AABO NOMAS(1)\norong\n15\n2/15/17;\n3.700 TOFEN (ams)\noron-\n-(\n10\nApr\nMAMMA)\nTania Shaila Sharmin\nCaptain\nTrainee in Medicine\nCMH, Dhaka",
+    "lines": [
+      {
+        "text": "8203+t",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "वय (बर्माफ)- ७७",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "छिकिश्मक कड़क बागीज वादश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "◌ाधीन नाम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "W/o MEH siddique",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "यम",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "46y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "मना गनिश",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "S/m लिकिष्माकन बादशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "19",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "03",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "19.10.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "C-30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "1. Epigastric plain.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "for 03 days",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "2. Do wish For",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "02 Doigts",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "InL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "1. ECH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "2. CHR(P/D) ve",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "3. UBL",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "4. X-Raychest P/A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "view",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "A PUD",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "RTI",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "1.51. 20621",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "4. Lap SECho(som)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Hon-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "30",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "2. 702 & AABO NOMAS(1)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "orong",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "15",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "2/15/17;",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "3.700 TOFEN (ams)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "oron-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "-(",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "10",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Apr",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "MAMMA)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Tania Shaila Sharmin",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Captain",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "Trainee in Medicine",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      },
+      {
+        "text": "CMH, Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.605
+      }
+    ],
+    "medications": [
+      {
+        "name": "Meh Siddique",
+        "matched_term": "Meh Siddique",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Epigastric Plain",
+        "matched_term": "Epigastric Plain",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "03 days",
+        "confidence": 0.322
+      },
+      {
+        "name": "Do Wish For",
+        "matched_term": "Do Wish For",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Tizaro2.5 Pre-Filled Syringe",
+        "matched_term": "Tizaro2.5 Pre-Filled Syringe",
+        "drug_id": "733f8543-8204-4087-aae6-5b923449a4b7",
+        "brand_id": "fe29ba7f-a578-4e73-8abe-fabc596df1f6",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "Inl",
+        "matched_term": "Inl",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Ech",
+        "matched_term": "Ech",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Chr Ve",
+        "matched_term": "Chr Ve",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Scrublon",
+        "matched_term": "Scrublon",
+        "drug_id": "8b9a596e-1b19-48a9-8547-888ca19575d5",
+        "brand_id": "72133456-c238-41c3-8c79-d5d244412005",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "X-Raychest",
+        "matched_term": "X-Raychest",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "View",
+        "matched_term": "View",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Pud",
+        "matched_term": "Pud",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Rti Rx",
+        "matched_term": "Rti Rx",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Lap",
+        "matched_term": "Lap",
+        "drug_id": "41094d0e-3d68-46e7-8480-d54f5226ce1b",
+        "brand_id": "e201e3d0-9a2d-410c-a7a7-89f367a9ad82",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "Hon",
+        "matched_term": "Hon",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Aabo Nomas",
+        "matched_term": "Aabo Nomas",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Orong",
+        "matched_term": "Orong",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Tofen",
+        "matched_term": "Tofen",
+        "drug_id": "4d63a98c-ddf0-4761-9e2c-01df3661c6f6",
+        "brand_id": "ccb1d7cc-a3a4-40c7-b7cb-543be2f9850b",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.652
+      },
+      {
+        "name": "Oron",
+        "matched_term": "Oron",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Apr",
+        "matched_term": "Apr",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Mamma",
+        "matched_term": "Mamma",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Tania Shaila Sharmin",
+        "matched_term": "Tania Shaila Sharmin",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Captain",
+        "matched_term": "Captain",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Trainee In Medicine",
+        "matched_term": "Trainee In Medicine",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      },
+      {
+        "name": "Cmh Dhaka",
+        "matched_term": "Cmh Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.272
+      }
+    ]
+  }
+}

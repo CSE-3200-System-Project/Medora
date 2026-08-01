@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0094",
+  "source_sha256": "e29b4376e6aad9521f8e236ffcbf417121c1d7b31c19b2be1ae81841959ca9c2",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:38:40.765613+00:00",
+  "runtime_ms": 7982.2301999956835,
+  "output": {
+    "medications": [
+      {
+        "name": "To Tolparis El",
+        "matched_term": "To Tolparis El",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.152
+      },
+      {
+        "name": "Column Dz",
+        "matched_term": "Column Dz",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "1+0+1",
+        "quantity": null,
+        "confidence": 0.201
+      }
+    ],
+    "raw_text": "To Tolparis (10)\n140EL\nColumn Dz (D)\n1+0+1",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 7948,
+      "detected_regions": 1,
+      "ocr_line_count": 4,
+      "yolo_avg_confidence": 0.9257,
+      "yolo_min_confidence": 0.9257,
+      "yolo_max_confidence": 0.9257,
+      "ocr_avg_confidence": 0.337,
+      "ocr_min_confidence": 0.337,
+      "ocr_max_confidence": 0.337,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 280.2980651855469,
+            "y_min": 210.77182006835938,
+            "x_max": 496.12030029296875,
+            "y_max": 485.83392333984375
+          },
+          "score": 0.9257
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "To Tolparis (10)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.337
+        },
+        {
+          "text": "140EL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.337
+        },
+        {
+          "text": "Column Dz (D)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.337
+        },
+        {
+          "text": "1+0+1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.337
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Loader2, Mic, MicOff, Navigation, Volume2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { authorizeExternalLiveAudio } from "@/lib/processing-consent-actions";
 import {
   createVapiAudioResources,
   disableDailyKrispProcessor,
@@ -358,6 +359,7 @@ export function ChoruiVapiVoiceControl({ roleContext, patientId }: ChoruiVapiVoi
     const currentRoute = pathnameRef.current || "/";
 
     try {
+      await authorizeExternalLiveAudio();
       let vapiClient = await createVapiClient();
       const safeFallbackOptions = withVapiAudioFallback({
         metadata: {

@@ -51,6 +51,10 @@ class MedicalReportResponse(BaseModel):
     shared_with_doctors: bool = False
     ocr_engine: Optional[str] = None
     processing_time_ms: Optional[int] = None
+    processing_mode: str = "local"
+    review_status: str = "pending_review"
+    reviewed_at: Optional[datetime] = None
+    reviewed_by_id: Optional[str] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
     results: list[ReportTestResultResponse] = Field(default_factory=list)
@@ -95,6 +99,7 @@ class MedicalReportListResponse(BaseModel):
 class MedicalReportUploadResponse(BaseModel):
     report: MedicalReportResponse
     file_url: Optional[str] = None
+    warning: str = "OCR results are an unconfirmed draft until a human verifies them against the source report."
 
 
 class DoctorCommentCreate(BaseModel):

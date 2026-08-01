@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0010",
+  "source_sha256": "ffdbc37cd85282c06ac294ec3219adbbe74e1023e61ac243bae4d2eadbfe4aa5",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:23:26.713400+00:00",
+  "runtime_ms": 28246.689299994614,
+  "output": {
+    "medications": [
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.675
+      },
+      {
+        "name": "Flugal",
+        "matched_term": "Flugal",
+        "drug_id": "ac1535e7-4f65-4ff7-8b1a-2e22010856eb",
+        "brand_id": "27adb573-ae52-4dff-9f67-709cc6ba808c",
+        "dosage": "150mg",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.726
+      },
+      {
+        "name": "Stat",
+        "matched_term": "Stat",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.295
+      },
+      {
+        "name": "Tamen",
+        "matched_term": "Tamen",
+        "drug_id": "2caa88c8-f042-4a8f-8fca-ac8bed3de633",
+        "brand_id": "7ebc059e-ac8d-467a-8ea3-66f6b5721ccc",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.675
+      },
+      {
+        "name": "Stata",
+        "matched_term": "Stata",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.295
+      },
+      {
+        "name": "Hab",
+        "matched_term": "Hab",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.295
+      },
+      {
+        "name": "Kilbac",
+        "matched_term": "Kilbac",
+        "drug_id": "96fe382c-8be6-4b55-b983-1b5d653512a4",
+        "brand_id": "59df47a1-056d-4c7c-a681-12c2eb13ddd5",
+        "dosage": "500g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.726
+      },
+      {
+        "name": "Toto",
+        "matched_term": "Toto",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.295
+      },
+      {
+        "name": "Des",
+        "matched_term": "Des",
+        "drug_id": "ad345b67-70cd-4269-a187-86f0bd6b6d7e",
+        "brand_id": "619f6d0c-e29b-4b7f-9ac5-c11d18401173",
+        "dosage": "5g",
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.726
+      },
+      {
+        "name": "Ototo",
+        "matched_term": "Ototo",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.295
+      },
+      {
+        "name": "G-Ranitidin",
+        "matched_term": "G-Ranitidin",
+        "drug_id": "6216895a-943d-475f-9bd0-673f0d074e9f",
+        "brand_id": "2a0809df-81f1-4b5b-a98e-4b740181a36e",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.675
+      }
+    ],
+    "raw_text": ".\nTab.\nFlugal (150mg)\n1 tab. stat\nTab\nTamen\nstata\n6\nhab.\nKilbac (500g\n? toto\n. Tab.\nDes (5g)\nototo\n0.51\nRanitidiny\n8\nTab.\nK",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 28208,
+      "detected_regions": 1,
+      "ocr_line_count": 19,
+      "yolo_avg_confidence": 0.8908,
+      "yolo_min_confidence": 0.8908,
+      "yolo_max_confidence": 0.8908,
+      "ocr_avg_confidence": 0.655,
+      "ocr_min_confidence": 0.655,
+      "ocr_max_confidence": 0.655,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 1716.6668792724608,
+            "y_min": 1554.814575958252,
+            "x_max": 3412.348890686035,
+            "y_max": 4249.649395751952
+          },
+          "score": 0.8908
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": ".",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Flugal (150mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "1 tab. stat",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Tamen",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "stata",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "6",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "hab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Kilbac (500g",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "? toto",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": ". Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Des (5g)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "ototo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "0.51",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Ranitidiny",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "8",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "Tab.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        },
+        {
+          "text": "K",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.655
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

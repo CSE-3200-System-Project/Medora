@@ -13,6 +13,7 @@ import uuid
 
 from app.db.models.appointment import Appointment, AppointmentStatus
 from app.db.models.appointment_audit import AppointmentAuditLog
+from app.db.models.appointment_delivery import AppointmentIdempotencyRecord, AppointmentOutboxEvent
 from app.db.models.doctor import DoctorProfile
 from app.db.models.appointment_request import (
     AdminApprovalStatus,
@@ -576,12 +577,34 @@ async def create_appointment(
     reason: str,
     notes: Optional[str] = None,
     duration_minutes: int = 30,
+    idempotency_key: str | None = None,
+    request_hash: str | None = None,
 ) -> Appointment:
     """
     Create an appointment with transactional double-booking prevention.
     Uses advisory lock + SELECT FOR UPDATE to prevent race conditions.
     """
     now_utc = datetime.now(timezone.utc)
+    if idempotency_key:
+        await db.execute(
+            text("SELECT pg_advisory_xact_lock(hashtext(:lock_key))"),
+            {"lock_key": f"booking-idempotency:{patient_id}:{idempotency_key}"},
+        )
+        existing_record = (
+            await db.execute(
+                select(AppointmentIdempotencyRecord).where(
+                    AppointmentIdempotencyRecord.patient_id == patient_id,
+                    AppointmentIdempotencyRecord.idempotency_key == idempotency_key,
+                )
+            )
+        ).scalar_one_or_none()
+        if existing_record:
+            if existing_record.request_hash != request_hash:
+                raise ValueError("Idempotency-Key was already used with a different booking request")
+            existing_appointment = await db.get(Appointment, existing_record.appointment_id)
+            if existing_appointment is None:
+                raise ValueError("Idempotency record refers to a missing appointment")
+            return existing_appointment
     if appointment_date.tzinfo is None:
         normalized_input_datetime = appointment_date.replace(tzinfo=timezone.utc)
     else:
@@ -644,15 +667,67 @@ async def create_appointment(
 
     await db.flush()
 
-    await _emit_domain_event(
-        db,
-        event_name="appointment.created",
-        appointment=new_appointment,
-        actor_id=patient_id,
-        actor_role="patient",
+    if idempotency_key and request_hash:
+        db.add(
+            AppointmentIdempotencyRecord(
+                patient_id=patient_id,
+                idempotency_key=idempotency_key,
+                request_hash=request_hash,
+                appointment_id=appointment_id,
+            )
+        )
+
+    db.add(
+        AppointmentOutboxEvent(
+            aggregate_id=appointment_id,
+            event_type="appointment.created",
+            payload={"actor_id": patient_id, "actor_role": "patient"},
+        )
     )
 
     return new_appointment
+
+
+async def dispatch_appointment_outbox(db: AsyncSession, *, batch_size: int = 25) -> int:
+    """Publish committed booking events. Failed events remain retryable."""
+    now = datetime.now(timezone.utc)
+    events = (
+        await db.execute(
+            select(AppointmentOutboxEvent)
+            .where(
+                AppointmentOutboxEvent.processed_at.is_(None),
+                AppointmentOutboxEvent.available_at <= now,
+            )
+            .order_by(AppointmentOutboxEvent.created_at)
+            .limit(batch_size)
+            .with_for_update(skip_locked=True)
+        )
+    ).scalars().all()
+
+    processed = 0
+    for event in events:
+        appointment = await db.get(Appointment, event.aggregate_id)
+        if appointment is None:
+            event.attempts += 1
+            event.last_error = "Appointment not found"
+            event.available_at = now + timedelta(minutes=min(60, 2 ** min(event.attempts, 5)))
+            continue
+        try:
+            await _emit_domain_event(
+                db,
+                event_name=event.event_type,
+                appointment=appointment,
+                actor_id=str(event.payload.get("actor_id") or appointment.patient_id),
+                actor_role=str(event.payload.get("actor_role") or "patient"),
+            )
+            event.processed_at = now
+            event.last_error = None
+            processed += 1
+        except Exception as exc:
+            event.attempts += 1
+            event.last_error = str(exc)[:1000]
+            event.available_at = now + timedelta(minutes=min(60, 2 ** min(event.attempts, 5)))
+    return processed
 
 
 async def transition_status(
@@ -1728,7 +1803,7 @@ async def sync_calendar_on_status_change(
                 user_id=doctor_id,
                 appointment_id=appointment.id,
                 summary=f"Appointment with {patient_name}",
-                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
+                description=f"Patient: {patient_name}\nReason: {appointment.reason or 'Consultation'}",
                 start_datetime=appointment.appointment_date,
                 duration_minutes=appointment.duration_minutes or 30,
             )
@@ -1739,7 +1814,7 @@ async def sync_calendar_on_status_change(
                 user_id=patient_id,
                 appointment_id=appointment.id,
                 summary=f"Appointment with {doctor_name}",
-                description=f"Doctor: {doctor_name}\nReason: {appointment.reason or 'Consultation'}\nType: {appointment.consultation_type or 'General'}",
+                description=f"Doctor: {doctor_name}\nReason: {appointment.reason or 'Consultation'}",
                 start_datetime=appointment.appointment_date,
                 duration_minutes=appointment.duration_minutes or 30,
             )

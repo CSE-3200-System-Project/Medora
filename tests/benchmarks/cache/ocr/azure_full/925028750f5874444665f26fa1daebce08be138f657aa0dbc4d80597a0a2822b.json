@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "925028750f5874444665f26fa1daebce08be138f657aa0dbc4d80597a0a2822b",
+  "record_id": "RX-0091",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 23242.525800000294,
+  "failure": null,
+  "response_sha256": "6807847927fd3b42fc608197be4747a87aa5b4b8e591cbe5ecdbbcb3477b08db",
+  "response": {
+    "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hal Office\nTREATMENT CARD / APTIT\nMod cal Contar\n1100091\nPabocon Na\nWustab Na\nThe KOTWN\nHEALTH PROFILE\n1. But Limug\n19226\n1. Line Dierote\n8 Buud Suger (ABS):\nCiniel Complaints:\n24 Nu/ 7024\nTab. Naproxen (400 mg)\n# 145/ 20mmhg\nTemc\nnemprecin sintment\n. Mensi petro lium Jelly\n- Ega 200 -(5)\n\"Tab. Omop ( 20 mg)\nDESIRES 13.3 mmol/L.\nECG\n.\nplease add -24.05-mer\n20\nProvisional Diagonosis\nTab Homes (10mg)(10)\n19th packiwill (4776)\n2+0-10 ----\n- Tab Le Sultan\n0,0+0\nदहा वक्तलगा, अनोख्या ठिकिदिन (भवा अशापा बन्द न वार्ड अधिक ध्यान अबभाई भार वामदल दार।",
+    "lines": [
+      {
+        "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Bangladesh Hal Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "TREATMENT CARD / APTIT",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Mod cal Contar",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1100091",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Pabocon Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Wustab Na",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "The KOTWN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1. But Limug",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "19226",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "1. Line Dierote",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "8 Buud Suger (ABS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Ciniel Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "24 Nu/ 7024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Tab. Naproxen (400 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "# 145/ 20mmhg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Temc",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "nemprecin sintment",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": ". Mensi petro lium Jelly",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "- Ega 200 -(5)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "\"Tab. Omop ( 20 mg)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "DESIRES 13.3 mmol/L.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": ".",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "please add -24.05-mer",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "20",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "Tab Homes (10mg)(10)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "19th packiwill (4776)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "2+0-10 ----",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "- Tab Le Sultan",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "0,0+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      },
+      {
+        "text": "दहा वक्तलगा, अनोख्या ठिकिदिन (भवा अशापा बन्द न वार्ड अधिक ध्यान अबभाई भार वामदल दार।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.587
+      }
+    ]
+  }
+}

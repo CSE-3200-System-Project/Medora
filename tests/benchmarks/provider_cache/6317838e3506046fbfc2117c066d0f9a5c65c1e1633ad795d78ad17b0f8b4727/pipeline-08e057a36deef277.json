@@ -1,0 +1,441 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0009",
+  "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
+  "provider": "pipeline",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "executed_at": "2026-08-01T17:22:58.400361+00:00",
+  "runtime_ms": 17958.361400000285,
+  "output": {
+    "medications": [
+      {
+        "name": "Op Female No",
+        "matched_term": "Op Female No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Timem",
+        "matched_term": "Timem",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "Date Le",
+        "matched_term": "Date Le",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Hypothyroidism",
+        "matched_term": "Hypothyroidism",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Vertig",
+        "matched_term": "Vertig",
+        "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+        "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "C-Tab",
+        "matched_term": "C-Tab",
+        "drug_id": "52d98474-297f-40bd-b312-88585f30832a",
+        "brand_id": "a8151500-007f-4e9f-90f1-f082efb66c47",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "Cinaron",
+        "matched_term": "Cinaron",
+        "drug_id": "028fb296-073b-4960-ac4c-6b97483580d8",
+        "brand_id": "de96d605-4c4e-44f9-8534-a6ffdbc8f9f0",
+        "dosage": "15mg",
+        "frequency": "1+0+1+2",
+        "quantity": null,
+        "confidence": 0.783
+      },
+      {
+        "name": "D-Cap",
+        "matched_term": "D-Cap",
+        "drug_id": "e19d17d9-3fac-4185-8757-32f0d322ee98",
+        "brand_id": "30128340-f4e9-487f-8f85-f67d3b82460f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "Hotel",
+        "matched_term": "Hotel",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": "0+1+0",
+        "quantity": null,
+        "confidence": 0.352
+      },
+      {
+        "name": "Koeling",
+        "matched_term": "Koeling",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Dr Kaniz Fatima",
+        "matched_term": "Dr Kaniz Fatima",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Fcps Part Ii",
+        "matched_term": "Fcps Part Ii",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Dermatas",
+        "matched_term": "Dermatas",
+        "drug_id": "01cc3cbc-128c-4298-8254-9ae1df555d8c",
+        "brand_id": "03029371-9ea4-4996-8940-841fee871961",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.682
+      },
+      {
+        "name": "Cmm Dhaka",
+        "matched_term": "Cmm Dhaka",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Issued Days Fuld",
+        "matched_term": "Issued Days Fuld",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.302
+      },
+      {
+        "name": "Sim 10",
+        "matched_term": "Sim 10",
+        "drug_id": "7f207bd8-b9f9-454b-b2b9-1e82a32c96fb",
+        "brand_id": "2aa74c48-2b81-4119-8c4c-2b6cbca3b16f",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.516
+      }
+    ],
+    "raw_text": "राशन\nरविश\nस्वादभंवर नाथ\nM OP D (FEMALE)\nS. No ......\n74\nRoom No.\n0.4\nTime.\n24.10.17\n...\nDate\nC-73\nLe 19/4/12\nP. Hypothyroidism\nVertigo\nC/C-7\n4\n1. Tab\nCinaro 15mg.\n1+0+1- 20192.\n2\nCap\nHotel\n0+1+0\nKoeling\nDR. KANIZ FATIMA\nFCPS Part II T.Face\nDermatalogy & Venereology\nCMM Dhaka\n24.10-17\nIssued15 days fuld\nm 13 - 05.12.17\n1\nSIM\n16145648 419211",
+    "meta": {
+      "model": "azure_prebuilt-read",
+      "model_type": "read",
+      "processing_time_ms": 17924,
+      "detected_regions": 1,
+      "ocr_line_count": 36,
+      "yolo_avg_confidence": 0.828,
+      "yolo_min_confidence": 0.828,
+      "yolo_max_confidence": 0.828,
+      "ocr_avg_confidence": 0.672,
+      "ocr_min_confidence": 0.672,
+      "ocr_max_confidence": 0.672,
+      "processing_mode": "cloud",
+      "provider": "azure_document_intelligence",
+      "review_required": true,
+      "authoritative_writeback": false
+    },
+    "debug": {
+      "detected_regions": [
+        {
+          "label": "MergedChildRegion",
+          "bbox": {
+            "x_min": 205.36789093017578,
+            "y_min": 666.6931148529052,
+            "x_max": 3335.116268920898,
+            "y_max": 3308.5424331665035
+          },
+          "score": 0.828
+        }
+      ],
+      "ocr_lines": [
+        {
+          "text": "राशन",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "रविश",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "स्वादभंवर नाथ",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "M OP D (FEMALE)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "S. No ......",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "74",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Room No.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "0.4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Time.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "24.10.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "...",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Date",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "C-73",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Le 19/4/12",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "P. Hypothyroidism",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Vertigo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "C/C-7",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "4",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "1. Tab",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Cinaro 15mg.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "1+0+1- 20192.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "2",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Cap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Hotel",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "0+1+0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Koeling",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "DR. KANIZ FATIMA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "FCPS Part II T.Face",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Dermatalogy & Venereology",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "CMM Dhaka",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "24.10-17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "Issued15 days fuld",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "m 13 - 05.12.17",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "SIM",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        },
+        {
+          "text": "16145648 419211",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.672
+        }
+      ],
+      "medicine_db_enabled": true,
+      "medicine_candidates_loaded": 0
+    },
+    "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+  }
+}

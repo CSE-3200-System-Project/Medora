@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request, Response
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select, func, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -194,11 +194,11 @@ def build_prescription_response(
         "patient_ref": patient_ref_from_uuid(prescription.patient_id),
         "type": prescription.type.value if prescription.type else "medication",
         "status": prescription.status.value if prescription.status else "pending",
-        "rejection_reason": prescription.rejection_reason,
+        "discrepancy_reason": prescription.discrepancy_reason,
         "notes": prescription.notes,
         "created_at": prescription.created_at,
-        "accepted_at": prescription.accepted_at,
-        "rejected_at": prescription.rejected_at,
+        "acknowledged_at": prescription.acknowledged_at,
+        "discrepancy_reported_at": prescription.discrepancy_reported_at,
         "added_to_history": prescription.added_to_history,
         "rendered_prescription_html": (
             prescription.rendered_prescription_html if include_rendered else None
@@ -1755,7 +1755,7 @@ async def add_prescription(
             patient_id=consultation.patient_id,
             type=resolved_type,
             notes=data.notes,
-            status=PrescriptionStatus.PENDING,
+            status=PrescriptionStatus.PENDING_ACKNOWLEDGMENT,
             rendered_prescription_html=normalized_rendered_html,
             rendered_prescription_snapshot=normalized_snapshot_payload,
             rendered_prescription_generated_at=normalized_snapshot_generated_at,
@@ -1975,7 +1975,7 @@ async def delete_prescription(
     if prescription.doctor_id != user.id:
         raise HTTPException(status_code=403, detail="Only the prescribing doctor can delete")
     
-    if prescription.status != PrescriptionStatus.PENDING:
+    if prescription.status != PrescriptionStatus.PENDING_ACKNOWLEDGMENT:
         raise HTTPException(status_code=400, detail="Can only delete pending prescriptions")
     
     await db.delete(prescription)
@@ -1988,7 +1988,7 @@ async def delete_prescription(
 
 @router.get("/patient/prescriptions", response_model=PrescriptionListResponse)
 async def get_patient_prescriptions(
-    status_filter: Optional[str] = Query(None, description="Filter by status: pending, accepted, rejected"),
+    status_filter: Optional[str] = Query(None, description="Filter by acknowledgment/discrepancy status"),
     prescription_type: Optional[str] = Query(None, description="Filter by prescription type"),
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
@@ -1997,6 +1997,7 @@ async def get_patient_prescriptions(
 ):
     """Get all prescriptions for the current patient."""
     try:
+        await get_patient_profile(db, user)
         filters = [Prescription.patient_id == user.id]
         if status_filter:
             filters.append(Prescription.status == status_filter)
@@ -2136,6 +2137,7 @@ async def get_patient_prescription(
     db: AsyncSession = Depends(get_db),
 ):
     """Get a specific prescription for the current patient."""
+    await get_patient_profile(db, user)
     result = await db.execute(
         select(Prescription)
         .options(
@@ -2162,13 +2164,13 @@ async def get_patient_prescription(
     return build_prescription_response(prescription, doctor_profile, include_snapshot=True)
 
 
-@router.post("/patient/prescription/{prescription_id}/accept")
-async def accept_prescription(
+async def _acknowledge_prescription_receipt(
     prescription_id: str,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
+    user: Any,
+    db: AsyncSession,
 ):
-    """Accept a prescription and add to medical history."""
+    """Record receipt only; this is not approval of the clinical content."""
+    await get_patient_profile(db, user)
     result = await db.execute(
         select(Prescription)
         .options(
@@ -2186,12 +2188,11 @@ async def accept_prescription(
     if prescription.patient_id != user.id:
         raise HTTPException(status_code=403, detail="You don't have access to this prescription")
     
-    if prescription.status != PrescriptionStatus.PENDING:
+    if prescription.status != PrescriptionStatus.PENDING_ACKNOWLEDGMENT:
         raise HTTPException(status_code=400, detail="Prescription already processed")
-    
-    # Update prescription status
-    prescription.status = PrescriptionStatus.ACCEPTED
-    prescription.accepted_at = datetime.now(timezone.utc)
+
+    prescription.status = PrescriptionStatus.RECEIPT_ACKNOWLEDGED
+    prescription.acknowledged_at = datetime.now(timezone.utc)
     prescription.added_to_history = True
     
     # Get patient profile for notification (cached on user by auth dep)
@@ -2204,8 +2205,8 @@ async def accept_prescription(
         db=db,
         user_id=prescription.doctor_id,
         notification_type=NotificationType.PRESCRIPTION_ACCEPTED,
-        title="Prescription Accepted",
-        message=f"{patient_name} has accepted your prescription.",
+        title="Prescription Receipt Acknowledged",
+        message=f"{patient_name} acknowledged receipt of your prescription. This is not clinical approval.",
         action_url=f"/doctor/patient/{patient_ref}",
         metadata={
             "prescription_id": prescription.id,
@@ -2217,17 +2218,21 @@ async def accept_prescription(
     
     await db.commit()
     
-    return {"message": "Prescription accepted successfully", "status": "accepted"}
+    return {
+        "message": "Prescription receipt acknowledged",
+        "status": PrescriptionStatus.RECEIPT_ACKNOWLEDGED.value,
+        "clinical_approval": False,
+    }
 
 
-@router.post("/patient/prescription/{prescription_id}/reject")
-async def reject_prescription(
+async def _report_prescription_discrepancy(
     prescription_id: str,
     data: PrescriptionReject,
-    user: any = Depends(get_current_user_token),
-    db: AsyncSession = Depends(get_db),
+    user: Any,
+    db: AsyncSession,
 ):
-    """Reject a prescription with optional reason."""
+    """Report a possible mismatch without rejecting clinical care."""
+    await get_patient_profile(db, user)
     result = await db.execute(
         select(Prescription).where(Prescription.id == prescription_id)
     )
@@ -2239,13 +2244,12 @@ async def reject_prescription(
     if prescription.patient_id != user.id:
         raise HTTPException(status_code=403, detail="You don't have access to this prescription")
     
-    if prescription.status != PrescriptionStatus.PENDING:
+    if prescription.status != PrescriptionStatus.PENDING_ACKNOWLEDGMENT:
         raise HTTPException(status_code=400, detail="Prescription already processed")
-    
-    # Update prescription status
-    prescription.status = PrescriptionStatus.REJECTED
-    prescription.rejected_at = datetime.now(timezone.utc)
-    prescription.rejection_reason = data.reason
+
+    prescription.status = PrescriptionStatus.DISCREPANCY_REPORTED
+    prescription.discrepancy_reported_at = datetime.now(timezone.utc)
+    prescription.discrepancy_reason = data.reason
     
     # Get patient profile for notification (cached on user by auth dep)
     patient_profile = await resolve_profile(db, user)
@@ -2257,8 +2261,8 @@ async def reject_prescription(
         db=db,
         user_id=prescription.doctor_id,
         notification_type=NotificationType.PRESCRIPTION_REJECTED,
-        title="Prescription Rejected",
-        message=f"{patient_name} has rejected your prescription." + (f" Reason: {data.reason}" if data.reason else ""),
+        title="Prescription Discrepancy Reported",
+        message=f"{patient_name} reported a possible prescription discrepancy." + (f" Reason: {data.reason}" if data.reason else ""),
         action_url=f"/doctor/patient/{reject_patient_ref}",
         metadata={
             "prescription_id": prescription.id,
@@ -2271,7 +2275,55 @@ async def reject_prescription(
     
     await db.commit()
     
-    return {"message": "Prescription rejected", "status": "rejected"}
+    return {
+        "message": "Prescription discrepancy reported",
+        "status": PrescriptionStatus.DISCREPANCY_REPORTED.value,
+        "clinical_rejection": False,
+    }
+
+
+@router.post("/patient/prescription/{prescription_id}/acknowledge")
+async def acknowledge_prescription(
+    prescription_id: str,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    return await _acknowledge_prescription_receipt(prescription_id, user, db)
+
+
+@router.post("/patient/prescription/{prescription_id}/report-discrepancy")
+async def report_prescription_discrepancy(
+    prescription_id: str,
+    data: PrescriptionReject,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    return await _report_prescription_discrepancy(prescription_id, data, user, db)
+
+
+@router.post("/patient/prescription/{prescription_id}/accept", deprecated=True)
+async def accept_prescription_compatibility(
+    prescription_id: str,
+    response: Response,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    response.headers["Deprecation"] = "true"
+    response.headers["Link"] = f'</consultation/patient/prescription/{prescription_id}/acknowledge>; rel="successor-version"'
+    return await _acknowledge_prescription_receipt(prescription_id, user, db)
+
+
+@router.post("/patient/prescription/{prescription_id}/reject", deprecated=True)
+async def reject_prescription_compatibility(
+    prescription_id: str,
+    data: PrescriptionReject,
+    response: Response,
+    user: Any = Depends(get_current_user_token),
+    db: AsyncSession = Depends(get_db),
+):
+    response.headers["Deprecation"] = "true"
+    response.headers["Link"] = f'</consultation/patient/prescription/{prescription_id}/report-discrepancy>; rel="successor-version"'
+    return await _report_prescription_discrepancy(prescription_id, data, user, db)
 
 
 # ========== MEDICAL HISTORY INTEGRATION ==========
@@ -2284,7 +2336,7 @@ async def get_medical_history_prescriptions(
     user: any = Depends(get_current_user_token),
     db: AsyncSession = Depends(get_db),
 ):
-    """Get accepted prescriptions for medical history."""
+    """Get prescriptions whose receipt has been acknowledged."""
     profile = await resolve_profile(db, user)
     if not profile or profile.role != UserRole.PATIENT:
         raise HTTPException(status_code=403, detail="Only patients can access this resource")
@@ -2292,7 +2344,7 @@ async def get_medical_history_prescriptions(
     # Reuse the optimized, paginated prescription loader. The former
     # implementation paid seven serial database operations for the same shape.
     return await get_patient_prescriptions(
-        status_filter=PrescriptionStatus.ACCEPTED.value,
+        status_filter=PrescriptionStatus.RECEIPT_ACKNOWLEDGED.value,
         prescription_type=prescription_type,
         limit=limit,
         offset=offset,

@@ -1,0 +1,596 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "paddle_full",
+  "source_sha256": "f389eb40d7ec3401921a831ef07b87b7f83efc4e4c2a6e288767913b77bc41e3",
+  "record_id": "RX-0015",
+  "configuration": {
+    "engine": "paddleocr",
+    "package_version": "3.5.0",
+    "detector": "PP-OCRv4_mobile_det",
+    "recognizer": "en_PP-OCRv4_mobile_rec",
+    "inference_engine": "paddle_static",
+    "device": "cpu",
+    "mkldnn": false,
+    "mode": "full_image"
+  },
+  "runtime_ms": 32387.917500003823,
+  "failure": null,
+  "response_sha256": "1a2fbbd99917f8bac3a5e518d1cc13c5aa1d8024fe2fb7f62e931cff79714698",
+  "response": {
+    "raw_text": "MINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hag Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD/\nMedical Center\n010\nPigrin00938024\nPassport No\nA06061412\nMaktabNo7\nName_\nMST RAHIMAKHATUN\nGender\nFEMALE\nDistriEHAKA\nThSALLABI\nHEALTH PROFILE\n1.Bood GroupNO\nAt\n2.Slood Pressure\n0\n3.Hear DiseaseNO\n4.Lung Disease\nNO\n5.Kidney Diseas\n6\nBlood Sugar (RBS)NO\nDiabetes.\n5.24\n9.Weight\n8.\n0.R\nLiver Disease:\n11.Drug History\nVisit No:\nDale:\n19 Moy 2024\nChief Complaints:\n410\nRX\nTab.\nNoriethisterone (smg\nO/E-\nPuise\n++3\nBP-\nTemp-\nHharo\nAnaemia-\nDehydration-\nRespiration-\nOthers-",
+    "lines": [
+      {
+        "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+        "bbox": {
+          "x_min": 244.0,
+          "y_min": 148.0,
+          "x_max": 432.0,
+          "y_max": 163.0
+        },
+        "page": 1,
+        "confidence": 0.978
+      },
+      {
+        "text": "Bangladesh Hag Office",
+        "bbox": {
+          "x_min": 281.0,
+          "y_min": 162.0,
+          "x_max": 399.0,
+          "y_max": 172.0
+        },
+        "page": 1,
+        "confidence": 0.881
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": {
+          "x_min": 276.0,
+          "y_min": 172.0,
+          "x_max": 401.0,
+          "y_max": 185.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "TREATMENT CARD/",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 196.0,
+          "x_max": 423.0,
+          "y_max": 209.0
+        },
+        "page": 1,
+        "confidence": 0.947
+      },
+      {
+        "text": "Medical Center",
+        "bbox": {
+          "x_min": 116.0,
+          "y_min": 208.0,
+          "x_max": 189.0,
+          "y_max": 225.0
+        },
+        "page": 1,
+        "confidence": 0.915
+      },
+      {
+        "text": "010",
+        "bbox": {
+          "x_min": 442.0,
+          "y_min": 203.0,
+          "x_max": 512.0,
+          "y_max": 219.0
+        },
+        "page": 1,
+        "confidence": 0.746
+      },
+      {
+        "text": "Pigrin00938024",
+        "bbox": {
+          "x_min": 112.0,
+          "y_min": 218.0,
+          "x_max": 187.0,
+          "y_max": 244.0
+        },
+        "page": 1,
+        "confidence": 0.742
+      },
+      {
+        "text": "Passport No",
+        "bbox": {
+          "x_min": 282.0,
+          "y_min": 225.0,
+          "x_max": 334.0,
+          "y_max": 235.0
+        },
+        "page": 1,
+        "confidence": 0.929
+      },
+      {
+        "text": "A06061412",
+        "bbox": {
+          "x_min": 351.0,
+          "y_min": 220.0,
+          "x_max": 394.0,
+          "y_max": 231.0
+        },
+        "page": 1,
+        "confidence": 0.888
+      },
+      {
+        "text": "MaktabNo7",
+        "bbox": {
+          "x_min": 445.0,
+          "y_min": 219.0,
+          "x_max": 498.0,
+          "y_max": 237.0
+        },
+        "page": 1,
+        "confidence": 0.793
+      },
+      {
+        "text": "Name_",
+        "bbox": {
+          "x_min": 113.0,
+          "y_min": 240.0,
+          "x_max": 145.0,
+          "y_max": 254.0
+        },
+        "page": 1,
+        "confidence": 0.874
+      },
+      {
+        "text": "MST RAHIMAKHATUN",
+        "bbox": {
+          "x_min": 148.0,
+          "y_min": 232.0,
+          "x_max": 239.0,
+          "y_max": 249.0
+        },
+        "page": 1,
+        "confidence": 0.924
+      },
+      {
+        "text": "Gender",
+        "bbox": {
+          "x_min": 114.0,
+          "y_min": 255.0,
+          "x_max": 146.0,
+          "y_max": 266.0
+        },
+        "page": 1,
+        "confidence": 0.987
+      },
+      {
+        "text": "FEMALE",
+        "bbox": {
+          "x_min": 149.0,
+          "y_min": 250.0,
+          "x_max": 183.0,
+          "y_max": 261.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "DistriEHAKA",
+        "bbox": {
+          "x_min": 223.0,
+          "y_min": 246.0,
+          "x_max": 275.0,
+          "y_max": 265.0
+        },
+        "page": 1,
+        "confidence": 0.863
+      },
+      {
+        "text": "ThSALLABI",
+        "bbox": {
+          "x_min": 422.0,
+          "y_min": 244.0,
+          "x_max": 468.0,
+          "y_max": 262.0
+        },
+        "page": 1,
+        "confidence": 0.663
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": {
+          "x_min": 300.0,
+          "y_min": 269.0,
+          "x_max": 390.0,
+          "y_max": 284.0
+        },
+        "page": 1,
+        "confidence": 0.957
+      },
+      {
+        "text": "1.Bood GroupNO",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 289.0,
+          "x_max": 293.0,
+          "y_max": 303.0
+        },
+        "page": 1,
+        "confidence": 0.856
+      },
+      {
+        "text": "At",
+        "bbox": {
+          "x_min": 278.0,
+          "y_min": 283.0,
+          "x_max": 289.0,
+          "y_max": 291.0
+        },
+        "page": 1,
+        "confidence": 0.617
+      },
+      {
+        "text": "2.Slood Pressure",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 288.0,
+          "x_max": 468.0,
+          "y_max": 299.0
+        },
+        "page": 1,
+        "confidence": 0.935
+      },
+      {
+        "text": "0",
+        "bbox": {
+          "x_min": 494.0,
+          "y_min": 285.0,
+          "x_max": 499.0,
+          "y_max": 291.0
+        },
+        "page": 1,
+        "confidence": 0.211
+      },
+      {
+        "text": "3.Hear DiseaseNO",
+        "bbox": {
+          "x_min": 207.0,
+          "y_min": 298.0,
+          "x_max": 293.0,
+          "y_max": 314.0
+        },
+        "page": 1,
+        "confidence": 0.846
+      },
+      {
+        "text": "4.Lung Disease",
+        "bbox": {
+          "x_min": 393.0,
+          "y_min": 298.0,
+          "x_max": 463.0,
+          "y_max": 312.0
+        },
+        "page": 1,
+        "confidence": 0.89
+      },
+      {
+        "text": "NO",
+        "bbox": {
+          "x_min": 491.0,
+          "y_min": 297.0,
+          "x_max": 508.0,
+          "y_max": 310.0
+        },
+        "page": 1,
+        "confidence": 0.992
+      },
+      {
+        "text": "5.Kidney Diseas",
+        "bbox": {
+          "x_min": 208.0,
+          "y_min": 310.0,
+          "x_max": 292.0,
+          "y_max": 323.0
+        },
+        "page": 1,
+        "confidence": 0.929
+      },
+      {
+        "text": "6",
+        "bbox": {
+          "x_min": 395.0,
+          "y_min": 310.0,
+          "x_max": 409.0,
+          "y_max": 318.0
+        },
+        "page": 1,
+        "confidence": 0.887
+      },
+      {
+        "text": "Blood Sugar (RBS)NO",
+        "bbox": {
+          "x_min": 405.0,
+          "y_min": 318.0,
+          "x_max": 509.0,
+          "y_max": 331.0
+        },
+        "page": 1,
+        "confidence": 0.84
+      },
+      {
+        "text": "Diabetes.",
+        "bbox": {
+          "x_min": 406.0,
+          "y_min": 309.0,
+          "x_max": 448.0,
+          "y_max": 319.0
+        },
+        "page": 1,
+        "confidence": 0.912
+      },
+      {
+        "text": "5.24",
+        "bbox": {
+          "x_min": 491.0,
+          "y_min": 309.0,
+          "x_max": 510.0,
+          "y_max": 321.0
+        },
+        "page": 1,
+        "confidence": 0.988
+      },
+      {
+        "text": "9.Weight",
+        "bbox": {
+          "x_min": 205.0,
+          "y_min": 328.0,
+          "x_max": 253.0,
+          "y_max": 345.0
+        },
+        "page": 1,
+        "confidence": 0.964
+      },
+      {
+        "text": "8.",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 321.0,
+          "x_max": 409.0,
+          "y_max": 329.0
+        },
+        "page": 1,
+        "confidence": 0.649
+      },
+      {
+        "text": "0.R",
+        "bbox": {
+          "x_min": 394.0,
+          "y_min": 330.0,
+          "x_max": 409.0,
+          "y_max": 337.0
+        },
+        "page": 1,
+        "confidence": 0.282
+      },
+      {
+        "text": "Liver Disease:",
+        "bbox": {
+          "x_min": 410.0,
+          "y_min": 329.0,
+          "x_max": 468.0,
+          "y_max": 339.0
+        },
+        "page": 1,
+        "confidence": 0.877
+      },
+      {
+        "text": "11.Drug History",
+        "bbox": {
+          "x_min": 203.0,
+          "y_min": 342.0,
+          "x_max": 270.0,
+          "y_max": 353.0
+        },
+        "page": 1,
+        "confidence": 0.956
+      },
+      {
+        "text": "Visit No:",
+        "bbox": {
+          "x_min": 249.0,
+          "y_min": 363.0,
+          "x_max": 287.0,
+          "y_max": 380.0
+        },
+        "page": 1,
+        "confidence": 0.782
+      },
+      {
+        "text": "Dale:",
+        "bbox": {
+          "x_min": 427.0,
+          "y_min": 365.0,
+          "x_max": 449.0,
+          "y_max": 376.0
+        },
+        "page": 1,
+        "confidence": 0.815
+      },
+      {
+        "text": "19 Moy 2024",
+        "bbox": {
+          "x_min": 430.0,
+          "y_min": 357.0,
+          "x_max": 484.0,
+          "y_max": 368.0
+        },
+        "page": 1,
+        "confidence": 0.883
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": {
+          "x_min": 105.0,
+          "y_min": 367.0,
+          "x_max": 202.0,
+          "y_max": 383.0
+        },
+        "page": 1,
+        "confidence": 0.96
+      },
+      {
+        "text": "410",
+        "bbox": {
+          "x_min": 105.0,
+          "y_min": 392.0,
+          "x_max": 135.0,
+          "y_max": 406.0
+        },
+        "page": 1,
+        "confidence": 0.577
+      },
+      {
+        "text": "RX",
+        "bbox": {
+          "x_min": 256.0,
+          "y_min": 392.0,
+          "x_max": 282.0,
+          "y_max": 413.0
+        },
+        "page": 1,
+        "confidence": 0.719
+      },
+      {
+        "text": "Tab.",
+        "bbox": {
+          "x_min": 264.0,
+          "y_min": 417.0,
+          "x_max": 301.0,
+          "y_max": 434.0
+        },
+        "page": 1,
+        "confidence": 0.881
+      },
+      {
+        "text": "Noriethisterone (smg",
+        "bbox": {
+          "x_min": 320.0,
+          "y_min": 412.0,
+          "x_max": 484.0,
+          "y_max": 429.0
+        },
+        "page": 1,
+        "confidence": 0.76
+      },
+      {
+        "text": "O/E-",
+        "bbox": {
+          "x_min": 102.0,
+          "y_min": 426.0,
+          "x_max": 126.0,
+          "y_max": 438.0
+        },
+        "page": 1,
+        "confidence": 0.923
+      },
+      {
+        "text": "Puise",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 440.0,
+          "x_max": 132.0,
+          "y_max": 458.0
+        },
+        "page": 1,
+        "confidence": 0.951
+      },
+      {
+        "text": "++3",
+        "bbox": {
+          "x_min": 341.0,
+          "y_min": 431.0,
+          "x_max": 462.0,
+          "y_max": 449.0
+        },
+        "page": 1,
+        "confidence": 0.564
+      },
+      {
+        "text": "BP-",
+        "bbox": {
+          "x_min": 98.0,
+          "y_min": 461.0,
+          "x_max": 117.0,
+          "y_max": 473.0
+        },
+        "page": 1,
+        "confidence": 0.944
+      },
+      {
+        "text": "Temp-",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 476.0,
+          "x_max": 129.0,
+          "y_max": 492.0
+        },
+        "page": 1,
+        "confidence": 0.921
+      },
+      {
+        "text": "Hharo",
+        "bbox": {
+          "x_min": 507.0,
+          "y_min": 459.0,
+          "x_max": 562.0,
+          "y_max": 487.0
+        },
+        "page": 1,
+        "confidence": 0.441
+      },
+      {
+        "text": "Anaemia-",
+        "bbox": {
+          "x_min": 98.0,
+          "y_min": 496.0,
+          "x_max": 142.0,
+          "y_max": 507.0
+        },
+        "page": 1,
+        "confidence": 0.995
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": {
+          "x_min": 97.0,
+          "y_min": 513.0,
+          "x_max": 159.0,
+          "y_max": 524.0
+        },
+        "page": 1,
+        "confidence": 0.99
+      },
+      {
+        "text": "Respiration-",
+        "bbox": {
+          "x_min": 93.0,
+          "y_min": 528.0,
+          "x_max": 156.0,
+          "y_max": 544.0
+        },
+        "page": 1,
+        "confidence": 0.979
+      },
+      {
+        "text": "Others-",
+        "bbox": {
+          "x_min": 94.0,
+          "y_min": 548.0,
+          "x_max": 132.0,
+          "y_max": 562.0
+        },
+        "page": 1,
+        "confidence": 0.991
+      }
+    ]
+  }
+}

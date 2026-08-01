@@ -1,0 +1,362 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "d766b885f37e91dfff932dcec45aca27b8dc5a3d9a9476021e7fded0730f91bf",
+  "record_id": "RX-0035",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 36041.45150000113,
+  "failure": null,
+  "response_sha256": "88f9dfb6225720e98f49590e452761e38b9ccd6acc5eaff6f546a5a9bf59766b",
+  "response": {
+    "raw_text": "Bangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / यावहनज\nपटकन ने: G053\nB00786627\nMaktab No __ 44\n55\nGender\nMALE\nDistrict NADGAON\nThan PHAMCIRHAT.\nHEALTH PROFILE\n120/80\n1. Blood Group:\nNO\n2. Blood Pressure:\nNO\n3. Heart Disease:\nNO\n4. Lung Disease:\nYES\n5. Kidney Disease: NO\n6. Dlabeles:\n5.8\n7. Mental Disease: 80\n8. Blood Sugar (RBS):\nNO\n9. Weight:\n10. Liver Disease:\n11. Drug History:\nAntidiabede\n12. Any other abnormalitiesNO\nChief Complaints:\nVisit No:\nDals10 May 2024\nRx\nOVED\nPURA-\nBP\nTemp-\nAnnemin-\nDehydration-\nRespiration-\nOthers-\nFBS/RBS- 14.2 33\nECG\nProvisional Diagonosis\n) Tale. Tiemonium MethylSulplate\n(508)\n19.05.24\nMedical Center:\nPilgrim ID_\n0061240\nPassport No\nName\nMD ANOWAR HOSBAIN\nA+",
+    "lines": [
+      {
+        "text": "Bangladesh Hajj Office",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Makkah/Madinah/Jeddah",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "TREATMENT CARD / यावहनज",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "पटकन ने: G053",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "B00786627",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Maktab No __ 44",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "55",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Gender",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "MALE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "District NADGAON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Than PHAMCIRHAT.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "HEALTH PROFILE",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "120/80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "1. Blood Group:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "2. Blood Pressure:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "3. Heart Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "4. Lung Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "YES",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "5. Kidney Disease: NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "6. Dlabeles:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "5.8",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "7. Mental Disease: 80",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "8. Blood Sugar (RBS):",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "NO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "9. Weight:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "10. Liver Disease:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "11. Drug History:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Antidiabede",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "12. Any other abnormalitiesNO",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Chief Complaints:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Visit No:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Dals10 May 2024",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Rx",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "OVED",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "PURA-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "BP",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Temp-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Annemin-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Dehydration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Respiration-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Others-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "FBS/RBS- 14.2 33",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "ECG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Provisional Diagonosis",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": ") Tale. Tiemonium MethylSulplate",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "(508)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "19.05.24",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Medical Center:",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Pilgrim ID_",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "0061240",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Passport No",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "Name",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "MD ANOWAR HOSBAIN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      },
+      {
+        "text": "A+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.751
+      }
+    ]
+  }
+}

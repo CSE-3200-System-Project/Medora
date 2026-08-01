@@ -1,0 +1,1881 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0084",
+  "source_sha256": "4b2982e1b833cd14eeb167a4a5b0024302aa9d9bf93032d13c405f76885fd2dc",
+  "raw_transcription": "TAB. Taten (1 mg)\n- Clobetasome aint --- D\nDO Napa Extend (185mg)-@\nstats (west end) -Brev\nCap Onceprazole (20m)\n> + ats (euro camp)",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Taten",
+      "strength": "1 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Clobetasome Aint ---",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Napa Extend",
+      "strength": "185mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Stats West End",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "omeprazole",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Euro",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "2e8fa046a70dd0e38fda646cc711d4220083d2181d2f9a176864f3532f7eba9a"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "9417192e6fa1df4b6c7ece32744780f3d4d0462f2ff37d9a3cb429c1151b8839"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "f562a5fe7628a71cd40ae7f249513ffd70a6adab822b5dc2023a26f9a5d8bae4"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "GOVERNMENT OFTHE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Haj Office\nMakkah/Madinah/Jeddah\nTREATMENTCARD/\nS026\nMedical Center.\n40350015\nMkiabNo\n34\n0944193\nPaspoho\nNgmp\nNURULSWA\n\"Age\n1\nN9ne\nME\nHEALTH PROFILE\n992\n1290\nd G\nNO\n2B r\n30\nNO\nE\nBo Sa RS\nNO\n7Mcrtl Discase\n70\n9 Wegn\n2.\nLer issase\n11Cag Hiscy\nChlof Complaints\nE\nVen Na\ntching\nMPrah\nT.Tafenm\nOE\nPUSR\n0t0+)\nBP.\nO\nClokemsm int\nTomp-\nArome\nDenydralion-\nRespiratore\nTapn Exferdosny\nOthers\ncap Dnipragolexom\n+o+cu Cam\nFBS/RBS-\nECG",
+      "lines": [
+        {
+          "text": "GOVERNMENT OFTHE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": {
+            "x_min": 157.0,
+            "y_min": 45.0,
+            "x_max": 462.0,
+            "y_max": 83.0
+          },
+          "page": 1,
+          "confidence": 0.957
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": {
+            "x_min": 224.0,
+            "y_min": 64.0,
+            "x_max": 393.0,
+            "y_max": 91.0
+          },
+          "page": 1,
+          "confidence": 0.968
+        },
+        {
+          "text": "Bangladesh Haj Office",
+          "bbox": {
+            "x_min": 256.0,
+            "y_min": 79.0,
+            "x_max": 360.0,
+            "y_max": 101.0
+          },
+          "page": 1,
+          "confidence": 0.89
+        },
+        {
+          "text": "Makkah/Madinah/Jeddah",
+          "bbox": {
+            "x_min": 252.0,
+            "y_min": 91.0,
+            "x_max": 365.0,
+            "y_max": 112.0
+          },
+          "page": 1,
+          "confidence": 0.969
+        },
+        {
+          "text": "TREATMENTCARD/",
+          "bbox": {
+            "x_min": 241.0,
+            "y_min": 112.0,
+            "x_max": 384.0,
+            "y_max": 136.0
+          },
+          "page": 1,
+          "confidence": 0.975
+        },
+        {
+          "text": "S026",
+          "bbox": {
+            "x_min": 399.0,
+            "y_min": 114.0,
+            "x_max": 477.0,
+            "y_max": 136.0
+          },
+          "page": 1,
+          "confidence": 0.912
+        },
+        {
+          "text": "Medical Center.",
+          "bbox": {
+            "x_min": 119.0,
+            "y_min": 137.0,
+            "x_max": 184.0,
+            "y_max": 153.0
+          },
+          "page": 1,
+          "confidence": 0.925
+        },
+        {
+          "text": "40350015",
+          "bbox": {
+            "x_min": 325.0,
+            "y_min": 135.0,
+            "x_max": 367.0,
+            "y_max": 152.0
+          },
+          "page": 1,
+          "confidence": 0.574
+        },
+        {
+          "text": "MkiabNo",
+          "bbox": {
+            "x_min": 404.0,
+            "y_min": 136.0,
+            "x_max": 447.0,
+            "y_max": 150.0
+          },
+          "page": 1,
+          "confidence": 0.53
+        },
+        {
+          "text": "34",
+          "bbox": {
+            "x_min": 443.0,
+            "y_min": 134.0,
+            "x_max": 461.0,
+            "y_max": 145.0
+          },
+          "page": 1,
+          "confidence": 0.723
+        },
+        {
+          "text": "0944193",
+          "bbox": {
+            "x_min": 156.0,
+            "y_min": 146.0,
+            "x_max": 188.0,
+            "y_max": 160.0
+          },
+          "page": 1,
+          "confidence": 0.792
+        },
+        {
+          "text": "Paspoho",
+          "bbox": {
+            "x_min": 256.0,
+            "y_min": 143.0,
+            "x_max": 309.0,
+            "y_max": 159.0
+          },
+          "page": 1,
+          "confidence": 0.798
+        },
+        {
+          "text": "Ngmp",
+          "bbox": {
+            "x_min": 120.0,
+            "y_min": 156.0,
+            "x_max": 157.0,
+            "y_max": 167.0
+          },
+          "page": 1,
+          "confidence": 0.513
+        },
+        {
+          "text": "NURULSWA",
+          "bbox": {
+            "x_min": 155.0,
+            "y_min": 160.0,
+            "x_max": 206.0,
+            "y_max": 171.0
+          },
+          "page": 1,
+          "confidence": 0.758
+        },
+        {
+          "text": "\"Age",
+          "bbox": {
+            "x_min": 421.0,
+            "y_min": 151.0,
+            "x_max": 443.0,
+            "y_max": 162.0
+          },
+          "page": 1,
+          "confidence": 0.849
+        },
+        {
+          "text": "1",
+          "bbox": {
+            "x_min": 444.0,
+            "y_min": 144.0,
+            "x_max": 460.0,
+            "y_max": 161.0
+          },
+          "page": 1,
+          "confidence": 0.13
+        },
+        {
+          "text": "N9ne",
+          "bbox": {
+            "x_min": 121.0,
+            "y_min": 169.0,
+            "x_max": 147.0,
+            "y_max": 180.0
+          },
+          "page": 1,
+          "confidence": 0.422
+        },
+        {
+          "text": "ME",
+          "bbox": {
+            "x_min": 158.0,
+            "y_min": 173.0,
+            "x_max": 181.0,
+            "y_max": 185.0
+          },
+          "page": 1,
+          "confidence": 0.855
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": {
+            "x_min": 275.0,
+            "y_min": 185.0,
+            "x_max": 353.0,
+            "y_max": 203.0
+          },
+          "page": 1,
+          "confidence": 0.958
+        },
+        {
+          "text": "992",
+          "bbox": {
+            "x_min": 445.0,
+            "y_min": 195.0,
+            "x_max": 464.0,
+            "y_max": 231.0
+          },
+          "page": 1,
+          "confidence": 0.5
+        },
+        {
+          "text": "1290",
+          "bbox": {
+            "x_min": 447.0,
+            "y_min": 186.0,
+            "x_max": 473.0,
+            "y_max": 201.0
+          },
+          "page": 1,
+          "confidence": 0.845
+        },
+        {
+          "text": "d G",
+          "bbox": {
+            "x_min": 201.0,
+            "y_min": 207.0,
+            "x_max": 259.0,
+            "y_max": 221.0
+          },
+          "page": 1,
+          "confidence": 0.748
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 265.0,
+            "y_min": 205.0,
+            "x_max": 280.0,
+            "y_max": 219.0
+          },
+          "page": 1,
+          "confidence": 0.689
+        },
+        {
+          "text": "2B r",
+          "bbox": {
+            "x_min": 353.0,
+            "y_min": 198.0,
+            "x_max": 419.0,
+            "y_max": 214.0
+          },
+          "page": 1,
+          "confidence": 0.71
+        },
+        {
+          "text": "30",
+          "bbox": {
+            "x_min": 266.0,
+            "y_min": 218.0,
+            "x_max": 279.0,
+            "y_max": 226.0
+          },
+          "page": 1,
+          "confidence": 0.369
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 266.0,
+            "y_min": 226.0,
+            "x_max": 279.0,
+            "y_max": 235.0
+          },
+          "page": 1,
+          "confidence": 0.703
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 358.0,
+            "y_min": 222.0,
+            "x_max": 369.0,
+            "y_max": 229.0
+          },
+          "page": 1,
+          "confidence": 0.264
+        },
+        {
+          "text": "Bo Sa RS",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 223.0,
+            "x_max": 438.0,
+            "y_max": 244.0
+          },
+          "page": 1,
+          "confidence": 0.568
+        },
+        {
+          "text": "NO",
+          "bbox": {
+            "x_min": 445.0,
+            "y_min": 224.0,
+            "x_max": 462.0,
+            "y_max": 248.0
+          },
+          "page": 1,
+          "confidence": 0.867
+        },
+        {
+          "text": "7Mcrtl Discase",
+          "bbox": {
+            "x_min": 202.0,
+            "y_min": 234.0,
+            "x_max": 266.0,
+            "y_max": 246.0
+          },
+          "page": 1,
+          "confidence": 0.675
+        },
+        {
+          "text": "70",
+          "bbox": {
+            "x_min": 264.0,
+            "y_min": 235.0,
+            "x_max": 277.0,
+            "y_max": 244.0
+          },
+          "page": 1,
+          "confidence": 0.274
+        },
+        {
+          "text": "9 Wegn",
+          "bbox": {
+            "x_min": 203.0,
+            "y_min": 245.0,
+            "x_max": 239.0,
+            "y_max": 255.0
+          },
+          "page": 1,
+          "confidence": 0.76
+        },
+        {
+          "text": "2.",
+          "bbox": {
+            "x_min": 352.0,
+            "y_min": 240.0,
+            "x_max": 453.0,
+            "y_max": 260.0
+          },
+          "page": 1,
+          "confidence": 0.764
+        },
+        {
+          "text": "Ler issase",
+          "bbox": {
+            "x_min": 367.0,
+            "y_min": 237.0,
+            "x_max": 418.0,
+            "y_max": 247.0
+          },
+          "page": 1,
+          "confidence": 0.764
+        },
+        {
+          "text": "11Cag Hiscy",
+          "bbox": {
+            "x_min": 203.0,
+            "y_min": 253.0,
+            "x_max": 256.0,
+            "y_max": 264.0
+          },
+          "page": 1,
+          "confidence": 0.685
+        },
+        {
+          "text": "Chlof Complaints",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 271.0,
+            "x_max": 204.0,
+            "y_max": 291.0
+          },
+          "page": 1,
+          "confidence": 0.818
+        },
+        {
+          "text": "E",
+          "bbox": {
+            "x_min": 234.0,
+            "y_min": 271.0,
+            "x_max": 241.0,
+            "y_max": 278.0
+          },
+          "page": 1,
+          "confidence": 0.28
+        },
+        {
+          "text": "Ven Na",
+          "bbox": {
+            "x_min": 238.0,
+            "y_min": 273.0,
+            "x_max": 269.0,
+            "y_max": 284.0
+          },
+          "page": 1,
+          "confidence": 0.593
+        },
+        {
+          "text": "tching",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 284.0,
+            "x_max": 180.0,
+            "y_max": 298.0
+          },
+          "page": 1,
+          "confidence": 0.885
+        },
+        {
+          "text": "MPrah",
+          "bbox": {
+            "x_min": 129.0,
+            "y_min": 298.0,
+            "x_max": 181.0,
+            "y_max": 312.0
+          },
+          "page": 1,
+          "confidence": 0.81
+        },
+        {
+          "text": "T.Tafenm",
+          "bbox": {
+            "x_min": 289.0,
+            "y_min": 293.0,
+            "x_max": 445.0,
+            "y_max": 328.0
+          },
+          "page": 1,
+          "confidence": 0.654
+        },
+        {
+          "text": "OE",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 320.0,
+            "x_max": 149.0,
+            "y_max": 333.0
+          },
+          "page": 1,
+          "confidence": 0.837
+        },
+        {
+          "text": "PUSR",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 332.0,
+            "x_max": 154.0,
+            "y_max": 347.0
+          },
+          "page": 1,
+          "confidence": 0.489
+        },
+        {
+          "text": "0t0+)",
+          "bbox": {
+            "x_min": 314.0,
+            "y_min": 326.0,
+            "x_max": 353.0,
+            "y_max": 342.0
+          },
+          "page": 1,
+          "confidence": 0.516
+        },
+        {
+          "text": "BP.",
+          "bbox": {
+            "x_min": 130.0,
+            "y_min": 346.0,
+            "x_max": 146.0,
+            "y_max": 359.0
+          },
+          "page": 1,
+          "confidence": 0.901
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 302.0,
+            "y_min": 353.0,
+            "x_max": 313.0,
+            "y_max": 360.0
+          },
+          "page": 1,
+          "confidence": 0.153
+        },
+        {
+          "text": "Clokemsm int",
+          "bbox": {
+            "x_min": 305.0,
+            "y_min": 326.0,
+            "x_max": 463.0,
+            "y_max": 367.0
+          },
+          "page": 1,
+          "confidence": 0.668
+        },
+        {
+          "text": "Tomp-",
+          "bbox": {
+            "x_min": 132.0,
+            "y_min": 359.0,
+            "x_max": 155.0,
+            "y_max": 370.0
+          },
+          "page": 1,
+          "confidence": 0.874
+        },
+        {
+          "text": "Arome",
+          "bbox": {
+            "x_min": 132.0,
+            "y_min": 370.0,
+            "x_max": 167.0,
+            "y_max": 384.0
+          },
+          "page": 1,
+          "confidence": 0.658
+        },
+        {
+          "text": "Denydralion-",
+          "bbox": {
+            "x_min": 133.0,
+            "y_min": 384.0,
+            "x_max": 180.0,
+            "y_max": 394.0
+          },
+          "page": 1,
+          "confidence": 0.778
+        },
+        {
+          "text": "Respiratore",
+          "bbox": {
+            "x_min": 131.0,
+            "y_min": 393.0,
+            "x_max": 179.0,
+            "y_max": 409.0
+          },
+          "page": 1,
+          "confidence": 0.772
+        },
+        {
+          "text": "Tapn Exferdosny",
+          "bbox": {
+            "x_min": 315.0,
+            "y_min": 361.0,
+            "x_max": 490.0,
+            "y_max": 408.0
+          },
+          "page": 1,
+          "confidence": 0.592
+        },
+        {
+          "text": "Others",
+          "bbox": {
+            "x_min": 134.0,
+            "y_min": 409.0,
+            "x_max": 159.0,
+            "y_max": 420.0
+          },
+          "page": 1,
+          "confidence": 0.945
+        },
+        {
+          "text": "cap Dnipragolexom",
+          "bbox": {
+            "x_min": 324.0,
+            "y_min": 403.0,
+            "x_max": 460.0,
+            "y_max": 450.0
+          },
+          "page": 1,
+          "confidence": 0.67
+        },
+        {
+          "text": "+o+cu Cam",
+          "bbox": {
+            "x_min": 343.0,
+            "y_min": 423.0,
+            "x_max": 456.0,
+            "y_max": 466.0
+          },
+          "page": 1,
+          "confidence": 0.671
+        },
+        {
+          "text": "FBS/RBS-",
+          "bbox": {
+            "x_min": 135.0,
+            "y_min": 503.0,
+            "x_max": 173.0,
+            "y_max": 517.0
+          },
+          "page": 1,
+          "confidence": 0.803
+        },
+        {
+          "text": "ECG",
+          "bbox": {
+            "x_min": 136.0,
+            "y_min": 518.0,
+            "x_max": 154.0,
+            "y_max": 530.0
+          },
+          "page": 1,
+          "confidence": 0.937
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Ofthe People",
+          "matched_term": "Government Ofthe People",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.431
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.816
+        },
+        {
+          "name": "Bangladesh Haj Office",
+          "matched_term": "Bangladesh Haj Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.401
+        },
+        {
+          "name": "Makkah Madinah Jeddah",
+          "matched_term": "Makkah Madinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.436
+        },
+        {
+          "name": "Treatmentcard",
+          "matched_term": "Treatmentcard",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.358
+        },
+        {
+          "name": "Mkiabno",
+          "matched_term": "Mkiabno",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.239
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.796
+        },
+        {
+          "name": "Paspoho",
+          "matched_term": "Paspoho",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.258
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.762
+        },
+        {
+          "name": "Ngmp",
+          "matched_term": "Ngmp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Nurulswa Ne Me",
+          "matched_term": "Nurulswa Ne Me",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.305
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.675
+        },
+        {
+          "name": "Mcrtl Discase",
+          "matched_term": "Mcrtl Discase",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.214
+        },
+        {
+          "name": "Ler Issase",
+          "matched_term": "Ler Issase",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.344
+        },
+        {
+          "name": "Wegn",
+          "matched_term": "Wegn",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.342
+        },
+        {
+          "name": "Cag Hiscy",
+          "matched_term": "Cag Hiscy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.308
+        },
+        {
+          "name": "Chlof Complaints",
+          "matched_term": "Chlof Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.247
+        },
+        {
+          "name": "Ven Na",
+          "matched_term": "Ven Na",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.267
+        },
+        {
+          "name": "Tching",
+          "matched_term": "Tching",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.398
+        },
+        {
+          "name": "Tafenm",
+          "matched_term": "Tafenm",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.294
+        },
+        {
+          "name": "Mprah Aloe",
+          "matched_term": "Mprah Aloe",
+          "drug_id": "497977fe-7383-418b-8239-c016268333ac",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.371
+        },
+        {
+          "name": "Clokemsm Int",
+          "matched_term": "Clokemsm Int",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Pusr Bp-Z",
+          "matched_term": "Pusr Bp-Z",
+          "drug_id": "01034f29-48ab-41a5-ab2d-8e85dea95f0a",
+          "brand_id": "01b744bd-5cd7-41af-845e-0a63622c7b7b",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.231
+        },
+        {
+          "name": "Tomp",
+          "matched_term": "Tomp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.393
+        },
+        {
+          "name": "Tapn Exferdosny",
+          "matched_term": "Tapn Exferdosny",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.266
+        },
+        {
+          "name": "Arom",
+          "matched_term": "Arom",
+          "drug_id": "a5179602-a21f-4dcb-8256-2bf11f6cb5e9",
+          "brand_id": "77b4debe-634d-4bf8-8ee9-d8e2cf0985d7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.676
+        },
+        {
+          "name": "Denydralion",
+          "matched_term": "Denydralion",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.35
+        },
+        {
+          "name": "Respira",
+          "matched_term": "Respira",
+          "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+          "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.727
+        },
+        {
+          "name": "Caprolex",
+          "matched_term": "Caprolex",
+          "drug_id": "91bee63a-74eb-4bf5-85cc-437df6e6b1bb",
+          "brand_id": "55d51df5-ad48-41ef-b279-dfe4d7a41cb3",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.681
+        },
+        {
+          "name": "Othera",
+          "matched_term": "Othera",
+          "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+          "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.805
+        },
+        {
+          "name": "Cu Cam",
+          "matched_term": "Cu Cam",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.302
+        },
+        {
+          "name": "Fbs Rbs",
+          "matched_term": "Fbs Rbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.361
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.422
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH\nMINISTRY OF RELIGIOUS AFFAIRS\nBangladesh Hajj Office\nMakkah/Madinah/Jeddah\nTREATMENT CARD / बादशन'\n0m= $026\nMedical Center:\n0244193\nAge\nNURUL IS_VA\nThanEATKHIL\nDistrict NOAKHAL\nHEALTH PROFILE\n12390\n2. Bince Freesure\nNO\n1. Bland Group:\n4. Lung Disease.\nNO\n3. Hep T DGUD\nNO\n7 Mortal Discage: 70\n10. Liver Disease;\n12. Amycomer sonormalilies:\nChief Complaints\nVien Na:\nItching\nw/3\nMP rath.\n. TAB Taten ( mg)\nClobetasome aint __\nTAB, Napa Extend (665mg)-10\nCap Omeprazole (Dem)\nFBS RBS-\nECG\nProvisional Diagonosis\nMarian No 34\nA:3580185\nPassport No\nNgmo\n5. Kidney Decase. NO\n8. Blood Sugar IRHS)\nBP\nTomp:\nDenyo:Allo-\nRespiration-\nOthers\n24/05/24",
+      "lines": [
+        {
+          "text": "GOVERNMENT OF THE PEOPLE'S REPUBLIC OF BANGLADESH",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "MINISTRY OF RELIGIOUS AFFAIRS",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Bangladesh Hajj Office",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Makkah/Madinah/Jeddah",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "TREATMENT CARD / बादशन'",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "0m= $026",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Medical Center:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "0244193",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Age",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "NURUL IS_VA",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "ThanEATKHIL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "District NOAKHAL",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "HEALTH PROFILE",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "12390",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "2. Bince Freesure",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "1. Bland Group:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "4. Lung Disease.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "3. Hep T DGUD",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "7 Mortal Discage: 70",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "10. Liver Disease;",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "12. Amycomer sonormalilies:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Chief Complaints",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Vien Na:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Itching",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "w/3",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "MP rath.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": ". TAB Taten ( mg)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Clobetasome aint __",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "TAB, Napa Extend (665mg)-10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Cap Omeprazole (Dem)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "FBS RBS-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "ECG",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Provisional Diagonosis",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Marian No 34",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "A:3580185",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Passport No",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Ngmo",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "5. Kidney Decase. NO",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "8. Blood Sugar IRHS)",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "BP",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Tomp:",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Denyo:Allo-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Respiration-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "Others",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        },
+        {
+          "text": "24/05/24",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.637
+        }
+      ],
+      "medications": [
+        {
+          "name": "Government Of The",
+          "matched_term": "Government Of The",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Minista",
+          "matched_term": "Minista",
+          "drug_id": "bded3804-4375-4da5-98b2-5e8a4170f4e9",
+          "brand_id": "da34d025-baa5-428b-8597-ef6f9f37e3a1",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Bangladesh Hajj Office",
+          "matched_term": "Bangladesh Hajj Office",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Makkah Madinah Jeddah",
+          "matched_term": "Makkah Madinah Jeddah",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Treatment Card",
+          "matched_term": "Treatment Card",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Age M",
+          "matched_term": "Age M",
+          "drug_id": "32593a88-50e8-4254-9d22-7d1a52c84504",
+          "brand_id": "86fe087a-92e9-4a39-8921-ab758e162e76",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Nurul Is Va",
+          "matched_term": "Nurul Is Va",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Thaneatkhil",
+          "matched_term": "Thaneatkhil",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "District Noakhal",
+          "matched_term": "District Noakhal",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "4-Health",
+          "matched_term": "4-Health",
+          "drug_id": "2895edac-92b6-46f4-b3e2-b72ec079d6c0",
+          "brand_id": "6d03e3f9-680b-4b90-81f1-3f6ef8a260e9",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Bince Freesure No",
+          "matched_term": "Bince Freesure No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Bland Group",
+          "matched_term": "Bland Group",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Lung Disease No",
+          "matched_term": "Lung Disease No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Hepa",
+          "matched_term": "Hepa",
+          "drug_id": "d11c3aa2-fdd7-4316-a7ce-d6f530adaa4c",
+          "brand_id": "afbcdbaa-9fa5-4f85-a433-d8c07f459443",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Mortal Discage",
+          "matched_term": "Mortal Discage",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "MU Liver",
+          "matched_term": "MU Liver",
+          "drug_id": "1bab76b3-f92c-4ccf-9294-319b19ac2a24",
+          "brand_id": "e3e656ee-5a99-4f75-af4d-71d32865d3e5",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Dpl20",
+          "matched_term": "Dpl20",
+          "drug_id": "6bcf2cd6-2eaf-4ac3-9a2b-e8403659312f",
+          "brand_id": "5fdbcd45-a936-4532-b31b-0191ed789c78",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.503
+        },
+        {
+          "name": "Chief Complaints",
+          "matched_term": "Chief Complaints",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Vien Na",
+          "matched_term": "Vien Na",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Itchin",
+          "matched_term": "Itchin",
+          "drug_id": "836df208-5e75-4b04-a52e-39018399c91a",
+          "brand_id": "b603caa2-60a9-42d3-bdc0-a97d46f5f931",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Mp Rath",
+          "matched_term": "Mp Rath",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Taten Mg",
+          "matched_term": "Taten Mg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Clobetasome Aint",
+          "matched_term": "Clobetasome Aint",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Napa Extend",
+          "matched_term": "Napa Extend",
+          "drug_id": "55b2f26d-d4f8-49ec-aaf8-01b4d6b55eda",
+          "brand_id": "3d6cf61a-b968-41e2-9dbd-b77b9e4551f0",
+          "dosage": "665mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.718
+        },
+        {
+          "name": "omeprazole",
+          "matched_term": "omeprazole",
+          "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Fbs Rbs",
+          "matched_term": "Fbs Rbs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Ecg",
+          "matched_term": "Ecg",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Provisional Diagonosis",
+          "matched_term": "Provisional Diagonosis",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Marian No",
+          "matched_term": "Marian No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Passport No",
+          "matched_term": "Passport No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Ngmo",
+          "matched_term": "Ngmo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Kidney Decase No",
+          "matched_term": "Kidney Decase No",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Blood Vita",
+          "matched_term": "Blood Vita",
+          "drug_id": "c4e19466-8a9c-40fb-abd3-e0ce767f4c70",
+          "brand_id": "957c897c-cea9-49c4-be64-81b7ca21a2fd",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Tomp",
+          "matched_term": "Tomp",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Denyo Allo",
+          "matched_term": "Denyo Allo",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.287
+        },
+        {
+          "name": "Respira",
+          "matched_term": "Respira",
+          "drug_id": "656b8f01-ab73-41c9-ac79-e2f8912cd7a5",
+          "brand_id": "e9aaae9c-065c-4fdb-a25f-c5f67053015e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        },
+        {
+          "name": "Othera",
+          "matched_term": "Othera",
+          "drug_id": "25a9f52e-b192-462a-b9a3-bef96e0f684d",
+          "brand_id": "43ed2ac7-38ef-4fe3-a605-a6fb9b07264e",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.667
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Taten",
+          "matched_term": "Taten",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "1 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.254
+        },
+        {
+          "name": "Clobetasome Aint ---",
+          "matched_term": "Clobetasome Aint ---",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        },
+        {
+          "name": "Napa Extend",
+          "matched_term": "Napa Extend",
+          "drug_id": "55b2f26d-d4f8-49ec-aaf8-01b4d6b55eda",
+          "brand_id": "3d6cf61a-b968-41e2-9dbd-b77b9e4551f0",
+          "dosage": "185mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.634
+        },
+        {
+          "name": "Stats West End",
+          "matched_term": "Stats West End",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.203
+        },
+        {
+          "name": "omeprazole",
+          "matched_term": "omeprazole",
+          "drug_id": "a6163acf-c078-4714-b3a6-cdfaae9f75c0",
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.583
+        },
+        {
+          "name": "Euro",
+          "matched_term": "Euro",
+          "drug_id": "d7510e30-7ea3-48b1-936b-dd4fb3e56f98",
+          "brand_id": "99e9ec99-80ce-4f0f-b17d-64d135accb48",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.583
+        }
+      ],
+      "raw_text": "TAB. Taten (1 mg)\n- Clobetasome aint --- D\nDO Napa Extend (185mg)-@\nstats (west end) -Brev\nCap Onceprazole (20m)\n> + ats (euro camp)",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 19846,
+        "detected_regions": 1,
+        "ocr_line_count": 6,
+        "yolo_avg_confidence": 0.9158,
+        "yolo_min_confidence": 0.9158,
+        "yolo_max_confidence": 0.9158,
+        "ocr_avg_confidence": 0.451,
+        "ocr_min_confidence": 0.451,
+        "ocr_max_confidence": 0.451,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 274.38616943359375,
+              "y_min": 285.414794921875,
+              "x_max": 515.415283203125,
+              "y_max": 482.8173828125
+            },
+            "score": 0.9158
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "TAB. Taten (1 mg)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          },
+          {
+            "text": "- Clobetasome aint --- D",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          },
+          {
+            "text": "DO Napa Extend (185mg)-@",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          },
+          {
+            "text": "stats (west end) -Brev",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          },
+          {
+            "text": "Cap Onceprazole (20m)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          },
+          {
+            "text": "> + ats (euro camp)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.451
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

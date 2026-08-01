@@ -1,0 +1,439 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0009",
+  "source_sha256": "6317838e3506046fbfc2117c066d0f9a5c65c1e1633ad795d78ad17b0f8b4727",
+  "provider": "azure",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "executed_at": "2026-08-01T17:23:54.635629+00:00",
+  "runtime_ms": 20184.4090000086,
+  "output": {
+    "raw_text": "बसु (बर्मा)- ॐ\n820377\nछिकिश्मक कड़क स्वाधीन वादश शेख\n46 y\nG7 /2 1 /0 M ZH Siddiqui (MCPOST)\nS/m\nडिकिस्मढकल वावशमना\nP. Hypothyroidism\nC/C+\nVertigo\nM OP D (FEMALE)\nS. No ......\n74\n..\nRoom No.\n0.4\nTime ...\nDate\n24.10.17\nC-73\n1. Tab Cinaron 15mg\n1+0+1 - 2019.\n2 Cap\nFloral\n0+1+0\nKhilines\nDR. KANIZ FATIMIA\nFCPS Part i T: Free\nDermatalogy & Venereology\nCMM Dhaka\n-\n121\nissued 15 days Ly, 10,17\n05/4/12\nLe 19/11/12\nIm 13 - 05.12.17\n?\n46 y\nकव् वावशनना\nबादशव नाग\nbn3\nCMH/C\nजिक",
+    "lines": [
+      {
+        "text": "बसु (बर्मा)- ॐ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "820377",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "छिकिश्मक कड़क स्वाधीन वादश शेख",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "46 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "G7 /2 1 /0 M ZH Siddiqui (MCPOST)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "S/m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "डिकिस्मढकल वावशमना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "P. Hypothyroidism",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "C/C+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Vertigo",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "M OP D (FEMALE)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "S. No ......",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "74",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "..",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Room No.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "0.4",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Time ...",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Date",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "24.10.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "C-73",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1. Tab Cinaron 15mg",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "1+0+1 - 2019.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "2 Cap",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Floral",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "0+1+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Khilines",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "DR. KANIZ FATIMIA",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "FCPS Part i T: Free",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Dermatalogy & Venereology",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "CMM Dhaka",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "-",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "121",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "issued 15 days Ly, 10,17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "05/4/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Le 19/11/12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "Im 13 - 05.12.17",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "?",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "46 y",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "कव् वावशनना",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "बादशव नाग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "bn3",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "CMH/C",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      },
+      {
+        "text": "जिक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.628
+      }
+    ],
+    "medications": [
+      {
+        "name": "Zh Siddiqui Mcpost",
+        "matched_term": "Zh Siddiqui Mcpost",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Hypothyroidism",
+        "matched_term": "Hypothyroidism",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Vertig",
+        "matched_term": "Vertig",
+        "drug_id": "0ad98a21-9c36-4a4b-a7b5-ff4f0af3b527",
+        "brand_id": "0aa5d3f1-299a-494f-9e34-e3bb9d0022f9",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Op Female No",
+        "matched_term": "Op Female No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Room No",
+        "matched_term": "Room No",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Timem",
+        "matched_term": "Timem",
+        "drug_id": "291ab7c7-25e1-4a8a-9a2b-4a359507bea9",
+        "brand_id": "b37a44a5-b18d-463d-9a38-2c9536d02c14",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Date",
+        "matched_term": "Date",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Cinaron",
+        "matched_term": "Cinaron",
+        "drug_id": "028fb296-073b-4960-ac4c-6b97483580d8",
+        "brand_id": "de96d605-4c4e-44f9-8534-a6ffdbc8f9f0",
+        "dosage": "15mg",
+        "frequency": "1+0+1+2",
+        "quantity": null,
+        "confidence": 0.763
+      },
+      {
+        "name": "V Cap",
+        "matched_term": "V Cap",
+        "drug_id": "5f57da99-bf7d-4fdf-81f5-c1c3fddc6303",
+        "brand_id": "6dc1f63e-8202-4182-9edb-39f06aea0b65",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Flora",
+        "matched_term": "Flora",
+        "drug_id": "4cc5da28-6631-4f45-a8e9-c01f0eed3549",
+        "brand_id": "0d7f45bb-656b-437a-ae39-3be33fab361b",
+        "dosage": null,
+        "frequency": "0+1+0",
+        "quantity": null,
+        "confidence": 0.712
+      },
+      {
+        "name": "Khilines",
+        "matched_term": "Khilines",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Dr Kaniz Fatimia",
+        "matched_term": "Dr Kaniz Fatimia",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Fcps Part Free",
+        "matched_term": "Fcps Part Free",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      },
+      {
+        "name": "Dermatas",
+        "matched_term": "Dermatas",
+        "drug_id": "01cc3cbc-128c-4298-8254-9ae1df555d8c",
+        "brand_id": "03029371-9ea4-4996-8940-841fee871961",
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.663
+      },
+      {
+        "name": "Cmm Dhaka Le Im Bn",
+        "matched_term": "Cmm Dhaka Le Im Bn",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": "15 days",
+        "confidence": 0.332
+      },
+      {
+        "name": "Cmh",
+        "matched_term": "Cmh",
+        "drug_id": null,
+        "brand_id": null,
+        "dosage": null,
+        "frequency": null,
+        "quantity": null,
+        "confidence": 0.283
+      }
+    ]
+  }
+}

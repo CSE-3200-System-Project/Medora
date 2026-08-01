@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_yolo",
+  "source_sha256": "859a353ff86fe85d6bf0c512eefb69a1182cca3a7e23ca293647c6809bc666d1",
+  "record_id": "RX-0055",
+  "configuration": {
+    "engine": "medora_pipeline",
+    "model_type": "read",
+    "azure_model": "prebuilt-read",
+    "detector_weights_sha256": "476ed2eaacaa8452ddc96a3a18e38b5cb60237c8cf14b78473cf314cecfdf2a8"
+  },
+  "runtime_ms": 16678.892399999313,
+  "failure": null,
+  "response_sha256": "ad050ec5838c690486dcd72da64c5e97db093d259291d530bfea92e2a873bc07",
+  "response": {
+    "raw_text": "FENTIGAL VAGINAL CREAM I VÝ\n+0\nbom + Tun vous (nom)\nstato\nmicrogest (com)\nexp.\n1\n1-+\no +o2 Pain Will pines [200ml 2/09/204\n0-40+12\nTab Duvadilan Tom) tom\nदवाजी लगाव समग्र :\nविकान 50 6शतक",
+    "lines": [
+      {
+        "text": "FENTIGAL VAGINAL CREAM I VÝ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "+0",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "bom + Tun vous (nom)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "stato",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "microgest (com)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "exp.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "1",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "1-+",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "o +o2 Pain Will pines [200ml 2/09/204",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "0-40+12",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "Tab Duvadilan Tom) tom",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "दवाजी लगाव समग्र :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      },
+      {
+        "text": "विकान 50 6शतक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.422
+      }
+    ]
+  }
+}

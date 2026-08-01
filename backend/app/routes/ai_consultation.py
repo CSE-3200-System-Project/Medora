@@ -1,6 +1,7 @@
 import asyncio
 import uuid
 import json
+import secrets
 from typing import Any
 from datetime import datetime, timedelta
 import re
@@ -14,7 +15,7 @@ from sqlalchemy import func, select, or_
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.ai_privacy import anonymize_identifier_text, stable_hash_token
+from app.core.ai_privacy import redact_pii_text
 from app.core.config import settings
 from app.core.patient_reference import (
     patient_ref_from_uuid,
@@ -67,6 +68,8 @@ from app.schemas.ai_orchestrator import (
     ChoruiNavigationSuggestion,
 )
 from app.services.ai_orchestrator import AIExecutionResult, AIOrchestratorError, ai_orchestrator
+from app.schemas.processing_consent import ProcessingPurpose
+from app.services.processing_consent import get_active_processing_consent, require_processing_consent
 from app.services.chorui_intent_normalizer import (
     normalize_chorui_navigation_intent,
 )
@@ -383,9 +386,14 @@ async def _get_patient_ai_access_preferences(db: AsyncSession, patient_id: str) 
     if row is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient medical profile not found")
 
-    legacy = bool(row[0]) if row[0] is not None else False
-    personal = legacy if row[1] is None else bool(row[1])
-    general = legacy if row[2] is None else bool(row[2])
+    active_grant = await get_active_processing_consent(
+        db,
+        subject_id=patient_id,
+        purpose=ProcessingPurpose.EXTERNAL_TEXT_AI,
+        provider=ai_orchestrator.provider,
+    )
+    personal = active_grant is not None
+    general = active_grant is not None
     return PatientAIAccessPreferences(
         personal_context_enabled=personal,
         general_chat_enabled=general,
@@ -598,9 +606,9 @@ async def _persist_ai_interaction(
         id=str(uuid.uuid4()),
         feature=result.feature,
         prompt_version=result.prompt_version,
-        sanitized_input=result.sanitized_input,
-        raw_output=result.raw_output,
-        validated_output=result.validated_output,
+        sanitized_input=result.sanitized_input if settings.AI_AUDIT_CONTENT_ENABLED else {},
+        raw_output=result.raw_output if settings.AI_AUDIT_CONTENT_ENABLED else None,
+        validated_output=result.validated_output if settings.AI_AUDIT_CONTENT_ENABLED else None,
         validation_status=result.validation_status,
         doctor_action=None,
         doctor_id=doctor_id,
@@ -618,17 +626,6 @@ async def _get_user_role(db: AsyncSession, user) -> UserRole | None:
     """Resolve the caller's role, reusing the profile the auth dependency loaded."""
     profile = await resolve_profile(db, user)
     return profile.role if profile else None
-
-
-def _triage_priority_to_severity(priority: str) -> int:
-    normalized = priority.strip().lower()
-    if normalized == "critical":
-        return 10
-    if normalized == "high":
-        return 8
-    if normalized == "low":
-        return 3
-    return 6
 
 
 def _safe_list(raw: Any) -> list[str]:
@@ -650,7 +647,6 @@ def _to_chorui_structured_data(intake_output: dict[str, Any]) -> dict[str, Any]:
         "symptoms": symptom_timeline,
         "conditions": list(dict.fromkeys([*relevant_history, *red_flags])),
         "duration": duration,
-        "severity": _triage_priority_to_severity(str(intake_output.get("triage_priority", "medium"))),
     }
 
 
@@ -1058,24 +1054,6 @@ def _extract_symptom_hints(message: str) -> list[str]:
         if signal in normalized:
             hints.append(signal)
     return list(dict.fromkeys(hints))
-
-
-def _extract_severity_hint(message: str) -> int:
-    normalized = _normalize_message(message)
-    numeric_match = re.search(r"\b([1-9]|10)\s*/\s*10\b", normalized)
-    if numeric_match:
-        try:
-            return max(0, min(10, int(numeric_match.group(1))))
-        except ValueError:
-            return 0
-
-    if _message_has_any(normalized, ("severe", "very painful", "unbearable", "extreme")):
-        return 8
-    if _message_has_any(normalized, ("moderate", "getting worse", "persistent")):
-        return 6
-    if _message_has_any(normalized, ("mild", "slight", "minor")):
-        return 3
-    return 0
 
 
 def _extract_duration_hint(message: str) -> str:
@@ -2123,7 +2101,7 @@ def _anonymize_named_entities(text: str, raw_names: list[str | None], alias: str
     for name in names:
         escaped = re.escape(name)
         sanitized = re.sub(escaped, alias, sanitized, flags=re.IGNORECASE)
-    return anonymize_identifier_text(sanitized, token_namespace="subject")
+    return redact_pii_text(sanitized).text
 
 
 def _build_subject_tokens(
@@ -2133,13 +2111,9 @@ def _build_subject_tokens(
     conversation_id: str | None = None,
     feature: str = "ai",
 ) -> dict[str, str]:
-    parts = [feature, doctor_id or "", patient_id or "", conversation_id or ""]
-    return {
-        "subject_token": stable_hash_token(*parts, namespace="subject", length=24),
-        "doctor_token": stable_hash_token(doctor_id or "unknown", namespace="doctor", length=20),
-        "patient_token": stable_hash_token(patient_id or "unknown", namespace="patient", length=20),
-        "conversation_token": stable_hash_token(conversation_id or "unknown", namespace="conversation", length=20),
-    }
+    # Correlation is deliberately unlinkable across calls. Stable doctor,
+    # patient, and conversation pseudonyms are not disclosed to providers.
+    return {"request_correlation_id": f"req_{secrets.token_urlsafe(18)}", "feature": feature}
 
 
 async def _match_medicine_from_catalog(db: AsyncSession, candidate: str) -> str | None:
@@ -2716,6 +2690,9 @@ async def get_doctor_patient_assistant_summary(
 
     timeline = [
         {
+            "source_type": "appointment",
+            "record_id": item.id,
+            "source_timestamp": item.updated_at.isoformat() if item.updated_at else item.created_at.isoformat(),
             "date": _format_datetime_label(item.appointment_date),
             "status": _status_value(item.status),
             "reason": str(item.reason or ""),
@@ -2725,9 +2702,14 @@ async def get_doctor_patient_assistant_summary(
     ]
 
     ai_brief: dict[str, Any] | None = None
+    patient_source = {
+        "source_type": "patient_profile",
+        "record_id": profile.id,
+        "source_timestamp": profile.updated_at.isoformat() if profile.updated_at else profile.created_at.isoformat(),
+    }
     ai_payload: dict[str, Any] = {
         **subject_tokens,
-        "patient_record": raw_summary,
+        "patient_record": {**patient_source, "data": raw_summary},
         "recent_appointments": timeline[:6],
     }
     # Inject privacy restriction into AI prompt payload
@@ -2766,6 +2748,16 @@ async def get_doctor_patient_assistant_summary(
 
     summary = {
         "doctor_brief": compact_brief,
+        "grounded_items": (ai_brief or {}).get("items") or [
+            {
+                "text": compact_brief["one_liner"],
+                "sources": [patient_source],
+                "status": "supported",
+                "conflict_group": None,
+            }
+        ],
+        "clinician_verification_required": True,
+        "writeback_allowed": False,
         "patient_snapshot": patient_snapshot,
         "clinical_context": {
             "conditions": conditions[:8],
@@ -3337,7 +3329,6 @@ async def _run_chorui_assistant(
     surgeries = _safe_list((history_data or {}).get("surgeries"))
     hospitalizations = _safe_list((history_data or {}).get("hospitalizations"))
     symptom_hints = _extract_symptom_hints(payload.message)
-    severity_hint = _extract_severity_hint(payload.message)
     duration_hint = _extract_duration_hint(payload.message)
 
     demographics: dict[str, Any] = {}
@@ -3373,7 +3364,6 @@ async def _run_chorui_assistant(
         "surgeries": surgeries,
         "hospitalizations": hospitalizations,
         "duration": duration_hint,
-        "severity": severity_hint,
         "demographics": demographics,
         "recent_consultations": recent_consultations,
         "recent_prescriptions": recent_prescriptions,
@@ -4041,8 +4031,8 @@ async def _run_chorui_assistant(
     active_patients: list[dict[str, Any]] = []
     if role == UserRole.DOCTOR and not target_patient_id:
         active_patients = await _get_doctor_active_patients(db, user.id)
-    anonymized_message = anonymize_identifier_text(payload.message, token_namespace="subject")
-    anonymized_history_text = anonymize_identifier_text(history_text, token_namespace="subject")
+    anonymized_message = redact_pii_text(payload.message).text
+    anonymized_history_text = redact_pii_text(history_text).text
     if target_patient_id:
         patient_name_row = (
             await db.execute(
@@ -4480,11 +4470,22 @@ async def chorui_vapi_tool_webhook(
 
         try:
             vapi_user = await _resolve_vapi_user_from_token(session_token, db)
+            await require_processing_consent(
+                db,
+                subject_id=vapi_user.id,
+                purpose=ProcessingPurpose.EXTERNAL_LIVE_AUDIO,
+                provider="vapi",
+                local_option_available=True,
+                required_scopes={ProcessingPurpose.EXTERNAL_LIVE_AUDIO.value},
+            )
         except HTTPException:
             results.append(
                 {
                     "toolCallId": tool_call_id,
-                    "result": "Voice session authentication failed. Please sign in again and restart voice chat.",
+                    "result": (
+                        "Voice session authorization failed. Sign in and grant Vapi audio consent, "
+                        "or use local voice processing."
+                    ),
                 }
             )
             continue
@@ -4920,12 +4921,6 @@ async def chorui_intake_save(
     symptoms = _safe_list(structured.get("symptoms"))
     conditions = _safe_list(structured.get("conditions"))
     duration = str(structured.get("duration", "")).strip()
-    severity_value = structured.get("severity", 0)
-    try:
-        severity = max(0, min(10, int(severity_value)))
-    except Exception:
-        severity = 0
-
     existing_conditions = patient.conditions if isinstance(patient.conditions, list) else []
     condition_names = {
         str(item.get("name", "")).strip().lower()
@@ -4951,7 +4946,6 @@ async def chorui_intake_save(
         intake_lines.append(f"Symptoms: {', '.join(symptoms)}")
     if duration:
         intake_lines.append(f"Duration: {duration}")
-    intake_lines.append(f"Severity Index: {severity}/10")
     summary_line = " | ".join(intake_lines)
 
     patient.conditions = existing_conditions
@@ -5003,7 +4997,12 @@ async def get_ai_patient_summary(
 
     ai_payload: dict[str, Any] = {
         **subject_tokens,
-        "record_context": raw_data,
+        "record_context": {
+            "source_type": "patient_profile",
+            "record_id": profile.id,
+            "source_timestamp": profile.updated_at.isoformat() if profile.updated_at else profile.created_at.isoformat(),
+            "data": raw_data,
+        },
     }
     restriction_notice = build_ai_restriction_notice(sharing_perms)
     if restriction_notice:

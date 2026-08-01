@@ -1,0 +1,1529 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "RX-0050",
+  "source_sha256": "e49c9dc6ec176376b8ef61850a843b303b85e6095fa6b41d4d03ee192e9766f2",
+  "raw_transcription": "देश\n22.11. 18 वोटनव नाग\nR· Cap. Fluelex 500 mg\n2+2 +2+2-\nCle :-\nParonychia\n1\nH/ Hyperthyroidism\n7\n10\nTube. Pantonika\n2to 40\n18\n1- close\nFrom\n›\nTab. mona 10 mg\n. OGTT\n-\nhab. Cevil-\n2\n070+2->(5).\nWooo Skuncal Create\nRt to SPL of\nSlun & VD Depira(or)\nn\n1\nMBR VX na Siddique\nLady Medical\nent DAK for\nhab. Ale",
+  "boxes": [],
+  "medications": [
+    {
+      "medicine": "Fluelex",
+      "strength": "500 mg",
+      "dose": "",
+      "frequency": "2+2+2+2",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Cleo",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Paronychia",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hyperthyroidism",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Tube Pantonika To",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Closer",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "From",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Monas",
+      "strength": "10 mg",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ogtt",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hab Cevil",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Wooo Skuncal Create",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Rt To Spl",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Slun Vd Depira",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Mbr Vx Na",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Medical Air",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Ent Dak For",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    },
+    {
+      "medicine": "Hab Ale",
+      "strength": "",
+      "dose": "",
+      "frequency": "",
+      "duration": "",
+      "route": "",
+      "quantity": "",
+      "instructions": ""
+    }
+  ],
+  "language": "unreviewed",
+  "script": "unreviewed",
+  "writer_or_template_group": "unassigned",
+  "image_quality": {
+    "blur": "unreviewed",
+    "rotation": "unreviewed",
+    "contrast": "unreviewed",
+    "occlusion": "unreviewed"
+  },
+  "flags": {
+    "uncertain": true,
+    "illegible": false
+  },
+  "omissions": "",
+  "reviewer_notes": "Assisted draft; every value requires human verification.",
+  "assisted_from": [
+    {
+      "provider": "azure",
+      "cache_sha256": "b8fdac5ad1408a9aa62511b83bd3e7b4023778434955655eccc791dcd1781eda"
+    },
+    {
+      "provider": "paddle",
+      "cache_sha256": "f41823aba88e0cc308bf79f0c63d4fbb6065b856540370dd63484d20fa1e54d8"
+    },
+    {
+      "provider": "pipeline",
+      "cache_sha256": "c25dcc8af704f53dadba86fbb3a71b40eb8fe8746a853cc9e9a0de31370a697a"
+    }
+  ],
+  "candidate_outputs": {
+    "paddle": {
+      "raw_text": "4\nrdro\nMD\nb\n0\nM\nR\nC\nA\nS\nSPL\nM\n28118\nC^\n-\npo\nO\nLUT0\nP\n8\nCt\ne5\n-\nX\n3\nK\nR\nlet-\n9\nmlo-1\n10\nM\n5",
+      "lines": [
+        {
+          "text": "4",
+          "bbox": {
+            "x_min": 4071.0,
+            "y_min": 1827.0,
+            "x_max": 4313.0,
+            "y_max": 2379.0
+          },
+          "page": 1,
+          "confidence": 0.428
+        },
+        {
+          "text": "rdro",
+          "bbox": {
+            "x_min": 3875.0,
+            "y_min": 1843.0,
+            "x_max": 4142.0,
+            "y_max": 2256.0
+          },
+          "page": 1,
+          "confidence": 0.588
+        },
+        {
+          "text": "MD",
+          "bbox": {
+            "x_min": 4272.0,
+            "y_min": 1926.0,
+            "x_max": 4380.0,
+            "y_max": 2230.0
+          },
+          "page": 1,
+          "confidence": 0.344
+        },
+        {
+          "text": "b",
+          "bbox": {
+            "x_min": 3667.0,
+            "y_min": 1869.0,
+            "x_max": 3971.0,
+            "y_max": 2181.0
+          },
+          "page": 1,
+          "confidence": 0.292
+        },
+        {
+          "text": "0",
+          "bbox": {
+            "x_min": 2054.0,
+            "y_min": 2102.0,
+            "x_max": 2225.0,
+            "y_max": 2206.0
+          },
+          "page": 1,
+          "confidence": 0.172
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 1578.0,
+            "y_min": 2120.0,
+            "x_max": 1715.0,
+            "y_max": 2437.0
+          },
+          "page": 1,
+          "confidence": 0.35
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 3952.0,
+            "y_min": 2156.0,
+            "x_max": 3959.0,
+            "y_max": 2162.0
+          },
+          "page": 1,
+          "confidence": 0.088
+        },
+        {
+          "text": "C",
+          "bbox": {
+            "x_min": 504.0,
+            "y_min": 2178.0,
+            "x_max": 510.0,
+            "y_max": 2185.0
+          },
+          "page": 1,
+          "confidence": 0.122
+        },
+        {
+          "text": "A",
+          "bbox": {
+            "x_min": 491.0,
+            "y_min": 2251.0,
+            "x_max": 503.0,
+            "y_max": 2263.0
+          },
+          "page": 1,
+          "confidence": 0.259
+        },
+        {
+          "text": "S",
+          "bbox": {
+            "x_min": 495.0,
+            "y_min": 2263.0,
+            "x_max": 502.0,
+            "y_max": 2274.0
+          },
+          "page": 1,
+          "confidence": 0.159
+        },
+        {
+          "text": "SPL",
+          "bbox": {
+            "x_min": 3707.0,
+            "y_min": 2245.0,
+            "x_max": 3825.0,
+            "y_max": 2482.0
+          },
+          "page": 1,
+          "confidence": 0.308
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 486.0,
+            "y_min": 2289.0,
+            "x_max": 492.0,
+            "y_max": 2299.0
+          },
+          "page": 1,
+          "confidence": 0.092
+        },
+        {
+          "text": "28118",
+          "bbox": {
+            "x_min": 728.0,
+            "y_min": 2282.0,
+            "x_max": 922.0,
+            "y_max": 3079.0
+          },
+          "page": 1,
+          "confidence": 0.603
+        },
+        {
+          "text": "C^",
+          "bbox": {
+            "x_min": 3933.0,
+            "y_min": 2340.0,
+            "x_max": 4059.0,
+            "y_max": 2550.0
+          },
+          "page": 1,
+          "confidence": 0.457
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 480.0,
+            "y_min": 2461.0,
+            "x_max": 492.0,
+            "y_max": 2470.0
+          },
+          "page": 1,
+          "confidence": 0.476
+        },
+        {
+          "text": "po",
+          "bbox": {
+            "x_min": 4117.0,
+            "y_min": 2457.0,
+            "x_max": 4227.0,
+            "y_max": 2783.0
+          },
+          "page": 1,
+          "confidence": 0.288
+        },
+        {
+          "text": "O",
+          "bbox": {
+            "x_min": 2134.0,
+            "y_min": 2508.0,
+            "x_max": 2140.0,
+            "y_max": 2515.0
+          },
+          "page": 1,
+          "confidence": 0.179
+        },
+        {
+          "text": "LUT0",
+          "bbox": {
+            "x_min": 3153.0,
+            "y_min": 2469.0,
+            "x_max": 3396.0,
+            "y_max": 2849.0
+          },
+          "page": 1,
+          "confidence": 0.439
+        },
+        {
+          "text": "P",
+          "bbox": {
+            "x_min": 3707.0,
+            "y_min": 2586.0,
+            "x_max": 3816.0,
+            "y_max": 2809.0
+          },
+          "page": 1,
+          "confidence": 0.515
+        },
+        {
+          "text": "8",
+          "bbox": {
+            "x_min": 3945.0,
+            "y_min": 2598.0,
+            "x_max": 4031.0,
+            "y_max": 2742.0
+          },
+          "page": 1,
+          "confidence": 0.72
+        },
+        {
+          "text": "Ct",
+          "bbox": {
+            "x_min": 3064.0,
+            "y_min": 2697.0,
+            "x_max": 3279.0,
+            "y_max": 3097.0
+          },
+          "page": 1,
+          "confidence": 0.317
+        },
+        {
+          "text": "e5",
+          "bbox": {
+            "x_min": 153.0,
+            "y_min": 2786.0,
+            "x_max": 344.0,
+            "y_max": 2927.0
+          },
+          "page": 1,
+          "confidence": 0.808
+        },
+        {
+          "text": "-",
+          "bbox": {
+            "x_min": 3179.0,
+            "y_min": 2836.0,
+            "x_max": 3194.0,
+            "y_max": 2851.0
+          },
+          "page": 1,
+          "confidence": 0.154
+        },
+        {
+          "text": "X",
+          "bbox": {
+            "x_min": 3572.0,
+            "y_min": 2846.0,
+            "x_max": 3924.0,
+            "y_max": 3217.0
+          },
+          "page": 1,
+          "confidence": 0.119
+        },
+        {
+          "text": "3",
+          "bbox": {
+            "x_min": 3888.0,
+            "y_min": 2895.0,
+            "x_max": 4041.0,
+            "y_max": 3115.0
+          },
+          "page": 1,
+          "confidence": 0.096
+        },
+        {
+          "text": "K",
+          "bbox": {
+            "x_min": 589.0,
+            "y_min": 2936.0,
+            "x_max": 713.0,
+            "y_max": 3271.0
+          },
+          "page": 1,
+          "confidence": 0.192
+        },
+        {
+          "text": "R",
+          "bbox": {
+            "x_min": 1392.0,
+            "y_min": 2943.0,
+            "x_max": 1398.0,
+            "y_max": 2950.0
+          },
+          "page": 1,
+          "confidence": 0.424
+        },
+        {
+          "text": "let-",
+          "bbox": {
+            "x_min": 1333.0,
+            "y_min": 2734.0,
+            "x_max": 1576.0,
+            "y_max": 3021.0
+          },
+          "page": 1,
+          "confidence": 0.525
+        },
+        {
+          "text": "9",
+          "bbox": {
+            "x_min": 793.0,
+            "y_min": 3015.0,
+            "x_max": 898.0,
+            "y_max": 3281.0
+          },
+          "page": 1,
+          "confidence": 0.173
+        },
+        {
+          "text": "mlo-1",
+          "bbox": {
+            "x_min": 2251.0,
+            "y_min": 3211.0,
+            "x_max": 2399.0,
+            "y_max": 3449.0
+          },
+          "page": 1,
+          "confidence": 0.619
+        },
+        {
+          "text": "10",
+          "bbox": {
+            "x_min": 2646.0,
+            "y_min": 3247.0,
+            "x_max": 2731.0,
+            "y_max": 3361.0
+          },
+          "page": 1,
+          "confidence": 0.55
+        },
+        {
+          "text": "M",
+          "bbox": {
+            "x_min": 2098.0,
+            "y_min": 3277.0,
+            "x_max": 2237.0,
+            "y_max": 3452.0
+          },
+          "page": 1,
+          "confidence": 0.271
+        },
+        {
+          "text": "5",
+          "bbox": {
+            "x_min": 2562.0,
+            "y_min": 3342.0,
+            "x_max": 2567.0,
+            "y_max": 3349.0
+          },
+          "page": 1,
+          "confidence": 0.111
+        }
+      ],
+      "medications": [
+        {
+          "name": "Rdro Md",
+          "matched_term": "Rdro Md",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.126
+        },
+        {
+          "name": "Spl Po Lut Ct",
+          "matched_term": "Spl Po Lut Ct",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.167
+        },
+        {
+          "name": "Let",
+          "matched_term": "Let",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.14
+        },
+        {
+          "name": "L-Amlo",
+          "matched_term": "L-Amlo",
+          "drug_id": "37e8a331-806a-4dcc-80df-10a20d9b17bb",
+          "brand_id": "d25767e5-aeab-4cbf-bca4-455ae0103f74",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.496
+        }
+      ]
+    },
+    "azure": {
+      "raw_text": "10/0\nHMY\nउस (बर्माड)-५७\n25\nविकिश्मक कड़क स्वांगीव बारश शद\nsport+ Mepo M2 siddique\nबड़ाम\n45%\n11/3/95\nछिकिस्मतकर सातभूलना\nRx· Cap. Fluelex 500mg\nCle-\n1\naromy chia\nH/o Hyperthyroidism.\n0/20\n1-0m\nTub. Tantonik 20mg\n2 to 40 ->10\nminio\n1-0/h\nAp\n· OGTT\nw. Mona 10 mg\n070 to -20\n1\nhab. Cevit-\n0+0+225\nWere Skuncal Cream\nRf to SPL of\nSlunevs Deplacer on\ny ent DAK for\nOY. A\n$203.\nAha Siddique\nLady\nMedical Oflove\nINIS Hall' Morein\nROOM -\npleur\nts\n7 yrs\nब्बाभीन नांग\n2211-18 बादगद नाग\n· hab. Ale",
+      "lines": [
+        {
+          "text": "10/0",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "HMY",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "उस (बर्माड)-५७",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "25",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "विकिश्मक कड़क स्वांगीव बारश शद",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "sport+ Mepo M2 siddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "बड़ाम",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "45%",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "11/3/95",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "छिकिस्मतकर सातभूलना",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Rx· Cap. Fluelex 500mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Cle-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "aromy chia",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "H/o Hyperthyroidism.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "0/20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "1-0m",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Tub. Tantonik 20mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "2 to 40 ->10",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "minio",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "1-0/h",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Ap",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "· OGTT",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "w. Mona 10 mg",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "070 to -20",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "1",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "hab. Cevit-",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "0+0+225",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Were Skuncal Cream",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Rf to SPL of",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Slunevs Deplacer on",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "y ent DAK for",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "OY. A",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "$203.",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Aha Siddique",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Lady",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "Medical Oflove",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "INIS Hall' Morein",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "ROOM -",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "pleur",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "ts",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "7 yrs",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "ब्बाभीन नांग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "2211-18 बादगद नाग",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        },
+        {
+          "text": "· hab. Ale",
+          "bbox": null,
+          "page": 1,
+          "confidence": 0.444
+        }
+      ],
+      "medications": [
+        {
+          "name": "Hmy",
+          "matched_term": "Hmy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Spora",
+          "matched_term": "Spora",
+          "drug_id": "1e7c1a38-003f-4386-bd55-285993360934",
+          "brand_id": "0f213449-0b5f-42fd-9c0d-82511a3af5da",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Rx Fluelex",
+          "matched_term": "Rx Fluelex",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.251
+        },
+        {
+          "name": "Cleo",
+          "matched_term": "Cleo",
+          "drug_id": "98e550e5-0be7-41ef-a8a2-5473db976000",
+          "brand_id": "056badc8-4cbe-4aa2-8c7d-fcbcfd15b164",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Arom",
+          "matched_term": "Arom",
+          "drug_id": "a5179602-a21f-4dcb-8256-2bf11f6cb5e9",
+          "brand_id": "77b4debe-634d-4bf8-8ee9-d8e2cf0985d7",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Hyperthyroidism",
+          "matched_term": "Hyperthyroidism",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Tuba",
+          "matched_term": "Tuba",
+          "drug_id": "0e496455-ba8e-4826-9407-63177d457b44",
+          "brand_id": "a3a6a5be-cbf4-4cdc-a45c-812b86a2f484",
+          "dosage": "20mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.631
+        },
+        {
+          "name": "Minia",
+          "matched_term": "Minia",
+          "drug_id": "74f858d8-c7f8-459b-8c91-411534203215",
+          "brand_id": "2a2d88fa-fcea-4f7e-b922-114e4e1cc867",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Ogtt",
+          "matched_term": "Ogtt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Monas",
+          "matched_term": "Monas",
+          "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+          "brand_id": "ac1a6318-4236-42a8-bd92-65cc166299bf",
+          "dosage": "10 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.631
+        },
+        {
+          "name": "Hab Cevit",
+          "matched_term": "Hab Cevit",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": "0+0+2",
+          "quantity": null,
+          "confidence": 0.249
+        },
+        {
+          "name": "Were Skuncal Cream",
+          "matched_term": "Were Skuncal Cream",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Rf To Spl",
+          "matched_term": "Rf To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Slunevs Deplacer On",
+          "matched_term": "Slunevs Deplacer On",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Ent Dak For Oy",
+          "matched_term": "Ent Dak For Oy",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Aha Siddique",
+          "matched_term": "Aha Siddique",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Lady",
+          "matched_term": "Lady",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.58
+        },
+        {
+          "name": "Inis Hall Morein",
+          "matched_term": "Inis Hall Morein",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Room",
+          "matched_term": "Room",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Pleur Ts",
+          "matched_term": "Pleur Ts",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Yrs",
+          "matched_term": "Yrs",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        },
+        {
+          "name": "Hab Ale",
+          "matched_term": "Hab Ale",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.2
+        }
+      ]
+    },
+    "pipeline": {
+      "medications": [
+        {
+          "name": "Fluelex",
+          "matched_term": "Fluelex",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": "500 mg",
+          "frequency": "2+2+2+2",
+          "quantity": null,
+          "confidence": 0.323
+        },
+        {
+          "name": "Cleo",
+          "matched_term": "Cleo",
+          "drug_id": "98e550e5-0be7-41ef-a8a2-5473db976000",
+          "brand_id": "056badc8-4cbe-4aa2-8c7d-fcbcfd15b164",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Paronychia",
+          "matched_term": "Paronychia",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Hyperthyroidism",
+          "matched_term": "Hyperthyroidism",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Tube Pantonika To",
+          "matched_term": "Tube Pantonika To",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Closer",
+          "matched_term": "Closer",
+          "drug_id": "a55dd57b-fd65-4757-a6a5-f59a512b1705",
+          "brand_id": "88b54c64-608f-4cdb-91da-61355ed13786",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "From",
+          "matched_term": "From",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Monas",
+          "matched_term": "Monas",
+          "drug_id": "807a6dae-2bc9-408f-ab46-85ee4b7712c1",
+          "brand_id": "ac1a6318-4236-42a8-bd92-65cc166299bf",
+          "dosage": "10 mg",
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.654
+        },
+        {
+          "name": "Ogtt",
+          "matched_term": "Ogtt",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Hab Cevil",
+          "matched_term": "Hab Cevil",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Wooo Skuncal Create",
+          "matched_term": "Wooo Skuncal Create",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Rt To Spl",
+          "matched_term": "Rt To Spl",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Slun Vd Depira",
+          "matched_term": "Slun Vd Depira",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Mbr Vx Na",
+          "matched_term": "Mbr Vx Na",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Medical Air",
+          "matched_term": "Medical Air",
+          "drug_id": "f498ed97-bc40-410d-872a-e0fdeab4c569",
+          "brand_id": "8e3694b5-9a0b-483b-bc93-e01afc35f844",
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.603
+        },
+        {
+          "name": "Ent Dak For",
+          "matched_term": "Ent Dak For",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        },
+        {
+          "name": "Hab Ale",
+          "matched_term": "Hab Ale",
+          "drug_id": null,
+          "brand_id": null,
+          "dosage": null,
+          "frequency": null,
+          "quantity": null,
+          "confidence": 0.223
+        }
+      ],
+      "raw_text": "देश\n22.11. 18 वोटनव नाग\nR· Cap. Fluelex 500 mg\n2+2 +2+2-\nCle :-\nParonychia\n1\nH/ Hyperthyroidism\n7\n10\nTube. Pantonika\n2to 40\n18\n1- close\nFrom\n›\nTab. mona 10 mg\n. OGTT\n-\nhab. Cevil-\n2\n070+2->(5).\nWooo Skuncal Create\nRt to SPL of\nSlun & VD Depira(or)\nn\n1\nMBR VX na Siddique\nLady Medical\nent DAK for\nhab. Ale",
+      "meta": {
+        "model": "azure_prebuilt-read",
+        "model_type": "read",
+        "processing_time_ms": 31283,
+        "detected_regions": 1,
+        "ocr_line_count": 31,
+        "yolo_avg_confidence": 0.8755,
+        "yolo_min_confidence": 0.8755,
+        "yolo_max_confidence": 0.8755,
+        "ocr_avg_confidence": 0.495,
+        "ocr_min_confidence": 0.495,
+        "ocr_max_confidence": 0.495,
+        "processing_mode": "cloud",
+        "provider": "azure_document_intelligence",
+        "review_required": true,
+        "authoritative_writeback": false
+      },
+      "debug": {
+        "detected_regions": [
+          {
+            "label": "MergedChildRegion",
+            "bbox": {
+              "x_min": 268.8413614273071,
+              "y_min": 740.242569732666,
+              "x_max": 3343.852062988281,
+              "y_max": 4305.786904907226
+            },
+            "score": 0.8755
+          }
+        ],
+        "ocr_lines": [
+          {
+            "text": "देश",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "22.11. 18 वोटनव नाग",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "R· Cap. Fluelex 500 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "2+2 +2+2-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Cle :-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Paronychia",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "H/ Hyperthyroidism",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "7",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "10",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tube. Pantonika",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "2to 40",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "18",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "1- close",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "From",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "›",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Tab. mona 10 mg",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": ". OGTT",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "hab. Cevil-",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "2",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "070+2->(5).",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Wooo Skuncal Create",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Rt to SPL of",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Slun & VD Depira(or)",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "n",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "1",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "MBR VX na Siddique",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "Lady Medical",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "ent DAK for",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          },
+          {
+            "text": "hab. Ale",
+            "bbox": null,
+            "page": 1,
+            "confidence": 0.495
+          }
+        ],
+        "medicine_db_enabled": true,
+        "medicine_candidates_loaded": 0
+      },
+      "warning": "Unconfirmed OCR draft. Verify every field against the source image before use."
+    }
+  },
+  "adjudication": {
+    "state": "not_started",
+    "disagreement": "",
+    "unresolved_fields": []
+  }
+}

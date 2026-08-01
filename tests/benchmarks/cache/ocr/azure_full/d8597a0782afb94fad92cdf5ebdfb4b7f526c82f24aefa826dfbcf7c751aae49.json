@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0.0",
+  "provider_key": "azure_full",
+  "source_sha256": "d8597a0782afb94fad92cdf5ebdfb4b7f526c82f24aefa826dfbcf7c751aae49",
+  "record_id": "RX-0081",
+  "configuration": {
+    "engine": "azure_document_intelligence",
+    "model": "prebuilt-read",
+    "api_version": "2024-11-30",
+    "mode": "full_image"
+  },
+  "runtime_ms": 33001.60689999757,
+  "failure": null,
+  "response_sha256": "237d2489b40f6c6c731929adaf856f8eb9d75e0fb37fb83ca635739d90595d7f",
+  "response": {
+    "raw_text": "७: घाबिकून वश्यान मूयन\nघूमविविधम (णका), व्यमिनियम ((डिमिन)\n4यदि (कार्डिसनजि), विनियम (याश)\nविष्णचण् डिकिष्मक\nडिमिन, रुमटबाग, वालजुन, ऊँकरणन,\nवाल/जार्थाइज्ज, चिउटमणि & छायादवण्मि\nआजीय रुमटवान इनहिडिडिस & रामभाकाल\nलड़-रे-वास्ना नगव, पढ़ा।\nविध्यडिमि (बखि: न१- ७७२४४\nShawne Aktu, 560\nWF69KJ\nDMITHIM Opencheler\nCBG\nHuptrects+ Invisionel Herwiert\nR 1451 25 m\n1 The Gemer 1/5av\nHATONO MATOSON\nAncon A\n1 7 NOV 2023\n1 Th, 2.5/5mg 0+ d+1 ano\nIncisional Hernia\n5 Tas. Pantonix 20mg 1+0+1 and horst\n4 15. ROSU5V other no\n5 Tay Albenos 50 MW\nWIEN\nDr. Dret Arjun\n10 भिना प्रकाश/याग\nअनि ससी कबब्बन।\nChamber :\nHitech Multicare Hospital Ltd.\n164, East Kafrul, Dhaka Cantonment, Dhaka-1206\nAppointment Center Hot Line : 01969959097, Diagnostic Information Desk : D1708574403\nEmergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887\nAmbulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com\nमिनियाटनज ऊना एजैफॉरेन : 3840018009\nजानी लमचांद समग्र : मच्या ७.७०७ - ग्राफ 8.00णे (कजल्बाद वक्र)\nhome of care\n88M\n5GM\nDr. Arifur Rahman Sumon\nMBBS (DMC), FCPS (Medicine)\nMD (Cardiology), BCS (Health)\nMedicine & Heart Specialist\nClinical and Interventional Cardiologist\nNational Institute of Cardiovascular Diseases\nSher-e-Bangla Nagar, Dhaka.\n1 4 NOV 2023\na-Teria",
+    "lines": [
+      {
+        "text": "७: घाबिकून वश्यान मूयन",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "घूमविविधम (णका), व्यमिनियम ((डिमिन)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "4यदि (कार्डिसनजि), विनियम (याश)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "विष्णचण् डिकिष्मक",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "डिमिन, रुमटबाग, वालजुन, ऊँकरणन,",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "वाल/जार्थाइज्ज, चिउटमणि & छायादवण्मि",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "आजीय रुमटवान इनहिडिडिस & रामभाकाल",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "लड़-रे-वास्ना नगव, पढ़ा।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "विध्यडिमि (बखि: न१- ७७२४४",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Shawne Aktu, 560",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "WF69KJ",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "DMITHIM Opencheler",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "CBG",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Huptrects+ Invisionel Herwiert",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "R 1451 25 m",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 The Gemer 1/5av",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "HATONO MATOSON",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Ancon A",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 7 NOV 2023",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 Th, 2.5/5mg 0+ d+1 ano",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Incisional Hernia",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5 Tas. Pantonix 20mg 1+0+1 and horst",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "4 15. ROSU5V other no",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5 Tay Albenos 50 MW",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "WIEN",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Dr. Dret Arjun",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "10 भिना प्रकाश/याग",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "अनि ससी कबब्बन।",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Chamber :",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Hitech Multicare Hospital Ltd.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "164, East Kafrul, Dhaka Cantonment, Dhaka-1206",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Appointment Center Hot Line : 01969959097, Diagnostic Information Desk : D1708574403",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Emergency Medical Oficer : 01407093884, Floor Manager : 01673120711, 01407093887",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Ambulance Service : 01917042946, 01682912304, E-mail : hitechmch164@gmail.com",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "मिनियाटनज ऊना एजैफॉरेन : 3840018009",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "जानी लमचांद समग्र : मच्या ७.७०७ - ग्राफ 8.00णे (कजल्बाद वक्र)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "home of care",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "88M",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "5GM",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Dr. Arifur Rahman Sumon",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "MBBS (DMC), FCPS (Medicine)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "MD (Cardiology), BCS (Health)",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Medicine & Heart Specialist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Clinical and Interventional Cardiologist",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "National Institute of Cardiovascular Diseases",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "Sher-e-Bangla Nagar, Dhaka.",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "1 4 NOV 2023",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      },
+      {
+        "text": "a-Teria",
+        "bbox": null,
+        "page": 1,
+        "confidence": 0.611
+      }
+    ]
+  }
+}
